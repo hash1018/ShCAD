@@ -55,16 +55,8 @@
     <CustomBuild Include="shcad.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="shcad.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="shcad.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_shcad.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
