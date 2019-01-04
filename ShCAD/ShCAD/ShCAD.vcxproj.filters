@@ -33,13 +33,34 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{77f5571a-9c1a-4e5c-aa45-4cd8f9498183}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Leaf">
+      <UniqueIdentifier>{fa0baa3b-e035-4119-8132-f134963e21a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{f1cad213-f35a-4fdd-a6a6-fec973ea2718}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shcad.cpp">
+    <ClCompile Include="GeneratedFiles\qrc_shcad.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\ShEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ShVector.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Leaf\ShLine.cpp">
+      <Filter>Entity\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\shcad.cpp">
+      <Filter>Interface</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_shcad.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -47,16 +68,42 @@
     <ClCompile Include="GeneratedFiles\Release\moc_shcad.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_shcad.cpp">
-      <Filter>Generated Files</Filter>
+    <ClCompile Include="Interface\ShCADWidget.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ShGraphicView.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ShGraphicView2D.cpp">
+      <Filter>Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="shcad.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="shcad.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="Interface\shcad.h">
+      <Filter>Interface</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Entity\ShEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Leaf\ShLine.h">
+      <Filter>Entity\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="ShVector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ShCADWidget.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ShGraphicView.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ShGraphicView2D.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

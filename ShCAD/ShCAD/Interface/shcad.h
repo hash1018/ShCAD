@@ -33,8 +33,10 @@
 
 class QMdiArea;
 class QMenuBar;
+class QDockWidget;
 class ShCAD : public QMainWindow{
 	Q_OBJECT
+
 
 public:
 	ShCAD(QWidget *parent = 0);
@@ -45,7 +47,11 @@ public:
 private:
 	QMenuBar *menuBar;
 	QMdiArea *mdiArea;
+	QDockWidget *dock;
 
+
+protected:
+	bool eventFilter(QObject *obj, QEvent *event);
 
 };
 
