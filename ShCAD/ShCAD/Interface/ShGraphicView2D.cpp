@@ -80,5 +80,5 @@ void ShGraphicView2D::mousePressEvent(QMouseEvent *event) {
 
 void ShGraphicView2D::mouseMoveEvent(QMouseEvent *event) {
 
-	qDebug("MouseMove");
+	//qDebug("MouseMove");
 }

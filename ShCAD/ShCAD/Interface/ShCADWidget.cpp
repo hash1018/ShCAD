@@ -38,6 +38,8 @@ ShCADWidget::ShCADWidget(ShGraphicView *graphicView, QWidget *parent)
 
 ShCADWidget::~ShCADWidget() {
 
+	if (this->graphicView != NULL)
+		delete this->graphicView;
 
 }
 

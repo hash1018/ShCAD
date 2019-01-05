@@ -32,7 +32,7 @@
 #include <QtWidgets/QMainWindow>
 
 class QMdiArea;
-class QMenuBar;
+class ShMenuBar;
 class QDockWidget;
 class ShCAD : public QMainWindow{
 	Q_OBJECT
@@ -45,7 +45,7 @@ public:
 	void NewButtonClicked();
 
 private:
-	QMenuBar *menuBar;
+	ShMenuBar *menuBar;
 	QMdiArea *mdiArea;
 	QDockWidget *dock;
 

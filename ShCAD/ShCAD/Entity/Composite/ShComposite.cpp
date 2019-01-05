@@ -55,9 +55,10 @@ ShComposite::ShComposite(const ShComposite& other)
 
 ShComposite::~ShComposite() {
 
-	while (!this->list.isEmpty())
+	while (!this->list.isEmpty()) {
 		delete this->list.takeFirst();
-
+		qDebug("asdasdasd");
+	}
 }
 
 ShComposite& ShComposite::operator=(const ShComposite& other) {

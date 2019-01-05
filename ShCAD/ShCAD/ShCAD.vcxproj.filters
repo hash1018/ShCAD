@@ -98,6 +98,9 @@
     <ClCompile Include="Entity\Composite\ShEntityTable.cpp">
       <Filter>Entity\Composite</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\ShMenuBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="Entity\Composite\ShEntityTable.h">
       <Filter>Entity\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ShMenuBar.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

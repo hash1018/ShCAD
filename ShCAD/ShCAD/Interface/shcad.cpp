@@ -24,59 +24,39 @@
 --*/
 
 #include "shcad.h"
-#include <qmenubar.h>
+#include "ShMenuBar.h"
 #include <qmdiarea.h>
 #include <qdockwidget.h>
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 
-
-	this->menuBar = new QMenuBar(this);
+	
+	this->menuBar = new ShMenuBar(this);
 	this->setMenuBar(this->menuBar);
-
-	QMenu *menu = new QMenu("File");
-	QAction *newAction=menu->addAction("New");
 	
-	this->menuBar->addMenu(menu);
-
-	connect(newAction, &QAction::triggered, this, &ShCAD::NewButtonClicked);
-	
-
-	
-
 	this->mdiArea = new QMdiArea;
 	this->setCentralWidget(this->mdiArea);
-	
-	
-	
 	this->mdiArea->setDocumentMode(true);
 	
-
-
 
 	this->dock = new QDockWidget(this);
 	this->dock->installEventFilter(this);
 	this->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, this->dock);
 	
 	
-	
-
 }
 
 ShCAD::~ShCAD(){
 	
-	if (this->mdiArea != NULL)
-		delete this->mdiArea;
 
-
+	
 }
 
 #include "ShGraphicView2D.h"
 #include "ShCADWidget.h"
 void ShCAD::NewButtonClicked() {
 	
-	//QWidget *newWidget = new QWidget;
-	//newWidget->setMinimumSize(400, 400);
+	/*
 	
 	ShCADWidget *newWidget = new ShCADWidget(new ShGraphicView2D);
 	newWidget->setMinimumSize(400, 400);
@@ -84,7 +64,7 @@ void ShCAD::NewButtonClicked() {
 	this->mdiArea->addSubWindow(newWidget,Qt::WindowFlags::enum_type::SubWindow);
 	newWidget->show();
 	
-
+	*/
 }
 
 
@@ -94,7 +74,7 @@ void ShCAD::NewButtonClicked() {
 #include <QEvent>
 #include <QResizeEvent>
 bool ShCAD::eventFilter(QObject *obj, QEvent *event) {
-
+	
 	if (event->type() == QEvent::Resize && obj == this->dock) {
 		QResizeEvent *resizeEvent = static_cast<QResizeEvent*>(event);
 		qDebug("Dock Resized (New Size) - Width: %d Height: %d",

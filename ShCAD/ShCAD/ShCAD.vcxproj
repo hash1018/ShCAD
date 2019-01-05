@@ -164,6 +164,7 @@
     <ClCompile Include="Interface\ShCADWidget.cpp" />
     <ClCompile Include="Interface\ShGraphicView.cpp" />
     <ClCompile Include="Interface\ShGraphicView2D.cpp" />
+    <ClCompile Include="Interface\ShMenuBar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ShVector.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Interface\ShGraphicView.h" />
     <ClInclude Include="Interface\ShCADWidget.h" />
     <ClInclude Include="Interface\ShGraphicView2D.h" />
+    <ClInclude Include="Interface\ShMenuBar.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
     <ClInclude Include="Visitor Pattern\ShVisitor.h" />
     <CustomBuild Include="Interface\shcad.h">
