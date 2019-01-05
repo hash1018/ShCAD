@@ -137,6 +137,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entity\Composite\ShComposite.cpp" />
+    <ClCompile Include="Entity\Composite\ShEntityTable.cpp" />
+    <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
     <ClCompile Include="Entity\ShEntity.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_shcad.cpp">
@@ -163,6 +166,8 @@
     <ClCompile Include="Interface\ShGraphicView2D.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ShVector.cpp" />
+    <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
+    <ClCompile Include="Visitor Pattern\ShVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -185,11 +190,16 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entity\Composite\ShComposite.h" />
+    <ClInclude Include="Entity\Composite\ShEntityTable.h" />
+    <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\ShEntity.h" />
     <ClInclude Include="Interface\ShGraphicView.h" />
     <ClInclude Include="Interface\ShCADWidget.h" />
     <ClInclude Include="Interface\ShGraphicView2D.h" />
+    <ClInclude Include="Visitor Pattern\ShDrawer.h" />
+    <ClInclude Include="Visitor Pattern\ShVisitor.h" />
     <CustomBuild Include="Interface\shcad.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing shcad.h...</Message>

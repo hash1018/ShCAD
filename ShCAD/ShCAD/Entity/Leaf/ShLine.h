@@ -4,7 +4,7 @@
 #ifndef _SHLINE_H
 #define _SHLINE_H
 
-#include "Entity\ShEntity.h"
+#include "ShLeaf.h"
 #include "ShVector.h"
 
 typedef struct ShLineData {
@@ -22,7 +22,7 @@ typedef struct ShLineData {
 
 /* Class for Line entity */
 
-class ShLine : public ShEntity {
+class ShLine : public ShLeaf {
 
 protected:
 	ShLineData data;
@@ -35,6 +35,7 @@ public:
 	~ShLine();
 
 	ShLine* Clone();
+	virtual void Accept(ShVisitor *shVisitor);
 
 	ShLineData& GetData() const;
 	void SetData(const ShLineData& data);

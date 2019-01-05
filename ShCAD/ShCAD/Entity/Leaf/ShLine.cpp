@@ -1,7 +1,7 @@
 
 
 #include "ShLine.h"
-
+#include "Visitor Pattern\ShVisitor.h"
 
 ShLineData::ShLineData() {
 
@@ -55,6 +55,8 @@ ShLine::ShLine(const ShLine& other)
 
 ShLine& ShLine::operator=(const ShLine& other) {
 
+	ShLeaf::operator=(other);
+
 	this->data = other.data;
 
 	return *this;
@@ -68,6 +70,12 @@ ShLine::~ShLine() {
 ShLine* ShLine::Clone() {
 
 	return new ShLine(*this);
+}
+
+void ShLine::Accept(ShVisitor *shVisitor) {
+
+	shVisitor->Visit(this);
+
 }
 
 void ShLine::SetData(const ShLineData &data) {

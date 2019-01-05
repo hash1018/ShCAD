@@ -6,6 +6,7 @@
 
 /*Base class for all objects having a graphical representation.*/
 
+class ShVisitor;
 class ShEntity {
 
 public:
@@ -15,7 +16,7 @@ public:
 	ShEntity& operator=(const ShEntity& other);
 
 	virtual ShEntity* Clone() = 0;
-
+	virtual void Accept(ShVisitor *shVisitor) = 0;
 
 
 };
