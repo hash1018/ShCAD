@@ -7,6 +7,8 @@
 #include <qopenglfunctions.h>
 
 class ShLine;
+class ShCircle;
+class ShArc;
 class ShDrawer : public ShVisitor {
 
 private:
@@ -19,6 +21,8 @@ public:
 	~ShDrawer();
 
 	void Visit(ShLine *shLine);
+	void Visit(ShCircle *shCircle);
+	void Visit(ShArc *shArc);
 
 private:
 	void ConvertDeviceXY2OpenglXY(int x, int y, double  &ox, double  &oy);

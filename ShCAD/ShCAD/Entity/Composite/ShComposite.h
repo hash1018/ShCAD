@@ -21,15 +21,17 @@ public:
 		QLinkedList<ShEntity*>::iterator last;
 
 	public:
+		Iterator();
+		Iterator(const Iterator& other);
+		Iterator& operator=(const Iterator& other);
+		~Iterator();
+
 		ShEntity* Current();
 		bool IsLast();
 		bool IsFirst();
 		void Previous();
 		void Next();
 	};
-
-private:
-	Iterator itr;
 
 protected:
 	/* only temporary used */
@@ -51,7 +53,8 @@ public:
 
 	int GetLength() const;
 	
-	Iterator& GetIterator();
+	ShComposite::Iterator First();
+	ShComposite::Iterator Last();
 
 	
 };

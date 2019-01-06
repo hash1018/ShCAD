@@ -6,6 +6,8 @@
 
 class ShLine;
 class ShEntityTable;
+class ShCircle;
+class ShArc;
 class ShVisitor {
 
 public:
@@ -14,6 +16,8 @@ public:
 
 	virtual void Visit(ShLine* shLine) = 0;
 	void Visit(ShEntityTable *shEntityTable) {}
+	virtual void Visit(ShCircle *shCircle) = 0;
+	virtual void Visit(ShArc *shArc) = 0;
 
 };
 

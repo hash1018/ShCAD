@@ -42,7 +42,7 @@ public:
 	ShCAD(QWidget *parent = 0);
 	~ShCAD();
 
-	void NewButtonClicked();
+	void NewActionClicked();
 
 private:
 	ShMenuBar *menuBar;

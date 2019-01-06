@@ -51,7 +51,7 @@ void ShGraphicView2D::paintGL() {
 
 	ShDrawer drawer(this->width(), this->height());
 
-	ShComposite::Iterator itr=dynamic_cast<ShCADWidget*>(this->parent())->entityTable.GetIterator();
+	ShComposite::Iterator itr = dynamic_cast<ShCADWidget*>(this->parent())->entityTable.First();
 
 	while (!itr.IsLast()) {
 	

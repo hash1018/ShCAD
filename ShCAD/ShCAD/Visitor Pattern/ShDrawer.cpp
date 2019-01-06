@@ -31,6 +31,15 @@ void ShDrawer::Visit(ShLine *shLine) {
 
 }
 
+void ShDrawer::Visit(ShCircle *shCircle) {
+
+
+}
+
+void ShDrawer::Visit(ShArc *shArc) {
+
+
+}
 
 void ShDrawer::ConvertDeviceXY2OpenglXY(int x, int y, double  &ox, double  &oy) {
 

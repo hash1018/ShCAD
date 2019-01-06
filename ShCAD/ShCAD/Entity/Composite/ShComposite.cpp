@@ -2,6 +2,30 @@
 
 #include "ShComposite.h"
 
+ShComposite::Iterator::Iterator() {
+
+
+}
+
+ShComposite::Iterator::Iterator(const ShComposite::Iterator& other){
+	
+	this->itr = other.itr;
+	this->first = other.first;
+	this->last = other.last;
+
+}
+
+ShComposite::Iterator& ShComposite::Iterator::operator=(const ShComposite::Iterator& other) {
+
+	this->itr = other.itr;
+	this->first = other.first;
+	this->last = other.last;
+	return *this;
+}
+
+ShComposite::Iterator::~Iterator() {
+
+}
 
 ShEntity* ShComposite::Iterator::Current() {
 
@@ -55,10 +79,9 @@ ShComposite::ShComposite(const ShComposite& other)
 
 ShComposite::~ShComposite() {
 
-	while (!this->list.isEmpty()) {
+	while (!this->list.isEmpty())
 		delete this->list.takeFirst();
-		qDebug("asdasdasd");
-	}
+		
 }
 
 ShComposite& ShComposite::operator=(const ShComposite& other) {
@@ -81,11 +104,26 @@ ShComposite& ShComposite::operator=(const ShComposite& other) {
 	return *this;
 }
 
-ShComposite::Iterator& ShComposite::GetIterator() {
+ShComposite::Iterator ShComposite::First() {
 
-	this->itr.itr = this->list.begin();
-	this->itr.first = this->list.begin();
-	this->itr.last = this->list.end();
+	ShComposite::Iterator itr;
+	
+	itr.first = this->list.begin();
+	itr.last = this->list.end();
+	itr.itr = this->list.begin();
+	
+	return itr;
+}
 
-	return this->itr;
+
+ShComposite::Iterator ShComposite::Last() {
+
+	ShComposite::Iterator itr;
+
+	itr.first = this->list.begin();
+	itr.last = this->list.end();
+	itr.itr = this->list.end();
+
+	return itr;
+
 }

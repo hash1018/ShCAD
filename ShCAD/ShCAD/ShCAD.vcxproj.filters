@@ -99,7 +99,13 @@
       <Filter>Entity\Composite</Filter>
     </ClCompile>
     <ClCompile Include="Interface\ShMenuBar.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Leaf\ShArc.cpp">
+      <Filter>Entity\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Leaf\ShCircle.cpp">
+      <Filter>Entity\Leaf</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +151,13 @@
       <Filter>Entity\Composite</Filter>
     </ClInclude>
     <ClInclude Include="Interface\ShMenuBar.h">
-      <Filter>Header Files</Filter>
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Leaf\ShCircle.h">
+      <Filter>Entity\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Leaf\ShArc.h">
+      <Filter>Entity\Leaf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

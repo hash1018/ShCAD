@@ -54,9 +54,9 @@ ShCAD::~ShCAD(){
 
 #include "ShGraphicView2D.h"
 #include "ShCADWidget.h"
-void ShCAD::NewButtonClicked() {
+void ShCAD::NewActionClicked() {
 	
-	/*
+	
 	
 	ShCADWidget *newWidget = new ShCADWidget(new ShGraphicView2D);
 	newWidget->setMinimumSize(400, 400);
@@ -64,7 +64,7 @@ void ShCAD::NewButtonClicked() {
 	this->mdiArea->addSubWindow(newWidget,Qt::WindowFlags::enum_type::SubWindow);
 	newWidget->show();
 	
-	*/
+	
 }
 
 
