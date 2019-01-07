@@ -30,7 +30,7 @@ ShMenuBar::ShMenuBar(QWidget *parent)
 
 	this->fileMenu = new ShFileMenu("File", this);
 	this->addMenu(this->fileMenu);
-
+	
 }
 
 ShMenuBar::~ShMenuBar() {

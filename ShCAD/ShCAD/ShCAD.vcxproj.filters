@@ -107,6 +107,9 @@
     <ClCompile Include="Entity\Leaf\ShCircle.cpp">
       <Filter>Entity\Leaf</Filter>
     </ClCompile>
+    <ClCompile Include="ShRibbon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -158,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="Entity\Leaf\ShArc.h">
       <Filter>Entity\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="ShRibbon.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

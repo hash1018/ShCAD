@@ -27,6 +27,12 @@
 #include "ShMenuBar.h"
 #include <qmdiarea.h>
 #include <qdockwidget.h>
+#include <qtoolbar.h>
+#include <qtabwidget.h>
+#include <qtoolbutton.h>
+#include <QGridLayout> 
+#include <qpushbutton.h>
+#include "ShRibbon.h"
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 
@@ -37,13 +43,37 @@ ShCAD::ShCAD(QWidget *parent)
 	this->mdiArea = new QMdiArea;
 	this->setCentralWidget(this->mdiArea);
 	this->mdiArea->setDocumentMode(true);
-	
+	//this->mdiArea->setContextMenuPolicy(Qt::PreventContextMenu);
 
 	this->dock = new QDockWidget(this);
 	this->dock->installEventFilter(this);
+	this->dock->setContextMenuPolicy(Qt::ContextMenuPolicy::PreventContextMenu);
 	this->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, this->dock);
 	
 	
+	
+	
+	ShRibbon *ribbon = new ShRibbon(200, this);
+	this->addToolBar(ribbon);
+	
+
+	ShWidgetInTab *widgetInTab = ribbon->AddTab("1");
+	ribbon->AddTab("2");
+	ShColumnWidget *columnWidget = widgetInTab->AddColumn("Draw",200);
+	columnWidget->SetColumnTitleArea(ShColumnWidget::ColumnTitleArea::TopColumnTitleArea);
+	columnWidget->AddItem(new QPushButton("1"), QRect(100, 0, 100, 20));
+	
+
+
+
+
+	this->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
+	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
+		this, SLOT(ShowContextMenu(const QPoint &)));
+	
+	QToolBar *temp2 = new QToolBar(this);
+	this->addToolBarBreak();
+	this->addToolBar(temp2);
 }
 
 ShCAD::~ShCAD(){
@@ -89,4 +119,23 @@ bool ShCAD::eventFilter(QObject *obj, QEvent *event) {
 	}
 	
 	return QWidget::eventFilter(obj, event);
+}
+
+void ShCAD::ShowContextMenu(const QPoint &pos) {
+
+	QMenu contextMenu(tr("Context menu"), this);
+
+	QAction action1("Remove Data Point", this);
+	connect(&action1, SIGNAL(triggered()), this, SLOT(TestCustomContextMenu()));
+	contextMenu.addAction(&action1);
+
+	contextMenu.exec(mapToGlobal(pos));
+
+}
+
+#include <qmessagebox.h>
+void ShCAD::TestCustomContextMenu() {
+	QMessageBox box;
+	box.exec();
+
 }

@@ -34,6 +34,7 @@
 class QMdiArea;
 class ShMenuBar;
 class QDockWidget;
+class QToolBar;
 class ShCAD : public QMainWindow{
 	Q_OBJECT
 
@@ -49,10 +50,15 @@ private:
 	QMdiArea *mdiArea;
 	QDockWidget *dock;
 
+	QToolBar *toolBar;
 
 protected:
 	bool eventFilter(QObject *obj, QEvent *event);
 
+
+	private slots:
+	void ShowContextMenu(const QPoint &pos);
+	void TestCustomContextMenu();
 };
 
 #endif // SHCAD_H
