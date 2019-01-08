@@ -1,10 +1,11 @@
 
+
 /*--
 **
 **   This file is part of the ShCAD project, a 2D CAD Program
-**   
+**
 **    Copyright (C) 2019, Seungho Ha  (sh.ha1018@gmail.com)
-**   
+**
 **
 **   This program is free software; you can redistribute it and/or modify it
 **   under the terms of the GNU Lesser General Public License as published by
@@ -23,42 +24,17 @@
 **
 --*/
 
+#ifndef _SHDEFAULTACTION_H
+#define _SHDEFAULTACTION_H
 
+#include "ShActionHandler.h"
 
-
-#ifndef SHCAD_H
-#define SHCAD_H
-
-#include <QtWidgets/QMainWindow>
-
-class QMdiArea;
-class ShMenuBar;
-class QDockWidget;
-class QToolBar;
-class ShCAD : public QMainWindow{
-	Q_OBJECT
-
+class ShDefaultAction : public ShActionHandler {
 
 public:
-	ShCAD(QWidget *parent = 0);
-	~ShCAD();
+	ShDefaultAction();
+	~ShDefaultAction();
 
-	void NewActionClicked();
-
-private:
-	ShMenuBar *menuBar;
-	QMdiArea *mdiArea;
-	QDockWidget *dock;
-
-	QToolBar *toolBar;
-
-protected:
-	bool eventFilter(QObject *obj, QEvent *event);
-
-
-	private slots:
-	//void ShowContextMenu(const QPoint &pos);
-	//void TestCustomContextMenu();
 };
 
-#endif // SHCAD_H
+#endif //_SHDEFAULTACTION_H

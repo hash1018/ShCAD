@@ -137,6 +137,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
+    <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
     <ClCompile Include="Entity\Composite\ShEntityTable.cpp" />
     <ClCompile Include="Entity\Leaf\ShArc.cpp" />
@@ -164,9 +166,11 @@
     </ClCompile>
     <ClCompile Include="Interface\shcad.cpp" />
     <ClCompile Include="Interface\ShCADWidget.cpp" />
+    <ClCompile Include="Interface\ShDrawInterface.cpp" />
     <ClCompile Include="Interface\ShGraphicView.cpp" />
     <ClCompile Include="Interface\ShGraphicView2D.cpp" />
     <ClCompile Include="Interface\ShMenuBar.cpp" />
+    <ClCompile Include="Interface\ShRibbonMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
     <ClCompile Include="ShVector.cpp" />
@@ -194,6 +198,8 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionHandler\ShActionHandler.h" />
+    <ClInclude Include="ActionHandler\ShDefaultAction.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />
     <ClInclude Include="Entity\Composite\ShEntityTable.h" />
     <ClInclude Include="Entity\Leaf\ShArc.h" />
@@ -201,10 +207,12 @@
     <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\ShEntity.h" />
+    <ClInclude Include="Interface\ShDrawInterface.h" />
     <ClInclude Include="Interface\ShGraphicView.h" />
     <ClInclude Include="Interface\ShCADWidget.h" />
     <ClInclude Include="Interface\ShGraphicView2D.h" />
     <ClInclude Include="Interface\ShMenuBar.h" />
+    <ClInclude Include="Interface\ShRibbonMenu.h" />
     <ClInclude Include="ShRibbon.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
     <ClInclude Include="Visitor Pattern\ShVisitor.h" />

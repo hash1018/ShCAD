@@ -1,10 +1,11 @@
 
+
 /*--
 **
 **   This file is part of the ShCAD project, a 2D CAD Program
-**   
+**
 **    Copyright (C) 2019, Seungho Ha  (sh.ha1018@gmail.com)
-**   
+**
 **
 **   This program is free software; you can redistribute it and/or modify it
 **   under the terms of the GNU Lesser General Public License as published by
@@ -24,41 +25,23 @@
 --*/
 
 
+/*  This class is the base class that handles all actions such as drawing entities,
+**  modifying entities .. or something 
+*/
 
+#ifndef _SHACTIONMODE_H
+#define _SHACTIONMODE_H
 
-#ifndef SHCAD_H
-#define SHCAD_H
-
-#include <QtWidgets/QMainWindow>
-
-class QMdiArea;
-class ShMenuBar;
-class QDockWidget;
-class QToolBar;
-class ShCAD : public QMainWindow{
-	Q_OBJECT
-
+#include <qobject.h>
+class QMouseEvent;
+class ShActionHandler : public QObject {
 
 public:
-	ShCAD(QWidget *parent = 0);
-	~ShCAD();
+	ShActionHandler();
+	~ShActionHandler();
 
-	void NewActionClicked();
-
-private:
-	ShMenuBar *menuBar;
-	QMdiArea *mdiArea;
-	QDockWidget *dock;
-
-	QToolBar *toolBar;
-
-protected:
-	bool eventFilter(QObject *obj, QEvent *event);
-
-
-	private slots:
-	//void ShowContextMenu(const QPoint &pos);
-	//void TestCustomContextMenu();
+	virtual void mousePressEvent(QMouseEvent *event);
+	virtual void mouseMoveEvent(QMouseEvent *event);
 };
 
-#endif // SHCAD_H
+#endif //_SHACTIONMODE_H

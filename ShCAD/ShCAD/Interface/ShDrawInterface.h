@@ -2,9 +2,9 @@
 /*--
 **
 **   This file is part of the ShCAD project, a 2D CAD Program
-**   
+**
 **    Copyright (C) 2019, Seungho Ha  (sh.ha1018@gmail.com)
-**   
+**
 **
 **   This program is free software; you can redistribute it and/or modify it
 **   under the terms of the GNU Lesser General Public License as published by
@@ -23,42 +23,30 @@
 **
 --*/
 
+#ifndef _SHDRAWINTERFACE_H
+#define _SHDRAWINTERFACE_H
 
-
-
-#ifndef SHCAD_H
-#define SHCAD_H
-
-#include <QtWidgets/QMainWindow>
-
-class QMdiArea;
-class ShMenuBar;
-class QDockWidget;
-class QToolBar;
-class ShCAD : public QMainWindow{
-	Q_OBJECT
-
-
-public:
-	ShCAD(QWidget *parent = 0);
-	~ShCAD();
-
-	void NewActionClicked();
+#include "ShRibbon.h"
+#include <qtoolbutton.h>
+class ShDrawColumn : public ShColumnInRibbonTab {
 
 private:
-	ShMenuBar *menuBar;
-	QMdiArea *mdiArea;
-	QDockWidget *dock;
-
-	QToolBar *toolBar;
+	QToolButton *lineButton;
+	QToolButton *circleButton;
+	QToolButton *arcButton;
+public:
+	ShDrawColumn(QWidget *parent, const QString &title, int width);
+	~ShDrawColumn();
 
 protected:
-	bool eventFilter(QObject *obj, QEvent *event);
-
+	void resizeEvent(QResizeEvent *event);
 
 	private slots:
-	//void ShowContextMenu(const QPoint &pos);
-	//void TestCustomContextMenu();
+	void LineButtonClicked();
+	void CircleButtonClicked();
+	void ArcButtonClicked();
 };
 
-#endif // SHCAD_H
+
+
+#endif //_SHDRAWINTERFACE_H

@@ -48,6 +48,9 @@
     <Filter Include="Visitor Pattern">
       <UniqueIdentifier>{311608a5-8b66-4b84-9341-0ea26956c4cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionHandler">
+      <UniqueIdentifier>{7375a8e1-5f32-4278-9fcc-a38f890a7729}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -110,6 +113,18 @@
     <ClCompile Include="ShRibbon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\ShRibbonMenu.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ShDrawInterface.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\ShDefaultAction.cpp">
+      <Filter>ActionHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\ShActionHandler.cpp">
+      <Filter>ActionHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -164,6 +179,18 @@
     </ClInclude>
     <ClInclude Include="ShRibbon.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ShRibbonMenu.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ShDrawInterface.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ShDefaultAction.h">
+      <Filter>ActionHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ShActionHandler.h">
+      <Filter>ActionHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

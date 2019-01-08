@@ -32,7 +32,7 @@
 #include <qtoolbutton.h>
 #include <QGridLayout> 
 #include <qpushbutton.h>
-#include "ShRibbon.h"
+#include "ShRibbonMenu.h"
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 
@@ -43,16 +43,15 @@ ShCAD::ShCAD(QWidget *parent)
 	this->mdiArea = new QMdiArea;
 	this->setCentralWidget(this->mdiArea);
 	this->mdiArea->setDocumentMode(true);
-	//this->mdiArea->setContextMenuPolicy(Qt::PreventContextMenu);
+	
 
 	this->dock = new QDockWidget(this);
 	this->dock->installEventFilter(this);
-	this->dock->setContextMenuPolicy(Qt::ContextMenuPolicy::PreventContextMenu);
 	this->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, this->dock);
 	
 	
 	
-	
+	/*
 	ShRibbon *ribbon = new ShRibbon(200, this);
 	this->addToolBar(ribbon);
 	
@@ -61,15 +60,29 @@ ShCAD::ShCAD(QWidget *parent)
 	ribbon->AddTab("2");
 	ShColumnWidget *columnWidget = widgetInTab->AddColumn("Draw",200);
 	columnWidget->SetColumnTitleArea(ShColumnWidget::ColumnTitleArea::TopColumnTitleArea);
-	columnWidget->AddItem(new QPushButton("1"), QRect(100, 0, 100, 20));
+	columnWidget->AddItem(new QPushButton("1"), QRect(0, 0, 100, 20));
+
+	QToolButton *button = new QToolButton;
+	button->setPopupMode(QToolButton::ToolButtonPopupMode::MenuButtonPopup);
+
+	QMenu *menu = new QMenu(button);
+	menu->addAction("1");
+	menu->addAction("2");
+	menu->addAction("3");
+
+	button->setMenu(menu);
+	widgetInTab->AddColumn("Hi", 400)->AddItem(button, QRect(100, 100, 100, 20));
+	*/
 	
+	ShRibbonMenu *ribbon = new ShRibbonMenu(150, this);
+	ribbon->setWindowTitle("RibbonBar");
+	this->addToolBar(ribbon);
 
 
 
-
-	this->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
-	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
-		this, SLOT(ShowContextMenu(const QPoint &)));
+	//this->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
+	//connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
+	//	this, SLOT(ShowContextMenu(const QPoint &)));
 	
 	QToolBar *temp2 = new QToolBar(this);
 	this->addToolBarBreak();
@@ -121,6 +134,7 @@ bool ShCAD::eventFilter(QObject *obj, QEvent *event) {
 	return QWidget::eventFilter(obj, event);
 }
 
+/*
 void ShCAD::ShowContextMenu(const QPoint &pos) {
 
 	QMenu contextMenu(tr("Context menu"), this);
@@ -139,3 +153,4 @@ void ShCAD::TestCustomContextMenu() {
 	box.exec();
 
 }
+*/
