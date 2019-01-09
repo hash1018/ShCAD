@@ -2,8 +2,9 @@
 
 #include "ShActionHandler.h"
 
-ShActionHandler::ShActionHandler() {
+ShActionHandler::ShActionHandler(ShGraphicView *graphicView) {
 
+	this->graphicView = graphicView;
 }
 
 ShActionHandler::~ShActionHandler() {

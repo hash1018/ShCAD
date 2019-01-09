@@ -51,6 +51,18 @@
     <Filter Include="ActionHandler">
       <UniqueIdentifier>{7375a8e1-5f32-4278-9fcc-a38f890a7729}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Factory Method">
+      <UniqueIdentifier>{0e1d5229-d31b-48b9-a633-e967109cf696}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ActionHandler\DrawAction">
+      <UniqueIdentifier>{011b33df-c38f-4553-86b2-9560b43546da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Singleton Pattern">
+      <UniqueIdentifier>{e15e95af-ba21-498b-99ef-faa9806d96a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memento pattern">
+      <UniqueIdentifier>{4c389252-030c-4c0b-bd0f-8fe51b0b61b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -125,6 +137,27 @@
     <ClCompile Include="ActionHandler\ShActionHandler.cpp">
       <Filter>ActionHandler</Filter>
     </ClCompile>
+    <ClCompile Include="FactoryMethod\ShCreatorActionFactory.cpp">
+      <Filter>Factory Method</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp">
+      <Filter>Singleton Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Memento Pattern\ShMemento.cpp">
+      <Filter>Memento pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Memento Pattern\ShUndoTaker.cpp">
+      <Filter>Memento pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Memento Pattern\ShUndoCommand.cpp">
+      <Filter>Memento pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -191,6 +224,30 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\ShActionHandler.h">
       <Filter>ActionHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ShVariable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryMethod\ShCreatorActionFactory.h">
+      <Filter>Factory Method</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton Pattern\ShWidgetManager.h">
+      <Filter>Singleton Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Memento Pattern\ShMemento.h">
+      <Filter>Memento pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Memento Pattern\ShUndoTaker.h">
+      <Filter>Memento pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Memento Pattern\ShUndoCommand.h">
+      <Filter>Memento pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

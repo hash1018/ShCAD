@@ -34,12 +34,11 @@ public:
 	ShCircle& operator=(const ShCircle& other);
 	~ShCircle();
 
-	ShCircle* Clone();
+	virtual ShCircle* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
 
 	ShCircleData& GetData() const;
 	void SetData(const ShCircleData& data);
-	
 
 };
 

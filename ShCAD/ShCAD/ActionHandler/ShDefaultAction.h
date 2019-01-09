@@ -32,9 +32,14 @@
 class ShDefaultAction : public ShActionHandler {
 
 public:
-	ShDefaultAction();
+	ShDefaultAction(ShGraphicView *graphicView);
 	~ShDefaultAction();
 
+	virtual void MousePressEvent(QMouseEvent *event);
+	virtual void MouseMoveEvent(QMouseEvent *event);
+	virtual void KeyPressEvent(QKeyEvent *event);
+
+	virtual ActionType GetType();
 };
 
 #endif //_SHDEFAULTACTION_H

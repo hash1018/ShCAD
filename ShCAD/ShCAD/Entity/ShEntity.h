@@ -6,6 +6,7 @@
 
 /*Base class for all objects having a graphical representation.*/
 
+class ShMemento;
 class ShVisitor;
 class ShEntity {
 
@@ -18,6 +19,8 @@ public:
 	virtual ShEntity* Clone() = 0;
 	virtual void Accept(ShVisitor *shVisitor) = 0;
 
+	//virtual ShMemento* CreateMemento() {}
+	//virtual void SetMemento(const ShMemento* memento) {}
 
 };
 

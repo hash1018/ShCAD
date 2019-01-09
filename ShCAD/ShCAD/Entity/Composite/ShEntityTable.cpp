@@ -42,3 +42,10 @@ bool ShEntityTable::Add(ShEntity *shEntity) {
 
 	return true;
 }
+
+void ShEntityTable::Delete(ShEntity *shEntity) {
+
+	this->list.removeOne(shEntity);
+
+	delete shEntity;
+}

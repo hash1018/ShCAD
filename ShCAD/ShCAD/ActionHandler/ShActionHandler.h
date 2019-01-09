@@ -32,16 +32,27 @@
 #ifndef _SHACTIONMODE_H
 #define _SHACTIONMODE_H
 
+#include "ShVariable.h"
 #include <qobject.h>
+#include "Interface\ShGraphicView.h"
+
 class QMouseEvent;
+class QKeyEvent;
 class ShActionHandler : public QObject {
 
-public:
-	ShActionHandler();
-	~ShActionHandler();
+protected:
+	ShGraphicView *graphicView;
 
-	virtual void mousePressEvent(QMouseEvent *event);
-	virtual void mouseMoveEvent(QMouseEvent *event);
+public:
+	ShActionHandler(ShGraphicView *graphicView);
+	virtual ~ShActionHandler() = 0;
+
+	virtual void MousePressEvent(QMouseEvent *event) = 0;
+	virtual void MouseMoveEvent(QMouseEvent *event) = 0;
+	virtual void KeyPressEvent(QKeyEvent *event) = 0;
+
+	virtual ActionType GetType() = 0;
+
 };
 
 #endif //_SHACTIONMODE_H

@@ -28,15 +28,39 @@
 #define _SHGRAPHICVIEW_H
 
 #include <qopenglwidget.h>
+#include "ShVariable.h"
+#include "Memento Pattern\ShUndoTaker.h"
 
-
+class ShEntityTable;
 class ShGraphicView : public QOpenGLWidget {
+
+	friend class ShCADWidget;
+
+protected:
+	//this points to class ShCADWidget's var.
+	ShEntityTable *entityTable;
+
+	//undo controller.
+	ShUndoTaker undoTaker;
 
 public:
 	ShGraphicView(QWidget *parent = 0);
 	virtual ~ShGraphicView() = 0;
 
-	
+	virtual ActionType ChangeCurrentAction(ActionType actionType) = 0;
+
+	ShEntityTable* GetEntityTable() const;
+	ShUndoTaker* GetUndoTaker();
 };
+
+inline ShEntityTable* ShGraphicView::GetEntityTable() const {
+
+	return this->entityTable;
+}
+
+inline ShUndoTaker* ShGraphicView::GetUndoTaker(){
+
+	return &(this->undoTaker);
+}
 
 #endif //_SHGRAPHICVIEW_H

@@ -40,6 +40,7 @@ ShDrawColumn::ShDrawColumn(QWidget *parent, const QString &title, int width)
 	this->arcButton->setText("Arc");
 
 	connect(this->lineButton, &QToolButton::pressed, this, &ShDrawColumn::LineButtonClicked);
+	connect(this->circleButton, &QToolButton::pressed, this, &ShDrawColumn::CircleButtonClicked);
 }
 
 ShDrawColumn::~ShDrawColumn() {
@@ -60,15 +61,30 @@ void ShDrawColumn::resizeEvent(QResizeEvent *event) {
 
 }
 
-#include <qmessagebox.h>
+#include "Singleton Pattern\ShWidgetManager.h"
+#include "Interface\ShCADWidget.h"
 void ShDrawColumn::LineButtonClicked() {
-	QMessageBox box;
-	box.setText("line clicked");
-	box.exec();
+	qDebug("LineButtonClicked");
+
+	if (ShWidgetManager::GetActivatedWidget() == 0) {
+		qDebug("no activated widget"); 
+		return;
+	}
+
+	ShWidgetManager::GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawLine);
+	
+	
 }
 
 void ShDrawColumn::CircleButtonClicked() {
+	qDebug("CircleButtonClicked");
 
+	if (ShWidgetManager::GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShWidgetManager::GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDefault);
 }
 
 void ShDrawColumn::ArcButtonClicked() {

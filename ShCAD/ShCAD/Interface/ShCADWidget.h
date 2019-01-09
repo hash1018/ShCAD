@@ -29,16 +29,14 @@
 
 #include <qwidget.h>
 #include "Entity\Composite\ShEntityTable.h"
+#include "ShVariable.h"
+
 
 class ShGraphicView;
 class ShGraphicView2D;
 class ShCADWidget : public QWidget {
 	
-	friend class ShGraphicView2D;
-
 private:
-	/*  **Do not use this pointer variable in frined class **
-	 ** This must be the instance from one of friend class ** */
 	ShGraphicView *graphicView;
 
 	/* class that maintains a container of entity object */
@@ -48,6 +46,7 @@ public:
 	ShCADWidget(ShGraphicView *graphicView, QWidget *parent = 0);
 	~ShCADWidget();
 	
+	ActionType ChangeCurrentAction(ActionType actionType);
 
 protected:
 	void resizeEvent(QResizeEvent *event);

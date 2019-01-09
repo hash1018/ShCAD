@@ -29,11 +29,17 @@
 
 #include "ShGraphicView.h"
 
+class ShActionHandler;
 class ShGraphicView2D : public ShGraphicView {
+
+private:
+	ShActionHandler *currentAction;
 
 public:
 	ShGraphicView2D(QWidget *parent = 0);
 	~ShGraphicView2D();
+
+	virtual ActionType ChangeCurrentAction(ActionType actionType);
 
 
 protected:
@@ -42,6 +48,7 @@ protected:
 
 	virtual void mousePressEvent(QMouseEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent *event);
+	virtual void keyPressEvent(QKeyEvent *event);
 
 };
 

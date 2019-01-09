@@ -49,6 +49,7 @@ public:
 	virtual void Accept(ShVisitor *shVisitor) = 0;
 
 	virtual bool Add(ShEntity* shEntity) = 0;
+	virtual void Delete(ShEntity *shEntity) = 0;
 
 
 	int GetLength() const;

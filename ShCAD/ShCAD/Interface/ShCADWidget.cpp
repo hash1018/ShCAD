@@ -33,6 +33,8 @@ ShCADWidget::ShCADWidget(ShGraphicView *graphicView, QWidget *parent)
 	this->graphicView->setParent(this);
 	this->graphicView->setGeometry(this->rect());
 	this->graphicView->show();
+
+	this->graphicView->entityTable = &(this->entityTable);
 	
 }
 
@@ -54,4 +56,9 @@ void ShCADWidget::resizeEvent(QResizeEvent *event) {
 
 	this->graphicView->setGeometry(this->rect());
 
+}
+
+ActionType ShCADWidget::ChangeCurrentAction(ActionType actionType) {
+
+	return this->graphicView->ChangeCurrentAction(actionType);
 }

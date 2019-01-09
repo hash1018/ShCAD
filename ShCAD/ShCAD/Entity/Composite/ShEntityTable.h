@@ -17,6 +17,7 @@ public:
 	void Accept(ShVisitor *shVisitor);
 
 	virtual bool Add(ShEntity *shEntity);
+	virtual void Delete(ShEntity *shEntity);
 
 
 };

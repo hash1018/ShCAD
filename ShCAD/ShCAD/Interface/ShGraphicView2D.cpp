@@ -26,15 +26,19 @@
 
 #include "ShGraphicView2D.h"
 #include "ShCADWidget.h"
-
+#include "FactoryMethod\ShCreatorActionFactory.h"
+#include "ActionHandler\ShActionHandler.h"
 ShGraphicView2D::ShGraphicView2D(QWidget *parent)
 	:ShGraphicView(parent) {
 
+	this->currentAction = ShCreatorActionFactory::Create(ActionType::ActionDefault, this);
 
 }
 
 ShGraphicView2D::~ShGraphicView2D() {
 
+	if (this->currentAction != NULL)
+		delete this->currentAction;
 
 }
 
@@ -48,37 +52,50 @@ void ShGraphicView2D::initializeGL() {
 #include "Visitor Pattern\ShDrawer.h"
 void ShGraphicView2D::paintGL() {
 
-
+	
 	ShDrawer drawer(this->width(), this->height());
 
-	ShComposite::Iterator itr = dynamic_cast<ShCADWidget*>(this->parent())->entityTable.First();
+	ShComposite::Iterator itr = this->entityTable->First();
 
 	while (!itr.IsLast()) {
 	
 		itr.Current()->Accept(&drawer);
 		itr.Next();
 	}
-
+	
 }
 
 
-#include <QMouseEvent>
-#include "Entity\Leaf\ShLine.h"
 void ShGraphicView2D::mousePressEvent(QMouseEvent *event) {
-
-	ShVector start(event->x(), event->y());
-	ShVector end(event->x() + 100, event->y() + 100);
-
-	ShLineData data(start, end);
-
-	dynamic_cast<ShCADWidget*>(this->parent())->entityTable.Add(new ShLine(data));
-
-	this->update();
+	//qDebug("mousePressEvent in ShGraphicView2D");
 	
+
+	this->currentAction->MousePressEvent(event);
 	
+
 }
 
 void ShGraphicView2D::mouseMoveEvent(QMouseEvent *event) {
+	//qDebug("mouseMoveEvent in ShGraphicView2D");
 
-	//qDebug("MouseMove");
+	this->currentAction->MouseMoveEvent(event);
+}
+
+void ShGraphicView2D::keyPressEvent(QKeyEvent *event) {
+
+	this->currentAction->KeyPressEvent(event);
+
+}
+
+
+ActionType ShGraphicView2D::ChangeCurrentAction(ActionType actionType) {
+
+	if (this->currentAction != NULL)
+		delete this->currentAction;
+
+	this->currentAction = ShCreatorActionFactory::Create(actionType, this);
+
+	return this->currentAction->GetType();
+
+
 }

@@ -22,6 +22,7 @@ typedef struct ShLineData {
 
 /* Class for Line entity */
 
+class ShLineMemento;
 class ShLine : public ShLeaf {
 
 protected:
@@ -40,6 +41,9 @@ public:
 	ShLineData& GetData() const;
 	void SetData(const ShLineData& data);
 
+
+	ShLineMemento* CreateMemento();
+	void SetMemento(const ShLineMemento* memento);
 
 };
 

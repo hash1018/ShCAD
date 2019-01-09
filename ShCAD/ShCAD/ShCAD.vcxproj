@@ -137,6 +137,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
@@ -146,6 +148,7 @@
     <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
     <ClCompile Include="Entity\ShEntity.cpp" />
+    <ClCompile Include="FactoryMethod\ShCreatorActionFactory.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_shcad.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -172,8 +175,12 @@
     <ClCompile Include="Interface\ShMenuBar.cpp" />
     <ClCompile Include="Interface\ShRibbonMenu.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Memento Pattern\ShMemento.cpp" />
+    <ClCompile Include="Memento Pattern\ShUndoCommand.cpp" />
+    <ClCompile Include="Memento Pattern\ShUndoTaker.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
     <ClCompile Include="ShVector.cpp" />
+    <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
     <ClCompile Include="Visitor Pattern\ShVisitor.cpp" />
   </ItemGroup>
@@ -198,6 +205,8 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />
@@ -207,13 +216,19 @@
     <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\ShEntity.h" />
+    <ClInclude Include="FactoryMethod\ShCreatorActionFactory.h" />
     <ClInclude Include="Interface\ShDrawInterface.h" />
     <ClInclude Include="Interface\ShGraphicView.h" />
     <ClInclude Include="Interface\ShCADWidget.h" />
     <ClInclude Include="Interface\ShGraphicView2D.h" />
     <ClInclude Include="Interface\ShMenuBar.h" />
     <ClInclude Include="Interface\ShRibbonMenu.h" />
+    <ClInclude Include="Memento Pattern\ShMemento.h" />
+    <ClInclude Include="Memento Pattern\ShUndoCommand.h" />
+    <ClInclude Include="Memento Pattern\ShUndoTaker.h" />
     <ClInclude Include="ShRibbon.h" />
+    <ClInclude Include="ShVariable.h" />
+    <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
     <ClInclude Include="Visitor Pattern\ShVisitor.h" />
     <CustomBuild Include="Interface\shcad.h">
