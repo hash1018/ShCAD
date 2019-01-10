@@ -1,18 +1,18 @@
 
 
-#ifndef _SHUNDOTAKER_H
-#define _SHUNDOTAKER_H
+#ifndef _SHREDOTAKER_H
+#define _SHREDOTAKER_H
 
 #include <qstack.h>
 class ShMemento;
-class ShUndoTaker {
+class ShRedoTaker {
 
 private:
 	QStack<ShMemento*> stack;
 
 public:
-	ShUndoTaker();
-	~ShUndoTaker();
+	ShRedoTaker();
+	~ShRedoTaker();
 
 	void Push(ShMemento *);
 	ShMemento* Pop();
@@ -20,6 +20,7 @@ public:
 
 	/* deallocate all items and set empty */
 	void DeleteAll();
+
 };
 
-#endif //_SHUNDOTAKER_H
+#endif //_SHREDOTAKER_H

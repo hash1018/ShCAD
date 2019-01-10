@@ -3,47 +3,45 @@
 
 #ifndef _SHMEMENTO_H
 #define _SHMEMENTO_H
+
 #include "ShVariable.h"
-#include "Entity\ShEntity.h"
 
 class ShUndoCommand;
+class ShRedoCommand;
+class ShEntity;
 class ShMemento {
 
-public:
 	friend class ShUndoCommand;
+	friend class ShRedoCommand;
 
+public:
 	ShMemento();
 	virtual ~ShMemento() = 0;
-	void SetStatus(MementoStatus status);
-
-	virtual void Accept(ShUndoCommand *command) = 0;
+	void SetType(MementoType type);
 
 protected:
-	MementoStatus status;
+	MementoType type;
 	ShEntity *entity;
-
-
+	
 };
 
-
-#include "Entity\Leaf\ShLine.h"
+class ShLine;
+struct ShLineData;
 class ShLineMemento : public ShMemento {
+	
+	friend class ShRedoCommand;
+	friend class ShLine;
 
 public:
 	~ShLineMemento();
-	void Accept(ShUndoCommand *command);
-
-private:
-
-	friend class ShLine;
 	ShLineMemento();
-	void SetData(const ShLineData &data);
-	ShLineData& GetData();
-
+private:
+	
+	
 
 private:
+	ShLineData *data;
 
-	ShLineData data;
 
 };
 

@@ -1,21 +1,19 @@
 
 
-#include "ShUndoTaker.h"
+#include "ShRedoTaker.h"
 #include "Memento Pattern\ShMemento.h"
-//delete 할때 전방선언 된 상태에서 지우니깐 클래스를 못찾아가는건가?
-
-ShUndoTaker::ShUndoTaker() {
+ShRedoTaker::ShRedoTaker() {
 
 }
 
-ShUndoTaker::~ShUndoTaker() {
-	
+ShRedoTaker::~ShRedoTaker() {
+
 	while (!this->IsEmpty())
 		delete this->Pop();
-	
+
 }
 
-void ShUndoTaker::Push(ShMemento *memento) {
+void ShRedoTaker::Push(ShMemento *memento) {
 
 	if (this->stack.size() > 30) {
 		delete this->stack[0];
@@ -25,7 +23,7 @@ void ShUndoTaker::Push(ShMemento *memento) {
 	this->stack.push(memento);
 }
 
-ShMemento* ShUndoTaker::Pop() {
+ShMemento* ShRedoTaker::Pop() {
 
 	if (this->stack.isEmpty()) {
 		qDebug("Stack is empty");
@@ -35,12 +33,12 @@ ShMemento* ShUndoTaker::Pop() {
 	return this->stack.pop();
 }
 
-bool ShUndoTaker::IsEmpty() {
+bool ShRedoTaker::IsEmpty() {
 
 	return this->stack.isEmpty();
 }
 
-void ShUndoTaker::DeleteAll() {
+void ShRedoTaker::DeleteAll() {
 
 	while (!this->IsEmpty())
 		delete this->Pop();

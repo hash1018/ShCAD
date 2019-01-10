@@ -3,7 +3,8 @@
 #include "ShDrawLineAction.h"
 #include <QMouseEvent>
 #include "Entity\Leaf\ShLine.h"
-#include "Entity\Composite\ShEntityTable.h"
+#include "Command Pattern\ShAddEntityCommand.h"
+
 ShDrawLineAction::ShDrawLineAction(ShGraphicView *graphicView)
 	:ShDrawAction(graphicView) {
 
@@ -14,7 +15,7 @@ ShDrawLineAction::~ShDrawLineAction() {
 
 }
 
-#include "Memento Pattern\ShMemento.h"
+
 void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 	
 	if (this->status == PickedNothing) {
@@ -29,21 +30,14 @@ void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 		ShLineData data(start, end);
 
 
-
 		ShLine *line = new ShLine(data);
 
-
-		ShLineMemento *memento = line->CreateMemento();
-		memento->SetStatus(MementoStatus::MementoCreated);
-		this->graphicView->GetUndoTaker()->Push(memento);
-
-
-
-		this->graphicView->GetEntityTable()->Add(line);
+		ShAddEntityCommand command(this->graphicView, line);
+		command.Execute();
 
 		this->start = this->end;
 
-		this->graphicView->update();
+		
 	}
 }
 

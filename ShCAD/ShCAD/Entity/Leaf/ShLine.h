@@ -7,7 +7,7 @@
 #include "ShLeaf.h"
 #include "ShVector.h"
 
-typedef struct ShLineData {
+typedef struct ShLineData : public ShEntityData {
 
 	ShVector start;
 	ShVector end;

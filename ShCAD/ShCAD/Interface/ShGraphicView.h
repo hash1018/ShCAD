@@ -30,6 +30,7 @@
 #include <qopenglwidget.h>
 #include "ShVariable.h"
 #include "Memento Pattern\ShUndoTaker.h"
+#include "Memento Pattern\ShRedoTaker.h"
 
 class ShEntityTable;
 class ShGraphicView : public QOpenGLWidget {
@@ -42,6 +43,8 @@ protected:
 
 	//undo controller.
 	ShUndoTaker undoTaker;
+	//redo controller.
+	ShRedoTaker redoTaker;
 
 public:
 	ShGraphicView(QWidget *parent = 0);
@@ -51,6 +54,7 @@ public:
 
 	ShEntityTable* GetEntityTable() const;
 	ShUndoTaker* GetUndoTaker();
+	ShRedoTaker* GetRedoTaker();
 };
 
 inline ShEntityTable* ShGraphicView::GetEntityTable() const {
@@ -61,6 +65,11 @@ inline ShEntityTable* ShGraphicView::GetEntityTable() const {
 inline ShUndoTaker* ShGraphicView::GetUndoTaker(){
 
 	return &(this->undoTaker);
+}
+
+inline ShRedoTaker* ShGraphicView::GetRedoTaker() {
+
+	return &(this->redoTaker);
 }
 
 #endif //_SHGRAPHICVIEW_H

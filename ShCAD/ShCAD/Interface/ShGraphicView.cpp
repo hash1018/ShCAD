@@ -32,13 +32,13 @@ ShGraphicView::ShGraphicView(QWidget *parent)
 	this->setFocusPolicy(Qt::FocusPolicy::ClickFocus);
 	this->setMouseTracking(true);
 
-
-
+	
 }
 
 
 ShGraphicView::~ShGraphicView() {
 
+	
 	
 }
 

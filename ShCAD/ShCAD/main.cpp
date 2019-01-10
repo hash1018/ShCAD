@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
 	//w.resize(1500, 800);
 
-
 	w.showMaximized();
+
 	return a.exec();
 }

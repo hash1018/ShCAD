@@ -22,25 +22,32 @@ void ShDefaultAction::MouseMoveEvent(QMouseEvent *event) {
 }
 
 #include "Memento Pattern\ShMemento.h"
-#include "Memento Pattern\ShUndoCommand.h"
+#include "Command Pattern\ShRedoCommand.h"
+#include "Command Pattern\ShUndoCommand.h"
 void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 
 
-	if (event->key() == Qt::Key::Key_Z) {
+	if (event->modifiers()==Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Z) {
 	
 		if (this->graphicView->GetUndoTaker()->IsEmpty()==false) {
 
-			ShMemento *memento = this->graphicView->GetUndoTaker()->pop();
-			ShUndoCommand command(this->graphicView);
-			memento->Accept(&command);
+			ShMemento *memento = this->graphicView->GetUndoTaker()->Pop();
+			ShUndoCommand command(this->graphicView, memento);
+			command.Execute();
 
-			delete memento;
+		}	
+	}
+	else if (event->modifiers()==Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Y) {
+	
+		if (this->graphicView->GetRedoTaker()->IsEmpty() == false) {
+		
+
+			ShMemento *memento = this->graphicView->GetRedoTaker()->Pop();
+			ShRedoCommand command(this->graphicView, memento);
+			command.Execute();
 
 		}
 
-
-
-		
 	}
 
 }

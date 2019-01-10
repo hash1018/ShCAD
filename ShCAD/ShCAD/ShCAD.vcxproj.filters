@@ -63,6 +63,9 @@
     <Filter Include="Memento pattern">
       <UniqueIdentifier>{4c389252-030c-4c0b-bd0f-8fe51b0b61b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command Pattern">
+      <UniqueIdentifier>{f9b0726f-47ce-4366-be86-9da9cb719f4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -155,8 +158,20 @@
     <ClCompile Include="Memento Pattern\ShUndoTaker.cpp">
       <Filter>Memento pattern</Filter>
     </ClCompile>
-    <ClCompile Include="Memento Pattern\ShUndoCommand.cpp">
+    <ClCompile Include="Memento Pattern\ShRedoTaker.cpp">
       <Filter>Memento pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\ShCommand.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\ShRedoCommand.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\ShUndoCommand.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\ShAddEntityCommand.cpp">
+      <Filter>Command Pattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -246,8 +261,23 @@
     <ClInclude Include="Memento Pattern\ShUndoTaker.h">
       <Filter>Memento pattern</Filter>
     </ClInclude>
-    <ClInclude Include="Memento Pattern\ShUndoCommand.h">
+    <ClInclude Include="Memento Pattern\ShRedoTaker.h">
       <Filter>Memento pattern</Filter>
     </ClInclude>
+    <ClInclude Include="Command Pattern\ShCommand.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShRedoCommand.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShUndoCommand.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShAddEntityCommand.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\Visual Leak Detector\vld.ini" />
   </ItemGroup>
 </Project>

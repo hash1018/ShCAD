@@ -12,7 +12,7 @@ enum ActionType {
 
 };
 
-enum MementoStatus {
+enum MementoType {
 	MementoUnknown,
 	MementoCreated,
 	MementoDeleted

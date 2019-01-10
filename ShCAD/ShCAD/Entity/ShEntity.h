@@ -6,6 +6,13 @@
 
 /*Base class for all objects having a graphical representation.*/
 
+#include "Memento Pattern\ShMemento.h"
+
+typedef struct ShEntityData {
+
+
+}ShEntityData;
+
 class ShMemento;
 class ShVisitor;
 class ShEntity {
@@ -19,8 +26,8 @@ public:
 	virtual ShEntity* Clone() = 0;
 	virtual void Accept(ShVisitor *shVisitor) = 0;
 
-	//virtual ShMemento* CreateMemento() {}
-	//virtual void SetMemento(const ShMemento* memento) {}
+	virtual ShMemento* CreateMemento() { return 0; }
+	virtual void SetMemento(const ShMemento* memento) {}
 
 };
 
