@@ -277,7 +277,4 @@
       <Filter>Command Pattern</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\..\..\..\..\..\Program Files (x86)\Visual Leak Detector\vld.ini" />
-  </ItemGroup>
 </Project>

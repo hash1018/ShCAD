@@ -41,7 +41,6 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 	
 		if (this->graphicView->GetRedoTaker()->IsEmpty() == false) {
 		
-
 			ShMemento *memento = this->graphicView->GetRedoTaker()->Pop();
 			ShRedoCommand command(this->graphicView, memento);
 			command.Execute();

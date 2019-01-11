@@ -32,6 +32,7 @@ ShGraphicView::ShGraphicView(QWidget *parent)
 	this->setFocusPolicy(Qt::FocusPolicy::ClickFocus);
 	this->setMouseTracking(true);
 
+	this->drawType = DrawType::DrawAll;
 	
 }
 
@@ -42,3 +43,7 @@ ShGraphicView::~ShGraphicView() {
 	
 }
 
+void ShGraphicView::CaptureImage() {
+
+	this->captureImage = this->grabFramebuffer();
+}

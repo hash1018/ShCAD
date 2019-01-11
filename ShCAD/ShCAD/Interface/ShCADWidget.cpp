@@ -55,6 +55,7 @@ void ShCADWidget::resizeEvent(QResizeEvent *event) {
 
 
 	this->graphicView->setGeometry(this->rect());
+	
 
 }
 

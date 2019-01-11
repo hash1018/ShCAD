@@ -46,6 +46,10 @@ protected:
 	//redo controller.
 	ShRedoTaker redoTaker;
 
+
+	DrawType drawType;
+	QImage captureImage;
+
 public:
 	ShGraphicView(QWidget *parent = 0);
 	virtual ~ShGraphicView() = 0;
@@ -55,6 +59,10 @@ public:
 	ShEntityTable* GetEntityTable() const;
 	ShUndoTaker* GetUndoTaker();
 	ShRedoTaker* GetRedoTaker();
+
+	virtual void update(DrawType drawType = DrawType::DrawAll) = 0;
+	
+	void CaptureImage();
 };
 
 inline ShEntityTable* ShGraphicView::GetEntityTable() const {

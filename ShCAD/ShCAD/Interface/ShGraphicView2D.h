@@ -41,15 +41,18 @@ public:
 
 	virtual ActionType ChangeCurrentAction(ActionType actionType);
 
+	virtual void update(DrawType drawType = DrawType::DrawAll);
 
 protected:
 	virtual void initializeGL();
 	virtual void paintGL();
+	virtual void resizeGL(int width, int height);
 
 	virtual void mousePressEvent(QMouseEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent *event);
 	virtual void keyPressEvent(QKeyEvent *event);
-
+	virtual void wheelEvent(QWheelEvent *event);
+	virtual void mouseReleaseEvent(QMouseEvent *event);
 };
 
 #endif //_SHGRAPHICVIEW2D_H

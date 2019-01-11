@@ -28,6 +28,7 @@
 #include "ShCADWidget.h"
 #include "FactoryMethod\ShCreatorActionFactory.h"
 #include "ActionHandler\ShActionHandler.h"
+
 ShGraphicView2D::ShGraphicView2D(QWidget *parent)
 	:ShGraphicView(parent) {
 
@@ -47,21 +48,72 @@ ShGraphicView2D::~ShGraphicView2D() {
 void ShGraphicView2D::initializeGL() {
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	
+	this->CaptureImage();
+
+}
+
+void ShGraphicView2D::resizeGL(int width, int height) {
+
+	QOpenGLWidget::resizeGL(width, height);
+	this->update();
+	this->CaptureImage();
+}
+
+void ShGraphicView2D::update(DrawType drawType) {
+
+	this->drawType = drawType;
+
+	QOpenGLWidget::update();
 }
 
 #include "Visitor Pattern\ShDrawer.h"
+#include <qpainter.h>
 void ShGraphicView2D::paintGL() {
 
 	
-	ShDrawer drawer(this->width(), this->height());
+	QPainter paint(this);
 
-	ShComposite::Iterator itr = this->entityTable->First();
+	if ((this->drawType & DrawType::DrawAll) == DrawType::DrawAll) {
+		qDebug("DrawAll");
 
-	while (!itr.IsLast()) {
-	
-		itr.Current()->Accept(&drawer);
-		itr.Next();
+		ShDrawer drawer(this->width(), this->height());
+
+		ShComposite::Iterator itr = this->entityTable->First();
+
+		while (!itr.IsLast()) {
+
+			itr.Current()->Accept(&drawer);
+			itr.Next();
+		}
 	}
+
+	if ((this->drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage) {
+		qDebug("DrawCaptureImage");
+		
+		if (paint.isActive() == false)
+			paint.begin(this);
+
+		paint.drawImage(0, 0, this->captureImage, 0, 0, 0, 0);
+		paint.end();
+		
+	}
+
+	if ((this->drawType & DrawType::DrawPreviewEntities) == DrawType::DrawPreviewEntities) {
+		qDebug("DrwaPreviewEntities");
+
+	}
+
+	if ((this->drawType & DrawType::DrawAddedEntities) == DrawType::DrawAddedEntities) {
+		qDebug("DrawAddedEntities");
+
+		ShDrawer drawer(this->width(), this->height());
+
+		ShComposite::Iterator itr = this->entityTable->Last();
+		itr.Previous();
+		itr.Current()->Accept(&drawer);
+	}
+
 	
 }
 
@@ -88,6 +140,17 @@ void ShGraphicView2D::keyPressEvent(QKeyEvent *event) {
 }
 
 
+void ShGraphicView2D::wheelEvent(QWheelEvent *event) {
+
+
+}
+
+void ShGraphicView2D::mouseReleaseEvent(QMouseEvent *event) {
+
+
+}
+
+
 ActionType ShGraphicView2D::ChangeCurrentAction(ActionType actionType) {
 
 	if (this->currentAction != NULL)
@@ -99,3 +162,4 @@ ActionType ShGraphicView2D::ChangeCurrentAction(ActionType actionType) {
 
 
 }
+
