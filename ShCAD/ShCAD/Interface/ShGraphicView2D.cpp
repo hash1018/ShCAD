@@ -28,7 +28,7 @@
 #include "ShCADWidget.h"
 #include "FactoryMethod\ShCreatorActionFactory.h"
 #include "ActionHandler\ShActionHandler.h"
-
+#include "ShRubberBand.h"
 ShGraphicView2D::ShGraphicView2D(QWidget *parent)
 	:ShGraphicView(parent) {
 
@@ -102,6 +102,17 @@ void ShGraphicView2D::paintGL() {
 	if ((this->drawType & DrawType::DrawPreviewEntities) == DrawType::DrawPreviewEntities) {
 		qDebug("DrwaPreviewEntities");
 
+		if (this->rubberBand != NULL) {
+			if (paint.isActive() == false)
+				paint.begin(this);
+
+			paint.setPen(QColor(255, 255, 255));
+			paint.drawLine(this->rubberBand->GetStartX(), this->rubberBand->GetStartY(), 
+				this->rubberBand->GetEndX(), this->rubberBand->GetEndY());
+
+			paint.end();
+		}
+		
 	}
 
 	if ((this->drawType & DrawType::DrawAddedEntities) == DrawType::DrawAddedEntities) {
@@ -156,7 +167,16 @@ ActionType ShGraphicView2D::ChangeCurrentAction(ActionType actionType) {
 	if (this->currentAction != NULL)
 		delete this->currentAction;
 
+	if (this->rubberBand != NULL) {
+		delete this->rubberBand;
+		this->rubberBand = NULL;
+		this->update(DrawType::DrawCaptureImage);
+	}
+
+
 	this->currentAction = ShCreatorActionFactory::Create(actionType, this);
+
+
 
 	return this->currentAction->GetType();
 

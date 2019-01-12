@@ -146,6 +146,7 @@
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
     <ClCompile Include="Command Pattern\ShAddEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\ShCommand.cpp" />
+    <ClCompile Include="Command Pattern\ShDrawPreviewCommand.cpp" />
     <ClCompile Include="Command Pattern\ShRedoCommand.cpp" />
     <ClCompile Include="Command Pattern\ShUndoCommand.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="Memento Pattern\ShRedoTaker.cpp" />
     <ClCompile Include="Memento Pattern\ShUndoTaker.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
+    <ClCompile Include="ShRubberBand.cpp" />
     <ClCompile Include="ShVector.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
@@ -218,6 +220,7 @@
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
     <ClInclude Include="Command Pattern\ShAddEntityCommand.h" />
     <ClInclude Include="Command Pattern\ShCommand.h" />
+    <ClInclude Include="Command Pattern\ShDrawPreviewCommand.h" />
     <ClInclude Include="Command Pattern\ShRedoCommand.h" />
     <ClInclude Include="Command Pattern\ShUndoCommand.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />
@@ -238,6 +241,7 @@
     <ClInclude Include="Memento Pattern\ShRedoTaker.h" />
     <ClInclude Include="Memento Pattern\ShUndoTaker.h" />
     <ClInclude Include="ShRibbon.h" />
+    <ClInclude Include="ShRubberBand.h" />
     <ClInclude Include="ShVariable.h" />
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />

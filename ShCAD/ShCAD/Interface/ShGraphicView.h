@@ -32,6 +32,7 @@
 #include "Memento Pattern\ShUndoTaker.h"
 #include "Memento Pattern\ShRedoTaker.h"
 
+class ShRubberBand;
 class ShEntityTable;
 class ShGraphicView : public QOpenGLWidget {
 
@@ -49,6 +50,9 @@ protected:
 
 	DrawType drawType;
 	QImage captureImage;
+
+public:
+	ShRubberBand *rubberBand;
 
 public:
 	ShGraphicView(QWidget *parent = 0);

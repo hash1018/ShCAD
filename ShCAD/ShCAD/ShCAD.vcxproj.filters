@@ -173,6 +173,12 @@
     <ClCompile Include="Command Pattern\ShAddEntityCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="ShRubberBand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\ShDrawPreviewCommand.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -274,6 +280,12 @@
       <Filter>Command Pattern</Filter>
     </ClInclude>
     <ClInclude Include="Command Pattern\ShAddEntityCommand.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ShRubberBand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShDrawPreviewCommand.h">
       <Filter>Command Pattern</Filter>
     </ClInclude>
   </ItemGroup>

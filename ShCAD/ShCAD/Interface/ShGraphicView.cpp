@@ -34,12 +34,15 @@ ShGraphicView::ShGraphicView(QWidget *parent)
 
 	this->drawType = DrawType::DrawAll;
 	
+	this->rubberBand = NULL;
+
 }
 
 
 ShGraphicView::~ShGraphicView() {
 
-	
+	if (this->rubberBand != NULL)
+		delete this->rubberBand;
 	
 }
 
