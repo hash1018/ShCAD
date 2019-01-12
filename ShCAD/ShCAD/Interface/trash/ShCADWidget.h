@@ -24,35 +24,34 @@
 --*/
 
 
-#ifndef _SHGRAPHICVIEW2D_H
-#define _SHGRAPHICVIEW2D_H
+#ifndef _SHCADWIDGET_H
+#define _SHCADWIDGET_H
 
-#include "ShGraphicView.h"
+#include <qwidget.h>
+#include "Entity\Composite\ShEntityTable.h"
+#include "ShVariable.h"
 
-class ShActionHandler;
-class ShGraphicView2D : public ShGraphicView {
 
+class ShGraphicView;
+class ShGraphicView2D;
+class ShCADWidget : public QWidget {
+	
 private:
-	ShActionHandler *currentAction;
+	ShGraphicView *graphicView;
+
+	/* class that maintains a container of entity object */
+	ShEntityTable entityTable;
 
 public:
-	ShGraphicView2D(QWidget *parent = 0);
-	~ShGraphicView2D();
-
-	virtual ActionType ChangeCurrentAction(ActionType actionType);
-
-	virtual void update(DrawType drawType = DrawType::DrawAll);
+	ShCADWidget(ShGraphicView *graphicView, QWidget *parent = 0);
+	~ShCADWidget();
+	
+	ActionType ChangeCurrentAction(ActionType actionType);
 
 protected:
-	virtual void initializeGL();
-	virtual void paintGL();
-	virtual void resizeGL(int width, int height);
-
-	virtual void mousePressEvent(QMouseEvent *event);
-	virtual void mouseMoveEvent(QMouseEvent *event);
-	virtual void keyPressEvent(QKeyEvent *event);
-	virtual void wheelEvent(QWheelEvent *event);
-	virtual void mouseReleaseEvent(QMouseEvent *event);
+	void resizeEvent(QResizeEvent *event);
+	void focusInEvent(QFocusEvent *event);
+	
 };
 
-#endif //_SHGRAPHICVIEW2D_H
+#endif //_SHCADWIDGET_H

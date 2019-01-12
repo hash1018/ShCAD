@@ -17,8 +17,8 @@ public:
 		friend class ShComposite;
 	private:
 		QLinkedList<ShEntity*>::iterator itr;
-		QLinkedList<ShEntity*>::iterator first;
-		QLinkedList<ShEntity*>::iterator last;
+		QLinkedList<ShEntity*>::iterator begin;
+		QLinkedList<ShEntity*>::iterator end;
 
 	public:
 		Iterator();
@@ -27,8 +27,8 @@ public:
 		~Iterator();
 
 		ShEntity* Current();
-		bool IsLast();
-		bool IsFirst();
+		bool IsEnd();
+		bool IsBegin();
 		void Previous();
 		void Next();
 	};
@@ -36,8 +36,6 @@ public:
 protected:
 	/* only temporary used */
 	QLinkedList<ShEntity*> list;
-
-	int length;
 
 public:
 	ShComposite();
@@ -48,23 +46,16 @@ public:
 	virtual ShComposite* Clone() = 0;
 	virtual void Accept(ShVisitor *shVisitor) = 0;
 
-	virtual bool Add(ShEntity* shEntity) = 0;
-	virtual void Delete(ShEntity *shEntity) = 0;
-
-
-	int GetLength() const;
+	virtual bool Add(ShEntity* shEntity);
+	virtual void Delete(ShEntity *shEntity);
 	
-	ShComposite::Iterator First();
-	ShComposite::Iterator Last();
+	bool IsListEmpty();
+	
+	ShComposite::Iterator Begin();
+	ShComposite::Iterator End();
 
 	
 };
-
-inline int ShComposite::GetLength() const {
-
-	return this->length;
-}
-
 
 
 

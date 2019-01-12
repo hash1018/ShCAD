@@ -28,7 +28,7 @@
 #include "ShCADWidget.h"
 #include "FactoryMethod\ShCreatorActionFactory.h"
 #include "ActionHandler\ShActionHandler.h"
-#include "ShRubberBand.h"
+#include "Entity\Leaf\ShRubberBand.h"
 ShGraphicView2D::ShGraphicView2D(QWidget *parent)
 	:ShGraphicView(parent) {
 
@@ -38,8 +38,7 @@ ShGraphicView2D::ShGraphicView2D(QWidget *parent)
 
 ShGraphicView2D::~ShGraphicView2D() {
 
-	if (this->currentAction != NULL)
-		delete this->currentAction;
+	
 
 }
 
@@ -73,15 +72,15 @@ void ShGraphicView2D::paintGL() {
 
 	
 	QPainter paint(this);
+	ShDrawer drawer(this->width(), this->height());
 
 	if ((this->drawType & DrawType::DrawAll) == DrawType::DrawAll) {
 		qDebug("DrawAll");
 
-		ShDrawer drawer(this->width(), this->height());
+	
+		ShComposite::Iterator itr = this->entityTable->Begin();
 
-		ShComposite::Iterator itr = this->entityTable->First();
-
-		while (!itr.IsLast()) {
+		while (!itr.IsEnd()) {
 
 			itr.Current()->Accept(&drawer);
 			itr.Next();
@@ -103,14 +102,16 @@ void ShGraphicView2D::paintGL() {
 		qDebug("DrwaPreviewEntities");
 
 		if (this->rubberBand != NULL) {
-			if (paint.isActive() == false)
-				paint.begin(this);
+			this->rubberBand->Accept(&drawer);
+		}
 
-			paint.setPen(QColor(255, 255, 255));
-			paint.drawLine(this->rubberBand->GetStartX(), this->rubberBand->GetStartY(), 
-				this->rubberBand->GetEndX(), this->rubberBand->GetEndY());
+		ShDrawer drawer(this->width(), this->height());
 
-			paint.end();
+		ShComposite::Iterator itr = this->preview.Begin();
+
+		while (!itr.IsEnd()) {
+			itr.Current()->Accept(&drawer);
+			itr.Next();
 		}
 		
 	}
@@ -118,9 +119,8 @@ void ShGraphicView2D::paintGL() {
 	if ((this->drawType & DrawType::DrawAddedEntities) == DrawType::DrawAddedEntities) {
 		qDebug("DrawAddedEntities");
 
-		ShDrawer drawer(this->width(), this->height());
-
-		ShComposite::Iterator itr = this->entityTable->Last();
+		
+		ShComposite::Iterator itr = this->entityTable->End();
 		itr.Previous();
 		itr.Current()->Accept(&drawer);
 	}
@@ -167,16 +167,26 @@ ActionType ShGraphicView2D::ChangeCurrentAction(ActionType actionType) {
 	if (this->currentAction != NULL)
 		delete this->currentAction;
 
+	DrawType drawType = DrawType::DrawCaptureImage;
+
+
 	if (this->rubberBand != NULL) {
 		delete this->rubberBand;
 		this->rubberBand = NULL;
-		this->update(DrawType::DrawCaptureImage);
+		drawType = (DrawType)(drawType | DrawType::DrawCaptureImage);
 	}
+
+	if (!this->preview.IsListEmpty()) {
+		this->preview.DeleteAll();
+		drawType = (DrawType)(drawType | DrawType::DrawCaptureImage);
+	}
+
+	if ((drawType& DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage)
+		this->update(DrawType::DrawCaptureImage);
+
 
 
 	this->currentAction = ShCreatorActionFactory::Create(actionType, this);
-
-
 
 	return this->currentAction->GetType();
 

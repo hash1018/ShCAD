@@ -39,7 +39,7 @@ ShCAD::ShCAD(QWidget *parent)
 	this->mdiArea = new QMdiArea;
 	this->setCentralWidget(this->mdiArea);
 	this->mdiArea->setDocumentMode(true);
-	connect(this->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), SLOT(SubWindowActivated(QMdiSubWindow*)));
+	
 
 	this->dock = new QDockWidget(this);
 	this->dock->installEventFilter(this);
@@ -62,14 +62,13 @@ ShCAD::~ShCAD(){
 	
 }
 
-#include "ShGraphicView2D.h"
-#include "ShCADWidget.h"
+#include "ShGraphicView.h"
 #include "Singleton Pattern\ShWidgetManager.h"
 void ShCAD::NewActionClicked() {
 	
 	
 	
-	ShCADWidget *newWidget = new ShCADWidget(new ShGraphicView2D);
+	ShGraphicView *newWidget = new ShGraphicView(this->mdiArea);
 	newWidget->setMinimumSize(400, 400);
 
 	this->mdiArea->addSubWindow(newWidget,Qt::WindowFlags::enum_type::SubWindow);
@@ -123,18 +122,3 @@ void ShCAD::TestCustomContextMenu() {
 
 }
 */
-
-
-void ShCAD::SubWindowActivated(QMdiSubWindow *window) {
-	qDebug("SubWindowActivated");
-
-	if (window == 0) {
-		qDebug("no more subwindows");
-		return;
-	}
-
-
-	ShWidgetManager::GetInstance()->SetActivatedWidget((ShCADWidget*)window);
-
-	//sooner or later  i can add signal here
-}

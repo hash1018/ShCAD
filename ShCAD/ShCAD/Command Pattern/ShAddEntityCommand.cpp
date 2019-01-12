@@ -26,7 +26,6 @@
 #include "ShAddEntityCommand.h"
 #include "Entity\ShEntity.h"
 #include "Memento Pattern\ShMemento.h"
-#include "Entity\Composite\ShEntityTable.h"
 #include "Interface\ShGraphicView.h"
 
 ShAddEntityCommand::ShAddEntityCommand(ShGraphicView *view, ShEntity *newEntity) {
@@ -45,13 +44,14 @@ void ShAddEntityCommand::Execute() {
 	ShMemento *memento = this->newEntity->CreateMemento();
 	memento->SetType(MementoType::MementoCreated);
 
-	this->graphicView->GetUndoTaker()->Push(memento);
+	this->graphicView->undoTaker.Push(memento);
 	
-	if (!this->graphicView->GetRedoTaker()->IsEmpty())
-		this->graphicView->GetRedoTaker()->DeleteAll();
+	if (!this->graphicView->redoTaker.IsEmpty())
+		this->graphicView->redoTaker.DeleteAll();
 
 
-	this->graphicView->GetEntityTable()->Add(this->newEntity);
+	this->graphicView->entityTable.Add(this->newEntity);
+
 	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
 	this->graphicView->CaptureImage();
 

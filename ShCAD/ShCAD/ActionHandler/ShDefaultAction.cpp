@@ -29,9 +29,9 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 
 	if (event->modifiers()==Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Z) {
 	
-		if (this->graphicView->GetUndoTaker()->IsEmpty()==false) {
+		if (this->graphicView->undoTaker.IsEmpty()==false) {
 
-			ShMemento *memento = this->graphicView->GetUndoTaker()->Pop();
+			ShMemento *memento = this->graphicView->undoTaker.Pop();
 			ShUndoCommand command(this->graphicView, memento);
 			command.Execute();
 
@@ -39,9 +39,9 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 	}
 	else if (event->modifiers()==Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Y) {
 	
-		if (this->graphicView->GetRedoTaker()->IsEmpty() == false) {
+		if (this->graphicView->redoTaker.IsEmpty() == false) {
 		
-			ShMemento *memento = this->graphicView->GetRedoTaker()->Pop();
+			ShMemento *memento = this->graphicView->redoTaker.Pop();
 			ShRedoCommand command(this->graphicView, memento);
 			command.Execute();
 

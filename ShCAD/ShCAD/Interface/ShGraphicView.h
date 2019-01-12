@@ -31,57 +31,59 @@
 #include "ShVariable.h"
 #include "Memento Pattern\ShUndoTaker.h"
 #include "Memento Pattern\ShRedoTaker.h"
+#include "Entity\Composite\ShPreview.h"
+#include "Entity\Composite\ShEntityTable.h"
+
 
 class ShRubberBand;
-class ShEntityTable;
+class ShActionHandler;
 class ShGraphicView : public QOpenGLWidget {
 
-	friend class ShCADWidget;
+public:
 
-protected:
-	//this points to class ShCADWidget's var.
-	ShEntityTable *entityTable;
+	/* class that maintains a container of entity object */
+	ShEntityTable entityTable;
 
 	//undo controller.
 	ShUndoTaker undoTaker;
 	//redo controller.
 	ShRedoTaker redoTaker;
 
-
 	DrawType drawType;
+
 	QImage captureImage;
 
-public:
+	ShActionHandler *currentAction;
+
 	ShRubberBand *rubberBand;
+
+	ShPreview preview;
+
+	
 
 public:
 	ShGraphicView(QWidget *parent = 0);
-	virtual ~ShGraphicView() = 0;
+	~ShGraphicView();
 
-	virtual ActionType ChangeCurrentAction(ActionType actionType) = 0;
+	ActionType ChangeCurrentAction(ActionType actionType);
 
-	ShEntityTable* GetEntityTable() const;
-	ShUndoTaker* GetUndoTaker();
-	ShRedoTaker* GetRedoTaker();
-
-	virtual void update(DrawType drawType = DrawType::DrawAll) = 0;
+	
+	virtual void update(DrawType drawType = DrawType::DrawAll);
 	
 	void CaptureImage();
+
+protected:
+	virtual void initializeGL();
+	virtual void paintGL();
+	virtual void resizeGL(int width, int height);
+
+	virtual void mousePressEvent(QMouseEvent *event);
+	virtual void mouseMoveEvent(QMouseEvent *event);
+	virtual void keyPressEvent(QKeyEvent *event);
+	virtual void wheelEvent(QWheelEvent *event);
+	virtual void mouseReleaseEvent(QMouseEvent *event);
+	virtual void focusInEvent(QFocusEvent *event);
 };
 
-inline ShEntityTable* ShGraphicView::GetEntityTable() const {
-
-	return this->entityTable;
-}
-
-inline ShUndoTaker* ShGraphicView::GetUndoTaker(){
-
-	return &(this->undoTaker);
-}
-
-inline ShRedoTaker* ShGraphicView::GetRedoTaker() {
-
-	return &(this->redoTaker);
-}
 
 #endif //_SHGRAPHICVIEW_H

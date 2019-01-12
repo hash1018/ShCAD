@@ -43,7 +43,6 @@ public:
 	ShCAD(QWidget *parent = 0);
 	~ShCAD();
 
-
 	void NewActionClicked();
 
 private:
@@ -56,9 +55,7 @@ private:
 protected:
 	bool eventFilter(QObject *obj, QEvent *event);
 
-
-	private slots:
-	void SubWindowActivated(QMdiSubWindow*);
+	
 	//void ShowContextMenu(const QPoint &pos);
 	//void TestCustomContextMenu();
 };

@@ -6,6 +6,7 @@ ShWidgetManager ShWidgetManager::instance;
 
 ShWidgetManager::ShWidgetManager() {
 
+	this->activatedWidget = 0;
 }
 
 ShWidgetManager::~ShWidgetManager() {
@@ -17,12 +18,12 @@ ShWidgetManager* ShWidgetManager::GetInstance() {
 	return &instance;
 }
 
-ShCADWidget* ShWidgetManager::GetActivatedWidget() {
+ShGraphicView* ShWidgetManager::GetActivatedWidget() {
 	
-	return GetInstance()->activatedWidget;
+	return this->activatedWidget;
 }
 
-void ShWidgetManager::SetActivatedWidget(ShCADWidget *activated) {
+void ShWidgetManager::SetActivatedWidget(ShGraphicView *activated) {
 
 	this->activatedWidget = activated;
 }

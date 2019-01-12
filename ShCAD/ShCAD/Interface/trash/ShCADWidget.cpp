@@ -59,7 +59,15 @@ void ShCADWidget::resizeEvent(QResizeEvent *event) {
 
 }
 
-ActionType ShCADWidget::ChangeCurrentAction(ActionType actionType) {
+#include <QFocusEvent>
+#include "Singleton Pattern\ShWidgetManager.h"
+void ShCADWidget::focusInEvent(QFocusEvent *event) {
 
+	ShWidgetManager::GetInstance()->SetActivatedWidget(this);
+	
+}
+
+ActionType ShCADWidget::ChangeCurrentAction(ActionType actionType) {
+	
 	return this->graphicView->ChangeCurrentAction(actionType);
 }

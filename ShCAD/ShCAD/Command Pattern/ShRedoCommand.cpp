@@ -66,8 +66,8 @@ void ShRedoCommand::Execute() {
 
 
 		this->memento->type = MementoType::MementoCreated;
-		this->graphicView->GetUndoTaker()->Push(this->memento);
-		this->graphicView->GetEntityTable()->Add(entity);
+		this->graphicView->undoTaker.Push(this->memento);
+		this->graphicView->entityTable.Add(entity);
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
 		this->graphicView->CaptureImage();
 

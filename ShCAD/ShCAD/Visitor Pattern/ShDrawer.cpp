@@ -2,6 +2,7 @@
 
 #include "ShDrawer.h"
 #include "Entity\Leaf\ShLine.h"
+#include "Entity\Leaf\ShRubberBand.h"
 
 ShDrawer::ShDrawer(int glWidth, int glHeight)
 	:glWidth(glWidth), glHeight(glHeight) {
@@ -38,6 +39,24 @@ void ShDrawer::Visit(ShCircle *shCircle) {
 
 void ShDrawer::Visit(ShArc *shArc) {
 
+
+}
+
+void ShDrawer::Visit(ShRubberBand *shRubberBand) {
+	
+	ShLineData data = shRubberBand->GetData();
+
+	double x, y;
+	this->ConvertDeviceXY2OpenglXY(data.start.x, data.start.y, x, y);
+
+	glColor3f(255, 255, 255);
+
+	glBegin(GL_LINES);
+	glVertex2f(x, y);
+
+	this->ConvertDeviceXY2OpenglXY(data.end.x, data.end.y, x, y);
+	glVertex2f(x, y);
+	glEnd();
 
 }
 

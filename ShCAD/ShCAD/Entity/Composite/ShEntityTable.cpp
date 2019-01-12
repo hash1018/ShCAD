@@ -32,20 +32,3 @@ void ShEntityTable::Accept(ShVisitor *shVisitor) {
 	shVisitor->Visit(this);
 }
 
-bool ShEntityTable::Add(ShEntity *shEntity) {
-
-	if (shEntity == 0)
-		return false;
-
-	this->list.append(shEntity);
-	this->length++;
-
-	return true;
-}
-
-void ShEntityTable::Delete(ShEntity *shEntity) {
-
-	this->list.removeOne(shEntity);
-
-	delete shEntity;
-}

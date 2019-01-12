@@ -9,6 +9,7 @@
 class ShLine;
 class ShCircle;
 class ShArc;
+class ShRubberBand;
 class ShDrawer : public ShVisitor {
 
 private:
@@ -23,6 +24,7 @@ public:
 	void Visit(ShLine *shLine);
 	void Visit(ShCircle *shCircle);
 	void Visit(ShArc *shArc);
+	void Visit(ShRubberBand *shRubberBand);
 
 private:
 	void ConvertDeviceXY2OpenglXY(int x, int y, double  &ox, double  &oy);

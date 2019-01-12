@@ -3,12 +3,12 @@
 #ifndef _SHWIDGETMANAGER_H
 #define _SHWIDGETMANAGER_H
 
-class ShCADWidget;
+class ShGraphicView;
 class ShWidgetManager {
 
 	
 private:
-	ShCADWidget *activatedWidget;
+	ShGraphicView *activatedWidget;
 
 	//Single pattern
 private:
@@ -19,9 +19,9 @@ private:
 
 public:
 	static ShWidgetManager* GetInstance();
-	static ShCADWidget* GetActivatedWidget();
+	ShGraphicView* GetActivatedWidget();
 
-	void SetActivatedWidget(ShCADWidget *activated);
+	void SetActivatedWidget(ShGraphicView *activated);
 };
 
 #endif //_SHWIDGETMANAGER_H

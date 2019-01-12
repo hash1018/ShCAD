@@ -43,7 +43,7 @@ void ShUndoCommand::Execute() {
 
 	if (this->memento->type == MementoType::MementoCreated) {
 		
-		this->graphicView->GetEntityTable()->Delete(memento->entity);
+		this->graphicView->entityTable.Delete(memento->entity);
 		this->graphicView->update();
 		this->graphicView->CaptureImage();
 
@@ -51,7 +51,7 @@ void ShUndoCommand::Execute() {
 		memento->type = MementoType::MementoDeleted;
 		memento->entity = 0;
 
-		this->graphicView->GetRedoTaker()->Push(memento);
+		this->graphicView->redoTaker.Push(memento);
 
 	}
 

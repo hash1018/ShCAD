@@ -25,9 +25,14 @@
 
 
 #include "ShGraphicView.h"
+#include "FactoryMethod\ShCreatorActionFactory.h"
+#include "ActionHandler\ShActionHandler.h"
+#include "Entity\Leaf\ShRubberBand.h"
 
 ShGraphicView::ShGraphicView(QWidget *parent)
 	:QOpenGLWidget(parent){
+
+	this->currentAction = ShCreatorActionFactory::Create(ActionType::ActionDefault, this);
 
 	this->setFocusPolicy(Qt::FocusPolicy::ClickFocus);
 	this->setMouseTracking(true);
@@ -41,12 +46,175 @@ ShGraphicView::ShGraphicView(QWidget *parent)
 
 ShGraphicView::~ShGraphicView() {
 
+	if (this->currentAction != NULL)
+		delete this->currentAction;
+
 	if (this->rubberBand != NULL)
 		delete this->rubberBand;
 	
 }
 
+
+void ShGraphicView::initializeGL() {
+
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+	this->CaptureImage();
+
+}
+
+void ShGraphicView::resizeGL(int width, int height) {
+
+	QOpenGLWidget::resizeGL(width, height);
+	this->update();
+	this->CaptureImage();
+}
+
+void ShGraphicView::update(DrawType drawType) {
+
+	this->drawType = drawType;
+
+	QOpenGLWidget::update();
+}
+
+#include "Visitor Pattern\ShDrawer.h"
+#include <qpainter.h>
+void ShGraphicView::paintGL() {
+
+
+	QPainter paint(this);
+	ShDrawer drawer(this->width(), this->height());
+
+	if ((this->drawType & DrawType::DrawAll) == DrawType::DrawAll) {
+		qDebug("DrawAll");
+
+
+		ShComposite::Iterator itr = this->entityTable.Begin();
+
+		while (!itr.IsEnd()) {
+
+			itr.Current()->Accept(&drawer);
+			itr.Next();
+		}
+	}
+
+	if ((this->drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage) {
+		qDebug("DrawCaptureImage");
+
+		if (paint.isActive() == false)
+			paint.begin(this);
+
+		paint.drawImage(0, 0, this->captureImage, 0, 0, 0, 0);
+		paint.end();
+
+	}
+
+	if ((this->drawType & DrawType::DrawPreviewEntities) == DrawType::DrawPreviewEntities) {
+		qDebug("DrwaPreviewEntities");
+
+		if (this->rubberBand != NULL) {
+			this->rubberBand->Accept(&drawer);
+		}
+
+		ShDrawer drawer(this->width(), this->height());
+
+		ShComposite::Iterator itr = this->preview.Begin();
+
+		while (!itr.IsEnd()) {
+			itr.Current()->Accept(&drawer);
+			itr.Next();
+		}
+
+	}
+
+	if ((this->drawType & DrawType::DrawAddedEntities) == DrawType::DrawAddedEntities) {
+		qDebug("DrawAddedEntities");
+
+
+		ShComposite::Iterator itr = this->entityTable.End();
+		itr.Previous();
+		itr.Current()->Accept(&drawer);
+	}
+
+
+}
+
+
+void ShGraphicView::mousePressEvent(QMouseEvent *event) {
+	//qDebug("mousePressEvent in ShGraphicView");
+
+
+	this->currentAction->MousePressEvent(event);
+
+
+}
+
+void ShGraphicView::mouseMoveEvent(QMouseEvent *event) {
+	//qDebug("mouseMoveEvent in ShGraphicView");
+
+	this->currentAction->MouseMoveEvent(event);
+}
+
+void ShGraphicView::keyPressEvent(QKeyEvent *event) {
+
+	this->currentAction->KeyPressEvent(event);
+
+}
+
+
+void ShGraphicView::wheelEvent(QWheelEvent *event) {
+
+
+}
+
+void ShGraphicView::mouseReleaseEvent(QMouseEvent *event) {
+
+
+}
+
+
+ActionType ShGraphicView::ChangeCurrentAction(ActionType actionType) {
+	qDebug("ShGraphicView->ChangeCurrentAction");
+
+	if (this->currentAction != NULL)
+		delete this->currentAction;
+
+	DrawType drawType = DrawType::DrawCaptureImage;
+
+
+	if (this->rubberBand != NULL) {
+		delete this->rubberBand;
+		this->rubberBand = NULL;
+		drawType = (DrawType)(drawType | DrawType::DrawCaptureImage);
+	}
+
+	if (!this->preview.IsListEmpty()) {
+		this->preview.DeleteAll();
+		drawType = (DrawType)(drawType | DrawType::DrawCaptureImage);
+	}
+
+	if ((drawType& DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage)
+		this->update(DrawType::DrawCaptureImage);
+
+
+
+	this->currentAction = ShCreatorActionFactory::Create(actionType, this);
+
+	return this->currentAction->GetType();
+
+
+}
+
+
 void ShGraphicView::CaptureImage() {
 
 	this->captureImage = this->grabFramebuffer();
+}
+
+#include "Singleton Pattern\ShWidgetManager.h"
+void ShGraphicView::focusInEvent(QFocusEvent *event) {
+
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+	manager->SetActivatedWidget(this);
 }

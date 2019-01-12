@@ -10,16 +10,16 @@ ShComposite::Iterator::Iterator() {
 ShComposite::Iterator::Iterator(const ShComposite::Iterator& other){
 	
 	this->itr = other.itr;
-	this->first = other.first;
-	this->last = other.last;
+	this->begin = other.begin;
+	this->end = other.end;
 
 }
 
 ShComposite::Iterator& ShComposite::Iterator::operator=(const ShComposite::Iterator& other) {
 
 	this->itr = other.itr;
-	this->first = other.first;
-	this->last = other.last;
+	this->begin = other.begin;
+	this->end = other.end;
 	return *this;
 }
 
@@ -32,17 +32,17 @@ ShEntity* ShComposite::Iterator::Current() {
 	return (*this->itr);
 }
 
-bool ShComposite::Iterator::IsLast() {
+bool ShComposite::Iterator::IsEnd() {
 
-	if ((*this->itr) == (*this->last))
+	if ((*this->itr) == (*this->end))
 		return true;
 
 	return false;
 }
 
-bool ShComposite::Iterator::IsFirst() {
+bool ShComposite::Iterator::IsBegin() {
 
-	if ((*this->itr) == (*this->first))
+	if ((*this->itr) == (*this->begin))
 		return true;
 
 	return false;
@@ -59,18 +59,16 @@ void ShComposite::Iterator::Next() {
 }
 
 
-ShComposite::ShComposite()
-	:length(0) {
+ShComposite::ShComposite() {
 
 }
 
-ShComposite::ShComposite(const ShComposite& other)
-	: length(other.length) {
+ShComposite::ShComposite(const ShComposite& other) {
 
 	QLinkedList<ShEntity*>::iterator itr;
 
 	for (itr = (const_cast<ShComposite&>(other)).list.begin(); itr != (const_cast<ShComposite&>(other)).list.end(); ++itr) {
-	
+
 		ShEntity *entity = (*itr)->Clone();
 		this->list.append(entity);
 	}
@@ -97,33 +95,55 @@ ShComposite& ShComposite::operator=(const ShComposite& other) {
 		this->list.append(entity);
 	}
 
-	this->length = other.length;
-
-
 
 	return *this;
 }
 
-ShComposite::Iterator ShComposite::First() {
+bool ShComposite::Add(ShEntity* shEntity) {
+
+	if (shEntity == 0)
+		return false;
+
+	this->list.append(shEntity);
+	
+
+	return true;
+}
+
+void ShComposite::Delete(ShEntity *shEntity) {
+
+	this->list.removeOne(shEntity);
+
+	delete shEntity;
+}
+
+bool ShComposite::IsListEmpty() {
+
+	return this->list.isEmpty();
+}
+
+
+ShComposite::Iterator ShComposite::Begin() {
 
 	ShComposite::Iterator itr;
 	
-	itr.first = this->list.begin();
-	itr.last = this->list.end();
+	itr.begin = this->list.begin();
+	itr.end = this->list.end();
 	itr.itr = this->list.begin();
 	
 	return itr;
 }
 
 
-ShComposite::Iterator ShComposite::Last() {
+ShComposite::Iterator ShComposite::End() {
 
 	ShComposite::Iterator itr;
 
-	itr.first = this->list.begin();
-	itr.last = this->list.end();
+	itr.begin = this->list.begin();
+	itr.end = this->list.end();
 	itr.itr = this->list.end();
 
 	return itr;
 
 }
+

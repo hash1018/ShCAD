@@ -62,16 +62,17 @@ void ShDrawColumn::resizeEvent(QResizeEvent *event) {
 }
 
 #include "Singleton Pattern\ShWidgetManager.h"
-#include "Interface\ShCADWidget.h"
+#include "ShGraphicView.h"
 void ShDrawColumn::LineButtonClicked() {
 	qDebug("LineButtonClicked");
 
-	if (ShWidgetManager::GetActivatedWidget() == 0) {
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
 		qDebug("no activated widget"); 
 		return;
 	}
-
-	ShWidgetManager::GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawLine);
+	
+	
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawLine);
 	
 	
 }
@@ -79,12 +80,12 @@ void ShDrawColumn::LineButtonClicked() {
 void ShDrawColumn::CircleButtonClicked() {
 	qDebug("CircleButtonClicked");
 
-	if (ShWidgetManager::GetActivatedWidget() == 0) {
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
 		qDebug("no activated widget");
 		return;
 	}
 
-	ShWidgetManager::GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDefault);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDefault);
 }
 
 void ShDrawColumn::ArcButtonClicked() {

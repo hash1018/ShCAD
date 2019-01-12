@@ -92,13 +92,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_shcad.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\ShCADWidget.cpp">
-      <Filter>Interface</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\ShGraphicView.cpp">
-      <Filter>Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\ShGraphicView2D.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
     <ClCompile Include="Entity\Leaf\ShLeaf.cpp">
@@ -173,11 +167,14 @@
     <ClCompile Include="Command Pattern\ShAddEntityCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="ShRubberBand.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Entity\Composite\ShPreview.cpp">
+      <Filter>Entity\Composite</Filter>
     </ClCompile>
-    <ClCompile Include="Command Pattern\ShDrawPreviewCommand.cpp">
-      <Filter>Command Pattern</Filter>
+    <ClCompile Include="Entity\Leaf\ShRubberBand.cpp">
+      <Filter>Entity\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton Pattern\ShChangeManager.cpp">
+      <Filter>Singleton Pattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -198,13 +195,7 @@
     <ClInclude Include="ShVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Interface\ShCADWidget.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\ShGraphicView.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\ShGraphicView2D.h">
       <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Leaf\ShLeaf.h">
@@ -282,11 +273,14 @@
     <ClInclude Include="Command Pattern\ShAddEntityCommand.h">
       <Filter>Command Pattern</Filter>
     </ClInclude>
-    <ClInclude Include="ShRubberBand.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Entity\Composite\ShPreview.h">
+      <Filter>Entity\Composite</Filter>
     </ClInclude>
-    <ClInclude Include="Command Pattern\ShDrawPreviewCommand.h">
-      <Filter>Command Pattern</Filter>
+    <ClInclude Include="Entity\Leaf\ShRubberBand.h">
+      <Filter>Entity\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton Pattern\ShChangeManager.h">
+      <Filter>Singleton Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
