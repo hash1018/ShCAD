@@ -152,15 +152,24 @@ void ShGraphicView::paintGL() {
 
 }
 
-
+#include "Memento Pattern\ShMemento.h"
 void ShGraphicView::mousePressEvent(QMouseEvent *event) {
 	//qDebug("mousePressEvent in ShGraphicView");
 
 	if (event->buttons() & Qt::MiddleButton) {
-
+		
 		this->setCursor(Qt::ClosedHandCursor);
 		this->prevX = event->x();
 		this->prevY = event->y();
+
+		ShPanMemento *memento = new ShPanMemento;
+		this->ConvertDeviceToEntity(event->x(), event->y(), memento->ex, memento->ey);
+		memento->dx = event->x();
+		memento->dy = event->y();
+		memento->zoomRate = this->zoomRate;
+		memento->type = MementoType::MementoPanMoved;
+		this->undoTaker.Push(memento);
+
 		return;
 	}
 
@@ -197,6 +206,7 @@ void ShGraphicView::mouseReleaseEvent(QMouseEvent *event) {
 	this->setCursor(this->currentAction->GetCursorShape());
 
 	if (event->button()& Qt::MouseButton::MiddleButton) {
+		this->update(DrawType::DrawAll);
 		this->CaptureImage();
 	}
 
@@ -223,8 +233,10 @@ void ShGraphicView::wheelEvent(QWheelEvent *event) {
 			return;
 	}
 	else {
-		if (this->zoomRate > 1)
+		if (this->zoomRate > 2)
 			this->zoomRate--;
+		else if (this->zoomRate <= 2 && this->zoomRate > 1)
+			this->zoomRate -= 0.5;
 		else if (this->zoomRate <= 1 && Math::Compare(this->zoomRate, 0.2) == 1)
 			this->zoomRate -= 0.2;
 		else if ((Math::Compare(this->zoomRate, 0.2) == 0 || Math::Compare(this->zoomRate, 0.2) == -1) &&
@@ -317,4 +329,23 @@ void ShGraphicView::ConvertEntityToDevice(double x, double y, int &dx, int &dy) 
 	dx = Math::ToInt(tempX);
 	dy = Math::ToInt(tempY);
 	
+}
+
+void ShGraphicView::MoveView(double ex, double ey, double zoomRate, int dx, int dy) {
+
+	this->x = ex;
+	this->y = ey;
+	this->zoomRate = zoomRate;
+	
+
+	this->vPos = (-1 * (zoomRate*ey) - dy + (this->axis.GetCenter().y*zoomRate));
+	this->hPos = (zoomRate*ex - dx + (this->axis.GetCenter().x*zoomRate));
+
+	this->update(DrawType::DrawAll);
+	this->CaptureImage();
+
+	QPoint pos = this->mapFromGlobal(QCursor::pos());
+	this->ConvertDeviceToEntity(pos.x(), pos.y(), this->x, this->y);
+	
+	this->Notify(NotifyEvent::NotifyMousePositionChanged);
 }

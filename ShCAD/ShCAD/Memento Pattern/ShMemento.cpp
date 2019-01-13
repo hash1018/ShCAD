@@ -52,3 +52,12 @@ ShLineMemento::~ShLineMemento() {
 		delete this->data;
 
 }
+
+ShPanMemento::ShPanMemento() {
+
+}
+
+ShPanMemento::~ShPanMemento() {
+
+}
+

@@ -68,5 +68,25 @@ private:
 
 };
 
+class ShGraphicView;
+class ShPanMemento : public ShMemento {
+	
+	friend class ShUndoCommand;
+	friend class ShRedoCommand;
+	friend class ShGraphicView;
+
+public:
+	~ShPanMemento();
+private:
+	ShPanMemento();
+
+private:
+	double ex;
+	double ey;
+	double zoomRate;
+	int dx;
+	int dy;
+
+};
 
 #endif //_SHMEMENTO_H

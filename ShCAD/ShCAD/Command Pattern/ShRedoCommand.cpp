@@ -46,7 +46,7 @@ void ShRedoCommand::Execute() {
 
 	
 	if (this->memento->type == MementoType::MementoDeleted) {
-		
+		qDebug("ShRedoCommand->Execute  ( type = MementoDeleted)");
 		ShEntity *entity;
 
 		if (dynamic_cast<ShLineMemento*>(this->memento)) {
@@ -62,15 +62,37 @@ void ShRedoCommand::Execute() {
 
 		}
 		
-
-
-
 		this->memento->type = MementoType::MementoCreated;
 		this->graphicView->undoTaker.Push(this->memento);
 		this->graphicView->entityTable.Add(entity);
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
 		this->graphicView->CaptureImage();
 
+	}
+
+	else if (this->memento->type == MementoType::MementoPanMoved) {
+		qDebug("ShRedoCommand->Execute  ( type = MementoPanMoved)");
+
+		if (dynamic_cast<ShPanMemento*>(this->memento)) {
+			double x = this->graphicView->GetX();
+			double y = this->graphicView->GetY();
+			double zoomRate = this->graphicView->GetZoomRate();
+			int dx, dy;
+			this->graphicView->ConvertEntityToDevice(x, y, dx, dy);
+
+
+			ShPanMemento* panMemento = dynamic_cast<ShPanMemento*>(this->memento);
+			this->graphicView->MoveView(panMemento->ex, panMemento->ey, panMemento->zoomRate,
+				panMemento->dx, panMemento->dy);
+
+			panMemento->ex = x;
+			panMemento->ey = y;
+			panMemento->zoomRate = zoomRate;
+			panMemento->dx = dx;
+			panMemento->dy = dy;
+
+			this->graphicView->undoTaker.Push(panMemento);
+		}
 	}
 
 

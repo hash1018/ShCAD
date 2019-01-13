@@ -15,7 +15,8 @@ enum ActionType {
 enum MementoType {
 	MementoUnknown,
 	MementoCreated,
-	MementoDeleted
+	MementoDeleted,
+	MementoPanMoved
 
 };
 

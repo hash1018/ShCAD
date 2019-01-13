@@ -54,6 +54,30 @@ void ShUndoCommand::Execute() {
 		this->graphicView->redoTaker.Push(memento);
 
 	}
+	else if (this->memento->type == MementoType::MementoPanMoved) {
+	
+		if (dynamic_cast<ShPanMemento*>(this->memento)) {
+			double x = this->graphicView->GetX();
+			double y = this->graphicView->GetY();
+			double zoomRate = this->graphicView->GetZoomRate();
+			int dx, dy;
+			this->graphicView->ConvertEntityToDevice(x, y, dx, dy);
+			
+
+			ShPanMemento* panMemento = dynamic_cast<ShPanMemento*>(this->memento);
+			this->graphicView->MoveView(panMemento->ex, panMemento->ey, panMemento->zoomRate,
+				panMemento->dx, panMemento->dy);
+
+			panMemento->ex = x;
+			panMemento->ey = y;
+			panMemento->zoomRate = zoomRate;
+			panMemento->dx = dx;
+			panMemento->dy = dy;
+
+			this->graphicView->redoTaker.Push(panMemento);
+		}
+	}
+
 
 
 	

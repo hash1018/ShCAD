@@ -82,6 +82,7 @@ public:
 	double GetVPos() const;
 	void ConvertDeviceToEntity(int x, int y, double &ex, double &ey);
 	void ConvertEntityToDevice(double x, double y, int &dx, int &dy);
+	void MoveView(double ex, double ey, double zoomRate, int dx, int dy);
 
 
 
