@@ -4,7 +4,10 @@
 #define _SHCHANGEMANAGER_H
 
 // Mediator pattern / Singleton Pattern / Observer Pattern
+#include "ShVariable.h"
 
+class ShStatusBar;
+class ShGraphicView;
 class ShChangeManager {
 
 private:
@@ -15,6 +18,14 @@ private:
 
 public:
 	static ShChangeManager* GetInstance();
+
+	void Register(ShStatusBar *statusBar);
+
+	void Notify(ShGraphicView *view, NotifyEvent event);
+	
+
+private:
+	ShStatusBar *statusBar;
 
 };
 

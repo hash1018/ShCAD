@@ -33,9 +33,12 @@
 
 class QMdiArea;
 class ShMenuBar;
+class ShStatusBar;
+class ShRibbonMenu;
+
+
 class QDockWidget;
 class QToolBar;
-class QMdiSubWindow;
 class ShCAD : public QMainWindow{
 	Q_OBJECT
 
@@ -48,6 +51,10 @@ public:
 private:
 	ShMenuBar *menuBar;
 	QMdiArea *mdiArea;
+	ShStatusBar *statusBar;
+	ShRibbonMenu *ribbon;
+
+
 	QDockWidget *dock;
 
 	QToolBar *toolBar;

@@ -33,11 +33,21 @@
 #include "Memento Pattern\ShRedoTaker.h"
 #include "Entity\Composite\ShPreview.h"
 #include "Entity\Composite\ShEntityTable.h"
-
+#include "ShAxis.h"
 
 class ShRubberBand;
 class ShActionHandler;
 class ShGraphicView : public QOpenGLWidget {
+
+private:
+	double x;
+	double y;
+	double z;
+	double zoomRate;
+	double hPos;
+	double vPos;
+	double prevX;
+	double prevY;
 
 public:
 
@@ -50,27 +60,30 @@ public:
 	ShRedoTaker redoTaker;
 
 	DrawType drawType;
-
 	QImage captureImage;
-
 	ShActionHandler *currentAction;
-
 	ShRubberBand *rubberBand;
-
 	ShPreview preview;
-
-	
+	ShAxis axis;
 
 public:
 	ShGraphicView(QWidget *parent = 0);
 	~ShGraphicView();
 
 	ActionType ChangeCurrentAction(ActionType actionType);
-
-	
 	virtual void update(DrawType drawType = DrawType::DrawAll);
-	
 	void CaptureImage();
+	void Notify(NotifyEvent event);
+	double GetX() const;
+	double GetY() const;
+	double GetZ() const;
+	double GetZoomRate() const;
+	double GetHPos() const;
+	double GetVPos() const;
+	void ConvertDeviceToEntity(int x, int y, double &ex, double &ey);
+	void ConvertEntityToDevice(double x, double y, int &dx, int &dy);
+
+
 
 protected:
 	virtual void initializeGL();
@@ -79,11 +92,34 @@ protected:
 
 	virtual void mousePressEvent(QMouseEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent *event);
+	virtual void mouseReleaseEvent(QMouseEvent *event);
 	virtual void keyPressEvent(QKeyEvent *event);
 	virtual void wheelEvent(QWheelEvent *event);
-	virtual void mouseReleaseEvent(QMouseEvent *event);
 	virtual void focusInEvent(QFocusEvent *event);
 };
 
+inline double ShGraphicView::GetX() const {
+	return this->x;
+}
+
+inline double ShGraphicView::GetY() const {
+	return this->y;
+}
+
+inline double ShGraphicView::GetZ() const {
+	return this->z;
+}
+
+inline double ShGraphicView::GetZoomRate() const {
+	return this->zoomRate;
+}
+
+inline double ShGraphicView::GetHPos() const {
+	return this->hPos;
+}
+
+inline double ShGraphicView::GetVPos() const {
+	return this->vPos;
+}
 
 #endif //_SHGRAPHICVIEW_H

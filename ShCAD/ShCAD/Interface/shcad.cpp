@@ -29,6 +29,8 @@
 #include <qdockwidget.h>
 #include <qtoolbar.h>
 #include "ShRibbonMenu.h"
+#include "ShStatusBar.h"
+#include "Singleton Pattern\ShChangeManager.h"
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 
@@ -39,21 +41,30 @@ ShCAD::ShCAD(QWidget *parent)
 	this->mdiArea = new QMdiArea;
 	this->setCentralWidget(this->mdiArea);
 	this->mdiArea->setDocumentMode(true);
-	
+
+	this->ribbon = new ShRibbonMenu(150, this);
+	this->ribbon->setWindowTitle("RibbonBar");
+	this->addToolBar(this->ribbon);
+
+	this->statusBar = new ShStatusBar(this);
+	this->setStatusBar(this->statusBar);
+
+
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+	manager->Register(this->statusBar);
+
+
 
 	this->dock = new QDockWidget(this);
 	this->dock->installEventFilter(this);
 	this->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, this->dock);
 	
 
-	ShRibbonMenu *ribbon = new ShRibbonMenu(150, this);
-	ribbon->setWindowTitle("RibbonBar");
-	this->addToolBar(ribbon);
-
-	
 	QToolBar *temp2 = new QToolBar(this);
 	this->addToolBarBreak();
 	this->addToolBar(temp2);
+
+	
 }
 
 ShCAD::~ShCAD(){

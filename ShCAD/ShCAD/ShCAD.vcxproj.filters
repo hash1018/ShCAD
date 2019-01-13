@@ -176,6 +176,15 @@
     <ClCompile Include="Singleton Pattern\ShChangeManager.cpp">
       <Filter>Singleton Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\ShStatusBar.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="ShAxis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -281,6 +290,15 @@
     </ClInclude>
     <ClInclude Include="Singleton Pattern\ShChangeManager.h">
       <Filter>Singleton Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ShStatusBar.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ShAxis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShMath.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

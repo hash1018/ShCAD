@@ -32,7 +32,7 @@ enum DrawType {
 enum NotifyEvent {
 	NotifyNothing=0x0000000,
 	NotifyZoomRateChanged=0x00000001,
-	NotifyMousePosition=0x00000002
+	NotifyMousePositionChanged=0x00000002
 
 };
 #endif //_SHVARIABLE_H

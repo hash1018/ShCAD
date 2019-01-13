@@ -21,17 +21,16 @@ void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 	
 	if (this->status == PickedNothing) {
 	
-		this->start.x = event->x();
-		this->start.y = event->y();
+		this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), this->start.x, this->start.y);
 		this->status = PickedStart;
 
-		this->graphicView->preview.Add(new ShLine(ShLineData(this->start, ShVector(event->x(), event->y()))));
-		this->graphicView->rubberBand = new ShRubberBand(ShLineData(this->start, ShVector(event->x(), event->y())));
+		this->graphicView->preview.Add(new ShLine(ShLineData(this->start, this->start)));
+		this->graphicView->rubberBand = new ShRubberBand(ShLineData(this->start, this->start));
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 		
 	}
 	else {
-		this->end.x = event->x();		this->end.y = event->y();
+		this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), this->end.x, this->end.y);
 		ShLineData data(start, end);
 
 		dynamic_cast<ShLine*>(this->graphicView->preview.Begin().Current())->SetData(data);
@@ -48,8 +47,7 @@ void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 void ShDrawLineAction::MouseMoveEvent(QMouseEvent *event) {
 
 	if (this->status == PickedStart) {
-		this->end.x = event->x();
-		this->end.y = event->y();
+		this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), this->end.x, this->end.y);
 
 		ShLineData data(this->start, this->end);
 

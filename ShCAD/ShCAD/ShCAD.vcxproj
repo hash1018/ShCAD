@@ -181,10 +181,13 @@
     <ClCompile Include="Interface\ShGraphicView.cpp" />
     <ClCompile Include="Interface\ShMenuBar.cpp" />
     <ClCompile Include="Interface\ShRibbonMenu.cpp" />
+    <ClCompile Include="Interface\ShStatusBar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Memento Pattern\ShMemento.cpp" />
     <ClCompile Include="Memento Pattern\ShRedoTaker.cpp" />
     <ClCompile Include="Memento Pattern\ShUndoTaker.cpp" />
+    <ClCompile Include="ShAxis.cpp" />
+    <ClCompile Include="ShMath.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
     <ClCompile Include="ShVector.cpp" />
     <ClCompile Include="Singleton Pattern\ShChangeManager.cpp" />
@@ -235,9 +238,12 @@
     <ClInclude Include="Interface\ShGraphicView.h" />
     <ClInclude Include="Interface\ShMenuBar.h" />
     <ClInclude Include="Interface\ShRibbonMenu.h" />
+    <ClInclude Include="Interface\ShStatusBar.h" />
     <ClInclude Include="Memento Pattern\ShMemento.h" />
     <ClInclude Include="Memento Pattern\ShRedoTaker.h" />
     <ClInclude Include="Memento Pattern\ShUndoTaker.h" />
+    <ClInclude Include="ShAxis.h" />
+    <ClInclude Include="ShMath.h" />
     <ClInclude Include="ShRibbon.h" />
     <ClInclude Include="ShVariable.h" />
     <ClInclude Include="Singleton Pattern\ShChangeManager.h" />

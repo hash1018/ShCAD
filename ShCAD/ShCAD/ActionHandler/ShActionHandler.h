@@ -52,6 +52,7 @@ public:
 	virtual void KeyPressEvent(QKeyEvent *event) = 0;
 
 	virtual ActionType GetType() = 0;
+	virtual QCursor GetCursorShape();
 
 };
 

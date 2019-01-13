@@ -10,15 +10,14 @@ class ShLine;
 class ShCircle;
 class ShArc;
 class ShRubberBand;
+class ShGraphicView;
 class ShDrawer : public ShVisitor {
 
 private:
-	int glWidth;
-	int glHeight;
-
+	ShGraphicView *view;
 
 public:
-	ShDrawer(int glWidth, int glHeight);
+	ShDrawer(ShGraphicView *view);
 	~ShDrawer();
 
 	void Visit(ShLine *shLine);
@@ -27,7 +26,8 @@ public:
 	void Visit(ShRubberBand *shRubberBand);
 
 private:
-	void ConvertDeviceXY2OpenglXY(int x, int y, double  &ox, double  &oy);
+	void ConvertDeviceToOpenGL(int x, int y, double  &ox, double  &oy);
+	void ConvertEntityToOpenGL(double x, double y, double &ox, double &oy);
 };
 
 #endif //_SHDRAWER_H
