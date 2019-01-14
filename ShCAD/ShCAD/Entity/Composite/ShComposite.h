@@ -48,15 +48,20 @@ public:
 
 	virtual bool Add(ShEntity* shEntity);
 	virtual void Delete(ShEntity *shEntity);
+	virtual void Remove(ShEntity *shEntity);
 	
 	bool IsListEmpty();
-	
+	int GetSize() const;
 	ShComposite::Iterator Begin();
 	ShComposite::Iterator End();
 
 	
 };
 
+inline int ShComposite::GetSize() const {
+
+	return this->list.size();
+}
 
 
 

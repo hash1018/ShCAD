@@ -26,10 +26,11 @@
 
 #include "ShGraphicView.h"
 #include "FactoryMethod\ShCreatorActionFactory.h"
-#include "ActionHandler\ShActionHandler.h"
+#include "ActionHandler\TemporaryAction\ShPanMoveAction.h"
 #include "Entity\Leaf\ShRubberBand.h"
 #include <QMouseEvent>
 #include "ShMath.h"
+
 ShGraphicView::ShGraphicView(QWidget *parent)
 	:QOpenGLWidget(parent){
 
@@ -152,30 +153,15 @@ void ShGraphicView::paintGL() {
 
 }
 
-#include "Memento Pattern\ShMemento.h"
+
 void ShGraphicView::mousePressEvent(QMouseEvent *event) {
 	//qDebug("mousePressEvent in ShGraphicView");
 
-	if (event->buttons() & Qt::MiddleButton) {
+	if (event->buttons() & Qt::MiddleButton)
+		this->SetTemporaryAction(new ShPanMoveAction(this, this->currentAction));
 		
-		this->setCursor(Qt::ClosedHandCursor);
-		this->prevX = event->x();
-		this->prevY = event->y();
-
-		ShPanMemento *memento = new ShPanMemento;
-		this->ConvertDeviceToEntity(event->x(), event->y(), memento->ex, memento->ey);
-		memento->dx = event->x();
-		memento->dy = event->y();
-		memento->zoomRate = this->zoomRate;
-		memento->type = MementoType::MementoPanMoved;
-		this->undoTaker.Push(memento);
-
-		return;
-	}
-
 
 	this->currentAction->MousePressEvent(event);
-
 
 }
 
@@ -184,16 +170,7 @@ void ShGraphicView::mouseMoveEvent(QMouseEvent *event) {
 	
 	if (this->hasFocus() == false)
 		this->setFocus();
-
-	if (event->buttons() & Qt::MiddleButton) {
-		this->hPos += this->prevX - event->x();
-		this->vPos += this->prevY - event->y();
-		this->prevX = event->x();
-		this->prevY = event->y();
-		this->update(DrawType::DrawAll);
-		return;
-	}
-
+	
 	this->ConvertDeviceToEntity(event->x(), event->y(), this->x, this->y);
 	this->Notify(NotifyEvent::NotifyMousePositionChanged);
 
@@ -203,13 +180,7 @@ void ShGraphicView::mouseMoveEvent(QMouseEvent *event) {
 
 void ShGraphicView::mouseReleaseEvent(QMouseEvent *event) {
 
-	this->setCursor(this->currentAction->GetCursorShape());
-
-	if (event->button()& Qt::MouseButton::MiddleButton) {
-		this->update(DrawType::DrawAll);
-		this->CaptureImage();
-	}
-
+	this->currentAction->MouseReleaseEvent(event);
 }
 
 void ShGraphicView::keyPressEvent(QKeyEvent *event) {
@@ -332,7 +303,7 @@ void ShGraphicView::ConvertEntityToDevice(double x, double y, int &dx, int &dy) 
 }
 
 void ShGraphicView::MoveView(double ex, double ey, double zoomRate, int dx, int dy) {
-
+	qDebug("ShGraphicView->MoveView");
 	this->x = ex;
 	this->y = ey;
 	this->zoomRate = zoomRate;
@@ -348,4 +319,17 @@ void ShGraphicView::MoveView(double ex, double ey, double zoomRate, int dx, int 
 	this->ConvertDeviceToEntity(pos.x(), pos.y(), this->x, this->y);
 	
 	this->Notify(NotifyEvent::NotifyMousePositionChanged);
+}
+
+void ShGraphicView::SetTemporaryAction(ShTemporaryAction *temporaryAction) {
+	qDebug("ShGraphicView->SetTemporaryAction");
+	this->currentAction = temporaryAction;
+}
+
+void ShGraphicView::SetHPos(int hPos) {
+	this->hPos = hPos;
+}
+
+void ShGraphicView::SetVPos(int vPos) {
+	this->vPos = vPos;
 }

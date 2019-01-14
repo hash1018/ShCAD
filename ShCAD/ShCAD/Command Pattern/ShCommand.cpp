@@ -24,11 +24,19 @@
 --*/
 
 #include "ShCommand.h"
-
+#include "Memento Pattern\ShMemento.h"
 ShCommand::ShCommand() {
 
 }
 
 ShCommand::~ShCommand() {
 
+	if (this->memento != 0)
+		delete this->memento;
+	
+}
+
+void ShCommand::Destroy() {
+
+	delete this;
 }

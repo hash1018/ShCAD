@@ -28,10 +28,10 @@
 #include "Memento Pattern\ShMemento.h"
 #include "Interface\ShGraphicView.h"
 
-ShAddEntityCommand::ShAddEntityCommand(ShGraphicView *view, ShEntity *newEntity) {
+ShAddEntityCommand::ShAddEntityCommand(ShGraphicView *view, ShEntityMemento *memento) {
 
 	this->graphicView = view;
-	this->newEntity = newEntity;
+	this->memento = memento;
 }
 
 ShAddEntityCommand::~ShAddEntityCommand() {
@@ -40,19 +40,28 @@ ShAddEntityCommand::~ShAddEntityCommand() {
 
 void ShAddEntityCommand::Execute() {
 	qDebug("ShAddEntityCommand->Excute()");
-
-	ShMemento *memento = this->newEntity->CreateMemento();
-	memento->SetType(MementoType::MementoCreated);
-
-	this->graphicView->undoTaker.Push(memento);
 	
-	if (!this->graphicView->redoTaker.IsEmpty())
-		this->graphicView->redoTaker.DeleteAll();
 
+	ShEntityMemento *entityMemento = dynamic_cast<ShEntityMemento*>(this->memento);
 
-	this->graphicView->entityTable.Add(this->newEntity);
+	this->graphicView->entityTable.Add(entityMemento->entity);
+	entityMemento->mustDeallocateEntity = false;
 
 	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
+	this->graphicView->CaptureImage();
+	
+
+}
+
+void ShAddEntityCommand::UnExecute() {
+	qDebug("ShAddEntityCommand->UnExecute");
+
+	ShEntityMemento *entityMemento = dynamic_cast<ShEntityMemento*>(this->memento);
+
+	this->graphicView->entityTable.Remove(entityMemento->entity);
+	entityMemento->mustDeallocateEntity = true;
+
+	this->graphicView->update();
 	this->graphicView->CaptureImage();
 
 }

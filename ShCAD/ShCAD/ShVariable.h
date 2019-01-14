@@ -7,16 +7,9 @@
 enum ActionType {
 	ActionUnknown,
 	ActionDefault,
+	ActionPanMove,
 	ActionDrawLine
 
-
-};
-
-enum MementoType {
-	MementoUnknown,
-	MementoCreated,
-	MementoDeleted,
-	MementoPanMoved
 
 };
 

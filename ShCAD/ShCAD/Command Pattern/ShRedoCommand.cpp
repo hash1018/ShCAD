@@ -44,7 +44,7 @@ ShRedoCommand::~ShRedoCommand() {
 
 void ShRedoCommand::Execute() {
 
-	
+	/*
 	if (this->memento->type == MementoType::MementoDeleted) {
 		qDebug("ShRedoCommand->Execute  ( type = MementoDeleted)");
 		ShEntity *entity;
@@ -69,7 +69,8 @@ void ShRedoCommand::Execute() {
 		this->graphicView->CaptureImage();
 
 	}
-
+	*/
+	/*
 	else if (this->memento->type == MementoType::MementoPanMoved) {
 		qDebug("ShRedoCommand->Execute  ( type = MementoPanMoved)");
 
@@ -94,14 +95,7 @@ void ShRedoCommand::Execute() {
 			this->graphicView->undoTaker.Push(panMemento);
 		}
 	}
+	*/
 
-
-
-
-
-
-
-
-	
 
 }

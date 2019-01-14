@@ -24,11 +24,10 @@
 --*/
 
 #include "ShMemento.h"
+#include <qdebug.h>
+ShMemento::ShMemento(){
 
-ShMemento::ShMemento()
-	:type(MementoUnknown) {
-
-	this->entity = 0;
+	
 
 }
 
@@ -36,10 +35,21 @@ ShMemento::~ShMemento() {
 	
 }
 
-void ShMemento::SetType(MementoType type) {
+//////////////////////////////////////////////////////////////////////
 
-	this->type = type;
+ShEntityMemento::ShEntityMemento()
+	:entity(0), mustDeallocateEntity(false) {
+
 }
+
+#include "Entity\ShEntity.h"
+ShEntityMemento::~ShEntityMemento() {
+	qDebug("~ShEntityMemento");
+	if (this->entity != 0 && this->mustDeallocateEntity == true)
+		delete this->entity;
+}
+
+////////////////////////////////////////////////////////////////////////
 
 ShLineMemento::ShLineMemento() {
 	
@@ -53,11 +63,13 @@ ShLineMemento::~ShLineMemento() {
 
 }
 
-ShPanMemento::ShPanMemento() {
+////////////////////////////////////////////////////////////////////////
+
+ShMoveViewMemento::ShMoveViewMemento() {
 
 }
 
-ShPanMemento::~ShPanMemento() {
+ShMoveViewMemento::~ShMoveViewMemento() {
 
 }
 

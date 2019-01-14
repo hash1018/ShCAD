@@ -24,7 +24,7 @@
 --*/
 
 #include "ShRedoTaker.h"
-#include "Memento Pattern\ShMemento.h"
+#include "Command Pattern\ShCommand.h"
 ShRedoTaker::ShRedoTaker() {
 
 }
@@ -32,21 +32,21 @@ ShRedoTaker::ShRedoTaker() {
 ShRedoTaker::~ShRedoTaker() {
 
 	while (!this->IsEmpty())
-		delete this->Pop();
+		this->Pop()->Destroy();
 
 }
 
-void ShRedoTaker::Push(ShMemento *memento) {
+void ShRedoTaker::Push(ShCommand *command) {
 
 	if (this->stack.size() > 30) {
-		delete this->stack[0];
+		this->stack[0]->Destroy();
 		this->stack.pop_front();
 	}
 
-	this->stack.push(memento);
+	this->stack.push(command);
 }
 
-ShMemento* ShRedoTaker::Pop() {
+ShCommand* ShRedoTaker::Pop() {
 
 	if (this->stack.isEmpty()) {
 		qDebug("Stack is empty");
@@ -64,6 +64,6 @@ bool ShRedoTaker::IsEmpty() {
 void ShRedoTaker::DeleteAll() {
 
 	while (!this->IsEmpty())
-		delete this->Pop();
+		this->Pop()->Destroy();
 
 }

@@ -37,6 +37,7 @@
 
 class ShRubberBand;
 class ShActionHandler;
+class ShTemporaryAction;
 class ShGraphicView : public QOpenGLWidget {
 
 private:
@@ -46,8 +47,7 @@ private:
 	double zoomRate;
 	double hPos;
 	double vPos;
-	double prevX;
-	double prevY;
+	
 
 public:
 
@@ -83,8 +83,9 @@ public:
 	void ConvertDeviceToEntity(int x, int y, double &ex, double &ey);
 	void ConvertEntityToDevice(double x, double y, int &dx, int &dy);
 	void MoveView(double ex, double ey, double zoomRate, int dx, int dy);
-
-
+	void SetTemporaryAction(ShTemporaryAction *temporaryAction);
+	void SetHPos(int hPos);
+	void SetVPos(int vPos);
 
 protected:
 	virtual void initializeGL();

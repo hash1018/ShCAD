@@ -3,7 +3,6 @@
 #include "ShDrawLineAction.h"
 #include <QMouseEvent>
 #include "Entity\Leaf\ShLine.h"
-#include "Command Pattern\ShAddEntityCommand.h"
 #include "Entity\Leaf\ShRubberBand.h"
 
 ShDrawLineAction::ShDrawLineAction(ShGraphicView *graphicView)
@@ -35,8 +34,7 @@ void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 
 		dynamic_cast<ShLine*>(this->graphicView->preview.Begin().Current())->SetData(data);
 
-		ShAddEntityCommand command(this->graphicView, this->graphicView->preview.Begin().Current()->Clone());
-		command.Execute();
+		ShDrawAction::AddEntity(this->graphicView->preview.Begin().Current()->Clone());
 
 		this->start = this->end;
 

@@ -27,18 +27,18 @@
 #define _SHREDOTAKER_H
 
 #include <qstack.h>
-class ShMemento;
+class ShCommand;
 class ShRedoTaker {
 
 private:
-	QStack<ShMemento*> stack;
+	QStack<ShCommand*> stack;
 
 public:
 	ShRedoTaker();
 	~ShRedoTaker();
 
-	void Push(ShMemento *);
-	ShMemento* Pop();
+	void Push(ShCommand *);
+	ShCommand* Pop();
 	bool IsEmpty();
 
 	/* deallocate all items and set empty */

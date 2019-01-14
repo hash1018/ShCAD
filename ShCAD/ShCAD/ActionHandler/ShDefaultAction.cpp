@@ -21,9 +21,7 @@ void ShDefaultAction::MouseMoveEvent(QMouseEvent *event) {
 
 }
 
-#include "Memento Pattern\ShMemento.h"
-#include "Command Pattern\ShRedoCommand.h"
-#include "Command Pattern\ShUndoCommand.h"
+#include "Command Pattern\ShCommand.h"
 void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 
 
@@ -31,9 +29,10 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 	
 		if (this->graphicView->undoTaker.IsEmpty()==false) {
 
-			ShMemento *memento = this->graphicView->undoTaker.Pop();
-			ShUndoCommand command(this->graphicView, memento);
-			command.Execute();
+			ShCommand *command = this->graphicView->undoTaker.Pop();
+			command->UnExecute();
+
+			this->graphicView->redoTaker.Push(command);
 
 		}	
 	}
@@ -41,9 +40,10 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 	
 		if (this->graphicView->redoTaker.IsEmpty() == false) {
 		
-			ShMemento *memento = this->graphicView->redoTaker.Pop();
-			ShRedoCommand command(this->graphicView, memento);
-			command.Execute();
+			ShCommand *command = this->graphicView->redoTaker.Pop();
+			command->Execute();
+
+			this->graphicView->undoTaker.Push(command);
 
 		}
 

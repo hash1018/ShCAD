@@ -13,7 +13,7 @@ typedef struct ShEntityData {
 
 }ShEntityData;
 
-class ShMemento;
+class ShEntityMemento;
 class ShVisitor;
 class ShEntity {
 
@@ -26,8 +26,8 @@ public:
 	virtual ShEntity* Clone() = 0;
 	virtual void Accept(ShVisitor *shVisitor) = 0;
 
-	virtual ShMemento* CreateMemento() { return 0; }
-	virtual void SetMemento(const ShMemento* memento) {}
+	virtual ShEntityMemento* CreateMemento() { return 0; }
+	virtual void SetMemento(const ShEntityMemento* memento) {}
 
 };
 

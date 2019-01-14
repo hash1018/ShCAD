@@ -41,6 +41,7 @@ ShUndoCommand::~ShUndoCommand() {
 
 void ShUndoCommand::Execute() {
 
+	/*
 	if (this->memento->type == MementoType::MementoCreated) {
 		
 		this->graphicView->entityTable.Delete(memento->entity);
@@ -54,6 +55,8 @@ void ShUndoCommand::Execute() {
 		this->graphicView->redoTaker.Push(memento);
 
 	}
+	*/
+	/*
 	else if (this->memento->type == MementoType::MementoPanMoved) {
 	
 		if (dynamic_cast<ShPanMemento*>(this->memento)) {
@@ -77,6 +80,7 @@ void ShUndoCommand::Execute() {
 			this->graphicView->redoTaker.Push(panMemento);
 		}
 	}
+	*/
 
 
 

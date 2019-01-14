@@ -6,18 +6,21 @@
 #include "ShCommand.h"
 
 class ShGraphicView;
-class ShEntity;
+class ShEntityMemento;
 class ShAddEntityCommand : public ShCommand {
 
 private:
 	ShGraphicView *graphicView;
-	ShEntity *newEntity;
 
 public:
-	ShAddEntityCommand(ShGraphicView *view, ShEntity *newEntity);
+	ShAddEntityCommand(ShGraphicView *view, ShEntityMemento *memento);
+	virtual void Execute();
+	virtual void UnExecute();
+
+protected:
 	~ShAddEntityCommand();
 
-	virtual void Execute();
+	
 };
 
 #endif //_SHADDENTITYCOMMAND_H

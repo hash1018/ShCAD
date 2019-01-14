@@ -29,30 +29,37 @@
 
 #include "ShVariable.h"
 
-class ShUndoCommand;
-class ShRedoCommand;
+
 class ShEntity;
 class ShMemento {
-
-	friend class ShUndoCommand;
-	friend class ShRedoCommand;
 
 public:
 	ShMemento();
 	virtual ~ShMemento() = 0;
-	void SetType(MementoType type);
-
-protected:
-	MementoType type;
-	ShEntity *entity;
 	
 };
 
+class ShEntityMemento : public ShMemento {
+
+	friend class ShAddEntityCommand;
+public:
+	virtual ~ShEntityMemento() = 0;
+
+protected:
+	ShEntityMemento();
+
+protected:
+	ShEntity *entity;
+
+	// if true  do not deallocate in the destructor.
+	bool mustDeallocateEntity;
+};
+
+
 class ShLine;
 struct ShLineData;
-class ShLineMemento : public ShMemento {
+class ShLineMemento : public ShEntityMemento {
 	
-	friend class ShRedoCommand;
 	friend class ShLine;
 
 public:
@@ -61,24 +68,23 @@ public:
 private:
 	ShLineMemento();
 	
-
 private:
 	ShLineData *data;
 
-
 };
 
-class ShGraphicView;
-class ShPanMemento : public ShMemento {
+
+
+class ShPanMoveAction;
+class ShMoveViewMemento : public ShMemento {
 	
-	friend class ShUndoCommand;
-	friend class ShRedoCommand;
-	friend class ShGraphicView;
+	friend class ShPanMoveAction;
+	friend class ShMoveViewCommand;
 
 public:
-	~ShPanMemento();
+	~ShMoveViewMemento();
 private:
-	ShPanMemento();
+	ShMoveViewMemento();
 
 private:
 	double ex;

@@ -50,10 +50,12 @@ public:
 	virtual void MousePressEvent(QMouseEvent *event) = 0;
 	virtual void MouseMoveEvent(QMouseEvent *event) = 0;
 	virtual void KeyPressEvent(QKeyEvent *event) = 0;
+	virtual void MouseReleaseEvent(QMouseEvent *event) {}
 
 	virtual ActionType GetType() = 0;
 	virtual QCursor GetCursorShape();
 
+	
 };
 
 #endif //_SHACTIONMODE_H

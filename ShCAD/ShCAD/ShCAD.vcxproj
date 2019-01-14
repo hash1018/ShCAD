@@ -144,8 +144,11 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
+    <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
+    <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
     <ClCompile Include="Command Pattern\ShAddEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\ShCommand.cpp" />
+    <ClCompile Include="Command Pattern\ShMoveViewCommand.cpp" />
     <ClCompile Include="Command Pattern\ShRedoCommand.cpp" />
     <ClCompile Include="Command Pattern\ShUndoCommand.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
@@ -220,8 +223,11 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
+    <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
+    <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
     <ClInclude Include="Command Pattern\ShAddEntityCommand.h" />
     <ClInclude Include="Command Pattern\ShCommand.h" />
+    <ClInclude Include="Command Pattern\ShMoveViewCommand.h" />
     <ClInclude Include="Command Pattern\ShRedoCommand.h" />
     <ClInclude Include="Command Pattern\ShUndoCommand.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />

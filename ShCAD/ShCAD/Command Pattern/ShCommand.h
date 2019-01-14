@@ -26,14 +26,20 @@
 #ifndef _SHCOMMAND_H
 #define _SHCOMMAND_H
 
+class ShMemento;
 class ShCommand {
 
 public:
-	virtual ~ShCommand() = 0;
+	ShCommand();
 	virtual void Execute() = 0;
+	virtual void UnExecute() = 0;
+
+	//Make sure that this class ( even sub class ) is created in heap area.
+	void Destroy();
 
 protected:
-	ShCommand();
+	virtual ~ShCommand() = 0;
+	ShMemento *memento;
 
 };
 

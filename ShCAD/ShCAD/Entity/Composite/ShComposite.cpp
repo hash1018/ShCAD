@@ -79,6 +79,9 @@ ShComposite::~ShComposite() {
 
 	while (!this->list.isEmpty())
 		delete this->list.takeFirst();
+
+	//while (this->list.size() != 0)
+		//delete this->list.takeFirst();
 		
 }
 
@@ -115,6 +118,13 @@ void ShComposite::Delete(ShEntity *shEntity) {
 	this->list.removeOne(shEntity);
 
 	delete shEntity;
+}
+
+void ShComposite::Remove(ShEntity *shEntity) {
+
+	this->list.removeOne(shEntity);
+
+	//delete shEntity;
 }
 
 bool ShComposite::IsListEmpty() {

@@ -66,6 +66,9 @@
     <Filter Include="Command Pattern">
       <UniqueIdentifier>{f9b0726f-47ce-4366-be86-9da9cb719f4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionHandler\TemporaryAction">
+      <UniqueIdentifier>{328cb968-8f90-4069-ba8a-65e620350f33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -185,6 +188,15 @@
     <ClCompile Include="ShMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Command Pattern\ShMoveViewCommand.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp">
+      <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -298,6 +310,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShMoveViewCommand.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h">
+      <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
