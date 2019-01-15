@@ -144,6 +144,7 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
+    <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
     <ClCompile Include="Command Pattern\ShAddEntityCommand.cpp" />
@@ -192,10 +193,12 @@
     <ClCompile Include="ShAxis.cpp" />
     <ClCompile Include="ShMath.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
+    <ClCompile Include="ShSelectedEntityManager.cpp" />
     <ClCompile Include="ShVector.cpp" />
     <ClCompile Include="Singleton Pattern\ShChangeManager.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
+    <ClCompile Include="Visitor Pattern\ShFinder.cpp" />
     <ClCompile Include="Visitor Pattern\ShVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +226,7 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
+    <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
     <ClInclude Include="Command Pattern\ShAddEntityCommand.h" />
@@ -251,10 +255,12 @@
     <ClInclude Include="ShAxis.h" />
     <ClInclude Include="ShMath.h" />
     <ClInclude Include="ShRibbon.h" />
+    <ClInclude Include="ShSelectedEntityManager.h" />
     <ClInclude Include="ShVariable.h" />
     <ClInclude Include="Singleton Pattern\ShChangeManager.h" />
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
+    <ClInclude Include="Visitor Pattern\ShFinder.h" />
     <ClInclude Include="Visitor Pattern\ShVisitor.h" />
     <CustomBuild Include="Interface\shcad.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

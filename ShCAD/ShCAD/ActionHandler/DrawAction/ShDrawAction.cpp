@@ -13,6 +13,11 @@ ShDrawAction::~ShDrawAction() {
 
 }
 
+QCursor ShDrawAction::GetCursorShape() {
+
+	return QCursor(Qt::CursorShape::CrossCursor);
+}
+
 void ShDrawAction::AddEntity(ShEntity* newEntity) {
 
 	ShAddEntityCommand *command = new ShAddEntityCommand(this->graphicView, newEntity->CreateMemento());

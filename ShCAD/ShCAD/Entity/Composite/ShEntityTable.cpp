@@ -1,8 +1,7 @@
 
 
 #include "ShEntityTable.h"
-#include "Visitor Pattern\ShVisitor.h"
-
+#include "Visitor Pattern\ShFinder.h"
 ShEntityTable::ShEntityTable() {
 
 }
@@ -32,3 +31,21 @@ void ShEntityTable::Accept(ShVisitor *shVisitor) {
 	shVisitor->Visit(this);
 }
 
+
+ShEntity* ShEntityTable::FindEntity(double x, double y, double zoomRate) {
+
+	ShEntity *entity = 0;
+
+	ShFinder finder(x, y, zoomRate, &entity);
+
+	QLinkedList<ShEntity*>::iterator itr = this->list.begin();
+
+	while (itr != this->list.end() && entity == 0) {
+
+		(*itr)->Accept(&finder);
+		++itr;
+	}
+
+	return entity;
+
+}

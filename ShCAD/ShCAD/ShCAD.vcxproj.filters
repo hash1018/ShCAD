@@ -195,6 +195,15 @@
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClCompile>
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp">
+      <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp">
+      <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShFinder.cpp">
+      <Filter>Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="ShSelectedEntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -319,6 +328,15 @@
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h">
+      <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h">
+      <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShFinder.h">
+      <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ShSelectedEntityManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,15 +6,21 @@
 #include "Interface\ShGraphicView.h"
 ShDrawer::ShDrawer(ShGraphicView *view)
 	:view(view) {
-
+	
 }
 
 ShDrawer::~ShDrawer() {
 
-
+	
 }
 
 void ShDrawer::Visit(ShLine *shLine) {
+
+	if (shLine->IsSelected() == true) {
+		ShSelectedEntityDrawer selectedDrawer(this->view);
+		shLine->Accept(&selectedDrawer);
+		return;
+	}
 
 	ShLineData data=shLine->GetData();
 
@@ -85,4 +91,48 @@ void ShDrawer::ConvertEntityToOpenGL(double x, double y, double &ox, double &oy)
 	int h = this->view->height();
 	ox = (double)((tempX - (double)w / 2.0)*(double)(1.0 / (double)(w / 2.0)));
 	oy = -(double)((tempY - (double)h / 2.0)*(double)(1.0 / (double)(h / 2.0)));
+}
+
+
+
+ShSelectedEntityDrawer::ShSelectedEntityDrawer(ShGraphicView *view)
+	:ShDrawer(view) {
+
+}
+
+ShSelectedEntityDrawer::~ShSelectedEntityDrawer() {
+
+}
+
+void ShSelectedEntityDrawer::Visit(ShLine *shLine) {
+	qDebug("ShSelectedEntityDrawer->Visit");
+	glColor3f(1.0f, 1.0f, 1.0f);
+
+	glLineStipple(1, 0xF1F1);
+
+	glEnable(GL_LINE_STIPPLE);
+
+	ShLineData data = shLine->GetData();
+
+	double x, y;
+	this->ConvertEntityToOpenGL(data.start.x, data.start.y, x, y);
+
+	glColor3f(255, 255, 255);
+
+	glBegin(GL_LINES);
+	glVertex2f(x, y);
+
+	this->ConvertEntityToOpenGL(data.end.x, data.end.y, x, y);
+	glVertex2f(x, y);
+	glEnd();
+
+	glDisable(GL_LINE_STIPPLE);
+}
+
+void ShSelectedEntityDrawer::Visit(ShCircle *shCircle) {
+
+}
+
+void ShSelectedEntityDrawer::Visit(ShArc *shArc) {
+
 }

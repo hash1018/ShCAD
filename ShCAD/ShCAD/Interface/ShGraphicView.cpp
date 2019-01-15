@@ -130,16 +130,14 @@ void ShGraphicView::paintGL() {
 			this->rubberBand->Accept(&drawer);
 		}
 
-		
-
 		ShComposite::Iterator itr = this->preview.Begin();
 
 		while (!itr.IsEnd()) {
 			itr.Current()->Accept(&drawer);
 			itr.Next();
 		}
-
 	}
+
 
 	if ((this->drawType & DrawType::DrawAddedEntities) == DrawType::DrawAddedEntities) {
 		qDebug("DrawAddedEntities");
@@ -149,6 +147,22 @@ void ShGraphicView::paintGL() {
 		itr.Previous();
 		itr.Current()->Accept(&drawer);
 	}
+
+
+	if ((this->drawType & DrawType::DrawSelectedEntities) == DrawType::DrawSelectedEntities) {
+		qDebug("DrawSelectedEntities");
+		ShEntity *entity = this->selectedEntityManager.GetRecentSelected();
+		//if (entity != 0)
+		entity->Accept(&drawer);
+	}
+
+
+
+	if ((this->drawType & DrawType::DrawActionHandler) == DrawType::DrawActionHandler) {
+		qDebug("DrawActionHandler");
+		this->currentAction->Draw(&paint);
+	}
+
 
 
 }
@@ -234,6 +248,11 @@ void ShGraphicView::wheelEvent(QWheelEvent *event) {
 ActionType ShGraphicView::ChangeCurrentAction(ActionType actionType) {
 	qDebug("ShGraphicView->ChangeCurrentAction");
 
+	if (actionType == ActionType::ActionDefault &&
+		this->currentAction->GetType() == ActionType::ActionDefault)
+		return actionType;
+
+
 	if (this->currentAction != NULL)
 		delete this->currentAction;
 
@@ -251,12 +270,23 @@ ActionType ShGraphicView::ChangeCurrentAction(ActionType actionType) {
 		drawType = (DrawType)(drawType | DrawType::DrawCaptureImage);
 	}
 
-	if ((drawType& DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage)
+	if (this->selectedEntityManager.GetSize() > 0) {
+		this->selectedEntityManager.UnSelectAll();
+		drawType = (DrawType)(drawType | DrawType::DrawAll);
+	}
+
+
+	if ((drawType & DrawType::DrawAll) == DrawType::DrawAll) {
+		this->update(DrawType::DrawAll);
+		this->CaptureImage();
+	}
+	else if ((drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage)
 		this->update(DrawType::DrawCaptureImage);
 
 
 
 	this->currentAction = ShCreatorActionFactory::Create(actionType, this);
+	this->setCursor(this->currentAction->GetCursorShape());
 
 	return this->currentAction->GetType();
 

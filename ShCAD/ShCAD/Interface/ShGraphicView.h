@@ -33,6 +33,7 @@
 #include "Memento Pattern\ShRedoTaker.h"
 #include "Entity\Composite\ShPreview.h"
 #include "Entity\Composite\ShEntityTable.h"
+#include "ShSelectedEntityManager.h"
 #include "ShAxis.h"
 
 class ShRubberBand;
@@ -58,6 +59,8 @@ public:
 	ShUndoTaker undoTaker;
 	//redo controller.
 	ShRedoTaker redoTaker;
+
+	ShSelectedEntityManager selectedEntityManager;
 
 	DrawType drawType;
 	QImage captureImage;

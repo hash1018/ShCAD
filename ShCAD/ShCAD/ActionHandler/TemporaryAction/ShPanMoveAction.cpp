@@ -64,6 +64,7 @@ void ShPanMoveAction::MouseReleaseEvent(QMouseEvent *event) {
 	if (event->button()& Qt::MouseButton::MiddleButton) {
 		this->graphicView->update(DrawType::DrawAll);
 		this->graphicView->CaptureImage();
+		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
 
 	this->ReturnToPrevious();

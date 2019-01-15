@@ -17,6 +17,9 @@ class ShEntityMemento;
 class ShVisitor;
 class ShEntity {
 
+protected:
+	bool isSelected;
+
 public:
 	ShEntity();
 	virtual ~ShEntity() = 0;
@@ -29,7 +32,19 @@ public:
 	virtual ShEntityMemento* CreateMemento() { return 0; }
 	virtual void SetMemento(const ShEntityMemento* memento) {}
 
+	bool IsSelected() const;
+
+	friend class ShSelectedEntityManager;
+protected:
+	void Select();
+	void UnSelect();
 };
+
+inline bool ShEntity::IsSelected() const {
+
+	return this->isSelected;
+}
+
 
 
 #endif //_SHENTITY_H

@@ -12,6 +12,8 @@ public:
 	ShDrawAction(ShGraphicView *graphicView);
 	virtual ~ShDrawAction() = 0;
 
+	virtual QCursor GetCursorShape();
+
 protected:
 	void AddEntity(ShEntity* newEntity);
 	

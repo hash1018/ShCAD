@@ -15,7 +15,8 @@ public:
 
 	ShEntityTable* Clone();
 	void Accept(ShVisitor *shVisitor);
-
+	
+	ShEntity* FindEntity(double x, double y, double zoomRate);
 	
 
 

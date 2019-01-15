@@ -8,6 +8,7 @@ enum ActionType {
 	ActionUnknown,
 	ActionDefault,
 	ActionPanMove,
+	ActionDragSelect,
 	ActionDrawLine
 
 
@@ -19,6 +20,8 @@ enum DrawType {
 	DrawCaptureImage = 0x0000001,
 	DrawPreviewEntities = 0x0000002,
 	DrawAddedEntities = 0x0000004,
+	DrawActionHandler = 0x00000008,
+	DrawSelectedEntities=0x00000010,
 	DrawAll = 0x0001000
 
 };
