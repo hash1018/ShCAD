@@ -35,6 +35,7 @@ public:
 	virtual void UnExecute() = 0;
 
 	//Make sure that this class ( even sub class ) is created in heap area.
+	//Used this function in redoTaker,undoTaker class.
 	void Destroy();
 
 protected:

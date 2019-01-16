@@ -3,14 +3,14 @@
 #ifndef _SHAXIS_H
 #define _SHAXIS_H
 
-#include "ShVector.h"
+#include "ShPoint.h"
 
 class QPainter;
 class ShGraphicView;
 class ShAxis {
 
 private:
-	ShVector center;
+	ShPoint3d center;
 
 public:
 	ShAxis();
@@ -21,13 +21,13 @@ public:
 
 	void Draw(QPainter *painter, ShGraphicView *view);
 
-	ShVector& GetCenter();
-	void SetCenter(const ShVector& center);
+	ShPoint3d& GetCenter();
+	void SetCenter(const ShPoint3d& center);
 
 
 };
 
-inline ShVector& ShAxis::GetCenter() {
+inline ShPoint3d& ShAxis::GetCenter() {
 
 	return this->center;
 }

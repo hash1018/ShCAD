@@ -31,16 +31,15 @@ void ShDefaultAction::MousePressEvent(QMouseEvent *event) {
 	
 	if (event->modifiers() == Qt::ShiftModifier) {
 		if (this->graphicView->selectedEntityManager.Pop(entity) == true) {
-			this->graphicView->update(DrawType::DrawAll);
+			this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustUnSelectedEntities));
 			this->graphicView->CaptureImage();
 		}
 		
 	}
 	else {
 		if (this->graphicView->selectedEntityManager.Push(entity) == true){
-			qDebug("correct");
-			//this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
-			this->graphicView->update(DrawType::DrawAll);
+			this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
+			//this->graphicView->update(DrawType::DrawAll);
 			this->graphicView->CaptureImage();
 		}
 	}
@@ -59,8 +58,14 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 
 	if (event->modifiers()==Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Z) {
 	
-		if (this->graphicView->undoTaker.IsEmpty()==false) {
+		if (this->graphicView->selectedEntityManager.GetSize() > 0) {
+			this->graphicView->selectedEntityManager.UnSelectAll();
+			this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustUnSelectedEntities));
+			this->graphicView->CaptureImage();
+			return;
+		}
 
+		if (this->graphicView->undoTaker.IsEmpty()==false) {
 			ShCommand *command = this->graphicView->undoTaker.Pop();
 			command->UnExecute();
 
@@ -69,8 +74,16 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 		}	
 	}
 	else if (event->modifiers()==Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Y) {
-	
+		
+		if (this->graphicView->selectedEntityManager.GetSize() > 0) {
+			this->graphicView->selectedEntityManager.UnSelectAll();
+			this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustUnSelectedEntities));
+			this->graphicView->CaptureImage();
+			return;
+		}
+
 		if (this->graphicView->redoTaker.IsEmpty() == false) {
+			
 		
 			ShCommand *command = this->graphicView->redoTaker.Pop();
 			command->Execute();
@@ -80,14 +93,16 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 		}
 	}
 	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_A) {
-		ShComposite::Iterator itr=this->graphicView->entityTable.Begin();
+		
+		this->graphicView->selectedEntityManager.SelectAll(&(this->graphicView->entityTable));
 
-		while (!itr.IsEnd()) {
-			this->graphicView->selectedEntityManager.Push(itr.Current());
-			itr.Next();
-		}
-		this->graphicView->update((DrawType)DrawType::DrawAll);
+		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
 		this->graphicView->CaptureImage();
+	}
+
+	else if (event->key() == Qt::Key::Key_Delete) {
+	
+		ShActionHandler::DeleteSelectedEntities();
 	}
 
 }

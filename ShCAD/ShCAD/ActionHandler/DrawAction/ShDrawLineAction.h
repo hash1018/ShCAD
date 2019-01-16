@@ -5,7 +5,7 @@
 
 
 #include "ShDrawAction.h"
-#include "ShVector.h"
+#include "ShPoint.h"
 class ShDrawLineAction : public ShDrawAction{
 	
 public:
@@ -16,8 +16,8 @@ public:
 
 private:
 	Status status;
-	ShVector start;
-	ShVector end;
+	ShPoint3d start;
+	ShPoint3d end;
 
 public:
 	ShDrawLineAction(ShGraphicView *graphicView);

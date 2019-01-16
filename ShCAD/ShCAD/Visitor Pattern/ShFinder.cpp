@@ -19,7 +19,7 @@ void ShFinder::Visit(ShLine *shLine) {
 	ShLineData data = shLine->GetData();
 
 
-	if (Math::CheckPointLiesOnLine(ShVector(this->x, this->y), data.start, data.end, tolerance) == true)
+	if (Math::CheckPointLiesOnLine(ShPoint3d(this->x, this->y), data.start, data.end, tolerance) == true)
 		*this->foundEntity = shLine;
 	
 

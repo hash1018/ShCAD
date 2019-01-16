@@ -7,7 +7,7 @@ ShArcData::ShArcData() {
 
 }
 
-ShArcData::ShArcData(ShVector &center, double radius, double startAngle, double endAngle)
+ShArcData::ShArcData(ShPoint3d &center, double radius, double startAngle, double endAngle)
 	:center(center), radius(radius), startAngle(startAngle), endAngle(endAngle) {
 
 }

@@ -28,7 +28,7 @@
 #define _SHMEMENTO_H
 
 #include "ShVariable.h"
-
+#include <qlinkedlist.h>
 
 class ShEntity;
 class ShMemento {
@@ -42,6 +42,8 @@ public:
 class ShEntityMemento : public ShMemento {
 
 	friend class ShAddEntityCommand;
+	friend class ShDeleteEntityCommand;
+
 public:
 	virtual ~ShEntityMemento() = 0;
 
@@ -74,7 +76,6 @@ private:
 };
 
 
-
 class ShPanMoveAction;
 class ShMoveViewMemento : public ShMemento {
 	
@@ -92,6 +93,21 @@ private:
 	double zoomRate;
 	int dx;
 	int dy;
+
+};
+
+class ShDeletedEntitiesMemento : public ShMemento {
+
+	friend class ShActionHandler;
+	friend class ShDeleteEntityCommand;
+
+private:
+	ShDeletedEntitiesMemento();
+public:
+	~ShDeletedEntitiesMemento();
+
+private:
+	QLinkedList<ShEntityMemento*> list;
 
 };
 

@@ -4,16 +4,16 @@
 #define _SHCIRCLE_H
 
 #include "ShLeaf.h"
-#include "ShVector.h"
+#include "ShPoint.h"
 
 typedef struct ShCircleData {
 
-	ShVector center;
+	ShPoint3d center;
 	double radius;
 	
 
 	ShCircleData();
-	ShCircleData(ShVector& center, double radius);
+	ShCircleData(ShPoint3d& center, double radius);
 	ShCircleData(const ShCircleData& data);
 	bool operator==(const ShCircleData& data);
 	ShCircleData& operator=(const ShCircleData &data);

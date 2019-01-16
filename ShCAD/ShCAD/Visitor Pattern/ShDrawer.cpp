@@ -4,9 +4,9 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShRubberBand.h"
 #include "Interface\ShGraphicView.h"
-ShDrawer::ShDrawer(ShGraphicView *view)
-	:view(view) {
-	
+ShDrawer::ShDrawer(ShGraphicView *view, DrawType drawType)
+	:view(view), drawType(drawType) {
+
 }
 
 ShDrawer::~ShDrawer() {
@@ -17,24 +17,21 @@ ShDrawer::~ShDrawer() {
 void ShDrawer::Visit(ShLine *shLine) {
 
 	if (shLine->IsSelected() == true) {
-		ShSelectedEntityDrawer selectedDrawer(this->view);
+		ShSelectedEntityDrawer selectedDrawer(this->view, this->drawType);
 		shLine->Accept(&selectedDrawer);
 		return;
 	}
 
 	ShLineData data=shLine->GetData();
 
-	double x, y;
-	this->ConvertEntityToOpenGL(data.start.x, data.start.y, x, y);
+	GLPoint start, end;
 
-	glColor3f(255, 255, 255);
+	this->ConvertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
+	this->ConvertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
-	glBegin(GL_LINES);
-	glVertex2f(x, y);
+	GLColor color(1.0f, 1.0f, 1.0f); //only temporary color.
 
-	this->ConvertEntityToOpenGL(data.end.x, data.end.y, x, y);
-	glVertex2f(x, y);
-	glEnd();
+	this->DrawLine(start, end, color);
 
 }
 
@@ -52,17 +49,15 @@ void ShDrawer::Visit(ShRubberBand *shRubberBand) {
 	
 	ShLineData data = shRubberBand->GetData();
 
-	double x, y;
-	this->ConvertEntityToOpenGL(data.start.x, data.start.y, x, y);
+	GLPoint start, end;
 
-	glColor3f(255, 255, 255);
+	this->ConvertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
+	this->ConvertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
-	glBegin(GL_LINES);
-	glVertex2f(x, y);
+	GLColor color(1.0f, 1.0f, 1.0f); 
 
-	this->ConvertEntityToOpenGL(data.end.x, data.end.y, x, y);
-	glVertex2f(x, y);
-	glEnd();
+	this->DrawLine(start, end, color);
+	
 
 }
 
@@ -93,10 +88,18 @@ void ShDrawer::ConvertEntityToOpenGL(double x, double y, double &ox, double &oy)
 	oy = -(double)((tempY - (double)h / 2.0)*(double)(1.0 / (double)(h / 2.0)));
 }
 
+void ShDrawer::DrawLine(const GLPoint& start, const GLPoint& end, const GLColor& color) {
+	
+	glColor3f(color.red, color.green, color.blue);
+	glBegin(GL_LINES);
+	glVertex2f(start.x, start.y);
+	glVertex2f(end.x, end.y);
+	glEnd();
+}
 
 
-ShSelectedEntityDrawer::ShSelectedEntityDrawer(ShGraphicView *view)
-	:ShDrawer(view) {
+ShSelectedEntityDrawer::ShSelectedEntityDrawer(ShGraphicView *view, DrawType drawType)
+	:ShDrawer(view, drawType) {
 
 }
 
@@ -105,28 +108,28 @@ ShSelectedEntityDrawer::~ShSelectedEntityDrawer() {
 }
 
 void ShSelectedEntityDrawer::Visit(ShLine *shLine) {
-	qDebug("ShSelectedEntityDrawer->Visit");
-	glColor3f(1.0f, 1.0f, 1.0f);
-
-	glLineStipple(1, 0xF1F1);
-
-	glEnable(GL_LINE_STIPPLE);
-
+	//qDebug("ShSelectedEntityDrawer->Visit");
+	
 	ShLineData data = shLine->GetData();
 
-	double x, y;
-	this->ConvertEntityToOpenGL(data.start.x, data.start.y, x, y);
+	GLPoint start, end;
+	this->ConvertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
+	this->ConvertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
-	glColor3f(255, 255, 255);
 
-	glBegin(GL_LINES);
-	glVertex2f(x, y);
+	if (this->drawType == DrawType::DrawSelectedEntities) {
+	//in this case, Draw entity with the background color of view
+	//and Draw entity that represents it is selected.
 
-	this->ConvertEntityToOpenGL(data.end.x, data.end.y, x, y);
-	glVertex2f(x, y);
-	glEnd();
+		this->DrawLine(start, end, GLColor(0, 0, 0)); //third argument is the background color of view.
+	}
 
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+
+	this->DrawLine(start, end, GLColor(153.f / 255, 153.f / 155, 1.f));
 	glDisable(GL_LINE_STIPPLE);
+
 }
 
 void ShSelectedEntityDrawer::Visit(ShCircle *shCircle) {

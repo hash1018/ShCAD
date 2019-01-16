@@ -7,6 +7,9 @@
 
 class ShEntityTable : public ShComposite {
 
+private:
+	QLinkedList<ShEntity*> justAddedEntityList;
+
 public:
 	ShEntityTable();
 	ShEntityTable(const ShEntityTable& other);
@@ -18,7 +21,6 @@ public:
 	
 	ShEntity* FindEntity(double x, double y, double zoomRate);
 	
-
 
 };
 

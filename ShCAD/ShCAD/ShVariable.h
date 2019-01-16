@@ -21,7 +21,8 @@ enum DrawType {
 	DrawPreviewEntities = 0x0000002,
 	DrawAddedEntities = 0x0000004,
 	DrawActionHandler = 0x00000008,
-	DrawSelectedEntities=0x00000010,
+	DrawSelectedEntities = 0x00000010,
+	DrawJustUnSelectedEntities = 0x00000020,
 	DrawAll = 0x0001000
 
 };

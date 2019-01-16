@@ -29,7 +29,7 @@ ShAxis::~ShAxis() {
 
 }
 
-void ShAxis::SetCenter(const ShVector& center) {
+void ShAxis::SetCenter(const ShPoint3d& center) {
 
 	this->center = center;
 }

@@ -36,9 +36,9 @@ int Math::Compare(double first, double second, double epsilon) {
 
 }
 
-bool Math::CheckPointLiesOnLine(const ShVector& point, const ShVector& start, const ShVector& end, double tolerance) {
+bool Math::CheckPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, const ShPoint3d& end, double tolerance) {
 
-	ShVector topLeft, bottomRight;
+	ShPoint3d topLeft, bottomRight;
 
 	if (start.x < end.x) {
 		topLeft.x = start.x;
@@ -80,7 +80,7 @@ bool Math::CheckPointLiesOnLine(const ShVector& point, const ShVector& start, co
 	return false;
 }
 
-bool Math::CheckPointLiesInsideRect(const ShVector& point, const ShVector& topLeft, const ShVector& bottomRight,double tolerance) {
+bool Math::CheckPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& topLeft, const ShPoint3d& bottomRight,double tolerance) {
 
 	if (point.x >= topLeft.x - tolerance && point.x <= bottomRight.x + tolerance &&
 		point.y <= topLeft.y + tolerance && point.y >= bottomRight.y - tolerance)

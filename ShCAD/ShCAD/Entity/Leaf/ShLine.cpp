@@ -7,7 +7,7 @@ ShLineData::ShLineData() {
 
 }
 
-ShLineData::ShLineData(ShVector &start, ShVector &end)
+ShLineData::ShLineData(ShPoint3d &start, ShPoint3d &end)
 	:start(start), end(end) {
 
 }

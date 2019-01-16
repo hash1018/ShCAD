@@ -75,6 +75,7 @@ public:
 
 	ActionType ChangeCurrentAction(ActionType actionType);
 	virtual void update(DrawType drawType = DrawType::DrawAll);
+
 	void CaptureImage();
 	void Notify(NotifyEvent event);
 	double GetX() const;

@@ -37,6 +37,8 @@ protected:
 	/* only temporary used */
 	QLinkedList<ShEntity*> list;
 
+	QLinkedList<ShEntity*> justAddedEntityList;
+
 public:
 	ShComposite();
 	ShComposite(const ShComposite& other);
@@ -47,6 +49,9 @@ public:
 	virtual void Accept(ShVisitor *shVisitor) = 0;
 
 	virtual bool Add(ShEntity* shEntity);
+	virtual bool Add(QLinkedList<ShEntity*> &list);
+
+
 	virtual void Delete(ShEntity *shEntity);
 	virtual void Remove(ShEntity *shEntity);
 	
@@ -55,7 +60,10 @@ public:
 	ShComposite::Iterator Begin();
 	ShComposite::Iterator End();
 
-	
+	ShComposite::Iterator GetJustAddedEntitiesBegin();
+
+private:
+	void RemoveAll(QLinkedList<ShEntity*> &list);
 };
 
 inline int ShComposite::GetSize() const {

@@ -103,14 +103,37 @@ ShComposite& ShComposite::operator=(const ShComposite& other) {
 }
 
 bool ShComposite::Add(ShEntity* shEntity) {
+	
+	this->RemoveAll(this->justAddedEntityList);
 
 	if (shEntity == 0)
 		return false;
 
 	this->list.append(shEntity);
 	
+	this->justAddedEntityList.append(shEntity);
 
 	return true;
+}
+
+bool ShComposite::Add(QLinkedList<ShEntity*> &list) {
+	
+	this->RemoveAll(this->justAddedEntityList);
+
+	if (list.isEmpty())
+		return false;
+
+	
+	QLinkedList<ShEntity*>::iterator itr;
+
+	for (itr = list.begin(); itr != list.end(); ++itr) {
+		this->list.append((*itr));
+		this->justAddedEntityList.append((*itr));
+	}
+
+
+	return true;
+
 }
 
 void ShComposite::Delete(ShEntity *shEntity) {
@@ -157,3 +180,23 @@ ShComposite::Iterator ShComposite::End() {
 
 }
 
+
+ShComposite::Iterator ShComposite::GetJustAddedEntitiesBegin() {
+
+	ShComposite::Iterator itr;
+
+	itr.begin = this->justAddedEntityList.begin();
+	itr.end = this->justAddedEntityList.end();
+	itr.itr = this->justAddedEntityList.begin();
+
+	return itr;
+}
+
+
+
+void ShComposite::RemoveAll(QLinkedList<ShEntity*> &list) {
+
+	while (!list.isEmpty())
+		list.removeFirst();
+
+}

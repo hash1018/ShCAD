@@ -56,6 +56,11 @@ public:
 	virtual QCursor GetCursorShape();
 	virtual void Draw(QPainter *painter) {}
 	
+
+
+protected:
+	//delete key pressed,
+	void DeleteSelectedEntities();
 };
 
 #endif //_SHACTIONMODE_H

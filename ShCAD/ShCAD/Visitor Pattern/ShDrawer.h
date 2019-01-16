@@ -5,6 +5,25 @@
 
 #include "ShVisitor.h"
 #include <qopenglfunctions.h>
+#include "ShVariable.h"
+
+typedef struct GLPoint {
+	double x;
+	double y;
+}GLPoint;
+
+typedef struct GLColor {
+	GLfloat red;
+	GLfloat green;
+	GLfloat blue;
+
+	GLColor(GLfloat red, GLfloat green, GLfloat blue)
+		:red(red), green(green), blue(blue) {
+	
+	}
+
+}GLColor;
+
 
 class ShSelectedEntityDrawer;
 class ShLine;
@@ -16,9 +35,10 @@ class ShDrawer : public ShVisitor {
 
 protected:
 	ShGraphicView *view;
+	DrawType drawType;
 
 public:
-	ShDrawer(ShGraphicView *view);
+	ShDrawer(ShGraphicView *view, DrawType drawType);
 	~ShDrawer();
 
 	virtual void Visit(ShLine *shLine);
@@ -29,12 +49,14 @@ public:
 protected:
 	void ConvertDeviceToOpenGL(int x, int y, double  &ox, double  &oy);
 	void ConvertEntityToOpenGL(double x, double y, double &ox, double &oy);
+
+	void DrawLine(const GLPoint& start, const GLPoint& end, const GLColor& color);
 };
 
 class ShSelectedEntityDrawer : public ShDrawer {
 
 public:
-	ShSelectedEntityDrawer(ShGraphicView *view);
+	ShSelectedEntityDrawer(ShGraphicView *view, DrawType drawType);
 	~ShSelectedEntityDrawer();
 
 	void Visit(ShLine *shLine);

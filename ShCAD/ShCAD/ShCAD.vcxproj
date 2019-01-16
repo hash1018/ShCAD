@@ -149,9 +149,8 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
     <ClCompile Include="Command Pattern\ShAddEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\ShCommand.cpp" />
+    <ClCompile Include="Command Pattern\ShDeleteEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\ShMoveViewCommand.cpp" />
-    <ClCompile Include="Command Pattern\ShRedoCommand.cpp" />
-    <ClCompile Include="Command Pattern\ShUndoCommand.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
     <ClCompile Include="Entity\Composite\ShEntityTable.cpp" />
     <ClCompile Include="Entity\Composite\ShPreview.cpp" />
@@ -194,7 +193,7 @@
     <ClCompile Include="ShMath.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
     <ClCompile Include="ShSelectedEntityManager.cpp" />
-    <ClCompile Include="ShVector.cpp" />
+    <ClCompile Include="ShPoint.cpp" />
     <ClCompile Include="Singleton Pattern\ShChangeManager.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
@@ -231,9 +230,8 @@
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
     <ClInclude Include="Command Pattern\ShAddEntityCommand.h" />
     <ClInclude Include="Command Pattern\ShCommand.h" />
+    <ClInclude Include="Command Pattern\ShDeleteEntityCommand.h" />
     <ClInclude Include="Command Pattern\ShMoveViewCommand.h" />
-    <ClInclude Include="Command Pattern\ShRedoCommand.h" />
-    <ClInclude Include="Command Pattern\ShUndoCommand.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />
     <ClInclude Include="Entity\Composite\ShEntityTable.h" />
     <ClInclude Include="Entity\Composite\ShPreview.h" />
@@ -280,7 +278,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets"</Command>
     </CustomBuild>
-    <ClInclude Include="ShVector.h" />
+    <ClInclude Include="ShPoint.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

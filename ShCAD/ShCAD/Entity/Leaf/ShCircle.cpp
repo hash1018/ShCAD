@@ -7,7 +7,7 @@ ShCircleData::ShCircleData() {
 
 }
 
-ShCircleData::ShCircleData(ShVector &center, double radius)
+ShCircleData::ShCircleData(ShPoint3d &center, double radius)
 	:center(center), radius(radius) {
 
 }

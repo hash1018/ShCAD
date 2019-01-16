@@ -4,18 +4,18 @@
 #define _SHARC_H
 
 #include "ShLeaf.h"
-#include "ShVector.h"
+#include "ShPoint.h"
 
 typedef struct ShArcData {
 
-	ShVector center;
+	ShPoint3d center;
 	double radius;
 	double startAngle;
 	double endAngle;
 
 
 	ShArcData();
-	ShArcData(ShVector& center, double radius, double startAngle, double endAngle);
+	ShArcData(ShPoint3d& center, double radius, double startAngle, double endAngle);
 	ShArcData(const ShArcData& data);
 	bool operator==(const ShArcData& data);
 	ShArcData& operator=(const ShArcData &data);

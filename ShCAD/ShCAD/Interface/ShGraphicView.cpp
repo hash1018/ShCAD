@@ -45,7 +45,7 @@ ShGraphicView::ShGraphicView(QWidget *parent)
 	
 	this->rubberBand = NULL;
 
-	this->axis.SetCenter(ShVector(100, 500));
+	this->axis.SetCenter(ShPoint3d(100, 500));
 
 	this->x = 0;
 	this->y = 0;
@@ -71,6 +71,9 @@ ShGraphicView::~ShGraphicView() {
 void ShGraphicView::initializeGL() {
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	
+	
+
 
 	this->CaptureImage();
 
@@ -90,16 +93,19 @@ void ShGraphicView::update(DrawType drawType) {
 	QOpenGLWidget::update();
 }
 
+
 #include "Visitor Pattern\ShDrawer.h"
 #include <qpainter.h>
 void ShGraphicView::paintGL() {
 
 
 	QPainter paint(this);
-	ShDrawer drawer(this);
+	
 
 	if ((this->drawType & DrawType::DrawAll) == DrawType::DrawAll) {
-		qDebug("DrawAll");
+		//qDebug("DrawAll");
+
+		ShDrawer drawer(this, DrawType::DrawAll);
 
 		this->axis.Draw(&paint, this);
 
@@ -113,7 +119,7 @@ void ShGraphicView::paintGL() {
 	}
 
 	if ((this->drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage) {
-		qDebug("DrawCaptureImage");
+		//qDebug("DrawCaptureImage");
 
 		if (paint.isActive() == false)
 			paint.begin(this);
@@ -124,7 +130,9 @@ void ShGraphicView::paintGL() {
 	}
 
 	if ((this->drawType & DrawType::DrawPreviewEntities) == DrawType::DrawPreviewEntities) {
-		qDebug("DrwaPreviewEntities");
+		//qDebug("DrwaPreviewEntities");
+
+		ShDrawer drawer(this, DrawType::DrawPreviewEntities);
 
 		if (this->rubberBand != NULL) {
 			this->rubberBand->Accept(&drawer);
@@ -140,26 +148,49 @@ void ShGraphicView::paintGL() {
 
 
 	if ((this->drawType & DrawType::DrawAddedEntities) == DrawType::DrawAddedEntities) {
-		qDebug("DrawAddedEntities");
+		//qDebug("DrawAddedEntities");
 
+		ShDrawer drawer(this, DrawType::DrawAddedEntities);
 
-		ShComposite::Iterator itr = this->entityTable.End();
-		itr.Previous();
-		itr.Current()->Accept(&drawer);
+		ShComposite::Iterator itr = this->entityTable.GetJustAddedEntitiesBegin();
+
+		while (!itr.IsEnd()) {
+			itr.Current()->Accept(&drawer);
+			itr.Next();
+		}
 	}
 
 
 	if ((this->drawType & DrawType::DrawSelectedEntities) == DrawType::DrawSelectedEntities) {
-		qDebug("DrawSelectedEntities");
-		ShEntity *entity = this->selectedEntityManager.GetRecentSelected();
-		//if (entity != 0)
-		entity->Accept(&drawer);
+		//qDebug("DrawSelectedEntities");
+
+		ShDrawer drawer(this, DrawType::DrawSelectedEntities);
+
+		ShSelectedEntityManager::Iterator itr = this->selectedEntityManager.GetJustSelectedBegin();
+
+		while (!itr.IsEnd()) {
+			itr.Current()->Accept(&drawer);
+			itr.Next();
+		}
+	}
+
+	if ((this->drawType & DrawType::DrawJustUnSelectedEntities) == DrawType::DrawJustUnSelectedEntities) {
+		//qDebug("DrawJustUnSelectedEntities");
+
+		ShDrawer drawer(this, DrawType::DrawJustUnSelectedEntities);
+
+		ShSelectedEntityManager::Iterator itr = this->selectedEntityManager.GetJustUnSelectedBegin();
+
+		while (!itr.IsEnd()) {
+			itr.Current()->Accept(&drawer);
+			itr.Next();
+		}
 	}
 
 
 
 	if ((this->drawType & DrawType::DrawActionHandler) == DrawType::DrawActionHandler) {
-		qDebug("DrawActionHandler");
+		//qDebug("DrawActionHandler");
 		this->currentAction->Draw(&paint);
 	}
 

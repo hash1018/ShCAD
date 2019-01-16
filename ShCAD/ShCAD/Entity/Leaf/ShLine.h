@@ -5,15 +5,15 @@
 #define _SHLINE_H
 
 #include "ShLeaf.h"
-#include "ShVector.h"
+#include "ShPoint.h"
 
 typedef struct ShLineData : public ShEntityData {
 
-	ShVector start;
-	ShVector end;
+	ShPoint3d start;
+	ShPoint3d end;
 	
 	ShLineData();
-	ShLineData(ShVector& start, ShVector& end);
+	ShLineData(ShPoint3d& start, ShPoint3d& end);
 	ShLineData(const ShLineData& data);
 	bool operator==(const ShLineData& data);
 	ShLineData& operator=(const ShLineData &data);

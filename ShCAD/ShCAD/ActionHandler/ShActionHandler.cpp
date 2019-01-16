@@ -27,3 +27,28 @@ QCursor ShActionHandler::GetCursorShape() {
 
 	return QCursor(pix);
 }
+
+
+#include "Command Pattern\ShDeleteEntityCommand.h"
+void ShActionHandler::DeleteSelectedEntities() {
+
+	ShDeletedEntitiesMemento *memento = new ShDeletedEntitiesMemento;
+
+	this->graphicView->selectedEntityManager.UnSelectAll();
+
+	ShSelectedEntityManager::Iterator itr = this->graphicView->selectedEntityManager.GetJustUnSelectedBegin();
+
+	while (!itr.IsEnd()) {
+		memento->list.append(itr.Current()->CreateMemento());
+		itr.Next();
+	}
+
+	ShDeleteEntityCommand *command = new ShDeleteEntityCommand(this->graphicView, memento);
+	command->Execute();
+
+	this->graphicView->undoTaker.Push(command);
+
+	if (!this->graphicView->redoTaker.IsEmpty())
+		this->graphicView->redoTaker.DeleteAll();
+
+}

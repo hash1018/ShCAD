@@ -80,9 +80,6 @@
     <ClCompile Include="Entity\ShEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="ShVector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Entity\Leaf\ShLine.cpp">
       <Filter>Entity\Leaf</Filter>
     </ClCompile>
@@ -161,12 +158,6 @@
     <ClCompile Include="Command Pattern\ShCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="Command Pattern\ShRedoCommand.cpp">
-      <Filter>Command Pattern</Filter>
-    </ClCompile>
-    <ClCompile Include="Command Pattern\ShUndoCommand.cpp">
-      <Filter>Command Pattern</Filter>
-    </ClCompile>
     <ClCompile Include="Command Pattern\ShAddEntityCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
@@ -206,6 +197,12 @@
     <ClCompile Include="ShSelectedEntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ShPoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\ShDeleteEntityCommand.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -221,9 +218,6 @@
     </ClInclude>
     <ClInclude Include="Entity\Leaf\ShLine.h">
       <Filter>Entity\Leaf</Filter>
-    </ClInclude>
-    <ClInclude Include="ShVector.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Interface\ShGraphicView.h">
       <Filter>Interface</Filter>
@@ -294,12 +288,6 @@
     <ClInclude Include="Command Pattern\ShCommand.h">
       <Filter>Command Pattern</Filter>
     </ClInclude>
-    <ClInclude Include="Command Pattern\ShRedoCommand.h">
-      <Filter>Command Pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Command Pattern\ShUndoCommand.h">
-      <Filter>Command Pattern</Filter>
-    </ClInclude>
     <ClInclude Include="Command Pattern\ShAddEntityCommand.h">
       <Filter>Command Pattern</Filter>
     </ClInclude>
@@ -338,6 +326,12 @@
     </ClInclude>
     <ClInclude Include="ShSelectedEntityManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShDeleteEntityCommand.h">
+      <Filter>Command Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -44,7 +44,7 @@ ShEntityMemento::ShEntityMemento()
 
 #include "Entity\ShEntity.h"
 ShEntityMemento::~ShEntityMemento() {
-	qDebug("~ShEntityMemento");
+	//qDebug("~ShEntityMemento");
 	if (this->entity != 0 && this->mustDeallocateEntity == true)
 		delete this->entity;
 }
@@ -73,3 +73,16 @@ ShMoveViewMemento::~ShMoveViewMemento() {
 
 }
 
+////////////////////////////////////////////////////////////////////////
+
+
+ShDeletedEntitiesMemento::ShDeletedEntitiesMemento() {
+
+}
+
+ShDeletedEntitiesMemento::~ShDeletedEntitiesMemento() {
+
+	while (!this->list.isEmpty())
+		delete this->list.takeFirst();
+	
+}
