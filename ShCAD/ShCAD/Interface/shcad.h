@@ -35,7 +35,7 @@ class QMdiArea;
 class ShMenuBar;
 class ShStatusBar;
 class ShRibbonMenu;
-
+class ShCommandDock;
 
 class QDockWidget;
 class QToolBar;
@@ -53,7 +53,7 @@ private:
 	QMdiArea *mdiArea;
 	ShStatusBar *statusBar;
 	ShRibbonMenu *ribbon;
-
+	ShCommandDock *commandDock;
 
 	QDockWidget *dock;
 

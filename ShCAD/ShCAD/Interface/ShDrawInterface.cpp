@@ -25,19 +25,45 @@
 --*/
 
 #include "ShDrawInterface.h"
+#include "ShDirectoryManager.h"
+#include <qpixmap.h>
+#include <qbitmap.h>
 
+#include <qmessagebox.h>
 ShDrawColumn::ShDrawColumn(QWidget *parent, const QString &title, int width)
 	:ShColumnInRibbonTab(parent, title, width) {
+	
+	QString path = ShDirectoryManager::GetImageUiPath();
+	QPixmap pix(20, 20);
+	pix.load(path + "\\Line.png");
+	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
 
+
+	QIcon icon(pix);
 	this->lineButton = new QToolButton(this->layoutWidget);
-	this->lineButton->setText("Line");
-	//this->lineButton->setStyleSheet("background:transparent"); it worked.
+	
+	this->lineButton->setIcon(icon);
+	
+
+
+
+	
+	this->lineButton->setStyleSheet("QToolButton {background-color : transparent}"
+		"QToolButton:hover {background :lightSkyBlue; border :1px solid SkyBlue}");// it worked.
+
+
+
+
+
 
 	this->circleButton = new QToolButton(this->layoutWidget);
 	this->circleButton->setText("Circle");
 
 	this->arcButton = new QToolButton(this->layoutWidget);
 	this->arcButton->setText("Arc");
+
+	
 
 	connect(this->lineButton, &QToolButton::pressed, this, &ShDrawColumn::LineButtonClicked);
 	connect(this->circleButton, &QToolButton::pressed, this, &ShDrawColumn::CircleButtonClicked);
@@ -86,6 +112,7 @@ void ShDrawColumn::CircleButtonClicked() {
 	}
 
 	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDefault);
+
 }
 
 void ShDrawColumn::ArcButtonClicked() {

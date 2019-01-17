@@ -179,6 +179,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Interface\Dock\ShCommandDock.cpp" />
     <ClCompile Include="Interface\shcad.cpp" />
     <ClCompile Include="Interface\ShDrawInterface.cpp" />
     <ClCompile Include="Interface\ShGraphicView.cpp" />
@@ -190,6 +191,7 @@
     <ClCompile Include="Memento Pattern\ShRedoTaker.cpp" />
     <ClCompile Include="Memento Pattern\ShUndoTaker.cpp" />
     <ClCompile Include="ShAxis.cpp" />
+    <ClCompile Include="ShDirectoryManager.cpp" />
     <ClCompile Include="ShMath.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
     <ClCompile Include="ShSelectedEntityManager.cpp" />
@@ -242,6 +244,7 @@
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />
     <ClInclude Include="Entity\ShEntity.h" />
     <ClInclude Include="FactoryMethod\ShCreatorActionFactory.h" />
+    <ClInclude Include="Interface\Dock\ShCommandDock.h" />
     <ClInclude Include="Interface\ShDrawInterface.h" />
     <ClInclude Include="Interface\ShGraphicView.h" />
     <ClInclude Include="Interface\ShMenuBar.h" />
@@ -251,6 +254,7 @@
     <ClInclude Include="Memento Pattern\ShRedoTaker.h" />
     <ClInclude Include="Memento Pattern\ShUndoTaker.h" />
     <ClInclude Include="ShAxis.h" />
+    <ClInclude Include="ShDirectoryManager.h" />
     <ClInclude Include="ShMath.h" />
     <ClInclude Include="ShRibbon.h" />
     <ClInclude Include="ShSelectedEntityManager.h" />

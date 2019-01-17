@@ -61,7 +61,7 @@ ShRibbonMenu::~ShRibbonMenu() {
 #include "ShDrawInterface.h"
 ShHomeTab::ShHomeTab(const QString &title, QWidget *parent)
 	:ShRibbonTab(title, parent) {
-
+	
 	this->drawColumn = new ShDrawColumn(this, "Draw", 100);
 	this->AddColumn(this->drawColumn);
 }

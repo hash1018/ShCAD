@@ -30,6 +30,7 @@
 #include <qtoolbar.h>
 #include "ShRibbonMenu.h"
 #include "ShStatusBar.h"
+#include "Dock\ShCommandDock.h"
 #include "Singleton Pattern\ShChangeManager.h"
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
@@ -48,6 +49,10 @@ ShCAD::ShCAD(QWidget *parent)
 
 	this->statusBar = new ShStatusBar(this);
 	this->setStatusBar(this->statusBar);
+
+	this->commandDock = new ShCommandDock(this);
+	this->commandDock->setWindowTitle("Command");
+	this->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea, this->commandDock);
 
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();

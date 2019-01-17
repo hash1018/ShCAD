@@ -69,6 +69,9 @@
     <Filter Include="ActionHandler\TemporaryAction">
       <UniqueIdentifier>{328cb968-8f90-4069-ba8a-65e620350f33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface\Dock">
+      <UniqueIdentifier>{4123d95d-56a4-4a9a-aed1-d719a23dd43a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -203,6 +206,12 @@
     <ClCompile Include="Command Pattern\ShDeleteEntityCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\Dock\ShCommandDock.cpp">
+      <Filter>Interface\Dock</Filter>
+    </ClCompile>
+    <ClCompile Include="ShDirectoryManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -332,6 +341,12 @@
     </ClInclude>
     <ClInclude Include="Command Pattern\ShDeleteEntityCommand.h">
       <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Dock\ShCommandDock.h">
+      <Filter>Interface\Dock</Filter>
+    </ClInclude>
+    <ClInclude Include="ShDirectoryManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
