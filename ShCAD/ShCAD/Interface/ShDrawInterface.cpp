@@ -28,45 +28,23 @@
 #include "ShDirectoryManager.h"
 #include <qpixmap.h>
 #include <qbitmap.h>
+#include <qmenu.h>
 
-#include <qmessagebox.h>
 ShDrawColumn::ShDrawColumn(QWidget *parent, const QString &title, int width)
 	:ShColumnInRibbonTab(parent, title, width) {
 	
-	QString path = ShDirectoryManager::GetImageUiPath();
-	QPixmap pix(20, 20);
-	pix.load(path + "\\Line.png");
-	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
-	pix.setMask(mask);
-
-
-	QIcon icon(pix);
-	this->lineButton = new QToolButton(this->layoutWidget);
-	
-	this->lineButton->setIcon(icon);
 	
 
-
-
-	
-	this->lineButton->setStyleSheet("QToolButton {background-color : transparent}"
-		"QToolButton:hover {background :lightSkyBlue; border :1px solid SkyBlue}");// it worked.
-
-
-
-
-
-
-	this->circleButton = new QToolButton(this->layoutWidget);
-	this->circleButton->setText("Circle");
-
-	this->arcButton = new QToolButton(this->layoutWidget);
-	this->arcButton->setText("Arc");
+	this->InitLineButton();
+	this->InitCircleButton();
+	this->InitArcButton();
 
 	
 
-	connect(this->lineButton, &QToolButton::pressed, this, &ShDrawColumn::LineButtonClicked);
-	connect(this->circleButton, &QToolButton::pressed, this, &ShDrawColumn::CircleButtonClicked);
+	
+
+	
+	
 }
 
 ShDrawColumn::~ShDrawColumn() {
@@ -81,11 +59,14 @@ void ShDrawColumn::resizeEvent(QResizeEvent *event) {
 	int width = this->layoutWidget->width();
 	int height = this->layoutWidget->height();
 
-	this->lineButton->setGeometry(0, 0, width / 3, height);
-	this->circleButton->setGeometry(width / 3, 0, width / 3, height);
-	this->arcButton->setGeometry(width / 3 * 2, 0, width / 3, height);
+	this->lineButton->setGeometry(0, 0, width / 2, height / 3);
+	this->circleButton->setGeometry(width / 2, 0, width / 2, height / 3);
+
+	this->arcButton->setGeometry(0, height / 3, width / 2, height / 3);
 
 }
+
+
 
 #include "Singleton Pattern\ShWidgetManager.h"
 #include "ShGraphicView.h"
@@ -118,4 +99,73 @@ void ShDrawColumn::CircleButtonClicked() {
 void ShDrawColumn::ArcButtonClicked() {
 
 
+}
+
+
+
+void ShDrawColumn::InitLineButton() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+
+	QPixmap pix(path + "\\Line.png");
+	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+
+
+	QIcon icon(pix);
+	this->lineButton = new ShButtonWithMenuPopup(this->layoutWidget);
+	this->lineButton->SetIcon(icon);
+
+	QMenu *menu = new QMenu(this->lineButton);
+	menu->addAction("sdsad");
+	menu->addAction("kkkk");
+	this->lineButton->SetMenu(menu);
+
+
+
+
+	connect(this->lineButton, &ShButtonWithMenuPopup::pressed, this, &ShDrawColumn::LineButtonClicked);
+
+}
+
+void ShDrawColumn::InitCircleButton() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+
+	QPixmap pix(path + "\\Circle.png");
+	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+
+	QIcon icon(pix);
+	this->circleButton = new ShButtonWithMenuPopup(this->layoutWidget);
+	this->circleButton->SetIcon(icon);
+
+	QMenu *menu = new QMenu(this->circleButton);
+	menu->addAction("sdsad");
+	menu->addAction("kkkk");
+	this->circleButton->SetMenu(menu);
+
+
+	connect(this->circleButton, &ShButtonWithMenuPopup::pressed, this, &ShDrawColumn::CircleButtonClicked);
+}
+
+void ShDrawColumn::InitArcButton() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+
+	QPixmap pix(path + "\\Arc.png");
+	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+
+	QIcon icon(pix);
+	this->arcButton = new ShButtonWithMenuPopup(this->layoutWidget);
+	this->arcButton->SetIcon(icon);
+
+	QMenu *menu = new QMenu(this->arcButton);
+	menu->addAction("sdsad");
+	menu->addAction("kkkk");
+	this->arcButton->SetMenu(menu);
+
+
+	connect(this->arcButton, &ShButtonWithMenuPopup::pressed, this, &ShDrawColumn::ArcButtonClicked);
 }

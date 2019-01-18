@@ -27,13 +27,13 @@
 #define _SHDRAWINTERFACE_H
 
 #include "ShRibbon.h"
-#include <qtoolbutton.h>
+#include "ShCustomizedWidget.h"
 class ShDrawColumn : public ShColumnInRibbonTab {
 
 private:
-	QToolButton *lineButton;
-	QToolButton *circleButton;
-	QToolButton *arcButton;
+	ShButtonWithMenuPopup *lineButton;
+	ShButtonWithMenuPopup *circleButton;
+	ShButtonWithMenuPopup *arcButton;
 public:
 	ShDrawColumn(QWidget *parent, const QString &title, int width);
 	~ShDrawColumn();
@@ -45,6 +45,15 @@ protected:
 	void LineButtonClicked();
 	void CircleButtonClicked();
 	void ArcButtonClicked();
+
+
+
+
+
+private:
+	void InitLineButton();
+	void InitCircleButton();
+	void InitArcButton();
 };
 
 
