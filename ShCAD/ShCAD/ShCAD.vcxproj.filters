@@ -221,6 +221,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ShCustomizedWidget.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="ShNotifyEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -358,6 +361,9 @@
       <Filter>Interface\Dock</Filter>
     </ClInclude>
     <ClInclude Include="ShDirectoryManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShNotifyEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

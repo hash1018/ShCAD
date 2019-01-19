@@ -202,6 +202,7 @@
     <ClCompile Include="ShCustomizedWidget.cpp" />
     <ClCompile Include="ShDirectoryManager.cpp" />
     <ClCompile Include="ShMath.cpp" />
+    <ClCompile Include="ShNotifyEvent.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
     <ClCompile Include="ShSelectedEntityManager.cpp" />
     <ClCompile Include="ShPoint.cpp" />
@@ -283,6 +284,7 @@
     </CustomBuild>
     <ClInclude Include="ShDirectoryManager.h" />
     <ClInclude Include="ShMath.h" />
+    <ClInclude Include="ShNotifyEvent.h" />
     <ClInclude Include="ShRibbon.h" />
     <ClInclude Include="ShSelectedEntityManager.h" />
     <ClInclude Include="ShVariable.h" />

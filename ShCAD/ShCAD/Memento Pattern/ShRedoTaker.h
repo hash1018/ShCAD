@@ -44,6 +44,8 @@ public:
 	/* deallocate all items and set empty */
 	void DeleteAll();
 
+	inline int GetSize() const { return this->stack.size(); }
+
 };
 
 #endif //_SHREDOTAKER_H

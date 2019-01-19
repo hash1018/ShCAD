@@ -36,6 +36,7 @@
 #include <qobject.h>
 #include "Interface\ShGraphicView.h"
 
+class ShKeyPressedEvent;
 class QMouseEvent;
 class QKeyEvent;
 class ShActionHandler : public QObject {
@@ -55,12 +56,17 @@ public:
 	virtual ActionType GetType() = 0;
 	virtual QCursor GetCursorShape();
 	virtual void Draw(QPainter *painter) {}
+
+
 	
 
 
 protected:
 	//delete key pressed,
 	void DeleteSelectedEntities();
+
+	//esc key pressed, returns true if entity gets unselected.
+	bool UnSelectSelectedEntities();
 };
 
 #endif //_SHACTIONMODE_H

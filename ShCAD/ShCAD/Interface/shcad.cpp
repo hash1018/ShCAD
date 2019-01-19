@@ -57,6 +57,7 @@ ShCAD::ShCAD(QWidget *parent)
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();
 	manager->Register(this->statusBar);
+	manager->Register(this->commandDock);
 
 
 

@@ -1,6 +1,32 @@
 
+/*--
+**
+**   This file is part of the ShCAD project, a 2D CAD Program
+**
+**    Copyright (C) 2019, Seungho Ha  (sh.ha1018@gmail.com)
+**
+**
+**   This program is free software; you can redistribute it and/or modify it
+**   under the terms of the GNU Lesser General Public License as published by
+**   the Free Software Foundation; either version 2.1 of the License, or (at
+**   your option) any later version.
+**
+**   This program is distributed in the hope that it will be useful, but
+**   WITHOUT ANY WARRANTY; without even the implied warranty of
+**   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+**   General Public License for more details.
+**
+**   You should have received a copy of the GNU Lesser General Public License
+**   along with this program; if not, write to the Free Software Foundation,
+**   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+**
+**
+--*/
+
 #include "ShCommandDock.h"
 #include <QResizeEvent>
+#include "ShNotifyEvent.h"
+#include "Singleton Pattern\ShChangeManager.h"
 
 ShCommandList::ShCommandList(QWidget *parent)
 	:QTextEdit(parent) {
@@ -14,11 +40,29 @@ ShCommandList::~ShCommandList() {
 
 
 ShCommandEdit::ShCommandEdit(QWidget *parent)
-	:QLineEdit(parent) {
+	:QLineEdit(parent),calledKeyPressEventByUpdate(false) {
 
 }
 
 ShCommandEdit::~ShCommandEdit() {
+
+}
+
+void ShCommandEdit::keyPressEvent(QKeyEvent *event) {
+
+	if (this->hasFocus() == false)
+		this->setFocus();
+
+	if (this->calledKeyPressEventByUpdate == true) {
+		QLineEdit::keyPressEvent(event);
+	}
+	else {
+	
+		ShKeyPressedEvent event2(event);
+		dynamic_cast<ShCommandDock*>(this->parent()->parent())->Notify(&event2);
+	}
+
+	
 
 }
 
@@ -60,9 +104,26 @@ ShCommandDock::~ShCommandDock() {
 
 }
 
+void ShCommandDock::Update(QKeyEvent *event) {
+
+	
+
+	this->container->edit->calledKeyPressEventByUpdate = true;
+	this->container->edit->keyPressEvent(event);
+	this->container->edit->calledKeyPressEventByUpdate = false;
+
+}
+
+void ShCommandDock::Notify(ShNotifyEvent *event) {
+
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+
+	manager->Notify(this, event);
+}
 
 void ShCommandDock::closeEvent(QCloseEvent *event) {
 
 	event->ignore();
 	this->hide();
 }
+

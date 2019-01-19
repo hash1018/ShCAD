@@ -39,6 +39,7 @@
 class ShRubberBand;
 class ShActionHandler;
 class ShTemporaryAction;
+class ShNotifyEvent;
 class ShGraphicView : public QOpenGLWidget {
 
 private:
@@ -77,7 +78,10 @@ public:
 	virtual void update(DrawType drawType = DrawType::DrawAll);
 
 	void CaptureImage();
-	void Notify(NotifyEvent event);
+
+	void Notify(ShNotifyEvent *event);
+	void Update(ShNotifyEvent *event);
+
 	double GetX() const;
 	double GetY() const;
 	double GetZ() const;

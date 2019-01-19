@@ -39,6 +39,7 @@ public:
 	virtual void MouseMoveEvent(QMouseEvent *event);
 	virtual void KeyPressEvent(QKeyEvent *event);
 
+
 	virtual ActionType GetType();
 };
 

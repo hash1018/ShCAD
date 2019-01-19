@@ -30,6 +30,7 @@
 #include "Entity\Leaf\ShRubberBand.h"
 #include <QMouseEvent>
 #include "ShMath.h"
+#include "ShNotifyEvent.h"
 
 ShGraphicView::ShGraphicView(QWidget *parent)
 	:QOpenGLWidget(parent){
@@ -217,7 +218,9 @@ void ShGraphicView::mouseMoveEvent(QMouseEvent *event) {
 		this->setFocus();
 	
 	this->ConvertDeviceToEntity(event->x(), event->y(), this->x, this->y);
-	this->Notify(NotifyEvent::NotifyMousePositionChanged);
+
+	ShMousePositionChangedEvent notifyEvent(this->x, this->y, this->z, this->zoomRate);
+	this->Notify(&notifyEvent);
 
 
 	this->currentAction->MouseMoveEvent(event);
@@ -229,6 +232,10 @@ void ShGraphicView::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 void ShGraphicView::keyPressEvent(QKeyEvent *event) {
+
+	//ShKeyPressedEvent event2(event);
+
+	//this->Notify(&event2);
 
 	this->currentAction->KeyPressEvent(event);
 
@@ -269,7 +276,8 @@ void ShGraphicView::wheelEvent(QWheelEvent *event) {
 	this->update(DrawType::DrawAll);
 	this->CaptureImage();
 
-	this->Notify(NotifyEvent::NotifyZoomRateChanged);
+	ShZoomRateChangedEvent notifyEvent(this->x, this->y, this->z, this->zoomRate);
+	this->Notify(&notifyEvent);
 
 }
 
@@ -339,11 +347,20 @@ void ShGraphicView::focusInEvent(QFocusEvent *event) {
 }
 
 #include "Singleton Pattern\ShChangeManager.h"
-void ShGraphicView::Notify(NotifyEvent event) {
+void ShGraphicView::Notify(ShNotifyEvent *event) {
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();
 
 	manager->Notify(this, event);
+
+}
+
+void ShGraphicView::Update(ShNotifyEvent *event) {
+
+	if (dynamic_cast<ShKeyPressedEvent*>(event)) {
+		this->currentAction->KeyPressEvent(dynamic_cast<ShKeyPressedEvent*>(event)->GetEvent());
+	}
+
 
 }
 
@@ -379,7 +396,8 @@ void ShGraphicView::MoveView(double ex, double ey, double zoomRate, int dx, int 
 	QPoint pos = this->mapFromGlobal(QCursor::pos());
 	this->ConvertDeviceToEntity(pos.x(), pos.y(), this->x, this->y);
 	
-	this->Notify(NotifyEvent::NotifyMousePositionChanged);
+	ShMousePositionChangedEvent notifyEvent(this->x, this->y, this->z, this->zoomRate);
+	this->Notify(&notifyEvent);
 }
 
 void ShGraphicView::SetTemporaryAction(ShTemporaryAction *temporaryAction) {
