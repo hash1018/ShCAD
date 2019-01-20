@@ -30,6 +30,8 @@ ShMoveViewCommand::ShMoveViewCommand(ShGraphicView *view, ShMoveViewMemento *mem
 
 	this->view = view;
 	this->memento = memento;
+
+	this->commandText = "ViewMove";
 }
 
 ShMoveViewCommand::~ShMoveViewCommand() {

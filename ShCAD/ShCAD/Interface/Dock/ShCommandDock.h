@@ -32,7 +32,8 @@
 #include <qdockwidget.h>
 
 class ShNotifyEvent;
-
+class ShKeyPressedEvent;
+class ShUpdateListTextEvent;
 
 class ShCommandList : public QTextEdit {
 
@@ -82,7 +83,9 @@ public:
 	ShCommandDock(QWidget *parent = 0);
 	~ShCommandDock();
 
-	void Update(QKeyEvent *event);
+	void Update(ShKeyPressedEvent *event);
+	void Update(ShUpdateListTextEvent *event);
+
 	void Notify(ShNotifyEvent *event);
 
 protected:

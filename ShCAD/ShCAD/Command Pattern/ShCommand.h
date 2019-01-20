@@ -26,6 +26,8 @@
 #ifndef _SHCOMMAND_H
 #define _SHCOMMAND_H
 
+#include <qstring.h>
+
 class ShMemento;
 class ShCommand {
 
@@ -34,6 +36,11 @@ public:
 	virtual void Execute() = 0;
 	virtual void UnExecute() = 0;
 
+	inline const QString& GetCommandText() const { return this->commandText; }
+
+private:
+	friend class ShRedoTaker;
+	friend class ShUndoTaker;
 	//Make sure that this class ( even sub class ) is created in heap area.
 	//Used this function in redoTaker,undoTaker class.
 	void Destroy();
@@ -41,6 +48,7 @@ public:
 protected:
 	virtual ~ShCommand() = 0;
 	ShMemento *memento;
+	QString commandText;
 
 };
 

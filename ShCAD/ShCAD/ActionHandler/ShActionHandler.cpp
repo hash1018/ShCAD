@@ -24,7 +24,7 @@
 --*/
 
 #include "ShActionHandler.h"
-
+#include "ShNotifyEvent.h"
 ShActionHandler::ShActionHandler(ShGraphicView *graphicView) {
 
 	this->graphicView = graphicView;
@@ -86,4 +86,111 @@ bool ShActionHandler::UnSelectSelectedEntities() {
 	}
 
 	return false;
+}
+
+
+void ShActionHandler::KeyEscPressed() {
+
+	this->UnSelectSelectedEntities();
+
+	ShUpdateListTextEvent event("<Cancel>");
+	this->graphicView->Notify(&event);
+
+
+}
+
+void ShActionHandler::KeyDeletePressed() {
+
+	int size = this->graphicView->selectedEntityManager.GetSize();
+
+	this->DeleteSelectedEntities();
+
+	ShUpdateListTextEvent event("<Delete>",
+		ShUpdateListTextEvent::editTextAndNewLineHeadTitleWithText);
+	this->graphicView->Notify(&event);
+
+	ShUpdateListTextEvent event2("All Entities (" + QString::number(size) + ") is deleted.",
+		ShUpdateListTextEvent::TextWithoutAnything);
+	this->graphicView->Notify(&event2);
+
+
+}
+
+void ShActionHandler::KeyCtrlAPressed() {
+
+	this->graphicView->selectedEntityManager.SelectAll(&(this->graphicView->entityTable));
+
+	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
+	this->graphicView->CaptureImage();
+
+	ShUpdateListTextEvent event("<SelectAll>",
+		ShUpdateListTextEvent::editTextAndNewLineHeadTitleWithText);
+	this->graphicView->Notify(&event);
+
+	int size = this->graphicView->selectedEntityManager.GetSize();
+
+	ShUpdateListTextEvent event2("All Entities (" + QString::number(size) + ") is selected.",
+		ShUpdateListTextEvent::TextWithoutAnything);
+	this->graphicView->Notify(&event2);
+
+}
+
+void ShActionHandler::KeyCtrlZPressed() {
+
+	QString first, second;
+
+	if (this->graphicView->undoTaker.IsEmpty() == false) {
+		ShCommand *command = this->graphicView->undoTaker.Pop();
+		command->UnExecute();
+
+		this->graphicView->redoTaker.Push(command);
+
+		first = "<Undo>";
+		second = command->GetCommandText() + " UnExecuted.";
+	}
+	else {
+
+		first = "<Undo>";
+		second = "No remaining Undo Command.";
+	}
+
+	ShUpdateListTextEvent event(first,
+		ShUpdateListTextEvent::editTextAndNewLineHeadTitleWithText);
+	this->graphicView->Notify(&event);
+
+	ShUpdateListTextEvent event2(second,
+		ShUpdateListTextEvent::TextWithoutAnything);
+	this->graphicView->Notify(&event2);
+
+}
+
+void ShActionHandler::KeyCtrlYPressed() {
+
+	QString first, second;
+
+	if (this->graphicView->redoTaker.IsEmpty() == false) {
+
+		ShCommand *command = this->graphicView->redoTaker.Pop();
+		command->Execute();
+
+		this->graphicView->undoTaker.Push(command);
+
+		first = "<Redo>";
+		second = command->GetCommandText() + " Executed.";
+	}
+	else {
+
+		first = "<Redo>";
+		second = "No remaining Redo Command.";
+	}
+
+
+	ShUpdateListTextEvent event(first,
+		ShUpdateListTextEvent::editTextAndNewLineHeadTitleWithText);
+	this->graphicView->Notify(&event);
+
+	ShUpdateListTextEvent event2(second,
+		ShUpdateListTextEvent::TextWithoutAnything);
+	this->graphicView->Notify(&event2);
+
 }

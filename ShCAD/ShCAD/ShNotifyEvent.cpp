@@ -27,7 +27,7 @@
 
 
 ShNotifyEvent::ShNotifyEvent()
-	:type(Type::NotifyNothing) {
+	:type(Type::Nothing) {
 
 }
 
@@ -40,7 +40,7 @@ ShNotifyEvent::~ShNotifyEvent() {
 ShZoomRateChangedEvent::ShZoomRateChangedEvent(double x, double y, double z, double zoomRate)
 	:x(x), y(y), z(z), zoomRate(zoomRate) {
 
-	this->type = Type::NotifyZoomRateChanged;
+	this->type = Type::ZoomRateChanged;
 }
 
 ShZoomRateChangedEvent::~ShZoomRateChangedEvent() {
@@ -52,7 +52,7 @@ ShZoomRateChangedEvent::~ShZoomRateChangedEvent() {
 ShMousePositionChangedEvent::ShMousePositionChangedEvent(double x, double y, double z, double zoomRate)
 	:x(x), y(y), z(z), zoomRate(zoomRate) {
 
-	this->type = Type::NotifyMousePositionChanged;
+	this->type = Type::MousePositionChanged;
 }
 
 ShMousePositionChangedEvent::~ShMousePositionChangedEvent() {
@@ -64,7 +64,7 @@ ShMousePositionChangedEvent::~ShMousePositionChangedEvent() {
 ShKeyPressedEvent::ShKeyPressedEvent(QKeyEvent *event)
 	:event(event) {
 
-	this->type = Type::NotifyKeyPressed;
+	this->type = Type::KeyPressed;
 }
 
 ShKeyPressedEvent::~ShKeyPressedEvent() {
@@ -72,3 +72,14 @@ ShKeyPressedEvent::~ShKeyPressedEvent() {
 }
 
 ///////////////////////////////////////////////////////////////////
+
+
+ShUpdateListTextEvent::ShUpdateListTextEvent(const QString& text, ShUpdateListTextEvent::UpdateType type)
+	:text(text),updateType(type) {
+
+	this->type = Type::UpdateListText;
+}
+
+ShUpdateListTextEvent::~ShUpdateListTextEvent() {
+
+}

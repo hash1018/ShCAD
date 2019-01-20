@@ -49,6 +49,7 @@ ShCommandEdit::~ShCommandEdit() {
 
 }
 
+
 void ShCommandEdit::keyPressEvent(QKeyEvent *event) {
 
 	if (this->hasFocus() == false)
@@ -120,13 +121,45 @@ ShCommandDock::~ShCommandDock() {
 
 }
 
-void ShCommandDock::Update(QKeyEvent *event) {
-
-	
+void ShCommandDock::Update(ShKeyPressedEvent *event) {
 
 	this->container->edit->calledKeyPressEventByUpdate = true;
-	this->container->edit->keyPressEvent(event);
+	this->container->edit->keyPressEvent(event->GetEvent());
 	this->container->edit->calledKeyPressEventByUpdate = false;
+}
+
+void ShCommandDock::Update(ShUpdateListTextEvent *event) {
+
+	if (event->GetUpdateType() == 
+		ShUpdateListTextEvent::editTextWithText) {
+
+		QString currentText = this->container->edit->text() + event->GetText();
+		this->container->list->append(currentText);
+
+		this->container->edit->clear();
+		this->container->edit->setText(this->container->edit->headTitle);
+
+	}
+	else if (event->GetUpdateType() ==
+		ShUpdateListTextEvent::editTextAndNewLineHeadTitleWithText) {
+
+		QString currentText = this->container->edit->text();
+
+		this->container->list->append(currentText);
+
+		this->container->list->append(this->container->edit->headTitle + event->GetText());
+
+		this->container->edit->clear();
+		this->container->edit->setText(this->container->edit->headTitle);
+	}
+
+	else if (event->GetUpdateType() ==
+		ShUpdateListTextEvent::TextWithoutAnything) {
+	
+		this->container->list->append(event->GetText());
+	
+	}
+
 
 }
 

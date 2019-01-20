@@ -30,12 +30,13 @@ class ShNotifyEvent {
 
 public:
 	enum Type {
-		NotifyNothing = 0,
-		NotifyZoomRateChanged = 1,
-		NotifyMousePositionChanged = 2,
-		NotifyKeyPressed = 3,
-		
-		
+		Nothing = 0,
+		ZoomRateChanged = 1,
+		MousePositionChanged = 2,
+		KeyPressed = 3,
+		UpdateListText = 4,
+
+
 
 
 	};
@@ -100,5 +101,28 @@ protected:
 	QKeyEvent *event;
 };
 
+#include <qstring.h>
+class ShUpdateListTextEvent : public ShNotifyEvent {
+public:
+	enum UpdateType {
+		editTextWithText=1,
+		editTextAndNewLineHeadTitleWithText=2,
+		TextWithoutAnything=3,
+		
+	};
+
+public:
+	ShUpdateListTextEvent(const QString& text, ShUpdateListTextEvent::UpdateType type = UpdateType::editTextWithText);
+	~ShUpdateListTextEvent();
+
+	inline const QString& GetText() const { return this->text; }
+	inline UpdateType GetUpdateType() const { return this->updateType; }
+
+private:
+	QString text;
+	UpdateType updateType;
+
+
+};
 
 #endif //_SHNOTIFYEVENT_H

@@ -31,6 +31,7 @@ ShDeleteEntityCommand::ShDeleteEntityCommand(ShGraphicView *view, ShDeletedEntit
 	this->graphicView = view;
 	this->memento = memento;
 
+	this->commandText = "Delete";
 }
 
 ShDeleteEntityCommand::~ShDeleteEntityCommand() {

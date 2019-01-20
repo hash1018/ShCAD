@@ -79,53 +79,47 @@ void ShDefaultAction::MouseMoveEvent(QMouseEvent *event) {
 void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 
 	// Ctrl + Z undo
-	if (event->modifiers()==Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Z) {
+	if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Z) {
 	
 		if (ShActionHandler::UnSelectSelectedEntities() == true)
 			return;
 
-		if (this->graphicView->undoTaker.IsEmpty()==false) {
-			ShCommand *command = this->graphicView->undoTaker.Pop();
-			command->UnExecute();
-
-			this->graphicView->redoTaker.Push(command);
-
-		}	
+		ShActionHandler::KeyCtrlZPressed();
+		
 	}
 
 	//Ctrl + Y redo
-	else if (event->modifiers()==Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Y) {
-		
+	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Y) {
+
 		if (ShActionHandler::UnSelectSelectedEntities() == true)
 			return;
 
-		if (this->graphicView->redoTaker.IsEmpty() == false) {
-			
-			ShCommand *command = this->graphicView->redoTaker.Pop();
-			command->Execute();
+		ShActionHandler::KeyCtrlYPressed();
 
-			this->graphicView->undoTaker.Push(command);
-		}
 	}
+
+
 
 	//Ctrl + A Select All
-	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_A) {
-		
-		this->graphicView->selectedEntityManager.SelectAll(&(this->graphicView->entityTable));
+	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_A)
+		ShActionHandler::KeyCtrlAPressed();
 
-		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
-		this->graphicView->CaptureImage();
-	}
+
 
 	//Delete 
 	else if (event->key() == Qt::Key::Key_Delete) {
 	
-		ShActionHandler::DeleteSelectedEntities();
+		if (this->graphicView->selectedEntityManager.GetSize() == 0) {
+			ShKeyPressedEvent event2(event);
+			this->graphicView->Notify(&event2);
+		}
+		else
+			ShActionHandler::KeyDeletePressed();
+
 	}
 
-	else if (event->key() == Qt::Key::Key_Escape) {
-		ShActionHandler::UnSelectSelectedEntities();
-	}
+	else if (event->key() == Qt::Key::Key_Escape)
+		ShActionHandler::KeyEscPressed();
 
 	else {
 	

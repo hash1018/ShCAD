@@ -58,29 +58,30 @@ void ShChangeManager::Register(ShCommandDock *commandDock) {
 
 void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 
-	if (event->GetType() == ShNotifyEvent::Type::NotifyMousePositionChanged) {
+	if (event->GetType() == ShNotifyEvent::Type::MousePositionChanged) {
 
 		ShMousePositionChangedEvent *event2 = dynamic_cast<ShMousePositionChangedEvent*>(event);
 		this->statusBar->Update(event2->GetX(), event2->GetY(), event2->GetZ(), event2->GetZoomRate());
 	}
-	else if (event->GetType() == ShNotifyEvent::Type::NotifyZoomRateChanged) {
+	else if (event->GetType() == ShNotifyEvent::Type::ZoomRateChanged) {
 
 		ShZoomRateChangedEvent *event2 = dynamic_cast<ShZoomRateChangedEvent*>(event);
 		this->statusBar->Update(event2->GetX(), event2->GetY(), event2->GetZ(), event2->GetZoomRate());
 
 	}
-	else if (event->GetType() == ShNotifyEvent::Type::NotifyKeyPressed) {
+	else if (event->GetType() == ShNotifyEvent::Type::KeyPressed)
+		this->commandDock->Update(dynamic_cast<ShKeyPressedEvent*>(event));
+
+	else if (event->GetType() == ShNotifyEvent::Type::UpdateListText)
+		this->commandDock->Update(dynamic_cast<ShUpdateListTextEvent*>(event));
 	
-		ShKeyPressedEvent *event2 = dynamic_cast<ShKeyPressedEvent*>(event);
-		this->commandDock->Update(event2->GetEvent());
-	}
-	
+
 }
 
 
 void ShChangeManager::Notify(ShCommandDock* commandDock, ShNotifyEvent *event) {
 	
-	if (event->GetType() == ShNotifyEvent::Type::NotifyKeyPressed) {
+	if (event->GetType() == ShNotifyEvent::Type::KeyPressed) {
 	
 		ShWidgetManager *manager = ShWidgetManager::GetInstance();
 

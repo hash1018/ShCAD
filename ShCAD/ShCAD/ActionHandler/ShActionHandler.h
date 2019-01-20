@@ -62,11 +62,25 @@ public:
 
 
 protected:
-	//delete key pressed,
+	//usually delete key pressed, this function called.
 	void DeleteSelectedEntities();
 
-	//esc key pressed, returns true if entity gets unselected.
+	//usually esc key pressed, this function called. returns true if entity gets unselected.
 	bool UnSelectSelectedEntities();
+
+
+
+	//unselect all selected entities , .. , etc.
+	virtual void KeyEscPressed();
+
+	//delete all selected entities...
+	virtual void KeyDeletePressed();
+
+	virtual void KeyCtrlAPressed();
+
+	virtual void KeyCtrlZPressed();
+	
+	virtual void KeyCtrlYPressed();
 };
 
 #endif //_SHACTIONMODE_H

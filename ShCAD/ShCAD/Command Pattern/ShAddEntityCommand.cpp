@@ -32,6 +32,8 @@ ShAddEntityCommand::ShAddEntityCommand(ShGraphicView *view, ShEntityMemento *mem
 
 	this->graphicView = view;
 	this->memento = memento;
+
+	this->commandText = "AddEntity";
 }
 
 ShAddEntityCommand::~ShAddEntityCommand() {
