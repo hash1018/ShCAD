@@ -39,14 +39,9 @@ class ShCommandDock;
 
 class QDockWidget;
 class QToolBar;
+class QMdiSubWindow;
 class ShCAD : public QMainWindow{
 	Q_OBJECT
-
-public:
-	ShCAD(QWidget *parent = 0);
-	~ShCAD();
-
-	void NewActionClicked();
 
 private:
 	ShMenuBar *menuBar;
@@ -59,12 +54,30 @@ private:
 
 	QToolBar *toolBar;
 
+public:
+	ShCAD(QWidget *parent = 0);
+	~ShCAD();
+
+	void NewActionClicked();
+	void InitWidgets();
+
+	void ActivateWidgets();
+	void DeActivateWidgets();
+
+
+	private slots:
+	void SubActivatedWindowChanged(QMdiSubWindow*);
+
+
+
 protected:
 	bool eventFilter(QObject *obj, QEvent *event);
 
 	
 	//void ShowContextMenu(const QPoint &pos);
 	//void TestCustomContextMenu();
+
+	
 };
 
 #endif // SHCAD_H

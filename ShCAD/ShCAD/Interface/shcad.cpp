@@ -36,45 +36,20 @@ ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 
 	
-	this->menuBar = new ShMenuBar(this);
-	this->setMenuBar(this->menuBar);
-	
-	this->mdiArea = new QMdiArea;
-	this->setCentralWidget(this->mdiArea);
-	this->mdiArea->setDocumentMode(true);
-
-	this->ribbon = new ShRibbonMenu(150, this);
-	this->ribbon->setWindowTitle("RibbonBar");
-	this->addToolBar(this->ribbon);
-
-	this->statusBar = new ShStatusBar(this);
-	this->setStatusBar(this->statusBar);
-
-	this->commandDock = new ShCommandDock(this);
-	this->commandDock->setWindowTitle("Command");
-	this->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea, this->commandDock);
-
-
-	ShChangeManager *manager = ShChangeManager::GetInstance();
-	manager->Register(this->statusBar);
-	manager->Register(this->commandDock);
-
-
-
-	this->dock = new QDockWidget(this);
-	this->dock->installEventFilter(this);
-	this->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, this->dock);
-	
-
-	QToolBar *temp2 = new QToolBar(this);
-	this->addToolBarBreak();
-	this->addToolBar(temp2);
+	this->InitWidgets();
+	this->NewActionClicked();
 
 	
+
+	
+	connect(this->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(SubActivatedWindowChanged(QMdiSubWindow*)));
+
 }
 
 ShCAD::~ShCAD(){
 	
+	if (this->mdiArea != NULL)
+		delete this->mdiArea;
 
 	
 }
@@ -83,6 +58,9 @@ ShCAD::~ShCAD(){
 #include "Singleton Pattern\ShWidgetManager.h"
 void ShCAD::NewActionClicked() {
 	
+	if (this->mdiArea->subWindowList().size() == 0) {
+		this->ActivateWidgets();
+	}
 	
 	
 	ShGraphicView *newWidget = new ShGraphicView(this->mdiArea);
@@ -93,6 +71,7 @@ void ShCAD::NewActionClicked() {
 	
 	ShWidgetManager::GetInstance()->SetActivatedWidget(newWidget);
 	
+	ShWidgetManager::GetInstance()->Add(newWidget);
 }
 
 
@@ -139,3 +118,75 @@ void ShCAD::TestCustomContextMenu() {
 
 }
 */
+
+void ShCAD::SubActivatedWindowChanged(QMdiSubWindow *window) {
+
+	if (this->mdiArea->subWindowList().size() == 0)
+		this->DeActivateWidgets();
+
+
+}
+
+void ShCAD::InitWidgets() {
+
+	this->menuBar = new ShMenuBar(this);
+	this->setMenuBar(this->menuBar);
+	
+
+	this->mdiArea = new QMdiArea;
+	this->mdiArea->setDocumentMode(true);
+	this->mdiArea->hide();
+
+	this->ribbon = new ShRibbonMenu(150, this);
+	this->ribbon->setWindowTitle("RibbonBar");
+	this->ribbon->hide();
+	
+
+	this->statusBar = new ShStatusBar(this);
+	this->setStatusBar(this->statusBar);
+	this->statusBar->hide();
+	
+
+	this->commandDock = new ShCommandDock(this);
+	this->commandDock->setWindowTitle("Command");
+	this->commandDock->hide();
+	
+	this->dock = new QDockWidget(this);
+	this->dock->installEventFilter(this);
+	this->dock->hide();
+
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+	manager->Register(this->statusBar);
+	manager->Register(this->commandDock);
+	
+}
+
+void ShCAD::ActivateWidgets() {
+
+	this->setCentralWidget(this->mdiArea);
+	this->mdiArea->show();
+
+	this->addToolBar(this->ribbon);
+	this->ribbon->show();
+
+	this->statusBar->show();
+	
+	this->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea, this->commandDock);
+	this->commandDock->show();
+
+	this->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, this->dock);
+	this->dock->show();
+	
+
+
+}
+
+void ShCAD::DeActivateWidgets() {
+
+	this->takeCentralWidget();
+	this->removeToolBar(this->ribbon);
+	this->statusBar->hide();
+	this->removeDockWidget(this->commandDock);
+	this->removeDockWidget(this->dock);
+	
+}

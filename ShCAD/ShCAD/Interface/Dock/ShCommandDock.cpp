@@ -40,8 +40,9 @@ ShCommandList::~ShCommandList() {
 
 
 ShCommandEdit::ShCommandEdit(QWidget *parent)
-	:QLineEdit(parent),calledKeyPressEventByUpdate(false) {
+	:QLineEdit(parent), calledKeyPressEventByUpdate(false), headTitle(":: ") {
 
+	this->setText(this->headTitle);
 }
 
 ShCommandEdit::~ShCommandEdit() {
@@ -54,7 +55,22 @@ void ShCommandEdit::keyPressEvent(QKeyEvent *event) {
 		this->setFocus();
 
 	if (this->calledKeyPressEventByUpdate == true) {
+
+		if(event->key() == Qt::Key_Left)
+			if (this->cursorPosition() == this->headTitle.length())
+				return;
+
+		if (this->hasSelectedText() == false) {
+			if (event->key() == Qt::Key::Key_Backspace)
+				if (this->cursorPosition() == this->headTitle.length())
+					return;
+		}
+
 		QLineEdit::keyPressEvent(event);
+
+		if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_A) {
+			this->setSelection(this->headTitle.length(), this->maxLength());
+		}
 	}
 	else {
 	

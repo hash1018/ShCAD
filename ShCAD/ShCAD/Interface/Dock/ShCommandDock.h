@@ -49,6 +49,8 @@ class ShCommandEdit : public QLineEdit {
 
 private:
 	bool calledKeyPressEventByUpdate;
+	QString headTitle;
+
 private:
 	ShCommandEdit(QWidget *parent = 0);
 	~ShCommandEdit();

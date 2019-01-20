@@ -31,6 +31,7 @@
 #include <QMouseEvent>
 #include "ShMath.h"
 #include "ShNotifyEvent.h"
+#include "Singleton Pattern\ShWidgetManager.h"
 
 ShGraphicView::ShGraphicView(QWidget *parent)
 	:QOpenGLWidget(parent){
@@ -40,7 +41,7 @@ ShGraphicView::ShGraphicView(QWidget *parent)
 	this->setCursor(this->currentAction->GetCursorShape());
 
 	this->setFocusPolicy(Qt::FocusPolicy::ClickFocus);
-	this->setMouseTracking(true);
+	
 
 	this->drawType = DrawType::DrawAll;
 	
@@ -66,6 +67,9 @@ ShGraphicView::~ShGraphicView() {
 	if (this->rubberBand != NULL)
 		delete this->rubberBand;
 	
+
+
+	ShWidgetManager::GetInstance()->Remove(this);
 }
 
 
@@ -233,10 +237,6 @@ void ShGraphicView::mouseReleaseEvent(QMouseEvent *event) {
 
 void ShGraphicView::keyPressEvent(QKeyEvent *event) {
 
-	//ShKeyPressedEvent event2(event);
-
-	//this->Notify(&event2);
-
 	this->currentAction->KeyPressEvent(event);
 
 }
@@ -338,7 +338,7 @@ void ShGraphicView::CaptureImage() {
 	this->captureImage = this->grabFramebuffer();
 }
 
-#include "Singleton Pattern\ShWidgetManager.h"
+
 void ShGraphicView::focusInEvent(QFocusEvent *event) {
 
 	ShWidgetManager *manager = ShWidgetManager::GetInstance();
