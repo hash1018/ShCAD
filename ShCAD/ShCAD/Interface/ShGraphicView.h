@@ -40,8 +40,10 @@ class ShRubberBand;
 class ShActionHandler;
 class ShTemporaryAction;
 class ShNotifyEvent;
-class ShGraphicView : public QOpenGLWidget {
 
+
+class ShGraphicViewData {
+	friend class ShGraphicView;
 private:
 	double x;
 	double y;
@@ -49,6 +51,40 @@ private:
 	double zoomRate;
 	double hPos;
 	double vPos;
+	
+	QString headTitle;
+	QString edit;
+	QString list;
+
+public:
+	ShGraphicViewData() :x(0), y(0), z(0), zoomRate(1), hPos(0), vPos(0), headTitle(":: "), edit(""), list("") {}
+	~ShGraphicViewData() {}
+
+	inline QString GetHeadTitle() const { return this->headTitle; }
+	inline QString GetEdit() const { return this->edit; }
+	inline QString GetList() const { return this->list; }
+	void SetHeadTitle(const QString& headTitle) { this->headTitle = headTitle; }
+	void SetEdit(const QString& edit) { this->edit = edit; }
+	void SetList(const QString& list) { this->list = list; }
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+class ShGraphicView : public QOpenGLWidget {
+
+private:
+	ShGraphicViewData data;
 	
 
 public:
@@ -82,18 +118,11 @@ public:
 	void Notify(ShNotifyEvent *event);
 	void Update(ShNotifyEvent *event);
 
-	double GetX() const;
-	double GetY() const;
-	double GetZ() const;
-	double GetZoomRate() const;
-	double GetHPos() const;
-	double GetVPos() const;
 	void ConvertDeviceToEntity(int x, int y, double &ex, double &ey);
 	void ConvertEntityToDevice(double x, double y, int &dx, int &dy);
 	void MoveView(double ex, double ey, double zoomRate, int dx, int dy);
 	void SetTemporaryAction(ShTemporaryAction *temporaryAction);
-	void SetHPos(int hPos);
-	void SetVPos(int vPos);
+	
 
 protected:
 	virtual void initializeGL();
@@ -106,30 +135,23 @@ protected:
 	virtual void keyPressEvent(QKeyEvent *event);
 	virtual void wheelEvent(QWheelEvent *event);
 	virtual void focusInEvent(QFocusEvent *event);
+
+
+public:
+	void SetHPos(int hPos) { this->data.hPos = hPos; }
+	void SetVPos(int vPos) { this->data.vPos = vPos; }
+
+	inline double GetX() const { return this->data.x; }
+	inline double GetY() const { return this->data.y; }
+	inline double GetZ() const { return this->data.z; }
+	inline double GetZoomRate() const { return this->data.zoomRate; }
+	inline double GetHPos() const { return this->data.hPos; }
+	inline double GetVPos() const { return this->data.vPos; }
+
+	inline ShGraphicViewData* GetData() { return &this->data; }
+
+
 };
 
-inline double ShGraphicView::GetX() const {
-	return this->x;
-}
-
-inline double ShGraphicView::GetY() const {
-	return this->y;
-}
-
-inline double ShGraphicView::GetZ() const {
-	return this->z;
-}
-
-inline double ShGraphicView::GetZoomRate() const {
-	return this->zoomRate;
-}
-
-inline double ShGraphicView::GetHPos() const {
-	return this->hPos;
-}
-
-inline double ShGraphicView::GetVPos() const {
-	return this->vPos;
-}
 
 #endif //_SHGRAPHICVIEW_H

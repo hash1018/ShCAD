@@ -76,6 +76,15 @@ void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 		this->commandDock->Update(dynamic_cast<ShUpdateListTextEvent*>(event));
 	
 
+	else if (event->GetType() == ShNotifyEvent::Type::ActivatedWidgetChanged) {
+	
+		this->commandDock->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
+
+	
+	}
+
+
+
 }
 
 

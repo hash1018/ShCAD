@@ -83,3 +83,17 @@ ShUpdateListTextEvent::ShUpdateListTextEvent(const QString& text, ShUpdateListTe
 ShUpdateListTextEvent::~ShUpdateListTextEvent() {
 
 }
+
+
+/////////////////////////////////////////////////////////////////
+
+
+ShActivatedWidgetChangedEvent::ShActivatedWidgetChangedEvent(ShGraphicView *newWidget, ShGraphicView *previousWidget)
+	:newWidget(newWidget), previousWidget(previousWidget) {
+
+	this->type = Type::ActivatedWidgetChanged;
+}
+
+ShActivatedWidgetChangedEvent::~ShActivatedWidgetChangedEvent() {
+
+}

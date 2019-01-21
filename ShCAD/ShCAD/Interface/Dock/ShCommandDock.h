@@ -34,6 +34,7 @@
 class ShNotifyEvent;
 class ShKeyPressedEvent;
 class ShUpdateListTextEvent;
+class ShActivatedWidgetChangedEvent;
 
 class ShCommandList : public QTextEdit {
 
@@ -85,8 +86,16 @@ public:
 
 	void Update(ShKeyPressedEvent *event);
 	void Update(ShUpdateListTextEvent *event);
+	void Update(ShActivatedWidgetChangedEvent *event);
 
 	void Notify(ShNotifyEvent *event);
+
+	QString GetList();
+	QString GetEdit();
+	QString GetHeadTitle();
+	
+
+
 
 protected:
 	void closeEvent(QCloseEvent *event);

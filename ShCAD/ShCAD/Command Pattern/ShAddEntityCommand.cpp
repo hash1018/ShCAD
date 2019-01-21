@@ -28,12 +28,12 @@
 #include "Memento Pattern\ShMemento.h"
 #include "Interface\ShGraphicView.h"
 
-ShAddEntityCommand::ShAddEntityCommand(ShGraphicView *view, ShEntityMemento *memento) {
+ShAddEntityCommand::ShAddEntityCommand(ShGraphicView *view, ShEntityMemento *memento, const QString& commandText){
 
 	this->graphicView = view;
 	this->memento = memento;
+	this->commandText = commandText;
 
-	this->commandText = "AddEntity";
 }
 
 ShAddEntityCommand::~ShAddEntityCommand() {

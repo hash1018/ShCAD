@@ -36,7 +36,6 @@
 #include <qobject.h>
 #include "Interface\ShGraphicView.h"
 
-class ShKeyPressedEvent;
 class QMouseEvent;
 class QKeyEvent;
 class ShActionHandler : public QObject {
@@ -62,25 +61,9 @@ public:
 
 
 protected:
-	//usually delete key pressed, this function called.
-	void DeleteSelectedEntities();
 
-	//usually esc key pressed, this function called. returns true if entity gets unselected.
 	bool UnSelectSelectedEntities();
 
-
-
-	//unselect all selected entities , .. , etc.
-	virtual void KeyEscPressed();
-
-	//delete all selected entities...
-	virtual void KeyDeletePressed();
-
-	virtual void KeyCtrlAPressed();
-
-	virtual void KeyCtrlZPressed();
-	
-	virtual void KeyCtrlYPressed();
 };
 
 #endif //_SHACTIONMODE_H

@@ -49,12 +49,6 @@ ShGraphicView::ShGraphicView(QWidget *parent)
 
 	this->axis.SetCenter(ShPoint3d(100, 500));
 
-	this->x = 0;
-	this->y = 0;
-	this->z = 0;
-	this->zoomRate = 1;
-	this->hPos = 0;
-	this->vPos = 0;
 
 }
 
@@ -221,9 +215,9 @@ void ShGraphicView::mouseMoveEvent(QMouseEvent *event) {
 	if (this->hasFocus() == false)
 		this->setFocus();
 	
-	this->ConvertDeviceToEntity(event->x(), event->y(), this->x, this->y);
+	this->ConvertDeviceToEntity(event->x(), event->y(), this->data.x, this->data.y);
 
-	ShMousePositionChangedEvent notifyEvent(this->x, this->y, this->z, this->zoomRate);
+	ShMousePositionChangedEvent notifyEvent(this->data.x, this->data.y, this->data.z, this->data.zoomRate);
 	this->Notify(&notifyEvent);
 
 
@@ -244,39 +238,39 @@ void ShGraphicView::keyPressEvent(QKeyEvent *event) {
 
 void ShGraphicView::wheelEvent(QWheelEvent *event) {
 
-	this->ConvertDeviceToEntity(event->x(), event->y(), this->x, this->y);
+	this->ConvertDeviceToEntity(event->x(), event->y(), this->data.x, this->data.y);
 
 	if (event->delta() > 0) {
 	
-		if (this->zoomRate < 15 && this->zoomRate >= 1)
-			this->zoomRate++;
-		else if (this->zoomRate < 1)
-			this->zoomRate += 0.2;
+		if (this->data.zoomRate < 15 && this->data.zoomRate >= 1)
+			this->data.zoomRate++;
+		else if (this->data.zoomRate < 1)
+			this->data.zoomRate += 0.2;
 		else
 			return;
 	}
 	else {
-		if (this->zoomRate > 2)
-			this->zoomRate--;
-		else if (this->zoomRate <= 2 && this->zoomRate > 1)
-			this->zoomRate -= 0.5;
-		else if (this->zoomRate <= 1 && Math::Compare(this->zoomRate, 0.2) == 1)
-			this->zoomRate -= 0.2;
-		else if ((Math::Compare(this->zoomRate, 0.2) == 0 || Math::Compare(this->zoomRate, 0.2) == -1) &&
-			Math::Compare(this->zoomRate, 0.05) == 1)
-			this->zoomRate -= 0.01;
+		if (this->data.zoomRate > 2)
+			this->data.zoomRate--;
+		else if (this->data.zoomRate <= 2 && this->data.zoomRate > 1)
+			this->data.zoomRate -= 0.5;
+		else if (this->data.zoomRate <= 1 && Math::Compare(this->data.zoomRate, 0.2) == 1)
+			this->data.zoomRate -= 0.2;
+		else if ((Math::Compare(this->data.zoomRate, 0.2) == 0 || Math::Compare(this->data.zoomRate, 0.2) == -1) &&
+			Math::Compare(this->data.zoomRate, 0.05) == 1)
+			this->data.zoomRate -= 0.01;
 		else
 			return;
 	}
 
 
-	this->vPos = (-1 * (this->zoomRate*this->y) - event->y() + (this->axis.GetCenter().y*this->zoomRate));
-	this->hPos = (this->zoomRate*this->x - event->x() + (this->axis.GetCenter().x*this->zoomRate));
+	this->data.vPos = (-1 * (this->data.zoomRate*this->data.y) - event->y() + (this->axis.GetCenter().y*this->data.zoomRate));
+	this->data.hPos = (this->data.zoomRate*this->data.x - event->x() + (this->axis.GetCenter().x*this->data.zoomRate));
 
 	this->update(DrawType::DrawAll);
 	this->CaptureImage();
 
-	ShZoomRateChangedEvent notifyEvent(this->x, this->y, this->z, this->zoomRate);
+	ShZoomRateChangedEvent notifyEvent(this->data.x, this->data.y, this->data.z, this->data.zoomRate);
 	this->Notify(&notifyEvent);
 
 }
@@ -343,7 +337,15 @@ void ShGraphicView::focusInEvent(QFocusEvent *event) {
 
 	ShWidgetManager *manager = ShWidgetManager::GetInstance();
 
+	if (manager->GetActivatedWidget() == this)
+		return;
+
+	ShActivatedWidgetChangedEvent event2(this, manager->GetActivatedWidget());
+	this->Notify(&event2);
+
 	manager->SetActivatedWidget(this);
+
+
 }
 
 #include "Singleton Pattern\ShChangeManager.h"
@@ -366,14 +368,14 @@ void ShGraphicView::Update(ShNotifyEvent *event) {
 
 void ShGraphicView::ConvertDeviceToEntity(int x, int y, double &ex, double &ey) {
 
-	ex = (x + this->hPos - (this->axis.GetCenter().x*this->zoomRate))*1.000f / this->zoomRate;
-	ey = (-1 * (y + this->vPos - (this->axis.GetCenter().y)*this->zoomRate))*1.000f / this->zoomRate;
+	ex = (x + this->data.hPos - (this->axis.GetCenter().x*this->data.zoomRate))*1.000f / this->data.zoomRate;
+	ey = (-1 * (y + this->data.vPos - (this->axis.GetCenter().y)*this->data.zoomRate))*1.000f / this->data.zoomRate;
 }
 
 void ShGraphicView::ConvertEntityToDevice(double x, double y, int &dx, int &dy) {
 
-	double tempX = ((x*this->zoomRate) - this->hPos + (this->axis.GetCenter().x*this->zoomRate));
-	double tempY = (-1 * ((y*this->zoomRate) + this->vPos - (this->axis.GetCenter().y*this->zoomRate)));
+	double tempX = ((x*this->data.zoomRate) - this->data.hPos + (this->axis.GetCenter().x*this->data.zoomRate));
+	double tempY = (-1 * ((y*this->data.zoomRate) + this->data.vPos - (this->axis.GetCenter().y*this->data.zoomRate)));
 
 	dx = Math::ToInt(tempX);
 	dy = Math::ToInt(tempY);
@@ -382,33 +384,25 @@ void ShGraphicView::ConvertEntityToDevice(double x, double y, int &dx, int &dy) 
 
 void ShGraphicView::MoveView(double ex, double ey, double zoomRate, int dx, int dy) {
 	qDebug("ShGraphicView->MoveView");
-	this->x = ex;
-	this->y = ey;
-	this->zoomRate = zoomRate;
+	this->data.x = ex;
+	this->data.y = ey;
+	this->data.zoomRate = zoomRate;
 	
 
-	this->vPos = (-1 * (zoomRate*ey) - dy + (this->axis.GetCenter().y*zoomRate));
-	this->hPos = (zoomRate*ex - dx + (this->axis.GetCenter().x*zoomRate));
+	this->data.vPos = (-1 * (zoomRate*ey) - dy + (this->axis.GetCenter().y*zoomRate));
+	this->data.hPos = (zoomRate*ex - dx + (this->axis.GetCenter().x*zoomRate));
 
 	this->update(DrawType::DrawAll);
 	this->CaptureImage();
 
 	QPoint pos = this->mapFromGlobal(QCursor::pos());
-	this->ConvertDeviceToEntity(pos.x(), pos.y(), this->x, this->y);
+	this->ConvertDeviceToEntity(pos.x(), pos.y(), this->data.x, this->data.y);
 	
-	ShMousePositionChangedEvent notifyEvent(this->x, this->y, this->z, this->zoomRate);
+	ShMousePositionChangedEvent notifyEvent(this->data.x, this->data.y, this->data.z, this->data.zoomRate);
 	this->Notify(&notifyEvent);
 }
 
 void ShGraphicView::SetTemporaryAction(ShTemporaryAction *temporaryAction) {
 	qDebug("ShGraphicView->SetTemporaryAction");
 	this->currentAction = temporaryAction;
-}
-
-void ShGraphicView::SetHPos(int hPos) {
-	this->hPos = hPos;
-}
-
-void ShGraphicView::SetVPos(int vPos) {
-	this->vPos = vPos;
 }

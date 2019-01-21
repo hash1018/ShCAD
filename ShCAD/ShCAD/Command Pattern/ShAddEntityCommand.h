@@ -36,7 +36,7 @@ private:
 	ShGraphicView *graphicView;
 
 public:
-	ShAddEntityCommand(ShGraphicView *view, ShEntityMemento *memento);
+	ShAddEntityCommand(ShGraphicView *view, ShEntityMemento *memento,const QString& commandText);
 	virtual void Execute();
 	virtual void UnExecute();
 

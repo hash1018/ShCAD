@@ -57,7 +57,7 @@ void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 
 		dynamic_cast<ShLine*>(this->graphicView->preview.Begin().Current())->SetData(data);
 
-		ShDrawAction::AddEntity(this->graphicView->preview.Begin().Current()->Clone());
+		ShDrawAction::AddEntity(this->graphicView->preview.Begin().Current()->Clone(), "Line");
 
 		this->start = this->end;
 

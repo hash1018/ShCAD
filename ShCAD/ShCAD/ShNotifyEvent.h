@@ -35,9 +35,7 @@ public:
 		MousePositionChanged = 2,
 		KeyPressed = 3,
 		UpdateListText = 4,
-
-
-
+		ActivatedWidgetChanged=5,
 
 	};
 
@@ -125,4 +123,18 @@ private:
 
 };
 
+class ShGraphicView;
+class ShActivatedWidgetChangedEvent : public ShNotifyEvent {
+
+public:
+	ShActivatedWidgetChangedEvent(ShGraphicView *newWidget, ShGraphicView *previousWidget);
+	~ShActivatedWidgetChangedEvent();
+
+	inline ShGraphicView* GetNewWidget() const { return this->newWidget; }
+	inline ShGraphicView* GetPreviousWidget() const { return this->previousWidget; }
+
+private:
+	ShGraphicView *newWidget;
+	ShGraphicView *previousWidget;
+};
 #endif //_SHNOTIFYEVENT_H

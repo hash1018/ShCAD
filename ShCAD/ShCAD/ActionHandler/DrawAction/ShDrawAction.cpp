@@ -41,9 +41,9 @@ QCursor ShDrawAction::GetCursorShape() {
 	return QCursor(Qt::CursorShape::CrossCursor);
 }
 
-void ShDrawAction::AddEntity(ShEntity* newEntity) {
+void ShDrawAction::AddEntity(ShEntity* newEntity,const QString& commandText) {
 
-	ShAddEntityCommand *command = new ShAddEntityCommand(this->graphicView, newEntity->CreateMemento());
+	ShAddEntityCommand *command = new ShAddEntityCommand(this->graphicView, newEntity->CreateMemento(), commandText);
 
 	command->Execute();
 

@@ -38,7 +38,7 @@ public:
 	virtual QCursor GetCursorShape();
 
 protected:
-	void AddEntity(ShEntity* newEntity);
+	void AddEntity(ShEntity* newEntity, const QString& commandText);
 	
 
 };

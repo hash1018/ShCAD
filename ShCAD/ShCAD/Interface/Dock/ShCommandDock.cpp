@@ -163,12 +163,60 @@ void ShCommandDock::Update(ShUpdateListTextEvent *event) {
 
 }
 
+#include "Interface\ShGraphicView.h"
+void ShCommandDock::Update(ShActivatedWidgetChangedEvent *event) {
+
+	ShActivatedWidgetChangedEvent *event2 = dynamic_cast<ShActivatedWidgetChangedEvent*>(event);
+	ShGraphicView *newWidget = event2->GetNewWidget();
+	ShGraphicView *previousWidget = event2->GetPreviousWidget();
+
+	if (previousWidget != 0) {
+		//means there are two more widgets and focus changed each other.
+		ShGraphicViewData* data = previousWidget->GetData();
+		data->SetHeadTitle(this->GetHeadTitle());
+		data->SetEdit(this->GetEdit());
+		data->SetList(this->GetList());
+	}
+
+	ShGraphicViewData *data = newWidget->GetData();
+
+	this->container->edit->headTitle = data->GetHeadTitle();
+	this->container->edit->clear();
+	this->container->edit->setText(data->GetHeadTitle() + data->GetEdit());
+	
+	this->container->list->clear();
+	this->container->list->append(data->GetList());
+
+
+}
+
+
+
 void ShCommandDock::Notify(ShNotifyEvent *event) {
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();
 
 	manager->Notify(this, event);
 }
+
+QString ShCommandDock::GetList() {
+
+	return this->container->list->toPlainText();
+}
+
+QString ShCommandDock::GetEdit() {
+
+	QString text = this->container->edit->text();
+	QString headTitle = this->container->edit->headTitle;
+
+	return text.section(headTitle, 1);
+}
+
+QString ShCommandDock::GetHeadTitle() {
+
+	return this->container->edit->headTitle;
+}
+
 
 void ShCommandDock::closeEvent(QCloseEvent *event) {
 

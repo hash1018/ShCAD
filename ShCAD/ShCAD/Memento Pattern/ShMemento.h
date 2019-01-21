@@ -98,7 +98,8 @@ private:
 
 class ShDeletedEntitiesMemento : public ShMemento {
 
-	friend class ShActionHandler;
+	//friend class ShActionHandler;
+	friend class ShCadAction;
 	friend class ShDeleteEntityCommand;
 
 private:

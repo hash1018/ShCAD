@@ -26,8 +26,9 @@
 #include "ShDefaultAction.h"
 #include <QKeyEvent>
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
-#include "Command Pattern\ShCommand.h"
 #include "ShNotifyEvent.h"
+#include "ShCadAction.h"
+
 ShDefaultAction::ShDefaultAction(ShGraphicView *graphicView)
 	:ShActionHandler(graphicView) {
 
@@ -79,32 +80,16 @@ void ShDefaultAction::MouseMoveEvent(QMouseEvent *event) {
 void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 
 	// Ctrl + Z undo
-	if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Z) {
-	
-		if (ShActionHandler::UnSelectSelectedEntities() == true)
-			return;
-
-		ShActionHandler::KeyCtrlZPressed();
-		
-	}
+	if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Z)
+		ShCadAction::Undo(this->graphicView);
 
 	//Ctrl + Y redo
-	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Y) {
-
-		if (ShActionHandler::UnSelectSelectedEntities() == true)
-			return;
-
-		ShActionHandler::KeyCtrlYPressed();
-
-	}
-
-
+	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Y)
+		ShCadAction::Redo(this->graphicView);
 
 	//Ctrl + A Select All
 	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_A)
-		ShActionHandler::KeyCtrlAPressed();
-
-
+		ShCadAction::SelectAll(this->graphicView);
 
 	//Delete 
 	else if (event->key() == Qt::Key::Key_Delete) {
@@ -114,13 +99,15 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 			this->graphicView->Notify(&event2);
 		}
 		else
-			ShActionHandler::KeyDeletePressed();
+			ShCadAction::Delete(this->graphicView);
 
 	}
 
-	else if (event->key() == Qt::Key::Key_Escape)
-		ShActionHandler::KeyEscPressed();
-
+	else if (event->key() == Qt::Key::Key_Escape) {
+		this->UnSelectSelectedEntities();
+		ShUpdateListTextEvent event("<Cancel>");
+		this->graphicView->Notify(&event);
+	}
 	else {
 	
 		ShKeyPressedEvent event2(event);
