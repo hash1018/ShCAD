@@ -36,6 +36,7 @@ public:
 		KeyPressed = 3,
 		UpdateListText = 4,
 		ActivatedWidgetChanged=5,
+		PropertyColorComboSelChanged=6,
 
 	};
 
@@ -136,5 +137,19 @@ public:
 private:
 	ShGraphicView *newWidget;
 	ShGraphicView *previousWidget;
+};
+
+#include "ShPropertyData.h"
+class ShPropertyColorComboSelChangedEvent : public ShNotifyEvent {
+
+public:
+	ShPropertyColorComboSelChangedEvent(const ShColor& color);
+	~ShPropertyColorComboSelChangedEvent();
+
+	inline ShColor GetColor() const { return this->color; }
+
+private:
+	ShColor color;
+
 };
 #endif //_SHNOTIFYEVENT_H

@@ -7,9 +7,10 @@
 /*Base class for all objects having a graphical representation.*/
 
 #include "Memento Pattern\ShMemento.h"
+#include "ShPropertyData.h"
 
 typedef struct ShEntityData {
-
+	ShPropertyData propertyData;
 
 }ShEntityData;
 

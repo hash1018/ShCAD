@@ -29,6 +29,7 @@
 #include "ShNotifyEvent.h"
 #include "Interface\Dock\ShCommandDock.h"
 #include "ShWidgetManager.h"
+#include "Interface\Ribbon\ShHomeTab.h"
 
 ShChangeManager ShChangeManager::instance;
 
@@ -55,6 +56,10 @@ void ShChangeManager::Register(ShCommandDock *commandDock) {
 	this->commandDock = commandDock;
 }
 
+void ShChangeManager::Register(ShPropertyColumn *propertyColumn) {
+
+	this->propertyColumn = propertyColumn;
+}
 
 void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 
@@ -79,8 +84,8 @@ void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 	else if (event->GetType() == ShNotifyEvent::Type::ActivatedWidgetChanged) {
 	
 		this->commandDock->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
+		this->propertyColumn->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 
-	
 	}
 
 
@@ -102,4 +107,18 @@ void ShChangeManager::Notify(ShCommandDock* commandDock, ShNotifyEvent *event) {
 	}
 
 	
+}
+
+void ShChangeManager::Notify(ShPropertyColumn *propertyColumn, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::Type::PropertyColorComboSelChanged) {
+		
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+
+	}
 }

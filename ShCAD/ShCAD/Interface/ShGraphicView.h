@@ -35,6 +35,7 @@
 #include "Entity\Composite\ShEntityTable.h"
 #include "ShSelectedEntityManager.h"
 #include "ShAxis.h"
+#include "ShPropertyData.h"
 
 class ShRubberBand;
 class ShActionHandler;
@@ -56,8 +57,14 @@ private:
 	QString edit;
 	QString list;
 
+	ShPropertyData propertyData;
+
 public:
-	ShGraphicViewData() :x(0), y(0), z(0), zoomRate(1), hPos(0), vPos(0), headTitle(":: "), edit(""), list("") {}
+	ShGraphicViewData() :x(0), y(0), z(0), zoomRate(1), hPos(0), vPos(0), 
+		headTitle(":: "), edit(""), list("") {
+		propertyData.color.type = ShColor::Type::ByBlock;
+	}
+
 	~ShGraphicViewData() {}
 
 	inline QString GetHeadTitle() const { return this->headTitle; }
@@ -67,6 +74,7 @@ public:
 	void SetEdit(const QString& edit) { this->edit = edit; }
 	void SetList(const QString& list) { this->list = list; }
 
+	inline ShPropertyData* GetPropertyData() { return &(this->propertyData); }
 };
 
 

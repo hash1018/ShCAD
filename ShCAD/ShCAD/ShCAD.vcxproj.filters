@@ -72,6 +72,9 @@
     <Filter Include="Interface\Dock">
       <UniqueIdentifier>{4123d95d-56a4-4a9a-aed1-d719a23dd43a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface\Ribbon">
+      <UniqueIdentifier>{401e40f9-01f7-49bc-ab31-0481b76ee424}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -124,12 +127,6 @@
     </ClCompile>
     <ClCompile Include="ShRibbon.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\ShRibbonMenu.cpp">
-      <Filter>Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\ShDrawInterface.cpp">
-      <Filter>Interface</Filter>
     </ClCompile>
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp">
       <Filter>ActionHandler</Filter>
@@ -227,6 +224,24 @@
     <ClCompile Include="ShCadAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\Ribbon\ShRibbonMenu.cpp">
+      <Filter>Interface\Ribbon</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Ribbon\ShHomeTab.cpp">
+      <Filter>Interface\Ribbon</Filter>
+    </ClCompile>
+    <ClCompile Include="ShPropertyData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton Pattern\ShColorComboList.cpp">
+      <Filter>Singleton Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShHomeTab.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShHomeTab.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -236,6 +251,12 @@
       <Filter>Interface</Filter>
     </CustomBuild>
     <CustomBuild Include="ShCustomizedWidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Ribbon\ShHomeTab.h">
+      <Filter>Interface\Ribbon</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ShRibbon.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -272,15 +293,6 @@
     </ClInclude>
     <ClInclude Include="Entity\Leaf\ShArc.h">
       <Filter>Entity\Leaf</Filter>
-    </ClInclude>
-    <ClInclude Include="ShRibbon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\ShRibbonMenu.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\ShDrawInterface.h">
-      <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\ShDefaultAction.h">
       <Filter>ActionHandler</Filter>
@@ -371,6 +383,15 @@
     </ClInclude>
     <ClInclude Include="ShCadAction.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Ribbon\ShRibbonMenu.h">
+      <Filter>Interface\Ribbon</Filter>
+    </ClInclude>
+    <ClInclude Include="ShPropertyData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton Pattern\ShColorComboList.h">
+      <Filter>Singleton Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

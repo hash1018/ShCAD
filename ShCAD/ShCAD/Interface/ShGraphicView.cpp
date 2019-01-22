@@ -362,6 +362,9 @@ void ShGraphicView::Update(ShNotifyEvent *event) {
 	if (dynamic_cast<ShKeyPressedEvent*>(event)) {
 		this->currentAction->KeyPressEvent(dynamic_cast<ShKeyPressedEvent*>(event)->GetEvent());
 	}
+	else if (dynamic_cast<ShPropertyColorComboSelChangedEvent*>(event)) {
+		this->data.propertyData.color = dynamic_cast<ShPropertyColorComboSelChangedEvent*>(event)->GetColor();
+	}
 
 
 }

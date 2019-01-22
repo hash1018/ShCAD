@@ -53,17 +53,6 @@ public:
 };
 
 
-class ShDrawColumn;
-class ShHomeTab : public ShRibbonTab {
-
-private:
-	ShDrawColumn *drawColumn;
-	
-public:
-	ShHomeTab(const QString &title, QWidget *parent = 0);
-	~ShHomeTab();
-
-};
 
 class ShInsertTab : public ShRibbonTab {
 

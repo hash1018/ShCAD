@@ -25,7 +25,7 @@
 
 
 #include "ShRibbonMenu.h"
-
+#include "Interface\Ribbon\ShHomeTab.h"
 
 ShRibbonMenu::ShRibbonMenu(int height, QWidget *parent)
 	:ShRibbon(height, parent) {
@@ -56,19 +56,6 @@ ShRibbonMenu::~ShRibbonMenu() {
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////
-
-#include "ShDrawInterface.h"
-ShHomeTab::ShHomeTab(const QString &title, QWidget *parent)
-	:ShRibbonTab(title, parent) {
-	
-	this->drawColumn = new ShDrawColumn(this, "Draw", 100);
-	this->AddColumn(this->drawColumn);
-}
-
-ShHomeTab::~ShHomeTab() {
-
-}
 
 
 ////////////////////////////////////////////////////////////////////////////////////

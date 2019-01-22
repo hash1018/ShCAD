@@ -28,7 +28,7 @@
 #include <qmdiarea.h>
 #include <qdockwidget.h>
 #include <qtoolbar.h>
-#include "ShRibbonMenu.h"
+#include "Interface\Ribbon\ShRibbonMenu.h"
 #include "ShStatusBar.h"
 #include "Dock\ShCommandDock.h"
 #include "Singleton Pattern\ShChangeManager.h"

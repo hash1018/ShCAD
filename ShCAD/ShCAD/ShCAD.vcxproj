@@ -169,6 +169,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShHomeTab.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_shcad.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
@@ -187,12 +191,16 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShHomeTab.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Interface\Dock\ShCommandDock.cpp" />
+    <ClCompile Include="Interface\Ribbon\ShHomeTab.cpp" />
+    <ClCompile Include="Interface\Ribbon\ShRibbonMenu.cpp" />
     <ClCompile Include="Interface\shcad.cpp" />
-    <ClCompile Include="Interface\ShDrawInterface.cpp" />
     <ClCompile Include="Interface\ShGraphicView.cpp" />
     <ClCompile Include="Interface\ShMenuBar.cpp" />
-    <ClCompile Include="Interface\ShRibbonMenu.cpp" />
     <ClCompile Include="Interface\ShStatusBar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Memento Pattern\ShMemento.cpp" />
@@ -204,10 +212,12 @@
     <ClCompile Include="ShDirectoryManager.cpp" />
     <ClCompile Include="ShMath.cpp" />
     <ClCompile Include="ShNotifyEvent.cpp" />
+    <ClCompile Include="ShPropertyData.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
     <ClCompile Include="ShSelectedEntityManager.cpp" />
     <ClCompile Include="ShPoint.cpp" />
     <ClCompile Include="Singleton Pattern\ShChangeManager.cpp" />
+    <ClCompile Include="Singleton Pattern\ShColorComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
     <ClCompile Include="Visitor Pattern\ShFinder.cpp" />
@@ -256,10 +266,27 @@
     <ClInclude Include="Entity\ShEntity.h" />
     <ClInclude Include="FactoryMethod\ShCreatorActionFactory.h" />
     <ClInclude Include="Interface\Dock\ShCommandDock.h" />
-    <ClInclude Include="Interface\ShDrawInterface.h" />
+    <CustomBuild Include="Interface\Ribbon\ShHomeTab.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ShHomeTab.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing ShHomeTab.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing ShHomeTab.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing ShHomeTab.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+    <ClInclude Include="Interface\Ribbon\ShRibbonMenu.h" />
     <ClInclude Include="Interface\ShGraphicView.h" />
     <ClInclude Include="Interface\ShMenuBar.h" />
-    <ClInclude Include="Interface\ShRibbonMenu.h" />
     <ClInclude Include="Interface\ShStatusBar.h" />
     <ClInclude Include="Memento Pattern\ShMemento.h" />
     <ClInclude Include="Memento Pattern\ShRedoTaker.h" />
@@ -287,10 +314,37 @@
     <ClInclude Include="ShDirectoryManager.h" />
     <ClInclude Include="ShMath.h" />
     <ClInclude Include="ShNotifyEvent.h" />
-    <ClInclude Include="ShRibbon.h" />
+    <ClInclude Include="ShPropertyData.h" />
+    <CustomBuild Include="ShRibbon.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+    </CustomBuild>
     <ClInclude Include="ShSelectedEntityManager.h" />
     <ClInclude Include="ShVariable.h" />
     <ClInclude Include="Singleton Pattern\ShChangeManager.h" />
+    <ClInclude Include="Singleton Pattern\ShColorComboList.h" />
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
     <ClInclude Include="Visitor Pattern\ShFinder.h" />

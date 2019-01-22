@@ -67,7 +67,6 @@ public:
 
 class ShColumnInRibbonTab : public QWidget {
 	
-
 public:
 	enum ColumnTitleArea {
 		TopColumnTitleArea = 0, 

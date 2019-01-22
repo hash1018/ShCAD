@@ -97,3 +97,16 @@ ShActivatedWidgetChangedEvent::ShActivatedWidgetChangedEvent(ShGraphicView *newW
 ShActivatedWidgetChangedEvent::~ShActivatedWidgetChangedEvent() {
 
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+
+ShPropertyColorComboSelChangedEvent::ShPropertyColorComboSelChangedEvent(const ShColor& color)
+	:color(color) {
+
+	this->type = Type::PropertyColorComboSelChanged;
+}
+
+ShPropertyColorComboSelChangedEvent::~ShPropertyColorComboSelChangedEvent() {
+
+
+}
