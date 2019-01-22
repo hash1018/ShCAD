@@ -7,18 +7,20 @@
 #include "ShLeaf.h"
 #include "ShPoint.h"
 
-typedef struct ShLineData : public ShEntityData {
+class ShLineData : public ShEntityData {
 
+public:
 	ShPoint3d start;
 	ShPoint3d end;
-	
+
+public:
 	ShLineData();
-	ShLineData(ShPoint3d& start, ShPoint3d& end);
+	ShLineData(const ShPropertyData &propertyData, const ShPoint3d& start, const ShPoint3d& end);
 	ShLineData(const ShLineData& data);
 	bool operator==(const ShLineData& data);
 	ShLineData& operator=(const ShLineData &data);
 
-}ShLineData;
+};
 
 /* Class for Line entity */
 

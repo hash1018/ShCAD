@@ -28,8 +28,8 @@ void ShDrawer::Visit(ShLine *shLine) {
 
 	this->ConvertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
 	this->ConvertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
-
-	GLColor color(1.0f, 1.0f, 1.0f); //only temporary color.
+	
+	GLColor color(data.propertyData.color.r/255., data.propertyData.color.g/255., data.propertyData.color.b/255.);
 
 	this->DrawLine(start, end, color);
 

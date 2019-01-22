@@ -7,13 +7,14 @@ ShLineData::ShLineData() {
 
 }
 
-ShLineData::ShLineData(ShPoint3d &start, ShPoint3d &end)
-	:start(start), end(end) {
+ShLineData::ShLineData(const ShPropertyData &propertyData, const ShPoint3d &start, const ShPoint3d &end)
+	:ShEntityData(propertyData), start(start), end(end) {
+
 
 }
 
 ShLineData::ShLineData(const ShLineData &data)
-	: start(data.start), end(data.end) {
+	: ShEntityData(data.propertyData), start(data.start), end(data.end) {
 
 
 }
@@ -29,6 +30,7 @@ bool ShLineData::operator==(const ShLineData& data) {
 
 ShLineData& ShLineData::operator=(const ShLineData& data) {
 
+	this->propertyData = data.propertyData;
 	this->start = data.start;
 	this->end = data.end;
 

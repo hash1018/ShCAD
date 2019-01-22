@@ -11,7 +11,6 @@ typedef struct ShCircleData {
 	ShPoint3d center;
 	double radius;
 	
-
 	ShCircleData();
 	ShCircleData(ShPoint3d& center, double radius);
 	ShCircleData(const ShCircleData& data);

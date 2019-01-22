@@ -59,7 +59,7 @@ protected:
 
 
 class ShLine;
-struct ShLineData;
+class ShLineData;
 class ShLineMemento : public ShEntityMemento {
 	
 	friend class ShLine;

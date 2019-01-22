@@ -9,10 +9,25 @@
 #include "Memento Pattern\ShMemento.h"
 #include "ShPropertyData.h"
 
-typedef struct ShEntityData {
+class ShEntityData {
+
+public:
 	ShPropertyData propertyData;
 
-}ShEntityData;
+public:
+	ShEntityData() {}
+	ShEntityData(const ShPropertyData& propertyData) 
+		:propertyData(propertyData) {}
+
+	~ShEntityData() {}
+
+	ShEntityData(const ShEntityData& other)
+		:propertyData(other.propertyData) {}
+
+	ShEntityData& operator=(const ShEntityData& other) {
+		this->propertyData = other.propertyData; return *this; }
+
+};
 
 class ShEntityMemento;
 class ShVisitor;
