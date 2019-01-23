@@ -75,6 +75,12 @@
     <Filter Include="Interface\Ribbon">
       <UniqueIdentifier>{401e40f9-01f7-49bc-ab31-0481b76ee424}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface\ToolBar">
+      <UniqueIdentifier>{93cf5ea0-55c3-4874-8e97-90aea61e4e7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface\Items">
+      <UniqueIdentifier>{39108111-cf04-43d5-ab57-f7a723f38ede}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -209,15 +215,6 @@
     <ClCompile Include="ShDirectoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShCustomizedWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ShCustomizedWidget.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ShCustomizedWidget.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="ShNotifyEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -242,6 +239,45 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ShHomeTab.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShPropertyToolBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShPropertyToolBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShPropertyToolBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Items\ShCustomizedWidget.cpp">
+      <Filter>Interface\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShCustomizedWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShCustomizedWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShColorComboBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShColorComboBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton Pattern\ShLineStyleComboList.cpp">
+      <Filter>Singleton Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Items\ShColorComboBox.cpp">
+      <Filter>Interface\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Items\ShLineStyleComboBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShLineStyleComboBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShLineStyleComboBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -250,13 +286,22 @@
     <CustomBuild Include="Interface\shcad.h">
       <Filter>Interface</Filter>
     </CustomBuild>
-    <CustomBuild Include="ShCustomizedWidget.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="Interface\Ribbon\ShHomeTab.h">
       <Filter>Interface\Ribbon</Filter>
     </CustomBuild>
     <CustomBuild Include="ShRibbon.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\ToolBar\ShPropertyToolBar.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Items\ShCustomizedWidget.h">
+      <Filter>Interface\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Items\ShColorComboBox.h">
+      <Filter>Interface\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Items\ShLineStyleComboBox.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -391,6 +436,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Singleton Pattern\ShColorComboList.h">
+      <Filter>Singleton Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton Pattern\ShLineStyleComboList.h">
       <Filter>Singleton Pattern</Filter>
     </ClInclude>
   </ItemGroup>

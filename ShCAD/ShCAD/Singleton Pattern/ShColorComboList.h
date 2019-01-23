@@ -12,8 +12,8 @@ class ShColorComboList {
 
 
 private:
-	ShColor layerColor;
-	ShColor blockColor;
+	ShColor layerColor; //only temporary.
+	ShColor blockColor; //only temporary.
 	QList<ShColor> list;
 	
 

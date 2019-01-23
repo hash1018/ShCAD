@@ -5,11 +5,10 @@
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qmenu.h>
-#include <qpainter.h>
 #include "Interface\ShGraphicView.h"
 #include "ShNotifyEvent.h"
 #include "Singleton Pattern\ShWidgetManager.h"
-#include <qcombobox.h>
+#include "Interface\Items\ShColorComboBox.h"
 #include "Singleton Pattern\ShColorComboList.h"
 #include "Singleton Pattern\ShChangeManager.h"
 
@@ -171,7 +170,7 @@ void ShDrawColumn::InitArcButton() {
 
 
 ShPropertyColumn::ShPropertyColumn(QWidget *parent, const QString &title, int width)
-	:ShColumnInRibbonTab(parent, title, width), colorComboSelChangedByUser(true),colorComboIndex(0) {
+	:ShColumnInRibbonTab(parent, title, width){
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();
 	manager->Register(this);
@@ -192,12 +191,9 @@ ShPropertyColumn::ShPropertyColumn(QWidget *parent, const QString &title, int wi
 	connect(this->colorCustomButton, &QPushButton::released, this, &ShPropertyColumn::ColorCustomButtonClicked);
 
 
-	this->colorCombo = new QComboBox(this);
+	this->colorCombo = new ShColorComboBox(this);
 
-
-	this->UpdateColorCombo();
-
-	connect(this->colorCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ColorComboIndexChanged(int)));
+	connect(this->colorCombo, SIGNAL(ColorChanged(const ShColor&)), this, SLOT(ColorSelChanged(const ShColor&)));
 
 }
 
@@ -206,36 +202,6 @@ ShPropertyColumn::~ShPropertyColumn() {
 
 }
 
-void ShPropertyColumn::UpdateColorCombo() {
-	
-	this->colorComboSelChangedByUser = false;
-
-	this->colorCombo->clear();
-
-	ShColorComboList *list = ShColorComboList::GetInstance();
-	
-	this->colorCombo->addItem(QIcon(list->GetBlockColorImage(10, 10)), list->GetBlockColorText());
-	this->colorCombo->addItem(QIcon(list->GetLayerColorImage(10, 10)), list->GetLayerColorText());
-	
-	for (int i = 0; i < list->GetSize(); i++) {
-
-		this->colorCombo->addItem(QIcon(list->GetColorImage(10, 10, i)), list->GetColorText(i));
-	}
-
-
-	QPixmap pix(10, 10);
-	QPainter painter(&pix);
-	QLinearGradient linearGrad(0, 0, 10, 10);
-	linearGrad.setColorAt(0, QColor(Qt::white));
-	linearGrad.setColorAt(1, QColor(Qt::black));
-
-	painter.fillRect(0, 0, 10, 10, linearGrad);
-
-	this->colorCombo->addItem(QIcon(pix), "Custom");
-
-
-	this->colorComboSelChangedByUser = true;
-}
 
 void ShPropertyColumn::resizeEvent(QResizeEvent *event) {
 
@@ -252,95 +218,19 @@ void ShPropertyColumn::resizeEvent(QResizeEvent *event) {
 
 }
 
-void ShPropertyColumn::ColorComboIndexChanged(int index) {
-
-	if (this->colorComboSelChangedByUser == false)
-		return;
-
-	if (index == this->colorCombo->count() - 1) {
-	//means select custom item list.
-
-
-		this->OpenColorPickDialog();
-	}
-	else {
-		this->colorComboIndex = index;
-		
-		ShColorComboList *list = ShColorComboList::GetInstance();
-
-		//Here pass notifyEvent.
-		ShColor color = list->GetColorUsingComboBoxIndex(this->colorComboIndex);
-
-		ShPropertyColorComboSelChangedEvent event(color);
-		this->Notify(&event);
-			
-	}
-
-
-	
-
-}
 
 void ShPropertyColumn::ColorCustomButtonClicked() {
 
-	this->OpenColorPickDialog();
+	this->colorCombo->OpenColorPickDialog();
 }
 
 
 
 
+void ShPropertyColumn::SynchronizeColorCombo(int colorComboIndex) {
 
-
-
-#include <qcolordialog.h>
-void ShPropertyColumn::OpenColorPickDialog() {
-
-	QColorDialog dialog;
-	
-	if (QDialog::Accepted == dialog.exec()) {
-	
-		ShColor color = ShColor(dialog.currentColor().red(), dialog.currentColor().green(), 
-			dialog.currentColor().blue());
-
-		ShColorComboList *list = ShColorComboList::GetInstance();
-
-		int index = list->Search(color);
-
-		if (index!=-1) {
-			this->SetColorComboCurrentIndex(index + 2); //ByLayer,ByBlock are not in the list.
-		}
-		else {
-			list->Add(color);
-			this->UpdateColorCombo();
-			this->SetColorComboCurrentIndex(this->colorCombo->count() - 2);
-		}
-
-		//Here pass NotifyEvent.
-		color = list->GetColorUsingComboBoxIndex(this->colorComboIndex);
-
-		ShPropertyColorComboSelChangedEvent event(color);
-		this->Notify(&event);
-
-	}
-	else {
-		//Nothing changed.
-		this->SetColorComboCurrentIndex(this->colorComboIndex);
-	}
-
-
-	
-
+	this->colorCombo->Synchronize(colorComboIndex);
 }
-
-void ShPropertyColumn::SetColorComboCurrentIndex(int index) {
-
-	this->colorComboSelChangedByUser = false;
-	this->colorCombo->setCurrentIndex(index);
-	this->colorComboSelChangedByUser = true;
-	this->colorComboIndex = index;
-}
-
-
 
 
 void ShPropertyColumn::Update(ShActivatedWidgetChangedEvent *event) {
@@ -350,14 +240,14 @@ void ShPropertyColumn::Update(ShActivatedWidgetChangedEvent *event) {
 	ShColor color = newWidget->GetData()->GetPropertyData()->color;
 
 	if (color.type == ShColor::Type::ByBlock)
-		this->SetColorComboCurrentIndex(0);
+		this->colorCombo->Synchronize(0);
 	else if (color.type == ShColor::Type::ByLayer)
-		this->SetColorComboCurrentIndex(1);
+		this->colorCombo->Synchronize(1);
 	else {
 		ShColorComboList *list = ShColorComboList::GetInstance();
 
 		int index = list->Search(color);
-		this->SetColorComboCurrentIndex(index + 2);
+		this->colorCombo->Synchronize(index + 2);
 	}
 
 
@@ -369,4 +259,15 @@ void ShPropertyColumn::Notify(ShNotifyEvent *event) {
 
 	manager->Notify(this, event);
 
+}
+
+void ShPropertyColumn::ColorSelChanged(const ShColor& color) {
+
+	ShPropertyColorComboSelChangedEvent event(color);
+	this->Notify(&event);
+}
+
+int ShPropertyColumn::GetColorComboIndex() {
+
+	return this->colorCombo->GetColorComboIndex();
 }

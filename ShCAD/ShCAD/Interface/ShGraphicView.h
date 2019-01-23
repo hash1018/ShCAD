@@ -63,6 +63,7 @@ public:
 	ShGraphicViewData() :x(0), y(0), z(0), zoomRate(1), hPos(0), vPos(0), 
 		headTitle(":: "), edit(""), list("") {
 		propertyData.color.type = ShColor::Type::ByBlock;
+		propertyData.lineStyle.type = ShLineStyle::Type::ByBlock;
 	}
 
 	~ShGraphicViewData() {}

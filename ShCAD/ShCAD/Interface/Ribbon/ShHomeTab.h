@@ -4,7 +4,7 @@
 #define _SHHOMETAB_H
 
 #include "ShRibbon.h"
-#include "ShCustomizedWidget.h"
+#include "Interface\Items\ShCustomizedWidget.h"
 
 class ShDrawColumn;
 class ShPropertyColumn;
@@ -49,37 +49,35 @@ private:
 
 ////////////////////////////////////////////////////////////////////
 
-class QComboBox;
+class ShColorComboBox;
 class ShActivatedWidgetChangedEvent;
 class ShNotifyEvent;
+class ShColor;
 class ShPropertyColumn : public ShColumnInRibbonTab {
 	Q_OBJECT
 
 private:
 	QPushButton *colorCustomButton;
-	QComboBox *colorCombo;
-	bool colorComboSelChangedByUser;
-	int colorComboIndex;
+	ShColorComboBox *colorCombo;
 
 public:
 	ShPropertyColumn(QWidget *parent, const QString &title, int width);
 	~ShPropertyColumn();
+
 	void Update(ShActivatedWidgetChangedEvent *event);
 	void Notify(ShNotifyEvent *event);
+	void SynchronizeColorCombo(int colorComboIndex);
+	int GetColorComboIndex();
 
-private:
-	void UpdateColorCombo();
-	void OpenColorPickDialog();
-	void SetColorComboCurrentIndex(int index);
+
 	
-
 protected:
 	void resizeEvent(QResizeEvent* event);
 
 
 	private slots:
 	void ColorCustomButtonClicked();
-	void ColorComboIndexChanged(int);
+	void ColorSelChanged(const ShColor& color);
 	
 };
 

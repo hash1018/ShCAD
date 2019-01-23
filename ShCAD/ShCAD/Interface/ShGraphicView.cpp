@@ -365,7 +365,9 @@ void ShGraphicView::Update(ShNotifyEvent *event) {
 	else if (dynamic_cast<ShPropertyColorComboSelChangedEvent*>(event)) {
 		this->data.propertyData.color = dynamic_cast<ShPropertyColorComboSelChangedEvent*>(event)->GetColor();
 	}
-
+	else if (dynamic_cast<ShPropertyLineStyleComboSelChangedEvent*>(event)) {
+		this->data.propertyData.lineStyle = dynamic_cast<ShPropertyLineStyleComboSelChangedEvent*>(event)->GetLineStyle();
+	}
 
 }
 

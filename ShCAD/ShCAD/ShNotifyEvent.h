@@ -37,6 +37,7 @@ public:
 		UpdateListText = 4,
 		ActivatedWidgetChanged=5,
 		PropertyColorComboSelChanged=6,
+		PropertyLineStyleComboSelChanged=7,
 
 	};
 
@@ -150,6 +151,19 @@ public:
 
 private:
 	ShColor color;
+
+};
+
+class ShPropertyLineStyleComboSelChangedEvent : public ShNotifyEvent {
+
+public:
+	ShPropertyLineStyleComboSelChangedEvent(const ShLineStyle& lineStyle);
+	~ShPropertyLineStyleComboSelChangedEvent();
+
+	inline ShLineStyle GetLineStyle() const { return this->lineStyle; }
+
+private:
+	ShLineStyle lineStyle;
 
 };
 #endif //_SHNOTIFYEVENT_H

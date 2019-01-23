@@ -110,3 +110,15 @@ ShPropertyColorComboSelChangedEvent::~ShPropertyColorComboSelChangedEvent() {
 
 
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+
+ShPropertyLineStyleComboSelChangedEvent::ShPropertyLineStyleComboSelChangedEvent(const ShLineStyle& lineStyle)
+	:lineStyle(lineStyle) {
+
+	this->type = Type::PropertyLineStyleComboSelChanged;
+}
+
+ShPropertyLineStyleComboSelChangedEvent::~ShPropertyLineStyleComboSelChangedEvent() {
+
+}

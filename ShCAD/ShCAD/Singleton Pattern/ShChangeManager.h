@@ -10,6 +10,7 @@ class ShStatusBar;
 class ShGraphicView;
 class ShCommandDock;
 class ShPropertyColumn;
+class ShPropertyToolBar;
 class ShChangeManager {
 
 private:
@@ -24,16 +25,20 @@ public:
 	void Register(ShStatusBar *statusBar);
 	void Register(ShCommandDock *commandDock);
 	void Register(ShPropertyColumn *propertyColumn); // this function is called in constructor of ShPropertyColumn.
+	void Register(ShPropertyToolBar *propertyToolBar); //this function is called in constructor of ShPropertyToolBar.
+
 
 	void Notify(ShGraphicView *view, ShNotifyEvent *event);
 	void Notify(ShCommandDock* commandDock, ShNotifyEvent *event);
 	void Notify(ShPropertyColumn *propertyColumn, ShNotifyEvent *event);
+	void Notify(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event);
 	
 
 private:
 	ShStatusBar *statusBar;
 	ShCommandDock *commandDock;
 	ShPropertyColumn *propertyColumn;
+	ShPropertyToolBar *propertyToolBar;
 
 };
 

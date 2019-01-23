@@ -32,6 +32,8 @@
 #include "ShStatusBar.h"
 #include "Dock\ShCommandDock.h"
 #include "Singleton Pattern\ShChangeManager.h"
+#include "Interface\ToolBar\ShPropertyToolBar.h"
+
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 
@@ -158,6 +160,10 @@ void ShCAD::InitWidgets() {
 	ShChangeManager *manager = ShChangeManager::GetInstance();
 	manager->Register(this->statusBar);
 	manager->Register(this->commandDock);
+
+	this->propertyToolBar = new ShPropertyToolBar(this);
+	this->propertyToolBar->setWindowTitle("Property");
+	this->propertyToolBar->hide();
 	
 }
 
@@ -168,6 +174,7 @@ void ShCAD::ActivateWidgets() {
 
 	this->addToolBar(this->ribbon);
 	this->ribbon->show();
+	this->addToolBarBreak();
 
 	this->statusBar->show();
 	
@@ -177,7 +184,8 @@ void ShCAD::ActivateWidgets() {
 	this->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, this->dock);
 	this->dock->show();
 	
-
+	this->addToolBar(Qt::ToolBarArea::TopToolBarArea,this->propertyToolBar);
+	this->propertyToolBar->show();
 
 }
 
@@ -188,5 +196,5 @@ void ShCAD::DeActivateWidgets() {
 	this->statusBar->hide();
 	this->removeDockWidget(this->commandDock);
 	this->removeDockWidget(this->dock);
-	
+	this->removeToolBar(this->propertyToolBar);
 }

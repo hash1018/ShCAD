@@ -50,19 +50,59 @@ bool ShColor::operator==(const ShColor& other) {
 }
 
 
+ShLineStyle::ShLineStyle()
+	:pattern(0xFFFF),type(ShLineStyle::Type::Normal) {
+
+}
+
+ShLineStyle::ShLineStyle(unsigned short pattern, ShLineStyle::Type type)
+	: pattern(pattern), type(type) {
+
+}
+
+ShLineStyle::ShLineStyle(const ShLineStyle& other)
+	: pattern(other.pattern), type(other.type) {
+
+}
+
+ShLineStyle& ShLineStyle::operator=(const ShLineStyle& other) {
+
+	this->pattern = other.pattern;
+	this->type = other.type;
+
+	return *this;
+}
+
+ShLineStyle::~ShLineStyle() {
+
+}
+
+
+bool ShLineStyle::operator==(const ShLineStyle& other) {
+
+	if (this->pattern != other.pattern)
+		return false;
+
+	if (this->type != other.type)
+		return false;
+
+	return true;
+}
+
 
 ShPropertyData::ShPropertyData() {
 
 }
 
 ShPropertyData::ShPropertyData(const ShPropertyData& other)
-	:color(other.color) {
+	:color(other.color),lineStyle(other.lineStyle) {
 
 }
 
 ShPropertyData& ShPropertyData::operator=(const ShPropertyData& other) {
 
 	this->color = other.color;
+	this->lineStyle = other.lineStyle;
 
 	return *this;
 }

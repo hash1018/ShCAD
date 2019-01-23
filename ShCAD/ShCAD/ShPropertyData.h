@@ -30,10 +30,35 @@ public:
 
 };
 
+class ShLineStyle {
+
+public:
+	enum Type {
+		Normal=1,
+		ByLayer=2,
+		ByBlock=3,
+	};
+
+public:
+	unsigned short pattern;
+	Type type;
+
+public:
+	ShLineStyle();
+	ShLineStyle(unsigned short pattern, ShLineStyle::Type type = Normal);
+	ShLineStyle(const ShLineStyle& other);
+	ShLineStyle& operator=(const ShLineStyle& other);
+	~ShLineStyle();
+
+	bool operator==(const ShLineStyle& other);
+
+};
+
 class ShPropertyData {
 
 public:
 	ShColor color;
+	ShLineStyle lineStyle;
 
 public:
 	ShPropertyData();

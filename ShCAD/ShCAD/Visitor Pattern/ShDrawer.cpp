@@ -18,7 +18,13 @@ void ShDrawer::Visit(ShLine *shLine) {
 
 	if (shLine->IsSelected() == true) {
 		ShSelectedEntityDrawer selectedDrawer(this->view, this->drawType);
-		shLine->Accept(&selectedDrawer);
+		selectedDrawer.Visit(shLine);
+		return;
+	}
+
+	if (this->drawType == DrawType::DrawJustUnSelectedEntities) {
+		ShJustUnSelectedEntitiesDrawer drawer(this->view);
+		drawer.Visit(shLine);
 		return;
 	}
 
@@ -31,7 +37,10 @@ void ShDrawer::Visit(ShLine *shLine) {
 	
 	GLColor color(data.propertyData.color.r/255., data.propertyData.color.g/255., data.propertyData.color.b/255.);
 
+	glLineStipple(1, data.propertyData.lineStyle.pattern);
+	glEnable(GL_LINE_STIPPLE);
 	this->DrawLine(start, end, color);
+	glDisable(GL_LINE_STIPPLE);
 
 }
 
@@ -55,10 +64,8 @@ void ShDrawer::Visit(ShRubberBand *shRubberBand) {
 	this->ConvertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
 	GLColor color(1.0f, 1.0f, 1.0f); 
-
 	this->DrawLine(start, end, color);
 	
-
 }
 
 void ShDrawer::ConvertDeviceToOpenGL(int x, int y, double  &ox, double  &oy) {
@@ -137,5 +144,43 @@ void ShSelectedEntityDrawer::Visit(ShCircle *shCircle) {
 }
 
 void ShSelectedEntityDrawer::Visit(ShArc *shArc) {
+
+}
+
+
+ShJustUnSelectedEntitiesDrawer::ShJustUnSelectedEntitiesDrawer(ShGraphicView *view)
+	:ShDrawer(view,DrawType::DrawJustUnSelectedEntities) {
+
+}
+
+ShJustUnSelectedEntitiesDrawer::~ShJustUnSelectedEntitiesDrawer() {
+
+}
+
+void ShJustUnSelectedEntitiesDrawer::Visit(ShLine *shLine) {
+
+	ShLineData data = shLine->GetData();
+
+	GLPoint start, end;
+
+	this->ConvertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
+	this->ConvertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
+
+	GLColor color(data.propertyData.color.r / 255., data.propertyData.color.g / 255., data.propertyData.color.b / 255.);
+
+
+	this->DrawLine(start, end, GLColor(0, 0, 0)); //earse background.
+
+	glLineStipple(1, data.propertyData.lineStyle.pattern);
+	glEnable(GL_LINE_STIPPLE);
+	this->DrawLine(start, end, color);
+	glDisable(GL_LINE_STIPPLE);
+}
+
+void ShJustUnSelectedEntitiesDrawer::Visit(ShCircle *shCircle) {
+
+}
+
+void ShJustUnSelectedEntitiesDrawer::Visit(ShArc *shArc) {
 
 }

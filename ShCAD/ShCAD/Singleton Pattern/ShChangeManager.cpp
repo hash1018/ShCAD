@@ -30,6 +30,7 @@
 #include "Interface\Dock\ShCommandDock.h"
 #include "ShWidgetManager.h"
 #include "Interface\Ribbon\ShHomeTab.h"
+#include "Interface\ToolBar\ShPropertyToolBar.h"
 
 ShChangeManager ShChangeManager::instance;
 
@@ -61,6 +62,11 @@ void ShChangeManager::Register(ShPropertyColumn *propertyColumn) {
 	this->propertyColumn = propertyColumn;
 }
 
+void ShChangeManager::Register(ShPropertyToolBar *propertyToolBar) {
+
+	this->propertyToolBar = propertyToolBar;
+}
+
 void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 
 	if (event->GetType() == ShNotifyEvent::Type::MousePositionChanged) {
@@ -85,6 +91,7 @@ void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 	
 		this->commandDock->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 		this->propertyColumn->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
+		this->propertyToolBar->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 
 	}
 
@@ -113,6 +120,26 @@ void ShChangeManager::Notify(ShPropertyColumn *propertyColumn, ShNotifyEvent *ev
 
 	if (event->GetType() == ShNotifyEvent::Type::PropertyColorComboSelChanged) {
 		
+		this->propertyToolBar->SynchronizeColorCombo(propertyColumn->GetColorComboIndex());
+
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+		
+
+
+	}
+}
+
+void ShChangeManager::Notify(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::Type::PropertyColorComboSelChanged) {
+
+		this->propertyColumn->SynchronizeColorCombo(propertyToolBar->GetColorComboIndex());
+
 		ShWidgetManager *manager = ShWidgetManager::GetInstance();
 
 		if (manager->GetActivatedWidget() == 0)
@@ -121,4 +148,15 @@ void ShChangeManager::Notify(ShPropertyColumn *propertyColumn, ShNotifyEvent *ev
 		manager->GetActivatedWidget()->Update(event);
 
 	}
+	else if (event->GetType() == ShNotifyEvent::Type::PropertyLineStyleComboSelChanged) {
+	
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+
+	}
+
 }

@@ -63,7 +63,17 @@ public:
 	void Visit(ShCircle *shCircle);
 	void Visit(ShArc *shArc);
 	
+};
 
+class ShJustUnSelectedEntitiesDrawer : public ShDrawer {
+
+public:
+	ShJustUnSelectedEntitiesDrawer(ShGraphicView *view);
+	~ShJustUnSelectedEntitiesDrawer();
+
+	void Visit(ShLine *shLine);
+	void Visit(ShCircle *shCircle);
+	void Visit(ShArc *shArc);
 
 };
 

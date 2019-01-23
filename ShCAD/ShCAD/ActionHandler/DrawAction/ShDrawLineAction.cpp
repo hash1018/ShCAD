@@ -47,7 +47,6 @@ void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 		this->status = PickedStart;
 
 		this->graphicView->preview.Add(new ShLine(ShLineData(*this->graphicView->GetData()->GetPropertyData(), this->start, this->start)));
-		this->graphicView->rubberBand = new ShRubberBand(ShLineData(*this->graphicView->GetData()->GetPropertyData(), this->start, this->start));
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 		
 	}
@@ -73,8 +72,6 @@ void ShDrawLineAction::MouseMoveEvent(QMouseEvent *event) {
 		ShLineData data(*this->graphicView->GetData()->GetPropertyData(), this->start, this->end);
 
 		dynamic_cast<ShLine*>(this->graphicView->preview.Begin().Current())->SetData(data);
-		
-		this->graphicView->rubberBand->SetData(data);
 
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 		
