@@ -5,7 +5,10 @@
 #include <qpainter.h>
 
 ShColorComboBox::ShColorComboBox(QWidget *parent)
-	:QComboBox(parent), colorComboSelChangedByUser(true), colorComboIndex(0) {
+	:QComboBox(parent), colorComboSelChangedByUser(true), colorComboIndex(0),
+	layerColor(255, 255, 255, ShColor::Type::ByLayer),
+	blockColor(255, 255, 255, ShColor::Type::ByBlock) {
+
 
 	this->UpdateColorCombo();
 
@@ -30,8 +33,8 @@ void ShColorComboBox::UpdateColorCombo() {
 
 	ShColorComboList *list = ShColorComboList::GetInstance();
 
-	this->addItem(QIcon(list->GetBlockColorImage(10, 10)), list->GetBlockColorText());
-	this->addItem(QIcon(list->GetLayerColorImage(10, 10)), list->GetLayerColorText());
+	this->addItem(QIcon(list->GetColorImage(this->blockColor, 10, 10)), "ByBlock");
+	this->addItem(QIcon(list->GetColorImage(this->layerColor, 10, 10)), "ByLayer");
 
 	for (int i = 0; i < list->GetSize(); i++) {
 
@@ -77,10 +80,15 @@ void ShColorComboBox::OpenColorPickDialog() {
 		}
 
 		//Here pass NotifyEvent.
-		color = list->GetColorUsingComboBoxIndex(this->colorComboIndex);
+		if (this->colorComboIndex == 0)
+			color = this->blockColor;
+		else if (this->colorComboIndex == 1)
+			color = this->layerColor;
+		else
+			color=list->GetColor(this->colorComboIndex - 2);
+		
 
-		//ShPropertyColorComboSelChangedEvent event(color);
-		//this->Notify(&event);
+		
 		emit ColorChanged(color);
 
 	}
@@ -117,13 +125,29 @@ void ShColorComboBox::ColorComboIndexChanged(int index) {
 		ShColorComboList *list = ShColorComboList::GetInstance();
 
 		//Here pass notifyEvent.
-		ShColor color = list->GetColorUsingComboBoxIndex(this->colorComboIndex);
+		ShColor color;
+		
+		if (this->colorComboIndex == 0)
+			color = this->blockColor;
+		else if (this->colorComboIndex == 1)
+			color = this->layerColor;
+		else
+			color = list->GetColor(this->colorComboIndex - 2);
 
-		//ShPropertyColorComboSelChangedEvent event(color);
-		//this->Notify(&event);
+		
 		emit ColorChanged(color);
 
 	}
 
 
+}
+
+void ShColorComboBox::SetBlockColor(const ShColor& blockColor) {
+
+	this->blockColor = blockColor;
+}
+
+void ShColorComboBox::SetLayerColor(const ShColor& layerColor) {
+
+	this->layerColor = layerColor;
 }

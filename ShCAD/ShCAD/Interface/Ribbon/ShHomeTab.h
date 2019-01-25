@@ -53,6 +53,8 @@ class ShColorComboBox;
 class ShActivatedWidgetChangedEvent;
 class ShNotifyEvent;
 class ShColor;
+class ShLineStyleComboBox;
+class ShLineStyle;
 class ShPropertyColumn : public ShColumnInRibbonTab {
 	Q_OBJECT
 
@@ -60,14 +62,20 @@ private:
 	QPushButton *colorCustomButton;
 	ShColorComboBox *colorCombo;
 
+	ShLineStyleComboBox *lineStyleCombo;
+
 public:
 	ShPropertyColumn(QWidget *parent, const QString &title, int width);
 	~ShPropertyColumn();
 
 	void Update(ShActivatedWidgetChangedEvent *event);
 	void Notify(ShNotifyEvent *event);
+	
 	void SynchronizeColorCombo(int colorComboIndex);
 	int GetColorComboIndex();
+
+	void SynchronizeLineStyleCombo(int lineStyleComboIndex);
+	int GetLineStyleComboIndex();
 
 
 	
@@ -78,6 +86,7 @@ protected:
 	private slots:
 	void ColorCustomButtonClicked();
 	void ColorSelChanged(const ShColor& color);
+	void LineStyleSelChanged(const ShLineStyle& lineStyle);
 	
 };
 

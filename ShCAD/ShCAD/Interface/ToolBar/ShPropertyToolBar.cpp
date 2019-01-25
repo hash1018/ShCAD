@@ -7,6 +7,9 @@
 #include "Interface\ShGraphicView.h"
 #include "Singleton Pattern\ShChangeManager.h"
 #include "Interface\Items\ShLineStyleComboBox.h"
+#include "Singleton Pattern\ShLineStyleComboList.h"
+
+#include "Interface\Items\ShLayerComboBox.h" // only temporary
 ShPropertyToolBar::ShPropertyToolBar(QWidget *parent)
 	:QToolBar(parent){
 
@@ -28,6 +31,13 @@ ShPropertyToolBar::ShPropertyToolBar(QWidget *parent)
 	this->addWidget(this->lineStyleCombo);
 
 	connect(this->lineStyleCombo, SIGNAL(LineStyleChanged(const ShLineStyle&)), this, SLOT(LineStyleSelChanged(const ShLineStyle&)));
+
+
+	//only temporary
+	this->addSeparator();
+	this->layerCombo = new ShLayerComboBox(this);
+	this->addWidget(this->layerCombo);
+	///
 }
 
 ShPropertyToolBar::~ShPropertyToolBar() {
@@ -44,6 +54,10 @@ void ShPropertyToolBar::Update(ShActivatedWidgetChangedEvent *event) {
 
 	ShGraphicView *newWidget = event->GetNewWidget();
 
+	///////////////////////////////////////////////////////////////////////////////////
+	this->colorCombo->SetBlockColor(newWidget->GetData()->GetBlockData()->color);
+	this->colorCombo->SetLayerColor(newWidget->GetData()->GetLayerData()->color);
+
 	ShColor color = newWidget->GetData()->GetPropertyData()->color;
 
 	if (color.type == ShColor::Type::ByBlock)
@@ -56,6 +70,25 @@ void ShPropertyToolBar::Update(ShActivatedWidgetChangedEvent *event) {
 		int index = list->Search(color);
 		this->colorCombo->Synchronize(index + 2);
 	}
+	////////////////////////////////////////////////////////////////////////////////////
+
+	this->lineStyleCombo->SetBlockLineStyle(newWidget->GetData()->GetBlockData()->lineStyle);
+	this->lineStyleCombo->SetLayerLineStyle(newWidget->GetData()->GetLayerData()->lineStyle);
+
+	ShLineStyle lineStyle = newWidget->GetData()->GetPropertyData()->lineStyle;
+
+	if (lineStyle.type == ShLineStyle::Type::ByBlock)
+		this->lineStyleCombo->Synchronize(0);
+	else if (lineStyle.type == ShLineStyle::Type::ByLayer)
+		this->lineStyleCombo->Synchronize(1);
+	else {
+		ShLineStyleComboList *list = ShLineStyleComboList::GetInstance();
+		int index = list->Search(lineStyle);
+		this->lineStyleCombo->Synchronize(index + 2);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+
 }
 
 void ShPropertyToolBar::Notify(ShNotifyEvent *event) {
@@ -84,4 +117,14 @@ void ShPropertyToolBar::LineStyleSelChanged(const ShLineStyle& lineStyle) {
 int ShPropertyToolBar::GetColorComboIndex() {
 
 	return this->colorCombo->GetColorComboIndex();
+}
+
+void ShPropertyToolBar::SynchronizeLineStyleCombo(int lineStyleComboIndex) {
+
+	this->lineStyleCombo->Synchronize(lineStyleComboIndex);
+}
+
+int ShPropertyToolBar::GetLineStyleComboIndex() {
+
+	return this->lineStyleCombo->GetLineStyleComboIndex();
 }

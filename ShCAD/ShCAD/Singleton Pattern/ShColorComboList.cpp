@@ -7,10 +7,6 @@ ShColorComboList ShColorComboList::instance;
 
 ShColorComboList::ShColorComboList() {
 
-	this->layerColor.type = ShColor::Type::ByLayer;
-	this->blockColor.type = ShColor::Type::ByBlock;
-
-
 	this->list.append(ShColor(255, 0, 0)); //red
 	this->list.append(ShColor(255, 255, 0)); //yellow
 	this->list.append(ShColor(0, 255, 0));  //green
@@ -30,26 +26,17 @@ ShColorComboList* ShColorComboList::GetInstance() {
 }
 
 
-QPixmap ShColorComboList::GetLayerColorImage(int width, int height) {
+QPixmap ShColorComboList::GetColorImage(const ShColor& color, int width, int height) {
 
 	QPixmap pix(width, height);
 	QPainter painter(&pix);
 
-	painter.fillRect(0, 0, width, height, QColor(this->layerColor.r, this->layerColor.g, this->layerColor.b));
+	painter.fillRect(0, 0, width, height, QColor(color.r, color.g, color.b));
 
 	return pix;
 
 }
 
-QPixmap ShColorComboList::GetBlockColorImage(int width, int height) {
-
-	QPixmap pix(width, height);
-	QPainter painter(&pix);
-
-	painter.fillRect(0, 0, width, height, QColor(this->blockColor.r, this->blockColor.g, this->blockColor.b));
-
-	return pix;
-}
 
 QPixmap ShColorComboList::GetColorImage(int width, int height, int index) {
 
@@ -63,15 +50,6 @@ QPixmap ShColorComboList::GetColorImage(int width, int height, int index) {
 	return pix;
 }
 
-QString ShColorComboList::GetLayerColorText() {
-
-	return "ByLayer";
-}
-
-QString ShColorComboList::GetBlockColorText() {
-
-	return "ByBlock";
-}
 
 QString ShColorComboList::GetColorText(int index) {
 
@@ -108,14 +86,3 @@ void ShColorComboList::Add(const ShColor& color) {
 	this->list.append(color);
 }
 
-ShColor ShColorComboList::GetColorUsingComboBoxIndex(int comboBoxIndex) {
-
-	if (comboBoxIndex == 0)
-		return this->blockColor;
-	else if (comboBoxIndex == 1)
-		return this->layerColor;
-	
-
-
-	return this->list.at(comboBoxIndex - 2);
-}

@@ -11,6 +11,8 @@ class ShNotifyEvent;
 class ShColor;
 class ShLineStyleComboBox;
 class ShLineStyle;
+
+class ShLayerComboBox; //only temporary.
 class ShPropertyToolBar : public QToolBar {
 	Q_OBJECT
 
@@ -18,6 +20,7 @@ private:
 	ShColorComboBox *colorCombo;
 	ShLineStyleComboBox *lineStyleCombo;
 	 
+	ShLayerComboBox *layerCombo; //only temporary.
 
 public:
 	ShPropertyToolBar(QWidget *parent = 0);
@@ -27,6 +30,10 @@ public:
 	void Notify(ShNotifyEvent *event);
 	void SynchronizeColorCombo(int colorComboIndex);
 	int GetColorComboIndex();
+
+	void SynchronizeLineStyleCombo(int lineStyleComboIndex);
+	int GetLineStyleComboIndex();
+
 
 private:
  

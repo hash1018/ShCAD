@@ -129,9 +129,20 @@ void ShChangeManager::Notify(ShPropertyColumn *propertyColumn, ShNotifyEvent *ev
 
 		manager->GetActivatedWidget()->Update(event);
 		
-
-
 	}
+
+	else if (event->GetType() == ShNotifyEvent::Type::PropertyLineStyleComboSelChanged) {
+	
+		this->propertyToolBar->SynchronizeLineStyleCombo(propertyColumn->GetLineStyleComboIndex());
+
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+	}
+
 }
 
 void ShChangeManager::Notify(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event) {
@@ -150,6 +161,8 @@ void ShChangeManager::Notify(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *
 	}
 	else if (event->GetType() == ShNotifyEvent::Type::PropertyLineStyleComboSelChanged) {
 	
+		this->propertyColumn->SynchronizeLineStyleCombo(propertyToolBar->GetLineStyleComboIndex());
+
 		ShWidgetManager *manager = ShWidgetManager::GetInstance();
 
 		if (manager->GetActivatedWidget() == 0)

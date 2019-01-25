@@ -6,13 +6,11 @@ ShLineStyleComboList ShLineStyleComboList::instance;
 
 ShLineStyleComboList::ShLineStyleComboList() {
 
-	this->layerStyle.type = ShLineStyle::Type::ByLayer;
-	this->blockStyle.type = ShLineStyle::Type::ByBlock;
-
 	this->list.append(ShLineStyle(0xFFFF));  //continuous
 	this->list.append(ShLineStyle(0x0101));  //dotted
 	this->list.append(ShLineStyle(0x00FF));  //dashed
-	this->list.append(ShLineStyle(0x1C47));  //dash/dot/dash
+	//this->list.append(ShLineStyle(0x1C47));  //dash/dot/dash
+	this->list.append(ShLineStyle(0x10FF)); //dash/dot/dash
 
 
 }
@@ -27,14 +25,10 @@ ShLineStyleComboList* ShLineStyleComboList::GetInstance() {
 }
 
 
-QString ShLineStyleComboList::GetLayerLineStyleText() {
 
-	return "ByLayer " + this->GetLineStyleShape(this->layerStyle.pattern);
-}
+QString ShLineStyleComboList::GetLineStyleText(const ShLineStyle& lineStyle) {
 
-QString ShLineStyleComboList::GetBlockLineStyleText() {
-
-	return "ByBlock " + this->GetLineStyleShape(this->blockStyle.pattern);
+	return this->GetLineStyleShape(lineStyle.pattern);
 }
 
 QString ShLineStyleComboList::GetLineStyleText(int index) {
@@ -69,13 +63,7 @@ QString ShLineStyleComboList::GetLineStyleShape(unsigned short pattern) {
 	return QString::fromLocal8Bit("-，-，-，-，-，-");
 }
 
-ShLineStyle ShLineStyleComboList::GetColorUsingComboBoxIndex(int comboBoxIndex) {
+int ShLineStyleComboList::Search(const ShLineStyle& lineStyle) {
 
-	if (comboBoxIndex == 0)
-		return this->blockStyle;
-	else if (comboBoxIndex == 1)
-		return this->layerStyle;
-
-
-	return this->list.at(comboBoxIndex - 2);
+	return this->list.indexOf(lineStyle);
 }

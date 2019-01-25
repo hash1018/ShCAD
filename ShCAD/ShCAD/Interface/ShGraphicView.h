@@ -57,6 +57,13 @@ private:
 	QString edit;
 	QString list;
 
+	//ShColor blockColor;
+	//ShColor layerColor;
+	//ShLineStyle blockLineStyle;
+	//ShLineStyle layerLineStyle;
+	ShPropertyData layerData;
+	ShPropertyData blockData;
+
 	ShPropertyData propertyData;
 
 public:
@@ -64,6 +71,12 @@ public:
 		headTitle(":: "), edit(""), list("") {
 		propertyData.color.type = ShColor::Type::ByBlock;
 		propertyData.lineStyle.type = ShLineStyle::Type::ByBlock;
+		
+		blockData.color.type = ShColor::ByBlock;
+		blockData.lineStyle.type = ShLineStyle::ByBlock;
+		
+		layerData.color.type = ShColor::ByLayer;
+		layerData.lineStyle.type = ShLineStyle::ByLayer;
 	}
 
 	~ShGraphicViewData() {}
@@ -74,6 +87,9 @@ public:
 	void SetHeadTitle(const QString& headTitle) { this->headTitle = headTitle; }
 	void SetEdit(const QString& edit) { this->edit = edit; }
 	void SetList(const QString& list) { this->list = list; }
+
+	inline ShPropertyData* GetLayerData() { return &(this->layerData); }
+	inline ShPropertyData* GetBlockData() { return &(this->blockData); }
 
 	inline ShPropertyData* GetPropertyData() { return &(this->propertyData); }
 };

@@ -8,8 +8,6 @@
 #include "Interface\ShGraphicView.h"
 #include "ShNotifyEvent.h"
 #include "Singleton Pattern\ShWidgetManager.h"
-#include "Interface\Items\ShColorComboBox.h"
-#include "Singleton Pattern\ShColorComboList.h"
 #include "Singleton Pattern\ShChangeManager.h"
 
 
@@ -168,7 +166,10 @@ void ShDrawColumn::InitArcButton() {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+#include "Interface\Items\ShColorComboBox.h"
+#include "Singleton Pattern\ShColorComboList.h"
+#include "Interface\Items\ShLineStyleComboBox.h"
+#include "Singleton Pattern\ShLineStyleComboList.h"
 ShPropertyColumn::ShPropertyColumn(QWidget *parent, const QString &title, int width)
 	:ShColumnInRibbonTab(parent, title, width){
 
@@ -195,6 +196,11 @@ ShPropertyColumn::ShPropertyColumn(QWidget *parent, const QString &title, int wi
 
 	connect(this->colorCombo, SIGNAL(ColorChanged(const ShColor&)), this, SLOT(ColorSelChanged(const ShColor&)));
 
+
+	this->lineStyleCombo = new ShLineStyleComboBox(this);
+
+	connect(this->lineStyleCombo, SIGNAL(LineStyleChanged(const ShLineStyle&)), this, SLOT(LineStyleSelChanged(const ShLineStyle&)));
+
 }
 
 ShPropertyColumn::~ShPropertyColumn() {
@@ -215,6 +221,8 @@ void ShPropertyColumn::resizeEvent(QResizeEvent *event) {
 
 	this->colorCombo->setGeometry(height / 3 + 2, 3, 150, height / 3 - 8);
 
+
+	this->lineStyleCombo->setGeometry(height / 3 + 2, height / 3, 150, height / 3 - 8);
 
 }
 
@@ -237,6 +245,10 @@ void ShPropertyColumn::Update(ShActivatedWidgetChangedEvent *event) {
 
 	ShGraphicView *newWidget = event->GetNewWidget();
 
+	/////////////////////////////////////////////////////////////////////////
+	this->colorCombo->SetBlockColor(newWidget->GetData()->GetBlockData()->color);
+	this->colorCombo->SetLayerColor(newWidget->GetData()->GetLayerData()->color);
+
 	ShColor color = newWidget->GetData()->GetPropertyData()->color;
 
 	if (color.type == ShColor::Type::ByBlock)
@@ -249,6 +261,24 @@ void ShPropertyColumn::Update(ShActivatedWidgetChangedEvent *event) {
 		int index = list->Search(color);
 		this->colorCombo->Synchronize(index + 2);
 	}
+	//////////////////////////////////////////////////////////////////////////
+
+	this->lineStyleCombo->SetBlockLineStyle(newWidget->GetData()->GetBlockData()->lineStyle);
+	this->lineStyleCombo->SetLayerLineStyle(newWidget->GetData()->GetLayerData()->lineStyle);
+
+	ShLineStyle lineStyle = newWidget->GetData()->GetPropertyData()->lineStyle;
+
+	if (lineStyle.type == ShLineStyle::Type::ByBlock)
+		this->lineStyleCombo->Synchronize(0);
+	else if (lineStyle.type == ShLineStyle::Type::ByLayer)
+		this->lineStyleCombo->Synchronize(1);
+	else {
+		ShLineStyleComboList *list = ShLineStyleComboList::GetInstance();
+		int index = list->Search(lineStyle);
+		this->lineStyleCombo->Synchronize(index + 2);
+
+	}
+
 
 
 }
@@ -270,4 +300,21 @@ void ShPropertyColumn::ColorSelChanged(const ShColor& color) {
 int ShPropertyColumn::GetColorComboIndex() {
 
 	return this->colorCombo->GetColorComboIndex();
+}
+
+
+void ShPropertyColumn::SynchronizeLineStyleCombo(int lineStyleComboIndex) {
+
+	this->lineStyleCombo->Synchronize(lineStyleComboIndex);
+}
+
+int ShPropertyColumn::GetLineStyleComboIndex() {
+
+	return this->lineStyleCombo->GetLineStyleComboIndex();
+}
+
+void ShPropertyColumn::LineStyleSelChanged(const ShLineStyle& lineStyle) {
+
+	ShPropertyLineStyleComboSelChangedEvent event(lineStyle);
+	this->Notify(&event);
 }

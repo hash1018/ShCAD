@@ -9,8 +9,6 @@
 class ShLineStyleComboList {
 
 private:
-	ShLineStyle layerStyle; //only temporary
-	ShLineStyle blockStyle; //only temporary
 	QList<ShLineStyle> list;
 
 private:
@@ -24,13 +22,12 @@ private:
 public:
 	static ShLineStyleComboList* GetInstance();
 
-	QString GetLayerLineStyleText();
-	QString GetBlockLineStyleText();
+	QString GetLineStyleText(const ShLineStyle& lineStyle);
 	QString GetLineStyleText(int index);
 	inline int GetSize() const { return this->list.size(); }
-
-	ShLineStyle GetColorUsingComboBoxIndex(int comboBoxIndex);
-
+	inline ShLineStyle GetLineStyle(int index) const { return this->list.at(index); }
+	
+	int Search(const ShLineStyle& lineStyle);
 
 };
 

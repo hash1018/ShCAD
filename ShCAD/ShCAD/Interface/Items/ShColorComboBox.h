@@ -4,11 +4,15 @@
 #define _SHCOLORCOMBOBOX_H
 
 #include <qcombobox.h>
-class ShColor;
+#include "ShPropertyData.h"
+
 class ShColorComboBox : public QComboBox {
 	Q_OBJECT
 
 private:
+	ShColor blockColor;
+	ShColor layerColor;
+
 	bool colorComboSelChangedByUser;
 	int colorComboIndex;
 
@@ -16,8 +20,12 @@ public:
 	ShColorComboBox(QWidget *parent);
 	~ShColorComboBox();
 	void Synchronize(int index);
-	inline int GetColorComboIndex() const { return this->colorComboIndex; }
 	void OpenColorPickDialog();
+	void SetBlockColor(const ShColor& blockColor);
+	void SetLayerColor(const ShColor& layerColor);
+
+
+	inline int GetColorComboIndex() const { return this->colorComboIndex; }
 
 private:
 	void SetColorComboCurrentIndex(int index);
