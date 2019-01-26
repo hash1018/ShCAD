@@ -31,6 +31,7 @@
 #include "ShWidgetManager.h"
 #include "Interface\Ribbon\ShHomeTab.h"
 #include "Interface\ToolBar\ShPropertyToolBar.h"
+#include "Interface\ToolBar\ShLayerToolBar.h"
 
 ShChangeManager ShChangeManager::instance;
 
@@ -67,6 +68,11 @@ void ShChangeManager::Register(ShPropertyToolBar *propertyToolBar) {
 	this->propertyToolBar = propertyToolBar;
 }
 
+void ShChangeManager::Register(ShLayerToolBar *layerToolBar) {
+
+	this->layerToolBar = layerToolBar;
+}
+
 void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 
 	if (event->GetType() == ShNotifyEvent::Type::MousePositionChanged) {
@@ -92,6 +98,7 @@ void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 		this->commandDock->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 		this->propertyColumn->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 		this->propertyToolBar->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
+		this->layerToolBar->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 
 	}
 

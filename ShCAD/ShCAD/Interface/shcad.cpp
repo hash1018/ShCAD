@@ -33,6 +33,7 @@
 #include "Dock\ShCommandDock.h"
 #include "Singleton Pattern\ShChangeManager.h"
 #include "Interface\ToolBar\ShPropertyToolBar.h"
+#include "Interface\ToolBar\ShLayerToolBar.h"
 
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
@@ -70,8 +71,6 @@ void ShCAD::NewActionClicked() {
 
 	this->mdiArea->addSubWindow(newWidget,Qt::WindowFlags::enum_type::SubWindow);
 	newWidget->show();
-	
-	ShWidgetManager::GetInstance()->SetActivatedWidget(newWidget);
 	
 	ShWidgetManager::GetInstance()->Add(newWidget);
 }
@@ -164,6 +163,10 @@ void ShCAD::InitWidgets() {
 	this->propertyToolBar = new ShPropertyToolBar(this);
 	this->propertyToolBar->setWindowTitle("Property");
 	this->propertyToolBar->hide();
+
+	this->layerToolBar = new ShLayerToolBar(this);
+	this->layerToolBar->setWindowTitle("Layer");
+	this->layerToolBar->hide();
 	
 }
 
@@ -187,6 +190,9 @@ void ShCAD::ActivateWidgets() {
 	this->addToolBar(Qt::ToolBarArea::TopToolBarArea,this->propertyToolBar);
 	this->propertyToolBar->show();
 
+	this->addToolBar(Qt::ToolBarArea::TopToolBarArea, this->layerToolBar);
+	this->layerToolBar->show();
+
 }
 
 void ShCAD::DeActivateWidgets() {
@@ -197,4 +203,5 @@ void ShCAD::DeActivateWidgets() {
 	this->removeDockWidget(this->commandDock);
 	this->removeDockWidget(this->dock);
 	this->removeToolBar(this->propertyToolBar);
+	this->removeToolBar(this->layerToolBar);
 }

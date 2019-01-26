@@ -245,9 +245,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ShPropertyToolBar.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\ToolBar\ShPropertyToolBar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\Items\ShCustomizedWidget.cpp">
       <Filter>Interface\Items</Filter>
     </ClCompile>
@@ -287,6 +284,18 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ShLayerComboBox.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShLayerToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShPropertyToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="ShLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShLayerTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -301,9 +310,6 @@
     <CustomBuild Include="ShRibbon.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="Interface\ToolBar\ShPropertyToolBar.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="Interface\Items\ShCustomizedWidget.h">
       <Filter>Interface\Items</Filter>
     </CustomBuild>
@@ -315,6 +321,9 @@
     </CustomBuild>
     <CustomBuild Include="Interface\Items\ShLayerComboBox.h">
       <Filter>Interface\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\ToolBar\ShPropertyToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -452,6 +461,15 @@
     </ClInclude>
     <ClInclude Include="Singleton Pattern\ShLineStyleComboList.h">
       <Filter>Singleton Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShLayerToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="ShLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShLayerTable.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

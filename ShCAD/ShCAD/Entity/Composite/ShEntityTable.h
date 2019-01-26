@@ -4,11 +4,11 @@
 #define _SHENTITYTABLE_H
 
 #include "ShComposite.h"
-
+#include "ShLayerTable.h"
 class ShEntityTable : public ShComposite {
 
 private:
-	QLinkedList<ShEntity*> justAddedEntityList;
+	ShLayerTable layerTable;
 
 public:
 	ShEntityTable();
@@ -21,7 +21,7 @@ public:
 	
 	ShEntity* FindEntity(double x, double y, double zoomRate);
 	
-
+	inline ShLayerTable* GetLayerTable() { return &(this->layerTable); }
 };
 
 #endif //_SHENTITYTABLE_H

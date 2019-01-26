@@ -6,22 +6,7 @@
 #include <qcombobox.h>
 #include <qlistview.h>
 #include <qstyleditemdelegate.h>
-#include <qmetatype.h>
-class TempLayer {
-	
-public:
-	bool isActivated;
-	QString text;
-	
-	TempLayer() :isActivated(true) { text = "Hello"; }
-	~TempLayer() {}
-	TempLayer(const TempLayer& other) 
-		:isActivated(other.isActivated),text(other.text) {
-	}
-	TempLayer& operator=(const TempLayer& other) { this->isActivated = other.isActivated; this->text = other.text; return *this; }
-};
 
-Q_DECLARE_METATYPE(TempLayer)
 
 class ShLayerDelegate : public QStyledItemDelegate{
 	Q_OBJECT
@@ -34,33 +19,54 @@ public:
 
 };
 
+class ShLayerComboBox;
 class ShLayerView : public QListView {
 	Q_OBJECT
+private:
+	ShLayerComboBox *comboBox;
 public:
-	ShLayerView(QWidget *parent = 0);
+	ShLayerView(ShLayerComboBox *comboBox, QWidget *parent = 0);
 	~ShLayerView();
 
 protected:
 	void mousePressEvent(QMouseEvent *event);
 
+signals:
+	void CurrentIndexChanged(int);
+	void LayerTurnChanged();
 	
 };
 
+class ShLayerTable;
 class ShLayerComboBox : public QComboBox {
 	Q_OBJECT
+		friend class ShLayerView;
+private:
+	ShLayerView *view;
+	ShLayerTable *layerTable;
+	bool layerComboSelChangedByUser;
+	int layerComboIndex;
+
 public:
 	ShLayerComboBox(QWidget *parent = 0);
 	~ShLayerComboBox();
 
+	void SetLayerTable(ShLayerTable *layerTable);
+	void Synchronize();
 	
+	
+private:
+	void SetLayerComboCurrentIndex(int index);
+	void UpdateLayerCombo();
 
-	TempLayer layer;
-	TempLayer layer2;
 protected:
 	void paintEvent(QPaintEvent *event);
 	
 
-	
+	private slots:
+	void ComboSelChanged(int);
+	void LayerTurnChanged();
+
 };
 
 #endif //_SHLAYERCOMBOBOX_H

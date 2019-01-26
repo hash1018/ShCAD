@@ -1,10 +1,11 @@
 
 
 #include "ShLayerComboBox.h"
-#include <qstandarditemmodel.h>
-#include <qheaderview.h>
-
-
+#include "ShLayer.h"
+#include "ShLayerTable.h"
+#include <qpainter.h>
+#include <qvariant.h>
+#include <qstylepainter.h>
 ShLayerDelegate::ShLayerDelegate(QWidget *parent)
 	:QStyledItemDelegate(parent) {
 
@@ -14,9 +15,8 @@ ShLayerDelegate::~ShLayerDelegate() {
 
 }
 
-#include <qapplication.h>
-#include <qpainter.h>
-#include <qvariant.h>
+
+
 void ShLayerDelegate::paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const{
 
 
@@ -36,37 +36,46 @@ void ShLayerDelegate::paint(QPainter * painter, const QStyleOptionViewItem & opt
 	}
 
 
-	//if (index.data().canConvert<TempLayer>() == true) {
+	
+	
+	if (index.data(Qt::UserRole).canConvert<ShLayerData>()) {
+		ShLayerData data = qvariant_cast<ShLayerData> (index.data(Qt::UserRole));
 
-	if (index.data(Qt::UserRole).canConvert<TempLayer>()) {
-		TempLayer tempLayer = qvariant_cast<TempLayer> (index.data(Qt::UserRole));
-
-		if (tempLayer.isActivated == false) {
-			painter->drawText(option.rect, "false" + tempLayer.text);
+		QRect rect = option.rect.adjusted(0, 0, -170, 0);
+		if (data.isTurnOn == true) {
+			painter->drawText(rect, "True");
+			
 		}
 		else {
-			painter->drawText(option.rect, "true" + tempLayer.text);
+			painter->drawText(rect, "False");
 		}
+
+		rect = option.rect.adjusted(40, 0, -100, 0);
+		painter->drawText(rect, data.name);
+
+		rect = option.rect.adjusted(110, 0, 0, 0);
+		painter->drawText(rect, QString::number(data.propertyData.color.r) + "dd" +
+			QString::number(data.propertyData.color.g) + "dd" +
+			QString::number(data.propertyData.color.b));
+
 	}
-	//}
 	
-	else {
-		painter->drawText(option.rect, index.data(1).toString());
-	}
+	
+	
 	
 }
 
 QSize ShLayerDelegate::sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const {
 
-	return QSize(100, 17);
+	return QSize(200, 17);
 }
 
 
 
-ShLayerView::ShLayerView(QWidget *parent)
-	:QListView(parent) {
+ShLayerView::ShLayerView(ShLayerComboBox *comboBox, QWidget *parent)
+	:comboBox(comboBox), QListView(parent) {
 
-	
+
 }
 
 ShLayerView::~ShLayerView() {
@@ -77,31 +86,46 @@ ShLayerView::~ShLayerView() {
 #include <QMouseEvent>
 void ShLayerView::mousePressEvent(QMouseEvent *event) {
 	
-	
-	//QMessageBox box;
-	//box.setText(QString::number(this->currentIndex().row()));
-	//box.exec();
-
 	QModelIndex index = this->currentIndex();
+	
+	if (index.row() < 0)
+		return;
 
 	QRect rect = this->visualRect(index);
-	QString text;
-	if (event->x() <= rect.topLeft().x() + 20) {
-		text = "1";
-	}
-	else if (event->x() > rect.topLeft().x() + 20 && event->x() <= rect.topLeft().x() + 40) {
-		text = "2";
-	}
-	else if (event->x() > rect.topLeft().x() + 40 && event->x() <= rect.topLeft().x() + 60) {
-		text = "3";
+	
+	
+	
+	//change turn on / off
+	if (event->x() <= rect.topLeft().x() + 30) {
+
+		int currentLayerIndex = this->comboBox->layerTable->GetCurrentLayerIndex();
+		ShLayer *layer = this->comboBox->layerTable->GetLayer(index.row());
+
+		if (layer->GetData().isTurnOn == true)
+			layer->GetData().isTurnOn = false;
+		else
+			layer->GetData().isTurnOn = true;
+
+	
+		emit LayerTurnChanged();
+		
+
+
+
+
 	}
 	else {
-		text = "4";
+	
+		emit CurrentIndexChanged(index.row());
 	}
+	
 
-	QMessageBox box;
-	box.setText(QString::number(index.row()) + text);
-	box.exec();
+
+
+
+
+
+	
 
 
 
@@ -111,51 +135,18 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 ShLayerComboBox::ShLayerComboBox(QWidget *parent)
 	:QComboBox(parent) {
 
-	this->setFixedWidth(150);
+	this->setFixedWidth(200);
 
 	
-	
-	//QStandardItemModel *model = new QStandardItemModel(this);
-	//this->setModel(model);
-	
-	//for (int row = 0; row < 4; ++row) {
-	//	for (int column = 0; column < 4; ++column) {
-	//		QStandardItem *item = new QStandardItem(QString("row %0, column %1").arg(row).arg(column));
-	//		model->setItem(row, column, item);
-	//	}
-	//}
-
-	ShLayerView *view = new ShLayerView(this);
-	view->setItemDelegate(new ShLayerDelegate(this));
-	this->setView(view);
+	this->view = new ShLayerView(this);
+	this->view->setItemDelegate(new ShLayerDelegate(this));
+	this->setView(this->view);
 	
 	
-	
-	
-	
-	
-	//this->addItem("hi");
-	//this->addItem("hello   ");
-	
-	
-	QVariant var;
-	var.setValue(this->layer);
-
-	this->layer2.isActivated = false;
-	this->layer2.text = "hihihihi";
-	QVariant var2;
-	var2.setValue(this->layer2);
+	connect(this->view, SIGNAL(CurrentIndexChanged(int)), this, SLOT(ComboSelChanged(int)));
+	connect(this->view, SIGNAL(LayerTurnChanged()), this, SLOT(LayerTurnChanged()));
 
 	
-	
-	this->addItem("hi", var);
-	this->addItem("hello", var2);
-
-	if (this->currentData(Qt::UserRole).canConvert<TempLayer>()) {
-		TempLayer tempLayer = this->currentData(Qt::UserRole).value<TempLayer>();
-
-		qDebug("ghgfhfghfgh");
-	}
 	
 	
 }
@@ -165,9 +156,10 @@ ShLayerComboBox::~ShLayerComboBox() {
 
 }
 
+
 void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 
-	/*
+	
 	QStylePainter painter(this);
 	painter.setPen(palette().color(QPalette::Text));
 
@@ -177,9 +169,81 @@ void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 	painter.drawComplexControl(QStyle::CC_ComboBox, opt);
 
 	//here is where the customization start!!!
-	QRect rect = opt.rect.adjusted(1, 1, -20, -2); //compensate for frame and arrow 
+	QRect rect = opt.rect.adjusted(4, 4, -20, -2); //compensate for frame and arrow 
 
-	painter.drawText(0,0, "he");
-	*/
-	QComboBox::paintEvent(event);
+	ShLayerData data = this->layerTable->GetCurrentLayer()->GetData();
+
+	QRect drawRect = rect.adjusted(0, 0, -170, 0);
+	if (data.isTurnOn == true) {
+		painter.drawText(rect, "True");
+	}
+	else {
+		painter.drawText(rect, "False");
+	}
+
+	drawRect = rect.adjusted(40, 0, -100, 0);
+	painter.drawText(drawRect, data.name);
+
+	drawRect = rect.adjusted(110, 0, 0, 0);
+	painter.drawText(drawRect, QString::number(data.propertyData.color.r) + "dd" +
+		QString::number(data.propertyData.color.g) + "dd" +
+		QString::number(data.propertyData.color.b));
+	
+	
+}
+
+void ShLayerComboBox::SetLayerTable(ShLayerTable *layerTable) {
+
+	this->layerTable = layerTable;
+}
+
+void ShLayerComboBox::Synchronize() {
+
+	this->UpdateLayerCombo();
+	this->SetLayerComboCurrentIndex(this->layerTable->GetCurrentLayerIndex());
+}
+
+void ShLayerComboBox::SetLayerComboCurrentIndex(int index) {
+
+	this->layerComboSelChangedByUser = false;
+	this->setCurrentIndex(index);
+	this->layerComboSelChangedByUser = true;
+	this->layerComboIndex = index;
+
+}
+
+
+void ShLayerComboBox::UpdateLayerCombo() {
+
+	this->layerComboSelChangedByUser = false;
+
+	this->clear();
+
+	
+	for (int i = 0; i < this->layerTable->GetSize(); i++) {
+	
+		ShLayerData data = this->layerTable->GetLayer(i)->GetData();
+		QVariant var;
+		var.setValue(data);
+		this->addItem("", var);
+	}
+
+
+
+
+	this->layerComboSelChangedByUser = true;
+}
+
+
+void ShLayerComboBox::ComboSelChanged(int index) {
+
+	this->layerTable->SetCurrentLayerIndex(index);
+	
+	
+}
+
+void ShLayerComboBox::LayerTurnChanged() {
+	
+	this->UpdateLayerCombo();
+	
 }

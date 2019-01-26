@@ -238,6 +238,7 @@
     <ClCompile Include="Interface\ShGraphicView.cpp" />
     <ClCompile Include="Interface\ShMenuBar.cpp" />
     <ClCompile Include="Interface\ShStatusBar.cpp" />
+    <ClCompile Include="Interface\ToolBar\ShLayerToolBar.cpp" />
     <ClCompile Include="Interface\ToolBar\ShPropertyToolBar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Memento Pattern\ShMemento.cpp" />
@@ -246,6 +247,8 @@
     <ClCompile Include="ShAxis.cpp" />
     <ClCompile Include="ShCadAction.cpp" />
     <ClCompile Include="ShDirectoryManager.cpp" />
+    <ClCompile Include="ShLayer.cpp" />
+    <ClCompile Include="ShLayerTable.cpp" />
     <ClCompile Include="ShMath.cpp" />
     <ClCompile Include="ShNotifyEvent.cpp" />
     <ClCompile Include="ShPropertyData.cpp" />
@@ -415,12 +418,15 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
     </CustomBuild>
+    <ClInclude Include="Interface\ToolBar\ShLayerToolBar.h" />
     <ClInclude Include="Memento Pattern\ShMemento.h" />
     <ClInclude Include="Memento Pattern\ShRedoTaker.h" />
     <ClInclude Include="Memento Pattern\ShUndoTaker.h" />
     <ClInclude Include="ShAxis.h" />
     <ClInclude Include="ShCadAction.h" />
     <ClInclude Include="ShDirectoryManager.h" />
+    <ClInclude Include="ShLayer.h" />
+    <ClInclude Include="ShLayerTable.h" />
     <ClInclude Include="ShMath.h" />
     <ClInclude Include="ShNotifyEvent.h" />
     <ClInclude Include="ShPropertyData.h" />

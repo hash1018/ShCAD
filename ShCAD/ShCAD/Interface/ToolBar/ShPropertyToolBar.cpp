@@ -9,7 +9,7 @@
 #include "Interface\Items\ShLineStyleComboBox.h"
 #include "Singleton Pattern\ShLineStyleComboList.h"
 
-#include "Interface\Items\ShLayerComboBox.h" // only temporary
+
 ShPropertyToolBar::ShPropertyToolBar(QWidget *parent)
 	:QToolBar(parent){
 
@@ -33,11 +33,7 @@ ShPropertyToolBar::ShPropertyToolBar(QWidget *parent)
 	connect(this->lineStyleCombo, SIGNAL(LineStyleChanged(const ShLineStyle&)), this, SLOT(LineStyleSelChanged(const ShLineStyle&)));
 
 
-	//only temporary
-	this->addSeparator();
-	this->layerCombo = new ShLayerComboBox(this);
-	this->addWidget(this->layerCombo);
-	///
+	
 }
 
 ShPropertyToolBar::~ShPropertyToolBar() {

@@ -11,6 +11,7 @@ class ShGraphicView;
 class ShCommandDock;
 class ShPropertyColumn;
 class ShPropertyToolBar;
+class ShLayerToolBar;
 class ShChangeManager {
 
 private:
@@ -26,7 +27,7 @@ public:
 	void Register(ShCommandDock *commandDock);
 	void Register(ShPropertyColumn *propertyColumn); // this function is called in constructor of ShPropertyColumn.
 	void Register(ShPropertyToolBar *propertyToolBar); //this function is called in constructor of ShPropertyToolBar.
-
+	void Register(ShLayerToolBar *layerToolBar); //this function is called in constructor of ShLayerToolBar.
 
 	void Notify(ShGraphicView *view, ShNotifyEvent *event);
 	void Notify(ShCommandDock* commandDock, ShNotifyEvent *event);
@@ -39,6 +40,7 @@ private:
 	ShCommandDock *commandDock;
 	ShPropertyColumn *propertyColumn;
 	ShPropertyToolBar *propertyToolBar;
+	ShLayerToolBar *layerToolBar;
 
 };
 

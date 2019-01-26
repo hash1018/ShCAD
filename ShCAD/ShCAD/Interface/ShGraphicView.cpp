@@ -340,6 +340,7 @@ void ShGraphicView::focusInEvent(QFocusEvent *event) {
 	if (manager->GetActivatedWidget() == this)
 		return;
 
+	
 	ShActivatedWidgetChangedEvent event2(this, manager->GetActivatedWidget());
 	this->Notify(&event2);
 

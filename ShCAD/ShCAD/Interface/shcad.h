@@ -37,6 +37,7 @@ class ShStatusBar;
 class ShRibbonMenu;
 class ShCommandDock;
 class ShPropertyToolBar;
+class ShLayerToolBar;
 
 class QDockWidget;
 class QToolBar;
@@ -51,6 +52,7 @@ private:
 	ShRibbonMenu *ribbon;
 	ShCommandDock *commandDock;
 	ShPropertyToolBar *propertyToolBar;
+	ShLayerToolBar *layerToolBar;
 
 
 	QDockWidget *dock;
