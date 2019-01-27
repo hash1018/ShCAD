@@ -7,6 +7,8 @@
 
 class ShColorComboBox;
 class ShActivatedWidgetChangedEvent;
+class ShCurrentLayerChangedEvent;
+class ShLayerDataChangedEvent;
 class ShNotifyEvent;
 class ShColor;
 class ShLineStyleComboBox;
@@ -27,6 +29,8 @@ public:
 	~ShPropertyToolBar();
 
 	void Update(ShActivatedWidgetChangedEvent *event);
+	void Update(ShCurrentLayerChangedEvent *event);
+	void Update(ShLayerDataChangedEvent *event);
 	void Notify(ShNotifyEvent *event);
 	void SynchronizeColorCombo(int colorComboIndex);
 	int GetColorComboIndex();

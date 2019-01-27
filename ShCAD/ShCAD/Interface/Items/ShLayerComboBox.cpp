@@ -88,7 +88,10 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 	
 	QModelIndex index = this->currentIndex();
 	
-	if (index.row() < 0)
+	// in case list view is clicked 
+	// when it has no (focus? , highligt or something.)
+	// I don't know how to describe
+	if (index.row() < 0) 
 		return;
 
 	QRect rect = this->visualRect(index);
@@ -107,7 +110,12 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 			layer->GetData().isTurnOn = true;
 
 	
-		emit LayerTurnChanged();
+		emit LayerTurnChanged(layer); // when fuction is called, that slots to LayerTrunChanged
+		                         // Updates ComboBox Items again, 
+		                         // and ListView which is this instance does not disappear 
+		                         // after that mousePressEvent is called again with no focus?
+		                         // QModelIndex's row is -1
+		                         // I still don't understand mechanism.
 		
 
 
@@ -133,7 +141,7 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 
 
 ShLayerComboBox::ShLayerComboBox(QWidget *parent)
-	:QComboBox(parent) {
+	:QComboBox(parent),layerTable(0) {
 
 	this->setFixedWidth(200);
 
@@ -144,10 +152,8 @@ ShLayerComboBox::ShLayerComboBox(QWidget *parent)
 	
 	
 	connect(this->view, SIGNAL(CurrentIndexChanged(int)), this, SLOT(ComboSelChanged(int)));
-	connect(this->view, SIGNAL(LayerTurnChanged()), this, SLOT(LayerTurnChanged()));
+	connect(this->view, SIGNAL(LayerTurnChanged(ShLayer*)), this, SLOT(LayerOnOffChanged(ShLayer*)));
 
-	
-	
 	
 }
 
@@ -170,6 +176,10 @@ void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 
 	//here is where the customization start!!!
 	QRect rect = opt.rect.adjusted(4, 4, -20, -2); //compensate for frame and arrow 
+
+	if (this->layerTable == 0)
+		return;
+
 
 	ShLayerData data = this->layerTable->GetCurrentLayer()->GetData();
 
@@ -239,11 +249,13 @@ void ShLayerComboBox::ComboSelChanged(int index) {
 
 	this->layerTable->SetCurrentLayerIndex(index);
 	
+	emit CurrentLayerChanged();
 	
 }
 
-void ShLayerComboBox::LayerTurnChanged() {
+void ShLayerComboBox::LayerOnOffChanged(ShLayer* layer) {
 	
 	this->UpdateLayerCombo();
 	
+	emit LayerTurnChanged(layer);
 }

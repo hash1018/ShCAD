@@ -7,7 +7,7 @@
 #include <qlistview.h>
 #include <qstyleditemdelegate.h>
 
-
+class ShLayer;
 class ShLayerDelegate : public QStyledItemDelegate{
 	Q_OBJECT
 public:
@@ -33,7 +33,7 @@ protected:
 
 signals:
 	void CurrentIndexChanged(int);
-	void LayerTurnChanged();
+	void LayerTurnChanged(ShLayer*);
 	
 };
 
@@ -62,10 +62,13 @@ private:
 protected:
 	void paintEvent(QPaintEvent *event);
 	
+signals:
+	void CurrentLayerChanged();
+	void LayerTurnChanged(ShLayer*);
 
 	private slots:
 	void ComboSelChanged(int);
-	void LayerTurnChanged();
+	void LayerOnOffChanged(ShLayer*);
 
 };
 

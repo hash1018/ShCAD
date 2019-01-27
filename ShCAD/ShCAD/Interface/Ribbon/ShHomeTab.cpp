@@ -20,6 +20,8 @@ ShHomeTab::ShHomeTab(const QString &title, QWidget *parent)
 	this->propertyColumn = new ShPropertyColumn(this, "Property", 250);
 	this->AddColumn(this->propertyColumn);
 
+	this->layerColumn = new ShLayerColumn(this, "Layer", 250);
+	this->AddColumn(this->layerColumn);
 }
 
 ShHomeTab::~ShHomeTab() {
@@ -279,7 +281,33 @@ void ShPropertyColumn::Update(ShActivatedWidgetChangedEvent *event) {
 
 	}
 
+}
 
+void ShPropertyColumn::Update(ShCurrentLayerChangedEvent *event) {
+
+	this->colorCombo->SetLayerColor(event->GetLayerData().color);
+	int index = this->colorCombo->GetColorComboIndex();
+	this->colorCombo->Synchronize(index);
+
+
+
+	this->lineStyleCombo->SetLayerLineStyle(event->GetLayerData().lineStyle);
+	index = this->lineStyleCombo->GetLineStyleComboIndex();
+	this->lineStyleCombo->Synchronize(index);
+
+}
+
+void ShPropertyColumn::Update(ShLayerDataChangedEvent *event) {
+	
+	this->colorCombo->SetLayerColor(event->GetLayerData().color);
+	int index = this->colorCombo->GetColorComboIndex();
+	this->colorCombo->Synchronize(index);
+
+
+
+	this->lineStyleCombo->SetLayerLineStyle(event->GetLayerData().lineStyle);
+	index = this->lineStyleCombo->GetLineStyleComboIndex();
+	this->lineStyleCombo->Synchronize(index);
 
 }
 
@@ -317,4 +345,65 @@ void ShPropertyColumn::LineStyleSelChanged(const ShLineStyle& lineStyle) {
 
 	ShPropertyLineStyleComboSelChangedEvent event(lineStyle);
 	this->Notify(&event);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "Interface\Items\ShLayerComboBox.h"
+ShLayerColumn::ShLayerColumn(QWidget *parent, const QString &title, int width)
+	:ShColumnInRibbonTab(parent, title, width) {
+
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+	manager->Register(this);
+
+	this->layerCombo = new ShLayerComboBox(this);
+
+	connect(this->layerCombo, SIGNAL(CurrentLayerChanged()), this, SLOT(CurrentLayerChanged()));
+	connect(this->layerCombo, SIGNAL(LayerTurnChanged(ShLayer*)), this, SLOT(LayerTurnChanged(ShLayer*)));
+
+}
+
+ShLayerColumn::~ShLayerColumn() {
+
+}
+
+void ShLayerColumn::resizeEvent(QResizeEvent *event) {
+	
+	ShColumnInRibbonTab::resizeEvent(event);
+
+	int height = this->layoutWidget->height();
+
+	this->layerCombo->setGeometry(height / 3 + 2, height / 3, 150, height / 3 - 8);
+}
+
+void ShLayerColumn::Update(ShActivatedWidgetChangedEvent *event) {
+
+	this->layerCombo->SetLayerTable(event->GetNewWidget()->entityTable.GetLayerTable());
+
+	this->layerCombo->Synchronize();
+}
+
+void ShLayerColumn::Notify(ShNotifyEvent *event) {
+
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+
+	manager->Notify(this, event);
+}
+
+void ShLayerColumn::CurrentLayerChanged() {
+	
+	ShCurrentLayerChangedEvent event;
+	this->Notify(&event);
+}
+
+void ShLayerColumn::LayerTurnChanged(ShLayer *layer) {
+
+	ShLayerDataChangedEvent event(layer, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
+	this->Notify(&event);
+}
+
+void ShLayerColumn::SynchronizeLayerCombo() {
+
+	this->layerCombo->Synchronize();
 }

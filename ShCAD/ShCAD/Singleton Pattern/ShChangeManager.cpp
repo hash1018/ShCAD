@@ -73,6 +73,11 @@ void ShChangeManager::Register(ShLayerToolBar *layerToolBar) {
 	this->layerToolBar = layerToolBar;
 }
 
+void ShChangeManager::Register(ShLayerColumn *layerColumn) {
+
+	this->layerColumn = layerColumn;
+}
+
 void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 
 	if (event->GetType() == ShNotifyEvent::Type::MousePositionChanged) {
@@ -99,6 +104,7 @@ void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 		this->propertyColumn->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 		this->propertyToolBar->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 		this->layerToolBar->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
+		this->layerColumn->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 
 	}
 
@@ -177,6 +183,97 @@ void ShChangeManager::Notify(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *
 
 		manager->GetActivatedWidget()->Update(event);
 
+	}
+
+}
+
+void ShChangeManager::Notify(ShLayerToolBar *layerToolBar, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::Type::CurrentLayerChanged) {
+
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+		this->propertyColumn->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
+		this->propertyToolBar->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
+
+		this->layerColumn->SynchronizeLayerCombo();
+	
+	}
+	else if (event->GetType() == ShNotifyEvent::Type::LayerDataChanged) {
+	
+		//later add redraw when layer turns off
+
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+		this->propertyColumn->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
+		this->propertyToolBar->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
+
+		this->layerColumn->SynchronizeLayerCombo();
+	}
+
+
+}
+
+
+void ShChangeManager::Notify(ShLayerColumn *layerColumn, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::Type::CurrentLayerChanged) {
+
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+		this->propertyColumn->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
+		this->propertyToolBar->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
+
+		this->layerToolBar->SynchronizeLayerCombo();
+
+	}
+	else if (event->GetType() == ShNotifyEvent::Type::LayerDataChanged) {
+
+		//later add redraw when layer turns off
+	
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+		this->propertyColumn->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
+		this->propertyToolBar->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
+
+		this->layerToolBar->SynchronizeLayerCombo();
+		
+
+	}
+
+}
+
+void ShChangeManager::Notify(ShLayerDialog *layerDialog, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::Type::LayerDataChanged) {
+	
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+		this->propertyColumn->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
+		this->propertyToolBar->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
+
+		this->layerToolBar->SynchronizeLayerCombo();
+		this->layerColumn->SynchronizeLayerCombo();
 	}
 
 }

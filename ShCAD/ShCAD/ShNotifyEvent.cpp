@@ -122,3 +122,27 @@ ShPropertyLineStyleComboSelChangedEvent::ShPropertyLineStyleComboSelChangedEvent
 ShPropertyLineStyleComboSelChangedEvent::~ShPropertyLineStyleComboSelChangedEvent() {
 
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+
+ShCurrentLayerChangedEvent::ShCurrentLayerChangedEvent() {
+
+	this->type = Type::CurrentLayerChanged;
+}
+
+ShCurrentLayerChangedEvent::~ShCurrentLayerChangedEvent() {
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+ShLayerDataChangedEvent::ShLayerDataChangedEvent(ShLayer *layer, ShLayerDataChangedEvent::ChangedType changedType)
+	:layer(layer), changedType(changedType) {
+
+	this->type = Type::LayerDataChanged;
+}
+
+ShLayerDataChangedEvent::~ShLayerDataChangedEvent() {
+
+}

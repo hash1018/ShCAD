@@ -35,9 +35,11 @@ public:
 		MousePositionChanged = 2,
 		KeyPressed = 3,
 		UpdateListText = 4,
-		ActivatedWidgetChanged=5,
-		PropertyColorComboSelChanged=6,
-		PropertyLineStyleComboSelChanged=7,
+		ActivatedWidgetChanged = 5,
+		PropertyColorComboSelChanged = 6,
+		PropertyLineStyleComboSelChanged = 7,
+		CurrentLayerChanged = 8,
+		LayerDataChanged = 9,
 
 	};
 
@@ -166,4 +168,46 @@ private:
 	ShLineStyle lineStyle;
 
 };
+
+class ShCurrentLayerChangedEvent : public ShNotifyEvent {
+
+public:
+	ShCurrentLayerChangedEvent();
+	~ShCurrentLayerChangedEvent();
+
+	void SetLayerData(const ShPropertyData& layerData) { this->layerData = layerData; }
+	inline ShPropertyData GetLayerData() const { return this->layerData; }
+
+
+private:
+	ShPropertyData layerData;
+};
+
+class ShLayer;
+class ShLayerDataChangedEvent : public ShNotifyEvent {
+
+public:
+	enum ChangedType {
+		State = 0,
+		Name = 1,
+		TurnOnOff = 2,
+		Color = 3,
+		LineStyle = 4
+	};
+
+public:
+	ShLayerDataChangedEvent(ShLayer *layer, ShLayerDataChangedEvent::ChangedType changedType);
+	~ShLayerDataChangedEvent();
+
+	inline ShLayer* GetLayer() const { return this->layer; }
+	inline ChangedType GetChangedType() const { return this->changedType; }
+	void SetLayerData(const ShPropertyData& layerData) { this->layerData = layerData; }
+	inline ShPropertyData GetLayerData() const { return this->layerData; }
+
+private:
+	ShLayer *layer;
+	ChangedType changedType;
+	ShPropertyData layerData;
+};
+
 #endif //_SHNOTIFYEVENT_H

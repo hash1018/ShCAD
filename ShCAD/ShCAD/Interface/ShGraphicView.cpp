@@ -369,6 +369,36 @@ void ShGraphicView::Update(ShNotifyEvent *event) {
 	else if (dynamic_cast<ShPropertyLineStyleComboSelChangedEvent*>(event)) {
 		this->data.propertyData.lineStyle = dynamic_cast<ShPropertyLineStyleComboSelChangedEvent*>(event)->GetLineStyle();
 	}
+	else if (dynamic_cast<ShCurrentLayerChangedEvent*>(event)) {
+	
+		this->data.layerData = this->entityTable.GetLayerTable()->GetCurrentLayer()->GetData().propertyData;
+		if (this->data.propertyData.color.type == ShColor::Type::ByLayer) {
+			this->data.propertyData.color = this->data.layerData.color;
+		}
+		if (this->data.propertyData.lineStyle.type == ShLineStyle::ByLayer) {
+			this->data.propertyData.lineStyle = this->data.layerData.lineStyle;
+		}
+
+		dynamic_cast<ShCurrentLayerChangedEvent*>(event)->SetLayerData(this->data.layerData);
+	}
+
+	else if (dynamic_cast<ShLayerDataChangedEvent*>(event)) {
+	
+		ShLayerDataChangedEvent *event2 = dynamic_cast<ShLayerDataChangedEvent*>(event);
+
+		//currentLayer info changed...
+		if (event2->GetLayer() == this->entityTable.GetLayerTable()->GetCurrentLayer()) {
+			this->data.layerData = event2->GetLayer()->GetData().propertyData;
+
+			if (this->data.propertyData.color.type == ShColor::Type::ByLayer) {
+				this->data.propertyData.color = this->data.layerData.color;
+			}
+			if (this->data.propertyData.lineStyle.type == ShLineStyle::ByLayer) {
+				this->data.propertyData.lineStyle = this->data.layerData.lineStyle;
+			}
+		}
+		event2->SetLayerData(this->data.layerData);
+	}
 
 }
 

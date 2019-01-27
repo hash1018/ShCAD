@@ -81,6 +81,9 @@
     <Filter Include="Interface\Items">
       <UniqueIdentifier>{39108111-cf04-43d5-ab57-f7a723f38ede}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface\Dialog">
+      <UniqueIdentifier>{c3fe0b59-87e6-49be-9013-8f72f8302838}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -296,6 +299,21 @@
     <ClCompile Include="ShLayerTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShLayerToolBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShLayerToolBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShLayerDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Dialog\ShLayerDialog.cpp">
+      <Filter>Interface\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShLayerDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -324,6 +342,12 @@
     </CustomBuild>
     <CustomBuild Include="Interface\ToolBar\ShPropertyToolBar.h">
       <Filter>Interface\ToolBar</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\ToolBar\ShLayerToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Dialog\ShLayerDialog.h">
+      <Filter>Interface\Dialog</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -461,9 +485,6 @@
     </ClInclude>
     <ClInclude Include="Singleton Pattern\ShLineStyleComboList.h">
       <Filter>Singleton Pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\ToolBar\ShLayerToolBar.h">
-      <Filter>Interface\ToolBar</Filter>
     </ClInclude>
     <ClInclude Include="ShLayer.h">
       <Filter>Header Files</Filter>

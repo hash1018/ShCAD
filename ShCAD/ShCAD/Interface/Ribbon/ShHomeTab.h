@@ -8,12 +8,14 @@
 
 class ShDrawColumn;
 class ShPropertyColumn;
+class ShLayerColumn;
 class ShHomeTab : public ShRibbonTab {
 	Q_OBJECT
 private:
 	ShDrawColumn *drawColumn;
 	ShPropertyColumn *propertyColumn;
-	
+	ShLayerColumn *layerColumn;
+
 public:
 	ShHomeTab(const QString &title, QWidget *parent = 0);
 	~ShHomeTab();
@@ -51,6 +53,8 @@ private:
 
 class ShColorComboBox;
 class ShActivatedWidgetChangedEvent;
+class ShCurrentLayerChangedEvent;
+class ShLayerDataChangedEvent;
 class ShNotifyEvent;
 class ShColor;
 class ShLineStyleComboBox;
@@ -69,6 +73,8 @@ public:
 	~ShPropertyColumn();
 
 	void Update(ShActivatedWidgetChangedEvent *event);
+	void Update(ShCurrentLayerChangedEvent *event);
+	void Update(ShLayerDataChangedEvent *event);
 	void Notify(ShNotifyEvent *event);
 	
 	void SynchronizeColorCombo(int colorComboIndex);
@@ -90,5 +96,30 @@ protected:
 	
 };
 
+//////////////////////////////////////////////////////////////////////////////
+
+class ShLayerComboBox;
+class ShLayer;
+class ShLayerColumn : public ShColumnInRibbonTab {
+	Q_OBJECT
+
+private:
+	ShLayerComboBox *layerCombo;
+
+public:
+	ShLayerColumn(QWidget *parent, const QString &title, int width);
+	~ShLayerColumn();
+
+	void Update(ShActivatedWidgetChangedEvent *event);
+	void Notify(ShNotifyEvent *event);
+	void SynchronizeLayerCombo();
+
+protected:
+	void resizeEvent(QResizeEvent *event);
+
+	private slots:
+	void CurrentLayerChanged();
+	void LayerTurnChanged(ShLayer*);
+};
 
 #endif //_SHHOMETAB_H

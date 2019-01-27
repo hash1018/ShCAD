@@ -4,8 +4,8 @@
 #define _SHLAYERTABLE_H
 
 #include <qlist.h>
+#include "ShLayer.h"
 
-class ShLayer;
 class ShLayerTable {
 
 private:

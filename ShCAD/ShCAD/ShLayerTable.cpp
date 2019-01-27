@@ -1,7 +1,7 @@
 
 
 #include "ShLayerTable.h"
-#include "ShLayer.h"
+
 ShLayerTable::ShLayerTable() {
 
 	ShPropertyData propertyData;
@@ -14,9 +14,11 @@ ShLayerTable::ShLayerTable() {
 
 	this->currentLayer = layer;
 
+	propertyData.color.r = 1;
 	ShLayer *layer2 = new ShLayer(ShLayerData("1234", propertyData));
 	this->list.append(layer2);
 
+	propertyData.color.b = 123;
 	ShLayer *layer3 = new ShLayer(ShLayerData("kkkkkk", propertyData));
 	this->list.append(layer3);
 }

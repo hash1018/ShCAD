@@ -87,6 +87,34 @@ void ShPropertyToolBar::Update(ShActivatedWidgetChangedEvent *event) {
 
 }
 
+void ShPropertyToolBar::Update(ShCurrentLayerChangedEvent *event) {
+
+	this->colorCombo->SetLayerColor(event->GetLayerData().color);
+	int index = this->colorCombo->GetColorComboIndex();
+	this->colorCombo->Synchronize(index);
+
+
+
+	this->lineStyleCombo->SetLayerLineStyle(event->GetLayerData().lineStyle);
+	index = this->lineStyleCombo->GetLineStyleComboIndex();
+	this->lineStyleCombo->Synchronize(index);
+
+}
+
+void ShPropertyToolBar::Update(ShLayerDataChangedEvent *event) {
+
+	this->colorCombo->SetLayerColor(event->GetLayerData().color);
+	int index = this->colorCombo->GetColorComboIndex();
+	this->colorCombo->Synchronize(index);
+
+
+
+	this->lineStyleCombo->SetLayerLineStyle(event->GetLayerData().lineStyle);
+	index = this->lineStyleCombo->GetLineStyleComboIndex();
+	this->lineStyleCombo->Synchronize(index);
+
+}
+
 void ShPropertyToolBar::Notify(ShNotifyEvent *event) {
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();

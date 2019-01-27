@@ -12,6 +12,8 @@ class ShCommandDock;
 class ShPropertyColumn;
 class ShPropertyToolBar;
 class ShLayerToolBar;
+class ShLayerColumn;
+class ShLayerDialog;
 class ShChangeManager {
 
 private:
@@ -28,11 +30,16 @@ public:
 	void Register(ShPropertyColumn *propertyColumn); // this function is called in constructor of ShPropertyColumn.
 	void Register(ShPropertyToolBar *propertyToolBar); //this function is called in constructor of ShPropertyToolBar.
 	void Register(ShLayerToolBar *layerToolBar); //this function is called in constructor of ShLayerToolBar.
+	void Register(ShLayerColumn *layerColumn);  //this function is called in constructor of ShLayerColumn.
+
 
 	void Notify(ShGraphicView *view, ShNotifyEvent *event);
 	void Notify(ShCommandDock* commandDock, ShNotifyEvent *event);
 	void Notify(ShPropertyColumn *propertyColumn, ShNotifyEvent *event);
 	void Notify(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event);
+	void Notify(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
+	void Notify(ShLayerColumn *layerColumn, ShNotifyEvent *event);
+	void Notify(ShLayerDialog *layerDialog, ShNotifyEvent *event);
 	
 
 private:
@@ -41,6 +48,7 @@ private:
 	ShPropertyColumn *propertyColumn;
 	ShPropertyToolBar *propertyToolBar;
 	ShLayerToolBar *layerToolBar;
+	ShLayerColumn *layerColumn;
 
 };
 
