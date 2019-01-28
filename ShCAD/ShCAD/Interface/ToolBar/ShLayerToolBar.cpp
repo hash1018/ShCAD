@@ -22,6 +22,7 @@ ShLayerToolBar::ShLayerToolBar(QWidget *parent)
 
 	connect(this->layerCombo, SIGNAL(CurrentLayerChanged()), this, SLOT(CurrentLayerChanged()));
 	connect(this->layerCombo, SIGNAL(LayerTurnChanged(ShLayer*)), this, SLOT(LayerTurnChanged(ShLayer*)));
+	connect(this->layerCombo, SIGNAL(LayerColorChanged(ShLayer*)), this, SLOT(LayerColorChanged(ShLayer*)));
 
 }
 
@@ -56,6 +57,12 @@ void ShLayerToolBar::CurrentLayerChanged() {
 void ShLayerToolBar::LayerTurnChanged(ShLayer *layer) {
 
 	ShLayerDataChangedEvent event(layer, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
+	this->Notify(&event);
+}
+
+void ShLayerToolBar::LayerColorChanged(ShLayer *layer) {
+
+	ShLayerDataChangedEvent event(layer, ShLayerDataChangedEvent::ChangedType::Color);
 	this->Notify(&event);
 }
 

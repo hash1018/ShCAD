@@ -6,6 +6,8 @@
 #include <qpainter.h>
 #include <qvariant.h>
 #include <qstylepainter.h>
+#include "ShDirectoryManager.h"
+#include <qbitmap.h>
 ShLayerDelegate::ShLayerDelegate(QWidget *parent)
 	:QStyledItemDelegate(parent) {
 
@@ -41,22 +43,32 @@ void ShLayerDelegate::paint(QPainter * painter, const QStyleOptionViewItem & opt
 	if (index.data(Qt::UserRole).canConvert<ShLayerData>()) {
 		ShLayerData data = qvariant_cast<ShLayerData> (index.data(Qt::UserRole));
 
-		QRect rect = option.rect.adjusted(0, 0, -170, 0);
-		if (data.isTurnOn == true) {
-			painter->drawText(rect, "True");
-			
-		}
-		else {
-			painter->drawText(rect, "False");
-		}
+		QRect rect = option.rect.adjusted(0, 0, -183, 0);
+		QPixmap pix(17, 17);
+		
 
-		rect = option.rect.adjusted(40, 0, -100, 0);
+		if (data.isTurnOn == true)
+			pix.load(ShDirectoryManager::GetImageUiPath() + "\\LayerTurnOn.png");
+		else
+			pix.load(ShDirectoryManager::GetImageUiPath() + "\\LayerTurnOff.png");
+		
+
+		QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+		pix.setMask(mask);
+
+		painter->drawPixmap(rect, pix);
+
+
+
+		//Draw Color 
+		rect = option.rect.adjusted(22, 2, -165, -3);
+		painter->fillRect(rect, QColor(data.propertyData.color.r,
+			data.propertyData.color.g, data.propertyData.color.b));
+		
+
+		rect = option.rect.adjusted(40, 0, 0, 0);
 		painter->drawText(rect, data.name);
-
-		rect = option.rect.adjusted(110, 0, 0, 0);
-		painter->drawText(rect, QString::number(data.propertyData.color.r) + "dd" +
-			QString::number(data.propertyData.color.g) + "dd" +
-			QString::number(data.propertyData.color.b));
+		
 
 	}
 	
@@ -82,8 +94,9 @@ ShLayerView::~ShLayerView() {
 
 }
 
-#include <qmessagebox.h>
+
 #include <QMouseEvent>
+#include <qcolordialog.h>
 void ShLayerView::mousePressEvent(QMouseEvent *event) {
 	
 	QModelIndex index = this->currentIndex();
@@ -99,9 +112,9 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 	
 	
 	//change turn on / off
-	if (event->x() <= rect.topLeft().x() + 30) {
+	if (event->x() <= rect.topLeft().x() + 17) {
 
-		int currentLayerIndex = this->comboBox->layerTable->GetCurrentLayerIndex();
+		//int currentLayerIndex = this->comboBox->layerTable->GetCurrentLayerIndex();
 		ShLayer *layer = this->comboBox->layerTable->GetLayer(index.row());
 
 		if (layer->GetData().isTurnOn == true)
@@ -116,11 +129,25 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 		                         // after that mousePressEvent is called again with no focus?
 		                         // QModelIndex's row is -1
 		                         // I still don't understand mechanism.
+
+	}
+	else if (event->x() > rect.topLeft().x() + 17 && event->x() <= rect.topLeft().x() + 34) {
+		QColorDialog dialog;
 		
 
+		if (QDialog::Accepted == dialog.exec()) {
+		
+			QColor color = dialog.currentColor();
 
+		
+			this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color.r = color.red();
+			this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color.g = color.green();
+			this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color.b = color.blue();
+			
+			emit LayerColorChanged(this->comboBox->layerTable->GetLayer(index.row()));
 
-
+			
+		}
 	}
 	else {
 	
@@ -153,6 +180,7 @@ ShLayerComboBox::ShLayerComboBox(QWidget *parent)
 	
 	connect(this->view, SIGNAL(CurrentIndexChanged(int)), this, SLOT(ComboSelChanged(int)));
 	connect(this->view, SIGNAL(LayerTurnChanged(ShLayer*)), this, SLOT(LayerOnOffChanged(ShLayer*)));
+	connect(this->view, SIGNAL(LayerColorChanged(ShLayer*)), this, SLOT(LayerColorChanged_(ShLayer*)));
 
 	
 }
@@ -183,6 +211,7 @@ void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 
 	ShLayerData data = this->layerTable->GetCurrentLayer()->GetData();
 
+	/*
 	QRect drawRect = rect.adjusted(0, 0, -170, 0);
 	if (data.isTurnOn == true) {
 		painter.drawText(rect, "True");
@@ -198,8 +227,35 @@ void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 	painter.drawText(drawRect, QString::number(data.propertyData.color.r) + "dd" +
 		QString::number(data.propertyData.color.g) + "dd" +
 		QString::number(data.propertyData.color.b));
+	*/
 	
-	
+	int width = rect.width();
+
+	QRect drawRect = rect.adjusted(0, 0, 16 - width, 0);
+	QPixmap pix;
+
+
+	if (data.isTurnOn == true)
+		pix.load(ShDirectoryManager::GetImageUiPath() + "\\LayerTurnOn.png");
+	else
+		pix.load(ShDirectoryManager::GetImageUiPath() + "\\LayerTurnOff.png");
+
+
+	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+
+	painter.drawPixmap(drawRect, pix);
+
+
+
+	//Draw Color 
+	drawRect = rect.adjusted(22, 2, 32 - width, -3);
+	painter.fillRect(drawRect, QColor(data.propertyData.color.r,
+		data.propertyData.color.g, data.propertyData.color.b));
+
+
+	drawRect = rect.adjusted(40, 0, 0, 0);
+	painter.drawText(drawRect, data.name);
 }
 
 void ShLayerComboBox::SetLayerTable(ShLayerTable *layerTable) {
@@ -258,4 +314,11 @@ void ShLayerComboBox::LayerOnOffChanged(ShLayer* layer) {
 	this->UpdateLayerCombo();
 	
 	emit LayerTurnChanged(layer);
+}
+
+void ShLayerComboBox::LayerColorChanged_(ShLayer *layer) {
+
+	this->UpdateLayerCombo();
+
+	emit LayerColorChanged(layer);
 }

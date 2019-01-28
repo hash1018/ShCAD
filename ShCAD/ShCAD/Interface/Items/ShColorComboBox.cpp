@@ -49,7 +49,7 @@ void ShColorComboBox::UpdateColorCombo() {
 	linearGrad.setColorAt(1, QColor(Qt::black));
 
 	painter.fillRect(0, 0, 10, 10, linearGrad);
-
+	
 	this->addItem(QIcon(pix), "Custom");
 
 

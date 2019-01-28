@@ -34,6 +34,7 @@ protected:
 signals:
 	void CurrentIndexChanged(int);
 	void LayerTurnChanged(ShLayer*);
+	void LayerColorChanged(ShLayer*);
 	
 };
 
@@ -65,10 +66,12 @@ protected:
 signals:
 	void CurrentLayerChanged();
 	void LayerTurnChanged(ShLayer*);
+	void LayerColorChanged(ShLayer*);
 
 	private slots:
 	void ComboSelChanged(int);
 	void LayerOnOffChanged(ShLayer*);
+	void LayerColorChanged_(ShLayer*);
 
 };
 

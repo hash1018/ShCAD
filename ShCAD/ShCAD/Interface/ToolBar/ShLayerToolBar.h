@@ -26,6 +26,7 @@ public:
 	private slots:
 	void CurrentLayerChanged();
 	void LayerTurnChanged(ShLayer*);
+	void LayerColorChanged(ShLayer*);
 	void LayerButtonClicked();
 };
 

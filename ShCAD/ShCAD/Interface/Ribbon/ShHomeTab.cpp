@@ -361,6 +361,7 @@ ShLayerColumn::ShLayerColumn(QWidget *parent, const QString &title, int width)
 
 	connect(this->layerCombo, SIGNAL(CurrentLayerChanged()), this, SLOT(CurrentLayerChanged()));
 	connect(this->layerCombo, SIGNAL(LayerTurnChanged(ShLayer*)), this, SLOT(LayerTurnChanged(ShLayer*)));
+	connect(this->layerCombo, SIGNAL(LayerColorChanged(ShLayer*)), this, SLOT(LayerColorChanged(ShLayer*)));
 
 }
 
@@ -400,6 +401,12 @@ void ShLayerColumn::CurrentLayerChanged() {
 void ShLayerColumn::LayerTurnChanged(ShLayer *layer) {
 
 	ShLayerDataChangedEvent event(layer, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
+	this->Notify(&event);
+}
+
+void ShLayerColumn::LayerColorChanged(ShLayer *layer) {
+
+	ShLayerDataChangedEvent event(layer, ShLayerDataChangedEvent::ChangedType::Color);
 	this->Notify(&event);
 }
 

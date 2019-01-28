@@ -67,3 +67,14 @@ int ShLineStyleComboList::Search(const ShLineStyle& lineStyle) {
 
 	return this->list.indexOf(lineStyle);
 }
+
+int ShLineStyleComboList::Search(unsigned short pattern) {
+
+	for (int i = 0; i < this->list.size(); i++) {
+	
+		if (this->list.at(i).pattern == pattern)
+			return i;
+	}
+
+	return -1;
+}

@@ -28,6 +28,7 @@ public:
 	inline ShLineStyle GetLineStyle(int index) const { return this->list.at(index); }
 	
 	int Search(const ShLineStyle& lineStyle);
+	int Search(unsigned short pattern);
 
 };
 

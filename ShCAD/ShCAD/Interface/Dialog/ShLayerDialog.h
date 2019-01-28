@@ -7,12 +7,14 @@
 class QTableWidget;
 class ShLayerTable;
 class ShNotifyEvent;
+class QTableWidgetItem;
 class ShLayerDialog : public QDialog {
 	Q_OBJECT
 
 private:
 	ShLayerTable *layerTable;
 	QTableWidget *table;
+	bool isItemChangedByUser;
 
 public:
 	ShLayerDialog(ShLayerTable *layerTable, QWidget *parent = 0);
@@ -35,6 +37,9 @@ protected:
 
 	private slots:
 	void CellClicked(int row, int column);
+	void CellDoubleClicked(int row, int column);
+	void LayerNameChanged(QTableWidgetItem *item);
+	void LineStyleComboIndexChanged(int);
 };
 
 
