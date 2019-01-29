@@ -292,3 +292,26 @@ void ShChangeManager::Notify(ShLayerDialog *layerDialog, ShNotifyEvent *event) {
 	}
 
 }
+
+void ShChangeManager::Notify(ShChangeCurrentLayerCommand *changeCurrentLayerCommand, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::CurrentLayerChanged) {
+		this->propertyColumn->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
+		this->propertyToolBar->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
+
+		this->layerToolBar->SynchronizeLayerCombo();
+		this->layerColumn->SynchronizeLayerCombo();
+	}
+}
+
+void ShChangeManager::Notfiy(ShChangeLayerDataCommand *changeLayerDataCommand, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::LayerDataChanged) {
+	
+		this->propertyColumn->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
+		this->propertyToolBar->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
+
+		this->layerToolBar->SynchronizeLayerCombo();
+		this->layerColumn->SynchronizeLayerCombo();
+	}
+}

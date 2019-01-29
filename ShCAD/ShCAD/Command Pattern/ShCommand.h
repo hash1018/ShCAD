@@ -33,6 +33,9 @@ class ShCommand {
 
 public:
 	ShCommand();
+	ShCommand(const QString& commandText);
+	ShCommand(ShMemento *memento, const QString& commandText);
+	ShCommand(ShMemento *memento);
 	virtual void Execute() = 0;
 	virtual void UnExecute() = 0;
 

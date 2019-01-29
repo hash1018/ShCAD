@@ -285,13 +285,13 @@ void ShPropertyColumn::Update(ShActivatedWidgetChangedEvent *event) {
 
 void ShPropertyColumn::Update(ShCurrentLayerChangedEvent *event) {
 
-	this->colorCombo->SetLayerColor(event->GetLayerData().color);
+	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().propertyData.color);
 	int index = this->colorCombo->GetColorComboIndex();
 	this->colorCombo->Synchronize(index);
 
 
 
-	this->lineStyleCombo->SetLayerLineStyle(event->GetLayerData().lineStyle);
+	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().propertyData.lineStyle);
 	index = this->lineStyleCombo->GetLineStyleComboIndex();
 	this->lineStyleCombo->Synchronize(index);
 
@@ -299,13 +299,13 @@ void ShPropertyColumn::Update(ShCurrentLayerChangedEvent *event) {
 
 void ShPropertyColumn::Update(ShLayerDataChangedEvent *event) {
 	
-	this->colorCombo->SetLayerColor(event->GetLayerData().color);
+	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().propertyData.color);
 	int index = this->colorCombo->GetColorComboIndex();
 	this->colorCombo->Synchronize(index);
 
 
 
-	this->lineStyleCombo->SetLayerLineStyle(event->GetLayerData().lineStyle);
+	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().propertyData.lineStyle);
 	index = this->lineStyleCombo->GetLineStyleComboIndex();
 	this->lineStyleCombo->Synchronize(index);
 
@@ -359,9 +359,9 @@ ShLayerColumn::ShLayerColumn(QWidget *parent, const QString &title, int width)
 
 	this->layerCombo = new ShLayerComboBox(this);
 
-	connect(this->layerCombo, SIGNAL(CurrentLayerChanged()), this, SLOT(CurrentLayerChanged()));
-	connect(this->layerCombo, SIGNAL(LayerTurnChanged(ShLayer*)), this, SLOT(LayerTurnChanged(ShLayer*)));
-	connect(this->layerCombo, SIGNAL(LayerColorChanged(ShLayer*)), this, SLOT(LayerColorChanged(ShLayer*)));
+	connect(this->layerCombo, SIGNAL(CurrentLayerChanged(ShLayer*, ShLayer*)), this, SLOT(CurrentLayerChanged(ShLayer*, ShLayer*)));
+	connect(this->layerCombo, SIGNAL(LayerTurnChanged(ShLayer*, bool)), this, SLOT(LayerTurnChanged(ShLayer*, bool)));
+	connect(this->layerCombo, SIGNAL(LayerColorChanged(ShLayer*, const ShColor&)), this, SLOT(LayerColorChanged(ShLayer*, const ShColor&)));
 
 }
 
@@ -392,21 +392,28 @@ void ShLayerColumn::Notify(ShNotifyEvent *event) {
 	manager->Notify(this, event);
 }
 
-void ShLayerColumn::CurrentLayerChanged() {
+void ShLayerColumn::CurrentLayerChanged(ShLayer *previousLayer, ShLayer *currentLayer) {
+
+	ShCurrentLayerChangedEvent event(previousLayer, currentLayer);
+	this->Notify(&event);
+}
+
+#include "Memento Pattern\ShMemento.h"
+void ShLayerColumn::LayerTurnChanged(ShLayer *layer,bool previous) {
+
+	ShLayerMemento *memento = layer->CreateMemento();
+	memento->data->isTurnOn = previous;
+
+	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
+	this->Notify(&event);
+}
+
+void ShLayerColumn::LayerColorChanged(ShLayer *layer,const ShColor& previous) {
 	
-	ShCurrentLayerChangedEvent event;
-	this->Notify(&event);
-}
+	ShLayerMemento *memento = layer->CreateMemento();
+	memento->data->propertyData.color = previous;
 
-void ShLayerColumn::LayerTurnChanged(ShLayer *layer) {
-
-	ShLayerDataChangedEvent event(layer, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
-	this->Notify(&event);
-}
-
-void ShLayerColumn::LayerColorChanged(ShLayer *layer) {
-
-	ShLayerDataChangedEvent event(layer, ShLayerDataChangedEvent::ChangedType::Color);
+	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::Color);
 	this->Notify(&event);
 }
 

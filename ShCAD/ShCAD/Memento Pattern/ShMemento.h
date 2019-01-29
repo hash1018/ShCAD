@@ -112,4 +112,22 @@ private:
 
 };
 
+class ShLayerData;
+class ShLayerMemento : public ShMemento {
+	friend class ShLayer;
+	friend class ShLayerToolBar;
+	friend class ShLayerColumn;
+	friend class ShLayerDialog;
+	friend class ShChangeLayerDataCommand;
+	
+public:
+	~ShLayerMemento();
+private:
+	ShLayerMemento();
+
+private:
+	ShLayerData *data;
+};
+
+
 #endif //_SHMEMENTO_H

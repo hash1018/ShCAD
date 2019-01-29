@@ -14,6 +14,8 @@ class ShPropertyToolBar;
 class ShLayerToolBar;
 class ShLayerColumn;
 class ShLayerDialog;
+class ShChangeCurrentLayerCommand;
+class ShChangeLayerDataCommand;
 class ShChangeManager {
 
 private:
@@ -40,7 +42,9 @@ public:
 	void Notify(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
 	void Notify(ShLayerColumn *layerColumn, ShNotifyEvent *event);
 	void Notify(ShLayerDialog *layerDialog, ShNotifyEvent *event);
-	
+	void Notify(ShChangeCurrentLayerCommand *changeCurrentLayerCommand, ShNotifyEvent *event);
+	void Notfiy(ShChangeLayerDataCommand *changeLayerDataCommand, ShNotifyEvent *event);
+
 
 private:
 	ShStatusBar *statusBar;

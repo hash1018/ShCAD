@@ -148,6 +148,8 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
     <ClCompile Include="Command Pattern\ShAddEntityCommand.cpp" />
+    <ClCompile Include="Command Pattern\ShChangeCurrentLayerCommand.cpp" />
+    <ClCompile Include="Command Pattern\ShChangeLayerDataCommand.cpp" />
     <ClCompile Include="Command Pattern\ShCommand.cpp" />
     <ClCompile Include="Command Pattern\ShDeleteEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\ShMoveViewCommand.cpp" />
@@ -276,6 +278,7 @@
     <ClCompile Include="Singleton Pattern\ShColorComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShLineStyleComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
+    <ClCompile Include="Strategy Pattern\ShNotifyEventUpdateHandler.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
     <ClCompile Include="Visitor Pattern\ShFinder.cpp" />
     <ClCompile Include="Visitor Pattern\ShVisitor.cpp" />
@@ -309,6 +312,8 @@
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
     <ClInclude Include="Command Pattern\ShAddEntityCommand.h" />
+    <ClInclude Include="Command Pattern\ShChangeCurrentLayerCommand.h" />
+    <ClInclude Include="Command Pattern\ShChangeLayerDataCommand.h" />
     <ClInclude Include="Command Pattern\ShCommand.h" />
     <ClInclude Include="Command Pattern\ShDeleteEntityCommand.h" />
     <ClInclude Include="Command Pattern\ShMoveViewCommand.h" />
@@ -514,6 +519,7 @@
     <ClInclude Include="Singleton Pattern\ShColorComboList.h" />
     <ClInclude Include="Singleton Pattern\ShLineStyleComboList.h" />
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
+    <ClInclude Include="Strategy Pattern\ShNotifyEventUpdateHandler.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
     <ClInclude Include="Visitor Pattern\ShFinder.h" />
     <ClInclude Include="Visitor Pattern\ShVisitor.h" />

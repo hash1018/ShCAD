@@ -358,8 +358,10 @@ void ShGraphicView::Notify(ShNotifyEvent *event) {
 
 }
 
+#include "Strategy Pattern\ShNotifyEventUpdateHandler.h"
 void ShGraphicView::Update(ShNotifyEvent *event) {
 
+	/*
 	if (dynamic_cast<ShKeyPressedEvent*>(event)) {
 		this->currentAction->KeyPressEvent(dynamic_cast<ShKeyPressedEvent*>(event)->GetEvent());
 	}
@@ -379,7 +381,8 @@ void ShGraphicView::Update(ShNotifyEvent *event) {
 			this->data.propertyData.lineStyle = this->data.layerData.lineStyle;
 		}
 
-		dynamic_cast<ShCurrentLayerChangedEvent*>(event)->SetLayerData(this->data.layerData);
+
+		
 	}
 
 	else if (dynamic_cast<ShLayerDataChangedEvent*>(event)) {
@@ -399,6 +402,11 @@ void ShGraphicView::Update(ShNotifyEvent *event) {
 		}
 		event2->SetLayerData(this->data.layerData);
 	}
+	*/
+
+
+	ShNotifyEventUpdateHandler updateHandler(this);
+	updateHandler.Update(event);
 
 }
 

@@ -7,6 +7,7 @@
 #include <qlistview.h>
 #include <qstyleditemdelegate.h>
 
+class ShColor;
 class ShLayer;
 class ShLayerDelegate : public QStyledItemDelegate{
 	Q_OBJECT
@@ -33,8 +34,8 @@ protected:
 
 signals:
 	void CurrentIndexChanged(int);
-	void LayerTurnChanged(ShLayer*);
-	void LayerColorChanged(ShLayer*);
+	void LayerTurnChanged(ShLayer*, bool previous);
+	void LayerColorChanged(ShLayer*, const ShColor& previous);
 	
 };
 
@@ -64,14 +65,14 @@ protected:
 	void paintEvent(QPaintEvent *event);
 	
 signals:
-	void CurrentLayerChanged();
-	void LayerTurnChanged(ShLayer*);
-	void LayerColorChanged(ShLayer*);
+	void CurrentLayerChanged(ShLayer *previousLayer, ShLayer *currentLayer);
+	void LayerTurnChanged(ShLayer*, bool previous);
+	void LayerColorChanged(ShLayer*,const ShColor& previous);
 
 	private slots:
 	void ComboSelChanged(int);
-	void LayerOnOffChanged(ShLayer*);
-	void LayerColorChanged_(ShLayer*);
+	void LayerOnOffChanged(ShLayer*, bool previous);
+	void LayerColorChanged_(ShLayer*, const ShColor& previous);
 
 };
 

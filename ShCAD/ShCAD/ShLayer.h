@@ -30,6 +30,7 @@ public:
 
 
 class ShEntity;
+class ShLayerMemento;
 class ShLayer {
 
 private:
@@ -45,6 +46,9 @@ public:
 
 	void Add(ShEntity *entity);
 	void Remove(ShEntity* entity);
+
+	ShLayerMemento* CreateMemento();
+	void SetMemento(ShLayerMemento *memento);
 
 	inline  ShLayerData& GetData()  { return this->data; }
 };

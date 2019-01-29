@@ -171,6 +171,7 @@ void ShLayerDialog::UpdateColumnLineStyle(int row) {
 
 #include <qcolordialog.h>
 #include "ShNotifyEvent.h"
+#include "Memento Pattern\ShMemento.h"
 void ShLayerDialog::CellClicked(int row, int column) {
 
 	if (column == 3) {
@@ -178,11 +179,17 @@ void ShLayerDialog::CellClicked(int row, int column) {
 		
 		if (QDialog::Accepted == dialog.exec()) {
 			QColor color = dialog.currentColor();
+
+			ShColor prev = this->layerTable->GetLayer(row)->GetData().propertyData.color;
+
 			this->layerTable->GetLayer(row)->GetData().propertyData.color.r = color.red();
 			this->layerTable->GetLayer(row)->GetData().propertyData.color.g = color.green();
 			this->layerTable->GetLayer(row)->GetData().propertyData.color.b = color.blue();
 			
-			ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), ShLayerDataChangedEvent::ChangedType::Color);
+			ShLayerMemento *memento = this->layerTable->GetLayer(row)->CreateMemento();
+			memento->data->propertyData.color = prev;
+
+			ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), memento, ShLayerDataChangedEvent::ChangedType::Color);
 			this->Notify(&event);
 
 			this->UpdateLayerList();
@@ -193,14 +200,16 @@ void ShLayerDialog::CellClicked(int row, int column) {
 void ShLayerDialog::CellDoubleClicked(int row, int column) {
 
 	if (column == 0) {
-	
+		ShLayer *previousLayer = this->layerTable->GetCurrentLayer();
 		this->layerTable->SetCurrentLayerIndex(row);
-		ShCurrentLayerChangedEvent event;
+		ShCurrentLayerChangedEvent event(previousLayer, this->layerTable->GetCurrentLayer());
 		this->Notify(&event);
 		this->UpdateLayerList();
 	}
 
 	if (column == 2) {
+		
+		bool prev = this->layerTable->GetLayer(row)->GetData().isTurnOn;
 
 		if (this->layerTable->GetLayer(row)->GetData().isTurnOn == true) {
 			this->layerTable->GetLayer(row)->GetData().isTurnOn = false;
@@ -208,8 +217,13 @@ void ShLayerDialog::CellDoubleClicked(int row, int column) {
 		else {
 			this->layerTable->GetLayer(row)->GetData().isTurnOn = true;
 		}
-		ShLayerDataChangedEvent event(this->layerTable->GetLayer(row),
+
+		ShLayerMemento *memento = this->layerTable->GetLayer(row)->CreateMemento();
+		memento->data->isTurnOn = prev;
+
+		ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), memento,
 			ShLayerDataChangedEvent::ChangedType::TurnOnOff);
+		
 		this->Notify(&event);
 
 		this->UpdateLayerList();
@@ -250,9 +264,14 @@ void ShLayerDialog::LayerNameChanged(QTableWidgetItem *item) {
 	}
 	else {
 
+		QString prev = this->layerTable->GetLayer(item->row())->GetData().name;
+
 		this->layerTable->GetLayer(item->row())->GetData().name = name;
 
-		ShLayerDataChangedEvent event(this->layerTable->GetLayer(item->row()),
+		ShLayerMemento *memento = this->layerTable->GetLayer(item->row())->CreateMemento();
+		memento->data->name = prev;
+
+		ShLayerDataChangedEvent event(this->layerTable->GetLayer(item->row()), memento,
 			ShLayerDataChangedEvent::ChangedType::Name);
 		this->Notify(&event);
 	}
@@ -271,10 +290,18 @@ void ShLayerDialog::LineStyleComboIndexChanged(int index) {
 		ShLineStyleComboList *list = ShLineStyleComboList::GetInstance();
 		ShLineStyle lineStyle = list->GetLineStyle(index);
 
+
 		int row = combo->property("row").toInt();
+
+		ShLineStyle prev = this->layerTable->GetLayer(row)->GetData().propertyData.lineStyle;
+
 		this->layerTable->GetLayer(row)->GetData().propertyData.lineStyle = lineStyle;
 
-		ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), 
+
+		ShLayerMemento *memento = this->layerTable->GetLayer(row)->CreateMemento();
+		memento->data->propertyData.lineStyle = prev;
+
+		ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), memento,
 			ShLayerDataChangedEvent::ChangedType::LineStyle);
 
 		this->Notify(&event);

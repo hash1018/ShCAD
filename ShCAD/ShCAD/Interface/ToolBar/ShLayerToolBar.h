@@ -9,6 +9,7 @@ class ShActivatedWidgetChangedEvent;
 class ShNotifyEvent;
 class QPushButton;
 class ShLayer;
+class ShColor;
 class ShLayerToolBar : public QToolBar {
 	Q_OBJECT
 private:
@@ -24,9 +25,9 @@ public:
 	void SynchronizeLayerCombo();
 
 	private slots:
-	void CurrentLayerChanged();
-	void LayerTurnChanged(ShLayer*);
-	void LayerColorChanged(ShLayer*);
+	void CurrentLayerChanged(ShLayer* previousLayer, ShLayer *currentLayer);
+	void LayerTurnChanged(ShLayer*, bool previous);
+	void LayerColorChanged(ShLayer*, const ShColor& previous);
 	void LayerButtonClicked();
 };
 

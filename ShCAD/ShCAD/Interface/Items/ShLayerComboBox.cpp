@@ -117,13 +117,15 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 		//int currentLayerIndex = this->comboBox->layerTable->GetCurrentLayerIndex();
 		ShLayer *layer = this->comboBox->layerTable->GetLayer(index.row());
 
+		bool prev = layer->GetData().isTurnOn;
+
 		if (layer->GetData().isTurnOn == true)
 			layer->GetData().isTurnOn = false;
 		else
 			layer->GetData().isTurnOn = true;
 
 	
-		emit LayerTurnChanged(layer); // when fuction is called, that slots to LayerTrunChanged
+		emit LayerTurnChanged(layer, prev); // when fuction is called, that slots to LayerTrunChanged
 		                         // Updates ComboBox Items again, 
 		                         // and ListView which is this instance does not disappear 
 		                         // after that mousePressEvent is called again with no focus?
@@ -139,12 +141,13 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 		
 			QColor color = dialog.currentColor();
 
+			ShColor prev = this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color;
 		
 			this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color.r = color.red();
 			this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color.g = color.green();
 			this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color.b = color.blue();
 			
-			emit LayerColorChanged(this->comboBox->layerTable->GetLayer(index.row()));
+			emit LayerColorChanged(this->comboBox->layerTable->GetLayer(index.row()), prev);
 
 			
 		}
@@ -179,8 +182,8 @@ ShLayerComboBox::ShLayerComboBox(QWidget *parent)
 	
 	
 	connect(this->view, SIGNAL(CurrentIndexChanged(int)), this, SLOT(ComboSelChanged(int)));
-	connect(this->view, SIGNAL(LayerTurnChanged(ShLayer*)), this, SLOT(LayerOnOffChanged(ShLayer*)));
-	connect(this->view, SIGNAL(LayerColorChanged(ShLayer*)), this, SLOT(LayerColorChanged_(ShLayer*)));
+	connect(this->view, SIGNAL(LayerTurnChanged(ShLayer*, bool)), this, SLOT(LayerOnOffChanged(ShLayer*, bool)));
+	connect(this->view, SIGNAL(LayerColorChanged(ShLayer*, const ShColor&)), this, SLOT(LayerColorChanged_(ShLayer*, const ShColor&)));
 
 	
 }
@@ -303,22 +306,24 @@ void ShLayerComboBox::UpdateLayerCombo() {
 
 void ShLayerComboBox::ComboSelChanged(int index) {
 
+	ShLayer *previousLayer = this->layerTable->GetCurrentLayer();
+
 	this->layerTable->SetCurrentLayerIndex(index);
 	
-	emit CurrentLayerChanged();
+	emit CurrentLayerChanged(previousLayer, this->layerTable->GetCurrentLayer());
 	
 }
 
-void ShLayerComboBox::LayerOnOffChanged(ShLayer* layer) {
+void ShLayerComboBox::LayerOnOffChanged(ShLayer* layer,bool previous) {
 	
 	this->UpdateLayerCombo();
 	
-	emit LayerTurnChanged(layer);
+	emit LayerTurnChanged(layer, previous);
 }
 
-void ShLayerComboBox::LayerColorChanged_(ShLayer *layer) {
+void ShLayerComboBox::LayerColorChanged_(ShLayer *layer, const ShColor& previous) {
 
 	this->UpdateLayerCombo();
 
-	emit LayerColorChanged(layer);
+	emit LayerColorChanged(layer, previous);
 }

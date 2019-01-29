@@ -45,6 +45,7 @@ class ShNotifyEvent;
 
 class ShGraphicViewData {
 	friend class ShGraphicView;
+	friend class ShGraphicViewUpdateHandler;
 private:
 	double x;
 	double y;

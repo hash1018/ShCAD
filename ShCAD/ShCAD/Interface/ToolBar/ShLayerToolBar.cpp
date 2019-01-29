@@ -20,9 +20,9 @@ ShLayerToolBar::ShLayerToolBar(QWidget *parent)
 	this->addWidget(this->layerCombo);
 
 
-	connect(this->layerCombo, SIGNAL(CurrentLayerChanged()), this, SLOT(CurrentLayerChanged()));
-	connect(this->layerCombo, SIGNAL(LayerTurnChanged(ShLayer*)), this, SLOT(LayerTurnChanged(ShLayer*)));
-	connect(this->layerCombo, SIGNAL(LayerColorChanged(ShLayer*)), this, SLOT(LayerColorChanged(ShLayer*)));
+	connect(this->layerCombo, SIGNAL(CurrentLayerChanged(ShLayer*, ShLayer*)), this, SLOT(CurrentLayerChanged(ShLayer*, ShLayer*)));
+	connect(this->layerCombo, SIGNAL(LayerTurnChanged(ShLayer*, bool)), this, SLOT(LayerTurnChanged(ShLayer*, bool)));
+	connect(this->layerCombo, SIGNAL(LayerColorChanged(ShLayer*, const ShColor&)), this, SLOT(LayerColorChanged(ShLayer*, const ShColor&)));
 
 }
 
@@ -48,21 +48,28 @@ void ShLayerToolBar::Notify(ShNotifyEvent *event) {
 
 }
 
-void ShLayerToolBar::CurrentLayerChanged() {
+void ShLayerToolBar::CurrentLayerChanged(ShLayer *previousLayer, ShLayer *currentLayer) {
 
-	ShCurrentLayerChangedEvent event;
+	ShCurrentLayerChangedEvent event(previousLayer, currentLayer);
 	this->Notify(&event);
 }
 
-void ShLayerToolBar::LayerTurnChanged(ShLayer *layer) {
-
-	ShLayerDataChangedEvent event(layer, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
+#include "Memento Pattern\ShMemento.h"
+void ShLayerToolBar::LayerTurnChanged(ShLayer *layer, bool previous) {
+	
+	ShLayerMemento* memento = layer->CreateMemento();
+	memento->data->isTurnOn = previous;
+	
+	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
 	this->Notify(&event);
 }
 
-void ShLayerToolBar::LayerColorChanged(ShLayer *layer) {
+void ShLayerToolBar::LayerColorChanged(ShLayer *layer,const ShColor& previous) {
+	
+	ShLayerMemento* memento = layer->CreateMemento();
+	memento->data->propertyData.color = previous;
 
-	ShLayerDataChangedEvent event(layer, ShLayerDataChangedEvent::ChangedType::Color);
+	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::Color);
 	this->Notify(&event);
 }
 

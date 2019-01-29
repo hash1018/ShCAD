@@ -24,7 +24,6 @@
 --*/
 
 #include "ShMemento.h"
-#include <qdebug.h>
 ShMemento::ShMemento(){
 
 	
@@ -85,4 +84,17 @@ ShDeletedEntitiesMemento::~ShDeletedEntitiesMemento() {
 	while (!this->list.isEmpty())
 		delete this->list.takeFirst();
 	
+}
+
+////////////////////////////////////////////////////////////////////
+
+ShLayerMemento::ShLayerMemento() {
+
+}
+
+
+ShLayerMemento::~ShLayerMemento() {
+	
+	if (this->data != 0)
+		delete this->data;
 }

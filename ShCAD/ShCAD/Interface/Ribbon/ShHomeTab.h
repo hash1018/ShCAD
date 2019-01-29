@@ -100,6 +100,7 @@ protected:
 
 class ShLayerComboBox;
 class ShLayer;
+class ShColor;
 class ShLayerColumn : public ShColumnInRibbonTab {
 	Q_OBJECT
 
@@ -118,9 +119,9 @@ protected:
 	void resizeEvent(QResizeEvent *event);
 
 	private slots:
-	void CurrentLayerChanged();
-	void LayerTurnChanged(ShLayer*);
-	void LayerColorChanged(ShLayer*);
+	void CurrentLayerChanged(ShLayer *previousLayer, ShLayer *currentLayer);
+	void LayerTurnChanged(ShLayer*, bool previous);
+	void LayerColorChanged(ShLayer*, const ShColor& previous);
 };
 
 #endif //_SHHOMETAB_H

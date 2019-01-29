@@ -168,22 +168,22 @@ private:
 	ShLineStyle lineStyle;
 
 };
-
+class ShLayer;
 class ShCurrentLayerChangedEvent : public ShNotifyEvent {
 
 public:
-	ShCurrentLayerChangedEvent();
+	ShCurrentLayerChangedEvent(ShLayer *previousLayer, ShLayer *currentLayer);
 	~ShCurrentLayerChangedEvent();
 
-	void SetLayerData(const ShPropertyData& layerData) { this->layerData = layerData; }
-	inline ShPropertyData GetLayerData() const { return this->layerData; }
-
+	inline ShLayer* GetPreviousLayer() const { return this->previousLayer; }
+	inline ShLayer* GetCurrentLayer() const { return this->currentLayer; }
 
 private:
-	ShPropertyData layerData;
+	ShLayer *previousLayer;
+	ShLayer *currentLayer;
 };
 
-class ShLayer;
+class ShLayerMemento;
 class ShLayerDataChangedEvent : public ShNotifyEvent {
 
 public:
@@ -196,18 +196,22 @@ public:
 	};
 
 public:
-	ShLayerDataChangedEvent(ShLayer *layer, ShLayerDataChangedEvent::ChangedType changedType);
+	ShLayerDataChangedEvent(ShLayer *changedLayer, ShLayerMemento *previousMemento,
+		ShLayerDataChangedEvent::ChangedType changedType);
+
 	~ShLayerDataChangedEvent();
 
-	inline ShLayer* GetLayer() const { return this->layer; }
+	inline ShLayer* GetChangedLayer() const { return this->changedLayer; }
 	inline ChangedType GetChangedType() const { return this->changedType; }
-	void SetLayerData(const ShPropertyData& layerData) { this->layerData = layerData; }
-	inline ShPropertyData GetLayerData() const { return this->layerData; }
+	void SetCurrentLayer(ShLayer *currentLayer) { this->currentLayer = currentLayer; }
+	inline ShLayer* GetCurrentLayer() const { return this->currentLayer; }
+	inline ShLayerMemento* GetPreviousMemento() const { return this->previousMemento; }
 
 private:
-	ShLayer *layer;
+	ShLayer *changedLayer;
 	ChangedType changedType;
-	ShPropertyData layerData;
+	ShLayer *currentLayer;
+	ShLayerMemento *previousMemento;
 };
 
 #endif //_SHNOTIFYEVENT_H

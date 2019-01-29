@@ -89,13 +89,13 @@ void ShPropertyToolBar::Update(ShActivatedWidgetChangedEvent *event) {
 
 void ShPropertyToolBar::Update(ShCurrentLayerChangedEvent *event) {
 
-	this->colorCombo->SetLayerColor(event->GetLayerData().color);
+	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().propertyData.color);
 	int index = this->colorCombo->GetColorComboIndex();
 	this->colorCombo->Synchronize(index);
 
 
 
-	this->lineStyleCombo->SetLayerLineStyle(event->GetLayerData().lineStyle);
+	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().propertyData.lineStyle);
 	index = this->lineStyleCombo->GetLineStyleComboIndex();
 	this->lineStyleCombo->Synchronize(index);
 
@@ -103,13 +103,13 @@ void ShPropertyToolBar::Update(ShCurrentLayerChangedEvent *event) {
 
 void ShPropertyToolBar::Update(ShLayerDataChangedEvent *event) {
 
-	this->colorCombo->SetLayerColor(event->GetLayerData().color);
+	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().propertyData.color);
 	int index = this->colorCombo->GetColorComboIndex();
 	this->colorCombo->Synchronize(index);
 
 
 
-	this->lineStyleCombo->SetLayerLineStyle(event->GetLayerData().lineStyle);
+	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().propertyData.lineStyle);
 	index = this->lineStyleCombo->GetLineStyleComboIndex();
 	this->lineStyleCombo->Synchronize(index);
 
