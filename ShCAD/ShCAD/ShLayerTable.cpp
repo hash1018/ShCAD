@@ -34,11 +34,16 @@ void ShLayerTable::Add(ShLayer *layer) {
 	this->list.append(layer);
 }
 
-void ShLayerTable::Delete(ShLayer *layer) {
+//void ShLayerTable::Delete(ShLayer *layer) {
+
+	//this->list.removeOne(layer);
+
+	//delete layer;
+//}
+
+void ShLayerTable::Remove(ShLayer *layer) {
 
 	this->list.removeOne(layer);
-
-	delete layer;
 }
 
 void ShLayerTable::SetCurrentLayerIndex(int index) {

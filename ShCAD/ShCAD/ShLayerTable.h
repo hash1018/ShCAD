@@ -17,7 +17,8 @@ public:
 	~ShLayerTable();
 	
 	void Add(ShLayer *layer);
-	void Delete(ShLayer *layer);
+	//void Delete(ShLayer *layer);
+	void Remove(ShLayer *layer);
 
 	void SetCurrentLayerIndex(int index);
 	void SetCurrentLayer(ShLayer* layer);

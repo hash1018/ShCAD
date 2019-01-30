@@ -7,7 +7,7 @@
 #include "ShNotifyEvent.h"
 #include "Singleton Pattern\ShChangeManager.h"
 ShChangeLayerDataCommand::ShChangeLayerDataCommand(ShGraphicView *view, ShLayer *changedLayer, ShLayerMemento *memento)
-	:ShCommand(memento, "Layer Modified"), view(view), changedLayer(changedLayer) {
+	:ShCommand(memento, "Modify Layer Data"), view(view), changedLayer(changedLayer) {
 
 
 }
@@ -17,6 +17,7 @@ ShChangeLayerDataCommand::~ShChangeLayerDataCommand() {
 }
 
 void ShChangeLayerDataCommand::Execute() {
+	qDebug("ShChangeLayerDataCommand->Execute()");
 
 	ShLayerMemento* memento = dynamic_cast<ShLayerMemento*>(this->memento);
 
@@ -50,7 +51,7 @@ void ShChangeLayerDataCommand::Execute() {
 }
 
 void ShChangeLayerDataCommand::UnExecute() {
-
+	qDebug("ShChangeLayerDataCommand->UnExecute()");
 
 	ShLayerMemento* memento = dynamic_cast<ShLayerMemento*>(this->memento);
 	ShLayerData data = this->changedLayer->GetData();

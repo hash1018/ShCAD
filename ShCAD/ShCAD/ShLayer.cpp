@@ -37,6 +37,7 @@ ShLayerMemento* ShLayer::CreateMemento() {
 	
 	ShLayerMemento *memento = new ShLayerMemento;
 
+	memento->layer = this;
 	memento->data = new ShLayerData(this->data);
 
 	return memento;

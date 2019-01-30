@@ -290,6 +290,30 @@ void ShChangeManager::Notify(ShLayerDialog *layerDialog, ShNotifyEvent *event) {
 		this->layerColumn->SynchronizeLayerCombo();
 
 	}
+	else if (event->GetType() == ShNotifyEvent::Type::LayerCreated) {
+	
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+
+		this->layerToolBar->SynchronizeLayerCombo();
+		this->layerColumn->SynchronizeLayerCombo();
+	}
+	else if (event->GetType() == ShNotifyEvent::Type::LayerDeleted) {
+	
+		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+		if (manager->GetActivatedWidget() == 0)
+			return;
+
+		manager->GetActivatedWidget()->Update(event);
+
+		this->layerToolBar->SynchronizeLayerCombo();
+		this->layerColumn->SynchronizeLayerCombo();
+	}
 
 }
 
@@ -314,4 +338,27 @@ void ShChangeManager::Notfiy(ShChangeLayerDataCommand *changeLayerDataCommand, S
 		this->layerToolBar->SynchronizeLayerCombo();
 		this->layerColumn->SynchronizeLayerCombo();
 	}
+}
+
+void ShChangeManager::Notify(ShCreateLayerCommand *createLayerCommand, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::LayerCreated ||
+		event->GetType() == ShNotifyEvent::LayerDeleted) {
+
+		this->layerToolBar->SynchronizeLayerCombo();
+		this->layerColumn->SynchronizeLayerCombo();
+	}
+
+
+}
+
+void ShChangeManager::Notify(ShDeleteLayerCommand *deleteLayerCommand, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::LayerCreated ||
+		event->GetType() == ShNotifyEvent::LayerDeleted) {
+
+		this->layerToolBar->SynchronizeLayerCombo();
+		this->layerColumn->SynchronizeLayerCombo();
+	}
+
 }

@@ -26,8 +26,8 @@
 #include "ShNotifyEvent.h"
 
 
-ShNotifyEvent::ShNotifyEvent()
-	:type(Type::Nothing) {
+ShNotifyEvent::ShNotifyEvent(Type type)
+	:type(type) {
 
 }
 
@@ -38,9 +38,9 @@ ShNotifyEvent::~ShNotifyEvent() {
 /////////////////////////////////////////////////////////////
 
 ShZoomRateChangedEvent::ShZoomRateChangedEvent(double x, double y, double z, double zoomRate)
-	:x(x), y(y), z(z), zoomRate(zoomRate) {
+	:ShNotifyEvent(Type::ZoomRateChanged), x(x), y(y), z(z), zoomRate(zoomRate) {
 
-	this->type = Type::ZoomRateChanged;
+
 }
 
 ShZoomRateChangedEvent::~ShZoomRateChangedEvent() {
@@ -50,9 +50,9 @@ ShZoomRateChangedEvent::~ShZoomRateChangedEvent() {
 ////////////////////////////////////////////////////////////////
 
 ShMousePositionChangedEvent::ShMousePositionChangedEvent(double x, double y, double z, double zoomRate)
-	:x(x), y(y), z(z), zoomRate(zoomRate) {
+	:ShNotifyEvent(Type::MousePositionChanged), x(x), y(y), z(z), zoomRate(zoomRate) {
 
-	this->type = Type::MousePositionChanged;
+
 }
 
 ShMousePositionChangedEvent::~ShMousePositionChangedEvent() {
@@ -62,9 +62,9 @@ ShMousePositionChangedEvent::~ShMousePositionChangedEvent() {
 /////////////////////////////////////////////////////////////////
 
 ShKeyPressedEvent::ShKeyPressedEvent(QKeyEvent *event)
-	:event(event) {
+	:ShNotifyEvent(Type::KeyPressed), event(event) {
 
-	this->type = Type::KeyPressed;
+	
 }
 
 ShKeyPressedEvent::~ShKeyPressedEvent() {
@@ -75,9 +75,9 @@ ShKeyPressedEvent::~ShKeyPressedEvent() {
 
 
 ShUpdateListTextEvent::ShUpdateListTextEvent(const QString& text, ShUpdateListTextEvent::UpdateType type)
-	:text(text),updateType(type) {
+	:ShNotifyEvent(Type::UpdateListText), text(text), updateType(type) {
 
-	this->type = Type::UpdateListText;
+
 }
 
 ShUpdateListTextEvent::~ShUpdateListTextEvent() {
@@ -89,9 +89,9 @@ ShUpdateListTextEvent::~ShUpdateListTextEvent() {
 
 
 ShActivatedWidgetChangedEvent::ShActivatedWidgetChangedEvent(ShGraphicView *newWidget, ShGraphicView *previousWidget)
-	:newWidget(newWidget), previousWidget(previousWidget) {
+	:ShNotifyEvent(Type::ActivatedWidgetChanged), newWidget(newWidget), previousWidget(previousWidget) {
 
-	this->type = Type::ActivatedWidgetChanged;
+
 }
 
 ShActivatedWidgetChangedEvent::~ShActivatedWidgetChangedEvent() {
@@ -101,9 +101,9 @@ ShActivatedWidgetChangedEvent::~ShActivatedWidgetChangedEvent() {
 /////////////////////////////////////////////////////////////////////////////////
 
 ShPropertyColorComboSelChangedEvent::ShPropertyColorComboSelChangedEvent(const ShColor& color)
-	:color(color) {
+	:ShNotifyEvent(Type::PropertyColorComboSelChanged), color(color) {
 
-	this->type = Type::PropertyColorComboSelChanged;
+
 }
 
 ShPropertyColorComboSelChangedEvent::~ShPropertyColorComboSelChangedEvent() {
@@ -114,9 +114,8 @@ ShPropertyColorComboSelChangedEvent::~ShPropertyColorComboSelChangedEvent() {
 //////////////////////////////////////////////////////////////////////////////////
 
 ShPropertyLineStyleComboSelChangedEvent::ShPropertyLineStyleComboSelChangedEvent(const ShLineStyle& lineStyle)
-	:lineStyle(lineStyle) {
+	:ShNotifyEvent(Type::PropertyLineStyleComboSelChanged), lineStyle(lineStyle) {
 
-	this->type = Type::PropertyLineStyleComboSelChanged;
 }
 
 ShPropertyLineStyleComboSelChangedEvent::~ShPropertyLineStyleComboSelChangedEvent() {
@@ -126,9 +125,9 @@ ShPropertyLineStyleComboSelChangedEvent::~ShPropertyLineStyleComboSelChangedEven
 //////////////////////////////////////////////////////////////////////////////////
 
 ShCurrentLayerChangedEvent::ShCurrentLayerChangedEvent(ShLayer *previousLayer, ShLayer *currentLayer)
-	:previousLayer(previousLayer), currentLayer(currentLayer) {
+	:ShNotifyEvent(Type::CurrentLayerChanged), previousLayer(previousLayer), currentLayer(currentLayer) {
 
-	this->type = Type::CurrentLayerChanged;
+
 }
 
 ShCurrentLayerChangedEvent::~ShCurrentLayerChangedEvent() {
@@ -140,11 +139,37 @@ ShCurrentLayerChangedEvent::~ShCurrentLayerChangedEvent() {
 
 ShLayerDataChangedEvent::ShLayerDataChangedEvent(ShLayer *changedLayer, ShLayerMemento *previousMemento,
 	ShLayerDataChangedEvent::ChangedType changedType)
-	:changedLayer(changedLayer), changedType(changedType), currentLayer(0), previousMemento(previousMemento) {
+	:ShNotifyEvent(Type::LayerDataChanged), changedLayer(changedLayer), changedType(changedType), currentLayer(0), 
+	previousMemento(previousMemento) {
 
-	this->type = Type::LayerDataChanged;
+
 }
 
 ShLayerDataChangedEvent::~ShLayerDataChangedEvent() {
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+ShLayerCreatedEvent::ShLayerCreatedEvent(ShLayer *newLayer)
+	:ShNotifyEvent(Type::LayerCreated), newLayer(newLayer) {
+
+
+}
+
+ShLayerCreatedEvent::~ShLayerCreatedEvent() {
+
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+ShLayerDeletedEvent::ShLayerDeletedEvent(ShLayer *deletedLayer)
+	:ShNotifyEvent(Type::LayerDeleted), deletedLayer(deletedLayer) {
+
+}
+
+ShLayerDeletedEvent::~ShLayerDeletedEvent() {
 
 }

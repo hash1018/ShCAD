@@ -16,6 +16,8 @@ class ShLayerColumn;
 class ShLayerDialog;
 class ShChangeCurrentLayerCommand;
 class ShChangeLayerDataCommand;
+class ShCreateLayerCommand;
+class ShDeleteLayerCommand;
 class ShChangeManager {
 
 private:
@@ -44,6 +46,8 @@ public:
 	void Notify(ShLayerDialog *layerDialog, ShNotifyEvent *event);
 	void Notify(ShChangeCurrentLayerCommand *changeCurrentLayerCommand, ShNotifyEvent *event);
 	void Notfiy(ShChangeLayerDataCommand *changeLayerDataCommand, ShNotifyEvent *event);
+	void Notify(ShCreateLayerCommand *createLayerCommand, ShNotifyEvent *event);
+	void Notify(ShDeleteLayerCommand *deleteLayerCommand, ShNotifyEvent *event);
 
 
 private:

@@ -8,6 +8,7 @@ class QTableWidget;
 class ShLayerTable;
 class ShNotifyEvent;
 class QTableWidgetItem;
+class QPushButton;
 class ShLayerDialog : public QDialog {
 	Q_OBJECT
 
@@ -15,6 +16,9 @@ private:
 	ShLayerTable *layerTable;
 	QTableWidget *table;
 	bool isItemChangedByUser;
+	QPushButton *newLayerButton;
+	QPushButton *deleteLayerButton;
+
 
 public:
 	ShLayerDialog(ShLayerTable *layerTable, QWidget *parent = 0);
@@ -40,6 +44,8 @@ protected:
 	void CellDoubleClicked(int row, int column);
 	void LayerNameChanged(QTableWidgetItem *item);
 	void LineStyleComboIndexChanged(int);
+	void NewLayerButtonClicked();
+	void DeleteLayerButtonClicked();
 };
 
 

@@ -151,7 +151,9 @@
     <ClCompile Include="Command Pattern\ShChangeCurrentLayerCommand.cpp" />
     <ClCompile Include="Command Pattern\ShChangeLayerDataCommand.cpp" />
     <ClCompile Include="Command Pattern\ShCommand.cpp" />
+    <ClCompile Include="Command Pattern\ShCreateLayerCommand.cpp" />
     <ClCompile Include="Command Pattern\ShDeleteEntityCommand.cpp" />
+    <ClCompile Include="Command Pattern\ShDeleteLayerCommand.cpp" />
     <ClCompile Include="Command Pattern\ShMoveViewCommand.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
     <ClCompile Include="Entity\Composite\ShEntityTable.cpp" />
@@ -315,7 +317,9 @@
     <ClInclude Include="Command Pattern\ShChangeCurrentLayerCommand.h" />
     <ClInclude Include="Command Pattern\ShChangeLayerDataCommand.h" />
     <ClInclude Include="Command Pattern\ShCommand.h" />
+    <ClInclude Include="Command Pattern\ShCreateLayerCommand.h" />
     <ClInclude Include="Command Pattern\ShDeleteEntityCommand.h" />
+    <ClInclude Include="Command Pattern\ShDeleteLayerCommand.h" />
     <ClInclude Include="Command Pattern\ShMoveViewCommand.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />
     <ClInclude Include="Entity\Composite\ShEntityTable.h" />

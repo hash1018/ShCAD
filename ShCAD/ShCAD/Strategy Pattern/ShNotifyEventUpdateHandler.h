@@ -28,7 +28,9 @@ class ShKeyPressedEvent;
 class ShPropertyColorComboSelChangedEvent;
 class ShPropertyLineStyleComboSelChangedEvent;
 class ShCurrentLayerChangedEvent;
+class ShLayerCreatedEvent;
 class ShLayerDataChangedEvent;
+class ShLayerDeletedEvent;
 
 class ShGraphicViewUpdateHandler : public ShNotifyEventUpdateHandler {
 	friend class ShNotifyEventUpdateHandler;
@@ -42,11 +44,13 @@ private:
 
 	
 	virtual void Update(ShNotifyEvent *event);
-	virtual void Update(ShKeyPressedEvent *event);
-	virtual void Update(ShPropertyColorComboSelChangedEvent *event);
-	virtual void Update(ShPropertyLineStyleComboSelChangedEvent *event);
-	virtual void Update(ShCurrentLayerChangedEvent *event);
-	virtual void Update(ShLayerDataChangedEvent *event);
+	void Update(ShKeyPressedEvent *event);
+    void Update(ShPropertyColorComboSelChangedEvent *event);
+	void Update(ShPropertyLineStyleComboSelChangedEvent *event);
+	void Update(ShCurrentLayerChangedEvent *event);
+	void Update(ShLayerDataChangedEvent *event);
+	void Update(ShLayerCreatedEvent *event);
+	void Update(ShLayerDeletedEvent *event);
 
 
 };

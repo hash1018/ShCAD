@@ -326,6 +326,12 @@
     <ClCompile Include="Command Pattern\ShChangeLayerDataCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="Command Pattern\ShCreateLayerCommand.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\ShDeleteLayerCommand.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -511,6 +517,12 @@
       <Filter>Strategy Pattern</Filter>
     </ClInclude>
     <ClInclude Include="Command Pattern\ShChangeLayerDataCommand.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShCreateLayerCommand.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShDeleteLayerCommand.h">
       <Filter>Command Pattern</Filter>
     </ClInclude>
   </ItemGroup>

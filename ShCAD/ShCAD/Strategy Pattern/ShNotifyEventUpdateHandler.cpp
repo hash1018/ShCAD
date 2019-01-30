@@ -56,6 +56,11 @@ void ShGraphicViewUpdateHandler::Update(ShNotifyEvent *event) {
 	else if (dynamic_cast<ShLayerDataChangedEvent*>(event))
 		this->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 
+	else if (dynamic_cast<ShLayerCreatedEvent*>(event))
+		this->Update(dynamic_cast<ShLayerCreatedEvent*>(event));
+
+	else if (dynamic_cast<ShLayerDeletedEvent*>(event))
+		this->Update(dynamic_cast<ShLayerDeletedEvent*>(event));
 
 }
 
@@ -123,6 +128,32 @@ void ShGraphicViewUpdateHandler::Update(ShLayerDataChangedEvent *event) {
 
 	ShChangeLayerDataCommand *command = new ShChangeLayerDataCommand(this->view,
 		event->GetChangedLayer(), event->GetPreviousMemento());
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
+
+}
+
+#include "Command Pattern\ShCreateLayerCommand.h"
+void ShGraphicViewUpdateHandler::Update(ShLayerCreatedEvent *event) {
+
+	ShCreateLayerCommand *command = new ShCreateLayerCommand(this->view,
+		event->GetNewLayer()->CreateMemento());
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
+
+}
+
+#include "Command Pattern\ShDeleteLayerCommand.h"
+void ShGraphicViewUpdateHandler::Update(ShLayerDeletedEvent *event) {
+
+	ShDeleteLayerCommand *command = new ShDeleteLayerCommand(this->view,
+		event->GetDeletedLayer()->CreateMemento());
 
 	this->view->undoTaker.Push(command);
 

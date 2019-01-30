@@ -5,13 +5,14 @@
 #include "ShLayerTable.h"
 #include <qheaderview.h>
 #include "ShDirectoryManager.h"
+#include <qpushbutton.h>
 ShLayerDialog::ShLayerDialog(ShLayerTable *layerTable, QWidget *parent)
 	:QDialog(parent),layerTable(layerTable),isItemChangedByUser(true) {
 
 	this->setFixedSize(500, 400);
 	this->setWindowTitle("Layer Setting");
 	this->table = new QTableWidget(this);
-	this->table->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectItems);
+	this->table->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
 	this->table->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 	this->table->setIconSize(QSize(20, 20));
 	this->UpdateLayerList();
@@ -19,6 +20,13 @@ ShLayerDialog::ShLayerDialog(ShLayerTable *layerTable, QWidget *parent)
 	connect(this->table, SIGNAL(cellClicked(int, int)), this, SLOT(CellClicked(int, int)));
 	connect(this->table, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(CellDoubleClicked(int, int)));
 	connect(this->table, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(LayerNameChanged(QTableWidgetItem*)));
+
+
+	this->newLayerButton = new QPushButton("New", this);
+	this->deleteLayerButton = new QPushButton("Delete", this);
+
+	connect(this->newLayerButton, SIGNAL(released()), this, SLOT(NewLayerButtonClicked()));
+	connect(this->deleteLayerButton, SIGNAL(released()), this, SLOT(DeleteLayerButtonClicked()));
 
 }
 
@@ -32,6 +40,9 @@ void ShLayerDialog::resizeEvent(QResizeEvent *event) {
 	QDialog::resizeEvent(event);
 
 	this->table->setGeometry(20, 100, 460, 200);
+
+	this->newLayerButton->setGeometry(20, 40, 100, 25);
+	this->deleteLayerButton->setGeometry(130, 40, 100, 25);
 }
 
 void ShLayerDialog::UpdateLayerList() {
@@ -316,4 +327,56 @@ void ShLayerDialog::Notify(ShNotifyEvent *event) {
 
 	manager->Notify(this, event);
 
+}
+
+
+void ShLayerDialog::NewLayerButtonClicked() {
+
+	ShLayerData data = this->layerTable->GetLayer(this->layerTable->GetSize() - 1)->GetData();
+
+	ShLayer *layer = new ShLayer(data);
+
+	this->layerTable->Add(layer);
+
+	this->UpdateLayerList();
+
+	ShLayerCreatedEvent event(layer);
+	this->Notify(&event);
+
+}
+
+void ShLayerDialog::DeleteLayerButtonClicked() {
+
+	int index = this->table->currentRow();
+
+	if (index == 0) {
+		QMessageBox box;
+		box.setText("This layer cannot be deleted.");
+		box.exec();
+		return;
+	}
+
+	if (index == this->layerTable->GetCurrentLayerIndex()) {
+		QMessageBox box;
+		box.setText("Current Layer cannot be deleted.");
+		box.exec();
+		return;
+	}
+
+	if (this->layerTable->GetLayer(index)->GetSize() > 0) {
+		QMessageBox box;
+		box.setText("This layer still has entities on it.");
+		box.exec();
+		return;
+	}
+
+
+	ShLayer *layer = this->layerTable->GetLayer(index);
+	this->layerTable->Remove(layer);
+
+	this->UpdateLayerList();
+
+	ShLayerDeletedEvent event(layer);
+	this->Notify(&event);
+	
 }

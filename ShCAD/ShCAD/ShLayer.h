@@ -51,6 +51,7 @@ public:
 	void SetMemento(ShLayerMemento *memento);
 
 	inline  ShLayerData& GetData()  { return this->data; }
+	inline int GetSize() const { return this->list.size(); }
 };
 
 Q_DECLARE_METATYPE(ShLayerData);

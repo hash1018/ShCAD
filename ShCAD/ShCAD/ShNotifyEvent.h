@@ -40,11 +40,13 @@ public:
 		PropertyLineStyleComboSelChanged = 7,
 		CurrentLayerChanged = 8,
 		LayerDataChanged = 9,
-
+		LayerCreated = 10,
+		LayerDeleted = 11,
+	
 	};
 
 public:
-	ShNotifyEvent();
+	ShNotifyEvent(Type type);
 	virtual ~ShNotifyEvent() = 0;
 
 	inline Type GetType() const { return this->type; }
@@ -213,5 +215,31 @@ private:
 	ShLayer *currentLayer;
 	ShLayerMemento *previousMemento;
 };
+
+class ShLayerCreatedEvent : public ShNotifyEvent {
+
+public:
+	ShLayerCreatedEvent(ShLayer *newLayer);
+	~ShLayerCreatedEvent();
+
+	inline ShLayer* GetNewLayer() const { return this->newLayer; }
+
+private:
+	ShLayer *newLayer;
+
+};
+
+class ShLayerDeletedEvent : public ShNotifyEvent {
+
+public:
+	ShLayerDeletedEvent(ShLayer *deletedLayer);
+	~ShLayerDeletedEvent();
+
+	inline ShLayer* GetDeletedLayer() const { return this->deletedLayer; }
+
+private:
+	ShLayer *deletedLayer;
+};
+
 
 #endif //_SHNOTIFYEVENT_H
