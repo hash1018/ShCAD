@@ -80,8 +80,6 @@ ShComposite::~ShComposite() {
 	while (!this->list.isEmpty())
 		delete this->list.takeFirst();
 
-	//while (this->list.size() != 0)
-		//delete this->list.takeFirst();
 		
 }
 
@@ -102,24 +100,19 @@ ShComposite& ShComposite::operator=(const ShComposite& other) {
 	return *this;
 }
 
+#include "ShLayer.h"
 bool ShComposite::Add(ShEntity* shEntity) {
-	
-	this->RemoveAll(this->justAddedEntityList);
 
 	if (shEntity == 0)
 		return false;
 
 	this->list.append(shEntity);
 	
-	this->justAddedEntityList.append(shEntity);
-
 	return true;
 }
 
 bool ShComposite::Add(QLinkedList<ShEntity*> &list) {
 	
-	this->RemoveAll(this->justAddedEntityList);
-
 	if (list.isEmpty())
 		return false;
 
@@ -128,15 +121,15 @@ bool ShComposite::Add(QLinkedList<ShEntity*> &list) {
 
 	for (itr = list.begin(); itr != list.end(); ++itr) {
 		this->list.append((*itr));
-		this->justAddedEntityList.append((*itr));
 	}
-
 
 	return true;
 
 }
 
 void ShComposite::Delete(ShEntity *shEntity) {
+
+	shEntity->GetLayer()->Remove(shEntity);
 
 	this->list.removeOne(shEntity);
 
@@ -147,7 +140,6 @@ void ShComposite::Remove(ShEntity *shEntity) {
 
 	this->list.removeOne(shEntity);
 
-	//delete shEntity;
 }
 
 bool ShComposite::IsListEmpty() {
@@ -181,16 +173,6 @@ ShComposite::Iterator ShComposite::End() {
 }
 
 
-ShComposite::Iterator ShComposite::GetJustAddedEntitiesBegin() {
-
-	ShComposite::Iterator itr;
-
-	itr.begin = this->justAddedEntityList.begin();
-	itr.end = this->justAddedEntityList.end();
-	itr.itr = this->justAddedEntityList.begin();
-
-	return itr;
-}
 
 
 
@@ -198,5 +180,6 @@ void ShComposite::RemoveAll(QLinkedList<ShEntity*> &list) {
 
 	while (!list.isEmpty())
 		list.removeFirst();
+	
 
 }

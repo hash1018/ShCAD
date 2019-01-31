@@ -11,6 +11,7 @@ class ShLeaf : public ShEntity {
 
 public:
 	ShLeaf();
+	ShLeaf(const ShPropertyData& propertyData, ShLayer *layer);
 	virtual ~ShLeaf() = 0;
 	ShLeaf(const ShLeaf& other);
 	ShLeaf& operator=(const ShLeaf& other);

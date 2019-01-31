@@ -12,7 +12,7 @@ public:
 		ByBlock=3,
 	};
 
-public:
+private:
 	unsigned char r;
 	unsigned char g;
 	unsigned char b;
@@ -27,6 +27,15 @@ public:
 	
 	bool operator==(const ShColor& other);
 
+	void SetRed(unsigned char red) { this->r = red; }
+	void SetGreen(unsigned char green) { this->g = green; }
+	void SetBlue(unsigned char blue) { this->b = blue; }
+	void SetType(ShColor::Type type) { this->type = type; }
+
+	inline unsigned char GetRed() const { return this->r; }
+	inline unsigned char GetGreen() const { return this->g; }
+	inline unsigned char GetBlue() const { return this->b; }
+	inline ShColor::Type GetType() const { return this->type; }
 
 };
 
@@ -39,7 +48,7 @@ public:
 		ByBlock=3,
 	};
 
-public:
+private:
 	unsigned short pattern;
 	Type type;
 
@@ -52,11 +61,16 @@ public:
 
 	bool operator==(const ShLineStyle& other);
 
+	void SetPattern(unsigned short pattern) { this->pattern = pattern; }
+	void SetType(ShLineStyle::Type type) { this->type = type; }
+
+	inline unsigned short GetPattern() const { return this->pattern; }
+	inline ShLineStyle::Type GetType() const { return this->type; }
 };
 
 class ShPropertyData {
 
-public:
+private:
 	ShColor color;
 	ShLineStyle lineStyle;
 
@@ -66,6 +80,11 @@ public:
 	ShPropertyData& operator=(const ShPropertyData& other);
 	~ShPropertyData();
 
+	void SetColor(const ShColor& color) { this->color = color; }
+	void SetLineStyle(const ShLineStyle& lineStyle) { this->lineStyle = lineStyle; }
+
+	inline ShColor GetColor() const { return this->color; }
+	inline ShLineStyle GetLineStyle() const { return this->lineStyle; }
 
 };
 

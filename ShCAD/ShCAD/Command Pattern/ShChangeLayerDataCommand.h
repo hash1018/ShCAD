@@ -10,12 +10,24 @@ class ShLayer;
 class ShLayerMemento;
 class ShChangeLayerDataCommand : public ShCommand {
 
+public:
+	enum ChangedType {
+		State = 0,
+		Name = 1,
+		TurnOnOff = 2,
+		Color = 3,
+		LineStyle = 4
+	};
+
+
 private:
 	ShGraphicView *view;
 	ShLayer *changedLayer;
+	ChangedType type;
 	
 public:
-	ShChangeLayerDataCommand(ShGraphicView *view, ShLayer *changedLayer, ShLayerMemento *memento);
+	ShChangeLayerDataCommand(ShGraphicView *view, ShLayer *changedLayer, ShLayerMemento *memento, 
+		ShChangeLayerDataCommand::ChangedType type);
 	virtual void Execute();
 	virtual void UnExecute();
 

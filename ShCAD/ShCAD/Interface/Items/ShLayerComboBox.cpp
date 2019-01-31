@@ -47,7 +47,7 @@ void ShLayerDelegate::paint(QPainter * painter, const QStyleOptionViewItem & opt
 		QPixmap pix(17, 17);
 		
 
-		if (data.isTurnOn == true)
+		if (data.IsTurnOn() == true)
 			pix.load(ShDirectoryManager::GetImageUiPath() + "\\LayerTurnOn.png");
 		else
 			pix.load(ShDirectoryManager::GetImageUiPath() + "\\LayerTurnOff.png");
@@ -62,12 +62,14 @@ void ShLayerDelegate::paint(QPainter * painter, const QStyleOptionViewItem & opt
 
 		//Draw Color 
 		rect = option.rect.adjusted(22, 2, -165, -3);
-		painter->fillRect(rect, QColor(data.propertyData.color.r,
-			data.propertyData.color.g, data.propertyData.color.b));
+
+		ShColor color = data.GetPropertyData().GetColor();
+
+		painter->fillRect(rect, QColor(color.GetRed(), color.GetGreen(), color.GetBlue()));
 		
 
 		rect = option.rect.adjusted(40, 0, 0, 0);
-		painter->drawText(rect, data.name);
+		painter->drawText(rect, data.GetName());
 		
 
 	}
@@ -117,12 +119,13 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 		//int currentLayerIndex = this->comboBox->layerTable->GetCurrentLayerIndex();
 		ShLayer *layer = this->comboBox->layerTable->GetLayer(index.row());
 
-		bool prev = layer->GetData().isTurnOn;
+		//bool prev = layer->GetData()isTurnOn;
+		bool prev = layer->IsTurnOn();
 
-		if (layer->GetData().isTurnOn == true)
-			layer->GetData().isTurnOn = false;
+		if (layer->IsTurnOn() == true)
+			layer->TurnOff();
 		else
-			layer->GetData().isTurnOn = true;
+			layer->TurnOn();
 
 	
 		emit LayerTurnChanged(layer, prev); // when fuction is called, that slots to LayerTrunChanged
@@ -141,11 +144,16 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 		
 			QColor color = dialog.currentColor();
 
-			ShColor prev = this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color;
-		
-			this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color.r = color.red();
-			this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color.g = color.green();
-			this->comboBox->layerTable->GetLayer(index.row())->GetData().propertyData.color.b = color.blue();
+			ShColor prev = this->comboBox->layerTable->GetLayer(index.row())->GetPropertyData().GetColor();
+
+			ShPropertyData data = this->comboBox->layerTable->GetLayer(index.row())->GetPropertyData();
+			data.SetColor(ShColor(color.red(), color.green(), color.blue(),ShColor::Type::ByLayer));
+
+			this->comboBox->layerTable->GetLayer(index.row())->SetPropertyData(data);
+
+			//this->comboBox->layerTable->GetLayer(index.row())->GetPropertyData().color.r = color.red();
+			//this->comboBox->layerTable->GetLayer(index.row())->GetPropertyData().color.g = color.green();
+			//this->comboBox->layerTable->GetLayer(index.row())->GetPropertyData().color.b = color.blue();
 			
 			emit LayerColorChanged(this->comboBox->layerTable->GetLayer(index.row()), prev);
 
@@ -212,25 +220,9 @@ void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 		return;
 
 
-	ShLayerData data = this->layerTable->GetCurrentLayer()->GetData();
-
-	/*
-	QRect drawRect = rect.adjusted(0, 0, -170, 0);
-	if (data.isTurnOn == true) {
-		painter.drawText(rect, "True");
-	}
-	else {
-		painter.drawText(rect, "False");
-	}
-
-	drawRect = rect.adjusted(40, 0, -100, 0);
-	painter.drawText(drawRect, data.name);
-
-	drawRect = rect.adjusted(110, 0, 0, 0);
-	painter.drawText(drawRect, QString::number(data.propertyData.color.r) + "dd" +
-		QString::number(data.propertyData.color.g) + "dd" +
-		QString::number(data.propertyData.color.b));
-	*/
+	//ShLayerData data = this->layerTable->GetCurrentLayer()->Get;
+	ShLayer *currentLayer = this->layerTable->GetCurrentLayer();
+	
 	
 	int width = rect.width();
 
@@ -238,7 +230,7 @@ void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 	QPixmap pix;
 
 
-	if (data.isTurnOn == true)
+	if (currentLayer->IsTurnOn() == true)
 		pix.load(ShDirectoryManager::GetImageUiPath() + "\\LayerTurnOn.png");
 	else
 		pix.load(ShDirectoryManager::GetImageUiPath() + "\\LayerTurnOff.png");
@@ -253,12 +245,15 @@ void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 
 	//Draw Color 
 	drawRect = rect.adjusted(22, 2, 32 - width, -3);
-	painter.fillRect(drawRect, QColor(data.propertyData.color.r,
-		data.propertyData.color.g, data.propertyData.color.b));
+
+	ShColor color = currentLayer->GetPropertyData().GetColor();
+
+	painter.fillRect(drawRect, QColor(color.GetRed(), color.GetGreen(), color.GetBlue()));
+		
 
 
 	drawRect = rect.adjusted(40, 0, 0, 0);
-	painter.drawText(drawRect, data.name);
+	painter.drawText(drawRect, currentLayer->GetName());
 }
 
 void ShLayerComboBox::SetLayerTable(ShLayerTable *layerTable) {

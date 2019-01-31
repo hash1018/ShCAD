@@ -248,14 +248,14 @@ void ShPropertyColumn::Update(ShActivatedWidgetChangedEvent *event) {
 	ShGraphicView *newWidget = event->GetNewWidget();
 
 	/////////////////////////////////////////////////////////////////////////
-	this->colorCombo->SetBlockColor(newWidget->GetData()->GetBlockData()->color);
-	this->colorCombo->SetLayerColor(newWidget->GetData()->GetLayerData()->color);
+	this->colorCombo->SetBlockColor(newWidget->GetData()->GetBlockData()->GetColor());
+	this->colorCombo->SetLayerColor(newWidget->GetData()->GetLayerData()->GetColor());
 
-	ShColor color = newWidget->GetData()->GetPropertyData()->color;
+	ShColor color = newWidget->GetData()->GetPropertyData()->GetColor();
 
-	if (color.type == ShColor::Type::ByBlock)
+	if (color.GetType() == ShColor::Type::ByBlock)
 		this->colorCombo->Synchronize(0);
-	else if (color.type == ShColor::Type::ByLayer)
+	else if (color.GetType() == ShColor::Type::ByLayer)
 		this->colorCombo->Synchronize(1);
 	else {
 		ShColorComboList *list = ShColorComboList::GetInstance();
@@ -265,14 +265,14 @@ void ShPropertyColumn::Update(ShActivatedWidgetChangedEvent *event) {
 	}
 	//////////////////////////////////////////////////////////////////////////
 
-	this->lineStyleCombo->SetBlockLineStyle(newWidget->GetData()->GetBlockData()->lineStyle);
-	this->lineStyleCombo->SetLayerLineStyle(newWidget->GetData()->GetLayerData()->lineStyle);
+	this->lineStyleCombo->SetBlockLineStyle(newWidget->GetData()->GetBlockData()->GetLineStyle());
+	this->lineStyleCombo->SetLayerLineStyle(newWidget->GetData()->GetLayerData()->GetLineStyle());
 
-	ShLineStyle lineStyle = newWidget->GetData()->GetPropertyData()->lineStyle;
+	ShLineStyle lineStyle = newWidget->GetData()->GetPropertyData()->GetLineStyle();
 
-	if (lineStyle.type == ShLineStyle::Type::ByBlock)
+	if (lineStyle.GetType() == ShLineStyle::Type::ByBlock)
 		this->lineStyleCombo->Synchronize(0);
-	else if (lineStyle.type == ShLineStyle::Type::ByLayer)
+	else if (lineStyle.GetType() == ShLineStyle::Type::ByLayer)
 		this->lineStyleCombo->Synchronize(1);
 	else {
 		ShLineStyleComboList *list = ShLineStyleComboList::GetInstance();
@@ -285,13 +285,13 @@ void ShPropertyColumn::Update(ShActivatedWidgetChangedEvent *event) {
 
 void ShPropertyColumn::Update(ShCurrentLayerChangedEvent *event) {
 
-	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().propertyData.color);
+	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().GetPropertyData().GetColor());
 	int index = this->colorCombo->GetColorComboIndex();
 	this->colorCombo->Synchronize(index);
 
 
 
-	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().propertyData.lineStyle);
+	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().GetPropertyData().GetLineStyle());
 	index = this->lineStyleCombo->GetLineStyleComboIndex();
 	this->lineStyleCombo->Synchronize(index);
 
@@ -299,13 +299,13 @@ void ShPropertyColumn::Update(ShCurrentLayerChangedEvent *event) {
 
 void ShPropertyColumn::Update(ShLayerDataChangedEvent *event) {
 	
-	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().propertyData.color);
+	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().GetPropertyData().GetColor());
 	int index = this->colorCombo->GetColorComboIndex();
 	this->colorCombo->Synchronize(index);
 
 
 
-	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().propertyData.lineStyle);
+	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().GetPropertyData().GetLineStyle());
 	index = this->lineStyleCombo->GetLineStyleComboIndex();
 	this->lineStyleCombo->Synchronize(index);
 
@@ -402,7 +402,7 @@ void ShLayerColumn::CurrentLayerChanged(ShLayer *previousLayer, ShLayer *current
 void ShLayerColumn::LayerTurnChanged(ShLayer *layer,bool previous) {
 
 	ShLayerMemento *memento = layer->CreateMemento();
-	memento->data->isTurnOn = previous;
+	memento->data->SetTurn(previous);
 
 	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
 	this->Notify(&event);
@@ -411,7 +411,10 @@ void ShLayerColumn::LayerTurnChanged(ShLayer *layer,bool previous) {
 void ShLayerColumn::LayerColorChanged(ShLayer *layer,const ShColor& previous) {
 	
 	ShLayerMemento *memento = layer->CreateMemento();
-	memento->data->propertyData.color = previous;
+	ShPropertyData data = memento->data->GetPropertyData();
+	data.SetColor(previous);
+
+	memento->data->SetPropertyData(data);
 
 	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::Color);
 	this->Notify(&event);

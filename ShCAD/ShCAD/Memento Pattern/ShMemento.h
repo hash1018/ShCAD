@@ -39,6 +39,7 @@ public:
 	
 };
 
+class ShPropertyData;
 class ShEntityMemento : public ShMemento {
 
 	friend class ShAddEntityCommand;
@@ -52,6 +53,7 @@ protected:
 
 protected:
 	ShEntity *entity;
+	ShPropertyData *propertyData;
 
 	// if true  deallocate in the destructor.
 	bool mustDeallocateEntity;
@@ -130,7 +132,7 @@ private:
 private:
 	ShLayerData *data;
 	ShLayer *layer; // point to the layer instance which calls this constructor. 
-	bool museDeallocateLayer; // if true  deallocate in the destructor.
+	bool mustDeallocateLayer; // if true  deallocate in the destructor.
 };
 
 

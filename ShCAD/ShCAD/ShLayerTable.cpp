@@ -5,8 +5,8 @@
 ShLayerTable::ShLayerTable() {
 
 	ShPropertyData propertyData;
-	propertyData.color.type = ShColor::Type::ByLayer;
-	propertyData.lineStyle.type = ShLineStyle::Type::ByLayer;
+	propertyData.SetColor(ShColor(255, 255, 255, ShColor::Type::ByLayer));
+	propertyData.SetLineStyle(ShLineStyle(0xFFFF, ShLineStyle::Type::ByLayer));
 
 	
 	ShLayer *layer = new ShLayer(ShLayerData("0", propertyData));
@@ -14,11 +14,11 @@ ShLayerTable::ShLayerTable() {
 
 	this->currentLayer = layer;
 
-	propertyData.color.r = 1;
+	propertyData.SetColor(ShColor(134,234,222,ShColor::Type::ByLayer));
 	ShLayer *layer2 = new ShLayer(ShLayerData("1234", propertyData));
 	this->list.append(layer2);
 
-	propertyData.color.b = 123;
+	propertyData.SetColor(ShColor(222, 12, 123, ShColor::Type::ByLayer));
 	ShLayer *layer3 = new ShLayer(ShLayerData("kkkkkk", propertyData));
 	this->list.append(layer3);
 }
@@ -60,4 +60,24 @@ void ShLayerTable::SetCurrentLayer(ShLayer* layer) {
 int ShLayerTable::GetCurrentLayerIndex() {
 
 	return this->list.indexOf(this->currentLayer, 0);
+}
+
+void ShLayerTable::UpdateTurnOnLayerList() {
+
+	while (!this->turnOnList.isEmpty())
+		this->turnOnList.removeFirst();
+
+	for (int i = 0; i < this->list.size(); i++) {
+
+		ShLayer *layer = this->list.at(i);
+
+		if (layer->IsTurnOn() == true) {
+
+			QLinkedList<ShEntity*>::iterator itr;
+
+			for (itr = layer->Begin(); itr != layer->End(); ++itr)
+				this->turnOnList.append((*itr));
+
+		}
+	}
 }

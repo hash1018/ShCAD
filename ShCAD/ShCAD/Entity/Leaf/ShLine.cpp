@@ -7,14 +7,14 @@ ShLineData::ShLineData() {
 
 }
 
-ShLineData::ShLineData(const ShPropertyData &propertyData, const ShPoint3d &start, const ShPoint3d &end)
-	:ShEntityData(propertyData), start(start), end(end) {
+ShLineData::ShLineData(const ShPoint3d &start, const ShPoint3d &end)
+	:start(start), end(end) {
 
 
 }
 
 ShLineData::ShLineData(const ShLineData &data)
-	: ShEntityData(data.propertyData), start(data.start), end(data.end) {
+	: start(data.start), end(data.end) {
 
 
 }
@@ -30,7 +30,7 @@ bool ShLineData::operator==(const ShLineData& data) {
 
 ShLineData& ShLineData::operator=(const ShLineData& data) {
 
-	this->propertyData = data.propertyData;
+
 	this->start = data.start;
 	this->end = data.end;
 
@@ -43,14 +43,19 @@ ShLine::ShLine() {
 
 }
 
-ShLine::ShLine(const ShLineData &data)
+ShLine::ShLine(const ShLineData& data)
 	:data(data) {
+
+}
+
+ShLine::ShLine(const ShPropertyData& propertyData, const ShLineData &data, ShLayer *layer)
+	: ShLeaf(propertyData, layer), data(data) {
 
 
 }
 
 ShLine::ShLine(const ShLine& other)
-	: data(other.data) {
+	: ShLeaf(other), data(other.data) {
 
 
 }
@@ -93,6 +98,7 @@ ShLineMemento* ShLine::CreateMemento() {
 
 	memento->entity = this;
 	memento->data = new ShLineData(this->data);
+	memento->propertyData = new ShPropertyData(this->propertyData);
 
 	return memento;
 }
@@ -100,4 +106,5 @@ ShLineMemento* ShLine::CreateMemento() {
 void ShLine::SetMemento(const ShLineMemento* memento) {
 
 	this->data = *(memento->data);
+	this->propertyData = (*memento->propertyData);
 }

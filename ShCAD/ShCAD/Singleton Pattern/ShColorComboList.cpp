@@ -31,7 +31,7 @@ QPixmap ShColorComboList::GetColorImage(const ShColor& color, int width, int hei
 	QPixmap pix(width, height);
 	QPainter painter(&pix);
 
-	painter.fillRect(0, 0, width, height, QColor(color.r, color.g, color.b));
+	painter.fillRect(0, 0, width, height, QColor(color.GetRed(), color.GetGreen(), color.GetBlue()));
 
 	return pix;
 
@@ -45,7 +45,7 @@ QPixmap ShColorComboList::GetColorImage(int width, int height, int index) {
 
 	ShColor color = this->list.at(index);
 
-	painter.fillRect(0, 0, width, height, QColor(color.r, color.g, color.b));
+	painter.fillRect(0, 0, width, height, QColor(color.GetRed(), color.GetGreen(), color.GetBlue()));
 
 	return pix;
 }
@@ -56,20 +56,21 @@ QString ShColorComboList::GetColorText(int index) {
 	ShColor color = this->list.at(index);
 	QString text;
 
-	if (color.r == 255 && color.g == 0 && color.b == 0)
+	if (color.GetRed() == 255 && color.GetGreen() == 0 && color.GetBlue() == 0)
 		text = "Red";
-	else if (color.r == 255 && color.g == 255 && color.b == 0)
+	else if (color.GetRed() == 255 && color.GetGreen() == 255 && color.GetBlue() == 0)
 		text = "Yellow";
-	else if (color.r == 0 && color.g == 255 && color.b == 0)
+	else if (color.GetRed() == 0 && color.GetGreen() == 255 && color.GetBlue() == 0)
 		text = "Green";
-	else if (color.r == 0 && color.g == 255 && color.b == 255)
+	else if (color.GetRed() == 0 && color.GetGreen() == 255 && color.GetBlue() == 255)
 		text = "Sky";
-	else if (color.r == 0 && color.g == 0 && color.b == 255)
+	else if (color.GetRed() == 0 && color.GetGreen() == 0 && color.GetBlue() == 255)
 		text = "Blue";
-	else if (color.r == 255 && color.g == 255 && color.b == 255)
+	else if (color.GetRed() == 255 && color.GetGreen() == 255 && color.GetBlue() == 255)
 		text = "White";
 	else
-		text = QString::number(color.r) + "." + QString::number(color.g) + "." + QString::number(color.b);
+		text = QString::number(color.GetRed()) + "." + QString::number(color.GetGreen()) +
+		"." + QString::number(color.GetBlue());
 
 	return text;
 }

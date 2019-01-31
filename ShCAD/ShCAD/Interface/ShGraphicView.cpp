@@ -108,13 +108,12 @@ void ShGraphicView::paintGL() {
 
 		this->axis.Draw(&paint, this);
 
-		ShComposite::Iterator itr = this->entityTable.Begin();
+		
+		QLinkedList<ShEntity*>::iterator itr;
 
-		while (!itr.IsEnd()) {
+		for (itr = this->entityTable.TurnOnLayerBegin(); itr != this->entityTable.TurnOnLayerEnd(); ++itr)
+			(*itr)->Accept(&drawer);
 
-			itr.Current()->Accept(&drawer);
-			itr.Next();
-		}
 	}
 
 	if ((this->drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage) {
@@ -151,12 +150,11 @@ void ShGraphicView::paintGL() {
 
 		ShDrawer drawer(this, DrawType::DrawAddedEntities);
 
-		ShComposite::Iterator itr = this->entityTable.GetJustAddedEntitiesBegin();
+		QLinkedList<ShEntity*>::iterator itr;
+		
+		for (itr = this->entityTable.JustAddedEntitiesBegin(); itr != this->entityTable.JustAddedEntitiesEnd(); ++itr)
+			(*itr)->Accept(&drawer);
 
-		while (!itr.IsEnd()) {
-			itr.Current()->Accept(&drawer);
-			itr.Next();
-		}
 	}
 
 
@@ -186,6 +184,17 @@ void ShGraphicView::paintGL() {
 		}
 	}
 
+	if ((this->drawType & DrawType::DrawJustTurnOnLayer) == DrawType::DrawJustTurnOnLayer) {
+		qDebug("DrawJustTurnOnLayer");
+
+		ShDrawer drawer(this, DrawType::DrawJustTurnOnLayer);
+
+		QLinkedList<ShEntity*>::iterator itr;
+
+		for (itr = this->entityTable.GetLayerTable()->GetJustTurnOnLayer()->Begin(); itr != this->entityTable.GetLayerTable()->GetJustTurnOnLayer()->End(); ++itr) 
+			(*itr)->Accept(&drawer);
+			
+	}
 
 
 	if ((this->drawType & DrawType::DrawActionHandler) == DrawType::DrawActionHandler) {
@@ -340,7 +349,8 @@ void ShGraphicView::focusInEvent(QFocusEvent *event) {
 	if (manager->GetActivatedWidget() == this)
 		return;
 
-	
+	qDebug("focusInEvent");
+	qDebug("%d", this->data.layerData.GetLineStyle().GetPattern());
 	ShActivatedWidgetChangedEvent event2(this, manager->GetActivatedWidget());
 	this->Notify(&event2);
 

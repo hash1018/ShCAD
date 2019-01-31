@@ -28,13 +28,13 @@ ShLineStyleComboList* ShLineStyleComboList::GetInstance() {
 
 QString ShLineStyleComboList::GetLineStyleText(const ShLineStyle& lineStyle) {
 
-	return this->GetLineStyleShape(lineStyle.pattern);
+	return this->GetLineStyleShape(lineStyle.GetPattern());
 }
 
 QString ShLineStyleComboList::GetLineStyleText(int index) {
 
 	ShLineStyle lineStyle = this->list.at(index);
-	unsigned short pattern = lineStyle.pattern;
+	unsigned short pattern = lineStyle.GetPattern();
 	QString shape = this->GetLineStyleShape(pattern);
 
 	if (pattern == 0xFFFF)
@@ -72,7 +72,7 @@ int ShLineStyleComboList::Search(unsigned short pattern) {
 
 	for (int i = 0; i < this->list.size(); i++) {
 	
-		if (this->list.at(i).pattern == pattern)
+		if (this->list.at(i).GetPattern() == pattern)
 			return i;
 	}
 

@@ -72,24 +72,25 @@ void ShGraphicViewUpdateHandler::Update(ShKeyPressedEvent *event) {
 
 void ShGraphicViewUpdateHandler::Update(ShPropertyColorComboSelChangedEvent *event) {
 	
-	this->view->GetData()->propertyData.color = event->GetColor();
+	this->view->GetData()->GetPropertyData()->SetColor(event->GetColor());
 }
 
 void ShGraphicViewUpdateHandler::Update(ShPropertyLineStyleComboSelChangedEvent *event) {
 	
-	this->view->GetData()->propertyData.lineStyle = event->GetLineStyle();
+	this->view->GetData()->GetPropertyData()->SetLineStyle(event->GetLineStyle());
 }
 
 #include "Command Pattern\ShChangeCurrentLayerCommand.h"
 void ShGraphicViewUpdateHandler::Update(ShCurrentLayerChangedEvent *event) {
 
-	this->view->GetData()->layerData = this->view->entityTable.GetLayerTable()->GetCurrentLayer()->GetData().propertyData;
+	this->view->GetData()->SetLayerData(this->view->entityTable.GetLayerTable()->GetCurrentLayer()->GetData().GetPropertyData());
 
-	if (this->view->GetData()->propertyData.color.type == ShColor::Type::ByLayer) {
-		this->view->GetData()->propertyData.color = this->view->GetData()->layerData.color;
+	if (this->view->GetData()->GetPropertyData()->GetColor().GetType() == ShColor::Type::ByLayer) {
+
+		this->view->GetData()->GetPropertyData()->SetColor(this->view->GetData()->GetLayerData()->GetColor());
 	}
-	if (this->view->GetData()->propertyData.lineStyle.type == ShLineStyle::ByLayer) {
-		this->view->GetData()->propertyData.lineStyle = this->view->GetData()->layerData.lineStyle;
+	if (this->view->GetData()->GetPropertyData()->GetLineStyle().GetType() == ShLineStyle::ByLayer) {
+		this->view->GetData()->GetPropertyData()->SetLineStyle(this->view->GetData()->GetLayerData()->GetLineStyle());
 	}
 
 	if (event->GetPreviousLayer() == event->GetCurrentLayer())
@@ -113,13 +114,13 @@ void ShGraphicViewUpdateHandler::Update(ShLayerDataChangedEvent *event) {
 
 	//currentLayer info changed...
 	if (event->GetChangedLayer() == this->view->entityTable.GetLayerTable()->GetCurrentLayer()) {
-		this->view->GetData()->layerData = event->GetChangedLayer()->GetData().propertyData;
+		this->view->GetData()->SetLayerData(event->GetChangedLayer()->GetData().GetPropertyData());
 
-		if (this->view->GetData()->propertyData.color.type == ShColor::Type::ByLayer) {
-			this->view->GetData()->propertyData.color = this->view->GetData()->layerData.color;
+		if (this->view->GetData()->GetPropertyData()->GetColor().GetType() == ShColor::Type::ByLayer) {
+			this->view->GetData()->GetPropertyData()->SetColor(this->view->GetData()->GetLayerData()->GetColor());
 		}
-		if (this->view->GetData()->propertyData.lineStyle.type == ShLineStyle::ByLayer) {
-			this->view->GetData()->propertyData.lineStyle = this->view->GetData()->layerData.lineStyle;
+		if (this->view->GetData()->GetPropertyData()->GetLineStyle().GetType() == ShLineStyle::ByLayer) {
+			this->view->GetData()->GetPropertyData()->SetLineStyle(this->view->GetData()->GetLayerData()->GetLineStyle());
 		}
 	}
 	
@@ -127,13 +128,41 @@ void ShGraphicViewUpdateHandler::Update(ShLayerDataChangedEvent *event) {
 	
 
 	ShChangeLayerDataCommand *command = new ShChangeLayerDataCommand(this->view,
-		event->GetChangedLayer(), event->GetPreviousMemento());
+		event->GetChangedLayer(), event->GetPreviousMemento(), (ShChangeLayerDataCommand::ChangedType)event->GetChangedType());
 
 	this->view->undoTaker.Push(command);
 
 	if (!this->view->redoTaker.IsEmpty())
 		this->view->redoTaker.DeleteAll();
 
+
+	if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::Color) {
+		this->view->update(DrawType::DrawAll);
+		this->view->CaptureImage();
+
+	}
+	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::LineStyle) {
+		this->view->update(DrawType::DrawAll);
+		this->view->CaptureImage();
+	}
+
+	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::TurnOnOff) {
+
+		this->view->entityTable.GetLayerTable()->UpdateTurnOnLayerList();
+
+		if (event->GetChangedLayer()->GetData().IsTurnOn() == true) {
+			qDebug("Handler ->  %d", event->GetChangedLayer()->GetSize());
+			this->view->entityTable.GetLayerTable()->SetJustTurnOnLayer(event->GetChangedLayer());
+			this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer));
+		}
+		else {
+		
+			this->view->update(DrawType::DrawAll);
+		}
+
+		
+		this->view->CaptureImage();
+	}
 }
 
 #include "Command Pattern\ShCreateLayerCommand.h"
@@ -154,6 +183,8 @@ void ShGraphicViewUpdateHandler::Update(ShLayerDeletedEvent *event) {
 
 	ShDeleteLayerCommand *command = new ShDeleteLayerCommand(this->view,
 		event->GetDeletedLayer()->CreateMemento());
+
+
 
 	this->view->undoTaker.Push(command);
 

@@ -29,15 +29,16 @@ void ShDrawer::Visit(ShLine *shLine) {
 	}
 
 	ShLineData data=shLine->GetData();
-
+	ShPropertyData propertyData = shLine->GetPropertyData();
 	GLPoint start, end;
 
 	this->ConvertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
 	this->ConvertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 	
-	GLColor color(data.propertyData.color.r/255., data.propertyData.color.g/255., data.propertyData.color.b/255.);
+	GLColor color(propertyData.GetColor().GetRed() / 255., propertyData.GetColor().GetGreen() / 255., 
+		propertyData.GetColor().GetBlue() / 255.);
 
-	glLineStipple(1, data.propertyData.lineStyle.pattern);
+	glLineStipple(1, propertyData.GetLineStyle().GetPattern());
 	glEnable(GL_LINE_STIPPLE);
 	this->DrawLine(start, end, color);
 	glDisable(GL_LINE_STIPPLE);
@@ -160,18 +161,19 @@ ShJustUnSelectedEntitiesDrawer::~ShJustUnSelectedEntitiesDrawer() {
 void ShJustUnSelectedEntitiesDrawer::Visit(ShLine *shLine) {
 
 	ShLineData data = shLine->GetData();
-
+	ShPropertyData propertyData = shLine->GetPropertyData();
 	GLPoint start, end;
 
 	this->ConvertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
 	this->ConvertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
-	GLColor color(data.propertyData.color.r / 255., data.propertyData.color.g / 255., data.propertyData.color.b / 255.);
+	GLColor color(propertyData.GetColor().GetRed() / 255., propertyData.GetColor().GetGreen() / 255.,
+		propertyData.GetColor().GetBlue() / 255.);
 
 
 	this->DrawLine(start, end, GLColor(0, 0, 0)); //earse background.
 
-	glLineStipple(1, data.propertyData.lineStyle.pattern);
+	glLineStipple(1, propertyData.GetLineStyle().GetPattern());
 	glEnable(GL_LINE_STIPPLE);
 	this->DrawLine(start, end, color);
 	glDisable(GL_LINE_STIPPLE);

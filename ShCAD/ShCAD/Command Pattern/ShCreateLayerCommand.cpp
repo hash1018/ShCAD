@@ -19,7 +19,7 @@ void ShCreateLayerCommand::Execute() {
 	ShLayerMemento *memento = dynamic_cast<ShLayerMemento*>(this->memento);
 
 	this->view->entityTable.GetLayerTable()->Add(memento->layer);
-	memento->museDeallocateLayer = false;
+	memento->mustDeallocateLayer = false;
 
 	ShLayerCreatedEvent event(memento->layer);
 
@@ -33,7 +33,7 @@ void ShCreateLayerCommand::UnExecute() {
 	ShLayerMemento *memento = dynamic_cast<ShLayerMemento*>(this->memento);
 
 	this->view->entityTable.GetLayerTable()->Remove(memento->layer);
-	memento->museDeallocateLayer = true;
+	memento->mustDeallocateLayer = true;
 
 	ShLayerDeletedEvent event(memento->layer);
 	

@@ -19,13 +19,13 @@ void ShChangeCurrentLayerCommand::Execute() {
 
 	this->view->entityTable.GetLayerTable()->SetCurrentLayer(this->currentLayer);
 
-	*(this->view->GetData()->GetLayerData()) = this->currentLayer->GetData().propertyData;
+	*(this->view->GetData()->GetLayerData()) = this->currentLayer->GetData().GetPropertyData();
 
-	if (this->view->GetData()->GetPropertyData()->color.type == ShColor::Type::ByLayer) {
-		this->view->GetData()->GetPropertyData()->color = this->view->GetData()->GetLayerData()->color;
+	if (this->view->GetData()->GetPropertyData()->GetColor().GetType() == ShColor::Type::ByLayer) {
+		this->view->GetData()->GetPropertyData()->SetColor(this->view->GetData()->GetLayerData()->GetColor());
 	}
-	if (this->view->GetData()->GetPropertyData()->lineStyle.type == ShLineStyle::ByLayer) {
-		this->view->GetData()->GetPropertyData()->lineStyle = this->view->GetData()->GetLayerData()->lineStyle;
+	if (this->view->GetData()->GetPropertyData()->GetLineStyle().GetType() == ShLineStyle::ByLayer) {
+		this->view->GetData()->GetPropertyData()->SetLineStyle(this->view->GetData()->GetLayerData()->GetLineStyle());
 	}
 
 	ShCurrentLayerChangedEvent event(this->previousLayer, this->currentLayer);
@@ -42,13 +42,13 @@ void ShChangeCurrentLayerCommand::UnExecute() {
 	this->view->entityTable.GetLayerTable()->SetCurrentLayer(this->previousLayer);
 
 
-	*(this->view->GetData()->GetLayerData()) = this->previousLayer->GetData().propertyData;
+	*(this->view->GetData()->GetLayerData()) = this->previousLayer->GetData().GetPropertyData();
 
-	if (this->view->GetData()->GetPropertyData()->color.type == ShColor::Type::ByLayer) {
-		this->view->GetData()->GetPropertyData()->color = this->view->GetData()->GetLayerData()->color;
+	if (this->view->GetData()->GetPropertyData()->GetColor().GetType() == ShColor::Type::ByLayer) {
+		this->view->GetData()->GetPropertyData()->SetColor(this->view->GetData()->GetLayerData()->GetColor());
 	}
-	if (this->view->GetData()->GetPropertyData()->lineStyle.type == ShLineStyle::ByLayer) {
-		this->view->GetData()->GetPropertyData()->lineStyle = this->view->GetData()->GetLayerData()->lineStyle;
+	if (this->view->GetData()->GetPropertyData()->GetLineStyle().GetType() == ShLineStyle::ByLayer) {
+		this->view->GetData()->GetPropertyData()->SetLineStyle(this->view->GetData()->GetLayerData()->GetLineStyle());
 	}
 
 	ShCurrentLayerChangedEvent event(this->currentLayer, this->previousLayer);

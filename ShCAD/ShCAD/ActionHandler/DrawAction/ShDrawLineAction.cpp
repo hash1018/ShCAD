@@ -46,13 +46,15 @@ void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 		this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), this->start.x, this->start.y);
 		this->status = PickedStart;
 
-		this->graphicView->preview.Add(new ShLine(ShLineData(*this->graphicView->GetData()->GetPropertyData(), this->start, this->start)));
+		this->graphicView->preview.Add(new ShLine(ShPropertyData(*this->graphicView->GetData()->GetPropertyData()),
+			ShLineData(this->start, this->start), this->graphicView->entityTable.GetLayerTable()->GetCurrentLayer()));
+
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 		
 	}
 	else {
 		this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), this->end.x, this->end.y);
-		ShLineData data(*this->graphicView->GetData()->GetPropertyData(), start, end);
+		ShLineData data(start, end);
 		
 		dynamic_cast<ShLine*>(this->graphicView->preview.Begin().Current())->SetData(data);
 
@@ -69,7 +71,7 @@ void ShDrawLineAction::MouseMoveEvent(QMouseEvent *event) {
 	if (this->status == PickedStart) {
 		this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), this->end.x, this->end.y);
 
-		ShLineData data(*this->graphicView->GetData()->GetPropertyData(), this->start, this->end);
+		ShLineData data(this->start, this->end);
 
 		dynamic_cast<ShLine*>(this->graphicView->preview.Begin().Current())->SetData(data);
 

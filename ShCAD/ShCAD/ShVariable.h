@@ -46,6 +46,7 @@ enum DrawType {
 	DrawActionHandler = 0x00000008,
 	DrawSelectedEntities = 0x00000010,
 	DrawJustUnSelectedEntities = 0x00000020,
+	DrawJustTurnOnLayer=0x00000040,
 	DrawAll = 0x0001000
 
 };

@@ -45,7 +45,7 @@ class ShNotifyEvent;
 
 class ShGraphicViewData {
 	friend class ShGraphicView;
-	friend class ShGraphicViewUpdateHandler;
+	
 private:
 	double x;
 	double y;
@@ -58,10 +58,7 @@ private:
 	QString edit;
 	QString list;
 
-	//ShColor blockColor;
-	//ShColor layerColor;
-	//ShLineStyle blockLineStyle;
-	//ShLineStyle layerLineStyle;
+	
 	ShPropertyData layerData;
 	ShPropertyData blockData;
 
@@ -70,14 +67,14 @@ private:
 public:
 	ShGraphicViewData() :x(0), y(0), z(0), zoomRate(1), hPos(0), vPos(0), 
 		headTitle(":: "), edit(""), list("") {
-		propertyData.color.type = ShColor::Type::ByBlock;
-		propertyData.lineStyle.type = ShLineStyle::Type::ByBlock;
+		propertyData.SetColor(ShColor(255, 255, 255, ShColor::Type::ByBlock));
+		propertyData.SetLineStyle(ShLineStyle(0xFFFF, ShLineStyle::Type::ByBlock));
 		
-		blockData.color.type = ShColor::ByBlock;
-		blockData.lineStyle.type = ShLineStyle::ByBlock;
+		blockData.SetColor(ShColor(255, 255, 255, ShColor::ByBlock));
+		blockData.SetLineStyle(ShLineStyle(0xFFFF, ShLineStyle::ByBlock));
 		
-		layerData.color.type = ShColor::ByLayer;
-		layerData.lineStyle.type = ShLineStyle::ByLayer;
+		layerData.SetColor(ShColor(255, 255, 255, ShColor::ByLayer));
+		layerData.SetLineStyle(ShLineStyle(0xFFFF, ShLineStyle::ByLayer));
 	}
 
 	~ShGraphicViewData() {}
@@ -91,8 +88,11 @@ public:
 
 	inline ShPropertyData* GetLayerData() { return &(this->layerData); }
 	inline ShPropertyData* GetBlockData() { return &(this->blockData); }
-
 	inline ShPropertyData* GetPropertyData() { return &(this->propertyData); }
+	void SetLayerData(const ShPropertyData& layerData) { this->layerData = layerData; }
+	void SetBlockData(const ShPropertyData& blockData) { this->blockData = blockData; }
+	void SetPropertyData(const ShPropertyData& propertyData) { this->propertyData = propertyData; }
+
 };
 
 

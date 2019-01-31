@@ -7,7 +7,7 @@
 #include "ShLeaf.h"
 #include "ShPoint.h"
 
-class ShLineData : public ShEntityData {
+class ShLineData {
 
 public:
 	ShPoint3d start;
@@ -15,7 +15,7 @@ public:
 
 public:
 	ShLineData();
-	ShLineData(const ShPropertyData &propertyData, const ShPoint3d& start, const ShPoint3d& end);
+	ShLineData(const ShPoint3d& start, const ShPoint3d& end);
 	ShLineData(const ShLineData& data);
 	bool operator==(const ShLineData& data);
 	ShLineData& operator=(const ShLineData &data);
@@ -33,6 +33,7 @@ protected:
 public:
 	ShLine();
 	ShLine(const ShLineData &data);
+	ShLine(const ShPropertyData& propertyData, const ShLineData &data, ShLayer *layer);
 	ShLine(const ShLine& other);
 	ShLine& operator=(const ShLine& other);
 	~ShLine();

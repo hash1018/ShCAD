@@ -7,7 +7,7 @@
 ShDeleteLayerCommand::ShDeleteLayerCommand(ShGraphicView *view, ShLayerMemento *memento)
 	:ShCommand(memento, "Delete Layer"), view(view) {
 
-
+	memento->mustDeallocateLayer = true;
 }
 
 ShDeleteLayerCommand::~ShDeleteLayerCommand() {
@@ -19,7 +19,7 @@ void ShDeleteLayerCommand::Execute() {
 	ShLayerMemento *memento = dynamic_cast<ShLayerMemento*>(this->memento);
 
 	this->view->entityTable.GetLayerTable()->Remove(memento->layer);
-	memento->museDeallocateLayer = true;
+	memento->mustDeallocateLayer = true;
 
 	ShLayerDeletedEvent event(memento->layer);
 
@@ -33,7 +33,7 @@ void ShDeleteLayerCommand::UnExecute() {
 	ShLayerMemento *memento = dynamic_cast<ShLayerMemento*>(this->memento);
 
 	this->view->entityTable.GetLayerTable()->Add(memento->layer);
-	memento->museDeallocateLayer = false;
+	memento->mustDeallocateLayer = false;
 
 	ShLayerCreatedEvent event(memento->layer);
 

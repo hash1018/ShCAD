@@ -58,7 +58,8 @@ void ShLayerToolBar::CurrentLayerChanged(ShLayer *previousLayer, ShLayer *curren
 void ShLayerToolBar::LayerTurnChanged(ShLayer *layer, bool previous) {
 	
 	ShLayerMemento* memento = layer->CreateMemento();
-	memento->data->isTurnOn = previous;
+	//memento->data->isTurnOn = previous;
+	memento->data->SetTurn(previous);
 	
 	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
 	this->Notify(&event);
@@ -67,7 +68,11 @@ void ShLayerToolBar::LayerTurnChanged(ShLayer *layer, bool previous) {
 void ShLayerToolBar::LayerColorChanged(ShLayer *layer,const ShColor& previous) {
 	
 	ShLayerMemento* memento = layer->CreateMemento();
-	memento->data->propertyData.color = previous;
+	
+	ShPropertyData data = memento->data->GetPropertyData();
+	data.SetColor(previous);
+
+	memento->data->SetPropertyData(data);
 
 	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::Color);
 	this->Notify(&event);

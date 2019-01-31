@@ -9,35 +9,22 @@
 #include "Memento Pattern\ShMemento.h"
 #include "ShPropertyData.h"
 
-class ShEntityData {
-
-public:
-	ShPropertyData propertyData;
-
-public:
-	ShEntityData() {}
-	ShEntityData(const ShPropertyData& propertyData) 
-		:propertyData(propertyData) {}
-
-	~ShEntityData() {}
-
-	ShEntityData(const ShEntityData& other)
-		:propertyData(other.propertyData) {}
-
-	ShEntityData& operator=(const ShEntityData& other) {
-		this->propertyData = other.propertyData; return *this; }
-
-};
 
 class ShEntityMemento;
 class ShVisitor;
+class ShLayer;
 class ShEntity {
 
 protected:
+	ShPropertyData propertyData;
 	bool isSelected;
+	ShLayer *layer;
 
 public:
 	ShEntity();
+	ShEntity(const ShPropertyData &propertyData, ShLayer *layer);
+	ShEntity(const ShPropertyData &propertyData);
+	ShEntity(ShLayer *layer);
 	virtual ~ShEntity() = 0;
 	ShEntity(const ShEntity& other);
 	ShEntity& operator=(const ShEntity& other);
@@ -48,7 +35,14 @@ public:
 	virtual ShEntityMemento* CreateMemento() { return 0; }
 	virtual void SetMemento(const ShEntityMemento* memento) {}
 
-	bool IsSelected() const;
+	
+	void SetLayer(ShLayer *layer) { this->layer = layer; }
+	void SetPropertyData(const ShPropertyData& data) { this->propertyData = data; }
+	
+	
+	inline ShPropertyData GetPropertyData() const { return this->propertyData; }
+	inline ShLayer* GetLayer() const { return this->layer; }
+	inline bool IsSelected() const { return this->isSelected; }
 
 	friend class ShSelectedEntityManager;
 protected:
@@ -56,10 +50,7 @@ protected:
 	void UnSelect();
 };
 
-inline bool ShEntity::IsSelected() const {
 
-	return this->isSelected;
-}
 
 
 

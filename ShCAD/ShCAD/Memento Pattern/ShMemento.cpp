@@ -46,6 +46,9 @@ ShEntityMemento::~ShEntityMemento() {
 	//qDebug("~ShEntityMemento");
 	if (this->entity != 0 && this->mustDeallocateEntity == true)
 		delete this->entity;
+
+	if (this->propertyData != 0)
+		delete this->propertyData;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -89,17 +92,18 @@ ShDeletedEntitiesMemento::~ShDeletedEntitiesMemento() {
 ////////////////////////////////////////////////////////////////////
 
 ShLayerMemento::ShLayerMemento()
-	:layer(0), museDeallocateLayer(false) {
+	:layer(0), mustDeallocateLayer(false) {
 
 }
 
 
 ShLayerMemento::~ShLayerMemento() {
 	
+
 	if (this->data != 0)
 		delete this->data;
-
-	if (this->layer != 0 && this->museDeallocateLayer == true)
+	
+	if (this->layer != 0 && this->mustDeallocateLayer == true)
 		delete this->layer;
-
+	
 }

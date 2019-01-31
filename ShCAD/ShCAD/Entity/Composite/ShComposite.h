@@ -37,7 +37,7 @@ protected:
 	/* only temporary used */
 	QLinkedList<ShEntity*> list;
 
-	QLinkedList<ShEntity*> justAddedEntityList;
+	
 
 public:
 	ShComposite();
@@ -60,9 +60,8 @@ public:
 	ShComposite::Iterator Begin();
 	ShComposite::Iterator End();
 
-	ShComposite::Iterator GetJustAddedEntitiesBegin();
 
-private:
+protected:
 	void RemoveAll(QLinkedList<ShEntity*> &list);
 };
 

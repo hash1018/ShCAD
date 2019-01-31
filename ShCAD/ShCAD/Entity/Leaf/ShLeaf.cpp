@@ -6,11 +6,17 @@ ShLeaf::ShLeaf() {
 
 }
 
+ShLeaf::ShLeaf(const ShPropertyData& propertyData, ShLayer *layer)
+	:ShEntity(propertyData, layer) {
+
+}
+
 ShLeaf::~ShLeaf() {
 
 }
 
-ShLeaf::ShLeaf(const ShLeaf& other) {
+ShLeaf::ShLeaf(const ShLeaf& other)
+	:ShEntity(other) {
 
 }
 
