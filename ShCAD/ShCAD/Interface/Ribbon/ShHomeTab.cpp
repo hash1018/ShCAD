@@ -281,6 +281,17 @@ void ShPropertyColumn::Update(ShActivatedWidgetChangedEvent *event) {
 
 	}
 
+	////////////////////////////////////////////////////////////////////////////
+
+	if (newWidget->GetCurrentActionType() == ActionType::ActionDefault) {
+		this->colorCombo->setDisabled(false);
+		this->lineStyleCombo->setDisabled(false);
+	}
+	else {
+		this->colorCombo->setDisabled(true);
+		this->lineStyleCombo->setDisabled(true);
+	}
+
 }
 
 void ShPropertyColumn::Update(ShCurrentLayerChangedEvent *event) {
@@ -308,6 +319,19 @@ void ShPropertyColumn::Update(ShLayerDataChangedEvent *event) {
 	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().GetPropertyData().GetLineStyle());
 	index = this->lineStyleCombo->GetLineStyleComboIndex();
 	this->lineStyleCombo->Synchronize(index);
+
+}
+
+void ShPropertyColumn::Update(ShCurrentActionChangedEvent *event) {
+
+	if (event->GetActionType() == ActionType::ActionDefault) {
+		this->colorCombo->setDisabled(false);
+		this->lineStyleCombo->setDisabled(false);
+	}
+	else {
+		this->colorCombo->setDisabled(true);
+		this->lineStyleCombo->setDisabled(true);
+	}
 
 }
 
@@ -381,8 +405,24 @@ void ShLayerColumn::resizeEvent(QResizeEvent *event) {
 void ShLayerColumn::Update(ShActivatedWidgetChangedEvent *event) {
 
 	this->layerCombo->SetLayerTable(event->GetNewWidget()->entityTable.GetLayerTable());
-
 	this->layerCombo->Synchronize();
+
+	//////////////////////////////////////////////////////////////////////
+
+	if (event->GetNewWidget()->GetCurrentActionType() == ActionType::ActionDefault)
+		this->layerCombo->setDisabled(false);
+	else
+		this->layerCombo->setDisabled(true);
+
+}
+
+void ShLayerColumn::Update(ShCurrentActionChangedEvent *event) {
+
+	if (event->GetActionType() == ActionType::ActionDefault)
+		this->layerCombo->setDisabled(false);
+	else
+		this->layerCombo->setDisabled(true);
+
 }
 
 void ShLayerColumn::Notify(ShNotifyEvent *event) {

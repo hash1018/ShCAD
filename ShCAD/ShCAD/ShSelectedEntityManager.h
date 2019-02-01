@@ -29,7 +29,7 @@
 #include <qlinkedlist.h>
 
 class ShEntity;
-class ShComposite;
+class ShEntityTable;
 class ShSelectedEntityManager {
 
 private:
@@ -69,7 +69,7 @@ public:
 	//returns false if entity is not already selected.
 	bool Pop(ShEntity *entity);
 	
-	void SelectAll(ShComposite *composite);
+	void SelectAll(ShEntityTable *entityTable);
 	void UnSelectAll();
 
 	int GetSize();

@@ -27,7 +27,7 @@
 #include "ShGraphicView.h"
 #include "FactoryMethod\ShCreatorActionFactory.h"
 #include "ActionHandler\TemporaryAction\ShPanMoveAction.h"
-#include "Entity\Leaf\ShRubberBand.h"
+//#include "Entity\Leaf\ShRubberBand.h"
 #include <QMouseEvent>
 #include "ShMath.h"
 #include "ShNotifyEvent.h"
@@ -93,117 +93,18 @@ void ShGraphicView::update(DrawType drawType) {
 }
 
 
-#include "Visitor Pattern\ShDrawer.h"
+
 #include <qpainter.h>
+#include "Strategy Pattern\ShViewDrawStrategy.h"
 void ShGraphicView::paintGL() {
 
 
-	QPainter paint(this);
+	QPainter painter(this);
+
+	ShViewDrawStrategy strategy(this, &painter, this->drawType);
+	strategy.Draw();
 	
-
-	if ((this->drawType & DrawType::DrawAll) == DrawType::DrawAll) {
-		//qDebug("DrawAll");
-
-		ShDrawer drawer(this, DrawType::DrawAll);
-
-		this->axis.Draw(&paint, this);
-
-		
-		QLinkedList<ShEntity*>::iterator itr;
-
-		for (itr = this->entityTable.TurnOnLayerBegin(); itr != this->entityTable.TurnOnLayerEnd(); ++itr)
-			(*itr)->Accept(&drawer);
-
-	}
-
-	if ((this->drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage) {
-		//qDebug("DrawCaptureImage");
-
-		if (paint.isActive() == false)
-			paint.begin(this);
-
-		paint.drawImage(0, 0, this->captureImage, 0, 0, 0, 0);
-		paint.end();
-
-	}
-
-	if ((this->drawType & DrawType::DrawPreviewEntities) == DrawType::DrawPreviewEntities) {
-		//qDebug("DrwaPreviewEntities");
-
-		ShDrawer drawer(this, DrawType::DrawPreviewEntities);
-
-		if (this->rubberBand != NULL) {
-			this->rubberBand->Accept(&drawer);
-		}
-
-		ShComposite::Iterator itr = this->preview.Begin();
-
-		while (!itr.IsEnd()) {
-			itr.Current()->Accept(&drawer);
-			itr.Next();
-		}
-	}
-
-
-	if ((this->drawType & DrawType::DrawAddedEntities) == DrawType::DrawAddedEntities) {
-		//qDebug("DrawAddedEntities");
-
-		ShDrawer drawer(this, DrawType::DrawAddedEntities);
-
-		QLinkedList<ShEntity*>::iterator itr;
-		
-		for (itr = this->entityTable.JustAddedEntitiesBegin(); itr != this->entityTable.JustAddedEntitiesEnd(); ++itr)
-			(*itr)->Accept(&drawer);
-
-	}
-
-
-	if ((this->drawType & DrawType::DrawSelectedEntities) == DrawType::DrawSelectedEntities) {
-		//qDebug("DrawSelectedEntities");
-
-		ShDrawer drawer(this, DrawType::DrawSelectedEntities);
-
-		ShSelectedEntityManager::Iterator itr = this->selectedEntityManager.GetJustSelectedBegin();
-
-		while (!itr.IsEnd()) {
-			itr.Current()->Accept(&drawer);
-			itr.Next();
-		}
-	}
-
-	if ((this->drawType & DrawType::DrawJustUnSelectedEntities) == DrawType::DrawJustUnSelectedEntities) {
-		//qDebug("DrawJustUnSelectedEntities");
-
-		ShDrawer drawer(this, DrawType::DrawJustUnSelectedEntities);
-
-		ShSelectedEntityManager::Iterator itr = this->selectedEntityManager.GetJustUnSelectedBegin();
-
-		while (!itr.IsEnd()) {
-			itr.Current()->Accept(&drawer);
-			itr.Next();
-		}
-	}
-
-	if ((this->drawType & DrawType::DrawJustTurnOnLayer) == DrawType::DrawJustTurnOnLayer) {
-		qDebug("DrawJustTurnOnLayer");
-
-		ShDrawer drawer(this, DrawType::DrawJustTurnOnLayer);
-
-		QLinkedList<ShEntity*>::iterator itr;
-
-		for (itr = this->entityTable.GetLayerTable()->GetJustTurnOnLayer()->Begin(); itr != this->entityTable.GetLayerTable()->GetJustTurnOnLayer()->End(); ++itr) 
-			(*itr)->Accept(&drawer);
-			
-	}
-
-
-	if ((this->drawType & DrawType::DrawActionHandler) == DrawType::DrawActionHandler) {
-		//qDebug("DrawActionHandler");
-		this->currentAction->Draw(&paint);
-	}
-
-
-
+	
 }
 
 
@@ -330,6 +231,12 @@ ActionType ShGraphicView::ChangeCurrentAction(ActionType actionType) {
 	this->currentAction = ShCreatorActionFactory::Create(actionType, this);
 	this->setCursor(this->currentAction->GetCursorShape());
 
+
+	ShCurrentActionChangedEvent event(this->currentAction->GetType());
+	this->Notify(&event);
+
+
+
 	return this->currentAction->GetType();
 
 
@@ -415,4 +322,12 @@ void ShGraphicView::MoveView(double ex, double ey, double zoomRate, int dx, int 
 void ShGraphicView::SetTemporaryAction(ShTemporaryAction *temporaryAction) {
 	qDebug("ShGraphicView->SetTemporaryAction");
 	this->currentAction = temporaryAction;
+
+	ShCurrentActionChangedEvent event(this->currentAction->GetType());
+	this->Notify(&event);
+}
+
+ActionType ShGraphicView::GetCurrentActionType() {
+
+	return this->currentAction->GetType();
 }

@@ -36,9 +36,30 @@ void ShLayerToolBar::Update(ShActivatedWidgetChangedEvent *event) {
 	
 
 	this->layerCombo->SetLayerTable(event->GetNewWidget()->entityTable.GetLayerTable());
-
 	this->layerCombo->Synchronize();
+
+	////////////////////////////////////////////////////////////
+
+
+	if (event->GetNewWidget()->GetCurrentActionType() == ActionType::ActionDefault)
+		this->layerCombo->setDisabled(false);
+	else
+		this->layerCombo->setDisabled(true);
+
+
+
 }
+
+void ShLayerToolBar::Update(ShCurrentActionChangedEvent *event) {
+
+	if (event->GetActionType() == ActionType::ActionDefault)
+		this->layerCombo->setDisabled(false);
+	else 
+		this->layerCombo->setDisabled(true);
+	
+
+}
+
 
 void ShLayerToolBar::Notify(ShNotifyEvent *event) {
 

@@ -23,7 +23,7 @@ ShLayer::~ShLayer() {
 }
 
 void ShLayer::Add(ShEntity *entity) {
-	qDebug("ShLayer->Add()");
+	
 	this->list.append(entity);
 }
 

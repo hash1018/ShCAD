@@ -6,6 +6,7 @@
 #include <qtoolbar.h>
 class ShLayerComboBox;
 class ShActivatedWidgetChangedEvent;
+class ShCurrentActionChangedEvent;
 class ShNotifyEvent;
 class QPushButton;
 class ShLayer;
@@ -21,6 +22,7 @@ public:
 	~ShLayerToolBar();
 
 	void Update(ShActivatedWidgetChangedEvent *event);
+	void Update(ShCurrentActionChangedEvent *event);
 	void Notify(ShNotifyEvent *event);
 	void SynchronizeLayerCombo();
 

@@ -108,6 +108,15 @@ void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 
 	}
 
+	else if (event->GetType() == ShNotifyEvent::Type::CurrentActionChanged) {
+	
+		this->propertyColumn->Update(dynamic_cast<ShCurrentActionChangedEvent*>(event));
+		this->propertyToolBar->Update(dynamic_cast<ShCurrentActionChangedEvent*>(event));
+		this->layerToolBar->Update(dynamic_cast<ShCurrentActionChangedEvent*>(event));
+		this->layerColumn->Update(dynamic_cast<ShCurrentActionChangedEvent*>(event));
+
+	}
+
 
 
 }

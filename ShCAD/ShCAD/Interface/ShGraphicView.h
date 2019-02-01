@@ -175,7 +175,7 @@ public:
 	inline double GetVPos() const { return this->data.vPos; }
 
 	inline ShGraphicViewData* GetData() { return &this->data; }
-
+	ActionType GetCurrentActionType();
 
 };
 

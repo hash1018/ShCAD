@@ -85,6 +85,15 @@ void ShPropertyToolBar::Update(ShActivatedWidgetChangedEvent *event) {
 
 	////////////////////////////////////////////////////////////////////////////////////
 
+	if (newWidget->GetCurrentActionType() == ActionType::ActionDefault) {
+		this->colorCombo->setDisabled(false);
+		this->lineStyleCombo->setDisabled(false);
+	}
+	else {
+		this->colorCombo->setDisabled(true);
+		this->lineStyleCombo->setDisabled(true);
+	}
+
 }
 
 void ShPropertyToolBar::Update(ShCurrentLayerChangedEvent *event) {
@@ -113,6 +122,19 @@ void ShPropertyToolBar::Update(ShLayerDataChangedEvent *event) {
 	index = this->lineStyleCombo->GetLineStyleComboIndex();
 	this->lineStyleCombo->Synchronize(index);
 
+}
+
+void ShPropertyToolBar::Update(ShCurrentActionChangedEvent *event) {
+
+	if (event->GetActionType() == ActionType::ActionDefault) {
+		this->colorCombo->setDisabled(false);
+		this->lineStyleCombo->setDisabled(false);
+	}
+	else {
+		this->colorCombo->setDisabled(true);
+		this->lineStyleCombo->setDisabled(true);
+	}
+	
 }
 
 void ShPropertyToolBar::Notify(ShNotifyEvent *event) {

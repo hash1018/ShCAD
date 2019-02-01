@@ -55,6 +55,7 @@ class ShColorComboBox;
 class ShActivatedWidgetChangedEvent;
 class ShCurrentLayerChangedEvent;
 class ShLayerDataChangedEvent;
+class ShCurrentActionChangedEvent;
 class ShNotifyEvent;
 class ShColor;
 class ShLineStyleComboBox;
@@ -75,6 +76,7 @@ public:
 	void Update(ShActivatedWidgetChangedEvent *event);
 	void Update(ShCurrentLayerChangedEvent *event);
 	void Update(ShLayerDataChangedEvent *event);
+	void Update(ShCurrentActionChangedEvent *event);
 	void Notify(ShNotifyEvent *event);
 	
 	void SynchronizeColorCombo(int colorComboIndex);
@@ -112,6 +114,7 @@ public:
 	~ShLayerColumn();
 
 	void Update(ShActivatedWidgetChangedEvent *event);
+	void Update(ShCurrentActionChangedEvent *event);
 	void Notify(ShNotifyEvent *event);
 	void SynchronizeLayerCombo();
 

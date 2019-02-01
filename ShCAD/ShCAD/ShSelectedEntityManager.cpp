@@ -25,7 +25,7 @@
 
 #include "ShSelectedEntityManager.h"
 #include "Entity\ShEntity.h"
-#include "Entity\Composite\ShComposite.h"
+#include "Entity\Composite\ShEntityTable.h"
 
 ShSelectedEntityManager::Iterator::Iterator() {
 
@@ -147,28 +147,40 @@ bool ShSelectedEntityManager::Pop(ShEntity *entity) {
 	return true;
 }
 
-void ShSelectedEntityManager::SelectAll(ShComposite *composite) {
+void ShSelectedEntityManager::SelectAll(ShEntityTable *entityTable) {
 
-	//this->justSelectedEntityList.empty();
+	
 	this->RemoveAll(this->justSelectedEntityList);
 
-	ShComposite::Iterator itr = composite->Begin();
+	//ShComposite::Iterator itr = composite->Begin();
 
-	while (!itr.IsEnd()) {
+	//while (!itr.IsEnd()) {
 	
-		if (itr.Current()->IsSelected() == false) {
+	//	if (itr.Current()->IsSelected() == false) {
 			
-			itr.Current()->Select();
-			this->list.append(itr.Current());
+	//		itr.Current()->Select();
+	//		this->list.append(itr.Current());
 
-			this->justSelectedEntityList.append(itr.Current());
+	//		this->justSelectedEntityList.append(itr.Current());
+	//	}
+
+	//	itr.Next();
+	//}
+
+
+	QLinkedList<ShEntity*>::iterator itr;
+
+	for (itr = entityTable->TurnOnLayerBegin(); itr != entityTable->TurnOnLayerEnd(); ++itr) {
+	
+		if ((*itr)->IsSelected() == false) {
+		
+			(*itr)->Select();
+			this->list.append((*itr));
+			this->justSelectedEntityList.append((*itr));
 		}
-
-		itr.Next();
 	}
 
-
-	//this->justUnSelectedEntityList.empty();
+	
 	this->RemoveAll(this->justUnSelectedEntityList);
 }
 

@@ -332,6 +332,12 @@
     <ClCompile Include="Command Pattern\ShDeleteLayerCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp">
+      <Filter>Strategy Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="FactoryMethod\ShCreatorViewDrawFactory.cpp">
+      <Filter>Factory Method</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -524,6 +530,12 @@
     </ClInclude>
     <ClInclude Include="Command Pattern\ShDeleteLayerCommand.h">
       <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Strategy Pattern\ShViewDrawStrategy.h">
+      <Filter>Strategy Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryMethod\ShCreatorViewDrawFactory.h">
+      <Filter>Factory Method</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

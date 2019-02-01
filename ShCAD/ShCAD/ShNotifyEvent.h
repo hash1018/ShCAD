@@ -42,6 +42,7 @@ public:
 		LayerDataChanged = 9,
 		LayerCreated = 10,
 		LayerDeleted = 11,
+		CurrentActionChanged=12,
 	
 	};
 
@@ -241,5 +242,18 @@ private:
 	ShLayer *deletedLayer;
 };
 
+#include "ShVariable.h"
+class ShCurrentActionChangedEvent : public ShNotifyEvent {
 
+public:
+	ShCurrentActionChangedEvent(ActionType type);
+	~ShCurrentActionChangedEvent();
+
+	inline ActionType GetActionType() const { return this->type; }
+
+private:
+	ActionType type;
+
+
+};
 #endif //_SHNOTIFYEVENT_H

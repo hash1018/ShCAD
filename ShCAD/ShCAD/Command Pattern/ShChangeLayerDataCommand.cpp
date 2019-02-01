@@ -49,27 +49,34 @@ void ShChangeLayerDataCommand::Execute() {
 
 	manager->Notfiy(this, &event);
 
+	DrawType type = DrawType::DrawNone;
+
 	if (this->type == ChangedType::Color)
-		this->view->update(DrawType::DrawAll);
-
+		type = (DrawType)(type | DrawType::DrawAll);
 	else if (this->type == ChangedType::LineStyle)
-		this->view->update(DrawType::DrawAll);
-
+		type = (DrawType)(type | DrawType::DrawAll);
 	else if (this->type == ChangedType::TurnOnOff) {
+		
 
 		this->view->entityTable.GetLayerTable()->UpdateTurnOnLayerList();
 
-		if (this->changedLayer->GetData().IsTurnOn() == true) {
+		if (this->view->selectedEntityManager.GetSize() > 0) {
+			this->view->selectedEntityManager.UnSelectAll();
+			type = (DrawType)(type | DrawType::DrawAll);
+		}
+		else if (this->changedLayer->GetData().IsTurnOn() == true) {
+
 			this->view->entityTable.GetLayerTable()->SetJustTurnOnLayer(this->changedLayer);
-			this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer));
+			type = (DrawType)(type | DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer);
 		}
 		else {
 
-			this->view->update(DrawType::DrawAll);
+			type = (DrawType)(type | DrawType::DrawAll);
 		}
-
 	}
 
+
+	this->view->update(type);
 	this->view->CaptureImage();
 
 }
@@ -107,28 +114,33 @@ void ShChangeLayerDataCommand::UnExecute() {
 	manager->Notfiy(this, &event);
 
 
+	DrawType type = DrawType::DrawNone;
+
 	if (this->type == ChangedType::Color)
-		this->view->update(DrawType::DrawAll);
-		
+		type = (DrawType)(type | DrawType::DrawAll);
 	else if (this->type == ChangedType::LineStyle)
-		this->view->update(DrawType::DrawAll);
-		
+		type = (DrawType)(type | DrawType::DrawAll);
 	else if (this->type == ChangedType::TurnOnOff) {
+
 
 		this->view->entityTable.GetLayerTable()->UpdateTurnOnLayerList();
 
-		if (this->changedLayer->GetData().IsTurnOn() == true) {
+		if (this->view->selectedEntityManager.GetSize() > 0) {
+			this->view->selectedEntityManager.UnSelectAll();
+			type = (DrawType)(type | DrawType::DrawAll);
+		}
+		else if (this->changedLayer->GetData().IsTurnOn() == true) {
+
 			this->view->entityTable.GetLayerTable()->SetJustTurnOnLayer(this->changedLayer);
-			this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer));
+			type = (DrawType)(type | DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer);
 		}
 		else {
 
-			this->view->update(DrawType::DrawAll);
+			type = (DrawType)(type | DrawType::DrawAll);
 		}
-
-
-		
 	}
 
+
+	this->view->update(type);
 	this->view->CaptureImage();
 }

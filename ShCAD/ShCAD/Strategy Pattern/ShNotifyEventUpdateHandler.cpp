@@ -136,33 +136,34 @@ void ShGraphicViewUpdateHandler::Update(ShLayerDataChangedEvent *event) {
 		this->view->redoTaker.DeleteAll();
 
 
-	if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::Color) {
-		this->view->update(DrawType::DrawAll);
-		this->view->CaptureImage();
+	DrawType type = DrawType::DrawNone;
 
-	}
-	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::LineStyle) {
-		this->view->update(DrawType::DrawAll);
-		this->view->CaptureImage();
-	}
-
+	if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::Color) 
+		type = (DrawType)(type | DrawType::DrawAll);
+	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::LineStyle)
+		type = (DrawType)(type | DrawType::DrawAll);
 	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::TurnOnOff) {
-
+		
 		this->view->entityTable.GetLayerTable()->UpdateTurnOnLayerList();
 
-		if (event->GetChangedLayer()->GetData().IsTurnOn() == true) {
-			qDebug("Handler ->  %d", event->GetChangedLayer()->GetSize());
+		if (this->view->selectedEntityManager.GetSize() > 0) {
+			this->view->selectedEntityManager.UnSelectAll();
+			type = (DrawType)(type | DrawType::DrawAll);
+		}
+		else if (event->GetChangedLayer()->GetData().IsTurnOn() == true) {
+			
 			this->view->entityTable.GetLayerTable()->SetJustTurnOnLayer(event->GetChangedLayer());
-			this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer));
+			type = (DrawType)(type | DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer);
 		}
 		else {
 		
-			this->view->update(DrawType::DrawAll);
-		}
-
-		
-		this->view->CaptureImage();
+			type = (DrawType)(type | DrawType::DrawAll);
+		}	
 	}
+
+
+	this->view->update(type);
+	this->view->CaptureImage();
 }
 
 #include "Command Pattern\ShCreateLayerCommand.h"
