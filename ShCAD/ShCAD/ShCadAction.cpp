@@ -124,14 +124,16 @@ void ShCadAction::Delete(ShGraphicView *graphicView) {
 
 	int size = graphicView->selectedEntityManager.GetSize();
 
-	ShDeletedEntitiesMemento *memento = new ShDeletedEntitiesMemento;
+	ShCompositeEntityMemento *memento = new ShCompositeEntityMemento;
 
 	graphicView->selectedEntityManager.UnSelectAll();
-	ShSelectedEntityManager::Iterator itr = graphicView->selectedEntityManager.GetJustUnSelectedBegin();
+	QLinkedList<ShEntity*>::iterator itr = graphicView->selectedEntityManager.GetJustUnSelectedBegin();
 
-	while (!itr.IsEnd()) {
-		memento->list.append(itr.Current()->CreateMemento());
-		itr.Next();
+	for (itr = graphicView->selectedEntityManager.GetJustUnSelectedBegin();
+		itr != graphicView->selectedEntityManager.GetJustUnSelectedEnd();
+		++itr) {
+
+		memento->list.append((*itr)->CreateMemento());
 	}
 
 

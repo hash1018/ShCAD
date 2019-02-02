@@ -49,6 +49,7 @@ ShGraphicView::ShGraphicView(QWidget *parent)
 
 	this->axis.SetCenter(ShPoint3d(100, 500));
 
+	this->selectedEntityManager.SetGraphicView(this);
 
 }
 
@@ -256,8 +257,7 @@ void ShGraphicView::focusInEvent(QFocusEvent *event) {
 	if (manager->GetActivatedWidget() == this)
 		return;
 
-	qDebug("focusInEvent");
-	qDebug("%d", this->data.layerData.GetLineStyle().GetPattern());
+	
 	ShActivatedWidgetChangedEvent event2(this, manager->GetActivatedWidget());
 	this->Notify(&event2);
 

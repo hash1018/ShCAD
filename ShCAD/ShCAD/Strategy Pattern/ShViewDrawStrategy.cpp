@@ -170,14 +170,16 @@ void ShDrawSelectedEntities::Draw() {
 
 	ShDrawer drawer(this->view, DrawType::DrawSelectedEntities);
 
-	ShSelectedEntityManager::Iterator itr = this->view->selectedEntityManager.GetJustSelectedBegin();
+	QLinkedList<ShEntity*>::iterator itr;
+	
+	for (itr = this->view->selectedEntityManager.GetJustSelectedBegin();
+		itr != this->view->selectedEntityManager.GetJustSelectedEnd();
+		++itr) {
 
-	while (!itr.IsEnd()) {
-		itr.Current()->Accept(&drawer);
-		itr.Next();
+		(*itr)->Accept(&drawer);
 	}
 
-
+	
 	if (this->strategy != 0)
 		this->strategy->Draw();
 
@@ -203,11 +205,13 @@ void ShDrawJustUnSelectedEntities::Draw() {
 
 	ShDrawer drawer(this->view, DrawType::DrawJustUnSelectedEntities);
 
-	ShSelectedEntityManager::Iterator itr = this->view->selectedEntityManager.GetJustUnSelectedBegin();
+	QLinkedList<ShEntity*>::iterator itr;
 
-	while (!itr.IsEnd()) {
-		itr.Current()->Accept(&drawer);
-		itr.Next();
+	for (itr = this->view->selectedEntityManager.GetJustUnSelectedBegin();
+		itr != this->view->selectedEntityManager.GetJustUnSelectedEnd();
+		++itr) {
+
+		(*itr)->Accept(&drawer);
 	}
 
 	if (this->strategy != 0)

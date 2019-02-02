@@ -40,21 +40,49 @@ ShPropertyToolBar::~ShPropertyToolBar() {
 
 }
 
+void ShPropertyToolBar::SetColorComboInfo(const ShColor& blockColor, const ShColor& layerColor, const ShColor& current) {
+
+	this->colorCombo->SetBlockColor(blockColor);
+	this->colorCombo->SetLayerColor(layerColor);
+
+	if (current.GetType() == ShColor::Type::ByBlock)
+		this->colorCombo->Synchronize(0);
+	else if (current.GetType() == ShColor::Type::ByLayer)
+		this->colorCombo->Synchronize(1);
+	else {
+		ShColorComboList *list = ShColorComboList::GetInstance();
+
+		int index = list->Search(current);
+		this->colorCombo->Synchronize(index + 2);
+	}
+
+}
+
+void ShPropertyToolBar::SetLineStyleComboInfo(const ShLineStyle& blockLineStyle, const ShLineStyle& layerLineStyle,
+	const ShLineStyle& current) {
+
+	this->lineStyleCombo->SetBlockLineStyle(blockLineStyle);
+	this->lineStyleCombo->SetLayerLineStyle(layerLineStyle);
+
+	if (current.GetType() == ShLineStyle::Type::ByBlock)
+		this->lineStyleCombo->Synchronize(0);
+	else if (current.GetType() == ShLineStyle::Type::ByLayer)
+		this->lineStyleCombo->Synchronize(1);
+	else {
+		ShLineStyleComboList *list = ShLineStyleComboList::GetInstance();
+		int index = list->Search(current);
+		this->lineStyleCombo->Synchronize(index + 2);
+	}
+
+}
+
 void ShPropertyToolBar::SynchronizeColorCombo(int colorComboIndex) {
 
 	this->colorCombo->Synchronize(colorComboIndex);
 
 }
 
-void ShPropertyToolBar::Update(ShActivatedWidgetChangedEvent *event) {
-
-	ShGraphicView *newWidget = event->GetNewWidget();
-
-	///////////////////////////////////////////////////////////////////////////////////
-	this->colorCombo->SetBlockColor(newWidget->GetData()->GetBlockData()->GetColor());
-	this->colorCombo->SetLayerColor(newWidget->GetData()->GetLayerData()->GetColor());
-
-	ShColor color = newWidget->GetData()->GetPropertyData()->GetColor();
+void ShPropertyToolBar::SynchronizeColorCombo(const ShColor& color) {
 
 	if (color.GetType() == ShColor::Type::ByBlock)
 		this->colorCombo->Synchronize(0);
@@ -66,22 +94,19 @@ void ShPropertyToolBar::Update(ShActivatedWidgetChangedEvent *event) {
 		int index = list->Search(color);
 		this->colorCombo->Synchronize(index + 2);
 	}
-	////////////////////////////////////////////////////////////////////////////////////
+}
 
-	this->lineStyleCombo->SetBlockLineStyle(newWidget->GetData()->GetBlockData()->GetLineStyle());
-	this->lineStyleCombo->SetLayerLineStyle(newWidget->GetData()->GetLayerData()->GetLineStyle());
+void ShPropertyToolBar::Update(ShActivatedWidgetChangedEvent *event) {
 
-	ShLineStyle lineStyle = newWidget->GetData()->GetPropertyData()->GetLineStyle();
+	ShGraphicView *newWidget = event->GetNewWidget();
 
-	if (lineStyle.GetType() == ShLineStyle::Type::ByBlock)
-		this->lineStyleCombo->Synchronize(0);
-	else if (lineStyle.GetType() == ShLineStyle::Type::ByLayer)
-		this->lineStyleCombo->Synchronize(1);
-	else {
-		ShLineStyleComboList *list = ShLineStyleComboList::GetInstance();
-		int index = list->Search(lineStyle);
-		this->lineStyleCombo->Synchronize(index + 2);
-	}
+	this->SetColorComboInfo(newWidget->GetData()->GetBlockData()->GetColor(),
+		newWidget->GetData()->GetLayerData()->GetColor(),
+		newWidget->GetData()->GetPropertyData()->GetColor());
+	
+	this->SetLineStyleComboInfo(newWidget->GetData()->GetBlockData()->GetLineStyle(),
+		newWidget->GetData()->GetLayerData()->GetLineStyle(),
+		newWidget->GetData()->GetPropertyData()->GetLineStyle());
 
 	////////////////////////////////////////////////////////////////////////////////////
 
@@ -137,6 +162,48 @@ void ShPropertyToolBar::Update(ShCurrentActionChangedEvent *event) {
 	
 }
 
+void ShPropertyToolBar::Update(ShSelectedEntityCountChangedEvent *event) {
+
+	ShGraphicView *view = event->GetView();
+
+	if (event->GetCount() == 0) {
+	
+		this->SetColorComboInfo(view->GetData()->GetBlockData()->GetColor(),
+			view->GetData()->GetLayerData()->GetColor(),
+			view->GetData()->GetPropertyData()->GetColor());
+
+
+		this->SetLineStyleComboInfo(view->GetData()->GetBlockData()->GetLineStyle(),
+			view->GetData()->GetLayerData()->GetLineStyle(),
+			view->GetData()->GetPropertyData()->GetLineStyle());
+	
+	}
+	else {
+	
+		if (event->IsAllSameColor() == true) {
+
+			this->SetColorComboInfo(view->GetData()->GetBlockData()->GetColor(),
+				event->GetLayerData().GetColor(), event->GetData().GetColor());
+		}
+		else {
+			this->colorCombo->Synchronize(-1);
+		}
+
+
+		if (event->IsAllSameLineStyle() == true) {
+
+			this->SetLineStyleComboInfo(view->GetData()->GetBlockData()->GetLineStyle(),
+				event->GetLayerData().GetLineStyle(), event->GetData().GetLineStyle());
+
+		}
+		else {
+			this->lineStyleCombo->Synchronize(-1);
+		}
+	}
+
+}
+
+
 void ShPropertyToolBar::Notify(ShNotifyEvent *event) {
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();
@@ -168,6 +235,20 @@ int ShPropertyToolBar::GetColorComboIndex() {
 void ShPropertyToolBar::SynchronizeLineStyleCombo(int lineStyleComboIndex) {
 
 	this->lineStyleCombo->Synchronize(lineStyleComboIndex);
+}
+
+void ShPropertyToolBar::SynchronizeLineStyleCombo(const ShLineStyle& lineStyle) {
+
+	if (lineStyle.GetType() == ShLineStyle::Type::ByBlock)
+		this->lineStyleCombo->Synchronize(0);
+	else if (lineStyle.GetType() == ShLineStyle::Type::ByLayer)
+		this->lineStyleCombo->Synchronize(1);
+	else {
+		ShLineStyleComboList *list = ShLineStyleComboList::GetInstance();
+		int index = list->Search(lineStyle);
+		this->lineStyleCombo->Synchronize(index + 2);
+	}
+
 }
 
 int ShPropertyToolBar::GetLineStyleComboIndex() {

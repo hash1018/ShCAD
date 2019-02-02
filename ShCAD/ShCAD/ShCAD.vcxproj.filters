@@ -338,6 +338,12 @@
     <ClCompile Include="FactoryMethod\ShCreatorViewDrawFactory.cpp">
       <Filter>Factory Method</Filter>
     </ClCompile>
+    <ClCompile Include="Command Pattern\ShChangePropertyDataCommand.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\ShChangeEntityPropertyDataCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -536,6 +542,12 @@
     </ClInclude>
     <ClInclude Include="FactoryMethod\ShCreatorViewDrawFactory.h">
       <Filter>Factory Method</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShChangePropertyDataCommand.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShChangeEntityPropertyDataCommand.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

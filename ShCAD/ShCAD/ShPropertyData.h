@@ -26,6 +26,7 @@ public:
 	~ShColor();
 	
 	bool operator==(const ShColor& other);
+	bool operator!=(const ShColor& other);
 
 	void SetRed(unsigned char red) { this->r = red; }
 	void SetGreen(unsigned char green) { this->g = green; }
@@ -60,6 +61,7 @@ public:
 	~ShLineStyle();
 
 	bool operator==(const ShLineStyle& other);
+	bool operator!=(const ShLineStyle& other);
 
 	void SetPattern(unsigned short pattern) { this->pattern = pattern; }
 	void SetType(ShLineStyle::Type type) { this->type = type; }

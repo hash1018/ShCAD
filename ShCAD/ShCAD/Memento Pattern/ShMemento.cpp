@@ -78,11 +78,11 @@ ShMoveViewMemento::~ShMoveViewMemento() {
 ////////////////////////////////////////////////////////////////////////
 
 
-ShDeletedEntitiesMemento::ShDeletedEntitiesMemento() {
+ShCompositeEntityMemento::ShCompositeEntityMemento() {
 
 }
 
-ShDeletedEntitiesMemento::~ShDeletedEntitiesMemento() {
+ShCompositeEntityMemento::~ShCompositeEntityMemento() {
 
 	while (!this->list.isEmpty())
 		delete this->list.takeFirst();

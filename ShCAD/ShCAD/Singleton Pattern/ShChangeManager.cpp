@@ -371,3 +371,36 @@ void ShChangeManager::Notify(ShDeleteLayerCommand *deleteLayerCommand, ShNotifyE
 	}
 
 }
+
+void ShChangeManager::Notify(ShChangePropertyDataCommand *changePropertyDataCommand, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::Type::PropertyColorComboSelChanged) {
+		ShPropertyColorComboSelChangedEvent *event2 = dynamic_cast<ShPropertyColorComboSelChangedEvent*>(event);
+
+		this->propertyToolBar->SynchronizeColorCombo(event2->GetColor());
+		this->propertyColumn->SynchronizeColorCombo(event2->GetColor());
+	}
+	else if (event->GetType() == ShNotifyEvent::Type::PropertyLineStyleComboSelChanged) {
+	
+		ShPropertyLineStyleComboSelChangedEvent *event2 = dynamic_cast<ShPropertyLineStyleComboSelChangedEvent*>(event);
+
+		this->propertyToolBar->SynchronizeLineStyleCombo(event2->GetLineStyle());
+		this->propertyColumn->SynchronizeLineStyleCombo(event2->GetLineStyle());
+
+	}
+
+}
+
+
+void ShChangeManager::Notify(ShSelectedEntityManager *manager, ShNotifyEvent *event) {
+
+	if (event->GetType() == ShNotifyEvent::Type::SelectedEntityCountChanged) {
+	
+		this->propertyToolBar->Update(dynamic_cast<ShSelectedEntityCountChangedEvent*>(event));
+		this->propertyColumn->Update(dynamic_cast<ShSelectedEntityCountChangedEvent*>(event));
+
+
+	}
+
+
+}

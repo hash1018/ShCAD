@@ -18,6 +18,8 @@ class ShChangeCurrentLayerCommand;
 class ShChangeLayerDataCommand;
 class ShCreateLayerCommand;
 class ShDeleteLayerCommand;
+class ShChangePropertyDataCommand;
+class ShSelectedEntityManager;
 class ShChangeManager {
 
 private:
@@ -48,7 +50,8 @@ public:
 	void Notfiy(ShChangeLayerDataCommand *changeLayerDataCommand, ShNotifyEvent *event);
 	void Notify(ShCreateLayerCommand *createLayerCommand, ShNotifyEvent *event);
 	void Notify(ShDeleteLayerCommand *deleteLayerCommand, ShNotifyEvent *event);
-
+	void Notify(ShChangePropertyDataCommand *changePropertyDataCommand, ShNotifyEvent *event);
+	void Notify(ShSelectedEntityManager *manager, ShNotifyEvent *event);
 
 private:
 	ShStatusBar *statusBar;

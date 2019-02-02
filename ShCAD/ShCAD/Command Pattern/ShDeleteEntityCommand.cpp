@@ -26,7 +26,7 @@
 #include "ShDeleteEntityCommand.h"
 #include "Memento Pattern\ShMemento.h"
 #include "Interface\ShGraphicView.h"
-ShDeleteEntityCommand::ShDeleteEntityCommand(ShGraphicView *view, ShDeletedEntitiesMemento *memento) {
+ShDeleteEntityCommand::ShDeleteEntityCommand(ShGraphicView *view, ShCompositeEntityMemento *memento) {
 
 	this->graphicView = view;
 	this->memento = memento;
@@ -41,7 +41,7 @@ ShDeleteEntityCommand::~ShDeleteEntityCommand() {
 void ShDeleteEntityCommand::Execute() {
 	qDebug("ShDeleteEntityCommand->Execute()");
 
-	ShDeletedEntitiesMemento *memento = dynamic_cast<ShDeletedEntitiesMemento*>(this->memento);
+	ShCompositeEntityMemento *memento = dynamic_cast<ShCompositeEntityMemento*>(this->memento);
 
 	QLinkedList<ShEntityMemento*>::iterator itr;
 
@@ -60,7 +60,7 @@ void ShDeleteEntityCommand::Execute() {
 void ShDeleteEntityCommand::UnExecute() {
 	qDebug("ShDeleteEntityCommand->UnExecute()");
 
-	ShDeletedEntitiesMemento *memento = dynamic_cast<ShDeletedEntitiesMemento*>(this->memento);
+	ShCompositeEntityMemento *memento = dynamic_cast<ShCompositeEntityMemento*>(this->memento);
 
 	QLinkedList<ShEntityMemento*>::iterator itr;
 	

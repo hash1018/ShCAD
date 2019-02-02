@@ -29,14 +29,14 @@
 #include "ShCommand.h"
 
 class ShGraphicView;
-class ShDeletedEntitiesMemento;
+class ShCompositeEntityMemento;
 class ShDeleteEntityCommand : public ShCommand {
 
 private:
 	ShGraphicView *graphicView;
 
 public:
-	ShDeleteEntityCommand(ShGraphicView *view, ShDeletedEntitiesMemento *memento);
+	ShDeleteEntityCommand(ShGraphicView *view, ShCompositeEntityMemento *memento);
 	virtual void Execute();
 	virtual void UnExecute();
 

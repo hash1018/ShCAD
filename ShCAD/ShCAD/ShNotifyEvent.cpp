@@ -186,3 +186,19 @@ ShCurrentActionChangedEvent::~ShCurrentActionChangedEvent() {
 
 
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+
+ShSelectedEntityCountChangedEvent::ShSelectedEntityCountChangedEvent(ShGraphicView *view, const ShPropertyData& data,
+	const ShPropertyData& layerData, const ShPropertyData& blockData, ShLayer *layer,
+	bool isAllSameColor, bool isAllSameLineStyle, bool isAllSameLayer, int count)
+	:view(view), data(data), layerData(layerData), blockData(blockData), layer(layer),
+	isAllSameColor(isAllSameColor), isAllSameLineStyle(isAllSameLineStyle), isAllSameLayer(isAllSameLayer),
+	count(count), ShNotifyEvent(ShNotifyEvent::Type::SelectedEntityCountChanged) {
+
+
+}
+
+ShSelectedEntityCountChangedEvent::~ShSelectedEntityCountChangedEvent() {
+
+}

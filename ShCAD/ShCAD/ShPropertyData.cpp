@@ -49,6 +49,20 @@ bool ShColor::operator==(const ShColor& other) {
 	return true;
 }
 
+bool ShColor::operator!=(const ShColor& other) {
+
+	if (this->r != other.r)
+		return true;
+	if (this->g != other.g)
+		return true;
+	if (this->b != other.b)
+		return true;
+	if (this->type != other.type)
+		return true;
+
+	return false;
+}
+
 
 ShLineStyle::ShLineStyle()
 	:pattern(0xFFFF),type(ShLineStyle::Type::Normal) {
@@ -87,6 +101,17 @@ bool ShLineStyle::operator==(const ShLineStyle& other) {
 		return false;
 
 	return true;
+}
+
+bool ShLineStyle::operator!=(const ShLineStyle& other) {
+
+	if (this->pattern != other.pattern)
+		return true;
+
+	if (this->type != other.type)
+		return true;
+
+	return false;
 }
 
 

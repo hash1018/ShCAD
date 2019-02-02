@@ -27,9 +27,11 @@
 #define _SHSELECTEDENTITYMANAGER_H
 
 #include <qlinkedlist.h>
-
+#include "ShPropertyData.h"
 class ShEntity;
 class ShEntityTable;
+class ShLayer;
+class ShGraphicView;
 class ShSelectedEntityManager {
 
 private:
@@ -37,31 +39,24 @@ private:
 	QLinkedList<ShEntity*> justSelectedEntityList;
 	QLinkedList<ShEntity*> justUnSelectedEntityList;
 
+	ShPropertyData propertyDataForCombo;
+	ShPropertyData layerPropertyDataForCombo;
+	ShPropertyData blockPropertyDataForCombo;
+	ShLayer *layerForCombo;
+	bool isAllSameColor;
+	bool isAllSameLineStyle;
+	bool isAllSameLayer;
+
+	ShGraphicView *view;
+
 public:
-	class Iterator {
-		friend class ShSelectedEntityManager;
-	private:
-		QLinkedList<ShEntity*>::iterator itr;
-		QLinkedList<ShEntity*>::iterator begin;
-		QLinkedList<ShEntity*>::iterator end;
-
-	public:
-		Iterator();
-		Iterator(const Iterator& other);
-		Iterator& operator=(const Iterator& other);
-		~Iterator();
-
-		ShEntity* Current();
-		bool IsEnd();
-		bool IsBegin();
-		void Previous();
-		void Next();
-	};
-
+	
 	ShSelectedEntityManager();
 	~ShSelectedEntityManager();
 	ShSelectedEntityManager(const ShSelectedEntityManager& other);
 	ShSelectedEntityManager& operator=(const ShSelectedEntityManager& other);
+	
+	void SetGraphicView(ShGraphicView *view);
 
 	//returns false if entity is already selected.
 	bool Push(ShEntity *entity);
@@ -74,15 +69,25 @@ public:
 
 	int GetSize();
 
-	ShSelectedEntityManager::Iterator GetJustSelectedBegin();
-	ShSelectedEntityManager::Iterator GetJustSelectedEnd();
+	inline QLinkedList<ShEntity*>::iterator GetJustSelectedBegin() { return this->justSelectedEntityList.begin(); }
+	inline QLinkedList<ShEntity*>::iterator GetJustSelectedEnd() { return this->justSelectedEntityList.end(); }
+	inline QLinkedList<ShEntity*>::iterator GetJustUnSelectedBegin() { return this->justUnSelectedEntityList.begin(); }
+	inline QLinkedList<ShEntity*>::iterator GetJustUnSelectedEnd() { return this->justUnSelectedEntityList.end(); }
+	inline QLinkedList<ShEntity*>::iterator Begin() { return this->list.begin(); }
+	inline QLinkedList<ShEntity*>::iterator End() { return this->list.end(); }
 
-	ShSelectedEntityManager::Iterator GetJustUnSelectedBegin();
-	ShSelectedEntityManager::Iterator GetJustUnSelectedEnd();
+
+	inline ShPropertyData GetDataForCombo() const { return this->propertyDataForCombo; }
+	inline ShLayer* GetLayerForCombo() { return this->layerForCombo; }
+	inline bool IsAllSameColor() const { return this->isAllSameColor; }
+	inline bool IsAllSameLineStyle() const { return this->isAllSameLineStyle; }
+	inline bool IsAllSameLayer() const { return this->isAllSameLayer; }
 
 
 private:
 	void RemoveAll(QLinkedList<ShEntity*> &list);
+
+	void UpdateDataForCombo();
 };
 
 #endif //_SHSELECTEDENTITYMANAGER_H

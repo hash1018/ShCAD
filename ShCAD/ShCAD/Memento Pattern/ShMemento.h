@@ -44,6 +44,7 @@ class ShEntityMemento : public ShMemento {
 
 	friend class ShAddEntityCommand;
 	friend class ShDeleteEntityCommand;
+	friend class ShChangeEntityPropertyDataCommand;
 
 public:
 	virtual ~ShEntityMemento() = 0;
@@ -98,16 +99,17 @@ private:
 
 };
 
-class ShDeletedEntitiesMemento : public ShMemento {
+class ShCompositeEntityMemento : public ShMemento {
 
-	//friend class ShActionHandler;
 	friend class ShCadAction;
 	friend class ShDeleteEntityCommand;
+	friend class ShGraphicViewUpdateHandler;
+	friend class ShChangeEntityPropertyDataCommand;
 
 private:
-	ShDeletedEntitiesMemento();
+	ShCompositeEntityMemento();
 public:
-	~ShDeletedEntitiesMemento();
+	~ShCompositeEntityMemento();
 
 private:
 	QLinkedList<ShEntityMemento*> list;

@@ -43,6 +43,7 @@ public:
 		LayerCreated = 10,
 		LayerDeleted = 11,
 		CurrentActionChanged=12,
+		SelectedEntityCountChanged=13,
 	
 	};
 
@@ -254,6 +255,39 @@ public:
 private:
 	ActionType type;
 
+
+};
+
+
+class ShSelectedEntityCountChangedEvent : public ShNotifyEvent {
+
+public:
+	ShSelectedEntityCountChangedEvent(ShGraphicView *view, const ShPropertyData& data,const ShPropertyData& layerData,
+		const ShPropertyData& blockData, ShLayer *layer,
+		bool isAllSameColor, bool isAllSameLineStyle, bool isAllSameLayer, int count);
+
+	~ShSelectedEntityCountChangedEvent();
+
+	inline ShGraphicView* GetView() { return this->view; }
+	inline ShPropertyData GetData() const { return this->data; }
+	inline ShPropertyData GetLayerData() const { return this->layerData; }
+	inline ShPropertyData GetBlockData() const { return this->blockData; }
+	inline ShLayer* GetLayer() { return this->layer; }
+	inline bool IsAllSameColor() const { return this->isAllSameColor; }
+	inline bool IsAllSameLineStyle() const { return this->isAllSameLineStyle; }
+	inline bool IsAllSameLayer() const { return this->isAllSameLayer; }
+	inline int GetCount() const { return this->count; }
+
+private:
+	ShGraphicView *view;
+	ShPropertyData data;
+	ShPropertyData layerData;
+	ShPropertyData blockData;
+	ShLayer *layer;
+	bool isAllSameColor;
+	bool isAllSameLineStyle;
+	bool isAllSameLayer;
+	int count;
 
 };
 #endif //_SHNOTIFYEVENT_H

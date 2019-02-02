@@ -70,14 +70,67 @@ void ShGraphicViewUpdateHandler::Update(ShKeyPressedEvent *event) {
 	this->view->currentAction->KeyPressEvent(event->GetEvent());
 }
 
+#include "Command Pattern\ShChangePropertyDataCommand.h"
+#include "Memento Pattern\ShMemento.h"
+#include "Command Pattern\ShChangeEntityPropertyDataCommand.h"
 void ShGraphicViewUpdateHandler::Update(ShPropertyColorComboSelChangedEvent *event) {
 	
-	this->view->GetData()->GetPropertyData()->SetColor(event->GetColor());
+
+	if (this->view->selectedEntityManager.GetSize() == 0) {
+
+		ShPropertyData prev = *(this->view->GetData()->GetPropertyData());
+		this->view->GetData()->GetPropertyData()->SetColor(event->GetColor());
+
+		ShChangePropertyDataCommand *command = new ShChangePropertyDataCommand(this->view, prev,
+			(*this->view->GetData()->GetPropertyData()), ShChangePropertyDataCommand::ChangedType::Color);
+
+		this->view->undoTaker.Push(command);
+
+		if (!this->view->redoTaker.IsEmpty())
+			this->view->redoTaker.DeleteAll();
+	}
+	else {
+
+		QLinkedList<ShEntity*>::iterator itr;
+
+		ShCompositeEntityMemento *memento = new ShCompositeEntityMemento;
+
+		for (itr = this->view->selectedEntityManager.Begin();
+			itr != this->view->selectedEntityManager.End();
+			++itr) {
+
+			memento->list.append((*itr)->CreateMemento());
+
+		}
+
+		ShChangeEntityPropertyDataCommand *command = new ShChangeEntityPropertyDataCommand(this->view,
+			memento, event->GetColor());
+
+
+		command->Execute();
+
+		this->view->undoTaker.Push(command);
+
+		if (!this->view->redoTaker.IsEmpty())
+			this->view->redoTaker.DeleteAll();
+
+	}
+
 }
 
 void ShGraphicViewUpdateHandler::Update(ShPropertyLineStyleComboSelChangedEvent *event) {
 	
+	ShPropertyData prev = *(this->view->GetData()->GetPropertyData());
 	this->view->GetData()->GetPropertyData()->SetLineStyle(event->GetLineStyle());
+
+	ShChangePropertyDataCommand *command = new ShChangePropertyDataCommand(this->view, prev,
+		(*this->view->GetData()->GetPropertyData()), ShChangePropertyDataCommand::ChangedType::LineStyle);
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
+
 }
 
 #include "Command Pattern\ShChangeCurrentLayerCommand.h"

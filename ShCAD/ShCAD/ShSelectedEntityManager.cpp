@@ -26,62 +26,8 @@
 #include "ShSelectedEntityManager.h"
 #include "Entity\ShEntity.h"
 #include "Entity\Composite\ShEntityTable.h"
-
-ShSelectedEntityManager::Iterator::Iterator() {
-
-
-}
-
-ShSelectedEntityManager::Iterator::Iterator(const ShSelectedEntityManager::Iterator& other) {
-
-	this->itr = other.itr;
-	this->begin = other.begin;
-	this->end = other.end;
-
-}
-
-ShSelectedEntityManager::Iterator& ShSelectedEntityManager::Iterator::operator=(const ShSelectedEntityManager::Iterator& other) {
-
-	this->itr = other.itr;
-	this->begin = other.begin;
-	this->end = other.end;
-	return *this;
-}
-
-ShSelectedEntityManager::Iterator::~Iterator() {
-
-}
-
-ShEntity* ShSelectedEntityManager::Iterator::Current() {
-
-	return (*this->itr);
-}
-
-bool ShSelectedEntityManager::Iterator::IsEnd() {
-
-	if ((*this->itr) == (*this->end))
-		return true;
-
-	return false;
-}
-
-bool ShSelectedEntityManager::Iterator::IsBegin() {
-
-	if ((*this->itr) == (*this->begin))
-		return true;
-
-	return false;
-}
-
-void ShSelectedEntityManager::Iterator::Previous() {
-
-	--this->itr;
-}
-
-void ShSelectedEntityManager::Iterator::Next() {
-
-	++this->itr;
-}
+#include "Singleton Pattern\ShChangeManager.h"
+#include "ShNotifyEvent.h"
 
 
 ShSelectedEntityManager::ShSelectedEntityManager() {
@@ -104,6 +50,11 @@ ShSelectedEntityManager& ShSelectedEntityManager::operator=(const ShSelectedEnti
 	return *this;
 }
 
+void ShSelectedEntityManager::SetGraphicView(ShGraphicView *view) {
+
+	this->view = view;
+}
+
 bool ShSelectedEntityManager::Push(ShEntity *entity) {
 
 	if (entity->IsSelected() == true)
@@ -122,6 +73,16 @@ bool ShSelectedEntityManager::Push(ShEntity *entity) {
 
 	this->justSelectedEntityList.append(entity);
 	////
+
+	this->UpdateDataForCombo();
+	
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+
+	ShSelectedEntityCountChangedEvent event(this->view, this->propertyDataForCombo,
+		this->layerPropertyDataForCombo, this->blockPropertyDataForCombo, this->layerForCombo,
+		this->isAllSameColor, this->isAllSameLineStyle, this->isAllSameLayer, this->list.size());
+
+	manager->Notify(this, &event);
 
 	return true;
 }
@@ -143,6 +104,16 @@ bool ShSelectedEntityManager::Pop(ShEntity *entity) {
 
 	this->justUnSelectedEntityList.append(entity);
 	////
+
+	this->UpdateDataForCombo();
+
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+
+	ShSelectedEntityCountChangedEvent event(this->view, this->propertyDataForCombo,
+		this->layerPropertyDataForCombo, this->blockPropertyDataForCombo, this->layerForCombo,
+		this->isAllSameColor, this->isAllSameLineStyle, this->isAllSameLayer, this->list.size());
+
+	manager->Notify(this, &event);
 
 	return true;
 }
@@ -180,6 +151,16 @@ void ShSelectedEntityManager::SelectAll(ShEntityTable *entityTable) {
 		}
 	}
 
+	this->UpdateDataForCombo();
+
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+
+	ShSelectedEntityCountChangedEvent event(this->view, this->propertyDataForCombo,
+		this->layerPropertyDataForCombo, this->blockPropertyDataForCombo, this->layerForCombo,
+		this->isAllSameColor, this->isAllSameLineStyle, this->isAllSameLayer, this->list.size());
+
+	manager->Notify(this, &event);
+
 	
 	this->RemoveAll(this->justUnSelectedEntityList);
 }
@@ -203,7 +184,15 @@ void ShSelectedEntityManager::UnSelectAll() {
 	//this->justSelectedEntityList.empty();
 	this->RemoveAll(this->justSelectedEntityList);
 
+	this->UpdateDataForCombo();
 
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+
+	ShSelectedEntityCountChangedEvent event(this->view, this->propertyDataForCombo,
+		this->layerPropertyDataForCombo, this->blockPropertyDataForCombo, this->layerForCombo,
+		this->isAllSameColor, this->isAllSameLineStyle, this->isAllSameLayer, this->list.size());
+
+	manager->Notify(this, &event);
 }
 
 
@@ -213,54 +202,55 @@ int ShSelectedEntityManager::GetSize() {
 }
 
 
-ShSelectedEntityManager::Iterator ShSelectedEntityManager::GetJustSelectedBegin() {
-
-	ShSelectedEntityManager::Iterator itr;
-
-	itr.begin = this->justSelectedEntityList.begin();
-	itr.end = this->justSelectedEntityList.end();
-	itr.itr = this->justSelectedEntityList.begin();
-
-	return itr;
-}
-
-
-ShSelectedEntityManager::Iterator ShSelectedEntityManager::GetJustSelectedEnd() {
-
-	ShSelectedEntityManager::Iterator itr;
-
-	itr.begin = this->justSelectedEntityList.begin();
-	itr.end = this->justSelectedEntityList.end();
-	itr.itr = this->justSelectedEntityList.end();
-
-	return itr;
-}
-
-ShSelectedEntityManager::Iterator ShSelectedEntityManager::GetJustUnSelectedBegin() {
-
-	ShSelectedEntityManager::Iterator itr;
-
-	itr.begin = this->justUnSelectedEntityList.begin();
-	itr.end = this->justUnSelectedEntityList.end();
-	itr.itr = this->justUnSelectedEntityList.begin();
-
-	return itr;
-}
-
-ShSelectedEntityManager::Iterator ShSelectedEntityManager::GetJustUnSelectedEnd() {
-
-	ShSelectedEntityManager::Iterator itr;
-
-	itr.begin = this->justUnSelectedEntityList.begin();
-	itr.end = this->justUnSelectedEntityList.end();
-	itr.itr = this->justUnSelectedEntityList.end();
-
-	return itr;
-}
 
 void ShSelectedEntityManager::RemoveAll(QLinkedList<ShEntity*> &list) {
 
 	while (!list.isEmpty())
 		list.removeFirst();
 	
+}
+
+void ShSelectedEntityManager::UpdateDataForCombo() {
+
+	this->layerForCombo = 0;
+	this->isAllSameColor = false;
+	this->isAllSameLayer = false;
+	this->isAllSameLineStyle = false;
+
+	if (this->list.size() == 0)
+		return;
+
+	QLinkedList<ShEntity*>::iterator itr = this->list.begin();
+
+	this->layerForCombo = (*itr)->GetLayer();
+	this->propertyDataForCombo = (*itr)->GetPropertyData();
+	this->layerPropertyDataForCombo = (*itr)->GetLayer()->GetPropertyData();
+
+	this->isAllSameColor = true;
+	this->isAllSameLayer = true;
+	this->isAllSameLineStyle = true;
+
+	++itr;
+
+	while (itr != this->list.end()) {
+	
+		if (this->isAllSameColor == true)
+			if ((*itr)->GetPropertyData().GetColor() != this->propertyDataForCombo.GetColor())
+				this->isAllSameColor = false;
+		
+		if (this->isAllSameLineStyle == true)
+			if ((*itr)->GetPropertyData().GetLineStyle() != this->propertyDataForCombo.GetLineStyle())
+				this->isAllSameLineStyle = false;
+
+		if (this->isAllSameLayer == true)
+			if ((*itr)->GetLayer() != this->layerForCombo)
+				this->isAllSameLayer = false;
+
+	
+		++itr;
+	}
+
+
+
+
 }
