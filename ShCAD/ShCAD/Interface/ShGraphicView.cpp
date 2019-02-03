@@ -275,11 +275,11 @@ void ShGraphicView::Notify(ShNotifyEvent *event) {
 
 }
 
-#include "Strategy Pattern\ShNotifyEventUpdateHandler.h"
+#include "State Pattern\ShNotifyEventUpdateHandler.h"
 void ShGraphicView::Update(ShNotifyEvent *event) {
 
-	ShNotifyEventUpdateHandler updateHandler(this);
-	updateHandler.Update(event);
+	ShNotifyEventUpdateHandler updateHandler(this, event);
+	updateHandler.Update();
 
 }
 

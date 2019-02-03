@@ -163,6 +163,7 @@ void ShLayerView::mousePressEvent(QMouseEvent *event) {
 	else {
 	
 		emit CurrentIndexChanged(index.row());
+		this->comboBox->hidePopup();
 	}
 	
 
@@ -219,9 +220,11 @@ void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 	if (this->layerTable == 0)
 		return;
 
+	if (this->layerComboIndex == -1)
+		return;
 
 	//ShLayerData data = this->layerTable->GetCurrentLayer()->Get;
-	ShLayer *currentLayer = this->layerTable->GetCurrentLayer();
+	ShLayer *currentLayer = this->layerTable->GetLayer(this->layerComboIndex);
 	
 	
 	int width = rect.width();
@@ -267,6 +270,13 @@ void ShLayerComboBox::Synchronize() {
 	this->SetLayerComboCurrentIndex(this->layerTable->GetCurrentLayerIndex());
 }
 
+void ShLayerComboBox::Synchronize(int index) {
+
+	this->UpdateLayerCombo();
+	this->SetLayerComboCurrentIndex(index);
+
+}
+
 void ShLayerComboBox::SetLayerComboCurrentIndex(int index) {
 
 	this->layerComboSelChangedByUser = false;
@@ -301,12 +311,10 @@ void ShLayerComboBox::UpdateLayerCombo() {
 
 void ShLayerComboBox::ComboSelChanged(int index) {
 
-	ShLayer *previousLayer = this->layerTable->GetCurrentLayer();
+	this->SetLayerComboCurrentIndex(index);
+	
+	emit CurrentIndexChanged(index);
 
-	this->layerTable->SetCurrentLayerIndex(index);
-	
-	emit CurrentLayerChanged(previousLayer, this->layerTable->GetCurrentLayer());
-	
 }
 
 void ShLayerComboBox::LayerOnOffChanged(ShLayer* layer,bool previous) {

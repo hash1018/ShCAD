@@ -135,6 +135,21 @@ void ShPropertyToolBar::Update(ShCurrentLayerChangedEvent *event) {
 
 }
 
+void ShPropertyToolBar::Update(ShLayerComboSelChangedEvent *event) {
+
+	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().GetPropertyData().GetColor());
+	int index = this->colorCombo->GetColorComboIndex();
+	this->colorCombo->Synchronize(index);
+
+
+
+	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().GetPropertyData().GetLineStyle());
+	index = this->lineStyleCombo->GetLineStyleComboIndex();
+	this->lineStyleCombo->Synchronize(index);
+
+}
+
+
 void ShPropertyToolBar::Update(ShLayerDataChangedEvent *event) {
 
 	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().GetPropertyData().GetColor());

@@ -54,6 +54,7 @@ private:
 class ShColorComboBox;
 class ShActivatedWidgetChangedEvent;
 class ShCurrentLayerChangedEvent;
+class ShLayerComboSelChangedEvent;
 class ShLayerDataChangedEvent;
 class ShCurrentActionChangedEvent;
 class ShSelectedEntityCountChangedEvent;
@@ -76,6 +77,7 @@ public:
 
 	void Update(ShActivatedWidgetChangedEvent *event);
 	void Update(ShCurrentLayerChangedEvent *event);
+	void Update(ShLayerComboSelChangedEvent *event);
 	void Update(ShLayerDataChangedEvent *event);
 	void Update(ShCurrentActionChangedEvent *event);
 	void Update(ShSelectedEntityCountChangedEvent *event);
@@ -123,14 +125,17 @@ public:
 
 	void Update(ShActivatedWidgetChangedEvent *event);
 	void Update(ShCurrentActionChangedEvent *event);
+	void Update(ShSelectedEntityCountChangedEvent *event);
 	void Notify(ShNotifyEvent *event);
 	void SynchronizeLayerCombo();
+	void SynchronizeLayerCombo(int index);
+	int GetCurrentComboIndex();
 
 protected:
 	void resizeEvent(QResizeEvent *event);
 
 	private slots:
-	void CurrentLayerChanged(ShLayer *previousLayer, ShLayer *currentLayer);
+	void CurrentIndexChanged(int index);
 	void LayerTurnChanged(ShLayer*, bool previous);
 	void LayerColorChanged(ShLayer*, const ShColor& previous);
 };

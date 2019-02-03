@@ -55,7 +55,8 @@ public:
 
 	void SetLayerTable(ShLayerTable *layerTable);
 	void Synchronize();
-	
+	void Synchronize(int index);
+	inline int GetCurrentComboIndex() const { return this->layerComboIndex; }
 	
 private:
 	void SetLayerComboCurrentIndex(int index);
@@ -65,7 +66,7 @@ protected:
 	void paintEvent(QPaintEvent *event);
 	
 signals:
-	void CurrentLayerChanged(ShLayer *previousLayer, ShLayer *currentLayer);
+	void CurrentIndexChanged(int index);
 	void LayerTurnChanged(ShLayer*, bool previous);
 	void LayerColorChanged(ShLayer*,const ShColor& previous);
 

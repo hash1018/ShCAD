@@ -7,6 +7,7 @@
 class ShLayerComboBox;
 class ShActivatedWidgetChangedEvent;
 class ShCurrentActionChangedEvent;
+class ShSelectedEntityCountChangedEvent;
 class ShNotifyEvent;
 class QPushButton;
 class ShLayer;
@@ -23,11 +24,14 @@ public:
 
 	void Update(ShActivatedWidgetChangedEvent *event);
 	void Update(ShCurrentActionChangedEvent *event);
+	void Update(ShSelectedEntityCountChangedEvent *event);
 	void Notify(ShNotifyEvent *event);
 	void SynchronizeLayerCombo();
+	void SynchronizeLayerCombo(int index);
+	int GetCurrentComboIndex();
 
 	private slots:
-	void CurrentLayerChanged(ShLayer* previousLayer, ShLayer *currentLayer);
+	void CurrentIndexChanged(int index);
 	void LayerTurnChanged(ShLayer*, bool previous);
 	void LayerColorChanged(ShLayer*, const ShColor& previous);
 	void LayerButtonClicked();

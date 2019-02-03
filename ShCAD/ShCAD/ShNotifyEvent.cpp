@@ -122,7 +122,19 @@ ShPropertyLineStyleComboSelChangedEvent::~ShPropertyLineStyleComboSelChangedEven
 
 }
 
-//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ShLayerComboSelChangedEvent::ShLayerComboSelChangedEvent(int index)
+	:index(index), ShNotifyEvent(ShNotifyEvent::Type::LayerComboSelChanged) {
+
+}
+
+ShLayerComboSelChangedEvent::~ShLayerComboSelChangedEvent() {
+
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShCurrentLayerChangedEvent::ShCurrentLayerChangedEvent(ShLayer *previousLayer, ShLayer *currentLayer)
 	:ShNotifyEvent(Type::CurrentLayerChanged), previousLayer(previousLayer), currentLayer(currentLayer) {
@@ -134,8 +146,7 @@ ShCurrentLayerChangedEvent::~ShCurrentLayerChangedEvent() {
 
 }
 
-
-//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShLayerDataChangedEvent::ShLayerDataChangedEvent(ShLayer *changedLayer, ShLayerMemento *previousMemento,
 	ShLayerDataChangedEvent::ChangedType changedType)

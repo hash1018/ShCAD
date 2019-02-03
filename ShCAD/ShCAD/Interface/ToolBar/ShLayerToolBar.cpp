@@ -20,7 +20,7 @@ ShLayerToolBar::ShLayerToolBar(QWidget *parent)
 	this->addWidget(this->layerCombo);
 
 
-	connect(this->layerCombo, SIGNAL(CurrentLayerChanged(ShLayer*, ShLayer*)), this, SLOT(CurrentLayerChanged(ShLayer*, ShLayer*)));
+	connect(this->layerCombo, SIGNAL(CurrentIndexChanged(int)), this, SLOT(CurrentIndexChanged(int)));
 	connect(this->layerCombo, SIGNAL(LayerTurnChanged(ShLayer*, bool)), this, SLOT(LayerTurnChanged(ShLayer*, bool)));
 	connect(this->layerCombo, SIGNAL(LayerColorChanged(ShLayer*, const ShColor&)), this, SLOT(LayerColorChanged(ShLayer*, const ShColor&)));
 
@@ -60,6 +60,26 @@ void ShLayerToolBar::Update(ShCurrentActionChangedEvent *event) {
 
 }
 
+void ShLayerToolBar::Update(ShSelectedEntityCountChangedEvent *event) {
+
+	this->layerCombo->SetLayerTable(event->GetView()->entityTable.GetLayerTable());
+
+	if (event->GetCount() == 0)
+		this->layerCombo->Synchronize();
+	else {
+	
+		if (event->IsAllSameLayer() == true) {
+			int index = event->GetView()->entityTable.GetLayerTable()->GetIndex(event->GetLayer());
+			this->layerCombo->Synchronize(index);
+
+		}
+		else {
+			this->layerCombo->Synchronize(-1);
+		}
+
+	}
+}
+
 
 void ShLayerToolBar::Notify(ShNotifyEvent *event) {
 
@@ -69,9 +89,9 @@ void ShLayerToolBar::Notify(ShNotifyEvent *event) {
 
 }
 
-void ShLayerToolBar::CurrentLayerChanged(ShLayer *previousLayer, ShLayer *currentLayer) {
+void ShLayerToolBar::CurrentIndexChanged(int index) {
 
-	ShCurrentLayerChangedEvent event(previousLayer, currentLayer);
+	ShLayerComboSelChangedEvent event(index);
 	this->Notify(&event);
 }
 
@@ -102,6 +122,17 @@ void ShLayerToolBar::LayerColorChanged(ShLayer *layer,const ShColor& previous) {
 void ShLayerToolBar::SynchronizeLayerCombo() {
 
 	this->layerCombo->Synchronize();
+}
+
+void ShLayerToolBar::SynchronizeLayerCombo(int index) {
+
+	this->layerCombo->Synchronize(index);
+}
+
+int ShLayerToolBar::GetCurrentComboIndex() {
+
+	return this->layerCombo->GetCurrentComboIndex();
+
 }
 
 #include "Interface\Dialog\ShLayerDialog.h"

@@ -331,6 +331,20 @@ void ShPropertyColumn::Update(ShCurrentLayerChangedEvent *event) {
 
 }
 
+void ShPropertyColumn::Update(ShLayerComboSelChangedEvent *event) {
+
+	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().GetPropertyData().GetColor());
+	int index = this->colorCombo->GetColorComboIndex();
+	this->colorCombo->Synchronize(index);
+
+
+
+	this->lineStyleCombo->SetLayerLineStyle(event->GetCurrentLayer()->GetData().GetPropertyData().GetLineStyle());
+	index = this->lineStyleCombo->GetLineStyleComboIndex();
+	this->lineStyleCombo->Synchronize(index);
+
+}
+
 void ShPropertyColumn::Update(ShLayerDataChangedEvent *event) {
 	
 	this->colorCombo->SetLayerColor(event->GetCurrentLayer()->GetData().GetPropertyData().GetColor());
@@ -464,7 +478,7 @@ ShLayerColumn::ShLayerColumn(QWidget *parent, const QString &title, int width)
 
 	this->layerCombo = new ShLayerComboBox(this);
 
-	connect(this->layerCombo, SIGNAL(CurrentLayerChanged(ShLayer*, ShLayer*)), this, SLOT(CurrentLayerChanged(ShLayer*, ShLayer*)));
+	connect(this->layerCombo, SIGNAL(CurrentIndexChanged(int)), this, SLOT(CurrentIndexChanged(int)));
 	connect(this->layerCombo, SIGNAL(LayerTurnChanged(ShLayer*, bool)), this, SLOT(LayerTurnChanged(ShLayer*, bool)));
 	connect(this->layerCombo, SIGNAL(LayerColorChanged(ShLayer*, const ShColor&)), this, SLOT(LayerColorChanged(ShLayer*, const ShColor&)));
 
@@ -506,6 +520,26 @@ void ShLayerColumn::Update(ShCurrentActionChangedEvent *event) {
 
 }
 
+void ShLayerColumn::Update(ShSelectedEntityCountChangedEvent *event) {
+
+	this->layerCombo->SetLayerTable(event->GetView()->entityTable.GetLayerTable());
+
+	if (event->GetCount() == 0)
+		this->layerCombo->Synchronize();
+	else {
+
+		if (event->IsAllSameLayer() == true) {
+			int index = event->GetView()->entityTable.GetLayerTable()->GetIndex(event->GetLayer());
+			this->layerCombo->Synchronize(index);
+
+		}
+		else {
+			this->layerCombo->Synchronize(-1);
+		}
+
+	}
+}
+
 void ShLayerColumn::Notify(ShNotifyEvent *event) {
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();
@@ -513,9 +547,9 @@ void ShLayerColumn::Notify(ShNotifyEvent *event) {
 	manager->Notify(this, event);
 }
 
-void ShLayerColumn::CurrentLayerChanged(ShLayer *previousLayer, ShLayer *currentLayer) {
+void ShLayerColumn::CurrentIndexChanged(int index) {
 
-	ShCurrentLayerChangedEvent event(previousLayer, currentLayer);
+	ShLayerComboSelChangedEvent event(index);
 	this->Notify(&event);
 }
 
@@ -544,4 +578,14 @@ void ShLayerColumn::LayerColorChanged(ShLayer *layer,const ShColor& previous) {
 void ShLayerColumn::SynchronizeLayerCombo() {
 
 	this->layerCombo->Synchronize();
+}
+
+void ShLayerColumn::SynchronizeLayerCombo(int index) {
+
+	this->layerCombo->Synchronize(index);
+}
+
+int ShLayerColumn::GetCurrentComboIndex() {
+
+	return this->layerCombo->GetCurrentComboIndex();
 }

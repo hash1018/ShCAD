@@ -32,6 +32,7 @@ public:
 	inline  ShLayer* GetCurrentLayer()  { return this->currentLayer; }
 	int GetCurrentLayerIndex();
 	inline int GetSize() const { return this->list.size(); }
+	inline int GetIndex(ShLayer* layer) const { return this->list.indexOf(layer); }
 
 	void SetJustTurnOnLayer(ShLayer *layer) { this->justTurnOnLayer = layer; }
 	inline ShLayer* GetJustTurnOnLayer() { return this->justTurnOnLayer; }

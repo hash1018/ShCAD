@@ -11,6 +11,7 @@ class ShCurrentLayerChangedEvent;
 class ShLayerDataChangedEvent;
 class ShCurrentActionChangedEvent;
 class ShSelectedEntityCountChangedEvent;
+class ShLayerComboSelChangedEvent;
 class ShNotifyEvent;
 class ShColor;
 class ShLineStyleComboBox;
@@ -32,6 +33,7 @@ public:
 
 	void Update(ShActivatedWidgetChangedEvent *event);
 	void Update(ShCurrentLayerChangedEvent *event);
+	void Update(ShLayerComboSelChangedEvent *event);
 	void Update(ShLayerDataChangedEvent *event);
 	void Update(ShCurrentActionChangedEvent *event);
 	void Update(ShSelectedEntityCountChangedEvent *event);

@@ -87,6 +87,9 @@
     <Filter Include="Strategy Pattern">
       <UniqueIdentifier>{d603386a-0bdb-46ee-8ba4-f4fcc7082321}</UniqueIdentifier>
     </Filter>
+    <Filter Include="State Pattern">
+      <UniqueIdentifier>{dc117fc4-4ca4-470f-9e23-604ea2b60895}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -320,9 +323,6 @@
     <ClCompile Include="Command Pattern\ShChangeCurrentLayerCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="Strategy Pattern\ShNotifyEventUpdateHandler.cpp">
-      <Filter>Strategy Pattern</Filter>
-    </ClCompile>
     <ClCompile Include="Command Pattern\ShChangeLayerDataCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
@@ -342,7 +342,13 @@
       <Filter>Command Pattern</Filter>
     </ClCompile>
     <ClCompile Include="Command Pattern\ShChangeEntityPropertyDataCommand.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="State Pattern\ShNotifyEventUpdateHandler.cpp">
+      <Filter>State Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="FactoryMethod\ShCreatorViewUpdateFactory.cpp">
+      <Filter>Factory Method</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,9 +531,6 @@
     <ClInclude Include="Command Pattern\ShChangeCurrentLayerCommand.h">
       <Filter>Command Pattern</Filter>
     </ClInclude>
-    <ClInclude Include="Strategy Pattern\ShNotifyEventUpdateHandler.h">
-      <Filter>Strategy Pattern</Filter>
-    </ClInclude>
     <ClInclude Include="Command Pattern\ShChangeLayerDataCommand.h">
       <Filter>Command Pattern</Filter>
     </ClInclude>
@@ -547,7 +550,13 @@
       <Filter>Command Pattern</Filter>
     </ClInclude>
     <ClInclude Include="Command Pattern\ShChangeEntityPropertyDataCommand.h">
-      <Filter>Header Files</Filter>
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="State Pattern\ShNotifyEventUpdateHandler.h">
+      <Filter>State Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryMethod\ShCreatorViewUpdateFactory.h">
+      <Filter>Factory Method</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

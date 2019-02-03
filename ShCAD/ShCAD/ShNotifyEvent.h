@@ -30,21 +30,22 @@ class ShNotifyEvent {
 
 public:
 	enum Type {
-		Nothing = 0,
-		ZoomRateChanged = 1,
-		MousePositionChanged = 2,
-		KeyPressed = 3,
-		UpdateListText = 4,
-		ActivatedWidgetChanged = 5,
-		PropertyColorComboSelChanged = 6,
-		PropertyLineStyleComboSelChanged = 7,
-		CurrentLayerChanged = 8,
-		LayerDataChanged = 9,
-		LayerCreated = 10,
-		LayerDeleted = 11,
-		CurrentActionChanged=12,
-		SelectedEntityCountChanged=13,
-	
+		Nothing,
+		ZoomRateChanged,
+		MousePositionChanged,
+		KeyPressed,
+		UpdateListText,
+		ActivatedWidgetChanged,
+		PropertyColorComboSelChanged,
+		PropertyLineStyleComboSelChanged,
+		LayerComboSelChanged,
+		CurrentLayerChanged,
+		LayerDataChanged,
+		LayerCreated,
+		LayerDeleted,
+		CurrentActionChanged,
+		SelectedEntityCountChanged,
+
 	};
 
 public:
@@ -172,7 +173,23 @@ private:
 	ShLineStyle lineStyle;
 
 };
+
 class ShLayer;
+class ShLayerComboSelChangedEvent : public ShNotifyEvent {
+
+public:
+	ShLayerComboSelChangedEvent(int index);
+	~ShLayerComboSelChangedEvent();
+
+	inline int GetIndex() const { return this->index; }
+	void SetCurrentLayer(ShLayer *layer) { this->current = layer; }
+	inline ShLayer* GetCurrentLayer() { return this->current; }
+private:
+	int index;
+	ShLayer *current;
+};
+
+
 class ShCurrentLayerChangedEvent : public ShNotifyEvent {
 
 public:
@@ -186,6 +203,8 @@ private:
 	ShLayer *previousLayer;
 	ShLayer *currentLayer;
 };
+
+
 
 class ShLayerMemento;
 class ShLayerDataChangedEvent : public ShNotifyEvent {

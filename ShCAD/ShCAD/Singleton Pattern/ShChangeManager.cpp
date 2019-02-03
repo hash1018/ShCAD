@@ -124,173 +124,124 @@ void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 
 void ShChangeManager::Notify(ShCommandDock* commandDock, ShNotifyEvent *event) {
 	
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+	if (manager->GetActivatedWidget() == 0)
+		return;
+
 	if (event->GetType() == ShNotifyEvent::Type::KeyPressed) {
 	
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
 		manager->GetActivatedWidget()->Update(event);
-
 	}
-
-	
 }
 
 void ShChangeManager::Notify(ShPropertyColumn *propertyColumn, ShNotifyEvent *event) {
 
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+	if (manager->GetActivatedWidget() == 0)
+		return;
+
 	if (event->GetType() == ShNotifyEvent::Type::PropertyColorComboSelChanged) {
 		
-		this->propertyToolBar->SynchronizeColorCombo(propertyColumn->GetColorComboIndex());
-
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
 		manager->GetActivatedWidget()->Update(event);
-		
+		this->propertyToolBar->SynchronizeColorCombo(dynamic_cast<ShPropertyColorComboSelChangedEvent*>(event)->GetColor());
 	}
 
 	else if (event->GetType() == ShNotifyEvent::Type::PropertyLineStyleComboSelChanged) {
 	
-		this->propertyToolBar->SynchronizeLineStyleCombo(propertyColumn->GetLineStyleComboIndex());
-
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
 		manager->GetActivatedWidget()->Update(event);
+		this->propertyToolBar->SynchronizeLineStyleCombo(dynamic_cast<ShPropertyLineStyleComboSelChangedEvent*>(event)->GetLineStyle());
 	}
-
 }
 
 void ShChangeManager::Notify(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event) {
 
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+	if (manager->GetActivatedWidget() == 0)
+		return;
+
 	if (event->GetType() == ShNotifyEvent::Type::PropertyColorComboSelChanged) {
-
-		this->propertyColumn->SynchronizeColorCombo(propertyToolBar->GetColorComboIndex());
-
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
+		
 		manager->GetActivatedWidget()->Update(event);
-
+		this->propertyColumn->SynchronizeColorCombo(dynamic_cast<ShPropertyColorComboSelChangedEvent*>(event)->GetColor());
+		
 	}
 	else if (event->GetType() == ShNotifyEvent::Type::PropertyLineStyleComboSelChanged) {
 	
-		this->propertyColumn->SynchronizeLineStyleCombo(propertyToolBar->GetLineStyleComboIndex());
-
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
 		manager->GetActivatedWidget()->Update(event);
-
+		this->propertyColumn->SynchronizeLineStyleCombo(dynamic_cast<ShPropertyLineStyleComboSelChangedEvent*>(event)->GetLineStyle());
 	}
-
 }
 
 void ShChangeManager::Notify(ShLayerToolBar *layerToolBar, ShNotifyEvent *event) {
 
-	if (event->GetType() == ShNotifyEvent::Type::CurrentLayerChanged) {
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
 
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+	if (manager->GetActivatedWidget() == 0)
+		return;
 
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
+	if (event->GetType() == ShNotifyEvent::Type::LayerComboSelChanged) {
 		manager->GetActivatedWidget()->Update(event);
-		this->propertyColumn->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
-		this->propertyToolBar->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
+		this->propertyToolBar->Update(dynamic_cast<ShLayerComboSelChangedEvent*>(event));
+		this->propertyColumn->Update(dynamic_cast<ShLayerComboSelChangedEvent*>(event));
+		this->layerColumn->SynchronizeLayerCombo(dynamic_cast<ShLayerComboSelChangedEvent*>(event)->GetIndex());
 
-		this->layerColumn->SynchronizeLayerCombo();
-	
 	}
+
 	else if (event->GetType() == ShNotifyEvent::Type::LayerDataChanged) {
 	
-		//later add redraw when layer turns off
-
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
 		manager->GetActivatedWidget()->Update(event);
 		this->propertyColumn->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 		this->propertyToolBar->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 
-		this->layerColumn->SynchronizeLayerCombo();
+		this->layerColumn->SynchronizeLayerCombo(this->layerToolBar->GetCurrentComboIndex());
 	}
-
-
 }
 
 
 void ShChangeManager::Notify(ShLayerColumn *layerColumn, ShNotifyEvent *event) {
 
-	if (event->GetType() == ShNotifyEvent::Type::CurrentLayerChanged) {
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
 
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
+	if (manager->GetActivatedWidget() == 0)
+		return;
 
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
+	if (event->GetType() == ShNotifyEvent::Type::LayerComboSelChanged) {
 		manager->GetActivatedWidget()->Update(event);
-		this->propertyColumn->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
-		this->propertyToolBar->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
-
-		this->layerToolBar->SynchronizeLayerCombo();
-
+		this->propertyToolBar->Update(dynamic_cast<ShLayerComboSelChangedEvent*>(event));
+		this->propertyColumn->Update(dynamic_cast<ShLayerComboSelChangedEvent*>(event));
+		this->layerToolBar->SynchronizeLayerCombo(dynamic_cast<ShLayerComboSelChangedEvent*>(event)->GetIndex());
 	}
 	else if (event->GetType() == ShNotifyEvent::Type::LayerDataChanged) {
-
-		//later add redraw when layer turns off
-	
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
 
 		manager->GetActivatedWidget()->Update(event);
 		this->propertyColumn->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 		this->propertyToolBar->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 
-		this->layerToolBar->SynchronizeLayerCombo();
-		
-
+		this->layerToolBar->SynchronizeLayerCombo(this->layerColumn->GetCurrentComboIndex());
 	}
-
 }
 
 void ShChangeManager::Notify(ShLayerDialog *layerDialog, ShNotifyEvent *event) {
 
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+	if (manager->GetActivatedWidget() == 0)
+		return;
+
 	if (event->GetType() == ShNotifyEvent::Type::LayerDataChanged) {
 	
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
 		manager->GetActivatedWidget()->Update(event);
 		this->propertyColumn->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 		this->propertyToolBar->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 
 		this->layerToolBar->SynchronizeLayerCombo();
-		this->layerColumn->SynchronizeLayerCombo();
+		this->layerColumn->SynchronizeLayerCombo(this->layerColumn->GetCurrentComboIndex());
 	}
 	else if (event->GetType() == ShNotifyEvent::Type::CurrentLayerChanged) {
 	
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
 		manager->GetActivatedWidget()->Update(event);
 		this->propertyColumn->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
 		this->propertyToolBar->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
@@ -301,29 +252,18 @@ void ShChangeManager::Notify(ShLayerDialog *layerDialog, ShNotifyEvent *event) {
 	}
 	else if (event->GetType() == ShNotifyEvent::Type::LayerCreated) {
 	
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
-
 		manager->GetActivatedWidget()->Update(event);
 
 		this->layerToolBar->SynchronizeLayerCombo();
 		this->layerColumn->SynchronizeLayerCombo();
 	}
 	else if (event->GetType() == ShNotifyEvent::Type::LayerDeleted) {
-	
-		ShWidgetManager *manager = ShWidgetManager::GetInstance();
-
-		if (manager->GetActivatedWidget() == 0)
-			return;
 
 		manager->GetActivatedWidget()->Update(event);
 
 		this->layerToolBar->SynchronizeLayerCombo();
 		this->layerColumn->SynchronizeLayerCombo();
 	}
-
 }
 
 void ShChangeManager::Notify(ShChangeCurrentLayerCommand *changeCurrentLayerCommand, ShNotifyEvent *event) {
@@ -369,7 +309,6 @@ void ShChangeManager::Notify(ShDeleteLayerCommand *deleteLayerCommand, ShNotifyE
 		this->layerToolBar->SynchronizeLayerCombo();
 		this->layerColumn->SynchronizeLayerCombo();
 	}
-
 }
 
 void ShChangeManager::Notify(ShChangePropertyDataCommand *changePropertyDataCommand, ShNotifyEvent *event) {
@@ -388,7 +327,6 @@ void ShChangeManager::Notify(ShChangePropertyDataCommand *changePropertyDataComm
 		this->propertyColumn->SynchronizeLineStyleCombo(event2->GetLineStyle());
 
 	}
-
 }
 
 
@@ -398,9 +336,8 @@ void ShChangeManager::Notify(ShSelectedEntityManager *manager, ShNotifyEvent *ev
 	
 		this->propertyToolBar->Update(dynamic_cast<ShSelectedEntityCountChangedEvent*>(event));
 		this->propertyColumn->Update(dynamic_cast<ShSelectedEntityCountChangedEvent*>(event));
-
+		this->layerToolBar->Update(dynamic_cast<ShSelectedEntityCountChangedEvent*>(event));
+		this->layerColumn->Update(dynamic_cast<ShSelectedEntityCountChangedEvent*>(event));
 
 	}
-
-
 }

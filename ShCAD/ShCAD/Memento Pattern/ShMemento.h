@@ -103,7 +103,7 @@ class ShCompositeEntityMemento : public ShMemento {
 
 	friend class ShCadAction;
 	friend class ShDeleteEntityCommand;
-	friend class ShGraphicViewUpdateHandler;
+	friend class ShViewUpdateHandler;
 	friend class ShChangeEntityPropertyDataCommand;
 
 private:
