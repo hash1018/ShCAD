@@ -4,7 +4,7 @@
 #define _SHNOTIFYEVENTUPDATEHANDLER_H
 
 
-//transformed Strategy Pattern.
+
 
 class ShGraphicView;
 class ShNotifyEvent;
@@ -114,6 +114,7 @@ public:
 
 };
 
+/*
 class ShLayerDataChangedEventUpdateHandlerSelectedEntity0 : public ShViewUpdateHandler {
 
 public:
@@ -123,6 +124,7 @@ public:
 	virtual void Update();
 
 };
+*/
 
 class ShLayerCreatedEventUpdateHandler : public ShViewUpdateHandler {
 

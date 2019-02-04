@@ -350,6 +350,9 @@
     <ClCompile Include="FactoryMethod\ShCreatorViewUpdateFactory.cpp">
       <Filter>Factory Method</Filter>
     </ClCompile>
+    <ClCompile Include="Command Pattern\ShChangeEntityLayerCommand.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -557,6 +560,9 @@
     </ClInclude>
     <ClInclude Include="FactoryMethod\ShCreatorViewUpdateFactory.h">
       <Filter>Factory Method</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShChangeEntityLayerCommand.h">
+      <Filter>Command Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

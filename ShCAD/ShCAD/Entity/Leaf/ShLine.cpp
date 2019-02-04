@@ -99,6 +99,7 @@ ShLineMemento* ShLine::CreateMemento() {
 	memento->entity = this;
 	memento->data = new ShLineData(this->data);
 	memento->propertyData = new ShPropertyData(this->propertyData);
+	memento->layer = this->layer;
 
 	return memento;
 }

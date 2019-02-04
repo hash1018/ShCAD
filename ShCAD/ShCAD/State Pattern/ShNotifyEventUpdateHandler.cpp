@@ -65,14 +65,19 @@ ShPropertyColorComboSelChangedEventUpdateHandler::~ShPropertyColorComboSelChange
 
 }
 
-
+#include "Command Pattern\ShChangeEntityPropertyDataCommand.h"
 void ShPropertyColorComboSelChangedEventUpdateHandler::Update() {
 	
 	ShPropertyColorComboSelChangedEvent *event = 
 		dynamic_cast<ShPropertyColorComboSelChangedEvent*>(this->event);
 
+	//previous data.
+	ShCompositeEntityMemento *memento = this->view->selectedEntityManager.CreateSelectedEntityMemento();
+
 	QLinkedList<ShEntity*>::iterator itr;
 	ShPropertyData data;
+
+	
 
 	for (itr = this->view->selectedEntityManager.Begin();
 		itr != this->view->selectedEntityManager.End();
@@ -93,6 +98,16 @@ void ShPropertyColorComboSelChangedEventUpdateHandler::Update() {
 	this->view->update(DrawType::DrawAll);
 	this->view->CaptureImage();
 
+
+
+	ShChangeEntityPropertyDataCommand *command = new ShChangeEntityPropertyDataCommand(this->view,
+		memento, event->GetColor());
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -108,7 +123,7 @@ ShPropertyColorComboSelChangedEventUpdateHandlerSelectedEntity0::
 
 }
 
-
+#include "Command Pattern\ShChangePropertyDataCommand.h"
 void ShPropertyColorComboSelChangedEventUpdateHandlerSelectedEntity0::Update() {
 
 	ShPropertyColorComboSelChangedEvent *event =
@@ -116,6 +131,14 @@ void ShPropertyColorComboSelChangedEventUpdateHandlerSelectedEntity0::Update() {
 
 	ShPropertyData prev = *(this->view->GetData()->GetPropertyData());
 	this->view->GetData()->GetPropertyData()->SetColor(event->GetColor());
+
+	ShChangePropertyDataCommand *command = new ShChangePropertyDataCommand(this->view, prev,
+		(*this->view->GetData()->GetPropertyData()), ShChangePropertyDataCommand::ChangedType::Color);
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
 
 }
 
@@ -135,6 +158,9 @@ void ShPropertyLineStyleComboSelChangedEventUpdateHandler::Update() {
 
 	ShPropertyLineStyleComboSelChangedEvent *event =
 		dynamic_cast<ShPropertyLineStyleComboSelChangedEvent*>(this->event);
+
+	//previous data.
+	ShCompositeEntityMemento *memento = this->view->selectedEntityManager.CreateSelectedEntityMemento();
 
 	QLinkedList<ShEntity*>::iterator itr;
 	ShPropertyData data;
@@ -162,6 +188,15 @@ void ShPropertyLineStyleComboSelChangedEventUpdateHandler::Update() {
 	this->view->update(DrawType::DrawAll);
 	this->view->CaptureImage();
 
+
+
+	ShChangeEntityPropertyDataCommand *command = new ShChangeEntityPropertyDataCommand(this->view,
+		memento, event->GetLineStyle());
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
 	
 }
 
@@ -188,6 +223,15 @@ void ShPropertyLineStyleComboSelChangedEventUpdateHandlerSelectedEntity0::Update
 
 	ShPropertyData prev = *(this->view->GetData()->GetPropertyData());
 	this->view->GetData()->GetPropertyData()->SetLineStyle(event->GetLineStyle());
+
+	ShChangePropertyDataCommand *command = new ShChangePropertyDataCommand(this->view, prev,
+		(*this->view->GetData()->GetPropertyData()), ShChangePropertyDataCommand::ChangedType::LineStyle);
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
+
 }
 
 
@@ -202,9 +246,13 @@ ShLayerComboSelChangedEventUpdateHandler::~ShLayerComboSelChangedEventUpdateHand
 
 }
 
+#include "Command Pattern\ShChangeEntityLayerCommand.h"
 void ShLayerComboSelChangedEventUpdateHandler::Update() {
 	
 	ShLayerComboSelChangedEvent *event = dynamic_cast<ShLayerComboSelChangedEvent*>(this->event);
+
+	//previous data
+	ShCompositeEntityMemento *memento = this->view->selectedEntityManager.CreateSelectedEntityMemento();
 
 	QLinkedList<ShEntity*>::iterator itr;
 
@@ -235,8 +283,16 @@ void ShLayerComboSelChangedEventUpdateHandler::Update() {
 
 	event->SetCurrentLayer(layer);
 
-	//this->view->update(DrawType::DrawAll);
-	//this->view->CaptureImage();
+	this->view->update(DrawType::DrawAll);
+	this->view->CaptureImage();
+
+	ShChangeEntityLayerCommand *command = new ShChangeEntityLayerCommand(this->view, memento, layer);
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +307,7 @@ ShLayerComboSelChangedEventUpdateHandlerSelectedEntity0::~ShLayerComboSelChanged
 
 }
 
+#include "Command Pattern\ShChangeCurrentLayerCommand.h"
 void ShLayerComboSelChangedEventUpdateHandlerSelectedEntity0::Update() {
 
 	ShLayerComboSelChangedEvent *event = dynamic_cast<ShLayerComboSelChangedEvent*>(this->event);
@@ -275,9 +332,17 @@ void ShLayerComboSelChangedEventUpdateHandlerSelectedEntity0::Update() {
 
 	event->SetCurrentLayer(current);
 
-	//if (prevIndex == event->GetIndex())
-	//	return;
+	if (prev == current)
+		return;
 
+	
+	ShChangeCurrentLayerCommand *command = new ShChangeCurrentLayerCommand(this->view, prev, current);
+
+	
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
 
 }
 
@@ -293,24 +358,76 @@ ShLayerDataChangedEventUpdateHandler::~ShLayerDataChangedEventUpdateHandler() {
 
 }
 
+#include "Command Pattern\ShChangeLayerDataCommand.h"
 void ShLayerDataChangedEventUpdateHandler::Update() {
 
+	ShLayerDataChangedEvent *event = dynamic_cast<ShLayerDataChangedEvent*>(this->event);
 
+
+	//All Entity that references to changed Layer, 
+	//already is modified data in the function SetPropertyData in layer. 
+
+	if (event->GetChangedLayer() == this->view->entityTable.GetLayerTable()->GetCurrentLayer()) {
+	
+		this->view->GetData()->GetLayerData()->SetColor(event->GetChangedLayer()->GetPropertyData().GetColor());
+		this->view->GetData()->GetLayerData()->SetLineStyle(event->GetChangedLayer()->GetPropertyData().GetLineStyle());
+	}
+
+
+	event->SetCurrentLayer(this->view->entityTable.GetLayerTable()->GetCurrentLayer());
+
+	DrawType type = DrawType::DrawNone;
+
+	if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::Color)
+		type = (DrawType)(type | DrawType::DrawAll);
+	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::LineStyle)
+		type = (DrawType)(type | DrawType::DrawAll);
+	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::TurnOnOff) {
+
+		this->view->entityTable.GetLayerTable()->UpdateTurnOnLayerList();
+
+		if (this->view->selectedEntityManager.GetSize() > 0) {
+			this->view->selectedEntityManager.UnSelectAll();
+			type = (DrawType)(type | DrawType::DrawAll);
+		}
+		else if (event->GetChangedLayer()->GetData().IsTurnOn() == true) {
+
+			this->view->entityTable.GetLayerTable()->SetJustTurnOnLayer(event->GetChangedLayer());
+			type = (DrawType)(type | DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer);
+		}
+		else {
+
+			type = (DrawType)(type | DrawType::DrawAll);
+		}
+	}
+
+
+	this->view->update(type);
+	this->view->CaptureImage();
+
+
+	
+
+	ShChangeLayerDataCommand *command = new ShChangeLayerDataCommand(this->view, event->GetChangedLayer(),
+		event->GetPreviousMemento(), (ShChangeLayerDataCommand::ChangedType)event->GetChangedType());
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+/*
 ShLayerDataChangedEventUpdateHandlerSelectedEntity0::
 ShLayerDataChangedEventUpdateHandlerSelectedEntity0(ShGraphicView *view, ShNotifyEvent *event)
 	:ShViewUpdateHandler(view, event) {
 
-
 }
 
 ShLayerDataChangedEventUpdateHandlerSelectedEntity0::~ShLayerDataChangedEventUpdateHandlerSelectedEntity0() {
-
 
 }
 
@@ -330,8 +447,47 @@ void ShLayerDataChangedEventUpdateHandlerSelectedEntity0::Update() {
 	}
 
 	event->SetCurrentLayer(this->view->entityTable.GetLayerTable()->GetCurrentLayer());
+
+	DrawType type = DrawType::DrawNone;
+
+	if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::Color)
+		type = (DrawType)(type | DrawType::DrawAll);
+	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::LineStyle)
+		type = (DrawType)(type | DrawType::DrawAll);
+	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::TurnOnOff) {
+
+		this->view->entityTable.GetLayerTable()->UpdateTurnOnLayerList();
+
+		if (this->view->selectedEntityManager.GetSize() > 0) {
+			this->view->selectedEntityManager.UnSelectAll();
+			type = (DrawType)(type | DrawType::DrawAll);
+		}
+		else if (event->GetChangedLayer()->GetData().IsTurnOn() == true) {
+
+			this->view->entityTable.GetLayerTable()->SetJustTurnOnLayer(event->GetChangedLayer());
+			type = (DrawType)(type | DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer);
+		}
+		else {
+
+			type = (DrawType)(type | DrawType::DrawAll);
+		}
+	}
+
+
+	this->view->update(type);
+	this->view->CaptureImage();
+
+	ShChangeLayerDataCommand *command = new ShChangeLayerDataCommand(this->view, event->GetChangedLayer(),
+		event->GetPreviousMemento(), (ShChangeLayerDataCommand::ChangedType)event->GetChangedType());
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
+
 }
 
+*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShLayerCreatedEventUpdateHandler::ShLayerCreatedEventUpdateHandler(ShGraphicView *view, ShNotifyEvent *event)
@@ -344,13 +500,24 @@ ShLayerCreatedEventUpdateHandler::~ShLayerCreatedEventUpdateHandler() {
 
 }
 
+#include "Command Pattern\ShCreateLayerCommand.h"
 void ShLayerCreatedEventUpdateHandler::Update() {
 
+	ShLayerCreatedEvent *event = dynamic_cast<ShLayerCreatedEvent*>(this->event);
+
+	ShCreateLayerCommand *command = new ShCreateLayerCommand(this->view,
+		event->GetNewLayer()->CreateMemento());
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include "Command Pattern\ShDeleteLayerCommand.h"
 ShLayerDeletedEventUpdateHandler::ShLayerDeletedEventUpdateHandler(ShGraphicView *view, ShNotifyEvent *event)
 	:ShViewUpdateHandler(view, event) {
 
@@ -362,7 +529,15 @@ ShLayerDeletedEventUpdateHandler::~ShLayerDeletedEventUpdateHandler() {
 
 void ShLayerDeletedEventUpdateHandler::Update() {
 
+	ShLayerDeletedEvent *event = dynamic_cast<ShLayerDeletedEvent*>(this->event);
 
+	ShDeleteLayerCommand *command = new ShDeleteLayerCommand(this->view,
+		event->GetDeletedLayer()->CreateMemento());
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
 }
 
 
@@ -381,7 +556,36 @@ ShCurrentLayerChangedEventUpdateHandler::~ShCurrentLayerChangedEventUpdateHandle
 
 void ShCurrentLayerChangedEventUpdateHandler::Update() {
 
+	ShCurrentLayerChangedEvent *event = dynamic_cast<ShCurrentLayerChangedEvent*>(this->event);
 
+	ShLayerTable *layerTable = this->view->entityTable.GetLayerTable();
+
+	ShLayer* prev = event->GetPreviousLayer();
+	ShLayer *current = event->GetCurrentLayer();
+
+
+	this->view->GetData()->SetLayerData(current->GetData().GetPropertyData());
+
+	if (this->view->GetData()->GetPropertyData()->GetColor().GetType() == ShColor::Type::ByLayer)
+		this->view->GetData()->GetPropertyData()->SetColor(this->view->GetData()->GetLayerData()->GetColor());
+
+
+	if (this->view->GetData()->GetPropertyData()->GetLineStyle().GetType() == ShLineStyle::ByLayer)
+		this->view->GetData()->GetPropertyData()->SetLineStyle(this->view->GetData()->GetLayerData()->GetLineStyle());
+
+	event->SetSelectedEntityCount(this->view->selectedEntityManager.GetSize());
+
+	if (event->GetPreviousLayer() == event->GetCurrentLayer())
+		return;
+
+	ShChangeCurrentLayerCommand *command = new ShChangeCurrentLayerCommand(this->view, prev, current);
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
+
+	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////

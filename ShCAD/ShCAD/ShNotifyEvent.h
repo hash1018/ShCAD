@@ -199,9 +199,14 @@ public:
 	inline ShLayer* GetPreviousLayer() const { return this->previousLayer; }
 	inline ShLayer* GetCurrentLayer() const { return this->currentLayer; }
 
+	void SetSelectedEntityCount(int count) { this->selectedEntityCount = count; }
+	inline int GetSelectedEntityCount() const { return this->selectedEntityCount;
+	}
 private:
 	ShLayer *previousLayer;
 	ShLayer *currentLayer;
+	int selectedEntityCount;
+
 };
 
 
@@ -226,14 +231,20 @@ public:
 
 	inline ShLayer* GetChangedLayer() const { return this->changedLayer; }
 	inline ChangedType GetChangedType() const { return this->changedType; }
+
+	//This is used for updating propertyCombo.
 	void SetCurrentLayer(ShLayer *currentLayer) { this->currentLayer = currentLayer; }
+	//This is used for updating propertyCombo.
 	inline ShLayer* GetCurrentLayer() const { return this->currentLayer; }
 	inline ShLayerMemento* GetPreviousMemento() const { return this->previousMemento; }
 
 private:
 	ShLayer *changedLayer;
 	ChangedType changedType;
+
+	//This is used for updating propertyCombo.
 	ShLayer *currentLayer;
+
 	ShLayerMemento *previousMemento;
 };
 

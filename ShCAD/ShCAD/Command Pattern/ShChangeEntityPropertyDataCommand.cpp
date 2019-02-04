@@ -22,7 +22,7 @@ ShChangeEntityPropertyDataCommand::~ShChangeEntityPropertyDataCommand() {
 }
 
 void ShChangeEntityPropertyDataCommand::Execute() {
-	
+	qDebug("asdsdsad Execute");
 	ShPropertyData data;
 	ShCompositeEntityMemento *memento = dynamic_cast<ShCompositeEntityMemento*>(this->memento);
 
@@ -64,6 +64,7 @@ void ShChangeEntityPropertyDataCommand::Execute() {
 }
 
 void ShChangeEntityPropertyDataCommand::UnExecute() {
+	qDebug("asdsdsad UnExecute");
 
 	ShPropertyData data;
 	ShCompositeEntityMemento *memento = dynamic_cast<ShCompositeEntityMemento*>(this->memento);

@@ -42,10 +42,10 @@ ShViewUpdateHandler* ShCreatorViewUpdateFactory::Create(ShGraphicView *view, ShN
 
 	if (event->GetType() == ShNotifyEvent::Type::LayerDataChanged) {
 	
-		if (view->selectedEntityManager.GetSize() == 0)
-			return new ShLayerDataChangedEventUpdateHandlerSelectedEntity0(view, event);
-		else
-			return new ShLayerDataChangedEventUpdateHandler(view, event);
+		//if (view->selectedEntityManager.GetSize() == 0)
+		//	return new ShLayerDataChangedEventUpdateHandlerSelectedEntity0(view, event);
+		//else
+		return new ShLayerDataChangedEventUpdateHandler(view, event);
 	}
 
 	if (event->GetType() == ShNotifyEvent::Type::LayerCreated)

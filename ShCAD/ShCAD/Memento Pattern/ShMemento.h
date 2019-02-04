@@ -40,11 +40,13 @@ public:
 };
 
 class ShPropertyData;
+class ShLayer;
 class ShEntityMemento : public ShMemento {
 
 	friend class ShAddEntityCommand;
 	friend class ShDeleteEntityCommand;
 	friend class ShChangeEntityPropertyDataCommand;
+	friend class ShChangeEntityLayerCommand;
 
 public:
 	virtual ~ShEntityMemento() = 0;
@@ -55,6 +57,7 @@ protected:
 protected:
 	ShEntity *entity;
 	ShPropertyData *propertyData;
+	ShLayer *layer;
 
 	// if true  deallocate in the destructor.
 	bool mustDeallocateEntity;
@@ -103,8 +106,9 @@ class ShCompositeEntityMemento : public ShMemento {
 
 	friend class ShCadAction;
 	friend class ShDeleteEntityCommand;
-	friend class ShViewUpdateHandler;
+	friend class ShSelectedEntityManager;
 	friend class ShChangeEntityPropertyDataCommand;
+	friend class ShChangeEntityLayerCommand;
 
 private:
 	ShCompositeEntityMemento();

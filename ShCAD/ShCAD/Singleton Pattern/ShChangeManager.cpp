@@ -195,8 +195,8 @@ void ShChangeManager::Notify(ShLayerToolBar *layerToolBar, ShNotifyEvent *event)
 		manager->GetActivatedWidget()->Update(event);
 		this->propertyColumn->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 		this->propertyToolBar->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
-
 		this->layerColumn->SynchronizeLayerCombo(this->layerToolBar->GetCurrentComboIndex());
+
 	}
 }
 
@@ -219,8 +219,8 @@ void ShChangeManager::Notify(ShLayerColumn *layerColumn, ShNotifyEvent *event) {
 		manager->GetActivatedWidget()->Update(event);
 		this->propertyColumn->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 		this->propertyToolBar->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
-
 		this->layerToolBar->SynchronizeLayerCombo(this->layerColumn->GetCurrentComboIndex());
+
 	}
 }
 
@@ -237,8 +237,9 @@ void ShChangeManager::Notify(ShLayerDialog *layerDialog, ShNotifyEvent *event) {
 		this->propertyColumn->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 		this->propertyToolBar->Update(dynamic_cast<ShLayerDataChangedEvent*>(event));
 
-		this->layerToolBar->SynchronizeLayerCombo();
-		this->layerColumn->SynchronizeLayerCombo(this->layerColumn->GetCurrentComboIndex());
+		int index = this->layerToolBar->GetCurrentComboIndex();
+		this->layerToolBar->SynchronizeLayerCombo(index);
+		this->layerColumn->SynchronizeLayerCombo(index);
 	}
 	else if (event->GetType() == ShNotifyEvent::Type::CurrentLayerChanged) {
 	
@@ -246,25 +247,41 @@ void ShChangeManager::Notify(ShLayerDialog *layerDialog, ShNotifyEvent *event) {
 		this->propertyColumn->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
 		this->propertyToolBar->Update(dynamic_cast<ShCurrentLayerChangedEvent*>(event));
 
-		this->layerToolBar->SynchronizeLayerCombo();
-		this->layerColumn->SynchronizeLayerCombo();
+		
+
+		if (dynamic_cast<ShCurrentLayerChangedEvent*>(event)->GetSelectedEntityCount() != 0) {
+			int index = this->layerToolBar->GetCurrentComboIndex();
+			this->layerToolBar->SynchronizeLayerCombo(index);
+			this->layerColumn->SynchronizeLayerCombo(index);
+		}
+		else {
+			this->layerColumn->SynchronizeLayerCombo();
+			this->layerToolBar->SynchronizeLayerCombo();
+		}
+	
 
 	}
 	else if (event->GetType() == ShNotifyEvent::Type::LayerCreated) {
 	
 		manager->GetActivatedWidget()->Update(event);
 
-		this->layerToolBar->SynchronizeLayerCombo();
-		this->layerColumn->SynchronizeLayerCombo();
+		int index = this->layerToolBar->GetCurrentComboIndex();
+		this->layerToolBar->SynchronizeLayerCombo(index);
+		this->layerColumn->SynchronizeLayerCombo(index);
 	}
 	else if (event->GetType() == ShNotifyEvent::Type::LayerDeleted) {
 
 		manager->GetActivatedWidget()->Update(event);
 
-		this->layerToolBar->SynchronizeLayerCombo();
-		this->layerColumn->SynchronizeLayerCombo();
+		int index = this->layerToolBar->GetCurrentComboIndex();
+		this->layerToolBar->SynchronizeLayerCombo(index);
+		this->layerColumn->SynchronizeLayerCombo(index);
 	}
 }
+
+
+
+
 
 void ShChangeManager::Notify(ShChangeCurrentLayerCommand *changeCurrentLayerCommand, ShNotifyEvent *event) {
 
