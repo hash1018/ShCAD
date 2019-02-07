@@ -87,8 +87,8 @@
     <Filter Include="Strategy Pattern">
       <UniqueIdentifier>{d603386a-0bdb-46ee-8ba4-f4fcc7082321}</UniqueIdentifier>
     </Filter>
-    <Filter Include="State Pattern">
-      <UniqueIdentifier>{dc117fc4-4ca4-470f-9e23-604ea2b60895}</UniqueIdentifier>
+    <Filter Include="Facade Pattern">
+      <UniqueIdentifier>{79ab8139-cad0-4d29-ac01-19f331c51b8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -227,9 +227,6 @@
     <ClCompile Include="ShNotifyEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShCadAction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\Ribbon\ShRibbonMenu.cpp">
       <Filter>Interface\Ribbon</Filter>
     </ClCompile>
@@ -344,14 +341,17 @@
     <ClCompile Include="Command Pattern\ShChangeEntityPropertyDataCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="State Pattern\ShNotifyEventUpdateHandler.cpp">
-      <Filter>State Pattern</Filter>
-    </ClCompile>
     <ClCompile Include="FactoryMethod\ShCreatorViewUpdateFactory.cpp">
       <Filter>Factory Method</Filter>
     </ClCompile>
     <ClCompile Include="Command Pattern\ShChangeEntityLayerCommand.cpp">
       <Filter>Command Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Facade Pattern\ShCadFacade.cpp">
+      <Filter>Facade Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp">
+      <Filter>Strategy Pattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -510,9 +510,6 @@
     <ClInclude Include="ShNotifyEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShCadAction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\Ribbon\ShRibbonMenu.h">
       <Filter>Interface\Ribbon</Filter>
     </ClInclude>
@@ -555,14 +552,17 @@
     <ClInclude Include="Command Pattern\ShChangeEntityPropertyDataCommand.h">
       <Filter>Command Pattern</Filter>
     </ClInclude>
-    <ClInclude Include="State Pattern\ShNotifyEventUpdateHandler.h">
-      <Filter>State Pattern</Filter>
-    </ClInclude>
     <ClInclude Include="FactoryMethod\ShCreatorViewUpdateFactory.h">
       <Filter>Factory Method</Filter>
     </ClInclude>
     <ClInclude Include="Command Pattern\ShChangeEntityLayerCommand.h">
       <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Facade Pattern\ShCadFacade.h">
+      <Filter>Facade Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.h">
+      <Filter>Strategy Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

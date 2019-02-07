@@ -1,16 +1,16 @@
 
 
-#ifndef _SHCADACTION_H
-#define _SHCADACTION_H
+#ifndef _SHCADFACADE_H
+#define _SHCADFACADE_H
 
 /* All functions takes actions and follow-up on it such as updating list, saving undo,redo memento , ect */
 
 class ShGraphicView;
-class ShCadAction {
+class ShCadFacade{
 
 private:
-	ShCadAction();
-	~ShCadAction();
+	ShCadFacade();
+	~ShCadFacade();
 
 public:
 	//Ctrl + Z , Undo command or tool Button press.
@@ -32,4 +32,4 @@ public:
 
 };
 
-#endif //_SHCADACTION_H
+#endif //_SHCADFACADE_H

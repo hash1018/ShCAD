@@ -27,7 +27,7 @@
 #include <QKeyEvent>
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "ShNotifyEvent.h"
-#include "ShCadAction.h"
+#include "Facade Pattern\ShCadFacade.h"
 
 ShDefaultAction::ShDefaultAction(ShGraphicView *graphicView)
 	:ShActionHandler(graphicView) {
@@ -81,15 +81,15 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 
 	// Ctrl + Z undo
 	if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Z)
-		ShCadAction::Undo(this->graphicView);
+		ShCadFacade::Undo(this->graphicView);
 
 	//Ctrl + Y redo
 	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Y)
-		ShCadAction::Redo(this->graphicView);
+		ShCadFacade::Redo(this->graphicView);
 
 	//Ctrl + A Select All
 	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_A)
-		ShCadAction::SelectAll(this->graphicView);
+		ShCadFacade::SelectAll(this->graphicView);
 
 	//Delete 
 	else if (event->key() == Qt::Key::Key_Delete) {
@@ -99,7 +99,7 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 			this->graphicView->Notify(&event2);
 		}
 		else
-			ShCadAction::Delete(this->graphicView);
+			ShCadFacade::Delete(this->graphicView);
 
 	}
 

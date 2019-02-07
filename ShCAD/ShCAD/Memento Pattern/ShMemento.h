@@ -104,7 +104,7 @@ private:
 
 class ShCompositeEntityMemento : public ShMemento {
 
-	friend class ShCadAction;
+	friend class ShCadFacade;
 	friend class ShDeleteEntityCommand;
 	friend class ShSelectedEntityManager;
 	friend class ShChangeEntityPropertyDataCommand;

@@ -1,6 +1,6 @@
 
 
-#include "ShCadAction.h"
+#include "ShCadFacade.h"
 #include "Interface\ShGraphicView.h"
 #include <qstring.h>
 #include "Command Pattern\ShCommand.h"
@@ -10,15 +10,15 @@
 #include "Memento Pattern\ShMemento.h"
 
 
-ShCadAction::ShCadAction() {
+ShCadFacade::ShCadFacade() {
 
 }
 
-ShCadAction::~ShCadAction() {
+ShCadFacade::~ShCadFacade() {
 
 }
 
-void ShCadAction::Undo(ShGraphicView *graphicView) {
+void ShCadFacade::Undo(ShGraphicView *graphicView) {
 
 	if (graphicView->currentAction->GetType() != ActionType::ActionDefault)
 		return;
@@ -59,7 +59,7 @@ void ShCadAction::Undo(ShGraphicView *graphicView) {
 
 }
 
-void ShCadAction::Redo(ShGraphicView *graphicView) {
+void ShCadFacade::Redo(ShGraphicView *graphicView) {
 
 	if (graphicView->currentAction->GetType() != ActionType::ActionDefault)
 		return;
@@ -101,7 +101,7 @@ void ShCadAction::Redo(ShGraphicView *graphicView) {
 
 }
 
-void ShCadAction::SelectAll(ShGraphicView *graphicView) {
+void ShCadFacade::SelectAll(ShGraphicView *graphicView) {
 
 	graphicView->selectedEntityManager.SelectAll(&(graphicView->entityTable));
 
@@ -120,7 +120,7 @@ void ShCadAction::SelectAll(ShGraphicView *graphicView) {
 
 }
 
-void ShCadAction::Delete(ShGraphicView *graphicView) {
+void ShCadFacade::Delete(ShGraphicView *graphicView) {
 
 	int size = graphicView->selectedEntityManager.GetSize();
 
