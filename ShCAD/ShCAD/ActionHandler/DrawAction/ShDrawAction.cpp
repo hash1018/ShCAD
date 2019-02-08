@@ -24,7 +24,7 @@
 --*/
 
 #include "ShDrawAction.h"
-#include "Command Pattern\ShAddEntityCommand.h"
+#include "Command Pattern\Entity Command\ShAddEntityCommand.h"
 
 ShDrawAction::ShDrawAction(ShGraphicView *graphicView)
 	:ShActionHandler(graphicView) {
@@ -44,7 +44,7 @@ QCursor ShDrawAction::GetCursorShape() {
 void ShDrawAction::AddEntity(ShEntity* newEntity,const QString& commandText) {
 	qDebug("ShDrawAction->AddEntity()");
 
-	ShAddEntityCommand *command = new ShAddEntityCommand(this->graphicView, newEntity->CreateMemento(), commandText);
+	ShAddEntityCommand *command = new ShAddEntityCommand(this->graphicView, newEntity, commandText);
 
 	command->Execute();
 

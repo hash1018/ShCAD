@@ -24,8 +24,7 @@
 --*/
 
 #include "ShPanMoveAction.h"
-#include "Memento Pattern\ShMemento.h"
-#include "Command Pattern\ShMoveViewCommand.h"
+#include "Command Pattern\UI Command\ShMoveViewCommand.h"
 #include <QMouseEvent>
 ShPanMoveAction::ShPanMoveAction(ShGraphicView *graphicView, ShActionHandler *previousAction)
 	:ShTemporaryAction(graphicView, previousAction), prevX(0), prevY(0) {
@@ -44,13 +43,17 @@ void ShPanMoveAction::MousePressEvent(QMouseEvent *event) {
 	this->prevX = event->x();
 	this->prevY = event->y();
 
-	ShMoveViewMemento *memento = new ShMoveViewMemento;
-	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), memento->ex, memento->ey);
-	memento->dx = event->x();
-	memento->dy = event->y();
-	memento->zoomRate = this->graphicView->GetZoomRate();
+	
 
-	this->graphicView->undoTaker.Push(new ShMoveViewCommand(this->graphicView, memento));
+	double ex, ey, zoomRate;
+	int dx, dy;
+
+	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), ex, ey);
+	dx = event->x();
+	dy = event->y();
+	zoomRate = this->graphicView->GetZoomRate();
+
+	this->graphicView->undoTaker.Push(new ShMoveViewCommand(this->graphicView, ex, ey, zoomRate, dx, dy));
 
 	if (!this->graphicView->redoTaker.IsEmpty())
 		this->graphicView->redoTaker.DeleteAll();

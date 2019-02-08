@@ -3,11 +3,10 @@
 #ifndef _SHCHANGELAYERDATACOMMAND_H
 #define _SHCHANGELAYERDATACOMMAND_H
 
-#include "ShCommand.h"
+#include "Command Pattern\ShCommand.h"
+#include "ShLayer.h"
 
 class ShGraphicView;
-class ShLayer;
-class ShLayerMemento;
 class ShChangeLayerDataCommand : public ShCommand {
 
 public:
@@ -23,10 +22,11 @@ public:
 private:
 	ShGraphicView *view;
 	ShLayer *changedLayer;
+	ShLayerData previousData;
 	ChangedType type;
 	
 public:
-	ShChangeLayerDataCommand(ShGraphicView *view, ShLayer *changedLayer, ShLayerMemento *memento, 
+	ShChangeLayerDataCommand(ShGraphicView *view, ShLayer *changedLayer, const ShLayerData& previousData,
 		ShChangeLayerDataCommand::ChangedType type);
 	virtual void Execute();
 	virtual void UnExecute();

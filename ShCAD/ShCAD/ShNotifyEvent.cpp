@@ -148,10 +148,10 @@ ShCurrentLayerChangedEvent::~ShCurrentLayerChangedEvent() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ShLayerDataChangedEvent::ShLayerDataChangedEvent(ShLayer *changedLayer, ShLayerMemento *previousMemento,
+ShLayerDataChangedEvent::ShLayerDataChangedEvent(ShLayer *changedLayer, const ShLayerData& previousData,
 	ShLayerDataChangedEvent::ChangedType changedType)
-	:ShNotifyEvent(Type::LayerDataChanged), changedLayer(changedLayer), changedType(changedType), currentLayer(0), 
-	previousMemento(previousMemento) {
+	:ShNotifyEvent(Type::LayerDataChanged), changedLayer(changedLayer), changedType(changedType), currentLayer(0),
+	previousData(previousData) {
 
 
 }

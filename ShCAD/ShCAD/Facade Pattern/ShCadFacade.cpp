@@ -6,8 +6,8 @@
 #include "Command Pattern\ShCommand.h"
 #include "ShNotifyEvent.h"
 #include "ActionHandler\ShActionHandler.h"
-#include "Command Pattern\ShDeleteEntityCommand.h"
-#include "Memento Pattern\ShMemento.h"
+#include "Command Pattern\Entity Command\ShDeleteEntityCommand.h"
+//#include "Memento Pattern\ShMemento.h"
 
 
 ShCadFacade::ShCadFacade() {
@@ -124,20 +124,19 @@ void ShCadFacade::Delete(ShGraphicView *graphicView) {
 
 	int size = graphicView->selectedEntityManager.GetSize();
 
-	ShCompositeEntityMemento *memento = new ShCompositeEntityMemento;
-
 	graphicView->selectedEntityManager.UnSelectAll();
 	QLinkedList<ShEntity*>::iterator itr = graphicView->selectedEntityManager.GetJustUnSelectedBegin();
+	QLinkedList<ShEntity*> entities;
 
 	for (itr = graphicView->selectedEntityManager.GetJustUnSelectedBegin();
 		itr != graphicView->selectedEntityManager.GetJustUnSelectedEnd();
 		++itr) {
 
-		memento->list.append((*itr)->CreateMemento());
+		entities.append((*itr));
 	}
 
 
-	ShDeleteEntityCommand *command = new ShDeleteEntityCommand(graphicView, memento);
+	ShDeleteEntityCommand *command = new ShDeleteEntityCommand(graphicView, entities);
 	command->Execute();
 
 	graphicView->undoTaker.Push(command);

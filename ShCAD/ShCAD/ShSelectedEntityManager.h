@@ -32,7 +32,6 @@ class ShEntity;
 class ShEntityTable;
 class ShLayer;
 class ShGraphicView;
-class ShCompositeEntityMemento;
 class ShSelectedEntityManager {
 
 private:
@@ -77,7 +76,6 @@ public:
 	inline QLinkedList<ShEntity*>::iterator Begin() { return this->list.begin(); }
 	inline QLinkedList<ShEntity*>::iterator End() { return this->list.end(); }
 
-	ShCompositeEntityMemento* CreateSelectedEntityMemento();
 
 	inline ShPropertyData GetDataForCombo() const { return this->propertyDataForCombo; }
 	inline ShLayer* GetLayerForCombo() { return this->layerForCombo; }

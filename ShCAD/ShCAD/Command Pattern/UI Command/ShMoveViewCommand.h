@@ -26,17 +26,21 @@
 #ifndef _SHMOVEVIEWCOMMAND_H
 #define _SHMOVEVIEWCOMMAND_H
 
-#include "ShCommand.h"
+#include "Command Pattern\ShCommand.h"
 
 class ShGraphicView;
-class ShMoveViewMemento;
 class ShMoveViewCommand : public ShCommand {
 
 private:
 	ShGraphicView *view;
+	double ex;
+	double ey;
+	double zoomRate;
+	int dx;
+	int dy;
 
 public:
-	ShMoveViewCommand(ShGraphicView *view, ShMoveViewMemento *memento);
+	ShMoveViewCommand(ShGraphicView *view, double ex, double ey, double zoomRate, int dx, int dy);
 	virtual void Execute();
 	virtual void UnExecute();
 

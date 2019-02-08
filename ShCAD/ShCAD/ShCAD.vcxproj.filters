@@ -60,9 +60,6 @@
     <Filter Include="Singleton Pattern">
       <UniqueIdentifier>{e15e95af-ba21-498b-99ef-faa9806d96a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Memento pattern">
-      <UniqueIdentifier>{4c389252-030c-4c0b-bd0f-8fe51b0b61b7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Command Pattern">
       <UniqueIdentifier>{f9b0726f-47ce-4366-be86-9da9cb719f4b}</UniqueIdentifier>
     </Filter>
@@ -89,6 +86,12 @@
     </Filter>
     <Filter Include="Facade Pattern">
       <UniqueIdentifier>{79ab8139-cad0-4d29-ac01-19f331c51b8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command Pattern\Entity Command">
+      <UniqueIdentifier>{7658f721-32c5-45e2-af50-5d4cb7c21f28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command Pattern\UI Command">
+      <UniqueIdentifier>{85c2108d-bf9a-4586-9565-e3182dbcd085}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -161,19 +164,7 @@
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp">
       <Filter>Singleton Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="Memento Pattern\ShMemento.cpp">
-      <Filter>Memento pattern</Filter>
-    </ClCompile>
-    <ClCompile Include="Memento Pattern\ShUndoTaker.cpp">
-      <Filter>Memento pattern</Filter>
-    </ClCompile>
-    <ClCompile Include="Memento Pattern\ShRedoTaker.cpp">
-      <Filter>Memento pattern</Filter>
-    </ClCompile>
     <ClCompile Include="Command Pattern\ShCommand.cpp">
-      <Filter>Command Pattern</Filter>
-    </ClCompile>
-    <ClCompile Include="Command Pattern\ShAddEntityCommand.cpp">
       <Filter>Command Pattern</Filter>
     </ClCompile>
     <ClCompile Include="Entity\Composite\ShPreview.cpp">
@@ -194,9 +185,6 @@
     <ClCompile Include="ShMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Command Pattern\ShMoveViewCommand.cpp">
-      <Filter>Command Pattern</Filter>
-    </ClCompile>
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClCompile>
@@ -214,9 +202,6 @@
     </ClCompile>
     <ClCompile Include="ShPoint.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Command Pattern\ShDeleteEntityCommand.cpp">
-      <Filter>Command Pattern</Filter>
     </ClCompile>
     <ClCompile Include="Interface\Dock\ShCommandDock.cpp">
       <Filter>Interface\Dock</Filter>
@@ -317,41 +302,56 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ShLayerDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Command Pattern\ShChangeCurrentLayerCommand.cpp">
-      <Filter>Command Pattern</Filter>
-    </ClCompile>
-    <ClCompile Include="Command Pattern\ShChangeLayerDataCommand.cpp">
-      <Filter>Command Pattern</Filter>
-    </ClCompile>
-    <ClCompile Include="Command Pattern\ShCreateLayerCommand.cpp">
-      <Filter>Command Pattern</Filter>
-    </ClCompile>
-    <ClCompile Include="Command Pattern\ShDeleteLayerCommand.cpp">
-      <Filter>Command Pattern</Filter>
-    </ClCompile>
     <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp">
       <Filter>Strategy Pattern</Filter>
     </ClCompile>
     <ClCompile Include="FactoryMethod\ShCreatorViewDrawFactory.cpp">
       <Filter>Factory Method</Filter>
     </ClCompile>
-    <ClCompile Include="Command Pattern\ShChangePropertyDataCommand.cpp">
-      <Filter>Command Pattern</Filter>
-    </ClCompile>
-    <ClCompile Include="Command Pattern\ShChangeEntityPropertyDataCommand.cpp">
-      <Filter>Command Pattern</Filter>
-    </ClCompile>
     <ClCompile Include="FactoryMethod\ShCreatorViewUpdateFactory.cpp">
       <Filter>Factory Method</Filter>
-    </ClCompile>
-    <ClCompile Include="Command Pattern\ShChangeEntityLayerCommand.cpp">
-      <Filter>Command Pattern</Filter>
     </ClCompile>
     <ClCompile Include="Facade Pattern\ShCadFacade.cpp">
       <Filter>Facade Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="Command Pattern\ShRedoTaker.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\ShUndoTaker.cpp">
+      <Filter>Command Pattern</Filter>
+    </ClCompile>
     <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp">
       <Filter>Strategy Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\Entity Command\ShAddEntityCommand.cpp">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.cpp">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\Entity Command\ShDeleteEntityCommand.cpp">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\UI Command\ShChangePropertyDataCommand.cpp">
+      <Filter>Command Pattern\UI Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\UI Command\ShMoveViewCommand.cpp">
+      <Filter>Command Pattern\UI Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\Entity Command\ShChangeEntityLayerCommand.cpp">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\UI Command\ShChangeCurrentLayerCommand.cpp">
+      <Filter>Command Pattern\UI Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\UI Command\ShChangeLayerDataCommand.cpp">
+      <Filter>Command Pattern\UI Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\UI Command\ShCreateLayerCommand.cpp">
+      <Filter>Command Pattern\UI Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\UI Command\ShDeleteLayerCommand.cpp">
+      <Filter>Command Pattern\UI Command</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -444,19 +444,7 @@
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h">
       <Filter>Singleton Pattern</Filter>
     </ClInclude>
-    <ClInclude Include="Memento Pattern\ShMemento.h">
-      <Filter>Memento pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Memento Pattern\ShUndoTaker.h">
-      <Filter>Memento pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Memento Pattern\ShRedoTaker.h">
-      <Filter>Memento pattern</Filter>
-    </ClInclude>
     <ClInclude Include="Command Pattern\ShCommand.h">
-      <Filter>Command Pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Command Pattern\ShAddEntityCommand.h">
       <Filter>Command Pattern</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Composite\ShPreview.h">
@@ -477,9 +465,6 @@
     <ClInclude Include="ShMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Command Pattern\ShMoveViewCommand.h">
-      <Filter>Command Pattern</Filter>
-    </ClInclude>
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClInclude>
@@ -497,9 +482,6 @@
     </ClInclude>
     <ClInclude Include="ShPoint.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Command Pattern\ShDeleteEntityCommand.h">
-      <Filter>Command Pattern</Filter>
     </ClInclude>
     <ClInclude Include="Interface\Dock\ShCommandDock.h">
       <Filter>Interface\Dock</Filter>
@@ -528,41 +510,56 @@
     <ClInclude Include="ShLayerTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Command Pattern\ShChangeCurrentLayerCommand.h">
-      <Filter>Command Pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Command Pattern\ShChangeLayerDataCommand.h">
-      <Filter>Command Pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Command Pattern\ShCreateLayerCommand.h">
-      <Filter>Command Pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Command Pattern\ShDeleteLayerCommand.h">
-      <Filter>Command Pattern</Filter>
-    </ClInclude>
     <ClInclude Include="Strategy Pattern\ShViewDrawStrategy.h">
       <Filter>Strategy Pattern</Filter>
     </ClInclude>
     <ClInclude Include="FactoryMethod\ShCreatorViewDrawFactory.h">
       <Filter>Factory Method</Filter>
     </ClInclude>
-    <ClInclude Include="Command Pattern\ShChangePropertyDataCommand.h">
-      <Filter>Command Pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Command Pattern\ShChangeEntityPropertyDataCommand.h">
-      <Filter>Command Pattern</Filter>
-    </ClInclude>
     <ClInclude Include="FactoryMethod\ShCreatorViewUpdateFactory.h">
       <Filter>Factory Method</Filter>
-    </ClInclude>
-    <ClInclude Include="Command Pattern\ShChangeEntityLayerCommand.h">
-      <Filter>Command Pattern</Filter>
     </ClInclude>
     <ClInclude Include="Facade Pattern\ShCadFacade.h">
       <Filter>Facade Pattern</Filter>
     </ClInclude>
+    <ClInclude Include="Command Pattern\ShRedoTaker.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\ShUndoTaker.h">
+      <Filter>Command Pattern</Filter>
+    </ClInclude>
     <ClInclude Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.h">
       <Filter>Strategy Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\Entity Command\ShAddEntityCommand.h">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.h">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\Entity Command\ShDeleteEntityCommand.h">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\UI Command\ShChangePropertyDataCommand.h">
+      <Filter>Command Pattern\UI Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\UI Command\ShMoveViewCommand.h">
+      <Filter>Command Pattern\UI Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\Entity Command\ShChangeEntityLayerCommand.h">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\UI Command\ShChangeCurrentLayerCommand.h">
+      <Filter>Command Pattern\UI Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\UI Command\ShChangeLayerDataCommand.h">
+      <Filter>Command Pattern\UI Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\UI Command\ShCreateLayerCommand.h">
+      <Filter>Command Pattern\UI Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\UI Command\ShDeleteLayerCommand.h">
+      <Filter>Command Pattern\UI Command</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

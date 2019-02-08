@@ -24,14 +24,11 @@
 --*/
 
 #include "ShMoveViewCommand.h"
-#include "Memento Pattern\ShMemento.h"
 #include "Interface\ShGraphicView.h"
-ShMoveViewCommand::ShMoveViewCommand(ShGraphicView *view, ShMoveViewMemento *memento) {
+ShMoveViewCommand::ShMoveViewCommand(ShGraphicView *view, double ex, double ey, double zoomRate, int dx, int dy)
+	:ShCommand("ViewMove"), view(view), ex(ex), ey(ey), zoomRate(zoomRate), dx(dx), dy(dy) {
 
-	this->view = view;
-	this->memento = memento;
 
-	this->commandText = "ViewMove";
 }
 
 ShMoveViewCommand::~ShMoveViewCommand() {
@@ -49,15 +46,15 @@ void ShMoveViewCommand::Execute() {
 	this->view->ConvertEntityToDevice(x, y, dx, dy);
 
 
-	ShMoveViewMemento* memento = dynamic_cast<ShMoveViewMemento*>(this->memento);
-	this->view->MoveView(memento->ex, memento->ey, memento->zoomRate,
-		memento->dx, memento->dy);
+	
+	this->view->MoveView(this->ex, this->ey, this->zoomRate,
+		this->dx, this->dy);
 
-	memento->ex = x;
-	memento->ey = y;
-	memento->zoomRate = zoomRate;
-	memento->dx = dx;
-	memento->dy = dy;
+	this->ex = x;
+	this->ey = y;
+	this->zoomRate = zoomRate;
+	this->dx = dx;
+	this->dy = dy;
 
 }
 
@@ -71,15 +68,15 @@ void ShMoveViewCommand::UnExecute() {
 	this->view->ConvertEntityToDevice(x, y, dx, dy);
 
 
-	ShMoveViewMemento* memento = dynamic_cast<ShMoveViewMemento*>(this->memento);
-	this->view->MoveView(memento->ex, memento->ey, memento->zoomRate,
-		memento->dx, memento->dy);
+	
+	this->view->MoveView(this->ex, this->ey, this->zoomRate,
+		this->dx, this->dy);
 
-	memento->ex = x;
-	memento->ey = y;
-	memento->zoomRate = zoomRate;
-	memento->dx = dx;
-	memento->dy = dy;
+	this->ex = x;
+	this->ey = y;
+	this->zoomRate = zoomRate;
+	this->dx = dx;
+	this->dy = dy;
 
 
 }

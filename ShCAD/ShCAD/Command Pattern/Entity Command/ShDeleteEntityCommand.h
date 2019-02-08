@@ -23,25 +23,30 @@
 **
 --*/
 
+#ifndef _SHDELETEENTITYCOMMAND_H
+#define _SHDELETEENTITYCOMMAND_H
 
-#ifndef _SHREDOCOMMAND_H
-#define _SHREDOCOMMAND_H
+#include "Command Pattern\ShCommand.h"
+#include <qlinkedlist.h>
 
-#include "ShCommand.h"
 class ShGraphicView;
-class ShMemento;
-class ShRedoCommand :public ShCommand{
+class ShEntity;
+class ShDeleteEntityCommand : public ShCommand {
 
 private:
 	ShGraphicView *graphicView;
-	ShMemento *memento;
+	QLinkedList<ShEntity*> entities;
+	bool mustDeallocateEntity;
 
 public:
-	ShRedoCommand(ShGraphicView *view, ShMemento *memento);
-	~ShRedoCommand();
-
+	ShDeleteEntityCommand(ShGraphicView *view, const QLinkedList<ShEntity*>& entities);
 	virtual void Execute();
+	virtual void UnExecute();
+
+protected:
+	~ShDeleteEntityCommand();
+
 
 };
 
-#endif //_SHREDOCOMMAND_H
+#endif //_SHDELETEENTITYCOMMAND_H

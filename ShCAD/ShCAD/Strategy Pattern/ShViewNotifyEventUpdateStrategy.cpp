@@ -65,15 +65,14 @@ ShPropertyColorComboSelChangedEventUpdateStrategy::~ShPropertyColorComboSelChang
 
 }
 
-#include "Command Pattern\ShChangeEntityPropertyDataCommand.h"
+#include "Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.h"
 void ShPropertyColorComboSelChangedEventUpdateStrategy::Update() {
 	
 	ShPropertyColorComboSelChangedEvent *event = 
 		dynamic_cast<ShPropertyColorComboSelChangedEvent*>(this->event);
 
-	//previous data.
-	ShCompositeEntityMemento *memento = this->view->selectedEntityManager.CreateSelectedEntityMemento();
-
+	QLinkedList<ShEntity*> selectedEntities;
+	QLinkedList<ShColor> previousColors;
 	QLinkedList<ShEntity*>::iterator itr;
 	ShPropertyData data;
 
@@ -83,7 +82,11 @@ void ShPropertyColorComboSelChangedEventUpdateStrategy::Update() {
 		itr != this->view->selectedEntityManager.End();
 		++itr) {
 
+		selectedEntities.append((*itr));
+		previousColors.append((*itr)->GetPropertyData().GetColor());
+
 		data = (*itr)->GetPropertyData();
+
 
 		if (event->GetColor().GetType() == ShColor::Type::ByBlock)
 			data.SetColor(this->view->GetData()->GetBlockData()->GetColor());
@@ -101,7 +104,7 @@ void ShPropertyColorComboSelChangedEventUpdateStrategy::Update() {
 
 
 	ShChangeEntityPropertyDataCommand *command = new ShChangeEntityPropertyDataCommand(this->view,
-		memento, event->GetColor());
+		selectedEntities, previousColors, event->GetColor());
 
 	this->view->undoTaker.Push(command);
 
@@ -123,7 +126,7 @@ ShPropertyColorComboSelChangedEventUpdateStrategySelectedEntity0::
 
 }
 
-#include "Command Pattern\ShChangePropertyDataCommand.h"
+#include "Command Pattern\UI Command\ShChangePropertyDataCommand.h"
 void ShPropertyColorComboSelChangedEventUpdateStrategySelectedEntity0::Update() {
 
 	ShPropertyColorComboSelChangedEvent *event =
@@ -159,9 +162,8 @@ void ShPropertyLineStyleComboSelChangedEventUpdateStrategy::Update() {
 	ShPropertyLineStyleComboSelChangedEvent *event =
 		dynamic_cast<ShPropertyLineStyleComboSelChangedEvent*>(this->event);
 
-	//previous data.
-	ShCompositeEntityMemento *memento = this->view->selectedEntityManager.CreateSelectedEntityMemento();
-
+	QLinkedList<ShEntity*> selectedEntities;
+	QLinkedList<ShLineStyle> previousLineStyles;
 	QLinkedList<ShEntity*>::iterator itr;
 	ShPropertyData data;
 
@@ -169,6 +171,8 @@ void ShPropertyLineStyleComboSelChangedEventUpdateStrategy::Update() {
 		itr != this->view->selectedEntityManager.End();
 		++itr) {
 
+		selectedEntities.append((*itr));
+		previousLineStyles.append((*itr)->GetPropertyData().GetLineStyle());
 
 		data = (*itr)->GetPropertyData();
 
@@ -191,7 +195,7 @@ void ShPropertyLineStyleComboSelChangedEventUpdateStrategy::Update() {
 
 
 	ShChangeEntityPropertyDataCommand *command = new ShChangeEntityPropertyDataCommand(this->view,
-		memento, event->GetLineStyle());
+		selectedEntities, previousLineStyles, event->GetLineStyle());
 
 	this->view->undoTaker.Push(command);
 
@@ -246,16 +250,14 @@ ShLayerComboSelChangedEventUpdateStrategy::~ShLayerComboSelChangedEventUpdateStr
 
 }
 
-#include "Command Pattern\ShChangeEntityLayerCommand.h"
+#include "Command Pattern\Entity Command\ShChangeEntityLayerCommand.h"
 void ShLayerComboSelChangedEventUpdateStrategy::Update() {
 	
 	ShLayerComboSelChangedEvent *event = dynamic_cast<ShLayerComboSelChangedEvent*>(this->event);
 
-	//previous data
-	ShCompositeEntityMemento *memento = this->view->selectedEntityManager.CreateSelectedEntityMemento();
-
 	QLinkedList<ShEntity*>::iterator itr;
-
+	QLinkedList<ShEntity*> selectedEntities;
+	QLinkedList<ShLayer*> previousLayers;
 	ShLayer* layer = this->view->entityTable.GetLayerTable()->GetLayer(event->GetIndex());
 	ShPropertyData data;
 
@@ -263,6 +265,10 @@ void ShLayerComboSelChangedEventUpdateStrategy::Update() {
 		itr != this->view->selectedEntityManager.End();
 		++itr) {
 	
+		selectedEntities.append((*itr));
+		previousLayers.append((*itr)->GetLayer());
+
+
 		(*itr)->GetLayer()->Remove((*itr));
 
 		layer->Add((*itr));
@@ -286,7 +292,7 @@ void ShLayerComboSelChangedEventUpdateStrategy::Update() {
 	this->view->update(DrawType::DrawAll);
 	this->view->CaptureImage();
 
-	ShChangeEntityLayerCommand *command = new ShChangeEntityLayerCommand(this->view, memento, layer);
+	ShChangeEntityLayerCommand *command = new ShChangeEntityLayerCommand(this->view, selectedEntities, previousLayers, layer);
 
 	this->view->undoTaker.Push(command);
 
@@ -307,7 +313,7 @@ ShLayerComboSelChangedEventUpdateStrategySelectedEntity0::~ShLayerComboSelChange
 
 }
 
-#include "Command Pattern\ShChangeCurrentLayerCommand.h"
+#include "Command Pattern\UI Command\ShChangeCurrentLayerCommand.h"
 void ShLayerComboSelChangedEventUpdateStrategySelectedEntity0::Update() {
 
 	ShLayerComboSelChangedEvent *event = dynamic_cast<ShLayerComboSelChangedEvent*>(this->event);
@@ -349,6 +355,7 @@ void ShLayerComboSelChangedEventUpdateStrategySelectedEntity0::Update() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 ShLayerDataChangedEventUpdateStrategy::ShLayerDataChangedEventUpdateStrategy(ShGraphicView *view, ShNotifyEvent *event)
 	:ShViewUpdateStrategy(view, event) {
 
@@ -358,7 +365,7 @@ ShLayerDataChangedEventUpdateStrategy::~ShLayerDataChangedEventUpdateStrategy() 
 
 }
 
-#include "Command Pattern\ShChangeLayerDataCommand.h"
+#include "Command Pattern\UI Command\ShChangeLayerDataCommand.h"
 void ShLayerDataChangedEventUpdateStrategy::Update() {
 
 	ShLayerDataChangedEvent *event = dynamic_cast<ShLayerDataChangedEvent*>(this->event);
@@ -409,7 +416,7 @@ void ShLayerDataChangedEventUpdateStrategy::Update() {
 	
 
 	ShChangeLayerDataCommand *command = new ShChangeLayerDataCommand(this->view, event->GetChangedLayer(),
-		event->GetPreviousMemento(), (ShChangeLayerDataCommand::ChangedType)event->GetChangedType());
+		event->GetPreviousData(), (ShChangeLayerDataCommand::ChangedType)event->GetChangedType());
 
 	this->view->undoTaker.Push(command);
 
@@ -420,74 +427,6 @@ void ShLayerDataChangedEventUpdateStrategy::Update() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-/*
-ShLayerDataChangedEventUpdateStrategySelectedEntity0::
-ShLayerDataChangedEventUpdateStrategySelectedEntity0(ShGraphicView *view, ShNotifyEvent *event)
-	:ShViewUpdateStrategy(view, event) {
-
-}
-
-ShLayerDataChangedEventUpdateStrategySelectedEntity0::~ShLayerDataChangedEventUpdateStrategySelectedEntity0() {
-
-}
-
-void ShLayerDataChangedEventUpdateStrategySelectedEntity0::Update() {
-
-	ShLayerDataChangedEvent *event = dynamic_cast<ShLayerDataChangedEvent*>(this->event);
-
-	if (event->GetChangedLayer() == this->view->entityTable.GetLayerTable()->GetCurrentLayer()) {
-		this->view->GetData()->SetLayerData(event->GetChangedLayer()->GetData().GetPropertyData());
-
-		if (this->view->GetData()->GetPropertyData()->GetColor().GetType() == ShColor::Type::ByLayer) {
-			this->view->GetData()->GetPropertyData()->SetColor(this->view->GetData()->GetLayerData()->GetColor());
-		}
-		if (this->view->GetData()->GetPropertyData()->GetLineStyle().GetType() == ShLineStyle::ByLayer) {
-			this->view->GetData()->GetPropertyData()->SetLineStyle(this->view->GetData()->GetLayerData()->GetLineStyle());
-		}
-	}
-
-	event->SetCurrentLayer(this->view->entityTable.GetLayerTable()->GetCurrentLayer());
-
-	DrawType type = DrawType::DrawNone;
-
-	if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::Color)
-		type = (DrawType)(type | DrawType::DrawAll);
-	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::LineStyle)
-		type = (DrawType)(type | DrawType::DrawAll);
-	else if (event->GetChangedType() == ShLayerDataChangedEvent::ChangedType::TurnOnOff) {
-
-		this->view->entityTable.GetLayerTable()->UpdateTurnOnLayerList();
-
-		if (this->view->selectedEntityManager.GetSize() > 0) {
-			this->view->selectedEntityManager.UnSelectAll();
-			type = (DrawType)(type | DrawType::DrawAll);
-		}
-		else if (event->GetChangedLayer()->GetData().IsTurnOn() == true) {
-
-			this->view->entityTable.GetLayerTable()->SetJustTurnOnLayer(event->GetChangedLayer());
-			type = (DrawType)(type | DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer);
-		}
-		else {
-
-			type = (DrawType)(type | DrawType::DrawAll);
-		}
-	}
-
-
-	this->view->update(type);
-	this->view->CaptureImage();
-
-	ShChangeLayerDataCommand *command = new ShChangeLayerDataCommand(this->view, event->GetChangedLayer(),
-		event->GetPreviousMemento(), (ShChangeLayerDataCommand::ChangedType)event->GetChangedType());
-
-	this->view->undoTaker.Push(command);
-
-	if (!this->view->redoTaker.IsEmpty())
-		this->view->redoTaker.DeleteAll();
-
-}
-
-*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShLayerCreatedEventUpdateStrategy::ShLayerCreatedEventUpdateStrategy(ShGraphicView *view, ShNotifyEvent *event)
@@ -500,13 +439,13 @@ ShLayerCreatedEventUpdateStrategy::~ShLayerCreatedEventUpdateStrategy() {
 
 }
 
-#include "Command Pattern\ShCreateLayerCommand.h"
+#include "Command Pattern\UI Command\ShCreateLayerCommand.h"
 void ShLayerCreatedEventUpdateStrategy::Update() {
 
 	ShLayerCreatedEvent *event = dynamic_cast<ShLayerCreatedEvent*>(this->event);
 
 	ShCreateLayerCommand *command = new ShCreateLayerCommand(this->view,
-		event->GetNewLayer()->CreateMemento());
+		event->GetNewLayer());
 
 	this->view->undoTaker.Push(command);
 
@@ -517,7 +456,7 @@ void ShLayerCreatedEventUpdateStrategy::Update() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "Command Pattern\ShDeleteLayerCommand.h"
+#include "Command Pattern\UI Command\ShDeleteLayerCommand.h"
 ShLayerDeletedEventUpdateStrategy::ShLayerDeletedEventUpdateStrategy(ShGraphicView *view, ShNotifyEvent *event)
 	:ShViewUpdateStrategy(view, event) {
 
@@ -532,7 +471,7 @@ void ShLayerDeletedEventUpdateStrategy::Update() {
 	ShLayerDeletedEvent *event = dynamic_cast<ShLayerDeletedEvent*>(this->event);
 
 	ShDeleteLayerCommand *command = new ShDeleteLayerCommand(this->view,
-		event->GetDeletedLayer()->CreateMemento());
+		event->GetDeletedLayer());
 
 	this->view->undoTaker.Push(command);
 
@@ -589,6 +528,5 @@ void ShCurrentLayerChangedEventUpdateStrategy::Update() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 

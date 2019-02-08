@@ -1,14 +1,13 @@
 
 
 #include "ShChangeLayerDataCommand.h"
-#include "Memento Pattern\ShMemento.h"
 #include "ShLayer.h"
 #include "Interface\ShGraphicView.h"
 #include "ShNotifyEvent.h"
 #include "Singleton Pattern\ShChangeManager.h"
-ShChangeLayerDataCommand::ShChangeLayerDataCommand(ShGraphicView *view, ShLayer *changedLayer, ShLayerMemento *memento,
+ShChangeLayerDataCommand::ShChangeLayerDataCommand(ShGraphicView *view, ShLayer *changedLayer, const ShLayerData& previousData,
 	ShChangeLayerDataCommand::ChangedType type)
-	:ShCommand(memento, "Modify Layer Data"), view(view), changedLayer(changedLayer), type(type) {
+	:ShCommand("Modify Layer Data"), view(view), previousData(previousData), changedLayer(changedLayer), type(type) {
 
 
 }
@@ -20,13 +19,12 @@ ShChangeLayerDataCommand::~ShChangeLayerDataCommand() {
 void ShChangeLayerDataCommand::Execute() {
 	qDebug("ShChangeLayerDataCommand->Execute()");
 
-	ShLayerMemento* memento = dynamic_cast<ShLayerMemento*>(this->memento);
-
+	
 	ShLayerData data = this->changedLayer->GetData();
 
-	this->changedLayer->SetMemento(memento);
-
-	*memento->data = data;
+	this->changedLayer->SetLayerData(this->previousData);
+	
+	this->previousData = data;
 	
 	//currentLayer info changed...
 	if (this->changedLayer == this->view->entityTable.GetLayerTable()->GetCurrentLayer()) {
@@ -41,7 +39,7 @@ void ShChangeLayerDataCommand::Execute() {
 	}
 
 
-	ShLayerDataChangedEvent event(this->changedLayer, 0, (ShLayerDataChangedEvent::ChangedType)this->type);
+	ShLayerDataChangedEvent event(this->changedLayer, this->previousData, (ShLayerDataChangedEvent::ChangedType)this->type);
 	event.SetCurrentLayer(this->view->entityTable.GetLayerTable()->GetCurrentLayer());
 
 
@@ -84,12 +82,12 @@ void ShChangeLayerDataCommand::Execute() {
 void ShChangeLayerDataCommand::UnExecute() {
 	qDebug("ShChangeLayerDataCommand->UnExecute()");
 
-	ShLayerMemento* memento = dynamic_cast<ShLayerMemento*>(this->memento);
+	
 	ShLayerData data = this->changedLayer->GetData();
 
-	this->changedLayer->SetMemento(memento);
+	this->changedLayer->SetLayerData(this->previousData);
 
-	*memento->data = data;
+	this->previousData = data;
 	
 
 	//currentLayer info changed...
@@ -105,7 +103,7 @@ void ShChangeLayerDataCommand::UnExecute() {
 	}
 
 
-	ShLayerDataChangedEvent event(this->changedLayer, 0, (ShLayerDataChangedEvent::ChangedType)this->type);
+	ShLayerDataChangedEvent event(this->changedLayer, this->previousData, (ShLayerDataChangedEvent::ChangedType)this->type);
 	event.SetCurrentLayer(this->view->entityTable.GetLayerTable()->GetCurrentLayer());
 
 

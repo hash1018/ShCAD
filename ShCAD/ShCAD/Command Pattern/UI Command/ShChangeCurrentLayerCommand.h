@@ -4,7 +4,7 @@
 #ifndef _SHCHANGECURRENTLAYERCOMMAND_H
 #define _SHCHANGECURRENTLAYERCOMMAND_H
 
-#include "ShCommand.h"
+#include "Command Pattern\ShCommand.h"
 
 class ShGraphicView;
 class ShLayer;

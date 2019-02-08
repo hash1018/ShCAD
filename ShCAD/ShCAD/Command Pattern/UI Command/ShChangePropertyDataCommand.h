@@ -3,7 +3,7 @@
 #ifndef _SHCHANGEPROPERTYCOLORCOMMAND_H
 #define _SHCHANGEPROPERTYCOLORCOMMAND_H
 
-#include "ShCommand.h"
+#include "Command Pattern\ShCommand.h"
 #include "ShPropertyData.h"
 class ShGraphicView;
 class ShChangePropertyDataCommand : public ShCommand {

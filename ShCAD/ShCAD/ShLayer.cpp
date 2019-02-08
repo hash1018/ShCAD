@@ -32,24 +32,6 @@ void ShLayer::Remove(ShEntity *entity) {
 	this->list.removeOne(entity);
 }
 
-#include "Memento Pattern\ShMemento.h"
-ShLayerMemento* ShLayer::CreateMemento() {
-	
-	ShLayerMemento *memento = new ShLayerMemento;
-
-	memento->layer = this;
-	memento->data = new ShLayerData(this->data);
-	
-	return memento;
-}
-
-void ShLayer::SetMemento(ShLayerMemento *memento) {
-
-	this->data = *memento->data;
-
-	this->SetPropertyData(memento->data->GetPropertyData());
-
-}
 
 void ShLayer::SetPropertyData(const ShPropertyData& data) {
 

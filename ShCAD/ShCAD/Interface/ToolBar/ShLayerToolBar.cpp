@@ -95,27 +95,28 @@ void ShLayerToolBar::CurrentIndexChanged(int index) {
 	this->Notify(&event);
 }
 
-#include "Memento Pattern\ShMemento.h"
+
 void ShLayerToolBar::LayerTurnChanged(ShLayer *layer, bool previous) {
 	
-	ShLayerMemento* memento = layer->CreateMemento();
-	//memento->data->isTurnOn = previous;
-	memento->data->SetTurn(previous);
 	
-	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
+	ShLayerData data = layer->GetData();
+	data.SetTurn(previous);
+	
+	
+	ShLayerDataChangedEvent event(layer, data, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
 	this->Notify(&event);
 }
 
 void ShLayerToolBar::LayerColorChanged(ShLayer *layer,const ShColor& previous) {
 	
-	ShLayerMemento* memento = layer->CreateMemento();
+	ShLayerData data = layer->GetData();
+	ShPropertyData propertyData = data.GetPropertyData();
+	propertyData.SetColor(previous);
+	data.SetPropertyData(propertyData);
+
 	
-	ShPropertyData data = memento->data->GetPropertyData();
-	data.SetColor(previous);
 
-	memento->data->SetPropertyData(data);
-
-	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::Color);
+	ShLayerDataChangedEvent event(layer, data, ShLayerDataChangedEvent::ChangedType::Color);
 	this->Notify(&event);
 }
 

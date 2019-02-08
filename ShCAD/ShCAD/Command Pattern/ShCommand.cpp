@@ -24,32 +24,22 @@
 --*/
 
 #include "ShCommand.h"
-#include "Memento Pattern\ShMemento.h"
+
 ShCommand::ShCommand()
-	:memento(0), commandText("") {
+	:commandText("") {
 
 }
 
 ShCommand::ShCommand(const QString& commandText)
-	: memento(0), commandText(commandText) {
+	: commandText(commandText) {
 
 
 }
 
-ShCommand::ShCommand(ShMemento *memento, const QString& commandText)
-	: memento(memento), commandText(commandText) {
-
-}
-
-ShCommand::ShCommand(ShMemento *memento)
-	: memento(memento), commandText("") {
-
-}
 
 ShCommand::~ShCommand() {
 	
-	if (this->memento != 0)
-		delete this->memento;
+	
 	
 }
 

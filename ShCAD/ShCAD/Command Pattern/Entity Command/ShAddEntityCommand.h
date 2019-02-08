@@ -26,17 +26,19 @@
 #ifndef _SHADDENTITYCOMMAND_H
 #define _SHADDENTITYCOMMAND_H
 
-#include "ShCommand.h"
+#include "Command Pattern\ShCommand.h"
 
 class ShGraphicView;
-class ShEntityMemento;
+class ShEntity;
 class ShAddEntityCommand : public ShCommand {
 
 private:
 	ShGraphicView *graphicView;
+	ShEntity *entity;
+	bool mustDeallocateEntity;
 
 public:
-	ShAddEntityCommand(ShGraphicView *view, ShEntityMemento *memento,const QString& commandText);
+	ShAddEntityCommand(ShGraphicView *view, ShEntity *entity, const QString& commandText);
 	virtual void Execute();
 	virtual void UnExecute();
 

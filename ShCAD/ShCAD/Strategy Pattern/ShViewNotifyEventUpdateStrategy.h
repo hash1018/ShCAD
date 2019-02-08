@@ -45,6 +45,8 @@ public:
 	virtual void Update();
 };
 
+
+
 class ShPropertyColorComboSelChangedEventUpdateStrategy : public ShViewUpdateStrategy {
 
 public:
@@ -64,6 +66,7 @@ public:
 	virtual void Update();
 };
 
+
 class ShPropertyLineStyleComboSelChangedEventUpdateStrategy : public ShViewUpdateStrategy {
 
 public:
@@ -82,6 +85,7 @@ public:
 	virtual void Update();
 
 };
+
 
 class ShLayerComboSelChangedEventUpdateStrategy : public ShViewUpdateStrategy {
 
@@ -113,17 +117,7 @@ public:
 
 };
 
-/*
-class ShLayerDataChangedEventUpdateStrategySelectedEntity0 : public ShViewUpdateStrategy {
 
-public:
-	ShLayerDataChangedEventUpdateStrategySelectedEntity0(ShGraphicView *view, ShNotifyEvent *event);
-	~ShLayerDataChangedEventUpdateStrategySelectedEntity0();
-
-	virtual void Update();
-
-};
-*/
 
 class ShLayerCreatedEventUpdateStrategy : public ShViewUpdateStrategy {
 
@@ -154,6 +148,7 @@ public:
 	virtual void Update();
 
 };
+
 
 
 #endif //_SHVIEWNOTIFYEVENTUPDATESTRATEGY_H

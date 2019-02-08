@@ -251,16 +251,3 @@ void ShSelectedEntityManager::UpdateDataForCombo() {
 	}
 
 }
-
-#include "Memento Pattern\ShMemento.h"
-ShCompositeEntityMemento* ShSelectedEntityManager::CreateSelectedEntityMemento() {
-
-	ShCompositeEntityMemento *memento = new ShCompositeEntityMemento;
-
-	QLinkedList<ShEntity*>::iterator itr;
-
-	for (itr = this->list.begin(); itr != this->list.end(); ++itr)
-		memento->list.append((*itr)->CreateMemento());
-
-	return memento;
-}

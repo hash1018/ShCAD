@@ -29,8 +29,8 @@
 
 #include <qopenglwidget.h>
 #include "ShVariable.h"
-#include "Memento Pattern\ShUndoTaker.h"
-#include "Memento Pattern\ShRedoTaker.h"
+#include "Command Pattern\ShRedoTaker.h"
+#include "Command Pattern\ShUndoTaker.h"
 #include "Entity\Composite\ShPreview.h"
 #include "Entity\Composite\ShEntityTable.h"
 #include "ShSelectedEntityManager.h"

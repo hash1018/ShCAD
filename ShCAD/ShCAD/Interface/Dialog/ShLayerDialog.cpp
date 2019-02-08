@@ -183,7 +183,6 @@ void ShLayerDialog::UpdateColumnLineStyle(int row) {
 
 #include <qcolordialog.h>
 #include "ShNotifyEvent.h"
-#include "Memento Pattern\ShMemento.h"
 void ShLayerDialog::CellClicked(int row, int column) {
 
 	if (column == 3) {
@@ -199,11 +198,11 @@ void ShLayerDialog::CellClicked(int row, int column) {
 
 			this->layerTable->GetLayer(row)->SetPropertyData(data);
 			
-			ShLayerMemento *memento = this->layerTable->GetLayer(row)->CreateMemento();
+			ShLayerData layerData = this->layerTable->GetLayer(row)->GetData();
 			data.SetColor(prev);
-			memento->data->SetPropertyData(data);
+			layerData.SetPropertyData(data);
 
-			ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), memento, ShLayerDataChangedEvent::ChangedType::Color);
+			ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), layerData, ShLayerDataChangedEvent::ChangedType::Color);
 			this->Notify(&event);
 
 			this->UpdateLayerList();
@@ -232,10 +231,10 @@ void ShLayerDialog::CellDoubleClicked(int row, int column) {
 			this->layerTable->GetLayer(row)->TurnOn();
 		}
 
-		ShLayerMemento *memento = this->layerTable->GetLayer(row)->CreateMemento();
-		memento->data->SetTurn(prev);
+		ShLayerData data = this->layerTable->GetLayer(row)->GetData();
+		data.SetTurn(prev);
 
-		ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), memento,
+		ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), data,
 			ShLayerDataChangedEvent::ChangedType::TurnOnOff);
 		
 		this->Notify(&event);
@@ -282,10 +281,10 @@ void ShLayerDialog::LayerNameChanged(QTableWidgetItem *item) {
 
 		this->layerTable->GetLayer(item->row())->SetName(name);
 
-		ShLayerMemento *memento = this->layerTable->GetLayer(item->row())->CreateMemento();
-		memento->data->SetName(prev);
+		ShLayerData data = this->layerTable->GetLayer(item->row())->GetData();
+		data.SetName(prev);
 
-		ShLayerDataChangedEvent event(this->layerTable->GetLayer(item->row()), memento,
+		ShLayerDataChangedEvent event(this->layerTable->GetLayer(item->row()), data,
 			ShLayerDataChangedEvent::ChangedType::Name);
 		this->Notify(&event);
 	}
@@ -315,11 +314,11 @@ void ShLayerDialog::LineStyleComboIndexChanged(int index) {
 		this->layerTable->GetLayer(row)->SetPropertyData(data);
 
 
-		ShLayerMemento *memento = this->layerTable->GetLayer(row)->CreateMemento();
+		ShLayerData layerData = this->layerTable->GetLayer(row)->GetData();
 		data.SetLineStyle(prev);
-		memento->data->SetPropertyData(data);
+		layerData.SetPropertyData(data);
 
-		ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), memento,
+		ShLayerDataChangedEvent event(this->layerTable->GetLayer(row), layerData,
 			ShLayerDataChangedEvent::ChangedType::LineStyle);
 
 		this->Notify(&event);

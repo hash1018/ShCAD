@@ -553,25 +553,25 @@ void ShLayerColumn::CurrentIndexChanged(int index) {
 	this->Notify(&event);
 }
 
-#include "Memento Pattern\ShMemento.h"
+
 void ShLayerColumn::LayerTurnChanged(ShLayer *layer,bool previous) {
 
-	ShLayerMemento *memento = layer->CreateMemento();
-	memento->data->SetTurn(previous);
+	ShLayerData data = layer->GetData();
+	data.SetTurn(previous);
 
-	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
+
+	ShLayerDataChangedEvent event(layer, data, ShLayerDataChangedEvent::ChangedType::TurnOnOff);
 	this->Notify(&event);
 }
 
-void ShLayerColumn::LayerColorChanged(ShLayer *layer,const ShColor& previous) {
-	
-	ShLayerMemento *memento = layer->CreateMemento();
-	ShPropertyData data = memento->data->GetPropertyData();
-	data.SetColor(previous);
+void ShLayerColumn::LayerColorChanged(ShLayer *layer, const ShColor& previous) {
 
-	memento->data->SetPropertyData(data);
+	ShLayerData data = layer->GetData();
+	ShPropertyData propertyData = data.GetPropertyData();
+	propertyData.SetColor(previous);
+	data.SetPropertyData(propertyData);
 
-	ShLayerDataChangedEvent event(layer, memento, ShLayerDataChangedEvent::ChangedType::Color);
+	ShLayerDataChangedEvent event(layer, data, ShLayerDataChangedEvent::ChangedType::Color);
 	this->Notify(&event);
 }
 

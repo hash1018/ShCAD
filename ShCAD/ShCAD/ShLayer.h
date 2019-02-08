@@ -38,7 +38,6 @@ public:
 
 
 class ShEntity;
-class ShLayerMemento;
 class ShLayer {
 
 private:
@@ -54,9 +53,6 @@ public:
 
 	void Add(ShEntity *entity);
 	void Remove(ShEntity* entity);
-
-	ShLayerMemento* CreateMemento();
-	void SetMemento(ShLayerMemento *memento);
 
 	void SetName(const QString& name) { this->data.name = name; }
 	void TurnOn() { this->data.isTurnOn = true; }

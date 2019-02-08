@@ -3,16 +3,18 @@
 #ifndef _SHDELETELAYERCOMMAND_H
 #define _SHDELETELAYERCOMMAND_H
 
-#include "ShCommand.h"
+#include "Command Pattern\ShCommand.h"
 class ShGraphicView;
-class ShLayerMemento;
+class ShLayer;
 class ShDeleteLayerCommand : public ShCommand {
 
 private:
 	ShGraphicView *view;
+	ShLayer *layer;
+	bool mustDeallocateLayer;
 
 public:
-	ShDeleteLayerCommand(ShGraphicView *view, ShLayerMemento* memento);
+	ShDeleteLayerCommand(ShGraphicView *view, ShLayer *layer);
 	virtual void Execute();
 	virtual void UnExecute();
 

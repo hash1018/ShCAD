@@ -90,22 +90,3 @@ void ShLine::SetData(const ShLineData &data) {
 	this->data = data;
 
 }
-
-#include "Memento Pattern\ShMemento.h"
-ShLineMemento* ShLine::CreateMemento() {
-
-	ShLineMemento *memento = new ShLineMemento;
-
-	memento->entity = this;
-	memento->data = new ShLineData(this->data);
-	memento->propertyData = new ShPropertyData(this->propertyData);
-	memento->layer = this->layer;
-
-	return memento;
-}
-
-void ShLine::SetMemento(const ShLineMemento* memento) {
-
-	this->data = *(memento->data);
-	this->propertyData = (*memento->propertyData);
-}

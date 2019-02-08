@@ -211,7 +211,7 @@ private:
 
 
 
-class ShLayerMemento;
+#include "ShLayer.h"
 class ShLayerDataChangedEvent : public ShNotifyEvent {
 
 public:
@@ -224,7 +224,7 @@ public:
 	};
 
 public:
-	ShLayerDataChangedEvent(ShLayer *changedLayer, ShLayerMemento *previousMemento,
+	ShLayerDataChangedEvent(ShLayer *changedLayer, const ShLayerData& previousData,
 		ShLayerDataChangedEvent::ChangedType changedType);
 
 	~ShLayerDataChangedEvent();
@@ -236,16 +236,17 @@ public:
 	void SetCurrentLayer(ShLayer *currentLayer) { this->currentLayer = currentLayer; }
 	//This is used for updating propertyCombo.
 	inline ShLayer* GetCurrentLayer() const { return this->currentLayer; }
-	inline ShLayerMemento* GetPreviousMemento() const { return this->previousMemento; }
+	inline ShLayerData GetPreviousData() const { return this->previousData; }
 
 private:
 	ShLayer *changedLayer;
+	ShLayerData previousData;
 	ChangedType changedType;
 
 	//This is used for updating propertyCombo.
 	ShLayer *currentLayer;
 
-	ShLayerMemento *previousMemento;
+	
 };
 
 class ShLayerCreatedEvent : public ShNotifyEvent {

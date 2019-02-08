@@ -24,32 +24,35 @@
 --*/
 
 #include "ShDeleteEntityCommand.h"
-#include "Memento Pattern\ShMemento.h"
 #include "Interface\ShGraphicView.h"
-ShDeleteEntityCommand::ShDeleteEntityCommand(ShGraphicView *view, ShCompositeEntityMemento *memento) {
+#include "Entity\ShEntity.h"
+ShDeleteEntityCommand::ShDeleteEntityCommand(ShGraphicView *view, const QLinkedList<ShEntity*>& entities)
+	:graphicView(view), entities(entities), ShCommand("Delete"),mustDeallocateEntity(true) {
 
-	this->graphicView = view;
-	this->memento = memento;
 
-	this->commandText = "Delete";
 }
 
 ShDeleteEntityCommand::~ShDeleteEntityCommand() {
 
+	if (this->mustDeallocateEntity == true) {
+	
+		while (!this->entities.empty())
+			delete this->entities.takeFirst();
+	}
 }
 
 void ShDeleteEntityCommand::Execute() {
 	qDebug("ShDeleteEntityCommand->Execute()");
 
-	ShCompositeEntityMemento *memento = dynamic_cast<ShCompositeEntityMemento*>(this->memento);
-
-	QLinkedList<ShEntityMemento*>::iterator itr;
-
-	for (itr = memento->list.begin(); itr != memento->list.end(); ++itr) {
 	
-		this->graphicView->entityTable.Remove((*itr)->entity);
-		(*itr)->mustDeallocateEntity = true;
-	}
+
+	QLinkedList<ShEntity*>::iterator itr;
+
+	for (itr = this->entities.begin(); itr != this->entities.end(); ++itr)
+		this->graphicView->entityTable.Remove((*itr));
+		
+	this->mustDeallocateEntity = true;
+	
 
 	this->graphicView->update(DrawType::DrawAll);
 	this->graphicView->CaptureImage();
@@ -60,19 +63,9 @@ void ShDeleteEntityCommand::Execute() {
 void ShDeleteEntityCommand::UnExecute() {
 	qDebug("ShDeleteEntityCommand->UnExecute()");
 
-	ShCompositeEntityMemento *memento = dynamic_cast<ShCompositeEntityMemento*>(this->memento);
-
-	QLinkedList<ShEntityMemento*>::iterator itr;
 	
-
-	QLinkedList<ShEntity*> list;
-
-	for (itr = memento->list.begin(); itr != memento->list.end(); ++itr) {
-		list.append((*itr)->entity);
-		(*itr)->mustDeallocateEntity = false;
-	}
-
-	this->graphicView->entityTable.Add(list);
+	this->graphicView->entityTable.Add(this->entities);
+	this->mustDeallocateEntity = false;
 
 	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
 	this->graphicView->CaptureImage();
