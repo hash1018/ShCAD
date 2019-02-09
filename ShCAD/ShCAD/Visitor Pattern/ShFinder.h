@@ -21,9 +21,9 @@ public:
 	ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity);
 	~ShFinder();
 
-	void Visit(ShLine *shLine);
-	void Visit(ShCircle *shCircle);
-	void Visit(ShArc *shArc);
+	void Visit(ShLine *line);
+	void Visit(ShCircle *circle);
+	void Visit(ShArc *arc);
 
 };
 

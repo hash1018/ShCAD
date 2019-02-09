@@ -7,6 +7,8 @@
 /*Base class for all objects having a graphical representation.*/
 
 #include "ShPropertyData.h"
+#include "ShPoint.h"
+#include "ShVariable.h"
 
 class ShVisitor;
 class ShLayer;
@@ -28,6 +30,7 @@ public:
 
 	virtual ShEntity* Clone() = 0;
 	virtual void Accept(ShVisitor *shVisitor) = 0;
+	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
 
 	
 	void SetLayer(ShLayer *layer) { this->layer = layer; }

@@ -40,7 +40,9 @@ ShTemporaryAction::~ShTemporaryAction() {
 #include "ShNotifyEvent.h"
 void ShTemporaryAction::ReturnToPrevious() {
 	qDebug("ShTemporaryAction->ReturnToPrevious");
+	
 	this->graphicView->currentAction = this->previousAction;
+	this->graphicView->setCursor(this->graphicView->currentAction->GetCursorShape());
 
 	ShCurrentActionChangedEvent event(this->graphicView->currentAction->GetType());
 	this->graphicView->Notify(&event);

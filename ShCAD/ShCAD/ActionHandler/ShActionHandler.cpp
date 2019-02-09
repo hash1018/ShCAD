@@ -55,7 +55,7 @@ bool ShActionHandler::UnSelectSelectedEntities() {
 
 	if (this->graphicView->selectedEntityManager.GetSize() > 0) {
 		this->graphicView->selectedEntityManager.UnSelectAll();
-		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustUnSelectedEntities));
+		this->graphicView->update(DrawType::DrawAll);
 		this->graphicView->CaptureImage();
 		return true;
 	}

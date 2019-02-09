@@ -10,6 +10,11 @@
 typedef struct GLPoint {
 	double x;
 	double y;
+	
+	GLPoint() :x(0), y(0) {}
+
+	GLPoint(double x, double y) :x(x), y(y) {}
+
 }GLPoint;
 
 typedef struct GLColor {
@@ -41,16 +46,18 @@ public:
 	ShDrawer(ShGraphicView *view, DrawType drawType);
 	~ShDrawer();
 
-	virtual void Visit(ShLine *shLine);
-	virtual void Visit(ShCircle *shCircle);
-	virtual void Visit(ShArc *shArc);
-	void Visit(ShRubberBand *shRubberBand);
+	virtual void Visit(ShLine *line);
+	virtual void Visit(ShCircle *circle);
+	virtual void Visit(ShArc *arc);
+	void Visit(ShRubberBand *rubberBand);
 
 protected:
 	void ConvertDeviceToOpenGL(int x, int y, double  &ox, double  &oy);
 	void ConvertEntityToOpenGL(double x, double y, double &ox, double &oy);
+	void ConvertEntityToDevice(double x, double y, int &dx, int &dy);
 
 	void DrawLine(const GLPoint& start, const GLPoint& end, const GLColor& color);
+	void DrawFilledRect(const GLPoint& topLeft, const GLPoint& bottomRight, const GLColor& color);
 };
 
 class ShSelectedEntityDrawer : public ShDrawer {
@@ -59,22 +66,10 @@ public:
 	ShSelectedEntityDrawer(ShGraphicView *view, DrawType drawType);
 	~ShSelectedEntityDrawer();
 
-	void Visit(ShLine *shLine);
-	void Visit(ShCircle *shCircle);
-	void Visit(ShArc *shArc);
+	void Visit(ShLine *line);
+	void Visit(ShCircle *circle);
+	void Visit(ShArc *arc);
 	
-};
-
-class ShJustUnSelectedEntitiesDrawer : public ShDrawer {
-
-public:
-	ShJustUnSelectedEntitiesDrawer(ShGraphicView *view);
-	~ShJustUnSelectedEntitiesDrawer();
-
-	void Visit(ShLine *shLine);
-	void Visit(ShCircle *shCircle);
-	void Visit(ShArc *shArc);
-
 };
 
 #endif //_SHDRAWER_H

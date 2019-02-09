@@ -42,6 +42,11 @@ ShEntity& ShEntity::operator=(const ShEntity& other) {
 	return *this;
 }
 
+void ShEntity::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
+
+}
+
+
 void ShEntity::Select() {
 	this->isSelected = true;
 }

@@ -1,5 +1,4 @@
 
-
 /*--
 **
 **   This file is part of the ShCAD project, a 2D CAD Program
@@ -24,28 +23,40 @@
 **
 --*/
 
-#ifndef _SHDEFAULTACTION_H
-#define _SHDEFAULTACTION_H
+ 
+/*   
 
-#include "ShActionHandler.h"
+**   This class is the class for determining whether a mouse cursor hovers or intersects  
+**   specific area of a given entity object (such as line, circle, or arc) drawn on the graphicView.
 
-class ShSubDefaultAction;
-class ShDefaultAction : public ShActionHandler {
+
+*/
+
+
+#ifndef _SHHITTESTER_H
+#define _SHHITTESTER_H
+
+#include "ShVisitor.h"
+#include "ShVariable.h"
+class ShHitTester : public ShVisitor {
 
 private:
-	ShSubDefaultAction *subDefaultAction;
+	double x;
+	double y;
+	double zoomRate;
+	HitPoint &hitPoint;
+	double tolerance;
 
 public:
-	ShDefaultAction(ShGraphicView *graphicView);
-	~ShDefaultAction();
+	ShHitTester(double x, double y, double zoomRate, HitPoint &hitPoint, double tolerance = 6.0);
+	~ShHitTester();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event);
-	virtual void KeyPressEvent(QKeyEvent *event);
+	void Visit(ShLine *line);
+	void Visit(ShCircle *circle);
+	void Visit(ShArc *arc);
 
-	virtual ActionType GetType();
-
-	void ChangeSubAction(ShSubDefaultAction *subDefaultAction);
 };
 
-#endif //_SHDEFAULTACTION_H
+
+
+#endif //_SHHITTESTER_H

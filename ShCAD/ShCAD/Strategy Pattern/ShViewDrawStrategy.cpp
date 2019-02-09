@@ -112,12 +112,13 @@ void ShDrawPreviewEntities::Draw() {
 		this->view->rubberBand->Accept(&drawer);
 	}
 
-	ShComposite::Iterator itr = this->view->preview.Begin();
+	QLinkedList<ShEntity*>::iterator itr;
 
-	while (!itr.IsEnd()) {
-		itr.Current()->Accept(&drawer);
-		itr.Next();
-	}
+	
+
+	for (itr = this->view->preview.Begin(); itr != this->view->preview.End(); ++itr)
+		(*itr)->Accept(&drawer);
+	
 
 
 	if (this->strategy != 0)
@@ -189,34 +190,6 @@ void ShDrawSelectedEntities::Draw() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-ShDrawJustUnSelectedEntities::ShDrawJustUnSelectedEntities(ShGraphicView *view, QPainter *painter, DrawType drawType)
-	:view(view), painter(painter) {
-
-	this->strategy = ShCreatorViewDrawFactory::Create(view, painter, drawType);
-
-}
-
-ShDrawJustUnSelectedEntities::~ShDrawJustUnSelectedEntities() {
-
-}
-
-
-void ShDrawJustUnSelectedEntities::Draw() {
-
-	ShDrawer drawer(this->view, DrawType::DrawJustUnSelectedEntities);
-
-	QLinkedList<ShEntity*>::iterator itr;
-
-	for (itr = this->view->selectedEntityManager.GetJustUnSelectedBegin();
-		itr != this->view->selectedEntityManager.GetJustUnSelectedEnd();
-		++itr) {
-
-		(*itr)->Accept(&drawer);
-	}
-
-	if (this->strategy != 0)
-		this->strategy->Draw();
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -11,27 +11,7 @@
 
 
 class ShComposite : public ShEntity {
-	
-public:
-	class Iterator {
-		friend class ShComposite;
-	private:
-		QLinkedList<ShEntity*>::iterator itr;
-		QLinkedList<ShEntity*>::iterator begin;
-		QLinkedList<ShEntity*>::iterator end;
 
-	public:
-		Iterator();
-		Iterator(const Iterator& other);
-		Iterator& operator=(const Iterator& other);
-		~Iterator();
-
-		ShEntity* Current();
-		bool IsEnd();
-		bool IsBegin();
-		void Previous();
-		void Next();
-	};
 
 protected:
 	/* only temporary used */
@@ -57,8 +37,8 @@ public:
 	
 	bool IsListEmpty();
 	int GetSize() const;
-	ShComposite::Iterator Begin();
-	ShComposite::Iterator End();
+	inline QLinkedList<ShEntity*>::iterator Begin() { return this->list.begin(); }
+	inline QLinkedList<ShEntity*>::iterator End() { return this->list.end(); }
 
 
 protected:

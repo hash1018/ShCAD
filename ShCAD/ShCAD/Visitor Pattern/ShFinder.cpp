@@ -12,23 +12,23 @@ ShFinder::~ShFinder() {
 
 }
 
-void ShFinder::Visit(ShLine *shLine) {
+void ShFinder::Visit(ShLine *line) {
 
 	double tolerance = 5.0f / this->zoomRate;
 
-	ShLineData data = shLine->GetData();
+	ShLineData data = line->GetData();
 
 
 	if (Math::CheckPointLiesOnLine(ShPoint3d(this->x, this->y), data.start, data.end, tolerance) == true)
-		*this->foundEntity = shLine;
+		*this->foundEntity = line;
 	
 
 }
 
-void ShFinder::Visit(ShCircle *shCircle) {
+void ShFinder::Visit(ShCircle *circle) {
 
 }
 
-void ShFinder::Visit(ShArc *shArc) {
+void ShFinder::Visit(ShArc *arc) {
 
 }

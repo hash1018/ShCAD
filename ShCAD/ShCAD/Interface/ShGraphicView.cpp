@@ -71,10 +71,6 @@ ShGraphicView::~ShGraphicView() {
 void ShGraphicView::initializeGL() {
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	
-	
-
-
 	this->CaptureImage();
 
 }
@@ -85,6 +81,8 @@ void ShGraphicView::resizeGL(int width, int height) {
 	this->update();
 	this->CaptureImage();
 }
+
+
 
 void ShGraphicView::update(DrawType drawType) {
 
@@ -321,7 +319,9 @@ void ShGraphicView::MoveView(double ex, double ey, double zoomRate, int dx, int 
 
 void ShGraphicView::SetTemporaryAction(ShTemporaryAction *temporaryAction) {
 	qDebug("ShGraphicView->SetTemporaryAction");
+	
 	this->currentAction = temporaryAction;
+	this->setCursor(this->currentAction->GetCursorShape());
 
 	ShCurrentActionChangedEvent event(this->currentAction->GetType());
 	this->Notify(&event);

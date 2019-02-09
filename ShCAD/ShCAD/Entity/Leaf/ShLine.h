@@ -40,11 +40,12 @@ public:
 
 	ShLine* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
+	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
 
 	ShLineData& GetData() const;
 	void SetData(const ShLineData& data);
 
-
+	ShPoint3d GetMid();
 	
 
 };

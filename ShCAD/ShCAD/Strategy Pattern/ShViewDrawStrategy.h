@@ -126,30 +126,6 @@ private:
 
 
 
-
-
-
-class ShDrawJustUnSelectedEntities : public ShViewDrawStrategy {
-	friend class ShCreatorViewDrawFactory;
-private:
-	ShGraphicView *view;
-	QPainter *painter;
-
-private:
-	ShDrawJustUnSelectedEntities(ShGraphicView *view, QPainter *painter, DrawType drawType);
-	~ShDrawJustUnSelectedEntities();
-
-	virtual void Draw();
-
-};
-
-
-
-
-
-
-
-
 class ShDrawJustTurnOnLayer : public ShViewDrawStrategy {
 	friend class ShCreatorViewDrawFactory;
 private:

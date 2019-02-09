@@ -32,7 +32,8 @@ enum ActionType {
 	ActionDefault,
 	ActionPanMove,
 	ActionDragSelect,
-	ActionDrawLine
+	ActionDrawLine,
+	ActionSelectionMove,
 
 
 };
@@ -45,11 +46,20 @@ enum DrawType {
 	DrawAddedEntities = 0x0000004,
 	DrawActionHandler = 0x00000008,
 	DrawSelectedEntities = 0x00000010,
-	DrawJustUnSelectedEntities = 0x00000020,
-	DrawJustTurnOnLayer=0x00000040,
+	DrawJustTurnOnLayer=0x00000020,
 	DrawAll = 0x0001000
 
 };
 
+//speicfic area ( mouse hovered or something)  of entity object.
+enum HitPoint {
+	HitNothing,
+	HitStart,
+	HitEnd,
+	HitMid,
+	HitOther,
+
+
+};
 
 #endif //_SHVARIABLE_H

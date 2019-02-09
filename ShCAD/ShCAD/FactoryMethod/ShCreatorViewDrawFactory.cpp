@@ -49,12 +49,7 @@ ShViewDrawStrategy* ShCreatorViewDrawFactory::Create(ShGraphicView *view, QPaint
 		return new ShDrawSelectedEntities(view, painter, drawType);
 	}
 
-	if ((drawType & DrawType::DrawJustUnSelectedEntities) == DrawType::DrawJustUnSelectedEntities) {
 	
-		drawType = (DrawType)(drawType & ~DrawType::DrawJustUnSelectedEntities);
-
-		return new ShDrawJustUnSelectedEntities(view, painter, drawType);
-	}
 
 	if ((drawType & DrawType::DrawJustTurnOnLayer) == DrawType::DrawJustTurnOnLayer) {
 	

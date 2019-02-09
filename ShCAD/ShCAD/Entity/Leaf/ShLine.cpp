@@ -85,8 +85,57 @@ void ShLine::Accept(ShVisitor *shVisitor) {
 
 }
 
+void ShLine::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
+
+	if (hitPoint == HitPoint::HitStart) {
+
+		point.x = this->data.start.x;
+		point.y = this->data.start.y;
+	}
+	else if (hitPoint == HitPoint::HitEnd) {
+	
+		point.x = this->data.end.x;
+		point.y = this->data.end.y;
+	}
+	else if (hitPoint == HitPoint::HitMid) {
+	
+		point = this->GetMid();
+	}
+
+
+}
+
 void ShLine::SetData(const ShLineData &data) {
 
 	this->data = data;
+
+}
+
+#include <math.h>
+ShPoint3d ShLine::GetMid() {
+
+	double distanceX = fabs(this->data.end.x - this->data.start.x);
+	double midX = distanceX / 2.0;
+
+	if (this->data.start.x > this->data.end.x)
+		midX = this->data.start.x - midX;
+	else if (this->data.start.x < this->data.end.x)
+		midX = this->data.start.x + midX;
+	else if (this->data.start.x == this->data.end.x)
+		midX = this->data.start.x;
+	
+
+	double distanceY = fabs(this->data.end.y - this->data.start.y);
+	double midY = distanceY / 2.0;
+
+	if (this->data.start.y > this->data.end.y)
+		midY = this->data.start.y - midY;
+	else if (this->data.start.y < this->data.end.y)
+		midY = this->data.start.y + midY;
+	else if (this->data.start.y == this->data.end.y) 
+		midY = this->data.start.y;
+	
+
+	return ShPoint3d(midX, midY);
 
 }

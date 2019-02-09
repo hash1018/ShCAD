@@ -144,8 +144,10 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
+    <ClCompile Include="ActionHandler\SubActionHandler\ShSubDefaultAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
+    <ClCompile Include="ActionHandler\TemporaryAction\ShSelectionMoveAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShAddEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShChangeEntityLayerCommand.cpp" />
@@ -288,6 +290,8 @@
     <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
     <ClCompile Include="Visitor Pattern\ShFinder.cpp" />
+    <ClCompile Include="Visitor Pattern\ShHitTester.cpp" />
+    <ClCompile Include="Visitor Pattern\ShSelectionMover.cpp" />
     <ClCompile Include="Visitor Pattern\ShVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -315,8 +319,10 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
+    <ClInclude Include="ActionHandler\SubActionHandler\ShSubDefaultAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
+    <ClInclude Include="ActionHandler\TemporaryAction\ShSelectionMoveAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShAddEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShChangeEntityLayerCommand.h" />
@@ -536,6 +542,8 @@
     <ClInclude Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
     <ClInclude Include="Visitor Pattern\ShFinder.h" />
+    <ClInclude Include="Visitor Pattern\ShHitTester.h" />
+    <ClInclude Include="Visitor Pattern\ShSelectionMover.h" />
     <ClInclude Include="Visitor Pattern\ShVisitor.h" />
     <CustomBuild Include="Interface\shcad.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

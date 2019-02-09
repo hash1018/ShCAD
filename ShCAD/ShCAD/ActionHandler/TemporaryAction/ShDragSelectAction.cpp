@@ -30,7 +30,7 @@ ShDragSelectAction::ShDragSelectAction(ShGraphicView *graphicView, ShActionHandl
 	double firstX, double firstY)
 	:ShTemporaryAction(graphicView, previousAction), firstX(firstX), firstY(firstY), secondX(0), secondY(0) {
 
-	this->graphicView->setCursor(QCursor(Qt::CursorShape::DragCopyCursor));
+	
 }
 
 ShDragSelectAction::~ShDragSelectAction() {

@@ -25,54 +25,32 @@
 
 #include "ShDefaultAction.h"
 #include <QKeyEvent>
-#include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "ShNotifyEvent.h"
 #include "Facade Pattern\ShCadFacade.h"
+#include "ActionHandler\SubActionHandler\ShSubDefaultAction.h"
 
 ShDefaultAction::ShDefaultAction(ShGraphicView *graphicView)
 	:ShActionHandler(graphicView) {
 
+	this->subDefaultAction = new ShSubDefaultAction_Default(this, this->graphicView);
 }
 
 ShDefaultAction::~ShDefaultAction() {
 
+	if (this->subDefaultAction != 0)
+		delete this->subDefaultAction;
 }
 
 
 void ShDefaultAction::MousePressEvent(QMouseEvent *event) {
 	
+	this->subDefaultAction->MousePressEvent(event);
 	
-	ShEntity *entity = this->graphicView->entityTable.FindEntity(this->graphicView->GetX(),
-		this->graphicView->GetY(), this->graphicView->GetZoomRate());
-
-	if (entity == NULL) {
-
-		double firstX, firstY;
-		this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), firstX, firstY);
-		this->graphicView->SetTemporaryAction(new ShDragSelectAction(this->graphicView, this, firstX, firstY));
-		return;
-	}
-	
-	
-	if (event->modifiers() == Qt::ShiftModifier) {
-		if (this->graphicView->selectedEntityManager.Pop(entity) == true) {
-			this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustUnSelectedEntities));
-			this->graphicView->CaptureImage();
-		}
-		
-	}
-	else {
-		if (this->graphicView->selectedEntityManager.Push(entity) == true){
-			this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
-			this->graphicView->CaptureImage();
-		}
-	}
-	
-
 }
 
 void ShDefaultAction::MouseMoveEvent(QMouseEvent *event) {
 
+	this->subDefaultAction->MouseMoveEvent(event);
 
 }
 
@@ -80,30 +58,41 @@ void ShDefaultAction::MouseMoveEvent(QMouseEvent *event) {
 void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 
 	// Ctrl + Z undo
-	if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Z)
+	if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Z) {
+		
+		this->ChangeSubAction(new ShSubDefaultAction_Default(this, this->graphicView));
 		ShCadFacade::Undo(this->graphicView);
-
+	}
 	//Ctrl + Y redo
-	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Y)
-		ShCadFacade::Redo(this->graphicView);
+	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_Y) {
 
+		this->ChangeSubAction(new ShSubDefaultAction_Default(this, this->graphicView));
+		ShCadFacade::Redo(this->graphicView);
+	}
 	//Ctrl + A Select All
-	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_A)
+	else if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_A) {
+		
+		this->ChangeSubAction(new ShSubDefaultAction_Default(this, this->graphicView));
 		ShCadFacade::SelectAll(this->graphicView);
 
+	}
 	//Delete 
 	else if (event->key() == Qt::Key::Key_Delete) {
-	
+		
 		if (this->graphicView->selectedEntityManager.GetSize() == 0) {
 			ShKeyPressedEvent event2(event);
 			this->graphicView->Notify(&event2);
 		}
-		else
-			ShCadFacade::Delete(this->graphicView);
+		else {
 
+			this->ChangeSubAction(new ShSubDefaultAction_Default(this, this->graphicView));
+			ShCadFacade::Delete(this->graphicView);
+		}
 	}
 
 	else if (event->key() == Qt::Key::Key_Escape) {
+
+		this->ChangeSubAction(new ShSubDefaultAction_Default(this, this->graphicView));
 		this->UnSelectSelectedEntities();
 		ShUpdateListTextEvent event("<Cancel>");
 		this->graphicView->Notify(&event);
@@ -122,4 +111,14 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 ActionType ShDefaultAction::GetType() {
 
 	return ActionType::ActionDefault;
+}
+
+void ShDefaultAction::ChangeSubAction(ShSubDefaultAction *subDefaultAction) {
+	qDebug("delete original subAction and replace new one.");
+
+	if (this->subDefaultAction != 0)
+		delete this->subDefaultAction;
+
+	this->subDefaultAction = subDefaultAction;
+
 }

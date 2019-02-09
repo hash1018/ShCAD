@@ -26,7 +26,7 @@ void ShCadFacade::Undo(ShGraphicView *graphicView) {
 
 	if (graphicView->selectedEntityManager.GetSize() > 0) {
 		graphicView->selectedEntityManager.UnSelectAll();
-		graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustUnSelectedEntities));
+		graphicView->update(DrawType::DrawAll);
 		graphicView->CaptureImage();
 		return;
 	}
@@ -67,7 +67,7 @@ void ShCadFacade::Redo(ShGraphicView *graphicView) {
 
 	if (graphicView->selectedEntityManager.GetSize() > 0) {
 		graphicView->selectedEntityManager.UnSelectAll();
-		graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustUnSelectedEntities));
+		graphicView->update(DrawType::DrawAll);
 		graphicView->CaptureImage();
 		return;
 	}

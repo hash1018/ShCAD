@@ -93,6 +93,9 @@
     <Filter Include="Command Pattern\UI Command">
       <UniqueIdentifier>{85c2108d-bf9a-4586-9565-e3182dbcd085}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionHandler\SubActionHandler">
+      <UniqueIdentifier>{586560aa-e2b6-4553-a6b6-1342b3a9f1c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -353,6 +356,18 @@
     <ClCompile Include="Command Pattern\UI Command\ShDeleteLayerCommand.cpp">
       <Filter>Command Pattern\UI Command</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\SubActionHandler\ShSubDefaultAction.cpp">
+      <Filter>ActionHandler\SubActionHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShHitTester.cpp">
+      <Filter>Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\TemporaryAction\ShSelectionMoveAction.cpp">
+      <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShSelectionMover.cpp">
+      <Filter>Visitor Pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -560,6 +575,18 @@
     </ClInclude>
     <ClInclude Include="Command Pattern\UI Command\ShDeleteLayerCommand.h">
       <Filter>Command Pattern\UI Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\SubActionHandler\ShSubDefaultAction.h">
+      <Filter>ActionHandler\SubActionHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShHitTester.h">
+      <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\TemporaryAction\ShSelectionMoveAction.h">
+      <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShSelectionMover.h">
+      <Filter>Visitor Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@ public:
 
 	ShRubberBand* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
+	void SetEnd(const ShPoint3d end) { this->data.end = end; }
 
 	
 
