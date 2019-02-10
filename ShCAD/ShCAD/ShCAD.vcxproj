@@ -142,17 +142,19 @@
   <ItemGroup>
     <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
     <ClCompile Include="ActionHandler\SubActionHandler\ShSubDefaultAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
-    <ClCompile Include="ActionHandler\TemporaryAction\ShSelectionMoveAction.cpp" />
+    <ClCompile Include="ActionHandler\TemporaryAction\ShStretchTemporaryAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShAddEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShChangeEntityLayerCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShDeleteEntityCommand.cpp" />
+    <ClCompile Include="Command Pattern\Entity Command\ShStretchEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\ShCommand.cpp" />
     <ClCompile Include="Command Pattern\ShRedoTaker.cpp" />
     <ClCompile Include="Command Pattern\ShUndoTaker.cpp" />
@@ -270,6 +272,7 @@
     <ClCompile Include="Interface\ShMenuBar.cpp" />
     <ClCompile Include="Interface\ShStatusBar.cpp" />
     <ClCompile Include="Interface\ToolBar\ShLayerToolBar.cpp" />
+    <ClCompile Include="Interface\ToolBar\ShObjectSnapToolBar.cpp" />
     <ClCompile Include="Interface\ToolBar\ShPropertyToolBar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ShAxis.cpp" />
@@ -278,6 +281,7 @@
     <ClCompile Include="ShLayerTable.cpp" />
     <ClCompile Include="ShMath.cpp" />
     <ClCompile Include="ShNotifyEvent.cpp" />
+    <ClCompile Include="ShObjectSnapState.cpp" />
     <ClCompile Include="ShPropertyData.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
     <ClCompile Include="ShSelectedEntityManager.cpp" />
@@ -291,7 +295,7 @@
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
     <ClCompile Include="Visitor Pattern\ShFinder.cpp" />
     <ClCompile Include="Visitor Pattern\ShHitTester.cpp" />
-    <ClCompile Include="Visitor Pattern\ShSelectionMover.cpp" />
+    <ClCompile Include="Visitor Pattern\ShStretchVisitor.cpp" />
     <ClCompile Include="Visitor Pattern\ShVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -317,17 +321,19 @@
   <ItemGroup>
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
     <ClInclude Include="ActionHandler\SubActionHandler\ShSubDefaultAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
-    <ClInclude Include="ActionHandler\TemporaryAction\ShSelectionMoveAction.h" />
+    <ClInclude Include="ActionHandler\TemporaryAction\ShStretchTemporaryAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShAddEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShChangeEntityLayerCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShDeleteEntityCommand.h" />
+    <ClInclude Include="Command Pattern\Entity Command\ShStretchEntityCommand.h" />
     <ClInclude Include="Command Pattern\ShCommand.h" />
     <ClInclude Include="Command Pattern\ShRedoTaker.h" />
     <ClInclude Include="Command Pattern\ShUndoTaker.h" />
@@ -499,12 +505,14 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
     </CustomBuild>
+    <ClInclude Include="Interface\ToolBar\ShObjectSnapToolBar.h" />
     <ClInclude Include="ShAxis.h" />
     <ClInclude Include="ShDirectoryManager.h" />
     <ClInclude Include="ShLayer.h" />
     <ClInclude Include="ShLayerTable.h" />
     <ClInclude Include="ShMath.h" />
     <ClInclude Include="ShNotifyEvent.h" />
+    <ClInclude Include="ShObjectSnapState.h" />
     <ClInclude Include="ShPropertyData.h" />
     <CustomBuild Include="ShRibbon.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -543,7 +551,7 @@
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
     <ClInclude Include="Visitor Pattern\ShFinder.h" />
     <ClInclude Include="Visitor Pattern\ShHitTester.h" />
-    <ClInclude Include="Visitor Pattern\ShSelectionMover.h" />
+    <ClInclude Include="Visitor Pattern\ShStretchVisitor.h" />
     <ClInclude Include="Visitor Pattern\ShVisitor.h" />
     <CustomBuild Include="Interface\shcad.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

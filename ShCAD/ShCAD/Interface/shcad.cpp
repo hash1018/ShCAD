@@ -34,6 +34,7 @@
 #include "Singleton Pattern\ShChangeManager.h"
 #include "Interface\ToolBar\ShPropertyToolBar.h"
 #include "Interface\ToolBar\ShLayerToolBar.h"
+#include "Interface\ToolBar\ShObjectSnapToolBar.h"
 
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
@@ -167,6 +168,10 @@ void ShCAD::InitWidgets() {
 	this->layerToolBar = new ShLayerToolBar(this);
 	this->layerToolBar->setWindowTitle("Layer");
 	this->layerToolBar->hide();
+
+	this->objectSnapToolBar = new ShObjectSnapToolBar(this);
+	this->objectSnapToolBar->setWindowTitle("ObjectSnap");
+	this->objectSnapToolBar->hide();
 	
 }
 
@@ -193,6 +198,10 @@ void ShCAD::ActivateWidgets() {
 	this->addToolBar(Qt::ToolBarArea::TopToolBarArea, this->layerToolBar);
 	this->layerToolBar->show();
 
+	this->addToolBar(Qt::ToolBarArea::TopToolBarArea, this->objectSnapToolBar);
+	this->objectSnapToolBar->show();
+
+
 }
 
 void ShCAD::DeActivateWidgets() {
@@ -204,4 +213,5 @@ void ShCAD::DeActivateWidgets() {
 	this->removeDockWidget(this->dock);
 	this->removeToolBar(this->propertyToolBar);
 	this->removeToolBar(this->layerToolBar);
+	this->removeToolBar(this->objectSnapToolBar);
 }

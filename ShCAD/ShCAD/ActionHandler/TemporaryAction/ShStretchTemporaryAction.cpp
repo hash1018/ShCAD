@@ -1,12 +1,14 @@
 
 
-#include "ShSelectionMoveAction.h"
+#include "ShStretchTemporaryAction.h"
 #include <QKeyEvent>
 #include "ShNotifyEvent.h"
 #include "Entity\Composite\ShPreview.h"
 #include "Entity\Leaf\ShRubberBand.h"
 #include "Interface\ShGraphicView.h"
-ShSelectionMoveAction::ShSelectionMoveAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+
+
+ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
 	const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex)
 	:ShTemporaryAction(graphicView, previousAction), list(list), hitList(hitList), vertex(vertex) {
 
@@ -24,10 +26,10 @@ ShSelectionMoveAction::ShSelectionMoveAction(ShGraphicView *graphicView, ShActio
 	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage |
 		DrawType::DrawPreviewEntities | DrawType::DrawActionHandler));
 
-	qDebug("Changed to SelectionMoveAction.");
+	qDebug("Changed to StretchTemporaryAction.");
 }
 
-ShSelectionMoveAction::~ShSelectionMoveAction() {
+ShStretchTemporaryAction::~ShStretchTemporaryAction() {
 
 	
 	this->graphicView->preview.DeleteAll();
@@ -41,43 +43,36 @@ ShSelectionMoveAction::~ShSelectionMoveAction() {
 	
 }
 
-#include "Visitor Pattern\ShSelectionMover.h"
-void ShSelectionMoveAction::MousePressEvent(QMouseEvent *event) {
+
+#include "Command Pattern\Entity Command\ShStretchEntityCommand.h"
+void ShStretchTemporaryAction::MousePressEvent(QMouseEvent *event) {
 
 	ShPoint3d point;
 	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), point.x, point.y);
 	
+	ShStretchEntityCommand *command = new ShStretchEntityCommand(this->graphicView,
+		this->list, this->hitList, this->vertex, point);
 
-	ShSelectionMover selectionMover(point.x, point.y);
+	command->Execute();
 
-	QLinkedList<ShEntity*>::iterator itr;
-	QLinkedList<HitPoint>::iterator itrHitPoint = this->hitList.begin();
+	this->graphicView->undoTaker.Push(command);
 
-	for (itr = this->list.begin(); itr != this->list.end(); ++itr) {
-
-		selectionMover.SetHitPoint((*itrHitPoint));
-		++itrHitPoint;
-		(*itr)->Accept(&selectionMover);
-	}
-
-	this->graphicView->update(DrawType::DrawAll);
-	this->graphicView->CaptureImage();
-
-
-
+	if (!this->graphicView->redoTaker.IsEmpty())
+		this->graphicView->redoTaker.DeleteAll();
+	
 	this->ReturnToPrevious();
-
 
 }
 
 
-void ShSelectionMoveAction::MouseMoveEvent(QMouseEvent *event) {
+#include "Visitor Pattern\ShStretchVisitor.h"
+void ShStretchTemporaryAction::MouseMoveEvent(QMouseEvent *event) {
 
 	ShPoint3d end;
 	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), end.x, end.y);
 	this->graphicView->rubberBand->SetEnd(end);
 
-	ShSelectionMover selectionMover(end.x, end.y);
+	ShStretchVisitor visitor(end.x, end.y);
 
 	QLinkedList<ShEntity*>::iterator itr;
 	QLinkedList<HitPoint>::iterator itrHitPoint = this->hitList.begin();
@@ -86,9 +81,9 @@ void ShSelectionMoveAction::MouseMoveEvent(QMouseEvent *event) {
 		itr != this->graphicView->preview.End();
 		++itr) {
 
-		selectionMover.SetHitPoint((*itrHitPoint));
+		visitor.SetHitPoint((*itrHitPoint));
 		++itrHitPoint;
-		(*itr)->Accept(&selectionMover);
+		(*itr)->Accept(&visitor);
 	}
 
 
@@ -96,7 +91,7 @@ void ShSelectionMoveAction::MouseMoveEvent(QMouseEvent *event) {
 		DrawType::DrawPreviewEntities | DrawType::DrawActionHandler));
 }
 
-void ShSelectionMoveAction::KeyPressEvent(QKeyEvent *event) {
+void ShStretchTemporaryAction::KeyPressEvent(QKeyEvent *event) {
 	
 	if (event->key() == Qt::Key::Key_Escape) {
 
@@ -112,18 +107,18 @@ void ShSelectionMoveAction::KeyPressEvent(QKeyEvent *event) {
 	}
 }
 
-QCursor ShSelectionMoveAction::GetCursorShape() {
+QCursor ShStretchTemporaryAction::GetCursorShape() {
 	
 	return QCursor(Qt::CursorShape::CrossCursor);
 }
 
-ActionType ShSelectionMoveAction::GetType() {
+ActionType ShStretchTemporaryAction::GetType() {
 
 	return ActionType::ActionSelectionMove;
 }
 
 #include <qpainter.h>
-void ShSelectionMoveAction::DrawVertex() {
+void ShStretchTemporaryAction::DrawVertex() {
 
 	int dx, dy;
 	this->graphicView->ConvertEntityToDevice(this->vertex.x, this->vertex.y, dx, dy);
@@ -132,7 +127,7 @@ void ShSelectionMoveAction::DrawVertex() {
 	painter.fillRect(dx - 3, dy - 3, 6, 6, QColor(255, 000, 000));
 }
 
-void ShSelectionMoveAction::EraseVertex() {
+void ShStretchTemporaryAction::EraseVertex() {
 
 	int dx, dy;
 	this->graphicView->ConvertEntityToDevice(this->vertex.x, this->vertex.y, dx, dy);
@@ -142,7 +137,7 @@ void ShSelectionMoveAction::EraseVertex() {
 
 }
 
-void ShSelectionMoveAction::Draw(QPainter *painter) {
+void ShStretchTemporaryAction::Draw(QPainter *painter) {
 
 	if (painter->isActive() == false)
 		painter->begin(this->graphicView);

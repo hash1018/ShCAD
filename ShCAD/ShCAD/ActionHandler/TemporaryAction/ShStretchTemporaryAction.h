@@ -8,7 +8,7 @@
 #include "ShPoint.h"
 
 class ShEntity;
-class ShSelectionMoveAction : public ShTemporaryAction {
+class ShStretchTemporaryAction : public ShTemporaryAction {
 
 private:
 	ShPoint3d vertex;
@@ -16,9 +16,9 @@ private:
 	QLinkedList<HitPoint> hitList;
 
 public:
-	ShSelectionMoveAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+	ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
 		const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex);
-	~ShSelectionMoveAction();
+	~ShStretchTemporaryAction();
 
 	virtual void MousePressEvent(QMouseEvent *event);
 	virtual void MouseMoveEvent(QMouseEvent *event);

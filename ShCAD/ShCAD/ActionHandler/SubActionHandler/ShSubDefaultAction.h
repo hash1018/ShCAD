@@ -37,7 +37,7 @@ public:
 };
 
 
-// This is the class for preparing for selection move.
+// This is the class for preparing for stretching entity.
 class ShSubDefaultAction_MouseIsInEntityVertex : public ShSubDefaultAction {
 
 private:

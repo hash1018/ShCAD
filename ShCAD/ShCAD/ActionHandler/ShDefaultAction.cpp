@@ -114,7 +114,7 @@ ActionType ShDefaultAction::GetType() {
 }
 
 void ShDefaultAction::ChangeSubAction(ShSubDefaultAction *subDefaultAction) {
-	qDebug("delete original subAction and replace new one.");
+	qDebug("ShDefaultAction->ChangeSubAction(); delete original subAction and replace new one.");
 
 	if (this->subDefaultAction != 0)
 		delete this->subDefaultAction;

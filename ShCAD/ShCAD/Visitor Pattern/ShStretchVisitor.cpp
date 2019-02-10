@@ -1,23 +1,23 @@
 
 
-#include "ShSelectionMover.h"
+#include "ShStretchVisitor.h"
 #include "Entity\Leaf\ShLine.h"
-ShSelectionMover::ShSelectionMover(double x, double y)
+ShStretchVisitor::ShStretchVisitor(double x, double y)
 	:x(x), y(y) {
 
 
 }
 
-ShSelectionMover::~ShSelectionMover() {
+ShStretchVisitor::~ShStretchVisitor() {
 
 }
 
-void ShSelectionMover::SetHitPoint(HitPoint hitPoint) {
+void ShStretchVisitor::SetHitPoint(HitPoint hitPoint) {
 
 	this->hitPoint = hitPoint;
 }
 
-void ShSelectionMover::Visit(ShLine *line) {
+void ShStretchVisitor::Visit(ShLine *line) {
 
 	ShLineData data = line->GetData();
 	ShPoint3d start = data.start;
@@ -46,11 +46,11 @@ void ShSelectionMover::Visit(ShLine *line) {
 
 }
 
-void ShSelectionMover::Visit(ShCircle *circle) {
+void ShStretchVisitor::Visit(ShCircle *circle) {
 
 }
 
-void ShSelectionMover::Visit(ShArc *arc) {
+void ShStretchVisitor::Visit(ShArc *arc) {
 
 
 }

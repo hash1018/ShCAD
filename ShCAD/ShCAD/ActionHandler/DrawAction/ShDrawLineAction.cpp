@@ -28,59 +28,39 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShRubberBand.h"
 #include "ShNotifyEvent.h"
+#include "ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.h"
+#include "ShObjectSnapState.h"
+
 ShDrawLineAction::ShDrawLineAction(ShGraphicView *graphicView)
 	:ShDrawAction(graphicView) {
 
 	this->status = PickedNothing;
+	this->subDrawLineAction = new ShSubDrawLineAction_Default(this, this->graphicView);
+	this->objectSnapState = new ShObjectSnapState_Nothing;
 }
 
 ShDrawLineAction::~ShDrawLineAction() {
 
+	if (this->objectSnapState != 0)
+		delete this->objectSnapState;
+
+	if (this->subDrawLineAction != 0)
+		delete this->subDrawLineAction;
 }
 
 
 void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 	
-	if (this->status == PickedNothing) {
-	
-		this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), this->start.x, this->start.y);
-		this->status = PickedStart;
+	this->objectSnapState->MousePressEvent(event);
 
-		this->graphicView->preview.Add(new ShLine(ShPropertyData(*this->graphicView->GetData()->GetPropertyData()),
-			ShLineData(this->start, this->start), this->graphicView->entityTable.GetLayerTable()->GetCurrentLayer()));
-
-		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
-		
-	}
-	else {
-		this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), this->end.x, this->end.y);
-		ShLineData data(start, end);
-		
-		
-
-
-		dynamic_cast<ShLine*>((*this->graphicView->preview.Begin()))->SetData(data);
-
-		ShDrawAction::AddEntity((*this->graphicView->preview.Begin())->Clone(), "Line");
-
-		this->start = this->end;
-
-		
-	}
+	this->subDrawLineAction->MousePressEvent(event);
 }
 
 void ShDrawLineAction::MouseMoveEvent(QMouseEvent *event) {
 
-	if (this->status == PickedStart) {
-		this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), this->end.x, this->end.y);
+	this->objectSnapState->MouseMoveEvent(event);
 
-		ShLineData data(this->start, this->end);
-
-		dynamic_cast<ShLine*>((*this->graphicView->preview.Begin()))->SetData(data);
-
-		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
-		
-	}
+	this->subDrawLineAction->MouseMoveEvent(event);
 }
 
 void ShDrawLineAction::KeyPressEvent(QKeyEvent *event) {

@@ -5,7 +5,7 @@
 
 #include "ShVisitor.h"
 #include "ShVariable.h"
-class ShSelectionMover : public ShVisitor {
+class ShStretchVisitor : public ShVisitor {
 
 private:
 	double x;
@@ -13,8 +13,8 @@ private:
 	HitPoint hitPoint;
 
 public:
-	ShSelectionMover(double x, double y);
-	~ShSelectionMover();
+	ShStretchVisitor(double x, double y);
+	~ShStretchVisitor();
 	
 	void Visit(ShLine *line);
 	void Visit(ShCircle *circle);

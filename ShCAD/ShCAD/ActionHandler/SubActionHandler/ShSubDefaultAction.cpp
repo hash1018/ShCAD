@@ -109,7 +109,7 @@ ShSubDefaultAction_MouseIsInEntityVertex::~ShSubDefaultAction_MouseIsInEntityVer
 }
 
 
-#include "ActionHandler\TemporaryAction\ShSelectionMoveAction.h"
+#include "ActionHandler\TemporaryAction\ShStretchTemporaryAction.h"
 void ShSubDefaultAction_MouseIsInEntityVertex::MousePressEvent(QMouseEvent *event) {
 	//Change to SelectionMove.
 
@@ -132,7 +132,7 @@ void ShSubDefaultAction_MouseIsInEntityVertex::MousePressEvent(QMouseEvent *even
 		}
 	}
 
-	ShSelectionMoveAction *action = new ShSelectionMoveAction(this->view, this->defaultAction,
+	ShStretchTemporaryAction *action = new ShStretchTemporaryAction(this->view, this->defaultAction,
 		list, hitList, this->vertex);
 	this->view->SetTemporaryAction(action);
 	

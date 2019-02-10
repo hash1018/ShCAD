@@ -29,6 +29,9 @@
 
 #include "ShDrawAction.h"
 #include "ShPoint.h"
+
+class ShSubDrawLineAction;
+class ShObjectSnapState;
 class ShDrawLineAction : public ShDrawAction{
 	
 public:
@@ -37,10 +40,14 @@ public:
 		PickedStart    // start point already picked. About to pick end.
 	};
 
+	friend class ShSubDrawLineAction_Default;
 private:
 	Status status;
 	ShPoint3d start;
 	ShPoint3d end;
+	ShSubDrawLineAction *subDrawLineAction;
+	ShObjectSnapState *objectSnapState;
+
 
 public:
 	ShDrawLineAction(ShGraphicView *graphicView);
