@@ -175,6 +175,7 @@
     <ClCompile Include="Entity\ShEntity.cpp" />
     <ClCompile Include="Facade Pattern\ShCadFacade.cpp" />
     <ClCompile Include="FactoryMethod\ShCreatorActionFactory.cpp" />
+    <ClCompile Include="FactoryMethod\ShCreatorObjectSnapFactory.cpp" />
     <ClCompile Include="FactoryMethod\ShCreatorViewDrawFactory.cpp" />
     <ClCompile Include="FactoryMethod\ShCreatorViewUpdateFactory.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_shcad.cpp">
@@ -295,6 +296,7 @@
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
     <ClCompile Include="Visitor Pattern\ShFinder.cpp" />
     <ClCompile Include="Visitor Pattern\ShHitTester.cpp" />
+    <ClCompile Include="Visitor Pattern\ShSnapPointFinder.cpp" />
     <ClCompile Include="Visitor Pattern\ShStretchVisitor.cpp" />
     <ClCompile Include="Visitor Pattern\ShVisitor.cpp" />
   </ItemGroup>
@@ -372,6 +374,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
     </CustomBuild>
+    <ClInclude Include="FactoryMethod\ShCreatorObjectSnapFactory.h" />
     <ClInclude Include="FactoryMethod\ShCreatorViewDrawFactory.h" />
     <ClInclude Include="FactoryMethod\ShCreatorViewUpdateFactory.h" />
     <ClInclude Include="Interface\Dock\ShCommandDock.h" />
@@ -551,6 +554,7 @@
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
     <ClInclude Include="Visitor Pattern\ShFinder.h" />
     <ClInclude Include="Visitor Pattern\ShHitTester.h" />
+    <ClInclude Include="Visitor Pattern\ShSnapPointFinder.h" />
     <ClInclude Include="Visitor Pattern\ShStretchVisitor.h" />
     <ClInclude Include="Visitor Pattern\ShVisitor.h" />
     <CustomBuild Include="Interface\shcad.h">

@@ -57,7 +57,9 @@ public:
 	virtual void MouseMoveEvent(QMouseEvent *event);
 	virtual void KeyPressEvent(QKeyEvent *event);
 
+	virtual void SetObjectSnap(ObjectSnap objectSnap);
 
+	virtual void Draw(QPainter *painter);
 	virtual ActionType GetType();
 };
 

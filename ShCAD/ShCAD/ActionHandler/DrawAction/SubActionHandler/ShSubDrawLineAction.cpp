@@ -53,7 +53,7 @@ void ShSubDrawLineAction_Default::MousePressEvent(QMouseEvent *event) {
 	}
 }
 
-void ShSubDrawLineAction_Default::MouseMoveEvent(QMouseEvent *event) {
+void ShSubDrawLineAction_Default::MouseMoveEvent(QMouseEvent *event, DrawType &drawType) {
 
 	if (this->drawLineAction->status == ShDrawLineAction::PickedStart) {
 		this->view->ConvertDeviceToEntity(event->x(), event->y(),
@@ -63,7 +63,9 @@ void ShSubDrawLineAction_Default::MouseMoveEvent(QMouseEvent *event) {
 
 		dynamic_cast<ShLine*>((*this->view->preview.Begin()))->SetData(data);
 
-		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+		//this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		drawType = (DrawType)(drawType | DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities);
 	}
 
 

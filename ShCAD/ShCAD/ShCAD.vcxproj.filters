@@ -383,6 +383,12 @@
     <ClCompile Include="ShObjectSnapState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShSnapPointFinder.cpp">
+      <Filter>Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="FactoryMethod\ShCreatorObjectSnapFactory.cpp">
+      <Filter>Factory Method</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -614,6 +620,12 @@
     </ClInclude>
     <ClInclude Include="ShObjectSnapState.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShSnapPointFinder.h">
+      <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryMethod\ShCreatorObjectSnapFactory.h">
+      <Filter>Factory Method</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

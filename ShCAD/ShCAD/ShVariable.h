@@ -62,4 +62,18 @@ enum HitPoint {
 
 };
 
+enum ObjectSnap {
+	ObjectSnapNothing = 0x00000000,
+	ObjectSnapEndPoint = 0x00000001,
+	ObjectSnapMidPoint = 0x00000002,
+	ObjectSnapIntersection = 0x00000004,
+	ObjectSnapAppraentIntersection = 0x00000008,
+	ObjectSnapExtension = 0x00000010,
+	ObjectSnapCenter = 0x00000020,
+	ObjectSnapQuadrant = 0x00000040,
+	ObjectSnapTangent = 0x00000080,
+	ObjectSnapPerpendicular = 0x00000100,
+
+};
+
 #endif //_SHVARIABLE_H

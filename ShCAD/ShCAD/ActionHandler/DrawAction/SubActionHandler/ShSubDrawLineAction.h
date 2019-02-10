@@ -3,6 +3,8 @@
 #ifndef _SHSUBDRAWLINEACTION_H
 #define _SHSUBDRAWLINEACTION_H
 
+#include "ShVariable.h"
+
 class QMouseEvent;
 class ShDrawLineAction;
 class ShGraphicView;
@@ -16,7 +18,7 @@ public:
 	virtual ~ShSubDrawLineAction() = 0;
 
 	virtual void MousePressEvent(QMouseEvent *event) = 0;
-	virtual void MouseMoveEvent(QMouseEvent *event) = 0;
+	virtual void MouseMoveEvent(QMouseEvent *event, DrawType &drawType) = 0;
 };
 
 class ShSubDrawLineAction_Default : public ShSubDrawLineAction {
@@ -26,7 +28,7 @@ public:
 	~ShSubDrawLineAction_Default();
 
 	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event);
+	virtual void MouseMoveEvent(QMouseEvent *event, DrawType &drawType);
 
 };
 

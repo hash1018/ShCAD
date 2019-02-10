@@ -40,6 +40,8 @@ namespace Math {
 
 	double GetAbsAngle(double centerX, double centerY, double anotherX, double anotherY);
 	void Rotate(double angle, double centerX, double centerY, double anotherX, double anotherY, double &appliedX, double &appliedY);
+
+	double GetDistance(double x, double y, double x2, double y2);
 }
 
 

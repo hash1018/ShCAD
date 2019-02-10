@@ -157,3 +157,15 @@ void Math::Rotate(double angle, double centerX, double centerY, double anotherX,
 	appliedX = tempX2 + centerX;
 	appliedY = tempY2 + centerY;
 }
+
+
+double Math::GetDistance(double x, double y, double x2, double y2) {
+
+	double disX = fabs(x2 - x);
+	double disY = fabs(y2 - y);
+
+	double distance = sqrt(disX*disX + disY*disY);
+
+	return distance;
+
+}

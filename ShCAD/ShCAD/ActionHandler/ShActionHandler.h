@@ -56,7 +56,7 @@ public:
 	virtual QCursor GetCursorShape();
 	virtual void Draw(QPainter *painter) {}
 
-
+	virtual void SetObjectSnap(ObjectSnap objectSnap) {}
 	
 
 
