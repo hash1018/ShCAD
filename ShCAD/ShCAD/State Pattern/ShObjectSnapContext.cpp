@@ -1,8 +1,49 @@
 
 
-#include "ShObjectSnapState.h"
+#include "ShObjectSnapContext.h"
 #include <QMouseEvent>
 #include <qpainter.h>
+#include "FactoryMethod\ShCreatorObjectSnapFactory.h"
+
+ShObjectSnapContext::ShObjectSnapContext(ShGraphicView *view, ObjectSnap objectSnap) {
+
+	this->objectSanpState = ShCreatorObjectSnapFactory::Create(objectSnap, view);
+}
+
+ShObjectSnapContext::~ShObjectSnapContext() {
+
+	if (this->objectSanpState != 0)
+		delete this->objectSanpState;
+
+}
+
+bool ShObjectSnapContext::FindSnapPoint(QMouseEvent* event) {
+
+	return this->objectSanpState->FindSnapPoint(event);
+}
+
+ObjectSnap ShObjectSnapContext::GetType() {
+
+	return this->objectSanpState->GetType();
+}
+
+void ShObjectSnapContext::Draw(QPainter *painter) {
+
+	this->objectSanpState->Draw(painter);
+}
+
+double ShObjectSnapContext::GetSnapX() {
+
+	return this->objectSanpState->GetSnapX();
+}
+
+double ShObjectSnapContext::GetSnapY() {
+
+	return this->objectSanpState->GetSnapY();
+}
+
+/////////////////////////////////////////////////////////////////////////
+
 ShObjectSnapState::ShObjectSnapState(ShGraphicView *view)
 	:view(view), isValid(false) {
 
@@ -25,15 +66,12 @@ ShObjectSnapState_Nothing::~ShObjectSnapState_Nothing() {
 
 }
 
-
-void ShObjectSnapState_Nothing::MousePressEvent(QMouseEvent *event) {
-
+bool ShObjectSnapState_Nothing::FindSnapPoint(QMouseEvent *event) {
+	
+	
+	return false;
 }
 
-void ShObjectSnapState_Nothing::MouseMoveEvent(QMouseEvent *event, DrawType &drawType) {
-
-	drawType = (DrawType)(drawType | DrawType::DrawCaptureImage);
-}
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -50,30 +88,28 @@ ShObjectSnapState_EndPoint::~ShObjectSnapState_EndPoint() {
 
 }
 
-void ShObjectSnapState_EndPoint::MousePressEvent(QMouseEvent *event) {
 
+bool ShObjectSnapState_EndPoint::FindSnapPoint(QMouseEvent *event) {
 
-}
-
-void ShObjectSnapState_EndPoint::MouseMoveEvent(QMouseEvent *event, DrawType &drawType) {
-	
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
 
 	ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
 
 	if (entity == 0)
-		return;
+		return false;
 
 	this->isValid = false;
 
 	ShSnapPointFinder visitor(ObjectSnap::ObjectSnapEndPoint, x, y, this->snapX, this->snapY, this->isValid);
 	entity->Accept(&visitor);
 
-	if (this->isValid == true) {
-		drawType = (DrawType)(drawType | DrawType::DrawActionHandler | DrawType::DrawCaptureImage);
-	}
-	
+	//if (this->isValid == true) {
+	//	drawType = (DrawType)(drawType | DrawType::DrawActionHandler | DrawType::DrawCaptureImage);
+	//}
+
+	return this->isValid;
+
 }
 
 
@@ -107,11 +143,7 @@ ShObjectSnapState_MidPoint::~ShObjectSnapState_MidPoint() {
 
 }
 
-void ShObjectSnapState_MidPoint::MousePressEvent(QMouseEvent *event) {
-
-}
-
-void ShObjectSnapState_MidPoint::MouseMoveEvent(QMouseEvent *event, DrawType &drawType) {
+bool ShObjectSnapState_MidPoint::FindSnapPoint(QMouseEvent *event) {
 
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
@@ -119,18 +151,21 @@ void ShObjectSnapState_MidPoint::MouseMoveEvent(QMouseEvent *event, DrawType &dr
 	ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
 
 	if (entity == 0)
-		return;
+		return false;
 
 	this->isValid = false;
 
 	ShSnapPointFinder visitor(ObjectSnap::ObjectSnapMidPoint, x, y, this->snapX, this->snapY, this->isValid);
 	entity->Accept(&visitor);
 
-	if (this->isValid == true) {
-		drawType = (DrawType)(drawType | DrawType::DrawActionHandler | DrawType::DrawCaptureImage);
-	}
+	//if (this->isValid == true) {
+	//	drawType = (DrawType)(drawType | DrawType::DrawActionHandler | DrawType::DrawCaptureImage);
+	//}
+
+	return this->isValid;
 
 }
+
 
 
 void ShObjectSnapState_MidPoint::Draw(QPainter *painter) {

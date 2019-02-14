@@ -25,24 +25,18 @@
 
 #include "ShDrawLineAction.h"
 #include <QMouseEvent>
-#include "Entity\Leaf\ShLine.h"
-#include "Entity\Leaf\ShRubberBand.h"
 #include "ShNotifyEvent.h"
 #include "ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.h"
-#include "ShObjectSnapState.h"
 
 ShDrawLineAction::ShDrawLineAction(ShGraphicView *graphicView)
 	:ShDrawAction(graphicView) {
 
 	this->status = PickedNothing;
-	this->subDrawLineAction = new ShSubDrawLineAction_Default(this, this->graphicView);
-	this->objectSnapState = new ShObjectSnapState_Nothing(this->graphicView);
+	this->subDrawLineAction = new ShDrawLineMethod_Default(this, this->graphicView);
+	
 }
 
 ShDrawLineAction::~ShDrawLineAction() {
-
-	if (this->objectSnapState != 0)
-		delete this->objectSnapState;
 
 	if (this->subDrawLineAction != 0)
 		delete this->subDrawLineAction;
@@ -51,7 +45,10 @@ ShDrawLineAction::~ShDrawLineAction() {
 
 void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 	
-	this->objectSnapState->MousePressEvent(event);
+	ShPoint3d point;
+	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), point.x, point.y);
+	this->subDrawLineAction->SetPoint(point);
+
 	this->subDrawLineAction->MousePressEvent(event);
 }
 
@@ -59,10 +56,14 @@ void ShDrawLineAction::MouseMoveEvent(QMouseEvent *event) {
 
 	DrawType drawType = DrawType::DrawCaptureImage;
 	
-	this->objectSnapState->MouseMoveEvent(event, drawType);
+	ShPoint3d point;
+	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), point.x, point.y);
+	this->subDrawLineAction->SetPoint(point);
+
 	this->subDrawLineAction->MouseMoveEvent(event, drawType);
 
 	this->graphicView->update(drawType);
+
 }
 
 void ShDrawLineAction::KeyPressEvent(QKeyEvent *event) {
@@ -81,19 +82,13 @@ void ShDrawLineAction::KeyPressEvent(QKeyEvent *event) {
 
 }
 
-#include "FactoryMethod\ShCreatorObjectSnapFactory.h"
+
 void ShDrawLineAction::SetObjectSnap(ObjectSnap objectSnap) {
 
-	ObjectSnap previous = this->objectSnapState->GetType();
+	//if (this->subDrawLineAction != 0)
+		//delete this->subDrawLineAction;
 
-	if (this->objectSnapState != 0)
-		delete this->objectSnapState;
-
-	if (previous != ObjectSnap::ObjectSnapNothing)
-		this->objectSnapState = ShCreatorObjectSnapFactory::Create(ObjectSnap::ObjectSnapNothing, this->graphicView);
-	else
-		this->objectSnapState = ShCreatorObjectSnapFactory::Create(objectSnap, this->graphicView);
-
+	this->subDrawLineAction->Decorate(new ShDrawLineDecorator_SnapMode(this, this->graphicView, objectSnap));
 }
 
 ActionType ShDrawLineAction::GetType() {
@@ -103,5 +98,14 @@ ActionType ShDrawLineAction::GetType() {
 
 void ShDrawLineAction::Draw(QPainter *painter) {
 
-	this->objectSnapState->Draw(painter);
+	this->subDrawLineAction->Draw(painter);
+	
+}
+
+void ShDrawLineAction::ChangeSubAction(ShSubDrawLineAction *current) {
+
+	if (this->subDrawLineAction != 0)
+		delete this->subDrawLineAction;
+
+	this->subDrawLineAction = current;
 }

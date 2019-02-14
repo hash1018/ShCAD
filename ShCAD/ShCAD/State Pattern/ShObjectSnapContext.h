@@ -8,6 +8,25 @@
 class QMouseEvent;
 class ShGraphicView;
 class QPainter;
+
+class ShObjectSnapState;
+class ShObjectSnapContext {
+
+private:
+	ShObjectSnapState *objectSanpState;
+
+public:
+	ShObjectSnapContext(ShGraphicView *view, ObjectSnap objectSnap);
+	~ShObjectSnapContext();
+	
+	bool FindSnapPoint(QMouseEvent* event);
+	ObjectSnap GetType();
+	void Draw(QPainter *painter);
+
+	double GetSnapX();
+	double GetSnapY();
+};
+
 class ShObjectSnapState {
 
 protected:
@@ -20,13 +39,14 @@ public:
 	ShObjectSnapState(ShGraphicView *view);
 	virtual ~ShObjectSnapState() = 0;
 
-	virtual void MousePressEvent(QMouseEvent *event) = 0;
-	virtual void MouseMoveEvent(QMouseEvent *event, DrawType &drawType) = 0;
+	virtual bool FindSnapPoint(QMouseEvent *event) = 0;
 
 	virtual ObjectSnap GetType() = 0;
 	virtual void Draw(QPainter *painter) = 0;
-};
 
+	inline double GetSnapX() const { return this->snapX; }
+	inline double GetSnapY() const { return this->snapY; }
+};
 
 class ShObjectSnapState_Nothing : public ShObjectSnapState {
 
@@ -34,11 +54,15 @@ public:
 	ShObjectSnapState_Nothing(ShGraphicView *view);
 	~ShObjectSnapState_Nothing();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event, DrawType &drawType);
+	virtual bool FindSnapPoint(QMouseEvent *event);
 
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapNothing; }
 	virtual void Draw(QPainter *painter) {}
+};
+
+class ShObjectSnapState_TemporaryTrackPoint : public ShObjectSnapState {
+
+
 };
 
 class ShObjectSnapState_EndPoint : public ShObjectSnapState {
@@ -47,8 +71,7 @@ public:
 	ShObjectSnapState_EndPoint(ShGraphicView *view);
 	~ShObjectSnapState_EndPoint();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event, DrawType &drawType);
+	virtual bool FindSnapPoint(QMouseEvent *event);
 
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapEndPoint; }
 	virtual void Draw(QPainter *painter);
@@ -60,8 +83,7 @@ public:
 	ShObjectSnapState_MidPoint(ShGraphicView *view);
 	~ShObjectSnapState_MidPoint();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event, DrawType &drawType);
+	virtual bool FindSnapPoint(QMouseEvent *event);
 
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapMidPoint; }
 	virtual void Draw(QPainter *painter);

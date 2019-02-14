@@ -99,6 +99,9 @@
     <Filter Include="ActionHandler\DrawAction\SubActionHandler">
       <UniqueIdentifier>{896cf90d-ee75-4bad-8e30-19b825295faf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="State Pattern">
+      <UniqueIdentifier>{0d9be04f-e446-48ea-86fc-2e1616646aed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -380,14 +383,14 @@
     <ClCompile Include="ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.cpp">
       <Filter>ActionHandler\DrawAction\SubActionHandler</Filter>
     </ClCompile>
-    <ClCompile Include="ShObjectSnapState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Visitor Pattern\ShSnapPointFinder.cpp">
       <Filter>Visitor Pattern</Filter>
     </ClCompile>
     <ClCompile Include="FactoryMethod\ShCreatorObjectSnapFactory.cpp">
       <Filter>Factory Method</Filter>
+    </ClCompile>
+    <ClCompile Include="State Pattern\ShObjectSnapContext.cpp">
+      <Filter>State Pattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -618,14 +621,14 @@
     <ClInclude Include="ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.h">
       <Filter>ActionHandler\DrawAction\SubActionHandler</Filter>
     </ClInclude>
-    <ClInclude Include="ShObjectSnapState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Visitor Pattern\ShSnapPointFinder.h">
       <Filter>Visitor Pattern</Filter>
     </ClInclude>
     <ClInclude Include="FactoryMethod\ShCreatorObjectSnapFactory.h">
       <Filter>Factory Method</Filter>
+    </ClInclude>
+    <ClInclude Include="State Pattern\ShObjectSnapContext.h">
+      <Filter>State Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

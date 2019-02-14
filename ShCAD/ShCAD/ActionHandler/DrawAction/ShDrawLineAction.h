@@ -31,7 +31,6 @@
 #include "ShPoint.h"
 
 class ShSubDrawLineAction;
-class ShObjectSnapState;
 class ShDrawLineAction : public ShDrawAction{
 	
 public:
@@ -40,13 +39,13 @@ public:
 		PickedStart    // start point already picked. About to pick end.
 	};
 
-	friend class ShSubDrawLineAction_Default;
+	friend class ShSubDrawLineAction;
 private:
 	Status status;
 	ShPoint3d start;
 	ShPoint3d end;
 	ShSubDrawLineAction *subDrawLineAction;
-	ShObjectSnapState *objectSnapState;
+	
 
 
 public:
@@ -61,6 +60,9 @@ public:
 
 	virtual void Draw(QPainter *painter);
 	virtual ActionType GetType();
+
+
+	void ChangeSubAction(ShSubDrawLineAction *current);
 };
 
 #endif //_SHDRAWLINEACTION_H

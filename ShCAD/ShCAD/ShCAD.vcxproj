@@ -282,7 +282,6 @@
     <ClCompile Include="ShLayerTable.cpp" />
     <ClCompile Include="ShMath.cpp" />
     <ClCompile Include="ShNotifyEvent.cpp" />
-    <ClCompile Include="ShObjectSnapState.cpp" />
     <ClCompile Include="ShPropertyData.cpp" />
     <ClCompile Include="ShRibbon.cpp" />
     <ClCompile Include="ShSelectedEntityManager.cpp" />
@@ -291,6 +290,7 @@
     <ClCompile Include="Singleton Pattern\ShColorComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShLineStyleComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
+    <ClCompile Include="State Pattern\ShObjectSnapContext.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
@@ -515,7 +515,6 @@
     <ClInclude Include="ShLayerTable.h" />
     <ClInclude Include="ShMath.h" />
     <ClInclude Include="ShNotifyEvent.h" />
-    <ClInclude Include="ShObjectSnapState.h" />
     <ClInclude Include="ShPropertyData.h" />
     <CustomBuild Include="ShRibbon.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -549,6 +548,7 @@
     <ClInclude Include="Singleton Pattern\ShColorComboList.h" />
     <ClInclude Include="Singleton Pattern\ShLineStyleComboList.h" />
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
+    <ClInclude Include="State Pattern\ShObjectSnapContext.h" />
     <ClInclude Include="Strategy Pattern\ShViewDrawStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />

@@ -1,7 +1,7 @@
 
 
 #include "ShCreatorObjectSnapFactory.h"
-#include "ShObjectSnapState.h"
+#include "State Pattern\ShObjectSnapContext.h"
 
 ShCreatorObjectSnapFactory::ShCreatorObjectSnapFactory() {
 

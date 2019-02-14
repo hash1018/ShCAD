@@ -46,7 +46,7 @@ void ShAddEntityCommand::Execute() {
 	this->graphicView->entityTable.Add(this->entity);
 	this->mustDeallocateEntity = false;
 
-	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
+	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities | DrawType::DrawPreviewEntities));
 	this->graphicView->CaptureImage();
 	
 
