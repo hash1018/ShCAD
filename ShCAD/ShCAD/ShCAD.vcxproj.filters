@@ -389,7 +389,7 @@
     <ClCompile Include="FactoryMethod\ShCreatorObjectSnapFactory.cpp">
       <Filter>Factory Method</Filter>
     </ClCompile>
-    <ClCompile Include="State Pattern\ShObjectSnapContext.cpp">
+    <ClCompile Include="State Pattern\ShObjectSnapState.cpp">
       <Filter>State Pattern</Filter>
     </ClCompile>
   </ItemGroup>
@@ -627,7 +627,7 @@
     <ClInclude Include="FactoryMethod\ShCreatorObjectSnapFactory.h">
       <Filter>Factory Method</Filter>
     </ClInclude>
-    <ClInclude Include="State Pattern\ShObjectSnapContext.h">
+    <ClInclude Include="State Pattern\ShObjectSnapState.h">
       <Filter>State Pattern</Filter>
     </ClInclude>
   </ItemGroup>

@@ -169,3 +169,38 @@ double Math::GetDistance(double x, double y, double x2, double y2) {
 	return distance;
 
 }
+
+double Math::Det(double a, double b, double c, double d) {
+
+	return a*d - b*c;
+}
+
+bool Math::CheckLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
+	ShPoint3d& intersect) {
+
+	double detL1 = Det(start1.x, start1.y, end1.x, end1.y);
+	double detL2 = Det(start2.x, start2.y, end2.x, end2.y);
+	double x1mx2 = start1.x - end1.x;
+	double x3mx4 = start2.x - end2.x;
+	double y1my2 = start1.y - end1.y;
+	double y3my4 = start2.y - end2.y;
+
+	double xnom = Det(detL1, x1mx2, detL2, x3mx4);
+	double ynom = Det(detL1, y1my2, detL2, y3my4);
+	double denom = Det(x1mx2, y1my2, x3mx4, y3my4);
+	
+	if (denom == 0.0)//Lines don't seem to cross
+	{
+		intersect.x = NAN;
+		intersect.y = NAN;
+		return false;
+	}
+
+	intersect.x = xnom / denom;
+	intersect.y = ynom / denom;
+	if (!isfinite(intersect.x) || !isfinite(intersect.y)) //Probably a numerical issue
+		return false;
+
+	return true; //All OK
+
+}

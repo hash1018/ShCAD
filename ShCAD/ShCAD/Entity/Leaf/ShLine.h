@@ -46,6 +46,10 @@ public:
 	void SetData(const ShLineData& data);
 
 	ShPoint3d GetMid();
+	inline ShPoint3d GetStart() const { return this->data.start; }
+	inline ShPoint3d GetEnd() const { return this->data.end; }
+	void SetStart(const ShPoint3d& start) { this->data.start = start; }
+	void SetEnd(const ShPoint3d& end) { this->data.end = end; }
 	
 
 };

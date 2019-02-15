@@ -47,9 +47,7 @@ void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 	
 	ShPoint3d point;
 	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), point.x, point.y);
-	this->subDrawLineAction->SetPoint(point);
-
-	this->subDrawLineAction->MousePressEvent(event);
+	this->subDrawLineAction->MousePressEvent(event, point);
 }
 
 void ShDrawLineAction::MouseMoveEvent(QMouseEvent *event) {
@@ -58,9 +56,7 @@ void ShDrawLineAction::MouseMoveEvent(QMouseEvent *event) {
 	
 	ShPoint3d point;
 	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), point.x, point.y);
-	this->subDrawLineAction->SetPoint(point);
-
-	this->subDrawLineAction->MouseMoveEvent(event, drawType);
+	this->subDrawLineAction->MouseMoveEvent(event, point, drawType);
 
 	this->graphicView->update(drawType);
 
@@ -71,6 +67,11 @@ void ShDrawLineAction::KeyPressEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key::Key_Escape) {
 	
 		this->graphicView->ChangeCurrentAction(ActionType::ActionDefault);
+	}
+
+	else if (event->key() == Qt::Key::Key_F8) {
+	
+		this->SetOrthogonal();
 	}
 
 
@@ -85,10 +86,17 @@ void ShDrawLineAction::KeyPressEvent(QKeyEvent *event) {
 
 void ShDrawLineAction::SetObjectSnap(ObjectSnap objectSnap) {
 
-	//if (this->subDrawLineAction != 0)
-		//delete this->subDrawLineAction;
 
-	this->subDrawLineAction->Decorate(new ShDrawLineDecorator_SnapMode(this, this->graphicView, objectSnap));
+	if (objectSnap == ObjectSnap::ObjectSnapPerpendicular)
+		this->subDrawLineAction->Decorate(new ShDrawLineDecorator_SnapMode_Perpendicular(this, this->graphicView,
+			objectSnap));
+	else
+		this->subDrawLineAction->Decorate(new ShDrawLineDecorator_SnapMode(this, this->graphicView, objectSnap));
+}
+
+void ShDrawLineAction::SetOrthogonal() {
+
+	this->subDrawLineAction->Decorate(new ShDrawLineDecorator_Orthogonal(this, this->graphicView));
 }
 
 ActionType ShDrawLineAction::GetType() {

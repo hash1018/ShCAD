@@ -1,7 +1,7 @@
 
 
 #include "ShCreatorObjectSnapFactory.h"
-#include "State Pattern\ShObjectSnapContext.h"
+#include "State Pattern\ShObjectSnapState.h"
 
 ShCreatorObjectSnapFactory::ShCreatorObjectSnapFactory() {
 
@@ -18,6 +18,9 @@ ShObjectSnapState* ShCreatorObjectSnapFactory::Create(ObjectSnap objectSnap, ShG
 		return new ShObjectSnapState_EndPoint(view);
 	else if (objectSnap == ObjectSnap::ObjectSnapMidPoint)
 		return new ShObjectSnapState_MidPoint(view);
+	else if (objectSnap == ObjectSnap::ObjectSnapPerpendicular)
+		return new ShObjectSnapState_Perpendicular(view);
+
 
 	return new ShObjectSnapState_Nothing(view);
 }

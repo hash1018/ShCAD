@@ -42,6 +42,12 @@ namespace Math {
 	void Rotate(double angle, double centerX, double centerY, double anotherX, double anotherY, double &appliedX, double &appliedY);
 
 	double GetDistance(double x, double y, double x2, double y2);
+
+	bool CheckLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
+		ShPoint3d& intersect);
+
+
+	double Det(double a, double b, double c, double d);
 }
 
 

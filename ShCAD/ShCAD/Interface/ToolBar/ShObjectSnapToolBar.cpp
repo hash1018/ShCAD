@@ -134,5 +134,8 @@ void ShObjectSnapToolBar::TangentPointClicked() {
 
 void ShObjectSnapToolBar::PerpendicularClicked() {
 
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
 
+	if (manager->GetActivatedWidget() != 0)
+		manager->GetActivatedWidget()->currentAction->SetObjectSnap(ObjectSnap::ObjectSnapPerpendicular);
 }

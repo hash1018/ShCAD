@@ -290,7 +290,7 @@
     <ClCompile Include="Singleton Pattern\ShColorComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShLineStyleComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
-    <ClCompile Include="State Pattern\ShObjectSnapContext.cpp" />
+    <ClCompile Include="State Pattern\ShObjectSnapState.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
@@ -548,7 +548,7 @@
     <ClInclude Include="Singleton Pattern\ShColorComboList.h" />
     <ClInclude Include="Singleton Pattern\ShLineStyleComboList.h" />
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
-    <ClInclude Include="State Pattern\ShObjectSnapContext.h" />
+    <ClInclude Include="State Pattern\ShObjectSnapState.h" />
     <ClInclude Include="Strategy Pattern\ShViewDrawStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />

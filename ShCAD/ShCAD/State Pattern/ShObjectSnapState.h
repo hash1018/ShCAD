@@ -8,25 +8,6 @@
 class QMouseEvent;
 class ShGraphicView;
 class QPainter;
-
-class ShObjectSnapState;
-class ShObjectSnapContext {
-
-private:
-	ShObjectSnapState *objectSanpState;
-
-public:
-	ShObjectSnapContext(ShGraphicView *view, ObjectSnap objectSnap);
-	~ShObjectSnapContext();
-	
-	bool FindSnapPoint(QMouseEvent* event);
-	ObjectSnap GetType();
-	void Draw(QPainter *painter);
-
-	double GetSnapX();
-	double GetSnapY();
-};
-
 class ShObjectSnapState {
 
 protected:
@@ -60,10 +41,6 @@ public:
 	virtual void Draw(QPainter *painter) {}
 };
 
-class ShObjectSnapState_TemporaryTrackPoint : public ShObjectSnapState {
-
-
-};
 
 class ShObjectSnapState_EndPoint : public ShObjectSnapState {
 
@@ -86,6 +63,20 @@ public:
 	virtual bool FindSnapPoint(QMouseEvent *event);
 
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapMidPoint; }
+	virtual void Draw(QPainter *painter);
+
+};
+
+class ShObjectSnapState_Perpendicular : public ShObjectSnapState {
+
+public:
+	ShObjectSnapState_Perpendicular(ShGraphicView *view);
+	~ShObjectSnapState_Perpendicular();
+
+	virtual bool FindSnapPoint(QMouseEvent *event);
+	virtual bool FindSnapPoint(QMouseEvent *event, double perpendicularX, double perpendicularY);
+
+	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapPerpendicular; }
 	virtual void Draw(QPainter *painter);
 
 };

@@ -28,7 +28,6 @@
 
 
 #include "ShDrawAction.h"
-#include "ShPoint.h"
 
 class ShSubDrawLineAction;
 class ShDrawLineAction : public ShDrawAction{
@@ -42,8 +41,6 @@ public:
 	friend class ShSubDrawLineAction;
 private:
 	Status status;
-	ShPoint3d start;
-	ShPoint3d end;
 	ShSubDrawLineAction *subDrawLineAction;
 	
 
@@ -57,6 +54,8 @@ public:
 	virtual void KeyPressEvent(QKeyEvent *event);
 
 	virtual void SetObjectSnap(ObjectSnap objectSnap);
+	//Temp
+	void SetOrthogonal();
 
 	virtual void Draw(QPainter *painter);
 	virtual ActionType GetType();

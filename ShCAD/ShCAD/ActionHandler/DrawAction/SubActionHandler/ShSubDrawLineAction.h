@@ -16,30 +16,27 @@ class ShSubDrawLineAction {
 protected:
 	ShDrawLineAction *drawLineAction;
 	ShGraphicView *view;
-	ShPoint3d point;
+	ShDrawLineDecorator *parent;
 
 public:
 	ShSubDrawLineAction(ShDrawLineAction *drawLineAction, ShGraphicView *view);
 	ShSubDrawLineAction(const ShSubDrawLineAction& other);
 	virtual ~ShSubDrawLineAction() = 0;
 
-	virtual void MousePressEvent(QMouseEvent *event) = 0;
-	virtual void MouseMoveEvent(QMouseEvent *event, DrawType& drawType) = 0;
+	virtual void MousePressEvent(QMouseEvent *event, ShPoint3d point) = 0;
+	virtual void MouseMoveEvent(QMouseEvent *event, ShPoint3d point, DrawType& drawType) = 0;
 
 
-	virtual void Draw(QPainter *painter) {}
-	void SetPoint(const ShPoint3d& point) { this->point = point; }
+	virtual void Draw(QPainter *painter) = 0;
 	virtual void SetObjectSnap(ObjectSnap objectSnap) {}
 
 	virtual void Decorate(ShDrawLineDecorator *drawLineDecorator) = 0;
+	virtual ShSubDrawLineAction* Clone() = 0;
+	void SetParent(ShDrawLineDecorator *parent) { this->parent = parent; }
 
 protected:
 	inline ShDrawLineAction::Status& GetStatus() const { return this->drawLineAction->status; }
-	inline ShPoint3d& GetStart() const { return this->drawLineAction->start; }
-	inline ShPoint3d& GetEnd() const { return this->drawLineAction->end; }
 	void SetStatus(ShDrawLineAction::Status status) { this->drawLineAction->status = status; }
-	void SetStart(ShPoint3d start) { this->drawLineAction->start = start; }
-	void SetEnd(ShPoint3d end) { this->drawLineAction->end = end; }
 	
 	void AddEntity(ShEntity *newEntity, const QString& commandText) {
 		this->drawLineAction->AddEntity(newEntity, commandText);
@@ -55,7 +52,7 @@ public:
 	ShDrawLineMethod(ShDrawLineAction *drawLineAction, ShGraphicView *view);
 	ShDrawLineMethod(const ShDrawLineMethod& other);
 	virtual ~ShDrawLineMethod() = 0;
-
+	virtual void Draw(QPainter *painter) {}
 	
 };
 
@@ -68,10 +65,11 @@ public:
 	ShDrawLineMethod_Default(const ShDrawLineMethod_Default& other);
 	~ShDrawLineMethod_Default();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event, DrawType& drawType);
+	virtual void MousePressEvent(QMouseEvent *event, ShPoint3d point);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShPoint3d point, DrawType& drawType);
 
 	virtual void Decorate(ShDrawLineDecorator *drawLineDecorator);
+	virtual ShDrawLineMethod_Default* Clone();
 };
 
 
@@ -81,44 +79,75 @@ public:
 class ShDrawLineDecorator : public ShSubDrawLineAction {
 
 protected:
-	ShSubDrawLineAction *subDrawLineAction;
+	ShSubDrawLineAction *child;
 
 public:
 	ShDrawLineDecorator(ShDrawLineAction *drawLineAction, ShGraphicView *view);
-	ShDrawLineDecorator(ShDrawLineAction *drawLineAction, ShGraphicView *view,
-		ShSubDrawLineAction *subDrawLineAcion);
 	ShDrawLineDecorator(const ShDrawLineDecorator& other);
 	virtual ~ShDrawLineDecorator() = 0;
 
-	virtual void SetSubAction(ShSubDrawLineAction *subAction);
-protected:
-	// this function lets the subAction of an instance of the decorator class 
-	// becomes currentSubAction of the ShDrawLineAction.
-	void TakeOffBoundarySubAction();
+	void SetChild(ShSubDrawLineAction *child);
+	inline ShSubDrawLineAction* GetChild() const { return this->child; }
+
 
 };
 
 
-class ShObjectSnapContext;
+class ShObjectSnapState;
 class ShDrawLineDecorator_SnapMode : public ShDrawLineDecorator {
 
-private:
+protected:
 	ObjectSnap objectSnap;
-	ShObjectSnapContext *objectSnapContext;
+	ShObjectSnapState *objectSnapState;
 
 public:
 	ShDrawLineDecorator_SnapMode(ShDrawLineAction *drawLineAction, ShGraphicView *view, 
 		ObjectSnap objectSnap);
-	ShDrawLineDecorator_SnapMode(ShDrawLineAction *drawLineAction, ShGraphicView *view,
-		ShDrawLineMethod *subDrawLineAction, ObjectSnap objectSnap);
 	ShDrawLineDecorator_SnapMode(const ShDrawLineDecorator_SnapMode& other);
 	~ShDrawLineDecorator_SnapMode();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event, DrawType& drawType);
+	virtual void MousePressEvent(QMouseEvent *event, ShPoint3d point);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShPoint3d point, DrawType& drawType);
 
 	virtual void Draw(QPainter *painter);
 	virtual void Decorate(ShDrawLineDecorator *drawLineDecorator);
+
+	virtual ShDrawLineDecorator_SnapMode* Clone();
+};
+
+class ShDrawLineDecorator_SnapMode_Perpendicular : public ShDrawLineDecorator_SnapMode {
+
+public:
+	ShDrawLineDecorator_SnapMode_Perpendicular(ShDrawLineAction *drawLineAction,
+		ShGraphicView *view, ObjectSnap objectSnap);
+	ShDrawLineDecorator_SnapMode_Perpendicular(const ShDrawLineDecorator_SnapMode_Perpendicular& other);
+	~ShDrawLineDecorator_SnapMode_Perpendicular();
+
+	virtual void MousePressEvent(QMouseEvent *event, ShPoint3d point);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShPoint3d point, DrawType& drawType);
+
+	virtual ShDrawLineDecorator_SnapMode_Perpendicular* Clone();
+};
+
+class ShLine;
+class ShDrawLineDecorator_Orthogonal : public ShDrawLineDecorator {
+
+public:
+	ShDrawLineDecorator_Orthogonal(ShDrawLineAction *drawLineAction, ShGraphicView *view);
+	ShDrawLineDecorator_Orthogonal(const ShDrawLineDecorator_Orthogonal& other);
+	~ShDrawLineDecorator_Orthogonal();
+
+	virtual void MousePressEvent(QMouseEvent *event, ShPoint3d point);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShPoint3d point, DrawType& drawType);
+	virtual void Draw(QPainter *painter);
+	virtual void Decorate(ShDrawLineDecorator *drawLineDecorator);
+
+	virtual ShDrawLineDecorator_Orthogonal* Clone();
+
+private:
+	void GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY);
+	void ApplyLineEndPointToOrthogonal(ShLine *line);
+	void ApplyLineEndPointToMouse(ShLine *line);
 };
 
 
