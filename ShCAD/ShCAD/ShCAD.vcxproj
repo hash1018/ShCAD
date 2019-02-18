@@ -142,9 +142,9 @@
   <ItemGroup>
     <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
-    <ClCompile Include="ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
+    <ClCompile Include="ActionHandler\SubActionHandler\ShSubActionHandler.cpp" />
     <ClCompile Include="ActionHandler\SubActionHandler\ShSubDefaultAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
@@ -293,6 +293,8 @@
     <ClCompile Include="State Pattern\ShObjectSnapState.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp" />
+    <ClCompile Include="Visitor Pattern\ShBothPerpendicularVisitor.cpp" />
+    <ClCompile Include="Visitor Pattern\ShFootOfPerpendicularVisitor.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
     <ClCompile Include="Visitor Pattern\ShFinder.cpp" />
     <ClCompile Include="Visitor Pattern\ShHitTester.cpp" />
@@ -323,9 +325,9 @@
   <ItemGroup>
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
-    <ClInclude Include="ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
+    <ClInclude Include="ActionHandler\SubActionHandler\ShSubActionHandler.h" />
     <ClInclude Include="ActionHandler\SubActionHandler\ShSubDefaultAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
@@ -551,6 +553,8 @@
     <ClInclude Include="State Pattern\ShObjectSnapState.h" />
     <ClInclude Include="Strategy Pattern\ShViewDrawStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.h" />
+    <ClInclude Include="Visitor Pattern\ShBothPerpendicularVisitor.h" />
+    <ClInclude Include="Visitor Pattern\ShFootOfPerpendicularVisitor.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
     <ClInclude Include="Visitor Pattern\ShFinder.h" />
     <ClInclude Include="Visitor Pattern\ShHitTester.h" />

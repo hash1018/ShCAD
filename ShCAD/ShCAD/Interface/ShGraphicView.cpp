@@ -27,7 +27,6 @@
 #include "ShGraphicView.h"
 #include "FactoryMethod\ShCreatorActionFactory.h"
 #include "ActionHandler\TemporaryAction\ShPanMoveAction.h"
-//#include "Entity\Leaf\ShRubberBand.h"
 #include <QMouseEvent>
 #include "ShMath.h"
 #include "ShNotifyEvent.h"

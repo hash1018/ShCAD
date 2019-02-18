@@ -155,7 +155,7 @@ void ShObjectSnapState_MidPoint::Draw(QPainter *painter) {
 
 
 ShObjectSnapState_Perpendicular::ShObjectSnapState_Perpendicular(ShGraphicView *view)
-	:ShObjectSnapState(view) {
+	:ShObjectSnapState(view),perpendicularBaseEntity(0) {
 
 }
 
@@ -179,6 +179,7 @@ bool ShObjectSnapState_Perpendicular::FindSnapPoint(QMouseEvent *event) {
 	ShSnapPointFinder visitor(ObjectSnap::ObjectSnapPerpendicular, x, y, this->snapX, this->snapY, this->isValid);
 	entity->Accept(&visitor);
 
+	this->perpendicularBaseEntity = entity;
 
 
 	return this->isValid;

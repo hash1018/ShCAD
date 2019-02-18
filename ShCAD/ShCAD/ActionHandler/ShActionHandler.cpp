@@ -24,14 +24,16 @@
 --*/
 
 #include "ShActionHandler.h"
-ShActionHandler::ShActionHandler(ShGraphicView *graphicView) {
+#include "ActionHandler\SubActionHandler\ShSubActionHandler.h"
+ShActionHandler::ShActionHandler(ShGraphicView *graphicView)
+	:graphicView(graphicView), subActionHandler(0) {
 
-	this->graphicView = graphicView;
 }
 
 ShActionHandler::~ShActionHandler() {
 
-
+	if (this->subActionHandler != 0)
+		delete this->subActionHandler;
 }
 
 #include <qpainter.h>
@@ -63,5 +65,11 @@ bool ShActionHandler::UnSelectSelectedEntities() {
 	return false;
 }
 
+void ShActionHandler::ChangeSubActionHandler(ShSubActionHandler *subActionHandler) {
 
+	if (this->subActionHandler != 0)
+		delete this->subActionHandler;
+
+	this->subActionHandler = subActionHandler;
+}
 

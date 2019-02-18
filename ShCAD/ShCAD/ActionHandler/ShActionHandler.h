@@ -38,10 +38,12 @@
 
 class QMouseEvent;
 class QKeyEvent;
+class ShSubActionHandler;
 class ShActionHandler : public QObject {
 
 protected:
 	ShGraphicView *graphicView;
+	ShSubActionHandler *subActionHandler;
 
 public:
 	ShActionHandler(ShGraphicView *graphicView);
@@ -57,8 +59,7 @@ public:
 	virtual void Draw(QPainter *painter) {}
 
 	virtual void SetObjectSnap(ObjectSnap objectSnap) {}
-	
-
+	virtual void ChangeSubActionHandler(ShSubActionHandler *subActionHandler);
 
 protected:
 

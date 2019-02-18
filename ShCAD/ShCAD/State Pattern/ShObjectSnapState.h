@@ -8,6 +8,7 @@
 class QMouseEvent;
 class ShGraphicView;
 class QPainter;
+class ShEntity;
 class ShObjectSnapState {
 
 protected:
@@ -69,6 +70,9 @@ public:
 
 class ShObjectSnapState_Perpendicular : public ShObjectSnapState {
 
+private:
+	ShEntity *perpendicularBaseEntity;
+
 public:
 	ShObjectSnapState_Perpendicular(ShGraphicView *view);
 	~ShObjectSnapState_Perpendicular();
@@ -78,7 +82,7 @@ public:
 
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapPerpendicular; }
 	virtual void Draw(QPainter *painter);
-
+	inline ShEntity* PerpendicularBaseEntity() const { return this->perpendicularBaseEntity; }
 };
 
 #endif //_SHOBJECTSNAPSTATE_H

@@ -1,6 +1,7 @@
 
 
 #include "ShSnapPointFinder.h"
+#include "ShFootOfPerpendicularVisitor.h"
 #include "Entity\Leaf\ShLine.h"
 #include "ShMath.h"
 ShSnapPointFinder::ShSnapPointFinder(ObjectSnap objectSnap, double x, double y, double &snapX, double &snapY,bool &isValid)
@@ -56,11 +57,6 @@ void ShSnapPointFinder::Visit(ShLine *line) {
 		return;
 	}
 	else if (this->objectSnap == ObjectSnap::ObjectSnapPerpendicular) {
-	
-		ShLineData data = line->GetData();
-
-		double angle = Math::GetAbsAngle(data.start.x, data.start.y, data.end.x, data.end.y);
-		double angleX, angleY;
 
 		double x, y;
 
@@ -73,21 +69,13 @@ void ShSnapPointFinder::Visit(ShLine *line) {
 			y = this->perpendicularY;
 		}
 		
-
-		Math::Rotate(angle + 90, x, y, x + 10, y, angleX, angleY);
-		ShPoint3d intersect;
-
-		if (Math::CheckLineLineIntersect(data.start, data.end, ShPoint3d(x, y),
-			ShPoint3d(angleX, angleY), intersect) == true) {
-
-			this->snapX = intersect.x;
-			this->snapY = intersect.y;
-			this->isValid = true;
-			return;
-		}
+		ShFootOfPerpendicularVisitor visitor(this->snapX, this->snapY, ShPoint3d(x, y));
+		line->Accept(&visitor);
+		
+		this->isValid = true;
+		return;
+		
 	}
-
-
 
 	this->isValid = false;
 

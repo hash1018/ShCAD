@@ -380,9 +380,6 @@
     <ClCompile Include="Interface\ToolBar\ShObjectSnapToolBar.cpp">
       <Filter>Interface\ToolBar</Filter>
     </ClCompile>
-    <ClCompile Include="ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.cpp">
-      <Filter>ActionHandler\DrawAction\SubActionHandler</Filter>
-    </ClCompile>
     <ClCompile Include="Visitor Pattern\ShSnapPointFinder.cpp">
       <Filter>Visitor Pattern</Filter>
     </ClCompile>
@@ -391,6 +388,15 @@
     </ClCompile>
     <ClCompile Include="State Pattern\ShObjectSnapState.cpp">
       <Filter>State Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShFootOfPerpendicularVisitor.cpp">
+      <Filter>Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShBothPerpendicularVisitor.cpp">
+      <Filter>Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\SubActionHandler\ShSubActionHandler.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -618,9 +624,6 @@
     <ClInclude Include="Interface\ToolBar\ShObjectSnapToolBar.h">
       <Filter>Interface\ToolBar</Filter>
     </ClInclude>
-    <ClInclude Include="ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.h">
-      <Filter>ActionHandler\DrawAction\SubActionHandler</Filter>
-    </ClInclude>
     <ClInclude Include="Visitor Pattern\ShSnapPointFinder.h">
       <Filter>Visitor Pattern</Filter>
     </ClInclude>
@@ -629,6 +632,15 @@
     </ClInclude>
     <ClInclude Include="State Pattern\ShObjectSnapState.h">
       <Filter>State Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShFootOfPerpendicularVisitor.h">
+      <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShBothPerpendicularVisitor.h">
+      <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\SubActionHandler\ShSubActionHandler.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

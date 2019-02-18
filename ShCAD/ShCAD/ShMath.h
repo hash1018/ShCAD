@@ -48,6 +48,8 @@ namespace Math {
 
 
 	double Det(double a, double b, double c, double d);
+
+	double GetAngleDifference(double startAngle, double endAngle, bool antiClockWise = true);
 }
 
 

@@ -29,21 +29,27 @@
 
 #include "ShDrawAction.h"
 
-class ShSubDrawLineAction;
+//class ShSubDrawLineAction;
 class ShDrawLineAction : public ShDrawAction{
 	
+	friend class ShDrawLineMethod;
 public:
 	enum Status {
 		PickedNothing, // no point picked. About to pick start.
 		PickedStart    // start point already picked. About to pick end.
 	};
 
-	friend class ShSubDrawLineAction;
+	//enum DrawMethod {
+	//	Default,
+	//	Perpendicular,
+	//};
+
+	//friend class ShSubDrawLineAction;
 private:
 	Status status;
-	ShSubDrawLineAction *subDrawLineAction;
+	//DrawMethod drawMethod;
+	//ShSubDrawLineAction *subDrawLineAction;
 	
-
 
 public:
 	ShDrawLineAction(ShGraphicView *graphicView);
@@ -61,7 +67,74 @@ public:
 	virtual ActionType GetType();
 
 
-	void ChangeSubAction(ShSubDrawLineAction *current);
+	//void ChangeSubAction(ShSubDrawLineAction *current);
 };
+
+
+#include "ActionHandler\SubActionHandler\ShSubActionHandler.h"
+class ShDrawLineMethod;
+class ShDrawLineProxy : public ShSubActionHandler {
+
+private:
+	ShDrawLineMethod *drawLineMethod;
+
+public:
+	ShDrawLineProxy(ShDrawLineAction *drawLineAction, ShGraphicView *view);
+	ShDrawLineProxy(const ShDrawLineProxy& other);
+	~ShDrawLineProxy();
+
+	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo &info);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo &info);
+	virtual void Draw(QPainter *painter);
+	virtual void Decorate(ShSubActionDecorator *decorator);
+	virtual ShDrawLineProxy* Clone();
+
+};
+
+class ShDrawLineMethod {
+
+protected:
+	ShDrawLineAction *drawLineAction;
+	ShGraphicView *view;
+
+public:
+	ShDrawLineMethod(ShDrawLineAction *drawLineAction, ShGraphicView *view);
+	ShDrawLineMethod(const ShDrawLineMethod& other);
+	virtual ~ShDrawLineMethod() = 0;
+
+	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo& info) = 0;
+	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info) = 0;
+
+	virtual ShDrawLineMethod* Clone() = 0;
+
+protected:
+	inline ShDrawLineAction::Status& GetStatus() const { return this->drawLineAction->status; }
+	void AddEntity(ShEntity *newEntity, const QString& commandText) {
+		this->drawLineAction->AddEntity(newEntity, commandText);
+	}
+
+};
+
+class ShDrawLineMethod_Default : public ShDrawLineMethod {
+
+public:
+	ShDrawLineMethod_Default(ShDrawLineAction *drawLineAction, ShGraphicView *view);
+	ShDrawLineMethod_Default(const ShDrawLineMethod_Default& other);
+	~ShDrawLineMethod_Default();
+
+	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo& info);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info);
+
+	virtual ShDrawLineMethod_Default* Clone();
+
+};
+
+
+//class ShDrawLineMethod_Perpendicular : public ShDrawLineMethod {
+
+//public:
+
+
+//};
 
 #endif //_SHDRAWLINEACTION_H

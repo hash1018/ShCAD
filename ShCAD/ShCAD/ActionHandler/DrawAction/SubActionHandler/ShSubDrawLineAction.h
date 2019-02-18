@@ -28,7 +28,7 @@ public:
 
 
 	virtual void Draw(QPainter *painter) = 0;
-	virtual void SetObjectSnap(ObjectSnap objectSnap) {}
+	//virtual void SetObjectSnap(ObjectSnap objectSnap) {}
 
 	virtual void Decorate(ShDrawLineDecorator *drawLineDecorator) = 0;
 	virtual ShSubDrawLineAction* Clone() = 0;
@@ -37,6 +37,8 @@ public:
 protected:
 	inline ShDrawLineAction::Status& GetStatus() const { return this->drawLineAction->status; }
 	void SetStatus(ShDrawLineAction::Status status) { this->drawLineAction->status = status; }
+	inline ShDrawLineAction::DrawMethod& GetDrawMethod() const { return this->drawLineAction->drawMethod; }
+	void SetDrawMethod(ShDrawLineAction::DrawMethod drawMethod) { this->drawLineAction->drawMethod = drawMethod; }
 	
 	void AddEntity(ShEntity *newEntity, const QString& commandText) {
 		this->drawLineAction->AddEntity(newEntity, commandText);
@@ -53,7 +55,7 @@ public:
 	ShDrawLineMethod(const ShDrawLineMethod& other);
 	virtual ~ShDrawLineMethod() = 0;
 	virtual void Draw(QPainter *painter) {}
-	
+	virtual void Decorate(ShDrawLineDecorator *drawLineDecorator);
 };
 
 
@@ -68,10 +70,29 @@ public:
 	virtual void MousePressEvent(QMouseEvent *event, ShPoint3d point);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShPoint3d point, DrawType& drawType);
 
-	virtual void Decorate(ShDrawLineDecorator *drawLineDecorator);
+	
 	virtual ShDrawLineMethod_Default* Clone();
 };
 
+class ShDrawLineMethod_Perpendicular : public ShDrawLineMethod {
+	
+	friend class ShDrawLineDecorator_SnapMode_Perpendicular;
+private:
+	ShEntity* perpendicularBaseEntity;
+
+public:
+	ShDrawLineMethod_Perpendicular(ShDrawLineAction *drawLineAction, ShGraphicView *view);
+	ShDrawLineMethod_Perpendicular(ShDrawLineAction *drawLineAction, ShGraphicView *view,
+		ShEntity *perpendicularBaseEntity);
+	ShDrawLineMethod_Perpendicular(const ShDrawLineMethod_Perpendicular& other);
+	~ShDrawLineMethod_Perpendicular();
+
+	virtual void MousePressEvent(QMouseEvent *event, ShPoint3d point);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShPoint3d point, DrawType& drawType);
+
+	virtual ShDrawLineMethod_Perpendicular* Clone();
+
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -149,6 +170,7 @@ private:
 	void ApplyLineEndPointToOrthogonal(ShLine *line);
 	void ApplyLineEndPointToMouse(ShLine *line);
 };
+
 
 
 #endif //_SHSUBDRAWLINEACTION_H

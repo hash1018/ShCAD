@@ -3,6 +3,9 @@
 #include "ShSubDrawLineAction.h"
 #include <QMouseEvent>
 #include "Entity\Leaf\ShLine.h"
+#include "Visitor Pattern\ShFootOfPerpendicularVisitor.h"
+#include "Visitor Pattern\ShBothPerpendicularVisitor.h"
+
 ShSubDrawLineAction::ShSubDrawLineAction(ShDrawLineAction *drawLineAction, ShGraphicView *view)
 	:drawLineAction(drawLineAction), view(view), parent(0) {
 
@@ -34,17 +37,25 @@ ShDrawLineMethod::~ShDrawLineMethod() {
 
 }
 
+void ShDrawLineMethod::Decorate(ShDrawLineDecorator *drawLineDecorator) {
+
+	drawLineDecorator->SetChild(this->Clone());
+	this->drawLineAction->ChangeSubAction(drawLineDecorator);
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 ShDrawLineMethod_Default::ShDrawLineMethod_Default(ShDrawLineAction *drawLineAction, ShGraphicView *view)
 	:ShDrawLineMethod(drawLineAction, view) {
 
+	this->SetDrawMethod(ShDrawLineAction::DrawMethod::Default);
 }
 
 ShDrawLineMethod_Default::ShDrawLineMethod_Default(const ShDrawLineMethod_Default& other)
 	: ShDrawLineMethod(other) {
 
+	this->SetDrawMethod(ShDrawLineAction::DrawMethod::Default);
 }
 
 
@@ -107,14 +118,82 @@ void ShDrawLineMethod_Default::MouseMoveEvent(QMouseEvent *event, ShPoint3d poin
 }
 
 
-void ShDrawLineMethod_Default::Decorate(ShDrawLineDecorator *drawLineDecorator) {
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	drawLineDecorator->SetChild(this->Clone());
-	this->drawLineAction->ChangeSubAction(drawLineDecorator);
+ShDrawLineMethod_Perpendicular::ShDrawLineMethod_Perpendicular(ShDrawLineAction *drawLineAction, ShGraphicView *view)
+	:ShDrawLineMethod(drawLineAction, view),perpendicularBaseEntity(0) {
+	
+	this->SetDrawMethod(ShDrawLineAction::DrawMethod::Perpendicular);
+}
+
+ShDrawLineMethod_Perpendicular::ShDrawLineMethod_Perpendicular(ShDrawLineAction *drawLineAction, ShGraphicView *view,
+	ShEntity *perpendicularBaseEntity)
+	: ShDrawLineMethod(drawLineAction, view), perpendicularBaseEntity(perpendicularBaseEntity) {
+	
+	this->SetDrawMethod(ShDrawLineAction::DrawMethod::Perpendicular);
+}
+
+ShDrawLineMethod_Perpendicular::ShDrawLineMethod_Perpendicular(const ShDrawLineMethod_Perpendicular& other)
+	: ShDrawLineMethod(other), perpendicularBaseEntity(other.perpendicularBaseEntity) {
+	
+	this->SetDrawMethod(ShDrawLineAction::DrawMethod::Perpendicular);
+}
+
+ShDrawLineMethod_Perpendicular::~ShDrawLineMethod_Perpendicular() {
 
 }
 
 
+void ShDrawLineMethod_Perpendicular::MousePressEvent(QMouseEvent *event, ShPoint3d point) {
+
+	if (this->GetStatus() == ShDrawLineAction::PickedStart) {
+
+		ShLine *prevLine = dynamic_cast<ShLine*>((*this->view->preview.Begin()));
+
+		ShPoint3d perpendicular;
+		ShFootOfPerpendicularVisitor visitor(perpendicular.x, perpendicular.y, point);
+		this->perpendicularBaseEntity->Accept(&visitor);
+
+		prevLine->SetStart(perpendicular);
+		prevLine->SetEnd(point);
+
+		this->AddEntity(prevLine->Clone(), "Line");
+
+		prevLine->SetStart(point);
+
+		ShPoint3d cursor;
+		this->view->ConvertDeviceToEntity(event->x(), event->y(), cursor.x, cursor.y);
+		prevLine->SetEnd(cursor);
+
+		if (this->parent == 0)
+			this->drawLineAction->ChangeSubAction(new ShDrawLineMethod_Default(this->drawLineAction, this->view));
+		else
+			this->parent->SetChild(new ShDrawLineMethod_Default(this->drawLineAction, this->view));
+	}
+
+
+
+}
+
+
+void ShDrawLineMethod_Perpendicular::MouseMoveEvent(QMouseEvent *event, ShPoint3d point, DrawType& drawType) {
+
+	ShDrawLineAction::Status status = this->GetStatus();
+
+	if (status == ShDrawLineAction::PickedStart) {
+		ShLine *prevLine = dynamic_cast<ShLine*>((*this->view->preview.Begin()));
+		
+		ShPoint3d perpendicular;
+		ShFootOfPerpendicularVisitor visitor(perpendicular.x, perpendicular.y, point);
+		this->perpendicularBaseEntity->Accept(&visitor);
+		
+		prevLine->SetStart(perpendicular);
+		prevLine->SetEnd(point);
+
+		drawType = (DrawType)(drawType | DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities);
+	}
+
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -203,9 +282,6 @@ void ShDrawLineDecorator_SnapMode::MousePressEvent(QMouseEvent *event, ShPoint3d
 	else 
 		this->parent->SetChild(this->child->Clone());
 	
-	
-
-
 
 }
 
@@ -282,15 +358,29 @@ void ShDrawLineDecorator_SnapMode_Perpendicular::MousePressEvent(QMouseEvent *ev
 			return;
 		}
 		
-		//to Do...
+		point.x = this->objectSnapState->GetSnapX();
+		point.y = this->objectSnapState->GetSnapY();
+		this->child->MousePressEvent(event, point);
+	
 
+		ShObjectSnapState_Perpendicular *state = dynamic_cast<ShObjectSnapState_Perpendicular*>(this->objectSnapState);
+		ShDrawLineMethod_Perpendicular* newChild = new ShDrawLineMethod_Perpendicular(this->drawLineAction,
+			this->view, state->PerpendicularBaseEntity());
+
+		if (this->parent == 0) 
+			this->drawLineAction->ChangeSubAction(newChild);
+		else 
+			this->parent->SetChild(newChild);
+	
 	}
-	else {
+	else if (this->GetStatus() == ShDrawLineAction::Status::PickedStart &&
+		this->GetDrawMethod() == ShDrawLineAction::DrawMethod::Default) {
+
 		ShPoint3d start = dynamic_cast<ShLine*>((*this->view->preview.Begin()))->GetStart();
 		ShObjectSnapState_Perpendicular *state = dynamic_cast<ShObjectSnapState_Perpendicular*>(this->objectSnapState);
 
 		if (state->FindSnapPoint(event, start.x, start.y) == false) {
-		
+
 			return;
 		}
 
@@ -303,7 +393,49 @@ void ShDrawLineDecorator_SnapMode_Perpendicular::MousePressEvent(QMouseEvent *ev
 
 		else
 			this->parent->SetChild(this->child->Clone());
-		
+	}
+	else if (this->GetStatus() == ShDrawLineAction::Status::PickedStart &&
+		this->GetDrawMethod() == ShDrawLineAction::DrawMethod::Perpendicular) {
+	
+		if (this->objectSnapState->FindSnapPoint(event) == false) {
+
+			return;
+		}
+
+		ShDrawLineMethod_Perpendicular *child = dynamic_cast<ShDrawLineMethod_Perpendicular*>(this->child);
+		ShObjectSnapState_Perpendicular *state = dynamic_cast<ShObjectSnapState_Perpendicular*>(this->objectSnapState);
+
+		//find out whether both base entities are parellel
+
+		bool isValid = false;
+		ShPoint3d point;
+
+		//in case both entites are line and line ,
+		//point should be below.
+		//in the visitor class just check if two lines are parallel.
+		point.x = this->objectSnapState->GetSnapX();
+		point.y = this->objectSnapState->GetSnapY();
+
+
+		ShBothPerpendicularVisitor visitor(state->PerpendicularBaseEntity(), point, isValid);
+		child->perpendicularBaseEntity->Accept(&visitor);
+
+		if (isValid == true) {
+			
+			this->child->MousePressEvent(event, point);
+
+			if (this->parent == 0)
+				this->drawLineAction->ChangeSubAction(this->child->Clone());
+
+			else
+				this->parent->SetChild(this->child->Clone());
+
+		}
+		else {
+			
+
+		}
+
 
 	}
 
@@ -322,18 +454,32 @@ void ShDrawLineDecorator_SnapMode_Perpendicular::MouseMoveEvent(QMouseEvent *eve
 		if (this->objectSnapState->FindSnapPoint(event) == true)
 			drawType = (DrawType)(drawType | DrawType::DrawActionHandler | DrawType::DrawCaptureImage);
 	}
-	else {
+	else if (this->GetStatus() == ShDrawLineAction::Status::PickedStart &&
+		this->GetDrawMethod() == ShDrawLineAction::DrawMethod::Default) {
+
 		ShPoint3d start = dynamic_cast<ShLine*>((*this->view->preview.Begin()))->GetStart();
 		ShObjectSnapState_Perpendicular *state = dynamic_cast<ShObjectSnapState_Perpendicular*>(this->objectSnapState);
 
-		if(state->FindSnapPoint(event,start.x,start.y)==true)
+		if (state->FindSnapPoint(event, start.x, start.y) == true)
 			drawType = (DrawType)(drawType | DrawType::DrawActionHandler | DrawType::DrawCaptureImage);
-	
+
 	}
+
+	else if (this->GetStatus() == ShDrawLineAction::Status::PickedStart &&
+		this->GetDrawMethod() == ShDrawLineAction::DrawMethod::Perpendicular) {
+	
+		if (this->objectSnapState->FindSnapPoint(event) == true)
+			drawType = (DrawType)(drawType | DrawType::DrawActionHandler | DrawType::DrawCaptureImage);
+	}
+
 
 	this->child->MouseMoveEvent(event, point, drawType);
 }
 
+ShDrawLineMethod_Perpendicular* ShDrawLineMethod_Perpendicular::Clone() {
+
+	return new ShDrawLineMethod_Perpendicular(*this);
+}
 
 
 ShDrawLineDecorator_SnapMode_Perpendicular* ShDrawLineDecorator_SnapMode_Perpendicular::Clone() {
@@ -407,6 +553,10 @@ void ShDrawLineDecorator_Orthogonal::MouseMoveEvent(QMouseEvent *event, ShPoint3
 	}
 
 	this->child->MouseMoveEvent(event, point, drawType);
+
+
+	if (this->GetDrawMethod() == ShDrawLineAction::DrawMethod::Perpendicular)
+		return;
 
 	if (this->GetStatus() == ShDrawLineAction::Status::PickedStart) {
 	

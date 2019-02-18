@@ -204,3 +204,26 @@ bool Math::CheckLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1
 	return true; //All OK
 
 }
+
+double Math::GetAngleDifference(double startAngle, double endAngle, bool antiClockWise) {
+
+	double diff = 0;
+
+	if (antiClockWise == true) {
+		if (Compare(endAngle, startAngle) == 1)
+			diff = endAngle - startAngle;
+		else if (Compare(endAngle, startAngle) == 0)
+			return 0;
+		else
+			diff = (360 - startAngle) + endAngle;
+	}
+	else {
+		if (Compare(startAngle, endAngle) == 1)
+			diff = startAngle - endAngle;
+		else if (Compare(startAngle, endAngle) == 0) 
+			return 0;
+		else 
+			diff = (360 + startAngle) - endAngle;
+	}
+	return diff;
+}
