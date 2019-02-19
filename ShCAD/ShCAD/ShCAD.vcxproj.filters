@@ -96,9 +96,6 @@
     <Filter Include="ActionHandler\SubActionHandler">
       <UniqueIdentifier>{586560aa-e2b6-4553-a6b6-1342b3a9f1c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ActionHandler\DrawAction\SubActionHandler">
-      <UniqueIdentifier>{896cf90d-ee75-4bad-8e30-19b825295faf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="State Pattern">
       <UniqueIdentifier>{0d9be04f-e446-48ea-86fc-2e1616646aed}</UniqueIdentifier>
     </Filter>
@@ -396,7 +393,7 @@
       <Filter>Visitor Pattern</Filter>
     </ClCompile>
     <ClCompile Include="ActionHandler\SubActionHandler\ShSubActionHandler.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ActionHandler\SubActionHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -640,7 +637,7 @@
       <Filter>Visitor Pattern</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\SubActionHandler\ShSubActionHandler.h">
-      <Filter>Header Files</Filter>
+      <Filter>ActionHandler\SubActionHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

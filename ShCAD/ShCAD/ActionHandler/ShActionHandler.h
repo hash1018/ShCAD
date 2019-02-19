@@ -60,6 +60,7 @@ public:
 
 	virtual void SetObjectSnap(ObjectSnap objectSnap) {}
 	virtual void ChangeSubActionHandler(ShSubActionHandler *subActionHandler);
+	virtual void ApplyOrthogonalShape(bool isOrthogonalModeOn) {}
 
 protected:
 

@@ -14,12 +14,13 @@ class QPainter;
 class ShSubActionInfo {
 	friend class ShSubActionDecorator_SnapMode;
 	friend class ShSubActionDecorator_Orthogonal;
-	friend class ShSubActionDecorator_Perpendicular;
+	friend class ShSubLineDecorator_SnapMode_Perpendicular;
 
 private:
 	ShPoint3d point;
 	bool isSnapModeOn;
 	bool isSnapPointClicked;
+	ObjectSnap clickedObjectSnap;
 	bool isOrthogonalModeOn;
 	DrawType drawType;
 
@@ -35,6 +36,7 @@ public:
 	inline bool IsSnapPointClicked() const { return this->isSnapPointClicked; }
 	void SetDrawType(DrawType drawType) { this->drawType = drawType; }
 	inline DrawType GetDrawType() const { return this->drawType; }
+	inline ObjectSnap GetClickedObjectSnap() const { return this->clickedObjectSnap; }
 };
 
 class ShSubActionDecorator;
@@ -97,6 +99,7 @@ public:
 
 };
 
+/*
 class ShSubActionDecorator_SnapMode_Perpendicular : public ShSubActionDecorator_SnapMode {
 
 public:
@@ -110,6 +113,8 @@ public:
 
 	virtual ShSubActionDecorator_SnapMode_Perpendicular* Clone();
 };
+
+*/
 
 class ShSubActionDecorator_Orthogonal : public ShSubActionDecorator {
 

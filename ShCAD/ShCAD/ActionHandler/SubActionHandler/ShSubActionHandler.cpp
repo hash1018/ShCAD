@@ -4,12 +4,14 @@
 #include "ActionHandler\ShActionHandler.h"
 #include <qdebug.h>
 ShSubActionInfo::ShSubActionInfo()
-	:drawType(DrawType::DrawNone),isOrthogonalModeOn(false),isSnapModeOn(false),isSnapPointClicked(false) {
+	:drawType(DrawType::DrawNone), isOrthogonalModeOn(false), isSnapModeOn(false),
+	isSnapPointClicked(false), clickedObjectSnap(ObjectSnap::ObjectSnapNothing) {
 
 }
 
 ShSubActionInfo::ShSubActionInfo(DrawType drawType)
-	:drawType(drawType),isOrthogonalModeOn(false), isSnapModeOn(false),isSnapPointClicked(false) {
+	: drawType(drawType), isOrthogonalModeOn(false), isSnapModeOn(false), isSnapPointClicked(false),
+	clickedObjectSnap(ObjectSnap::ObjectSnapNothing) {
 
 }
 
@@ -98,7 +100,7 @@ ShSubActionDecorator_SnapMode::~ShSubActionDecorator_SnapMode() {
 void ShSubActionDecorator_SnapMode::MousePressEvent(QMouseEvent *event, ShSubActionInfo &info) {
 	
 	if (this->child == 0) {
-		qDebug("subDrawLineAction is a null pointer.");
+		qDebug("child is a null pointer.");
 		return;
 	}
 
@@ -110,7 +112,8 @@ void ShSubActionDecorator_SnapMode::MousePressEvent(QMouseEvent *event, ShSubAct
 	info.point.x = this->objectSnapState->GetSnapX();
 	info.point.y = this->objectSnapState->GetSnapY();
 	info.isSnapPointClicked = true;
-
+	info.isSnapModeOn = true;
+	info.clickedObjectSnap = this->objectSnapState->GetType();
 
 	this->child->MousePressEvent(event, info);
 
@@ -125,7 +128,7 @@ void ShSubActionDecorator_SnapMode::MousePressEvent(QMouseEvent *event, ShSubAct
 void ShSubActionDecorator_SnapMode::MouseMoveEvent(QMouseEvent *event, ShSubActionInfo &info) {
 
 	if (this->child == 0) {
-		qDebug("subDrawLineAction is a null pointer.");
+		qDebug("child is a null pointer.");
 		return;
 	}
 
@@ -172,6 +175,8 @@ ShSubActionDecorator_SnapMode* ShSubActionDecorator_SnapMode::Clone() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+/*
+
 ShSubActionDecorator_SnapMode_Perpendicular::ShSubActionDecorator_SnapMode_Perpendicular(ShActionHandler *actionHandler,
 	ShGraphicView *view, ObjectSnap objectSnap)
 	:ShSubActionDecorator_SnapMode(actionHandler, view, objectSnap) {
@@ -191,9 +196,28 @@ ShSubActionDecorator_SnapMode_Perpendicular::~ShSubActionDecorator_SnapMode_Perp
 
 void ShSubActionDecorator_SnapMode_Perpendicular::MousePressEvent(QMouseEvent *event, ShSubActionInfo &info) {
 
+	if (this->child == 0) {
+		qDebug("child is a null pointer.");
+		return;
+	}
+
+	//in this case, 
+
+
+
+
 }
 
 void ShSubActionDecorator_SnapMode_Perpendicular::MouseMoveEvent(QMouseEvent *event, ShSubActionInfo &info) {
+	
+	if (this->child == 0) {
+		qDebug("child is a null pointer.");
+		return;
+	}
+
+
+
+
 
 }
 
@@ -203,17 +227,20 @@ ShSubActionDecorator_SnapMode_Perpendicular* ShSubActionDecorator_SnapMode_Perpe
 	return new ShSubActionDecorator_SnapMode_Perpendicular(*this);
 }
 
+*/
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ShSubActionDecorator_Orthogonal::ShSubActionDecorator_Orthogonal(ShActionHandler *actionHandler, ShGraphicView *view)
 	:ShSubActionDecorator(actionHandler, view) {
 
+	this->actionHandler->ApplyOrthogonalShape(true);
 }
 
 ShSubActionDecorator_Orthogonal::ShSubActionDecorator_Orthogonal(const ShSubActionDecorator_Orthogonal& other)
 	: ShSubActionDecorator(other) {
-
+	this->actionHandler->ApplyOrthogonalShape(true);
 }
 
 ShSubActionDecorator_Orthogonal::~ShSubActionDecorator_Orthogonal() {
@@ -222,19 +249,66 @@ ShSubActionDecorator_Orthogonal::~ShSubActionDecorator_Orthogonal() {
 
 
 void ShSubActionDecorator_Orthogonal::MousePressEvent(QMouseEvent *event, ShSubActionInfo &info) {
+	
+	if (this->child == 0) {
+		qDebug("child is a null pointer.");
+		return;
+	}
+
+	info.isOrthogonalModeOn = true;
+
+	this->child->MousePressEvent(event, info);
+
+
+
 
 }
 
 void ShSubActionDecorator_Orthogonal::MouseMoveEvent(QMouseEvent *event, ShSubActionInfo &info) {
 
+	if (this->child == 0) {
+		qDebug("child is a null pointer.");
+		return;
+	}
+
+	info.isOrthogonalModeOn = true;
+	this->child->MouseMoveEvent(event, info);
+
 }
 
 void ShSubActionDecorator_Orthogonal::Draw(QPainter *painter) {
 
+	this->child->Draw(painter);
 }
 
 void ShSubActionDecorator_Orthogonal::Decorate(ShSubActionDecorator *decorator) {
 
+	if (decorator == 0) {
+		qDebug("variable is a null pointer.");
+		return;
+	}
+
+	if (dynamic_cast<ShSubActionDecorator_Orthogonal*>(decorator)) {
+
+		delete decorator;
+		this->actionHandler->ApplyOrthogonalShape(false);
+		this->actionHandler->ChangeSubActionHandler(this->child->Clone());
+
+	}
+	else if (dynamic_cast<ShSubActionDecorator_SnapMode*>(decorator)) {
+
+		if (dynamic_cast<ShSubActionDecorator_SnapMode*>(this->child)) {
+
+			delete decorator;
+			this->SetChild(dynamic_cast<ShSubActionDecorator_SnapMode*>(this->child)->GetChild()->Clone());
+		}
+		else {
+
+			decorator->SetChild(this->child->Clone());
+			this->SetChild(decorator);
+		}
+
+	}
 }
 
 
