@@ -190,6 +190,23 @@ void ShCommandDock::Update(ShActivatedWidgetChangedEvent *event) {
 
 }
 
+void ShCommandDock::Update(ShUpdateCommandEditHeadTitle *event) {
+
+	ShUpdateCommandEditHeadTitle::UpdateType updateType = event->GetUpdateType();
+
+	if (updateType == ShUpdateCommandEditHeadTitle::UpdateType::ReplaceHeadTitle)
+		this->container->edit->headTitle = event->GetHeadTitle();
+
+	else if (updateType == ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent)
+		this->container->edit->headTitle += event->GetHeadTitle();
+	else if (updateType == ShUpdateCommandEditHeadTitle::UpdateType::DeleteHeadTitleFromCurrent) {
+	
+	
+	}
+
+	this->container->edit->clear();
+	this->container->edit->setText(this->container->edit->headTitle);
+}
 
 
 void ShCommandDock::Notify(ShNotifyEvent *event) {

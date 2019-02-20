@@ -34,6 +34,11 @@ bool ShObjectSnapState_Nothing::FindSnapPoint(QMouseEvent *event) {
 	return false;
 }
 
+QString ShObjectSnapState_Nothing::GetCommandEditText() {
+
+	return QString("");
+}
+
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -95,6 +100,11 @@ void ShObjectSnapState_EndPoint::Draw(QPainter *painter) {
 
 }
 
+QString ShObjectSnapState_EndPoint::GetCommandEditText() {
+
+	return QString("_end point ");
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -149,6 +159,11 @@ void ShObjectSnapState_MidPoint::Draw(QPainter *painter) {
 	painter->drawLine(dx + 4, dy + 4, dx, dy - 4);
 
 	painter->setPen(oldPen);
+}
+
+QString ShObjectSnapState_MidPoint::GetCommandEditText() {
+
+	return QString("_mid point ");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -231,4 +246,9 @@ void ShObjectSnapState_Perpendicular::Draw(QPainter *painter) {
 	painter->drawLine(dx, dy + 4, dx, dy);
 
 	painter->setPen(oldPen);
+}
+
+QString ShObjectSnapState_Perpendicular::GetCommandEditText() {
+
+	return QString("_perpendicular to ");
 }

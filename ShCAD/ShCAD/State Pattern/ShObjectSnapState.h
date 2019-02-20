@@ -4,7 +4,7 @@
 #define _SHOBJECTSNAPSTATE_H
 
 #include "ShVariable.h"
-
+#include <qstring.h>
 class QMouseEvent;
 class ShGraphicView;
 class QPainter;
@@ -28,6 +28,8 @@ public:
 
 	inline double GetSnapX() const { return this->snapX; }
 	inline double GetSnapY() const { return this->snapY; }
+
+	virtual QString GetCommandEditText() = 0;
 };
 
 class ShObjectSnapState_Nothing : public ShObjectSnapState {
@@ -40,6 +42,8 @@ public:
 
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapNothing; }
 	virtual void Draw(QPainter *painter) {}
+
+	virtual QString GetCommandEditText();
 };
 
 
@@ -53,6 +57,8 @@ public:
 
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapEndPoint; }
 	virtual void Draw(QPainter *painter);
+
+	virtual QString GetCommandEditText();
 };
 
 class ShObjectSnapState_MidPoint : public ShObjectSnapState {
@@ -65,6 +71,8 @@ public:
 
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapMidPoint; }
 	virtual void Draw(QPainter *painter);
+
+	virtual QString GetCommandEditText();
 
 };
 
@@ -83,6 +91,8 @@ public:
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapPerpendicular; }
 	virtual void Draw(QPainter *painter);
 	inline ShEntity* PerpendicularBaseEntity() const { return this->perpendicularBaseEntity; }
+
+	virtual QString GetCommandEditText();
 };
 
 #endif //_SHOBJECTSNAPSTATE_H

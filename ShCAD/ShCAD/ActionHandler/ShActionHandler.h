@@ -59,11 +59,16 @@ public:
 	virtual void Draw(QPainter *painter) {}
 
 	virtual void SetObjectSnap(ObjectSnap objectSnap) {}
+	virtual void SetOrthogonal();
 	virtual void ChangeSubActionHandler(ShSubActionHandler *subActionHandler);
 	virtual void ApplyOrthogonalShape(bool isOrthogonalModeOn) {}
+	void GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY);
+	
+	//set command Edit headtitle based on specific individual currentAction status.
+	virtual void SetActionHeadTitle() {}
+
 
 protected:
-
 	bool UnSelectSelectedEntities();
 
 };

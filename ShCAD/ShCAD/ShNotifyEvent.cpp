@@ -213,3 +213,14 @@ ShSelectedEntityCountChangedEvent::ShSelectedEntityCountChangedEvent(ShGraphicVi
 ShSelectedEntityCountChangedEvent::~ShSelectedEntityCountChangedEvent() {
 
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ShUpdateCommandEditHeadTitle::ShUpdateCommandEditHeadTitle(const QString& headTitle, UpdateType updateType)
+	:headTitle(headTitle), updateType(updateType), ShNotifyEvent(ShNotifyEvent::Type::UpdateCommandEditHeadTitle) {
+
+}
+
+ShUpdateCommandEditHeadTitle::~ShUpdateCommandEditHeadTitle() {
+
+}

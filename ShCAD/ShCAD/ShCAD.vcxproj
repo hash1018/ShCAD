@@ -288,6 +288,7 @@
     <ClCompile Include="ShPoint.cpp" />
     <ClCompile Include="Singleton Pattern\ShChangeManager.cpp" />
     <ClCompile Include="Singleton Pattern\ShColorComboList.cpp" />
+    <ClCompile Include="Singleton Pattern\ShDraftManager.cpp" />
     <ClCompile Include="Singleton Pattern\ShLineStyleComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
     <ClCompile Include="State Pattern\ShObjectSnapState.cpp" />
@@ -548,6 +549,7 @@
     <ClInclude Include="ShVariable.h" />
     <ClInclude Include="Singleton Pattern\ShChangeManager.h" />
     <ClInclude Include="Singleton Pattern\ShColorComboList.h" />
+    <ClInclude Include="Singleton Pattern\ShDraftManager.h" />
     <ClInclude Include="Singleton Pattern\ShLineStyleComboList.h" />
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
     <ClInclude Include="State Pattern\ShObjectSnapState.h" />

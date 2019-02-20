@@ -193,12 +193,22 @@ ActionType ShGraphicView::ChangeCurrentAction(ActionType actionType) {
 		this->currentAction->GetType() == ActionType::ActionDefault)
 		return actionType;
 
+	ActionType prev = this->currentAction->GetType();
 
 	if (this->currentAction != NULL)
 		delete this->currentAction;
 
-	DrawType drawType = DrawType::DrawCaptureImage;
+	if (prev != ActionType::ActionDefault) {
+		ShUpdateListTextEvent event("<Cancel>");
+		this->Notify(&event);
+	}
 
+	ShUpdateCommandEditHeadTitle event2(":: ");
+	this->Notify(&event2);
+	
+
+
+	DrawType drawType = DrawType::DrawCaptureImage;
 
 	if (this->rubberBand != NULL) {
 		delete this->rubberBand;
@@ -230,8 +240,8 @@ ActionType ShGraphicView::ChangeCurrentAction(ActionType actionType) {
 	this->setCursor(this->currentAction->GetCursorShape());
 
 
-	ShCurrentActionChangedEvent event(this->currentAction->GetType());
-	this->Notify(&event);
+	ShCurrentActionChangedEvent event3(this->currentAction->GetType());
+	this->Notify(&event3);
 
 
 

@@ -62,6 +62,19 @@ public:
 
 };
 
+//all individual subAction such as subLine,subCircle.. etc
+//must inherit this class.
+class ShSubIndividualAction : public ShSubActionHandler {
+
+public:
+	ShSubIndividualAction(ShActionHandler *actionHandler, ShGraphicView *view);
+	ShSubIndividualAction(const ShSubIndividualAction& other);
+	virtual ~ShSubIndividualAction() = 0;
+
+	virtual void Decorate(ShSubActionDecorator *decorator);
+
+};
+
 class ShSubActionDecorator : public ShSubActionHandler {
 
 protected:
@@ -73,6 +86,7 @@ public:
 	virtual ~ShSubActionDecorator() = 0;
 	void SetChild(ShSubActionHandler *newChild);
 	inline ShSubActionHandler* GetChild() const { return this->child; }
+	virtual void AddCommandEditHeadTitle() = 0;
 
 };
 
@@ -96,7 +110,9 @@ public:
 	virtual void Decorate(ShSubActionDecorator *decorator);
 
 	virtual ShSubActionDecorator_SnapMode* Clone();
+	virtual void AddCommandEditHeadTitle();
 
+	void UpdateCommandListFail();
 };
 
 /*
@@ -129,6 +145,8 @@ public:
 	virtual void Decorate(ShSubActionDecorator *decorator);
 
 	virtual ShSubActionDecorator_Orthogonal* Clone();
+	virtual void AddCommandEditHeadTitle();
+	
 };
 
 #endif //_SHSUBACTIONHANDLER_H

@@ -3,6 +3,8 @@
 #include "ShSubActionHandler.h"
 #include "ActionHandler\ShActionHandler.h"
 #include <qdebug.h>
+#include "ShNotifyEvent.h"
+
 ShSubActionInfo::ShSubActionInfo()
 	:drawType(DrawType::DrawNone), isOrthogonalModeOn(false), isSnapModeOn(false),
 	isSnapPointClicked(false), clickedObjectSnap(ObjectSnap::ObjectSnapNothing) {
@@ -42,6 +44,31 @@ ShSubActionHandler::~ShSubActionHandler() {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+ShSubIndividualAction::ShSubIndividualAction(ShActionHandler *actionHandler, ShGraphicView *view)
+	:ShSubActionHandler(actionHandler, view) {
+
+}
+
+ShSubIndividualAction::ShSubIndividualAction(const ShSubIndividualAction& other)
+	: ShSubActionHandler(other) {
+
+}
+
+ShSubIndividualAction::~ShSubIndividualAction() {
+
+}
+
+
+void ShSubIndividualAction::Decorate(ShSubActionDecorator *decorator) {
+
+	decorator->SetChild(this);
+	this->actionHandler->ChangeSubActionHandler(decorator);
+	decorator->AddCommandEditHeadTitle();
+	
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ShSubActionDecorator::ShSubActionDecorator(ShActionHandler *actionHandler, ShGraphicView *view)
 	:ShSubActionHandler(actionHandler, view), child(0) {
@@ -64,10 +91,9 @@ ShSubActionDecorator::~ShSubActionDecorator() {
 
 void ShSubActionDecorator::SetChild(ShSubActionHandler *newChild) {
 
-	if (this->child != 0)
-		delete this->child;
+	if (newChild != 0)
+		newChild->SetParent(this);
 
-	newChild->SetParent(this);
 	this->child = newChild;
 
 }
@@ -105,7 +131,7 @@ void ShSubActionDecorator_SnapMode::MousePressEvent(QMouseEvent *event, ShSubAct
 	}
 
 	if (this->objectSnapState->FindSnapPoint(event) == false) {
-	
+		this->UpdateCommandListFail();
 		return;
 	}
 
@@ -118,11 +144,13 @@ void ShSubActionDecorator_SnapMode::MousePressEvent(QMouseEvent *event, ShSubAct
 	this->child->MousePressEvent(event, info);
 
 	if (this->parent == 0)
-		this->actionHandler->ChangeSubActionHandler(this->child->Clone());
+		this->actionHandler->ChangeSubActionHandler(this->child);
 	else
-		this->parent->SetChild(this->child->Clone());
+		this->parent->SetChild(this->child);
 
-
+	
+	this->child = 0;
+	delete this;
 }
 
 void ShSubActionDecorator_SnapMode::MouseMoveEvent(QMouseEvent *event, ShSubActionInfo &info) {
@@ -157,11 +185,17 @@ void ShSubActionDecorator_SnapMode::Decorate(ShSubActionDecorator *decorator) {
 	if (dynamic_cast<ShSubActionDecorator_SnapMode*>(decorator)) {
 
 		delete decorator;
-		this->actionHandler->ChangeSubActionHandler(this->child->Clone());
+		this->actionHandler->ChangeSubActionHandler(this->child);
+		this->actionHandler->SetActionHeadTitle();
+		this->UpdateCommandListFail();
+
+		this->child = 0;
+		delete this;
 	}
 	else {
 
-		decorator->SetChild(this->Clone());
+		decorator->SetChild(this);
+		decorator->AddCommandEditHeadTitle();
 		this->actionHandler->ChangeSubActionHandler(decorator);
 	}
 
@@ -172,6 +206,21 @@ ShSubActionDecorator_SnapMode* ShSubActionDecorator_SnapMode::Clone() {
 
 	return new ShSubActionDecorator_SnapMode(*this);
 }
+
+void ShSubActionDecorator_SnapMode::AddCommandEditHeadTitle() {
+
+	QString headTitle = this->objectSnapState->GetCommandEditText();
+	ShUpdateCommandEditHeadTitle event(headTitle, ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent);
+	this->view->Notify(&event);
+
+}
+
+void ShSubActionDecorator_SnapMode::UpdateCommandListFail() {
+
+	ShUpdateListTextEvent event("Invalid point.",ShUpdateListTextEvent::UpdateType::TextWithoutAnything);
+	this->view->Notify(&event);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -292,19 +341,40 @@ void ShSubActionDecorator_Orthogonal::Decorate(ShSubActionDecorator *decorator) 
 
 		delete decorator;
 		this->actionHandler->ApplyOrthogonalShape(false);
-		this->actionHandler->ChangeSubActionHandler(this->child->Clone());
+		this->actionHandler->ChangeSubActionHandler(this->child);
+
+		ShUpdateCommandEditHeadTitle event("<Ortho off> ", ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent);
+		this->view->Notify(&event);
+
+		this->child = 0;
+		delete this;
 
 	}
 	else if (dynamic_cast<ShSubActionDecorator_SnapMode*>(decorator)) {
 
 		if (dynamic_cast<ShSubActionDecorator_SnapMode*>(this->child)) {
-
+			
+			
 			delete decorator;
-			this->SetChild(dynamic_cast<ShSubActionDecorator_SnapMode*>(this->child)->GetChild()->Clone());
+		
+			ShSubActionDecorator_SnapMode *prevChild = dynamic_cast<ShSubActionDecorator_SnapMode*>(this->child);
+			
+			this->SetChild(prevChild->GetChild());
+			
+			this->actionHandler->SetActionHeadTitle();
+			prevChild->UpdateCommandListFail();
+
+			prevChild->SetChild(0);
+			delete prevChild;
+
+
+			
+			
 		}
 		else {
 
-			decorator->SetChild(this->child->Clone());
+			decorator->SetChild(this->child);
+			decorator->AddCommandEditHeadTitle();
 			this->SetChild(decorator);
 		}
 
@@ -315,4 +385,11 @@ void ShSubActionDecorator_Orthogonal::Decorate(ShSubActionDecorator *decorator) 
 ShSubActionDecorator_Orthogonal* ShSubActionDecorator_Orthogonal::Clone() {
 
 	return new ShSubActionDecorator_Orthogonal(*this);
+}
+
+void ShSubActionDecorator_Orthogonal::AddCommandEditHeadTitle() {
+
+	ShUpdateCommandEditHeadTitle event("<Ortho on> ", ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent);
+	this->view->Notify(&event);
+
 }

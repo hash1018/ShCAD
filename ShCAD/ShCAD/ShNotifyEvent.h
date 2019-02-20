@@ -45,6 +45,7 @@ public:
 		LayerDeleted,
 		CurrentActionChanged,
 		SelectedEntityCountChanged,
+		UpdateCommandEditHeadTitle,
 
 	};
 
@@ -319,6 +320,28 @@ private:
 	bool isAllSameLineStyle;
 	bool isAllSameLayer;
 	int count;
+
+};
+
+class ShUpdateCommandEditHeadTitle : public ShNotifyEvent {
+
+public:
+	enum UpdateType {
+		AddHeadTitleToCurrent,
+		ReplaceHeadTitle,
+		DeleteHeadTitleFromCurrent,
+	};
+
+public:
+	ShUpdateCommandEditHeadTitle(const QString& headTitle, UpdateType update = ReplaceHeadTitle);
+	~ShUpdateCommandEditHeadTitle();
+
+	inline QString GetHeadTitle() const { return this->headTitle; }
+	inline UpdateType GetUpdateType() const { return this->updateType; }
+
+private:
+	QString headTitle;
+	UpdateType updateType;
 
 };
 #endif //_SHNOTIFYEVENT_H

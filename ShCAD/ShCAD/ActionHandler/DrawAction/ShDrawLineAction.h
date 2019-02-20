@@ -62,9 +62,7 @@ public:
 	virtual void KeyPressEvent(QKeyEvent *event);
 
 	virtual void SetObjectSnap(ObjectSnap objectSnap);
-	//Temp
-	void SetOrthogonal();
-
+	
 	virtual void Draw(QPainter *painter);
 	virtual ActionType GetType();
 	inline ShDrawLineAction::Status GetStatus() const { return this->status; }
@@ -74,16 +72,17 @@ public:
 
 	virtual void ApplyOrthogonalShape(bool isOrthogonalModeOn);
 
-	//temp;
-	void GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY);
+	
 	void ApplyLineEndPointToOrthogonal(ShLine *line);
 	void ApplyLineEndPointToMouse(ShLine *line);
+
+	virtual void SetActionHeadTitle();
 };
 
 
 #include "ActionHandler\SubActionHandler\ShSubActionHandler.h"
 class ShDrawLineMethod;
-class ShDrawLineProxy : public ShSubActionHandler {
+class ShDrawLineProxy : public ShSubIndividualAction {
 
 private:
 	ShDrawLineMethod *drawLineMethod;
@@ -96,7 +95,7 @@ public:
 	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo &info);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo &info);
 	virtual void Draw(QPainter *painter);
-	virtual void Decorate(ShSubActionDecorator *decorator);
+	//virtual void Decorate(ShSubActionDecorator *decorator);
 	virtual ShDrawLineProxy* Clone();
 
 	void ChangeDrawMethodToPerpendicular(ShEntity *perpendicularBaseEntity);

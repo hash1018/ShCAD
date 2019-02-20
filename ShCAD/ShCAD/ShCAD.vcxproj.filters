@@ -395,6 +395,9 @@
     <ClCompile Include="ActionHandler\SubActionHandler\ShSubActionHandler.cpp">
       <Filter>ActionHandler\SubActionHandler</Filter>
     </ClCompile>
+    <ClCompile Include="Singleton Pattern\ShDraftManager.cpp">
+      <Filter>Singleton Pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -638,6 +641,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\SubActionHandler\ShSubActionHandler.h">
       <Filter>ActionHandler\SubActionHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton Pattern\ShDraftManager.h">
+      <Filter>Singleton Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

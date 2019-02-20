@@ -34,6 +34,7 @@ ShActionHandler::~ShActionHandler() {
 
 	if (this->subActionHandler != 0)
 		delete this->subActionHandler;
+
 }
 
 #include <qpainter.h>
@@ -67,9 +68,35 @@ bool ShActionHandler::UnSelectSelectedEntities() {
 
 void ShActionHandler::ChangeSubActionHandler(ShSubActionHandler *subActionHandler) {
 
-	if (this->subActionHandler != 0)
-		delete this->subActionHandler;
+	//if (this->subActionHandler != 0)
+	//	delete this->subActionHandler;
 
 	this->subActionHandler = subActionHandler;
 }
 
+void ShActionHandler::SetOrthogonal() {
+
+	this->subActionHandler->Decorate(new ShSubActionDecorator_Orthogonal(this, this->graphicView));
+}
+
+#include "ShMath.h"
+void ShActionHandler::GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY) {
+
+	double disVertical, disHorizontal;
+
+	disVertical = Math::GetDistance(x, y, x, mouseY);
+
+	disHorizontal = Math::GetDistance(x, y, mouseX, y);
+
+	if (Math::Compare(disVertical, disHorizontal) == 1) {
+
+		orthX = x;
+		orthY = mouseY;
+
+	}
+	else {
+
+		orthX = mouseX;
+		orthY = y;
+	}
+}

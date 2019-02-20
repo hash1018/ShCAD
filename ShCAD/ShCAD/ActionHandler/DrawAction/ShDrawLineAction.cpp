@@ -27,33 +27,29 @@
 #include <QMouseEvent>
 #include "ShNotifyEvent.h"
 #include "Entity\Leaf\ShLine.h"
-//#include "ActionHandler\DrawAction\SubActionHandler\ShSubDrawLineAction.h"
+
 
 ShDrawLineAction::ShDrawLineAction(ShGraphicView *graphicView)
 	:ShDrawAction(graphicView) {
 
 	this->status = PickedNothing;
-	//this->subDrawLineAction = new ShDrawLineMethod_Default(this, this->graphicView);
+	ShUpdateListTextEvent event("_Line", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
+	this->graphicView->Notify(&event);
+
+	ShUpdateCommandEditHeadTitle event2("Line >> Specify first point: ");
+	this->graphicView->Notify(&event2);
+	
+	
 	
 	this->subActionHandler = new ShDrawLineProxy(this, this->graphicView);
 }
 
 ShDrawLineAction::~ShDrawLineAction() {
 
-	//if (this->subDrawLineAction != 0)
-	//	delete this->subDrawLineAction;
-
-	//if (this->subActionHandler != 0)
-	//	delete this->subActionHandler;
-
 }
 
 
 void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
-	
-	//ShPoint3d point;
-	//this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), point.x, point.y);
-	//this->subDrawLineAction->MousePressEvent(event, point);
 
 	ShSubActionInfo info;
 	this->subActionHandler->MousePressEvent(event, info);
@@ -61,14 +57,6 @@ void ShDrawLineAction::MousePressEvent(QMouseEvent *event) {
 }
 
 void ShDrawLineAction::MouseMoveEvent(QMouseEvent *event) {
-
-	//DrawType drawType = DrawType::DrawCaptureImage;
-	
-	//ShPoint3d point;
-	//this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), point.x, point.y);
-	//this->subDrawLineAction->MouseMoveEvent(event, point, drawType);
-
-	//this->graphicView->update(drawType);
 
 	ShSubActionInfo info(DrawType::DrawCaptureImage);
 	this->subActionHandler->MouseMoveEvent(event, info);
@@ -100,14 +88,6 @@ void ShDrawLineAction::KeyPressEvent(QKeyEvent *event) {
 
 void ShDrawLineAction::SetObjectSnap(ObjectSnap objectSnap) {
 
-
-	//if (objectSnap == ObjectSnap::ObjectSnapPerpendicular)
-	//	this->subDrawLineAction->Decorate(new ShDrawLineDecorator_SnapMode_Perpendicular(this, this->graphicView,
-	//		objectSnap));
-	//else
-	//	this->subDrawLineAction->Decorate(new ShDrawLineDecorator_SnapMode(this, this->graphicView, objectSnap));
-
-
 	if (objectSnap == ObjectSnap::ObjectSnapPerpendicular)
 		this->subActionHandler->Decorate(new ShSubLineDecorator_SnapMode_Perpendicular(this, this->graphicView,
 			objectSnap));
@@ -116,10 +96,6 @@ void ShDrawLineAction::SetObjectSnap(ObjectSnap objectSnap) {
 	
 }
 
-void ShDrawLineAction::SetOrthogonal() {
-
-	this->subActionHandler->Decorate(new ShSubActionDecorator_Orthogonal(this, this->graphicView));
-}
 
 ActionType ShDrawLineAction::GetType() {
 
@@ -128,20 +104,9 @@ ActionType ShDrawLineAction::GetType() {
 
 void ShDrawLineAction::Draw(QPainter *painter) {
 
-	//this->subDrawLineAction->Draw(painter);
 	this->subActionHandler->Draw(painter);
 }
 
-/*
-void ShDrawLineAction::ChangeSubAction(ShSubDrawLineAction *current) {
-
-	//if (this->subDrawLineAction != 0)
-	//	delete this->subDrawLineAction;
-
-	//this->subDrawLineAction = current;
-}
-
-*/
 
 void ShDrawLineAction::ApplyOrthogonalShape(bool isOrthogonalModeOn) {
 
@@ -162,29 +127,6 @@ void ShDrawLineAction::ApplyOrthogonalShape(bool isOrthogonalModeOn) {
 			this->ApplyLineEndPointToMouse(line);
 			this->graphicView->update((DrawType)(DrawCaptureImage | DrawPreviewEntities | DrawActionHandler));
 		}
-	}
-}
-
-//Temp
-#include "ShMath.h"
-void ShDrawLineAction::GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY) {
-
-	double disVertical, disHorizontal;
-
-	disVertical = Math::GetDistance(x, y, x, mouseY);
-
-	disHorizontal = Math::GetDistance(x, y, mouseX, y);
-
-	if (Math::Compare(disVertical, disHorizontal) == 1) {
-
-		orthX = x;
-		orthY = mouseY;
-
-	}
-	else {
-
-		orthX = mouseX;
-		orthY = y;
 	}
 }
 
@@ -214,18 +156,31 @@ void ShDrawLineAction::ApplyLineEndPointToMouse(ShLine *line) {
 	line->SetData(data);
 }
 
+void ShDrawLineAction::SetActionHeadTitle() {
+
+	if (this->status == Status::PickedNothing) {
+		ShUpdateCommandEditHeadTitle event("Line >> Specify first point: ");
+		this->graphicView->Notify(&event);
+	}
+	else {
+		ShUpdateCommandEditHeadTitle event("Line >> Specify next point: ");
+		this->graphicView->Notify(&event);
+	}
+
+
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ShDrawLineProxy::ShDrawLineProxy(ShDrawLineAction *drawLineAction, ShGraphicView *view)
-	:ShSubActionHandler(drawLineAction, view) {
+	:ShSubIndividualAction(drawLineAction, view) {
 
 	this->drawLineMethod = new ShDrawLineMethod_Default(drawLineAction, view);
 }
 
 ShDrawLineProxy::ShDrawLineProxy(const ShDrawLineProxy& other)
-	: ShSubActionHandler(other), drawLineMethod(other.drawLineMethod->Clone()) {
+	: ShSubIndividualAction(other), drawLineMethod(other.drawLineMethod->Clone()) {
 
 }
 
@@ -306,12 +261,14 @@ void ShDrawLineProxy::Draw(QPainter *painter) {
 
 }
 
+/*
 void ShDrawLineProxy::Decorate(ShSubActionDecorator *decorator) {
 
 	decorator->SetChild(this->Clone());
 	this->actionHandler->ChangeSubActionHandler(decorator);
 
 }
+*/
 
 ShDrawLineProxy* ShDrawLineProxy::Clone() {
 
@@ -390,6 +347,12 @@ void ShDrawLineMethod_Default::MousePressEvent(QMouseEvent *event, ShSubActionIn
 
 		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 
+		ShUpdateListTextEvent event("");
+		this->view->Notify(&event);
+
+		ShUpdateCommandEditHeadTitle event2("Line >> Specify next point: ");
+		this->view->Notify(&event2);
+
 	}
 	else if (status == ShDrawLineAction::PickedStart) {
 
@@ -403,6 +366,12 @@ void ShDrawLineMethod_Default::MousePressEvent(QMouseEvent *event, ShSubActionIn
 
 		data = ShLineData(point, cursor);
 		prevLine->SetData(data);
+
+		ShUpdateListTextEvent event("");
+		this->view->Notify(&event);
+
+		ShUpdateCommandEditHeadTitle event2("Line >> Specify next point: ");
+		this->view->Notify(&event2);
 	}
 }
 
@@ -477,7 +446,11 @@ void ShDrawLineMethod_Perpendicular::MousePressEvent(QMouseEvent *event, ShSubAc
 		this->view->ConvertDeviceToEntity(event->x(), event->y(), cursor.x, cursor.y);
 		prevLine->SetEnd(cursor);
 
+		ShUpdateListTextEvent event("");
+		this->view->Notify(&event);
 		
+		ShUpdateCommandEditHeadTitle event2("Line >> Specify next point: ");
+		this->view->Notify(&event2);
 	}
 	
 }
@@ -541,7 +514,7 @@ void ShSubLineDecorator_SnapMode_Perpendicular::MousePressEvent(QMouseEvent *eve
 	if (drawLineAction->status == ShDrawLineAction::Status::PickedNothing) {
 	
 		if (this->objectSnapState->FindSnapPoint(event) == false) {
-		
+			this->UpdateCommandListFail();
 			return;
 		}
 
@@ -558,9 +531,12 @@ void ShSubLineDecorator_SnapMode_Perpendicular::MousePressEvent(QMouseEvent *eve
 		
 
 		if (this->parent == 0)
-			this->actionHandler->ChangeSubActionHandler(this->child->Clone());
+			this->actionHandler->ChangeSubActionHandler(this->child);
 		else
-			this->parent->SetChild(this->child->Clone());
+			this->parent->SetChild(this->child);
+
+		this->child = 0;
+		delete this;
 
 	}
 	else if (drawLineAction->status == ShDrawLineAction::Status::PickedStart &&
@@ -570,7 +546,7 @@ void ShSubLineDecorator_SnapMode_Perpendicular::MousePressEvent(QMouseEvent *eve
 		ShObjectSnapState_Perpendicular *state = dynamic_cast<ShObjectSnapState_Perpendicular*>(this->objectSnapState);
 	
 		if (state->FindSnapPoint(event, start.x, start.y) == false) {
-
+			this->UpdateCommandListFail();
 			return;
 		}
 
@@ -583,15 +559,19 @@ void ShSubLineDecorator_SnapMode_Perpendicular::MousePressEvent(QMouseEvent *eve
 		this->child->MousePressEvent(event, info);
 
 		if (this->parent == 0)
-			this->actionHandler->ChangeSubActionHandler(this->child->Clone());
+			this->actionHandler->ChangeSubActionHandler(this->child);
 		else
-			this->parent->SetChild(this->child->Clone());
+			this->parent->SetChild(this->child);
+		
+		this->child = 0;
+		delete this;
+
 	}
 	else if (drawLineAction->status == ShDrawLineAction::Status::PickedStart &&
 		drawLineAction->drawMethod == ShDrawLineAction::DrawMethod::Perpendicular) {
 	
 		if (this->objectSnapState->FindSnapPoint(event) == false) {
-
+			this->UpdateCommandListFail();
 			return;
 		}
 
@@ -618,13 +598,16 @@ void ShSubLineDecorator_SnapMode_Perpendicular::MousePressEvent(QMouseEvent *eve
 			this->child->MousePressEvent(event, info);
 
 			if (this->parent == 0)
-				this->actionHandler->ChangeSubActionHandler(this->child->Clone());
+				this->actionHandler->ChangeSubActionHandler(this->child);
 			else
-				this->parent->SetChild(this->child->Clone());
+				this->parent->SetChild(this->child);
+			
+			this->child = 0;
+			delete this;
 
 		}
 		else {
-
+			this->UpdateCommandListFail();
 			//Todo....
 			return;
 		}
