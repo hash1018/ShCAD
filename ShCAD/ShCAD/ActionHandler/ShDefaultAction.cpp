@@ -94,8 +94,11 @@ void ShDefaultAction::KeyPressEvent(QKeyEvent *event) {
 
 		this->ChangeSubAction(new ShSubDefaultAction_Default(this, this->graphicView));
 		this->UnSelectSelectedEntities();
+		
 		ShUpdateListTextEvent event("<Cancel>");
 		this->graphicView->Notify(&event);
+
+		this->SetActionHeadTitle();
 	}
 	else {
 	
@@ -121,4 +124,12 @@ void ShDefaultAction::ChangeSubAction(ShSubDefaultAction *subDefaultAction) {
 
 	this->subDefaultAction = subDefaultAction;
 
+}
+
+
+void ShDefaultAction::SetActionHeadTitle() {
+
+	ShUpdateCommandEditHeadTitle event(":: ");
+	this->graphicView->Notify(&event);
+	
 }

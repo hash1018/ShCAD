@@ -47,9 +47,13 @@ ShCircle::ShCircle(const ShCircleData &data)
 
 }
 
-ShCircle::ShCircle(const ShCircle& other)
-	: data(other.data) {
+ShCircle::ShCircle(const ShPropertyData& propertyData, const ShCircleData &data, ShLayer *layer)
+	: ShLeaf(propertyData, layer), data(data) {
 
+}
+
+ShCircle::ShCircle(const ShCircle& other)
+	: ShLeaf(other), data(other.data) {
 
 }
 
@@ -78,8 +82,27 @@ void ShCircle::Accept(ShVisitor *shVisitor) {
 
 }
 
-void ShCircle::SetData(const ShCircleData &data) {
 
-	this->data = data;
+void ShCircle::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
+
+	if (hitPoint == HitPoint::HitCenter) {
+		point = this->data.center;
+	}
+	else if (hitPoint == HitPoint::HitTop) {
+		point.x = this->data.center.x;
+		point.y = this->data.center.y + this->data.radius;
+	}
+	else if (hitPoint == HitPoint::HitLeft) {
+		point.x = this->data.center.x - this->data.radius;
+		point.y = this->data.center.y;
+	}
+	else if (hitPoint == HitPoint::HitBottom) {
+		point.x = this->data.center.x;
+		point.y = this->data.center.y - this->data.radius;
+	}
+	else if (hitPoint == HitPoint::HitRight) {
+		point.x = this->data.center.x + this->data.radius;
+		point.y = this->data.center.y;
+	}
 
 }

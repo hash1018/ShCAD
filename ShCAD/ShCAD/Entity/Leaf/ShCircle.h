@@ -29,21 +29,25 @@ protected:
 public:
 	ShCircle();
 	ShCircle(const ShCircleData& data);
+	ShCircle(const ShPropertyData& propertyData, const ShCircleData &data, ShLayer *layer);
 	ShCircle(const ShCircle& other);
 	ShCircle& operator=(const ShCircle& other);
 	~ShCircle();
 
 	virtual ShCircle* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
+	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
 
-	ShCircleData& GetData() const;
-	void SetData(const ShCircleData& data);
+	inline ShCircleData GetData() const { return this->data; }
+	void SetData(const ShCircleData& data) { this->data = data; }
+	
+	inline ShPoint3d GetCenter() const { return this->data.center; }
+	inline double GetRadius() const { return this->data.radius; }
+	void SetCenter(const ShPoint3d& center) { this->data.center = center; }
+	void SetRadius(double radius) { this->data.radius = radius; }
 
 };
 
-inline ShCircleData& ShCircle::GetData() const {
 
-	return const_cast<ShCircleData&>(this->data);
-}
 
 #endif //_SHCIRCLE_H

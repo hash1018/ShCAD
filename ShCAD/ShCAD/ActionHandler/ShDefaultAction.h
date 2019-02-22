@@ -46,6 +46,7 @@ public:
 	virtual ActionType GetType();
 
 	void ChangeSubAction(ShSubDefaultAction *subDefaultAction);
+	virtual void SetActionHeadTitle();
 };
 
 #endif //_SHDEFAULTACTION_H

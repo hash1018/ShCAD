@@ -42,6 +42,9 @@ ShDrawLineAction::ShDrawLineAction(ShGraphicView *graphicView)
 	
 	
 	this->subActionHandler = new ShDrawLineProxy(this, this->graphicView);
+
+	if (this->graphicView->GetDraftInfomation()->GetOrthogonalMode() == true)
+		this->SetOrthogonal();
 }
 
 ShDrawLineAction::~ShDrawLineAction() {
@@ -71,10 +74,10 @@ void ShDrawLineAction::KeyPressEvent(QKeyEvent *event) {
 		this->graphicView->ChangeCurrentAction(ActionType::ActionDefault);
 	}
 
-	else if (event->key() == Qt::Key::Key_F8) {
+	//else if (event->key() == Qt::Key::Key_F8) {
 	
-		this->SetOrthogonal();
-	}
+	//	this->SetOrthogonal();
+	//}
 
 
 	else {
@@ -100,11 +103,6 @@ void ShDrawLineAction::SetObjectSnap(ObjectSnap objectSnap) {
 ActionType ShDrawLineAction::GetType() {
 
 	return ActionType::ActionDrawLine;
-}
-
-void ShDrawLineAction::Draw(QPainter *painter) {
-
-	this->subActionHandler->Draw(painter);
 }
 
 
@@ -179,10 +177,6 @@ ShDrawLineProxy::ShDrawLineProxy(ShDrawLineAction *drawLineAction, ShGraphicView
 	this->drawLineMethod = new ShDrawLineMethod_Default(drawLineAction, view);
 }
 
-ShDrawLineProxy::ShDrawLineProxy(const ShDrawLineProxy& other)
-	: ShSubIndividualAction(other), drawLineMethod(other.drawLineMethod->Clone()) {
-
-}
 
 ShDrawLineProxy::~ShDrawLineProxy() {
 
@@ -257,23 +251,7 @@ void ShDrawLineProxy::MouseMoveEvent(QMouseEvent *event, ShSubActionInfo &info) 
 	}
 }
 
-void ShDrawLineProxy::Draw(QPainter *painter) {
 
-}
-
-/*
-void ShDrawLineProxy::Decorate(ShSubActionDecorator *decorator) {
-
-	decorator->SetChild(this->Clone());
-	this->actionHandler->ChangeSubActionHandler(decorator);
-
-}
-*/
-
-ShDrawLineProxy* ShDrawLineProxy::Clone() {
-
-	return new ShDrawLineProxy(*this);
-}
 
 void ShDrawLineProxy::ChangeDrawMethodToPerpendicular(ShEntity *perpendicularBaseEntity) {
 
@@ -300,10 +278,6 @@ ShDrawLineMethod::ShDrawLineMethod(ShDrawLineAction *drawLineAction, ShGraphicVi
 
 }
 
-ShDrawLineMethod::ShDrawLineMethod(const ShDrawLineMethod& other)
-	: drawLineAction(other.drawLineAction), view(other.view) {
-
-}
 
 ShDrawLineMethod::~ShDrawLineMethod() {
 
@@ -320,11 +294,6 @@ ShDrawLineMethod_Default::ShDrawLineMethod_Default(ShDrawLineAction *drawLineAct
 	this->SetDrawMethod(ShDrawLineAction::DrawMethod::Default);
 }
 
-ShDrawLineMethod_Default::ShDrawLineMethod_Default(const ShDrawLineMethod_Default& other)
-	: ShDrawLineMethod(other) {
-
-	this->SetDrawMethod(ShDrawLineAction::DrawMethod::Default);
-}
 
 ShDrawLineMethod_Default::~ShDrawLineMethod_Default() {
 
@@ -394,23 +363,11 @@ void ShDrawLineMethod_Default::MouseMoveEvent(QMouseEvent *event, ShSubActionInf
 }
 
 
-ShDrawLineMethod_Default* ShDrawLineMethod_Default::Clone() {
-
-	return new ShDrawLineMethod_Default(*this);
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShDrawLineMethod_Perpendicular::ShDrawLineMethod_Perpendicular(ShDrawLineAction *drawLineAction, ShGraphicView *view,
 	ShEntity *perpendicularBaseEntity)
 	:ShDrawLineMethod(drawLineAction, view), perpendicularBaseEntity(perpendicularBaseEntity) {
-
-	this->SetDrawMethod(ShDrawLineAction::DrawMethod::Perpendicular);
-
-}
-
-ShDrawLineMethod_Perpendicular::ShDrawLineMethod_Perpendicular(const ShDrawLineMethod_Perpendicular& other)
-	: ShDrawLineMethod(other), perpendicularBaseEntity(other.perpendicularBaseEntity) {
 
 	this->SetDrawMethod(ShDrawLineAction::DrawMethod::Perpendicular);
 
@@ -477,10 +434,6 @@ void ShDrawLineMethod_Perpendicular::MouseMoveEvent(QMouseEvent *event, ShSubAct
 
 }
 
-ShDrawLineMethod_Perpendicular* ShDrawLineMethod_Perpendicular::Clone() {
-
-	return new ShDrawLineMethod_Perpendicular(*this);
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -490,11 +443,6 @@ ShSubLineDecorator_SnapMode_Perpendicular::ShSubLineDecorator_SnapMode_Perpendic
 
 }
 
-ShSubLineDecorator_SnapMode_Perpendicular::ShSubLineDecorator_SnapMode_Perpendicular
-(const ShSubLineDecorator_SnapMode_Perpendicular& other)
-	: ShSubActionDecorator_SnapMode(other) {
-
-}
 
 ShSubLineDecorator_SnapMode_Perpendicular::~ShSubLineDecorator_SnapMode_Perpendicular() {
 
@@ -653,10 +601,4 @@ void ShSubLineDecorator_SnapMode_Perpendicular::MouseMoveEvent(QMouseEvent *even
 
 	this->child->MouseMoveEvent(event, info);
 
-}
-
-
-ShSubLineDecorator_SnapMode_Perpendicular* ShSubLineDecorator_SnapMode_Perpendicular::Clone() {
-
-	return new ShSubLineDecorator_SnapMode_Perpendicular(*this);
 }

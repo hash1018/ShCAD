@@ -112,6 +112,23 @@ bool Math::CheckPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& top
 	return false;
 }
 
+bool Math::CheckPointLiesOnCircleBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double tolerance) {
+
+	double angle = GetAbsAngle(center.x, center.y, point.x, point.y);
+
+	double x, y;
+	Rotate(360 - angle, center.x, center.y, point.x, point.y, x, y);
+
+	if (x - tolerance <= center.x + radius &&
+		x + tolerance >= center.x + radius &&
+		y - tolerance <= center.y &&
+		y + tolerance >= center.y) {
+		return true;
+	}
+
+	return false;
+}
+
 double Math::GetAbsAngle(double centerX, double centerY, double anotherX, double anotherY) {
 
 	double distanceX = fabs(anotherX - centerX);

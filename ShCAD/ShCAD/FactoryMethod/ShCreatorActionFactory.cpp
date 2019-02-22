@@ -26,7 +26,8 @@
 #include "ShCreatorActionFactory.h"
 #include "ActionHandler\ShDefaultAction.h"
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
-
+#include "ActionHandler\DrawAction\ShDrawCircleAction.h"
+#include "ActionHandler\DrawAction\ShDrawArcAction.h"
 ShCreatorActionFactory::ShCreatorActionFactory(){
 
 }
@@ -43,6 +44,10 @@ ShActionHandler* ShCreatorActionFactory::Create(ActionType actionType, ShGraphic
 	if (actionType == ActionType::ActionDrawLine)
 		return new ShDrawLineAction(graphicView);
 
+	if (actionType == ActionType::ActionDrawCircle)
+		return new ShDrawCircleAction(graphicView);
+	if (actionType == ActionType::ActionDrawArc)
+		return new ShDrawArcAction(graphicView);
 
 	return new ShDefaultAction(graphicView);
 }

@@ -1,7 +1,9 @@
 
 
 #include "ShStretchVisitor.h"
+#include "ShMath.h"
 #include "Entity\Leaf\ShLine.h"
+#include "Entity\Leaf\ShCircle.h"
 ShStretchVisitor::ShStretchVisitor(double x, double y)
 	:x(x), y(y) {
 
@@ -48,6 +50,26 @@ void ShStretchVisitor::Visit(ShLine *line) {
 
 void ShStretchVisitor::Visit(ShCircle *circle) {
 
+	ShCircleData data = circle->GetData();
+	ShPoint3d center = data.center;
+	
+	if (this->hitPoint == HitPoint::HitCenter) {
+		double disX = center.x - this->x;
+		double disY = center.y - this->y;
+		center.x -= disX;
+		center.y -= disY;
+		data.center = center;
+	}
+	else if (this->hitPoint == HitPoint::HitRight ||
+		this->hitPoint == HitPoint::HitBottom ||
+		this->hitPoint == HitPoint::HitLeft ||
+		this->hitPoint == HitPoint::HitTop) {
+	
+		double radius = Math::GetDistance(center.x, center.y, this->x, this->y);
+		data.radius = radius;
+	}
+
+	circle->SetData(data);
 }
 
 void ShStretchVisitor::Visit(ShArc *arc) {

@@ -56,7 +56,7 @@ public:
 
 	virtual ActionType GetType() = 0;
 	virtual QCursor GetCursorShape();
-	virtual void Draw(QPainter *painter) {}
+	virtual void Draw(QPainter *painter);
 
 	virtual void SetObjectSnap(ObjectSnap objectSnap) {}
 	virtual void SetOrthogonal();

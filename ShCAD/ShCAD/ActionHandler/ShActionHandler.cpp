@@ -53,6 +53,11 @@ QCursor ShActionHandler::GetCursorShape() {
 	return QCursor(pix);
 }
 
+void ShActionHandler::Draw(QPainter *painter) {
+
+	if (this->subActionHandler != 0)
+		this->subActionHandler->Draw(painter);
+}
 
 bool ShActionHandler::UnSelectSelectedEntities() {
 
@@ -75,6 +80,9 @@ void ShActionHandler::ChangeSubActionHandler(ShSubActionHandler *subActionHandle
 }
 
 void ShActionHandler::SetOrthogonal() {
+
+	if (this->subActionHandler == 0)
+		return;
 
 	this->subActionHandler->Decorate(new ShSubActionDecorator_Orthogonal(this, this->graphicView));
 }

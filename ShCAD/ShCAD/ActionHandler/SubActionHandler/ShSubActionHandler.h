@@ -49,7 +49,6 @@ protected:
 
 public:
 	ShSubActionHandler(ShActionHandler *actionHandler, ShGraphicView *view);
-	ShSubActionHandler(const ShSubActionHandler& other);
 	virtual ~ShSubActionHandler() = 0;
 
 	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo &info) = 0;
@@ -57,7 +56,7 @@ public:
 
 	virtual void Draw(QPainter *painter) = 0;
 	virtual void Decorate(ShSubActionDecorator *decorator) = 0;
-	virtual ShSubActionHandler* Clone() = 0;
+	
 	void SetParent(ShSubActionDecorator *parent) { this->parent = parent; }
 
 };
@@ -68,9 +67,9 @@ class ShSubIndividualAction : public ShSubActionHandler {
 
 public:
 	ShSubIndividualAction(ShActionHandler *actionHandler, ShGraphicView *view);
-	ShSubIndividualAction(const ShSubIndividualAction& other);
 	virtual ~ShSubIndividualAction() = 0;
 
+	virtual void Draw(QPainter *painter) {}
 	virtual void Decorate(ShSubActionDecorator *decorator);
 
 };
@@ -82,11 +81,10 @@ protected:
 
 public:
 	ShSubActionDecorator(ShActionHandler *actionHandler, ShGraphicView *view);
-	ShSubActionDecorator(const ShSubActionDecorator& other);
 	virtual ~ShSubActionDecorator() = 0;
 	void SetChild(ShSubActionHandler *newChild);
 	inline ShSubActionHandler* GetChild() const { return this->child; }
-	virtual void AddCommandEditHeadTitle() = 0;
+	virtual void AddCommandEditHeadTitle() {}
 
 };
 
@@ -100,7 +98,6 @@ protected:
 public:
 	ShSubActionDecorator_SnapMode(ShActionHandler *actionHandler, ShGraphicView *view,
 		ObjectSnap objectSnap);
-	ShSubActionDecorator_SnapMode(const ShSubActionDecorator_SnapMode& other);
 	~ShSubActionDecorator_SnapMode();
 
 	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo &info);
@@ -109,7 +106,7 @@ public:
 	virtual void Draw(QPainter *painter);
 	virtual void Decorate(ShSubActionDecorator *decorator);
 
-	virtual ShSubActionDecorator_SnapMode* Clone();
+	
 	virtual void AddCommandEditHeadTitle();
 
 	void UpdateCommandListFail();
@@ -136,7 +133,6 @@ class ShSubActionDecorator_Orthogonal : public ShSubActionDecorator {
 
 public:
 	ShSubActionDecorator_Orthogonal(ShActionHandler *actionHandler, ShGraphicView *view);
-	ShSubActionDecorator_Orthogonal(const ShSubActionDecorator_Orthogonal& other);
 	~ShSubActionDecorator_Orthogonal();
 
 	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo &info);
@@ -144,8 +140,8 @@ public:
 	virtual void Draw(QPainter *painter);
 	virtual void Decorate(ShSubActionDecorator *decorator);
 
-	virtual ShSubActionDecorator_Orthogonal* Clone();
-	virtual void AddCommandEditHeadTitle();
+
+	
 	
 };
 

@@ -35,7 +35,7 @@ namespace Math {
 
 	bool CheckPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, const ShPoint3d& end, double tolerance);
 	bool CheckPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& topLeft, const ShPoint3d& bottomRight,double tolerance);
-
+	bool CheckPointLiesOnCircleBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double tolerance);
 
 
 	double GetAbsAngle(double centerX, double centerY, double anotherX, double anotherY);

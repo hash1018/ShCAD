@@ -340,3 +340,23 @@ ActionType ShGraphicView::GetCurrentActionType() {
 
 	return this->currentAction->GetType();
 }
+
+void ShGraphicView::SetOrthogonalMode() {
+
+	if (draftInfomation.isOrthogonalModeOn == false) {
+
+		ShUpdateCommandEditHeadTitle event("<Ortho on> ", ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent);
+		this->Notify(&event);
+
+		draftInfomation.isOrthogonalModeOn = true;
+	}
+	else {
+		ShUpdateCommandEditHeadTitle event("<Ortho off> ", ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent);
+		this->Notify(&event);
+
+		draftInfomation.isOrthogonalModeOn = false;
+	}
+
+
+	this->currentAction->SetOrthogonal();
+}

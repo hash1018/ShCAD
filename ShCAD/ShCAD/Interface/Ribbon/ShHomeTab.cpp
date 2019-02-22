@@ -86,12 +86,19 @@ void ShDrawColumn::CircleButtonClicked() {
 		return;
 	}
 
-	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDefault);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawCircle);
 
 }
 
 void ShDrawColumn::ArcButtonClicked() {
+	qDebug("ArcButtonClicked");
 
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawArc);
 
 }
 

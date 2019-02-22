@@ -398,6 +398,18 @@
     <ClCompile Include="Singleton Pattern\ShDraftManager.cpp">
       <Filter>Singleton Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShStatusBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShStatusBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawArcAction.cpp">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -432,6 +444,9 @@
     </CustomBuild>
     <CustomBuild Include="Interface\Dialog\ShLayerDialog.h">
       <Filter>Interface\Dialog</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\ShStatusBar.h">
+      <Filter>Interface</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -500,9 +515,6 @@
     </ClInclude>
     <ClInclude Include="Singleton Pattern\ShChangeManager.h">
       <Filter>Singleton Pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\ShStatusBar.h">
-      <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="ShAxis.h">
       <Filter>Header Files</Filter>
@@ -644,6 +656,12 @@
     </ClInclude>
     <ClInclude Include="Singleton Pattern\ShDraftManager.h">
       <Filter>Singleton Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawArcAction.h">
+      <Filter>ActionHandler\DrawAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -105,11 +105,6 @@ void ShLine::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
 
 }
 
-void ShLine::SetData(const ShLineData &data) {
-
-	this->data = data;
-
-}
 
 #include <math.h>
 ShPoint3d ShLine::GetMid() {

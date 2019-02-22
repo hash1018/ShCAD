@@ -42,8 +42,8 @@ public:
 	virtual void Accept(ShVisitor *shVisitor);
 	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
 
-	ShLineData& GetData() const;
-	void SetData(const ShLineData& data);
+	inline ShLineData GetData() const { return this->data; }
+	void SetData(const ShLineData& data) { this->data = data; }
 
 	ShPoint3d GetMid();
 	inline ShPoint3d GetStart() const { return this->data.start; }
@@ -54,9 +54,5 @@ public:
 
 };
 
-inline ShLineData& ShLine::GetData() const {
-
-	return const_cast<ShLineData&>(this->data);
-}
 
 #endif //_SHLINE_H

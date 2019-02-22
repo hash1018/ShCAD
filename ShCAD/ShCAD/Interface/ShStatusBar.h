@@ -30,6 +30,8 @@
 class QLabel;
 class QAction;
 class ShStatusBar : public QStatusBar {
+	Q_OBJECT
+
 
 private:
 	QLabel *coordinates;
@@ -42,7 +44,8 @@ public:
 	void Update(double x, double y, double z, double zoomRate);
 	
 	
-
+	private slots:
+	void OrthoClicked();
 };
 
 #endif //_SHSTATUSBAR_H

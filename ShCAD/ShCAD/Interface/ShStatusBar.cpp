@@ -37,9 +37,14 @@ ShStatusBar::ShStatusBar(QWidget *parent)
 	this->mementoList->setFixedWidth(200);
 	this->addWidget(this->mementoList);
 	
-	
-	this->addWidget(new QPushButton("d", this));
+	QPushButton *orthogonal = new QPushButton("ortho", this);
+	orthogonal->setShortcut(QKeySequence(Qt::Key::Key_F8));
+
+	this->addWidget(orthogonal);
 	this->addWidget(new QPushButton("k", this));
+
+	connect(orthogonal, SIGNAL(pressed()), this, SLOT(OrthoClicked()));
+
 }
 
 ShStatusBar::~ShStatusBar() {
@@ -51,5 +56,18 @@ void ShStatusBar::Update(double x, double y, double z, double zoomRate) {
 
 	QString str = QString::number(x, 'f', 4) + ", " + QString::number(y, 'f', 4) + ", " + QString::number(z, 'd', 0) + ",  " + QString::number(zoomRate, 'f', 2);
 	this->coordinates->setText(str);
+
+}
+
+#include "Singleton Pattern\ShWidgetManager.h"
+#include "Interface\ShGraphicView.h"
+void ShStatusBar::OrthoClicked() {
+
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+	if (manager->GetActivatedWidget() == 0)
+		return;
+	
+	manager->GetActivatedWidget()->SetOrthogonalMode();
 
 }

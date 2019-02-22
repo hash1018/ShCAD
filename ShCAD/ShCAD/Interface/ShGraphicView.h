@@ -95,7 +95,19 @@ public:
 
 };
 
+class ShDraftInfomation {
+	friend class ShGraphicView;
 
+private:
+	bool isOrthogonalModeOn;
+
+public:
+	ShDraftInfomation():isOrthogonalModeOn(false) {}
+	~ShDraftInfomation() {}
+
+	//void SetOrthogonalMode(bool on) { this->isOrthogonalModeOn = on; }
+	inline bool GetOrthogonalMode() const { return this->isOrthogonalModeOn; }
+};
 
 
 
@@ -111,7 +123,7 @@ class ShGraphicView : public QOpenGLWidget {
 
 private:
 	ShGraphicViewData data;
-	
+	ShDraftInfomation draftInfomation;
 
 public:
 
@@ -148,7 +160,7 @@ public:
 	void ConvertEntityToDevice(double x, double y, int &dx, int &dy);
 	void MoveView(double ex, double ey, double zoomRate, int dx, int dy);
 	void SetTemporaryAction(ShTemporaryAction *temporaryAction);
-	
+	void SetOrthogonalMode();
 
 protected:
 	virtual void initializeGL();
@@ -177,6 +189,8 @@ public:
 	inline ShGraphicViewData* GetData() { return &this->data; }
 	ActionType GetCurrentActionType();
 
+
+	inline ShDraftInfomation* GetDraftInfomation() { return &this->draftInfomation; }
 };
 
 

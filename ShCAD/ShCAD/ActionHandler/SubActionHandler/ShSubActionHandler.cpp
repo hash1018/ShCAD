@@ -30,13 +30,6 @@ ShSubActionHandler::ShSubActionHandler(ShActionHandler *actionHandler, ShGraphic
 }
 
 
-
-
-ShSubActionHandler::ShSubActionHandler(const ShSubActionHandler& other)
-	:actionHandler(other.actionHandler), view(other.view) {
-
-}
-
 ShSubActionHandler::~ShSubActionHandler() {
 
 
@@ -49,10 +42,6 @@ ShSubIndividualAction::ShSubIndividualAction(ShActionHandler *actionHandler, ShG
 
 }
 
-ShSubIndividualAction::ShSubIndividualAction(const ShSubIndividualAction& other)
-	: ShSubActionHandler(other) {
-
-}
 
 ShSubIndividualAction::~ShSubIndividualAction() {
 
@@ -73,12 +62,6 @@ void ShSubIndividualAction::Decorate(ShSubActionDecorator *decorator) {
 ShSubActionDecorator::ShSubActionDecorator(ShActionHandler *actionHandler, ShGraphicView *view)
 	:ShSubActionHandler(actionHandler, view), child(0) {
 
-}
-
-ShSubActionDecorator::ShSubActionDecorator(const ShSubActionDecorator& other)
-	: ShSubActionHandler(other), child(other.child->Clone()) {
-
-	this->child->SetParent(this);
 }
 
 
@@ -109,11 +92,6 @@ ShSubActionDecorator_SnapMode::ShSubActionDecorator_SnapMode(ShActionHandler *ac
 	this->objectSnapState = ShCreatorObjectSnapFactory::Create(objectSnap, view);
 }
 
-ShSubActionDecorator_SnapMode::ShSubActionDecorator_SnapMode(const ShSubActionDecorator_SnapMode& other)
-	: ShSubActionDecorator(other), objectSnap(other.objectSnap) {
-
-	this->objectSnapState = ShCreatorObjectSnapFactory::Create(objectSnap, view);
-}
 
 
 ShSubActionDecorator_SnapMode::~ShSubActionDecorator_SnapMode() {
@@ -186,8 +164,15 @@ void ShSubActionDecorator_SnapMode::Decorate(ShSubActionDecorator *decorator) {
 
 		delete decorator;
 		this->actionHandler->ChangeSubActionHandler(this->child);
+		
+		ShUpdateListTextEvent event("");
+		this->view->Notify(&event);
+
+		ShUpdateListTextEvent event2("Invalid point.", ShUpdateListTextEvent::UpdateType::TextWithoutAnything);
+		this->view->Notify(&event2);
+
 		this->actionHandler->SetActionHeadTitle();
-		this->UpdateCommandListFail();
+		
 
 		this->child = 0;
 		delete this;
@@ -202,10 +187,6 @@ void ShSubActionDecorator_SnapMode::Decorate(ShSubActionDecorator *decorator) {
 }
 
 
-ShSubActionDecorator_SnapMode* ShSubActionDecorator_SnapMode::Clone() {
-
-	return new ShSubActionDecorator_SnapMode(*this);
-}
 
 void ShSubActionDecorator_SnapMode::AddCommandEditHeadTitle() {
 
@@ -215,10 +196,13 @@ void ShSubActionDecorator_SnapMode::AddCommandEditHeadTitle() {
 
 }
 
+
 void ShSubActionDecorator_SnapMode::UpdateCommandListFail() {
 
-	ShUpdateListTextEvent event("Invalid point.",ShUpdateListTextEvent::UpdateType::TextWithoutAnything);
-	this->view->Notify(&event);
+	ShUpdateListTextEvent event2("Invalid point.",ShUpdateListTextEvent::UpdateType::TextWithoutAnything);
+	this->view->Notify(&event2);
+
+
 }
 
 
@@ -287,10 +271,6 @@ ShSubActionDecorator_Orthogonal::ShSubActionDecorator_Orthogonal(ShActionHandler
 	this->actionHandler->ApplyOrthogonalShape(true);
 }
 
-ShSubActionDecorator_Orthogonal::ShSubActionDecorator_Orthogonal(const ShSubActionDecorator_Orthogonal& other)
-	: ShSubActionDecorator(other) {
-	this->actionHandler->ApplyOrthogonalShape(true);
-}
 
 ShSubActionDecorator_Orthogonal::~ShSubActionDecorator_Orthogonal() {
 
@@ -343,9 +323,6 @@ void ShSubActionDecorator_Orthogonal::Decorate(ShSubActionDecorator *decorator) 
 		this->actionHandler->ApplyOrthogonalShape(false);
 		this->actionHandler->ChangeSubActionHandler(this->child);
 
-		ShUpdateCommandEditHeadTitle event("<Ortho off> ", ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent);
-		this->view->Notify(&event);
-
 		this->child = 0;
 		delete this;
 
@@ -382,14 +359,4 @@ void ShSubActionDecorator_Orthogonal::Decorate(ShSubActionDecorator *decorator) 
 }
 
 
-ShSubActionDecorator_Orthogonal* ShSubActionDecorator_Orthogonal::Clone() {
 
-	return new ShSubActionDecorator_Orthogonal(*this);
-}
-
-void ShSubActionDecorator_Orthogonal::AddCommandEditHeadTitle() {
-
-	ShUpdateCommandEditHeadTitle event("<Ortho on> ", ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent);
-	this->view->Notify(&event);
-
-}

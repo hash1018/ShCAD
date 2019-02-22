@@ -34,6 +34,8 @@ enum ActionType {
 	ActionDragSelect,
 	ActionDrawLine,
 	ActionSelectionMove,
+	ActionDrawCircle,
+	ActionDrawArc,
 
 
 };
@@ -58,6 +60,11 @@ enum HitPoint {
 	HitEnd,
 	HitMid,
 	HitOther,
+	HitCenter,
+	HitLeft,
+	HitRight,
+	HitTop,
+	HitBottom,
 
 
 };
