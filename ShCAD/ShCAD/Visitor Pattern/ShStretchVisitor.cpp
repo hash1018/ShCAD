@@ -4,8 +4,9 @@
 #include "ShMath.h"
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
+#include "Entity\Leaf\ShArc.h"
 ShStretchVisitor::ShStretchVisitor(double x, double y)
-	:x(x), y(y) {
+	:x(x), y(y), origianlEntity(0), hitPoint(HitPoint::HitNothing) {
 
 
 }
@@ -14,10 +15,6 @@ ShStretchVisitor::~ShStretchVisitor() {
 
 }
 
-void ShStretchVisitor::SetHitPoint(HitPoint hitPoint) {
-
-	this->hitPoint = hitPoint;
-}
 
 void ShStretchVisitor::Visit(ShLine *line) {
 
@@ -74,5 +71,22 @@ void ShStretchVisitor::Visit(ShCircle *circle) {
 
 void ShStretchVisitor::Visit(ShArc *arc) {
 
+	ShArcData data = arc->GetData();
+
+	if (this->hitPoint == HitPoint::HitCenter) {
+		ShPoint3d center = data.center;
+
+		double disX = center.x - this->x;
+		double disY = center.y - this->y;
+		center.x -= disX;
+		center.y -= disY;
+		data.center = center;
+	}
+	else if (this->hitPoint == HitPoint::HitStart) {
+		ShArc *arc = dynamic_cast<ShArc*>(this->origianlEntity);
+		
+
+
+	}
 
 }

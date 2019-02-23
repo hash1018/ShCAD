@@ -4,6 +4,7 @@
 #include "ShMath.h"
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
+#include "Entity\Leaf\ShArc.h"
 ShFinder::ShFinder(double x, double y, double zoomRate,ShEntity* *foundEntity)
 	:x(x), y(y), zoomRate(zoomRate),foundEntity(foundEntity) {
 
@@ -15,7 +16,7 @@ ShFinder::~ShFinder() {
 
 void ShFinder::Visit(ShLine *line) {
 
-	double tolerance = 5.0f / this->zoomRate;
+	double tolerance = 5.0 / this->zoomRate;
 
 	ShLineData data = line->GetData();
 
@@ -28,7 +29,7 @@ void ShFinder::Visit(ShLine *line) {
 
 void ShFinder::Visit(ShCircle *circle) {
 
-	double tolerance = 5.0f / this->zoomRate;
+	double tolerance = 5.0 / this->zoomRate;
 
 	ShCircleData data = circle->GetData();
 
@@ -38,5 +39,12 @@ void ShFinder::Visit(ShCircle *circle) {
 }
 
 void ShFinder::Visit(ShArc *arc) {
+
+	double tolerance = 5.0 / this->zoomRate;
+
+	ShArcData data = arc->GetData();
+
+	if (Math::CheckPointLiesOnArcBoundary(ShPoint3d(this->x, this->y), data.center, data.radius, data.startAngle, data.endAngle, tolerance) == true)
+		*this->foundEntity = arc;
 
 }

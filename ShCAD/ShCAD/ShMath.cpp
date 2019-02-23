@@ -129,6 +129,45 @@ bool Math::CheckPointLiesOnCircleBoundary(const ShPoint3d& point, const ShPoint3
 	return false;
 }
 
+bool Math::CheckPointLiesOnArcBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double startAngle, double endAngle, double tolerance) {
+
+	double angle = GetAbsAngle(center.x, center.y, point.x, point.y);
+
+	bool isAngleInside = CheckAngleLiesOnAngleBetween(startAngle, endAngle, angle);
+
+	if (isAngleInside == true) {
+		double x, y;
+		Rotate(360 - angle, center.x, center.y, point.x, point.y, x, y);
+		
+		if (x - tolerance <= center.x + radius &&
+			x + tolerance >= center.x + radius &&
+			y - tolerance <= center.y &&
+			y + tolerance >= center.y) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+bool Math::CheckAngleLiesOnAngleBetween(double startAngle, double endAngle, double angle) {
+
+	if (Compare(endAngle, startAngle) == 1) {
+		if ((Compare(angle, startAngle) == 1 || Compare(startAngle, angle) == 0) &&
+			(Compare(endAngle, angle) == 1 || Compare(angle, endAngle) == 0))
+			return true;
+	}
+	else if (Compare(startAngle, endAngle) == 1 || Compare(startAngle, endAngle) == 0) {
+		if ((Compare(angle, startAngle) == 1 || Compare(angle, startAngle) == 0) && angle <360) 
+			return true;
+		else if (angle >= 0 && (Compare(endAngle, angle) == 1 || Compare(angle, endAngle) == 0)) 
+			return true;
+	}
+
+	return false;
+}
+
 double Math::GetAbsAngle(double centerX, double centerY, double anotherX, double anotherY) {
 
 	double distanceX = fabs(anotherX - centerX);

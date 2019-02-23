@@ -4,6 +4,7 @@
 #include "ShMath.h"
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
+#include "Entity\Leaf\ShArc.h"
 ShHitTester::ShHitTester(double x, double y, double zoomRate, HitPoint &hitPoint, double tolerance)
 	:x(x), y(y), zoomRate(zoomRate), hitPoint(hitPoint), tolerance(tolerance) {
 
@@ -112,6 +113,56 @@ void ShHitTester::Visit(ShCircle *circle) {
 }
 
 void ShHitTester::Visit(ShArc *arc) {
+
+	ShPoint3d center = arc->GetCenter();
+
+	if (this->x >= center.x - (this->tolerance / this->zoomRate) &&
+		this->x <= center.x + (this->tolerance / this->zoomRate) &&
+		this->y >= center.y - (this->tolerance / this->zoomRate) &&
+		this->y <= center.y + (this->tolerance / this->zoomRate)) {
+
+		this->hitPoint = HitPoint::HitCenter;
+		return;
+	}
+
+	ShPoint3d start = arc->GetStart();
+
+	if (this->x >= start.x - (this->tolerance / this->zoomRate) &&
+		this->x <= start.x + (this->tolerance / this->zoomRate) &&
+		this->y >= start.y - (this->tolerance / this->zoomRate) &&
+		this->y <= start.y + (this->tolerance / this->zoomRate)) {
+
+		this->hitPoint = HitPoint::HitStart;
+		return;
+	}
+
+	ShPoint3d end = arc->GetEnd();
+
+	if (this->x >= end.x - (this->tolerance / this->zoomRate) &&
+		this->x <= end.x + (this->tolerance / this->zoomRate) &&
+		this->y >= end.y - (this->tolerance / this->zoomRate) &&
+		this->y <= end.y + (this->tolerance / this->zoomRate)) {
+
+		this->hitPoint = HitPoint::HitEnd;
+		return;
+	}
+
+	ShPoint3d mid = arc->GetMid();
+
+	if (this->x >= mid.x - (this->tolerance / this->zoomRate) &&
+		this->x <= mid.x + (this->tolerance / this->zoomRate) &&
+		this->y >= mid.y - (this->tolerance / this->zoomRate) &&
+		this->y <= mid.y + (this->tolerance / this->zoomRate)) {
+
+		this->hitPoint = HitPoint::HitMid;
+		return;
+	}
+
+	if (Math::CheckPointLiesOnArcBoundary(ShPoint3d(this->x, this->y), center, arc->GetRadius(), arc->GetStartAngle(),
+		arc->GetEndAngle(), tolerance) == true) 
+		this->hitPoint = HitPoint::HitOther;
+	else
+		this->hitPoint = HitPoint::HitNothing;
 
 
 }

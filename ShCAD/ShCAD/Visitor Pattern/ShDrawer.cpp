@@ -353,5 +353,69 @@ void ShSelectedEntityDrawer::Visit(ShCircle *circle) {
 
 void ShSelectedEntityDrawer::Visit(ShArc *arc) {
 
+	ShArcData data = arc->GetData();
+	ShPropertyData propertyData = arc->GetPropertyData();
+
+	GLPoint center;
+	this->ConvertEntityToOpenGL(data.center.x, data.center.y, center.x, center.y);
+
+	double radius;
+	GLPoint centerPlusRadius;
+	this->ConvertEntityToOpenGL(data.center.x + data.radius, data.center.y, centerPlusRadius.x, centerPlusRadius.y);
+
+	radius = Math::GetDistance(center.x, center.y, centerPlusRadius.x, centerPlusRadius.y);
+
+	GLColor color(propertyData.GetColor().GetRed() / 255., propertyData.GetColor().GetGreen() / 255.,
+		propertyData.GetColor().GetBlue() / 255.);
+
+	if (this->drawType == DrawType::DrawSelectedEntities) {
+		//in this case, Draw entity with the background color of view
+		//and Draw entity that represents it is selected.
+
+		if (Math::Compare(data.startAngle, data.endAngle) == 1) {
+			this->DrawArc(center, radius, data.startAngle, 360, GLColor(0, 0, 0));
+			this->DrawArc(center, radius, 0, data.endAngle, GLColor(0, 0, 0));
+		}
+		else
+			this->DrawArc(center, radius, data.startAngle, data.endAngle, GLColor(0, 0, 0));//third argument is the background color of view.
+	}
+
+
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+
+	if (Math::Compare(data.startAngle, data.endAngle) == 1) {
+		this->DrawArc(center, radius, data.startAngle, 360, GLColor(153.f / 255, 153.f / 155, 1.f));
+		this->DrawArc(center, radius, 0, data.endAngle, GLColor(153.f / 255, 153.f / 155, 1.f));
+	}
+	else
+		this->DrawArc(center, radius, data.startAngle, data.endAngle, GLColor(153.f / 255, 153.f / 155, 1.f));
+	
+	glDisable(GL_LINE_STIPPLE);
+
+	int x, y;
+	GLPoint topLeft, bottomRight;
+
+	this->ConvertEntityToDevice(data.center.x, data.center.y, x, y);
+	this->ConvertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	this->ConvertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	this->DrawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	this->ConvertEntityToDevice(arc->GetStart().x, arc->GetStart().y, x, y);
+	this->ConvertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	this->ConvertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	this->DrawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	this->ConvertEntityToDevice(arc->GetEnd().x, arc->GetEnd().y, x, y);
+	this->ConvertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	this->ConvertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	this->DrawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	this->ConvertEntityToDevice(arc->GetMid().x, arc->GetMid().y, x, y);
+	this->ConvertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	this->ConvertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	this->DrawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	
 }
 

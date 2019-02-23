@@ -6,8 +6,9 @@
 #include "ShLeaf.h"
 #include "ShPoint.h"
 
-typedef struct ShCircleData {
+class ShCircleData {
 
+public:
 	ShPoint3d center;
 	double radius;
 	
@@ -17,7 +18,7 @@ typedef struct ShCircleData {
 	bool operator==(const ShCircleData& data);
 	ShCircleData& operator=(const ShCircleData &data);
 
-}ShCircleData;
+};
 
 /* Class for Circle entity */
 

@@ -76,12 +76,16 @@ void ShStretchTemporaryAction::MouseMoveEvent(QMouseEvent *event) {
 
 	QLinkedList<ShEntity*>::iterator itr;
 	QLinkedList<HitPoint>::iterator itrHitPoint = this->hitList.begin();
+	QLinkedList<ShEntity*>::iterator originalItr = this->list.begin();
 
 	for (itr = this->graphicView->preview.Begin();
 		itr != this->graphicView->preview.End();
 		++itr) {
 
 		visitor.SetHitPoint((*itrHitPoint));
+		visitor.SetOrigianlEntity((*originalItr));
+
+		++originalItr;
 		++itrHitPoint;
 		(*itr)->Accept(&visitor);
 	}

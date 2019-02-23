@@ -6,8 +6,9 @@
 #include "ShLeaf.h"
 #include "ShPoint.h"
 
-typedef struct ShArcData {
+class ShArcData {
 
+public:
 	ShPoint3d center;
 	double radius;
 	double startAngle;
@@ -20,7 +21,7 @@ typedef struct ShArcData {
 	bool operator==(const ShArcData& data);
 	ShArcData& operator=(const ShArcData &data);
 
-}ShArcData;
+};
 
 /* Class for Arc entity */
 

@@ -172,7 +172,16 @@ void ShDrawArcMethod_CenterStartEnd::MousePressEvent(QMouseEvent *event, ShSubAc
 		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
 	else if (status = ShDrawArcAction::Status::PickedStart) {
-	
+		
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		ShPoint3d center = previewArc->GetCenter();
+		double endAngle = Math::GetAbsAngle(center.x, center.y, point.x, point.y);
+
+		previewArc->SetEndAngle(endAngle);
+
+		this->AddEntity(previewArc->Clone(), "Arc");
+		this->view->ChangeCurrentAction(ActionType::ActionDefault);
+
 	}
 
 }
