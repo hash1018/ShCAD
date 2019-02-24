@@ -8,12 +8,16 @@ ShStretchEntityCommand::ShStretchEntityCommand(ShGraphicView *view, const QLinke
 	:ShCommand("Stretch Entity"), view(view), entities(entities), hitPoints(hitPoints),
 	previous(previous), current(current) {
 
+	QLinkedList <ShEntity*>::iterator itr;
+	for (itr = this->entities.begin(); itr != this->entities.end(); ++itr)
+		this->originalEntities.append((*itr)->Clone());
 
 }
 
 ShStretchEntityCommand::~ShStretchEntityCommand() {
 
-
+	while (!this->originalEntities.empty())
+		delete this->originalEntities.takeFirst();
 }
 
 
@@ -25,10 +29,13 @@ void ShStretchEntityCommand::Execute() {
 
 	QLinkedList<ShEntity*>::iterator itr;
 	QLinkedList<HitPoint>::iterator itrHitPoint = this->hitPoints.begin();
+	QLinkedList<ShEntity*>::iterator originalItr = this->originalEntities.begin();
 
 	for (itr = this->entities.begin(); itr != this->entities.end(); ++itr) {
 
 		visitor.SetHitPoint((*itrHitPoint));
+		visitor.SetOrigianlEntity((*originalItr));
+		++originalItr;
 		++itrHitPoint;
 		(*itr)->Accept(&visitor);
 	}
@@ -46,10 +53,13 @@ void ShStretchEntityCommand::UnExecute() {
 
 	QLinkedList<ShEntity*>::iterator itr;
 	QLinkedList<HitPoint>::iterator itrHitPoint = this->hitPoints.begin();
+	QLinkedList<ShEntity*>::iterator originalItr = this->originalEntities.begin();
 
 	for (itr = this->entities.begin(); itr != this->entities.end(); ++itr) {
 
 		visitor.SetHitPoint((*itrHitPoint));
+		visitor.SetOrigianlEntity((*originalItr));
+		++originalItr;
 		++itrHitPoint;
 		(*itr)->Accept(&visitor);
 	}

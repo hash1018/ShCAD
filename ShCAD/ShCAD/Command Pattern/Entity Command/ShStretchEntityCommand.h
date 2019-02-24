@@ -18,6 +18,9 @@ private:
 	ShPoint3d previous;
 	ShPoint3d current;
 
+	//store clone entities before taking execution.
+	QLinkedList<ShEntity*> originalEntities;
+
 public:
 	ShStretchEntityCommand(ShGraphicView *view, const QLinkedList<ShEntity*>& entities,
 		const QLinkedList<HitPoint>& hitPoints, const ShPoint3d& previous, const ShPoint3d& current);

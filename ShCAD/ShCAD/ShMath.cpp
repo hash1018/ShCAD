@@ -168,6 +168,38 @@ bool Math::CheckAngleLiesOnAngleBetween(double startAngle, double endAngle, doub
 	return false;
 }
 
+bool Math::GetCenterWithThreePoint(const ShPoint3d& first, const ShPoint3d& second, const ShPoint3d& third, ShPoint3d &center) {
+
+	double dy1, dy2, d, d2, yi;
+	double p1X = ((first.x + second.x) / 2);
+	double p1Y = ((first.y + second.y) / 2);
+	double p2X = ((first.x + third.x) / 2);
+	double p2Y = ((first.y + third.y) / 2);
+	dy1 = first.y - second.y;
+	dy2 = first.y - third.y;
+	//r = 0;
+	if (dy1 != 0) {
+		d = (second.x - first.x) / dy1;
+		yi = p1Y - d * p1X;
+		if (dy2 != 0) {
+			d2 = (third.x - first.x) / dy2;
+			if (d != d2) center.x = (yi - (p2Y - d2 * p2X)) / (d2 - d);
+			else return false;
+		}
+		else if (third.x - first.x == 0) return false;
+		else center.x = p2X;
+	}
+	else if (dy2 != 0 && second.x - first.x != 0) {
+		d = (third.x - first.x) / dy2;
+		yi = p2Y - d * p2X;
+		center.x = p1X;
+	}
+	else return false;
+	center.y = d * (center.x) + yi;
+	//r = sqrt((first.x - (*startX)) * (first.x - (*startX)) + (first.y - (*startY)) * (first.y - (*startY)));
+	return true;
+}
+
 double Math::GetAbsAngle(double centerX, double centerY, double anotherX, double anotherY) {
 
 	double distanceX = fabs(anotherX - centerX);

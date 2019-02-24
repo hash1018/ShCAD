@@ -74,6 +74,7 @@ void ShStretchVisitor::Visit(ShArc *arc) {
 	ShArcData data = arc->GetData();
 
 	if (this->hitPoint == HitPoint::HitCenter) {
+
 		ShPoint3d center = data.center;
 
 		double disX = center.x - this->x;
@@ -82,11 +83,44 @@ void ShStretchVisitor::Visit(ShArc *arc) {
 		center.y -= disY;
 		data.center = center;
 	}
-	else if (this->hitPoint == HitPoint::HitStart) {
+	else if (this->hitPoint == HitPoint::HitStart || 
+		this->hitPoint==HitPoint::HitEnd ||
+		this->hitPoint==HitPoint::HitMid) {
+
 		ShArc *arc = dynamic_cast<ShArc*>(this->origianlEntity);
-		
+		ShPoint3d start = arc->GetStart();
+		ShPoint3d end = arc->GetEnd();
+		ShPoint3d mid = arc->GetMid();
+		ShPoint3d center;
 
+		if (this->hitPoint == HitPoint::HitStart)
+			start = ShPoint3d(this->x, this->y);
+		else if (this->hitPoint == HitPoint::HitEnd)
+			end = ShPoint3d(this->x, this->y);
+		else if (this->hitPoint == HitPoint::HitMid)
+			mid = ShPoint3d(this->x, this->y);
 
+		if (Math::GetCenterWithThreePoint(start, mid, end, center) == false)
+			return;
+
+		double startAngle = Math::GetAbsAngle(center.x, center.y, start.x, start.y);
+		double endAngle = Math::GetAbsAngle(center.x, center.y, end.x, end.y);
+		double midAngle = Math::GetAbsAngle(center.x, center.y, mid.x, mid.y);
+		double radius = Math::GetDistance(center.x, center.y, this->x, this->y);
+
+		data.center = center;
+		data.radius = radius;
+
+		if (Math::CheckAngleLiesOnAngleBetween(startAngle, endAngle, midAngle) == true) {
+			data.startAngle = startAngle;
+			data.endAngle = endAngle;
+		}
+		else {
+			data.startAngle = endAngle;
+			data.endAngle = startAngle;
+		}
 	}
+	
+	arc->SetData(data);
 
 }

@@ -38,7 +38,8 @@ namespace Math {
 	bool CheckPointLiesOnCircleBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double tolerance);
 	bool CheckPointLiesOnArcBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double startAngle, double endAngle, double tolerance);
 	bool CheckAngleLiesOnAngleBetween(double startAngle, double endAngle, double angle);
-
+	
+	bool GetCenterWithThreePoint(const ShPoint3d& first, const ShPoint3d& second, const ShPoint3d& third, ShPoint3d &center);
 	double GetAbsAngle(double centerX, double centerY, double anotherX, double anotherY);
 	void Rotate(double angle, double centerX, double centerY, double anotherX, double anotherY, double &appliedX, double &appliedY);
 
