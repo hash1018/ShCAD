@@ -44,11 +44,14 @@ void ShDrawCircleAction::MouseMoveEvent(QMouseEvent *event) {
 	this->graphicView->update(info.GetDrawType());
 }
 
+#include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
 void ShDrawCircleAction::KeyPressEvent(QKeyEvent *event) {
 
 	if (event->key() == Qt::Key::Key_Escape) {
 
-		this->graphicView->ChangeCurrentAction(ActionType::ActionDefault);
+		ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDefault);
+		this->graphicView->ChangeCurrentAction(strategy);
+		//this->graphicView->ChangeCurrentAction(ActionType::ActionDefault);
 	}
 	else {
 
@@ -165,7 +168,9 @@ void ShDrawCircleMethod_CenterRadius::MousePressEvent(QMouseEvent *event, ShSubA
 		previewCircle->SetRadius(radius);
 
 		this->AddEntity(previewCircle->Clone(), "Circle");
-		this->view->ChangeCurrentAction(ActionType::ActionDefault);
+		//this->view->ChangeCurrentAction(ActionType::ActionDefault);
+		ShChangeCurrentActionCurrentFinished strategy(ActionType::ActionDefault);
+		this->view->ChangeCurrentAction(strategy);
 	}
 
 }

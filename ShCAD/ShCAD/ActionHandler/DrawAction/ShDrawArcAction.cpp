@@ -44,11 +44,14 @@ void ShDrawArcAction::MouseMoveEvent(QMouseEvent *event) {
 	this->graphicView->update(info.GetDrawType());
 }
 
+#include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
 void ShDrawArcAction::KeyPressEvent(QKeyEvent *event) {
 
 	if (event->key() == Qt::Key::Key_Escape) {
 
-		this->graphicView->ChangeCurrentAction(ActionType::ActionDefault);
+		ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDefault);
+		this->graphicView->ChangeCurrentAction(strategy);
+		//this->graphicView->ChangeCurrentAction(ActionType::ActionDefault);
 	}
 	else {
 
@@ -180,7 +183,10 @@ void ShDrawArcMethod_CenterStartEnd::MousePressEvent(QMouseEvent *event, ShSubAc
 		previewArc->SetEndAngle(endAngle);
 
 		this->AddEntity(previewArc->Clone(), "Arc");
-		this->view->ChangeCurrentAction(ActionType::ActionDefault);
+
+		//this->view->ChangeCurrentAction(ActionType::ActionDefault);
+		ShChangeCurrentActionCurrentFinished strategy(ActionType::ActionDefault);
+		this->view->ChangeCurrentAction(strategy);
 
 	}
 

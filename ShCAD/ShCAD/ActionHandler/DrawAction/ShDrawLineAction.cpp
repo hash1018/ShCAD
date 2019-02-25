@@ -67,11 +67,14 @@ void ShDrawLineAction::MouseMoveEvent(QMouseEvent *event) {
 	this->graphicView->update(info.GetDrawType());
 }
 
+#include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
 void ShDrawLineAction::KeyPressEvent(QKeyEvent *event) {
 
 	if (event->key() == Qt::Key::Key_Escape) {
 	
-		this->graphicView->ChangeCurrentAction(ActionType::ActionDefault);
+		ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDefault);
+		this->graphicView->ChangeCurrentAction(strategy);
+		//this->graphicView->ChangeCurrentAction(ActionType::ActionDefault);
 	}
 
 	//else if (event->key() == Qt::Key::Key_F8) {

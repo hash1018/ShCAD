@@ -302,6 +302,7 @@
     <ClCompile Include="Singleton Pattern\ShLineStyleComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
     <ClCompile Include="State Pattern\ShObjectSnapState.cpp" />
+    <ClCompile Include="Strategy Pattern\ShChangeCurrentActionStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp" />
     <ClCompile Include="Visitor Pattern\ShBothPerpendicularVisitor.cpp" />
@@ -582,6 +583,7 @@
     <ClInclude Include="Singleton Pattern\ShLineStyleComboList.h" />
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
     <ClInclude Include="State Pattern\ShObjectSnapState.h" />
+    <ClInclude Include="Strategy Pattern\ShChangeCurrentActionStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewDrawStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.h" />
     <ClInclude Include="Visitor Pattern\ShBothPerpendicularVisitor.h" />

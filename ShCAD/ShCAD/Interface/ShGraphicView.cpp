@@ -183,9 +183,14 @@ void ShGraphicView::wheelEvent(QWheelEvent *event) {
 
 }
 
+#include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
+ActionType ShGraphicView::ChangeCurrentAction(ShChangeCurrentActionStrategy& strategy) {
 
+	strategy.SetView(this);
+	return strategy.Change();
+}
 
-
+/*
 ActionType ShGraphicView::ChangeCurrentAction(ActionType actionType) {
 	qDebug("ShGraphicView->ChangeCurrentAction");
 
@@ -193,21 +198,12 @@ ActionType ShGraphicView::ChangeCurrentAction(ActionType actionType) {
 		this->currentAction->GetType() == ActionType::ActionDefault)
 		return actionType;
 
-	ActionType prev = this->currentAction->GetType();
+	
 
 	if (this->currentAction != NULL)
 		delete this->currentAction;
 
-	if (prev != ActionType::ActionDefault) {
-		ShUpdateListTextEvent event("<Cancel>");
-		this->Notify(&event);
-	}
-
-	ShUpdateCommandEditHeadTitle event2(":: ");
-	this->Notify(&event2);
 	
-
-
 	DrawType drawType = DrawType::DrawCaptureImage;
 
 	if (this->rubberBand != NULL) {
@@ -249,6 +245,7 @@ ActionType ShGraphicView::ChangeCurrentAction(ActionType actionType) {
 
 
 }
+*/
 
 
 void ShGraphicView::CaptureImage() {

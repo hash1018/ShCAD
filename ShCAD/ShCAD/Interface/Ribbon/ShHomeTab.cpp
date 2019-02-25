@@ -63,7 +63,7 @@ void ShDrawColumn::resizeEvent(QResizeEvent *event) {
 
 }
 
-
+#include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
 void ShDrawColumn::LineButtonClicked() {
 	qDebug("LineButtonClicked");
 
@@ -72,8 +72,10 @@ void ShDrawColumn::LineButtonClicked() {
 		return;
 	}
 
-
-	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawLine);
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawLine);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+	
+	//ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawLine);
 
 
 }
@@ -86,7 +88,9 @@ void ShDrawColumn::CircleButtonClicked() {
 		return;
 	}
 
-	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawCircle);
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawCircle);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+	//ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawCircle);
 
 }
 
@@ -98,7 +102,10 @@ void ShDrawColumn::ArcButtonClicked() {
 		return;
 	}
 
-	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawArc);
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawArc);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+	
+	//ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawArc);
 
 }
 

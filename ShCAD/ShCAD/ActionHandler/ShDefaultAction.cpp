@@ -32,6 +32,7 @@
 ShDefaultAction::ShDefaultAction(ShGraphicView *graphicView)
 	:ShActionHandler(graphicView) {
 
+	this->SetActionHeadTitle();
 	this->subDefaultAction = new ShSubDefaultAction_Default(this, this->graphicView);
 }
 

@@ -410,6 +410,9 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawArcAction.cpp">
       <Filter>ActionHandler\DrawAction</Filter>
     </ClCompile>
+    <ClCompile Include="Strategy Pattern\ShChangeCurrentActionStrategy.cpp">
+      <Filter>Strategy Pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -662,6 +665,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\DrawAction\ShDrawArcAction.h">
       <Filter>ActionHandler\DrawAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Strategy Pattern\ShChangeCurrentActionStrategy.h">
+      <Filter>Strategy Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

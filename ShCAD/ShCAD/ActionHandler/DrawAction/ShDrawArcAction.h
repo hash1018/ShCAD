@@ -76,6 +76,8 @@ public:
 protected:
 	inline ShDrawArcAction::Status& GetStatus() const { return this->drawArcAction->status; }
 	void AddEntity(ShEntity *newEntity, const QString& commandText) {
+		delete this->view->rubberBand;
+		this->view->rubberBand = 0;
 		this->drawArcAction->AddEntity(newEntity, commandText);
 	}
 	void SetDrawMethod(ShDrawArcAction::DrawMethod drawMethod) { this->drawArcAction->drawMethod = drawMethod; }

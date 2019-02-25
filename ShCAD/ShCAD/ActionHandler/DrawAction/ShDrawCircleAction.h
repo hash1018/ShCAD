@@ -74,6 +74,8 @@ public:
 protected:
 	inline ShDrawCircleAction::Status& GetStatus() const { return this->drawCircleAction->status; }
 	void AddEntity(ShEntity *newEntity, const QString& commandText) {
+		delete this->view->rubberBand;
+		this->view->rubberBand = 0;
 		this->drawCircleAction->AddEntity(newEntity, commandText);
 	}
 	void SetDrawMethod(ShDrawCircleAction::DrawMethod drawMethod) { this->drawCircleAction->drawMethod = drawMethod; }

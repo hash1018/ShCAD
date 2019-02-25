@@ -41,7 +41,7 @@ class ShRubberBand;
 class ShActionHandler;
 class ShTemporaryAction;
 class ShNotifyEvent;
-
+class ShChangeCurrentActionStrategy;
 
 class ShGraphicViewData {
 	friend class ShGraphicView;
@@ -148,7 +148,8 @@ public:
 	ShGraphicView(QWidget *parent = 0);
 	~ShGraphicView();
 
-	ActionType ChangeCurrentAction(ActionType actionType);
+	ActionType ChangeCurrentAction(ShChangeCurrentActionStrategy& strategy);
+	//ActionType ChangeCurrentAction(ActionType actionType);
 	virtual void update(DrawType drawType = DrawType::DrawAll);
 
 	void CaptureImage();
