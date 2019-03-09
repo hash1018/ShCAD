@@ -25,8 +25,8 @@
 
 #include "ShTemporaryAction.h"
 
-ShTemporaryAction::ShTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction)
-	:ShActionHandler(graphicView), previousAction(previousAction) {
+ShTemporaryAction::ShTemporaryAction(ShGraphicView *graphicView)
+	:ShActionHandler(graphicView), previousAction(0){
 
 }
 
@@ -38,13 +38,14 @@ ShTemporaryAction::~ShTemporaryAction() {
 }
 
 #include "ShNotifyEvent.h"
+#include "ActionHandler\ShActionHandlerManager.h"
 void ShTemporaryAction::ReturnToPrevious() {
 	qDebug("ShTemporaryAction->ReturnToPrevious");
 	
-	this->graphicView->currentAction = this->previousAction;
-	this->graphicView->setCursor(this->graphicView->currentAction->GetCursorShape());
+	this->graphicView->actionHandlerManager->ReplaceAction(this->previousAction);
+	this->graphicView->setCursor(this->graphicView->actionHandlerManager->GetCursorShape());
 
-	ShCurrentActionChangedEvent event(this->graphicView->currentAction->GetType());
+	ShCurrentActionChangedEvent event(this->graphicView->actionHandlerManager->GetType());
 	this->graphicView->Notify(&event);
 
 	this->previousAction = NULL;

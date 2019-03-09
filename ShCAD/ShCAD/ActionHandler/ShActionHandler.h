@@ -35,38 +35,64 @@
 #include "ShVariable.h"
 #include <qobject.h>
 #include "Interface\ShGraphicView.h"
+#include "ShPoint.h"
+#include "ShDraft.h"
+
+class ShActionData {
+	friend class ShActionHandlerManager;
+
+private:
+	ShPoint3d point;
+	ShPoint3d nextPoint;
+	DrawType drawType;
+	bool allowActionHandler;
+
+private:
+	ShActionData() :drawType(DrawType::DrawNone), allowActionHandler(true) {}
+	~ShActionData() {}
+
+public:
+
+	void SetPoint(const ShPoint3d& point) { this->point = point; }
+	void SetNextPoint(const ShPoint3d& point) { this->nextPoint = point; }
+	void SetDrawType(DrawType drawType) { this->drawType = drawType; }
+	void AppendDrawType(DrawType drawType) { this->drawType = (DrawType)(this->drawType | drawType); }
+	void SetAllowActionHandler(bool on) { this->allowActionHandler = on; }
+
+
+	inline ShPoint3d GetPoint() const { return this->point; }
+	inline ShPoint3d GetNextPoint() const { return this->nextPoint; }
+	inline DrawType GetDrawType() const { return this->drawType; }
+	inline bool AllowActionHandler() const { return this->allowActionHandler; }
+	
+};
+
 
 class QMouseEvent;
 class QKeyEvent;
-class ShSubActionHandler;
 class ShActionHandler : public QObject {
 
 protected:
 	ShGraphicView *graphicView;
-	ShSubActionHandler *subActionHandler;
+	
 
 public:
 	ShActionHandler(ShGraphicView *graphicView);
 	virtual ~ShActionHandler() = 0;
 
-	virtual void MousePressEvent(QMouseEvent *event) = 0;
-	virtual void MouseMoveEvent(QMouseEvent *event) = 0;
-	virtual void KeyPressEvent(QKeyEvent *event) = 0;
-	virtual void MouseReleaseEvent(QMouseEvent *event) {}
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data) = 0;
+	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data) = 0;
+	virtual void MouseReleaseEvent(QMouseEvent *event, ShActionData& data) {}
 
 	virtual ActionType GetType() = 0;
 	virtual QCursor GetCursorShape();
 	virtual void Draw(QPainter *painter);
-
-	virtual void SetObjectSnap(ObjectSnap objectSnap) {}
-	virtual void SetOrthogonal();
-	virtual void ChangeSubActionHandler(ShSubActionHandler *subActionHandler);
-	virtual void ApplyOrthogonalShape(bool isOrthogonalModeOn) {}
-	void GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY);
 	
 	//set command Edit headtitle based on specific individual currentAction status.
-	virtual void SetActionHeadTitle() {}
+	//virtual void SetActionHeadTitle() {}
 
+	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
 protected:
 	bool UnSelectSelectedEntities();

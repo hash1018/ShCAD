@@ -18,10 +18,10 @@ ShDrawArcAction::ShDrawArcAction(ShGraphicView *graphicView)
 	ShUpdateCommandEditHeadTitle event2("Arc >> Specify center point: ");
 	this->graphicView->Notify(&event2);
 
-	this->subActionHandler = new ShDrawArcProxy(this, this->graphicView);
+	//this->subActionHandler = new ShDrawArcProxy(this, this->graphicView);
 
-	if (this->graphicView->GetDraftInfomation()->GetOrthogonalMode() == true)
-		this->SetOrthogonal();
+	//if (this->graphicView->GetDraftInfomation()->GetOrthogonalMode() == true)
+	//	this->SetOrthogonal();
 
 }
 
@@ -29,23 +29,23 @@ ShDrawArcAction::~ShDrawArcAction() {
 
 }
 
-void ShDrawArcAction::MousePressEvent(QMouseEvent *event) {
+void ShDrawArcAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
 
-	ShSubActionInfo info;
-	this->subActionHandler->MousePressEvent(event, info);
+	//ShSubActionInfo info;
+	//this->subActionHandler->MousePressEvent(event, info);
 
 }
 
-void ShDrawArcAction::MouseMoveEvent(QMouseEvent *event) {
+void ShDrawArcAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
-	ShSubActionInfo info(DrawType::DrawCaptureImage);
-	this->subActionHandler->MouseMoveEvent(event, info);
+	//ShSubActionInfo info(DrawType::DrawCaptureImage);
+	//this->subActionHandler->MouseMoveEvent(event, info);
 
-	this->graphicView->update(info.GetDrawType());
+	//this->graphicView->update(info.GetDrawType());
 }
 
 #include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
-void ShDrawArcAction::KeyPressEvent(QKeyEvent *event) {
+void ShDrawArcAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 	if (event->key() == Qt::Key::Key_Escape) {
 
@@ -66,9 +66,11 @@ ActionType ShDrawArcAction::GetType() {
 	return ActionType::ActionDrawArc;
 }
 
+/*
 void ShDrawArcAction::ApplyOrthogonalShape(bool isOrthogonalModeOn) {
 
 }
+*/
 
 void ShDrawArcAction::SetActionHeadTitle() {
 
@@ -78,6 +80,7 @@ void ShDrawArcAction::SetActionHeadTitle() {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+/*
 ShDrawArcProxy::ShDrawArcProxy(ShDrawArcAction *drawArcAction, ShGraphicView *view)
 	:ShSubIndividualAction(drawArcAction, view) {
 
@@ -271,3 +274,5 @@ void ShDrawArcMethod_ThreePoint::MousePressEvent(QMouseEvent *event, ShSubAction
 void ShDrawArcMethod_ThreePoint::MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info) {
 
 }
+
+*/

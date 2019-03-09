@@ -39,14 +39,67 @@ public:
 	ShDefaultAction(ShGraphicView *graphicView);
 	~ShDefaultAction();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event);
-	virtual void KeyPressEvent(QKeyEvent *event);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
+	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
 	virtual ActionType GetType();
 
 	void ChangeSubAction(ShSubDefaultAction *subDefaultAction);
 	virtual void SetActionHeadTitle();
 };
+
+
+////////////////////////////////////////////////////////////////////////////
+
+#include "ShPoint.h"
+class ShSubDefaultAction {
+
+protected:
+	ShDefaultAction *defaultAction;
+	ShGraphicView *view;
+
+public:
+	ShSubDefaultAction(ShDefaultAction *defaultAction, ShGraphicView *view);
+	virtual ~ShSubDefaultAction() = 0;
+
+
+	virtual void MousePressEvent(QMouseEvent *event) = 0;
+	virtual void MouseMoveEvent(QMouseEvent *event) = 0;
+
+};
+
+class ShSubDefaultAction_Default : public ShSubDefaultAction {
+
+public:
+	ShSubDefaultAction_Default(ShDefaultAction *defaultAction, ShGraphicView *view);
+	~ShSubDefaultAction_Default();
+
+	void MousePressEvent(QMouseEvent *event);
+	void MouseMoveEvent(QMouseEvent *event);
+
+};
+
+
+// This is the class for preparing for stretching entity.
+class ShSubDefaultAction_MouseIsInEntityVertex : public ShSubDefaultAction {
+
+private:
+	ShPoint3d vertex;
+
+public:
+	ShSubDefaultAction_MouseIsInEntityVertex(ShDefaultAction *defaultAction, ShGraphicView *view,
+		const ShPoint3d& vertex);
+	~ShSubDefaultAction_MouseIsInEntityVertex();
+
+	void MousePressEvent(QMouseEvent *event);
+	void MouseMoveEvent(QMouseEvent *event);
+
+private:
+	void DrawVertex();
+	void EraseVertex();
+
+};
+
 
 #endif //_SHDEFAULTACTION_H

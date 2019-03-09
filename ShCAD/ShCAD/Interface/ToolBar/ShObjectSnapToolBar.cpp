@@ -77,7 +77,7 @@ void ShObjectSnapToolBar::GetIcon(const QString& filePath, QIcon& icon) {
 
 #include "Singleton Pattern\ShWidgetManager.h"
 #include "Interface\ShGraphicView.h"
-#include "ActionHandler\ShActionHandler.h"
+#include "ActionHandler\ShActionHandlerManager.h"
 #include "ShVariable.h"
 void ShObjectSnapToolBar::TemporaryTrackPointClicked() {
 	
@@ -90,7 +90,7 @@ void ShObjectSnapToolBar::EndPointClicked() {
 	ShWidgetManager *manager = ShWidgetManager::GetInstance();
 
 	if (manager->GetActivatedWidget() != 0)
-		manager->GetActivatedWidget()->currentAction->SetObjectSnap(ObjectSnap::ObjectSnapEndPoint);
+		manager->GetActivatedWidget()->actionHandlerManager->SetDisposableObjectSnap(ObjectSnap::ObjectSnapEndPoint);
 
 }
 
@@ -99,7 +99,7 @@ void ShObjectSnapToolBar::MidPointClicked() {
 	ShWidgetManager *manager = ShWidgetManager::GetInstance();
 
 	if (manager->GetActivatedWidget() != 0)
-		manager->GetActivatedWidget()->currentAction->SetObjectSnap(ObjectSnap::ObjectSnapMidPoint);
+		manager->GetActivatedWidget()->actionHandlerManager->SetDisposableObjectSnap(ObjectSnap::ObjectSnapMidPoint);
 }
 
 
@@ -137,5 +137,5 @@ void ShObjectSnapToolBar::PerpendicularClicked() {
 	ShWidgetManager *manager = ShWidgetManager::GetInstance();
 
 	if (manager->GetActivatedWidget() != 0)
-		manager->GetActivatedWidget()->currentAction->SetObjectSnap(ObjectSnap::ObjectSnapPerpendicular);
+		manager->GetActivatedWidget()->actionHandlerManager->SetDisposableObjectSnap(ObjectSnap::ObjectSnapPerpendicular);
 }

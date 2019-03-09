@@ -26,9 +26,9 @@
 #include "ShDragSelectAction.h"
 #include <QMouseEvent>
 #include <qpainter.h>
-ShDragSelectAction::ShDragSelectAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+ShDragSelectAction::ShDragSelectAction(ShGraphicView *graphicView,
 	double firstX, double firstY)
-	:ShTemporaryAction(graphicView, previousAction), firstX(firstX), firstY(firstY), secondX(0), secondY(0) {
+	:ShTemporaryAction(graphicView), firstX(firstX), firstY(firstY), secondX(0), secondY(0) {
 
 	
 }
@@ -39,7 +39,7 @@ ShDragSelectAction::~ShDragSelectAction() {
 
 
 //about to close dragRect , and back to previousAction
-void ShDragSelectAction::MousePressEvent(QMouseEvent *event) {
+void ShDragSelectAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	this->graphicView->setCursor(this->previousAction->GetCursorShape());
 	this->graphicView->update(DrawType::DrawCaptureImage);
@@ -47,13 +47,14 @@ void ShDragSelectAction::MousePressEvent(QMouseEvent *event) {
 	this->ReturnToPrevious();
 }
 
-void ShDragSelectAction::MouseMoveEvent(QMouseEvent *event) {
+void ShDragSelectAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
 	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), this->secondX, this->secondY);
-	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawActionHandler));
+	
+	data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawActionHandler));
 }
 
-void ShDragSelectAction::KeyPressEvent(QKeyEvent *event) {
+void ShDragSelectAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 }
 

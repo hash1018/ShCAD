@@ -36,12 +36,12 @@ private:
 	double secondY;
 
 public:
-	ShDragSelectAction(ShGraphicView *graphicView, ShActionHandler *previousAction, double firstX,double firstY);
+	ShDragSelectAction(ShGraphicView *graphicView, double firstX,double firstY);
 	~ShDragSelectAction();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event);
-	virtual void KeyPressEvent(QKeyEvent *event);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
+	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 	
 
 	virtual ActionType GetType();

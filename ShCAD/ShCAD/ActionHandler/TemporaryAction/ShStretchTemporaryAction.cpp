@@ -8,9 +8,9 @@
 #include "Interface\ShGraphicView.h"
 
 
-ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
-	const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex)
-	:ShTemporaryAction(graphicView, previousAction), list(list), hitList(hitList), vertex(vertex) {
+ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView
+	,const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex)
+	:ShTemporaryAction(graphicView), list(list), hitList(hitList), vertex(vertex) {
 
 	QLinkedList<ShEntity*>::iterator itr;
 
@@ -45,7 +45,7 @@ ShStretchTemporaryAction::~ShStretchTemporaryAction() {
 
 
 #include "Command Pattern\Entity Command\ShStretchEntityCommand.h"
-void ShStretchTemporaryAction::MousePressEvent(QMouseEvent *event) {
+void ShStretchTemporaryAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShPoint3d point;
 	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), point.x, point.y);
@@ -66,7 +66,7 @@ void ShStretchTemporaryAction::MousePressEvent(QMouseEvent *event) {
 
 
 #include "Visitor Pattern\ShStretchVisitor.h"
-void ShStretchTemporaryAction::MouseMoveEvent(QMouseEvent *event) {
+void ShStretchTemporaryAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShPoint3d end;
 	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), end.x, end.y);
@@ -90,12 +90,11 @@ void ShStretchTemporaryAction::MouseMoveEvent(QMouseEvent *event) {
 		(*itr)->Accept(&visitor);
 	}
 
-
-	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage |
-		DrawType::DrawPreviewEntities | DrawType::DrawActionHandler));
+	data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage |
+			DrawType::DrawPreviewEntities | DrawType::DrawActionHandler));
 }
 
-void ShStretchTemporaryAction::KeyPressEvent(QKeyEvent *event) {
+void ShStretchTemporaryAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 	
 	if (event->key() == Qt::Key::Key_Escape) {
 

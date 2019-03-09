@@ -4,7 +4,7 @@
 #define _SHCREATOROBJECTSNAPFACTORY_H
 
 #include "ShVariable.h"
-class ShObjectSnapState;
+class ShObjectSnapStrategy;
 class ShGraphicView;
 class ShCreatorObjectSnapFactory {
 
@@ -12,7 +12,7 @@ public:
 	ShCreatorObjectSnapFactory();
 	~ShCreatorObjectSnapFactory();
 
-	static ShObjectSnapState* Create(ObjectSnap objectSnap, ShGraphicView *view);
+	static ShObjectSnapStrategy* Create(ObjectSnap objectSnap, ShGraphicView *view);
 
 };
 

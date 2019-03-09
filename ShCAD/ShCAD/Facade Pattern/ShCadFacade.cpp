@@ -5,10 +5,8 @@
 #include <qstring.h>
 #include "Command Pattern\ShCommand.h"
 #include "ShNotifyEvent.h"
-#include "ActionHandler\ShActionHandler.h"
+#include "ActionHandler\ShActionHandlerManager.h"
 #include "Command Pattern\Entity Command\ShDeleteEntityCommand.h"
-//#include "Memento Pattern\ShMemento.h"
-
 
 ShCadFacade::ShCadFacade() {
 
@@ -20,7 +18,7 @@ ShCadFacade::~ShCadFacade() {
 
 void ShCadFacade::Undo(ShGraphicView *graphicView) {
 
-	if (graphicView->currentAction->GetType() != ActionType::ActionDefault)
+	if (graphicView->actionHandlerManager->GetType() != ActionType::ActionDefault)
 		return;
 
 
@@ -61,7 +59,7 @@ void ShCadFacade::Undo(ShGraphicView *graphicView) {
 
 void ShCadFacade::Redo(ShGraphicView *graphicView) {
 
-	if (graphicView->currentAction->GetType() != ActionType::ActionDefault)
+	if (graphicView->actionHandlerManager->GetType() != ActionType::ActionDefault)
 		return;
 
 

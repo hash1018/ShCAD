@@ -238,10 +238,10 @@ ShDrawActionHandler::~ShDrawActionHandler() {
 
 }
 
-#include "ActionHandler\ShActionHandler.h"
+#include "ActionHandler\ShActionHandlerManager.h"
 void ShDrawActionHandler::Draw() {
 
-	this->view->currentAction->Draw(this->painter);
+	this->view->actionHandlerManager->Draw(this->painter);
 
 	if (this->strategy != 0)
 		this->strategy->Draw();

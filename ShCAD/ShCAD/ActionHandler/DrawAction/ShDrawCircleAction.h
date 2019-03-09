@@ -31,15 +31,16 @@ public:
 	ShDrawCircleAction(ShGraphicView *graphicView);
 	~ShDrawCircleAction();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event);
-	virtual void KeyPressEvent(QKeyEvent *event);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
+	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
 	virtual ActionType GetType();
-	virtual void ApplyOrthogonalShape(bool isOrthogonalModeOn);
+	//virtual void ApplyOrthogonalShape(bool isOrthogonalModeOn);
 	virtual void SetActionHeadTitle();
 };
 
+/*
 
 #include "ActionHandler\SubActionHandler\ShSubActionHandler.h"
 class ShDrawCircleMethod;
@@ -125,6 +126,8 @@ public:
 	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info);
 
 };
+
+*/
 
 
 #endif //_SHDRAWCIRCLEACTION_H

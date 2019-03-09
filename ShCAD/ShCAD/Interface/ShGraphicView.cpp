@@ -25,7 +25,7 @@
 
 
 #include "ShGraphicView.h"
-#include "FactoryMethod\ShCreatorActionFactory.h"
+#include "ActionHandler\ShActionHandlerManager.h"
 #include "ActionHandler\TemporaryAction\ShPanMoveAction.h"
 #include <QMouseEvent>
 #include "ShMath.h"
@@ -35,9 +35,8 @@
 ShGraphicView::ShGraphicView(QWidget *parent)
 	:QOpenGLWidget(parent){
 
-	this->currentAction = ShCreatorActionFactory::Create(ActionType::ActionDefault, this);
-
-	this->setCursor(this->currentAction->GetCursorShape());
+	this->actionHandlerManager = new ShActionHandlerManager(this, this->draftFlag);
+	this->setCursor(this->actionHandlerManager->GetCursorShape());
 
 	this->setFocusPolicy(Qt::FocusPolicy::ClickFocus);
 	
@@ -55,14 +54,12 @@ ShGraphicView::ShGraphicView(QWidget *parent)
 
 ShGraphicView::~ShGraphicView() {
 
-	if (this->currentAction != NULL)
-		delete this->currentAction;
+	if (this->actionHandlerManager != NULL)
+		delete this->actionHandlerManager;
 
 	if (this->rubberBand != NULL)
 		delete this->rubberBand;
 	
-
-
 	ShWidgetManager::GetInstance()->Remove(this);
 }
 
@@ -110,10 +107,9 @@ void ShGraphicView::mousePressEvent(QMouseEvent *event) {
 	//qDebug("mousePressEvent in ShGraphicView");
 
 	if (event->buttons() & Qt::MiddleButton)
-		this->SetTemporaryAction(new ShPanMoveAction(this, this->currentAction));
+		this->SetTemporaryAction(new ShPanMoveAction(this));
 		
-
-	this->currentAction->MousePressEvent(event);
+	this->actionHandlerManager->MousePressEvent(event);
 
 }
 
@@ -128,19 +124,17 @@ void ShGraphicView::mouseMoveEvent(QMouseEvent *event) {
 	ShMousePositionChangedEvent notifyEvent(this->data.x, this->data.y, this->data.z, this->data.zoomRate);
 	this->Notify(&notifyEvent);
 
-
-	this->currentAction->MouseMoveEvent(event);
+	this->actionHandlerManager->MouseMoveEvent(event);
 }
 
 void ShGraphicView::mouseReleaseEvent(QMouseEvent *event) {
 
-	this->currentAction->MouseReleaseEvent(event);
+	this->actionHandlerManager->MouseReleaseEvent(event);
 }
 
 void ShGraphicView::keyPressEvent(QKeyEvent *event) {
 
-	this->currentAction->KeyPressEvent(event);
-
+	this->actionHandlerManager->KeyPressEvent(event);
 }
 
 
@@ -189,64 +183,6 @@ ActionType ShGraphicView::ChangeCurrentAction(ShChangeCurrentActionStrategy& str
 	strategy.SetView(this);
 	return strategy.Change();
 }
-
-/*
-ActionType ShGraphicView::ChangeCurrentAction(ActionType actionType) {
-	qDebug("ShGraphicView->ChangeCurrentAction");
-
-	if (actionType == ActionType::ActionDefault &&
-		this->currentAction->GetType() == ActionType::ActionDefault)
-		return actionType;
-
-	
-
-	if (this->currentAction != NULL)
-		delete this->currentAction;
-
-	
-	DrawType drawType = DrawType::DrawCaptureImage;
-
-	if (this->rubberBand != NULL) {
-		delete this->rubberBand;
-		this->rubberBand = NULL;
-		drawType = (DrawType)(drawType | DrawType::DrawCaptureImage);
-	}
-
-	if (!this->preview.IsListEmpty()) {
-		this->preview.DeleteAll();
-		drawType = (DrawType)(drawType | DrawType::DrawCaptureImage);
-	}
-
-	if (this->selectedEntityManager.GetSize() > 0) {
-		this->selectedEntityManager.UnSelectAll();
-		drawType = (DrawType)(drawType | DrawType::DrawAll);
-	}
-
-
-	if ((drawType & DrawType::DrawAll) == DrawType::DrawAll) {
-		this->update(DrawType::DrawAll);
-		this->CaptureImage();
-	}
-	else if ((drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage)
-		this->update(DrawType::DrawCaptureImage);
-
-
-
-	this->currentAction = ShCreatorActionFactory::Create(actionType, this);
-	this->setCursor(this->currentAction->GetCursorShape());
-
-
-	ShCurrentActionChangedEvent event3(this->currentAction->GetType());
-	this->Notify(&event3);
-
-
-
-	return this->currentAction->GetType();
-
-
-}
-*/
-
 
 void ShGraphicView::CaptureImage() {
 
@@ -323,37 +259,38 @@ void ShGraphicView::MoveView(double ex, double ey, double zoomRate, int dx, int 
 	this->Notify(&notifyEvent);
 }
 
+
 void ShGraphicView::SetTemporaryAction(ShTemporaryAction *temporaryAction) {
 	qDebug("ShGraphicView->SetTemporaryAction");
 	
-	this->currentAction = temporaryAction;
-	this->setCursor(this->currentAction->GetCursorShape());
+	this->actionHandlerManager->SetTemporaryAction(temporaryAction);
+	this->setCursor(this->actionHandlerManager->GetCursorShape());
 
-	ShCurrentActionChangedEvent event(this->currentAction->GetType());
+	ShCurrentActionChangedEvent event(this->actionHandlerManager->GetType());
 	this->Notify(&event);
 }
 
+
 ActionType ShGraphicView::GetCurrentActionType() {
 
-	return this->currentAction->GetType();
+	return this->actionHandlerManager->GetType();
 }
 
 void ShGraphicView::SetOrthogonalMode() {
 
-	if (draftInfomation.isOrthogonalModeOn == false) {
+	if (this->draftFlag.acceptOrthogonal == false) {
 
 		ShUpdateCommandEditHeadTitle event("<Ortho on> ", ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent);
 		this->Notify(&event);
 
-		draftInfomation.isOrthogonalModeOn = true;
+		this->draftFlag.acceptOrthogonal = true;
 	}
 	else {
 		ShUpdateCommandEditHeadTitle event("<Ortho off> ", ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent);
 		this->Notify(&event);
 
-		draftInfomation.isOrthogonalModeOn = false;
+		this->draftFlag.acceptOrthogonal = false;
 	}
 
-
-	this->currentAction->SetOrthogonal();
+	this->actionHandlerManager->SetDraftFlag(this->draftFlag);
 }

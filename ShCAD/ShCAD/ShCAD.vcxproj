@@ -145,9 +145,9 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
+    <ClCompile Include="ActionHandler\ShActionHandlerManager.cpp" />
+    <ClCompile Include="ActionHandler\ShActionHandlerDecorator.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
-    <ClCompile Include="ActionHandler\SubActionHandler\ShSubActionHandler.cpp" />
-    <ClCompile Include="ActionHandler\SubActionHandler\ShSubDefaultAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShStretchTemporaryAction.cpp" />
@@ -177,6 +177,7 @@
     <ClCompile Include="Entity\ShEntity.cpp" />
     <ClCompile Include="Facade Pattern\ShCadFacade.cpp" />
     <ClCompile Include="FactoryMethod\ShCreatorActionFactory.cpp" />
+    <ClCompile Include="FactoryMethod\ShCreatorActionDecoratorFactory.cpp" />
     <ClCompile Include="FactoryMethod\ShCreatorObjectSnapFactory.cpp" />
     <ClCompile Include="FactoryMethod\ShCreatorViewDrawFactory.cpp" />
     <ClCompile Include="FactoryMethod\ShCreatorViewUpdateFactory.cpp" />
@@ -301,8 +302,8 @@
     <ClCompile Include="Singleton Pattern\ShDraftManager.cpp" />
     <ClCompile Include="Singleton Pattern\ShLineStyleComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
-    <ClCompile Include="State Pattern\ShObjectSnapState.cpp" />
     <ClCompile Include="Strategy Pattern\ShChangeCurrentActionStrategy.cpp" />
+    <ClCompile Include="Strategy Pattern\ShObjectSnapStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp" />
     <ClCompile Include="Visitor Pattern\ShBothPerpendicularVisitor.cpp" />
@@ -340,9 +341,9 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
+    <ClInclude Include="ActionHandler\ShActionHandlerManager.h" />
+    <ClInclude Include="ActionHandler\ShActionHandlerDecorator.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
-    <ClInclude Include="ActionHandler\SubActionHandler\ShSubActionHandler.h" />
-    <ClInclude Include="ActionHandler\SubActionHandler\ShSubDefaultAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShStretchTemporaryAction.h" />
@@ -390,6 +391,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
     </CustomBuild>
+    <ClInclude Include="FactoryMethod\ShCreatorActionDecoratorFactory.h" />
     <ClInclude Include="FactoryMethod\ShCreatorObjectSnapFactory.h" />
     <ClInclude Include="FactoryMethod\ShCreatorViewDrawFactory.h" />
     <ClInclude Include="FactoryMethod\ShCreatorViewUpdateFactory.h" />
@@ -544,6 +546,7 @@
     <ClInclude Include="Interface\ToolBar\ShObjectSnapToolBar.h" />
     <ClInclude Include="ShAxis.h" />
     <ClInclude Include="ShDirectoryManager.h" />
+    <ClInclude Include="ShDraft.h" />
     <ClInclude Include="ShLayer.h" />
     <ClInclude Include="ShLayerTable.h" />
     <ClInclude Include="ShMath.h" />
@@ -582,8 +585,8 @@
     <ClInclude Include="Singleton Pattern\ShDraftManager.h" />
     <ClInclude Include="Singleton Pattern\ShLineStyleComboList.h" />
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
-    <ClInclude Include="State Pattern\ShObjectSnapState.h" />
     <ClInclude Include="Strategy Pattern\ShChangeCurrentActionStrategy.h" />
+    <ClInclude Include="Strategy Pattern\ShObjectSnapStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewDrawStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.h" />
     <ClInclude Include="Visitor Pattern\ShBothPerpendicularVisitor.h" />

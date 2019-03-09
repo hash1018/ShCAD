@@ -9,7 +9,7 @@ class QMouseEvent;
 class ShGraphicView;
 class QPainter;
 class ShEntity;
-class ShObjectSnapState {
+class ShObjectSnapStrategy {
 
 protected:
 	ShGraphicView *view;
@@ -18,8 +18,8 @@ protected:
 	bool isValid;
 
 public:
-	ShObjectSnapState(ShGraphicView *view);
-	virtual ~ShObjectSnapState() = 0;
+	ShObjectSnapStrategy(ShGraphicView *view);
+	virtual ~ShObjectSnapStrategy() = 0;
 
 	virtual bool FindSnapPoint(QMouseEvent *event) = 0;
 
@@ -32,11 +32,11 @@ public:
 	virtual QString GetCommandEditText() = 0;
 };
 
-class ShObjectSnapState_Nothing : public ShObjectSnapState {
+class ShObjectSnapStrategy_Nothing : public ShObjectSnapStrategy {
 
 public:
-	ShObjectSnapState_Nothing(ShGraphicView *view);
-	~ShObjectSnapState_Nothing();
+	ShObjectSnapStrategy_Nothing(ShGraphicView *view);
+	~ShObjectSnapStrategy_Nothing();
 
 	virtual bool FindSnapPoint(QMouseEvent *event);
 
@@ -47,11 +47,11 @@ public:
 };
 
 
-class ShObjectSnapState_EndPoint : public ShObjectSnapState {
+class ShObjectSnapStrategy_EndPoint : public ShObjectSnapStrategy {
 
 public:
-	ShObjectSnapState_EndPoint(ShGraphicView *view);
-	~ShObjectSnapState_EndPoint();
+	ShObjectSnapStrategy_EndPoint(ShGraphicView *view);
+	~ShObjectSnapStrategy_EndPoint();
 
 	virtual bool FindSnapPoint(QMouseEvent *event);
 
@@ -61,11 +61,11 @@ public:
 	virtual QString GetCommandEditText();
 };
 
-class ShObjectSnapState_MidPoint : public ShObjectSnapState {
+class ShObjectSnapStrategy_MidPoint : public ShObjectSnapStrategy {
 
 public:
-	ShObjectSnapState_MidPoint(ShGraphicView *view);
-	~ShObjectSnapState_MidPoint();
+	ShObjectSnapStrategy_MidPoint(ShGraphicView *view);
+	~ShObjectSnapStrategy_MidPoint();
 
 	virtual bool FindSnapPoint(QMouseEvent *event);
 
@@ -76,14 +76,14 @@ public:
 
 };
 
-class ShObjectSnapState_Perpendicular : public ShObjectSnapState {
+class ShObjectSnapStrategy_Perpendicular : public ShObjectSnapStrategy {
 
 private:
 	ShEntity *perpendicularBaseEntity;
 
 public:
-	ShObjectSnapState_Perpendicular(ShGraphicView *view);
-	~ShObjectSnapState_Perpendicular();
+	ShObjectSnapStrategy_Perpendicular(ShGraphicView *view);
+	~ShObjectSnapStrategy_Perpendicular();
 
 	virtual bool FindSnapPoint(QMouseEvent *event);
 	virtual bool FindSnapPoint(QMouseEvent *event, double perpendicularX, double perpendicularY);

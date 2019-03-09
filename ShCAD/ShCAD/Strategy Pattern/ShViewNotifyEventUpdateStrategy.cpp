@@ -43,12 +43,13 @@ ShKeyPressedEventUpdateStrategy::~ShKeyPressedEventUpdateStrategy() {
 
 }
 
-#include "ActionHandler\ShActionHandler.h"
+#include "ActionHandler\ShActionHandlerManager.h"
+#include "Interface\ShGraphicView.h"
 void ShKeyPressedEventUpdateStrategy::Update() {
 
 	ShKeyPressedEvent *event = dynamic_cast<ShKeyPressedEvent*>(this->event);
 
-	this->view->currentAction->KeyPressEvent(event->GetEvent());
+	this->view->actionHandlerManager->KeyPressEvent(event->GetEvent());
 
 }
 

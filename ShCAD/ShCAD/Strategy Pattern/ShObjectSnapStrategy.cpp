@@ -1,17 +1,15 @@
 
 
-#include "ShObjectSnapState.h"
+#include "ShObjectSnapStrategy.h"
 #include <QMouseEvent>
 #include <qpainter.h>
 
-
-
-ShObjectSnapState::ShObjectSnapState(ShGraphicView *view)
+ShObjectSnapStrategy::ShObjectSnapStrategy(ShGraphicView *view)
 	:view(view), isValid(false) {
 
 }
 
-ShObjectSnapState::~ShObjectSnapState() {
+ShObjectSnapStrategy::~ShObjectSnapStrategy() {
 
 }
 
@@ -19,22 +17,22 @@ ShObjectSnapState::~ShObjectSnapState() {
 //////////////////////////////////////////////////////////////////////////
 
 
-ShObjectSnapState_Nothing::ShObjectSnapState_Nothing(ShGraphicView *view)
-	:ShObjectSnapState(view) {
+ShObjectSnapStrategy_Nothing::ShObjectSnapStrategy_Nothing(ShGraphicView *view)
+	:ShObjectSnapStrategy(view) {
 
 }
 
-ShObjectSnapState_Nothing::~ShObjectSnapState_Nothing() {
+ShObjectSnapStrategy_Nothing::~ShObjectSnapStrategy_Nothing() {
 
 }
 
-bool ShObjectSnapState_Nothing::FindSnapPoint(QMouseEvent *event) {
+bool ShObjectSnapStrategy_Nothing::FindSnapPoint(QMouseEvent *event) {
 	
 	
 	return false;
 }
 
-QString ShObjectSnapState_Nothing::GetCommandEditText() {
+QString ShObjectSnapStrategy_Nothing::GetCommandEditText() {
 
 	return QString("");
 }
@@ -46,17 +44,17 @@ QString ShObjectSnapState_Nothing::GetCommandEditText() {
 #include "Visitor Pattern\ShSnapPointFinder.h"
 #include "Interface\ShGraphicView.h"
 #include "Visitor Pattern\ShFinder.h"
-ShObjectSnapState_EndPoint::ShObjectSnapState_EndPoint(ShGraphicView *view)
-	:ShObjectSnapState(view) {
+ShObjectSnapStrategy_EndPoint::ShObjectSnapStrategy_EndPoint(ShGraphicView *view)
+	:ShObjectSnapStrategy(view) {
 
 }
 
-ShObjectSnapState_EndPoint::~ShObjectSnapState_EndPoint() {
+ShObjectSnapStrategy_EndPoint::~ShObjectSnapStrategy_EndPoint() {
 
 }
 
 
-bool ShObjectSnapState_EndPoint::FindSnapPoint(QMouseEvent *event) {
+bool ShObjectSnapStrategy_EndPoint::FindSnapPoint(QMouseEvent *event) {
 
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
@@ -80,7 +78,10 @@ bool ShObjectSnapState_EndPoint::FindSnapPoint(QMouseEvent *event) {
 }
 
 
-void ShObjectSnapState_EndPoint::Draw(QPainter *painter) {
+void ShObjectSnapStrategy_EndPoint::Draw(QPainter *painter) {
+
+	if (this->isValid == false)
+		return;
 
 	if (painter->isActive() == false)
 		painter->begin(this->view);
@@ -100,7 +101,7 @@ void ShObjectSnapState_EndPoint::Draw(QPainter *painter) {
 
 }
 
-QString ShObjectSnapState_EndPoint::GetCommandEditText() {
+QString ShObjectSnapStrategy_EndPoint::GetCommandEditText() {
 
 	return QString("_end point ");
 }
@@ -108,16 +109,16 @@ QString ShObjectSnapState_EndPoint::GetCommandEditText() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-ShObjectSnapState_MidPoint::ShObjectSnapState_MidPoint(ShGraphicView *view)
-	:ShObjectSnapState(view) {
+ShObjectSnapStrategy_MidPoint::ShObjectSnapStrategy_MidPoint(ShGraphicView *view)
+	:ShObjectSnapStrategy(view) {
 
 }
 
-ShObjectSnapState_MidPoint::~ShObjectSnapState_MidPoint() {
+ShObjectSnapStrategy_MidPoint::~ShObjectSnapStrategy_MidPoint() {
 
 }
 
-bool ShObjectSnapState_MidPoint::FindSnapPoint(QMouseEvent *event) {
+bool ShObjectSnapStrategy_MidPoint::FindSnapPoint(QMouseEvent *event) {
 
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
@@ -140,7 +141,7 @@ bool ShObjectSnapState_MidPoint::FindSnapPoint(QMouseEvent *event) {
 
 
 
-void ShObjectSnapState_MidPoint::Draw(QPainter *painter) {
+void ShObjectSnapStrategy_MidPoint::Draw(QPainter *painter) {
 
 	if (painter->isActive() == false)
 		painter->begin(this->view);
@@ -161,7 +162,7 @@ void ShObjectSnapState_MidPoint::Draw(QPainter *painter) {
 	painter->setPen(oldPen);
 }
 
-QString ShObjectSnapState_MidPoint::GetCommandEditText() {
+QString ShObjectSnapStrategy_MidPoint::GetCommandEditText() {
 
 	return QString("_mid point ");
 }
@@ -169,17 +170,17 @@ QString ShObjectSnapState_MidPoint::GetCommandEditText() {
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-ShObjectSnapState_Perpendicular::ShObjectSnapState_Perpendicular(ShGraphicView *view)
-	:ShObjectSnapState(view),perpendicularBaseEntity(0) {
+ShObjectSnapStrategy_Perpendicular::ShObjectSnapStrategy_Perpendicular(ShGraphicView *view)
+	:ShObjectSnapStrategy(view),perpendicularBaseEntity(0) {
 
 }
 
-ShObjectSnapState_Perpendicular::~ShObjectSnapState_Perpendicular() {
+ShObjectSnapStrategy_Perpendicular::~ShObjectSnapStrategy_Perpendicular() {
 
 }
 
 
-bool ShObjectSnapState_Perpendicular::FindSnapPoint(QMouseEvent *event) {
+bool ShObjectSnapStrategy_Perpendicular::FindSnapPoint(QMouseEvent *event) {
 
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
@@ -201,7 +202,7 @@ bool ShObjectSnapState_Perpendicular::FindSnapPoint(QMouseEvent *event) {
 
 }
 
-bool ShObjectSnapState_Perpendicular::FindSnapPoint(QMouseEvent *event, double perpendicularX, double perpendicularY) {
+bool ShObjectSnapStrategy_Perpendicular::FindSnapPoint(QMouseEvent *event, double perpendicularX, double perpendicularY) {
 
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
@@ -226,7 +227,7 @@ bool ShObjectSnapState_Perpendicular::FindSnapPoint(QMouseEvent *event, double p
 
 
 
-void ShObjectSnapState_Perpendicular::Draw(QPainter *painter) {
+void ShObjectSnapStrategy_Perpendicular::Draw(QPainter *painter) {
 	
 	if (painter->isActive() == false)
 		painter->begin(this->view);
@@ -248,7 +249,7 @@ void ShObjectSnapState_Perpendicular::Draw(QPainter *painter) {
 	painter->setPen(oldPen);
 }
 
-QString ShObjectSnapState_Perpendicular::GetCommandEditText() {
+QString ShObjectSnapStrategy_Perpendicular::GetCommandEditText() {
 
 	return QString("_perpendicular to ");
 }

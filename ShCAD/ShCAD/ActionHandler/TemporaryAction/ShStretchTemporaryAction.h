@@ -16,13 +16,13 @@ private:
 	QLinkedList<HitPoint> hitList;
 
 public:
-	ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+	ShStretchTemporaryAction(ShGraphicView *graphicView,
 		const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex);
 	~ShStretchTemporaryAction();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event);
-	virtual void KeyPressEvent(QKeyEvent *event);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
+	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
 	virtual void Draw(QPainter *painter);
 	virtual QCursor GetCursorShape();

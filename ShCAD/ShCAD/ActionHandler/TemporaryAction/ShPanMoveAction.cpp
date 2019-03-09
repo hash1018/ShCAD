@@ -26,8 +26,8 @@
 #include "ShPanMoveAction.h"
 #include "Command Pattern\UI Command\ShMoveViewCommand.h"
 #include <QMouseEvent>
-ShPanMoveAction::ShPanMoveAction(ShGraphicView *graphicView, ShActionHandler *previousAction)
-	:ShTemporaryAction(graphicView, previousAction), prevX(0), prevY(0) {
+ShPanMoveAction::ShPanMoveAction(ShGraphicView *graphicView)
+	:ShTemporaryAction(graphicView), prevX(0), prevY(0) {
 
 }
 
@@ -36,7 +36,7 @@ ShPanMoveAction::~ShPanMoveAction() {
 }
 
 //Pan Move Start here
-void ShPanMoveAction::MousePressEvent(QMouseEvent *event) {
+void ShPanMoveAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
 	qDebug("ShPanMoveAction->MousePressEvent");
 
 	this->graphicView->setCursor(Qt::ClosedHandCursor);
@@ -60,7 +60,7 @@ void ShPanMoveAction::MousePressEvent(QMouseEvent *event) {
 
 }
 
-void ShPanMoveAction::MouseMoveEvent(QMouseEvent *event) {
+void ShPanMoveAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
 	double hPos = this->graphicView->GetHPos();
 	hPos += this->prevX - event->x();
@@ -73,22 +73,22 @@ void ShPanMoveAction::MouseMoveEvent(QMouseEvent *event) {
 
 	this->prevX = event->x();
 	this->prevY = event->y();
-	this->graphicView->update(DrawType::DrawAll);
+
+	data.AppendDrawType(DrawType::DrawAll);
 
 }
 
-void ShPanMoveAction::KeyPressEvent(QKeyEvent *event) {
+void ShPanMoveAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 }
 
 //Pan Move is finished
-void ShPanMoveAction::MouseReleaseEvent(QMouseEvent *event) {
+void ShPanMoveAction::MouseReleaseEvent(QMouseEvent *event, ShActionData& data) {
 	qDebug("ShPanMoveAction->MouseReleaseEvent");
 
 	this->graphicView->setCursor(this->previousAction->GetCursorShape());
 
 	if (event->button()& Qt::MouseButton::MiddleButton) {
-		this->graphicView->update(DrawType::DrawAll);
 		this->graphicView->CaptureImage();
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}

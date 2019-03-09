@@ -36,13 +36,13 @@ private:
 	double prevY;
 
 public:
-	ShPanMoveAction(ShGraphicView *graphicView, ShActionHandler *previousAction);
+	ShPanMoveAction(ShGraphicView *graphicView);
 	~ShPanMoveAction();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event);
-	virtual void KeyPressEvent(QKeyEvent *event);
-	virtual void MouseReleaseEvent(QMouseEvent *event);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
+	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
+	virtual void MouseReleaseEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual ActionType GetType();
 

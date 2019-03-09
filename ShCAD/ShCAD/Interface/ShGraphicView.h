@@ -36,9 +36,10 @@
 #include "ShSelectedEntityManager.h"
 #include "ShAxis.h"
 #include "ShPropertyData.h"
+#include "ShDraft.h"
 
 class ShRubberBand;
-class ShActionHandler;
+class ShActionHandlerManager;
 class ShTemporaryAction;
 class ShNotifyEvent;
 class ShChangeCurrentActionStrategy;
@@ -95,35 +96,12 @@ public:
 
 };
 
-class ShDraftInfomation {
-	friend class ShGraphicView;
-
-private:
-	bool isOrthogonalModeOn;
-
-public:
-	ShDraftInfomation():isOrthogonalModeOn(false) {}
-	~ShDraftInfomation() {}
-
-	//void SetOrthogonalMode(bool on) { this->isOrthogonalModeOn = on; }
-	inline bool GetOrthogonalMode() const { return this->isOrthogonalModeOn; }
-};
-
-
-
-
-
-
-
-
-
-
 
 class ShGraphicView : public QOpenGLWidget {
 
 private:
 	ShGraphicViewData data;
-	ShDraftInfomation draftInfomation;
+	ShDraftFlag draftFlag;
 
 public:
 
@@ -139,7 +117,9 @@ public:
 
 	DrawType drawType;
 	QImage captureImage;
-	ShActionHandler *currentAction;
+	//ShActionHandler *currentAction;
+	ShActionHandlerManager *actionHandlerManager;
+
 	ShRubberBand *rubberBand;
 	ShPreview preview;
 	ShAxis axis;
@@ -149,9 +129,8 @@ public:
 	~ShGraphicView();
 
 	ActionType ChangeCurrentAction(ShChangeCurrentActionStrategy& strategy);
-	//ActionType ChangeCurrentAction(ActionType actionType);
 	virtual void update(DrawType drawType = DrawType::DrawAll);
-
+	
 	void CaptureImage();
 
 	void Notify(ShNotifyEvent *event);
@@ -190,8 +169,6 @@ public:
 	inline ShGraphicViewData* GetData() { return &this->data; }
 	ActionType GetCurrentActionType();
 
-
-	inline ShDraftInfomation* GetDraftInfomation() { return &this->draftInfomation; }
 };
 
 

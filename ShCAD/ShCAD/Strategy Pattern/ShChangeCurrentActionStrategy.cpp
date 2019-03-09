@@ -2,11 +2,10 @@
 #include "ShChangeCurrentActionStrategy.h"
 #include "Interface\ShGraphicView.h"
 #include "ShNotifyEvent.h"
-#include "ActionHandler\ShActionHandler.h"
-//#include "Entity\Leaf\ShRubberBand.h"
+#include "ActionHandler\ShActionHandlerManager.h"
 #include "Entity\Composite\ShPreview.h"
 #include "ShSelectedEntityManager.h"
-#include "FactoryMethod\ShCreatorActionFactory.h"
+
 ShChangeCurrentActionStrategy::ShChangeCurrentActionStrategy(ActionType newActionType)
 	:view(0), newActionType(newActionType) {
 
@@ -19,13 +18,9 @@ ShChangeCurrentActionStrategy::~ShChangeCurrentActionStrategy() {
 ActionType ShChangeCurrentActionStrategy::Change() {
 
 	if (this->newActionType == ActionType::ActionDefault &&
-		this->view->currentAction->GetType() == ActionType::ActionDefault)
+	
+		this->view->actionHandlerManager->GetType() == ActionType::ActionDefault)
 		return this->newActionType;
-
-
-
-	if (this->view->currentAction != NULL)
-		delete this->view->currentAction;
 
 
 	DrawType drawType = DrawType::DrawCaptureImage;
@@ -55,17 +50,14 @@ ActionType ShChangeCurrentActionStrategy::Change() {
 		this->view->update(DrawType::DrawCaptureImage);
 
 
+	this->view->actionHandlerManager->ChangeAction(this->newActionType);
+	this->view->setCursor(this->view->actionHandlerManager->GetCursorShape());
 
-	this->view->currentAction = ShCreatorActionFactory::Create(this->newActionType, this->view);
-	this->view->setCursor(this->view->currentAction->GetCursorShape());
 
-
-	ShCurrentActionChangedEvent event3(this->view->currentAction->GetType());
+	ShCurrentActionChangedEvent event3(this->view->actionHandlerManager->GetType());
 	this->view->Notify(&event3);
 
-
-
-	return this->view->currentAction->GetType();
+	return this->view->actionHandlerManager->GetType();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

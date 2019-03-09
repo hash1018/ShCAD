@@ -18,10 +18,10 @@ ShDrawCircleAction::ShDrawCircleAction(ShGraphicView *graphicView)
 	ShUpdateCommandEditHeadTitle event2("Circle >> Specify center point: ");
 	this->graphicView->Notify(&event2);
 
-	this->subActionHandler = new ShDrawCircleProxy(this, this->graphicView);
+	//this->subActionHandler = new ShDrawCircleProxy(this, this->graphicView);
 
-	if (this->graphicView->GetDraftInfomation()->GetOrthogonalMode() == true)
-		this->SetOrthogonal();
+	//if (this->graphicView->GetDraftInfomation()->GetOrthogonalMode() == true)
+	//	this->SetOrthogonal();
 
 }
 
@@ -29,23 +29,23 @@ ShDrawCircleAction::~ShDrawCircleAction() {
 
 }
 
-void ShDrawCircleAction::MousePressEvent(QMouseEvent *event) {
+void ShDrawCircleAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
 
-	ShSubActionInfo info;
-	this->subActionHandler->MousePressEvent(event, info);
+	//ShSubActionInfo info;
+	//this->subActionHandler->MousePressEvent(event, info);
 	
 }
 
-void ShDrawCircleAction::MouseMoveEvent(QMouseEvent *event) {
+void ShDrawCircleAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
-	ShSubActionInfo info(DrawType::DrawCaptureImage);
-	this->subActionHandler->MouseMoveEvent(event, info);
+	//ShSubActionInfo info(DrawType::DrawCaptureImage);
+	//this->subActionHandler->MouseMoveEvent(event, info);
 
-	this->graphicView->update(info.GetDrawType());
+	//this->graphicView->update(info.GetDrawType());
 }
 
 #include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
-void ShDrawCircleAction::KeyPressEvent(QKeyEvent *event) {
+void ShDrawCircleAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 	if (event->key() == Qt::Key::Key_Escape) {
 
@@ -66,9 +66,11 @@ ActionType ShDrawCircleAction::GetType() {
 	return ActionType::ActionDrawCircle;
 }
 
+/*
 void ShDrawCircleAction::ApplyOrthogonalShape(bool isOrthogonalModeOn) {
 
 }
+*/
 
 void ShDrawCircleAction::SetActionHeadTitle() {
 
@@ -78,6 +80,7 @@ void ShDrawCircleAction::SetActionHeadTitle() {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+/*
 ShDrawCircleProxy::ShDrawCircleProxy(ShDrawCircleAction *drawCircleAction, ShGraphicView *view)
 	:ShSubIndividualAction(drawCircleAction, view) {
 
@@ -264,3 +267,5 @@ void ShDrawCircleMethod_ThreePoint::MousePressEvent(QMouseEvent *event, ShSubAct
 void ShDrawCircleMethod_ThreePoint::MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info) {
 
 }
+
+*/

@@ -33,16 +33,16 @@ public:
 	ShDrawArcAction(ShGraphicView *graphicView);
 	~ShDrawArcAction();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event);
-	virtual void KeyPressEvent(QKeyEvent *event);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
+	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
 	virtual ActionType GetType();
-	virtual void ApplyOrthogonalShape(bool isOrthogonalModeOn);
 	virtual void SetActionHeadTitle();
 };
 
 
+/*
 #include "ActionHandler\SubActionHandler\ShSubActionHandler.h"
 class ShDrawArcMethod;
 class ShDrawArcProxy : public ShSubIndividualAction {
@@ -118,5 +118,5 @@ public:
 
 };
 
-
+*/
 #endif //_SHDRAWARCACTION_H

@@ -24,16 +24,13 @@
 --*/
 
 #include "ShActionHandler.h"
-#include "ActionHandler\SubActionHandler\ShSubActionHandler.h"
+
 ShActionHandler::ShActionHandler(ShGraphicView *graphicView)
-	:graphicView(graphicView), subActionHandler(0) {
+	:graphicView(graphicView) {
 
 }
 
 ShActionHandler::~ShActionHandler() {
-
-	if (this->subActionHandler != 0)
-		delete this->subActionHandler;
 
 }
 
@@ -55,8 +52,7 @@ QCursor ShActionHandler::GetCursorShape() {
 
 void ShActionHandler::Draw(QPainter *painter) {
 
-	if (this->subActionHandler != 0)
-		this->subActionHandler->Draw(painter);
+	
 }
 
 bool ShActionHandler::UnSelectSelectedEntities() {
@@ -71,22 +67,15 @@ bool ShActionHandler::UnSelectSelectedEntities() {
 	return false;
 }
 
-void ShActionHandler::ChangeSubActionHandler(ShSubActionHandler *subActionHandler) {
+void ShActionHandler::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
-	//if (this->subActionHandler != 0)
-	//	delete this->subActionHandler;
+	data.SetAllowOrthogonal(false);
+	data.SetAllowtSnap(false);
 
-	this->subActionHandler = subActionHandler;
 }
 
-void ShActionHandler::SetOrthogonal() {
 
-	if (this->subActionHandler == 0)
-		return;
-
-	this->subActionHandler->Decorate(new ShSubActionDecorator_Orthogonal(this, this->graphicView));
-}
-
+/*
 #include "ShMath.h"
 void ShActionHandler::GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY) {
 
@@ -108,3 +97,4 @@ void ShActionHandler::GetOrthogonal(double x, double y, double mouseX, double mo
 		orthY = y;
 	}
 }
+*/

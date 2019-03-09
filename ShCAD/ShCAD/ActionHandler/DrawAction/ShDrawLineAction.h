@@ -34,7 +34,8 @@ class ShLine;
 class ShDrawLineAction : public ShDrawAction{
 	
 	friend class ShDrawLineMethod;
-	friend class ShSubLineDecorator_SnapMode_Perpendicular;
+	//friend class ShSubLineDecorator_SnapMode_Perpendicular;
+
 public:
 	enum Status {
 		PickedNothing, // no point picked. About to pick start.
@@ -50,69 +51,58 @@ public:
 private:
 	Status status;
 	DrawMethod drawMethod;
+	ShDrawLineMethod *drawLineMethod;
 
 public:
 	ShDrawLineAction(ShGraphicView *graphicView);
 	~ShDrawLineAction();
 
-	virtual void MousePressEvent(QMouseEvent *event);
-	virtual void MouseMoveEvent(QMouseEvent *event);
-	virtual void KeyPressEvent(QKeyEvent *event);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
+	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
-	virtual void SetObjectSnap(ObjectSnap objectSnap);
+	//virtual void SetObjectSnap(ObjectSnap objectSnap);
 	
 	virtual ActionType GetType();
-	inline ShDrawLineAction::Status GetStatus() const { return this->status; }
-	inline ShDrawLineAction::DrawMethod GetDrawMethod() const { return this->drawMethod; }
 
-	virtual void ApplyOrthogonalShape(bool isOrthogonalModeOn);
+	//inline ShDrawLineAction::Status GetStatus() const { return this->status; }
+	//inline ShDrawLineAction::DrawMethod GetDrawMethod() const { return this->drawMethod; }
+
+	//virtual void ApplyOrthogonalShape(bool isOrthogonalModeOn);
 
 	
-	void ApplyLineEndPointToOrthogonal(ShLine *line);
-	void ApplyLineEndPointToMouse(ShLine *line);
+	//void ApplyLineEndPointToOrthogonal(ShLine *line);
+	//void ApplyLineEndPointToMouse(ShLine *line);
 
 	virtual void SetActionHeadTitle();
+	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
+
+	inline Status GetStatus() const { return this->status; }
+	DrawMethod GetDrawMethod() const { return this->drawMethod; }
+
+	void ChangeDrawMethod(DrawMethod drawMethod);
+	ShDrawLineMethod *GetDrawLineMethod() const { return this->drawLineMethod; }
 };
 
-
-#include "ActionHandler\SubActionHandler\ShSubActionHandler.h"
-class ShDrawLineMethod;
-class ShDrawLineProxy : public ShSubIndividualAction {
-
-private:
-	ShDrawLineMethod *drawLineMethod;
-
-public:
-	ShDrawLineProxy(ShDrawLineAction *drawLineAction, ShGraphicView *view);
-	~ShDrawLineProxy();
-
-	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo &info);
-	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo &info);
-
-	void ChangeDrawMethodToPerpendicular(ShEntity *perpendicularBaseEntity);
-	ShEntity* GetPerpendicularBaseEntity();
-};
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 class ShDrawLineMethod {
 
 protected:
 	ShDrawLineAction *drawLineAction;
 	ShGraphicView *view;
-
 public:
 	ShDrawLineMethod(ShDrawLineAction *drawLineAction, ShGraphicView *view);
 	virtual ~ShDrawLineMethod() = 0;
 
-	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo& info) = 0;
-	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info) = 0;
-
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data) = 0;
+	
 protected:
 	inline ShDrawLineAction::Status& GetStatus() const { return this->drawLineAction->status; }
 	void AddEntity(ShEntity *newEntity, const QString& commandText) {
 		this->drawLineAction->AddEntity(newEntity, commandText);
 	}
-	void SetDrawMethod(ShDrawLineAction::DrawMethod drawMethod) { this->drawLineAction->drawMethod = drawMethod; }
-
 };
 
 class ShDrawLineMethod_Default : public ShDrawLineMethod {
@@ -121,11 +111,10 @@ public:
 	ShDrawLineMethod_Default(ShDrawLineAction *drawLineAction, ShGraphicView *view);
 	~ShDrawLineMethod_Default();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo& info);
-	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 };
-
 
 class ShDrawLineMethod_Perpendicular : public ShDrawLineMethod {
 
@@ -133,30 +122,16 @@ private:
 	ShEntity* perpendicularBaseEntity;
 
 public:
-	ShDrawLineMethod_Perpendicular(ShDrawLineAction *drawLineAction, ShGraphicView *view,
-		ShEntity *perpendicularBaseEntity);
+	ShDrawLineMethod_Perpendicular(ShDrawLineAction *drawLineAction, ShGraphicView *view);
 	~ShDrawLineMethod_Perpendicular();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo& info);
-	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	inline ShEntity* GetPerpendicularBaseEntity() const { return this->perpendicularBaseEntity; }
+	void SetPerpendicularBaseEntity(ShEntity *entity) { this->perpendicularBaseEntity = entity; }
 
 };
 
-
-
-
-class ShSubLineDecorator_SnapMode_Perpendicular : public ShSubActionDecorator_SnapMode {
-
-public:
-	ShSubLineDecorator_SnapMode_Perpendicular(ShActionHandler *actionHandler,
-		ShGraphicView *view, ObjectSnap objectSnap);
-	~ShSubLineDecorator_SnapMode_Perpendicular();
-
-	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo &info);
-	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo &info);
-
-};
 
 #endif //_SHDRAWLINEACTION_H

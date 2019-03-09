@@ -40,8 +40,9 @@ protected:
 	ShActionHandler *previousAction;
 
 public:
-	ShTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction);
+	ShTemporaryAction(ShGraphicView *graphicView);
 	virtual ~ShTemporaryAction() = 0;
+	void SetPreviousAction(ShActionHandler *previousAction) { this->previousAction = previousAction; }
 
 protected:
 	void ReturnToPrevious();
