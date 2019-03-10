@@ -4,9 +4,9 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "ShMath.h"
-ShBothPerpendicularVisitor::ShBothPerpendicularVisitor(ShEntity *perpendicularEntity, ShPoint3d &perpendicular,
+ShBothPerpendicularVisitor::ShBothPerpendicularVisitor(ShEntity *secondPerpendicularEntity, ShPoint3d &perpendicular,
 	bool &isValid)
-	:perpendicularEntity(perpendicularEntity), perpendicular(perpendicular), isValid(isValid) {
+	:secondPerpendicularEntity(secondPerpendicularEntity), perpendicular(perpendicular), isValid(isValid) {
 
 }
 
@@ -17,11 +17,13 @@ ShBothPerpendicularVisitor::~ShBothPerpendicularVisitor() {
 void ShBothPerpendicularVisitor::Visit(ShLine *firstPerpendicularLine) {
 
 	ShFirstLinePerpendicularVisitor visitor(firstPerpendicularLine, this->perpendicular, this->isValid);
-	this->perpendicularEntity->Accept(&visitor);
+	this->secondPerpendicularEntity->Accept(&visitor);
 }
 
 void ShBothPerpendicularVisitor::Visit(ShCircle *firstPerpendicularCircle) {
 
+	ShFirstCirclePerpendicularVisitor visitor(firstPerpendicularCircle, this->perpendicular, this->isValid);
+	this->secondPerpendicularEntity->Accept(&visitor);
 }
 
 void ShBothPerpendicularVisitor::Visit(ShArc *firstPerpendicularArc) {
@@ -87,3 +89,32 @@ void ShFirstLinePerpendicularVisitor::Visit(ShArc *secondPerpendicularArc) {
 }
 
 ///////////////////////////////////////////////////////////////////////
+
+ShFirstCirclePerpendicularVisitor::ShFirstCirclePerpendicularVisitor(ShCircle *firstCircle, ShPoint3d &perpendicular, bool &isValid)
+	:firstCircle(firstCircle), perpendicular(perpendicular), isValid(isValid) {
+
+}
+
+ShFirstCirclePerpendicularVisitor::~ShFirstCirclePerpendicularVisitor() {
+
+}
+
+
+void ShFirstCirclePerpendicularVisitor::Visit(ShLine *secondPerpendicularLine) {
+
+	ShPoint3d center = this->firstCircle->GetCenter();
+	
+	ShFootOfPerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, center);
+	secondPerpendicularLine->Accept(&visitor);
+
+	this->isValid = true;
+}
+
+void ShFirstCirclePerpendicularVisitor::Visit(ShCircle *secondPerpendicularCircle) {
+
+}
+
+void ShFirstCirclePerpendicularVisitor::Visit(ShArc *secondPerpendicularArc) {
+
+
+}

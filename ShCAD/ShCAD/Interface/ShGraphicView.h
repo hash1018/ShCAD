@@ -170,6 +170,8 @@ public:
 	ActionType GetCurrentActionType();
 
 	inline ShDraftFlag GetDraftFlag() const { return this->draftFlag; }
+
+	ShPoint3d GetCursorPoint();
 };
 
 

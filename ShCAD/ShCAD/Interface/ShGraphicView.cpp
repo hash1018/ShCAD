@@ -294,3 +294,12 @@ void ShGraphicView::SetOrthogonalMode() {
 
 	this->actionHandlerManager->SetDraftFlag(this->draftFlag);
 }
+
+ShPoint3d ShGraphicView::GetCursorPoint() {
+
+	ShPoint3d mouse;
+	QPoint pos = this->mapFromGlobal(QCursor::pos());
+	this->ConvertDeviceToEntity(pos.x(), pos.y(), mouse.x, mouse.y);
+
+	return mouse;
+}

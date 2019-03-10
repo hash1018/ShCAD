@@ -12,10 +12,10 @@ private:
 	bool &isValid;
 
 	// **this object is the one that perpendicular point needs to be known.
-	ShEntity* perpendicularEntity;
+	ShEntity* secondPerpendicularEntity;
 
 public:
-	ShBothPerpendicularVisitor(ShEntity *perpendicularEntity, ShPoint3d &perpendicular, bool &isValid);
+	ShBothPerpendicularVisitor(ShEntity *secondPerpendicularEntity, ShPoint3d &perpendicular, bool &isValid);
 	~ShBothPerpendicularVisitor();
 
 	virtual void Visit(ShLine *firstPerpendicularLine);
@@ -38,6 +38,24 @@ private:
 
 	ShFirstLinePerpendicularVisitor(ShLine *firstLine, ShPoint3d &perpendicular, bool &isValid);
 	~ShFirstLinePerpendicularVisitor();
+
+	virtual void Visit(ShLine *secondPerpendicularLine);
+	virtual void Visit(ShCircle *secondPerpendicularCircle);
+	virtual void Visit(ShArc *secondPerpendicularArc);
+
+};
+
+class ShFirstCirclePerpendicularVisitor : public ShVisitor {
+
+	friend class ShBothPerpendicularVisitor;
+
+private:
+	ShPoint3d &perpendicular;
+	ShCircle *firstCircle;
+	bool &isValid;
+
+	ShFirstCirclePerpendicularVisitor(ShCircle *firstCircle, ShPoint3d &perpendicular, bool &isValid);
+	~ShFirstCirclePerpendicularVisitor();
 
 	virtual void Visit(ShLine *secondPerpendicularLine);
 	virtual void Visit(ShCircle *secondPerpendicularCircle);

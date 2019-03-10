@@ -28,6 +28,7 @@ public:
 private:
 	Status status;
 	DrawMethod drawMethod;
+	ShDrawArcMethod *drawArcMethod;
 
 public:
 	ShDrawArcAction(ShGraphicView *graphicView);
@@ -38,25 +39,10 @@ public:
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
 	virtual ActionType GetType();
-	virtual void SetActionHeadTitle();
-};
 
-
-/*
-#include "ActionHandler\SubActionHandler\ShSubActionHandler.h"
-class ShDrawArcMethod;
-class ShDrawArcProxy : public ShSubIndividualAction {
-
-private:
-	ShDrawArcMethod *drawArcMethod;
-
-public:
-	ShDrawArcProxy(ShDrawArcAction *drawArcAction, ShGraphicView *view);
-	~ShDrawArcProxy();
-
-	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo &info);
-	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo &info);
-
+	virtual void ApplyOrthogonalShape(bool on);
+	virtual QString GetActionHeadTitle();
+	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 };
 
 
@@ -70,18 +56,22 @@ public:
 	ShDrawArcMethod(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	virtual ~ShDrawArcMethod() = 0;
 
-	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo& info) = 0;
-	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info) = 0;
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data) = 0;
+
+	virtual void ApplyOrthogonalShape(bool on) = 0;
+	virtual QString GetActionHeadTitle() = 0;
+	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data) = 0;
 
 protected:
 	inline ShDrawArcAction::Status& GetStatus() const { return this->drawArcAction->status; }
-	void AddEntity(ShEntity *newEntity, const QString& commandText) {
-		delete this->view->rubberBand;
-		this->view->rubberBand = 0;
-		this->drawArcAction->AddEntity(newEntity, commandText);
+	void AddEntityAndFinish(ShEntity *newEntity, const QString& commandText) {
+		this->drawArcAction->AddEntityAndFinish(newEntity, commandText);
 	}
-	void SetDrawMethod(ShDrawArcAction::DrawMethod drawMethod) { this->drawArcAction->drawMethod = drawMethod; }
-
+	void GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY) {
+		this->drawArcAction->GetOrthogonal(x, y, mouseX, mouseY, orthX, orthY);
+	}
+	
 };
 
 class ShDrawArcMethod_CenterStartEnd : public ShDrawArcMethod {
@@ -90,8 +80,12 @@ public:
 	ShDrawArcMethod_CenterStartEnd(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_CenterStartEnd();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo& info);
-	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
+
+	virtual void ApplyOrthogonalShape(bool on);
+	virtual QString GetActionHeadTitle();
+	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
 };
 
@@ -101,8 +95,12 @@ public:
 	ShDrawArcMethod_StartEndRadius(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartEndRadius();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo& info);
-	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
+
+	virtual void ApplyOrthogonalShape(bool on);
+	virtual QString GetActionHeadTitle();
+	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
 };
 
@@ -113,10 +111,14 @@ public:
 	ShDrawArcMethod_ThreePoint(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_ThreePoint();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShSubActionInfo& info);
-	virtual void MouseMoveEvent(QMouseEvent *event, ShSubActionInfo& info);
+	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
+
+	virtual void ApplyOrthogonalShape(bool on);
+	virtual QString GetActionHeadTitle();
+	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
 };
 
-*/
+
 #endif //_SHDRAWARCACTION_H

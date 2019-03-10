@@ -182,9 +182,7 @@ void ShDrawCircleMethod_CenterRadius::ApplyOrthogonalShape(bool on) {
 
 	ShCircle *circle = dynamic_cast<ShCircle*>((*this->view->preview.Begin()));
 	ShCircleData data = circle->GetData();
-	ShPoint3d mouse;
-	QPoint pos = this->view->mapFromGlobal(QCursor::pos());
-	this->view->ConvertDeviceToEntity(pos.x(), pos.y(), mouse.x, mouse.y);
+	ShPoint3d mouse = this->view->GetCursorPoint();
 
 	if (on == true) {
 		ShPoint3d orth;
@@ -224,10 +222,8 @@ void ShDrawCircleMethod_CenterRadius::IsAllowedDraftOperation(ShAllowedDraftData
 		data.SetAllowOrthogonal(false);
 		data.SetAllowtSnap(true);
 
-		QPoint point = this->view->mapFromGlobal(QCursor::pos());
-		ShPoint3d temp;
-		this->view->ConvertDeviceToEntity(point.x(), point.y(), temp.x, temp.y);
-		data.SetSnapBasePoint(temp);
+		ShPoint3d mouse = this->view->GetCursorPoint();
+		data.SetSnapBasePoint(mouse);
 	}
 	else if (status == ShDrawCircleAction::Status::PickedCenter) {
 		data.SetAllowOrthogonal(true);
