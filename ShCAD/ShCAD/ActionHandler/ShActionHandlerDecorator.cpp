@@ -4,6 +4,7 @@
 #include <QMouseEvent>
 #include "Visitor Pattern\ShSnapPointFinder.h"
 #include "ShMath.h"
+#include "ShNotifyEvent.h"
 ShActionHandlerDecorator::ShActionHandlerDecorator(ShGraphicView *graphicView, ShActionHandler *actionHandler,
 	ShActionHandlerDecorator *child)
 	:graphicView(graphicView), actionHandler(actionHandler), child(child), parent(0) {
@@ -127,6 +128,19 @@ void ShActionHandlerDecorator_DisposableSnap::Draw(QPainter *painter) {
 	ShActionHandlerDecorator_Draft::Draw(painter);
 }
 
+void ShActionHandlerDecorator_DisposableSnap::SendFailedMessage(ObjectSnap objectSnap) {
+	
+	ShUpdateListTextEvent event("");
+	this->graphicView->Notify(&event);
+
+	ShUpdateListTextEvent event2("No snap point found.",
+		ShUpdateListTextEvent::UpdateType::TextWithoutAnything);
+	this->graphicView->Notify(&event2);
+
+	ShUpdateCommandEditHeadTitle event4(this->actionHandler->GetActionHeadTitle());
+	this->graphicView->Notify(&event4);
+
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -148,7 +162,10 @@ void ShActionHandlerDecorator_DisposableSnap_General::MousePressEvent(QMouseEven
 	if (allowedDraftData.AllowSnap() == true) {
 		
 		if (this->objectSnapStrategy->FindSnapPoint(event) == false) {
+			
 			data.SetAllowActionHandler(false);
+			this->SendFailedMessage(this->objectSnapStrategy->GetType());
+
 			return;
 		}
 			
@@ -202,7 +219,10 @@ void ShActionHandlerDecorator_DisposableSnap_Perpendicular::MousePressEvent(QMou
 		
 		if (strategy->FindSnapPoint(event,allowedDraftData.GetSnapBasePoint().x,
 			allowedDraftData.GetSnapBasePoint().y) == false) {
+			
 			data.SetAllowActionHandler(false);
+			this->SendFailedMessage(this->objectSnapStrategy->GetType());
+
 			return;
 		}
 
@@ -257,7 +277,10 @@ void ShDrawLineAction_DisposableSnap_Perpendicular_PickedNothing::MousePressEven
 	if (allowedDraftData.AllowSnap() == true) {
 
 		if (this->objectSnapStrategy->FindSnapPoint(event) == false) {
+			
 			data.SetAllowActionHandler(false);
+			this->SendFailedMessage(this->objectSnapStrategy->GetType());
+
 			return;
 		}
 
@@ -320,9 +343,9 @@ void ShDrawLineAction_DisposableSnap_Per_Per::MousePressEvent(QMouseEvent *event
 
 	if (allowedDraftData.AllowSnap() == true) {
 		if (this->objectSnapStrategy->FindSnapPoint(event) == false) {
+			
 			data.SetAllowActionHandler(false);
-
-			//Fail message.
+			this->SendFailedMessage(this->objectSnapStrategy->GetType());
 
 			return;
 		}
@@ -353,10 +376,18 @@ void ShDrawLineAction_DisposableSnap_Per_Per::MousePressEvent(QMouseEvent *event
 		ShActionHandlerDecorator_DisposableSnap::MousePressEvent(event, data, decoratorData);
 	}
 	else {
-	
 		//Fail message.
-	}
 
+		ShUpdateListTextEvent event2("");
+		this->graphicView->Notify(&event2);
+
+		ShUpdateListTextEvent event3("Line specification not valid.",
+			ShUpdateListTextEvent::UpdateType::TextWithoutAnything);
+		this->graphicView->Notify(&event3);
+
+		ShUpdateCommandEditHeadTitle event4(this->actionHandler->GetActionHeadTitle());
+		this->graphicView->Notify(&event4);
+	}
 
 }
 

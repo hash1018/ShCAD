@@ -89,13 +89,17 @@ public:
 	virtual QCursor GetCursorShape();
 	virtual void Draw(QPainter *painter);
 	
-	//set command Edit headtitle based on specific individual currentAction status.
-	//virtual void SetActionHeadTitle() {}
+	//command Edit headtitle based on specific individual currentAction status.
+	virtual QString GetActionHeadTitle() { return ":: "; }
 
 	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
+	//change individual items when orthogonalMode turned on/off.
+	virtual void ApplyOrthogonalShape(bool on) {}
+
 protected:
 	bool UnSelectSelectedEntities();
+	void GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY);
 
 };
 

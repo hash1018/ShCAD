@@ -25,7 +25,8 @@
 
 #include "ShStatusBar.h"
 #include <qlabel.h>
-#include <qpushbutton.h>
+#include "Singleton Pattern\ShWidgetManager.h"
+#include "Interface\ShGraphicView.h"
 ShStatusBar::ShStatusBar(QWidget *parent)
 	:QStatusBar(parent) {
 
@@ -33,17 +34,13 @@ ShStatusBar::ShStatusBar(QWidget *parent)
 	this->coordinates->setFixedWidth(200);
 	this->addWidget(this->coordinates);
 
-	this->mementoList = new QLabel("Memento", this);
-	this->mementoList->setFixedWidth(200);
-	this->addWidget(this->mementoList);
+	this->orthogonalButton = new ShStatusBarButtonChangeableState("ortho", this);
+	this->orthogonalButton->setShortcut(QKeySequence(Qt::Key::Key_F8));
+
+	this->addWidget(this->orthogonalButton);
 	
-	QPushButton *orthogonal = new QPushButton("ortho", this);
-	orthogonal->setShortcut(QKeySequence(Qt::Key::Key_F8));
 
-	this->addWidget(orthogonal);
-	this->addWidget(new QPushButton("k", this));
-
-	connect(orthogonal, SIGNAL(pressed()), this, SLOT(OrthoClicked()));
+	connect(this->orthogonalButton, SIGNAL(pressed()), this, SLOT(OrthoClicked()));
 
 }
 
@@ -59,8 +56,13 @@ void ShStatusBar::Update(double x, double y, double z, double zoomRate) {
 
 }
 
-#include "Singleton Pattern\ShWidgetManager.h"
-#include "Interface\ShGraphicView.h"
+void ShStatusBar::Update(const ShDraftFlag& draftFlag) {
+
+	this->orthogonalButton->SetState(draftFlag.AcceptOrthogonal());
+
+}
+
+
 void ShStatusBar::OrthoClicked() {
 
 	ShWidgetManager *manager = ShWidgetManager::GetInstance();
@@ -70,4 +72,39 @@ void ShStatusBar::OrthoClicked() {
 	
 	manager->GetActivatedWidget()->SetOrthogonalMode();
 
+	bool state = manager->GetActivatedWidget()->GetDraftFlag().AcceptOrthogonal();
+
+	this->orthogonalButton->SetState(state);
+	
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+ShStatusBarButtonChangeableState::ShStatusBarButtonChangeableState(const QString &text, QWidget *parent)
+	:QPushButton(text, parent), state(false) {
+
+}
+
+ShStatusBarButtonChangeableState::~ShStatusBarButtonChangeableState() {
+
+}
+
+void ShStatusBarButtonChangeableState::SetState(bool on) {
+
+	this->state = on;
+	this->update();
+}
+
+#include <qpainter.h>
+void ShStatusBarButtonChangeableState::paintEvent(QPaintEvent *event) {
+
+	QPushButton::paintEvent(event);
+
+	if (state == false)
+		return;
+
+	QPainter painter(this);
+	painter.fillRect(0, 0, this->width(), this->height(), QColor(000, 153, 255, 125));
 }

@@ -4,7 +4,6 @@
 #define _SHOBJECTSNAPSTATE_H
 
 #include "ShVariable.h"
-#include <qstring.h>
 class QMouseEvent;
 class ShGraphicView;
 class QPainter;
@@ -28,9 +27,9 @@ public:
 
 	inline double GetSnapX() const { return this->snapX; }
 	inline double GetSnapY() const { return this->snapY; }
-
-	virtual QString GetCommandEditText() = 0;
 };
+
+////////////////////////////////////////////////////////////////////////////////////
 
 class ShObjectSnapStrategy_Nothing : public ShObjectSnapStrategy {
 
@@ -42,10 +41,10 @@ public:
 
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapNothing; }
 	virtual void Draw(QPainter *painter) {}
-
-	virtual QString GetCommandEditText();
 };
 
+
+/////////////////////////////////////////////////////////////////////////////////////
 
 class ShObjectSnapStrategy_EndPoint : public ShObjectSnapStrategy {
 
@@ -57,9 +56,9 @@ public:
 
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapEndPoint; }
 	virtual void Draw(QPainter *painter);
-
-	virtual QString GetCommandEditText();
 };
+
+//////////////////////////////////////////////////////////////////////////////////////
 
 class ShObjectSnapStrategy_MidPoint : public ShObjectSnapStrategy {
 
@@ -72,9 +71,39 @@ public:
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapMidPoint; }
 	virtual void Draw(QPainter *painter);
 
-	virtual QString GetCommandEditText();
+};
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+class ShObjectSnapStrategy_Center : public ShObjectSnapStrategy {
+
+public:
+	ShObjectSnapStrategy_Center(ShGraphicView *view);
+	~ShObjectSnapStrategy_Center();
+
+	virtual bool FindSnapPoint(QMouseEvent *event);
+
+	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapCenter; }
+	virtual void Draw(QPainter *painter);
 
 };
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+class ShObjectSnapStrategy_Quadrant : public ShObjectSnapStrategy {
+
+public:
+	ShObjectSnapStrategy_Quadrant(ShGraphicView *view);
+	~ShObjectSnapStrategy_Quadrant();
+
+	virtual bool FindSnapPoint(QMouseEvent *event);
+
+	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapCenter; }
+	virtual void Draw(QPainter *painter);
+
+};
+
+////////////////////////////////////////////////////////////////////////////////////////
 
 class ShObjectSnapStrategy_Perpendicular : public ShObjectSnapStrategy {
 
@@ -91,8 +120,8 @@ public:
 	virtual ObjectSnap GetType() { return ObjectSnap::ObjectSnapPerpendicular; }
 	virtual void Draw(QPainter *painter);
 	inline ShEntity* PerpendicularBaseEntity() const { return this->perpendicularBaseEntity; }
-
-	virtual QString GetCommandEditText();
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
 #endif //_SHOBJECTSNAPSTATE_H

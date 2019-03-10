@@ -12,6 +12,13 @@ ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView
 	,const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex)
 	:ShTemporaryAction(graphicView), list(list), hitList(hitList), vertex(vertex) {
 
+
+	ShUpdateListTextEvent event("_Stretch", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
+	this->graphicView->Notify(&event);
+
+	ShUpdateCommandEditHeadTitle event2("Stretch >> Specify stretch point: ");
+	this->graphicView->Notify(&event2);
+
 	QLinkedList<ShEntity*>::iterator itr;
 
 	for (itr = this->list.begin(); itr != this->list.end(); ++itr)
@@ -47,8 +54,7 @@ ShStretchTemporaryAction::~ShStretchTemporaryAction() {
 #include "Command Pattern\Entity Command\ShStretchEntityCommand.h"
 void ShStretchTemporaryAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
 
-	ShPoint3d point;
-	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), point.x, point.y);
+	ShPoint3d point = data.GetPoint();
 	
 	ShStretchEntityCommand *command = new ShStretchEntityCommand(this->graphicView,
 		this->list, this->hitList, this->vertex, point);
@@ -60,6 +66,13 @@ void ShStretchTemporaryAction::MousePressEvent(QMouseEvent *event, ShActionData&
 	if (!this->graphicView->redoTaker.IsEmpty())
 		this->graphicView->redoTaker.DeleteAll();
 	
+
+	ShUpdateListTextEvent event2("");
+	this->graphicView->Notify(&event2);
+
+	ShUpdateCommandEditHeadTitle event3(this->previousAction->GetActionHeadTitle());
+	this->graphicView->Notify(&event3);
+
 	this->ReturnToPrevious();
 
 }
@@ -68,8 +81,7 @@ void ShStretchTemporaryAction::MousePressEvent(QMouseEvent *event, ShActionData&
 #include "Visitor Pattern\ShStretchVisitor.h"
 void ShStretchTemporaryAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
-	ShPoint3d end;
-	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), end.x, end.y);
+	ShPoint3d end = data.GetPoint();
 	this->graphicView->rubberBand->SetEnd(end);
 
 	ShStretchVisitor visitor(end.x, end.y);
@@ -151,4 +163,57 @@ void ShStretchTemporaryAction::Draw(QPainter *painter) {
 
 	painter->fillRect(dx - 3, dy - 3, 6, 6, QColor(255, 000, 000));
 
+}
+
+
+void ShStretchTemporaryAction::ApplyOrthogonalShape(bool on) {
+
+	ShPoint3d mouse, point;
+	QPoint pos = this->graphicView->mapFromGlobal(QCursor::pos());
+	this->graphicView->ConvertDeviceToEntity(pos.x(), pos.y(), mouse.x, mouse.y);
+
+	if (on == true)
+		this->GetOrthogonal(this->vertex.x, this->vertex.y, mouse.x, mouse.y, point.x, point.y);
+	else
+		point = mouse;
+
+
+	this->graphicView->rubberBand->SetEnd(point);
+
+	ShStretchVisitor visitor(point.x, point.y);
+
+	QLinkedList<ShEntity*>::iterator itr;
+	QLinkedList<HitPoint>::iterator itrHitPoint = this->hitList.begin();
+	QLinkedList<ShEntity*>::iterator originalItr = this->list.begin();
+
+	for (itr = this->graphicView->preview.Begin();
+		itr != this->graphicView->preview.End();
+		++itr) {
+
+		visitor.SetHitPoint((*itrHitPoint));
+		visitor.SetOrigianlEntity((*originalItr));
+
+		++originalItr;
+		++itrHitPoint;
+		(*itr)->Accept(&visitor);
+	}
+
+	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage |
+		DrawType::DrawPreviewEntities | DrawType::DrawActionHandler));
+
+}
+
+
+QString ShStretchTemporaryAction::GetActionHeadTitle() {
+
+	return QString("Stretch >> Specify stretch point: ");
+}
+
+void ShStretchTemporaryAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+
+	data.SetAllowOrthogonal(true);
+	data.SetAllowtSnap(true);
+
+	data.SetOrthogonalBasePoint(this->vertex);
+	data.SetSnapBasePoint(this->vertex);
 }

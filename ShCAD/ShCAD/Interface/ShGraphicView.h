@@ -169,6 +169,7 @@ public:
 	inline ShGraphicViewData* GetData() { return &this->data; }
 	ActionType GetCurrentActionType();
 
+	inline ShDraftFlag GetDraftFlag() const { return this->draftFlag; }
 };
 
 

@@ -18,30 +18,30 @@ public:
 	ShBothPerpendicularVisitor(ShEntity *perpendicularEntity, ShPoint3d &perpendicular, bool &isValid);
 	~ShBothPerpendicularVisitor();
 
-	virtual void Visit(ShLine *line);
-	virtual void Visit(ShCircle *circle);
-	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShLine *firstPerpendicularLine);
+	virtual void Visit(ShCircle *firstPerpendicularCircle);
+	virtual void Visit(ShArc *firstPerpendicularArc);
 
 
 
 };
 
 
-class ShLinePerpendicularVisitor : public ShVisitor {
+class ShFirstLinePerpendicularVisitor : public ShVisitor {
 
 	friend class ShBothPerpendicularVisitor;
 
 private:
 	ShPoint3d &perpendicular;
-	ShLine *baseLine;
+	ShLine *firstLine;
 	bool &isValid;
 
-	ShLinePerpendicularVisitor(ShLine *baseLine, ShPoint3d &perpendicular, bool &isValid);
-	~ShLinePerpendicularVisitor();
+	ShFirstLinePerpendicularVisitor(ShLine *firstLine, ShPoint3d &perpendicular, bool &isValid);
+	~ShFirstLinePerpendicularVisitor();
 
-	virtual void Visit(ShLine *line);
-	virtual void Visit(ShCircle *circle);
-	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShLine *secondPerpendicularLine);
+	virtual void Visit(ShCircle *secondPerpendicularCircle);
+	virtual void Visit(ShArc *secondPerpendicularArc);
 
 };
 

@@ -75,7 +75,7 @@ void ShActionHandler::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 }
 
 
-/*
+
 #include "ShMath.h"
 void ShActionHandler::GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY) {
 
@@ -97,4 +97,3 @@ void ShActionHandler::GetOrthogonal(double x, double y, double mouseX, double mo
 		orthY = y;
 	}
 }
-*/

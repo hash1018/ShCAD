@@ -7,6 +7,7 @@
 #include "ActionHandler\ShActionHandlerDecorator.h"
 #include "ShDraft.h"
 #include <QMouseEvent>
+#include "ShNotifyEvent.h"
 ShActionHandlerManager::ShActionHandlerManager(ShGraphicView *graphicView, const ShDraftFlag& draftFlag)
 	:graphicView(graphicView), draftFlag(draftFlag), disposableSnap(ObjectSnap::ObjectSnapNothing) {
 
@@ -110,25 +111,52 @@ void ShActionHandlerManager::SetDraftFlag(const ShDraftFlag& draftFlag) {
 
 	this->draftFlag = draftFlag;
 	this->ChangeActionDecorator();
+
+	this->currentAction->ApplyOrthogonalShape(draftFlag.AcceptOrthogonal());
 }
 
+#include "FactoryMethod\ShCreatorObjectSnapFactory.h"
 void ShActionHandlerManager::SetDisposableObjectSnap(ObjectSnap objectSnap) {
 
 	
 	ShAllowedDraftData data;
 	this->currentAction->IsAllowedDraftOperation(data);
 
+	QString str = ShCreatorObjectSnapCommandFactory::Create(objectSnap);
+
 	if (data.AllowSnap() == false) {
-
-
+	
+		ShUpdateListTextEvent event(str + "Unknown command.", 
+			ShUpdateListTextEvent::UpdateType::editTextWithText);
+		this->graphicView->Notify(&event);
 
 		return;
 	}
 
-	if (this->disposableSnap != ObjectSnap::ObjectSnapNothing)
+	if (this->disposableSnap != ObjectSnap::ObjectSnapNothing) {
+		
 		this->disposableSnap = ObjectSnap::ObjectSnapNothing;
-	else
+
+		ShUpdateListTextEvent event(str,
+			ShUpdateListTextEvent::UpdateType::editTextWithText);
+		this->graphicView->Notify(&event);
+
+		ShUpdateListTextEvent event2("Invalid point.", 
+			ShUpdateListTextEvent::UpdateType::TextWithoutAnything);
+		this->graphicView->Notify(&event2);
+
+		ShUpdateCommandEditHeadTitle event3(this->currentAction->GetActionHeadTitle());
+		this->graphicView->Notify(&event3);
+	}
+	else {
+
 		this->disposableSnap = objectSnap;
+
+		ShUpdateCommandEditHeadTitle event(str, 
+			ShUpdateCommandEditHeadTitle::UpdateType::AddHeadTitleToCurrent);
+		this->graphicView->Notify(&event);
+	
+	}
 
 	this->ChangeActionDecorator();
 

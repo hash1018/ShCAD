@@ -121,8 +121,12 @@ void ShDrawer::Visit(ShRubberBand *rubberBand) {
 	this->ConvertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
 	this->ConvertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
-	GLColor color(1.0f, 1.0f, 1.0f); 
+	GLColor color(1.0, 153 / 255.0, 51 / 255.0);
+
+	glLineStipple(1, 0x07FF);
+	glEnable(GL_LINE_STIPPLE);
 	this->DrawLine(start, end, color);
+	glDisable(GL_LINE_STIPPLE);
 	
 }
 

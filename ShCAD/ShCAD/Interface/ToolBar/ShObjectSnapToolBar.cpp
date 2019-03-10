@@ -119,11 +119,19 @@ void ShObjectSnapToolBar::ExtensionPointClicked() {
 
 void ShObjectSnapToolBar::CenterPointClicked() {
 
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+	if (manager->GetActivatedWidget() != 0)
+		manager->GetActivatedWidget()->actionHandlerManager->SetDisposableObjectSnap(ObjectSnap::ObjectSnapCenter);
 
 }
 
 void ShObjectSnapToolBar::QuadrantPointClicked() {
 
+	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+
+	if (manager->GetActivatedWidget() != 0)
+		manager->GetActivatedWidget()->actionHandlerManager->SetDisposableObjectSnap(ObjectSnap::ObjectSnapQuadrant);
 
 }
 

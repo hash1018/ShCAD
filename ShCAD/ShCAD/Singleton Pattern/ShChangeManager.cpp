@@ -105,6 +105,7 @@ void ShChangeManager::Notify(ShGraphicView *view, ShNotifyEvent *event) {
 		this->propertyToolBar->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 		this->layerToolBar->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
 		this->layerColumn->Update(dynamic_cast<ShActivatedWidgetChangedEvent*>(event));
+		this->statusBar->Update(view->GetDraftFlag());
 
 	}
 

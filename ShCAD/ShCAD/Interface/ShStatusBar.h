@@ -27,25 +27,46 @@
 #define _SHSTATUSBAR_H
 
 #include <qstatusbar.h>
+#include <qpushbutton.h>
 class QLabel;
 class QAction;
+class ShStatusBarButtonChangeableState;
+class ShDraftFlag;
 class ShStatusBar : public QStatusBar {
 	Q_OBJECT
 
 
 private:
 	QLabel *coordinates;
-	QLabel *mementoList;
+	ShStatusBarButtonChangeableState *orthogonalButton;
 
 public:
 	ShStatusBar(QWidget *parent = 0);
 	~ShStatusBar();
 
 	void Update(double x, double y, double z, double zoomRate);
+	void Update(const ShDraftFlag& draftFlag);
 	
 	
 	private slots:
 	void OrthoClicked();
 };
+
+class ShStatusBarButtonChangeableState : public QPushButton {
+
+public:
+	bool state;
+
+public:
+	ShStatusBarButtonChangeableState(const QString &text, QWidget *parent = 0);
+	~ShStatusBarButtonChangeableState();
+
+	void SetState(bool on);
+	inline bool GetState() const { return this->state; }
+
+protected:
+	void paintEvent(QPaintEvent *event);
+};
+
 
 #endif //_SHSTATUSBAR_H

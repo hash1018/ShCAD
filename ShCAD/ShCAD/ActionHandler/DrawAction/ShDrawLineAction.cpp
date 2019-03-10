@@ -84,67 +84,48 @@ ActionType ShDrawLineAction::GetType() {
 	return ActionType::ActionDrawLine;
 }
 
-/*
 
-void ShDrawLineAction::ApplyOrthogonalShape(bool isOrthogonalModeOn) {
+
+void ShDrawLineAction::ApplyOrthogonalShape(bool on) {
 
 	if (this->drawMethod == ShDrawLineAction::DrawMethod::Perpendicular)
 		return;
 
+	if (this->status == ShDrawLineAction::Status::PickedNothing)
+		return;
 
-	if (isOrthogonalModeOn == true) {
-		if (this->status == ShDrawLineAction::Status::PickedStart) {
-			ShLine *line = dynamic_cast<ShLine*>((*this->graphicView->preview.Begin()));
-			this->ApplyLineEndPointToOrthogonal(line);
-			this->graphicView->update((DrawType)(DrawCaptureImage | DrawPreviewEntities | DrawActionHandler));
-		}
-	}
-	else {
-		if (this->status == ShDrawLineAction::Status::PickedStart) {
-			ShLine *line = dynamic_cast<ShLine*>((*this->graphicView->preview.Begin()));
-			this->ApplyLineEndPointToMouse(line);
-			this->graphicView->update((DrawType)(DrawCaptureImage | DrawPreviewEntities | DrawActionHandler));
-		}
-	}
-}
 
-void ShDrawLineAction::ApplyLineEndPointToOrthogonal(ShLine *line) {
-	
-	ShLineData data = line->GetData();
-	ShPoint3d orth, mouse;
-	QPoint pos = this->graphicView->mapFromGlobal(QCursor::pos());
-
-	this->graphicView->ConvertDeviceToEntity(pos.x(), pos.y(), mouse.x, mouse.y);
-	//this->GetOrthogonal(data.start.x, data.start.y, mouse.x, mouse.y, orth.x, orth.y);
-
-	data.end = orth;
-	line->SetData(data);
-
-}
-
-void ShDrawLineAction::ApplyLineEndPointToMouse(ShLine *line) {
-
+	ShLine *line = dynamic_cast<ShLine*>((*this->graphicView->preview.Begin()));
 	ShLineData data = line->GetData();
 	ShPoint3d mouse;
-
 	QPoint pos = this->graphicView->mapFromGlobal(QCursor::pos());
 	this->graphicView->ConvertDeviceToEntity(pos.x(), pos.y(), mouse.x, mouse.y);
 
-	data.end = mouse;
+	if (on == true) {
+		ShPoint3d orth;
+		this->GetOrthogonal(data.start.x, data.start.y, mouse.x, mouse.y, orth.x, orth.y);
+		data.end = orth;
+	}
+	else
+		data.end = mouse;
+	
+
 	line->SetData(data);
+	this->graphicView->update((DrawType)(DrawCaptureImage | DrawPreviewEntities));
+
 }
-*/
 
-void ShDrawLineAction::SetActionHeadTitle() {
 
-	if (this->status == Status::PickedNothing) {
-		ShUpdateCommandEditHeadTitle event("Line >> Specify first point: ");
-		this->graphicView->Notify(&event);
-	}
-	else {
-		ShUpdateCommandEditHeadTitle event("Line >> Specify next point: ");
-		this->graphicView->Notify(&event);
-	}
+QString ShDrawLineAction::GetActionHeadTitle() {
+
+	QString str;
+
+	if (this->status == Status::PickedNothing)
+		str = "Line >> Specify first point: ";
+	else 
+		str = "Line >> Specify next point: ";
+	
+	return str;
 }
 
 void ShDrawLineAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
@@ -212,8 +193,6 @@ void ShDrawLineMethod_Default::MousePressEvent(QMouseEvent *event, ShActionData&
 	ShDrawLineAction::Status& status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
 	ShPoint3d nextPoint = data.GetNextPoint();
-	//ShPoint3d cursor;
-	//this->view->ConvertDeviceToEntity(event->x(), event->y(), cursor.x, cursor.y);
 
 	if (status == ShDrawLineAction::PickedNothing) {
 
@@ -224,11 +203,11 @@ void ShDrawLineMethod_Default::MousePressEvent(QMouseEvent *event, ShActionData&
 
 		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 
-		ShUpdateListTextEvent event("");
-		this->view->Notify(&event);
-
-		ShUpdateCommandEditHeadTitle event2("Line >> Specify next point: ");
+		ShUpdateListTextEvent event2("");
 		this->view->Notify(&event2);
+
+		ShUpdateCommandEditHeadTitle event3("Line >> Specify next point: ");
+		this->view->Notify(&event3);
 
 	}
 	else if (status == ShDrawLineAction::PickedStart) {
@@ -244,11 +223,11 @@ void ShDrawLineMethod_Default::MousePressEvent(QMouseEvent *event, ShActionData&
 		data = ShLineData(point, nextPoint);
 		prevLine->SetData(data);
 
-		ShUpdateListTextEvent event("");
-		this->view->Notify(&event);
-
-		ShUpdateCommandEditHeadTitle event2("Line >> Specify next point: ");
+		ShUpdateListTextEvent event2("");
 		this->view->Notify(&event2);
+
+		ShUpdateCommandEditHeadTitle event3("Line >> Specify next point: ");
+		this->view->Notify(&event3);
 	}
 }
 
@@ -264,10 +243,6 @@ void ShDrawLineMethod_Default::MouseMoveEvent(QMouseEvent *event, ShActionData& 
 
 		prevLine->SetEnd(point);
 
-		//DrawType drawType = data.GetDrawType();
-		//drawType = (DrawType)(drawType | DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities);
-		//data.SetDrawType(drawType);
-		
 		data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 		
 	}

@@ -32,12 +32,6 @@ bool ShObjectSnapStrategy_Nothing::FindSnapPoint(QMouseEvent *event) {
 	return false;
 }
 
-QString ShObjectSnapStrategy_Nothing::GetCommandEditText() {
-
-	return QString("");
-}
-
-
 ///////////////////////////////////////////////////////////////////////////
 
 
@@ -69,10 +63,6 @@ bool ShObjectSnapStrategy_EndPoint::FindSnapPoint(QMouseEvent *event) {
 	ShSnapPointFinder visitor(ObjectSnap::ObjectSnapEndPoint, x, y, this->snapX, this->snapY, this->isValid);
 	entity->Accept(&visitor);
 
-	//if (this->isValid == true) {
-	//	drawType = (DrawType)(drawType | DrawType::DrawActionHandler | DrawType::DrawCaptureImage);
-	//}
-
 	return this->isValid;
 
 }
@@ -99,11 +89,6 @@ void ShObjectSnapStrategy_EndPoint::Draw(QPainter *painter) {
 
 	painter->setPen(oldPen);
 
-}
-
-QString ShObjectSnapStrategy_EndPoint::GetCommandEditText() {
-
-	return QString("_end point ");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,6 +128,9 @@ bool ShObjectSnapStrategy_MidPoint::FindSnapPoint(QMouseEvent *event) {
 
 void ShObjectSnapStrategy_MidPoint::Draw(QPainter *painter) {
 
+	if (this->isValid == false)
+		return;
+
 	if (painter->isActive() == false)
 		painter->begin(this->view);
 
@@ -162,9 +150,113 @@ void ShObjectSnapStrategy_MidPoint::Draw(QPainter *painter) {
 	painter->setPen(oldPen);
 }
 
-QString ShObjectSnapStrategy_MidPoint::GetCommandEditText() {
+///////////////////////////////////////////////////////////////////////////////////
 
-	return QString("_mid point ");
+ShObjectSnapStrategy_Center::ShObjectSnapStrategy_Center(ShGraphicView *view)
+	:ShObjectSnapStrategy(view) {
+
+}
+
+ShObjectSnapStrategy_Center::~ShObjectSnapStrategy_Center() {
+
+
+}
+
+bool ShObjectSnapStrategy_Center::FindSnapPoint(QMouseEvent *event) {
+
+	double x, y;
+	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
+
+	ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
+
+	if (entity == 0)
+		return false;
+
+	this->isValid = false;
+
+	ShSnapPointFinder visitor(ObjectSnap::ObjectSnapCenter, x, y, this->snapX, this->snapY, this->isValid);
+	entity->Accept(&visitor);
+
+	return this->isValid;
+
+}
+
+void ShObjectSnapStrategy_Center::Draw(QPainter *painter) {
+
+	if (this->isValid == false)
+		return;
+
+	if (painter->isActive() == false)
+		painter->begin(this->view);
+
+	int dx, dy;
+	this->view->ConvertEntityToDevice(this->snapX, this->snapY, dx, dy);
+
+	QPen oldPen = painter->pen();
+	QPen pen;
+	pen.setWidth(2);
+	pen.setColor(QColor(000, 204, 000));
+	painter->setPen(pen);
+
+	painter->drawEllipse(dx - 4, dy - 4, 8, 8);
+
+	painter->setPen(oldPen);
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+ShObjectSnapStrategy_Quadrant::ShObjectSnapStrategy_Quadrant(ShGraphicView *view)
+	:ShObjectSnapStrategy(view) {
+
+}
+
+ShObjectSnapStrategy_Quadrant::~ShObjectSnapStrategy_Quadrant() {
+
+
+}
+
+bool ShObjectSnapStrategy_Quadrant::FindSnapPoint(QMouseEvent *event) {
+
+	double x, y;
+	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
+
+	ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
+
+	if (entity == 0)
+		return false;
+
+	this->isValid = false;
+
+	ShSnapPointFinder visitor(ObjectSnap::ObjectSnapQuadrant, x, y, this->snapX, this->snapY, this->isValid);
+	entity->Accept(&visitor);
+
+	return this->isValid;
+}
+
+void ShObjectSnapStrategy_Quadrant::Draw(QPainter *painter) {
+
+	if (this->isValid == false)
+		return;
+
+	if (painter->isActive() == false)
+		painter->begin(this->view);
+
+	int dx, dy;
+	this->view->ConvertEntityToDevice(this->snapX, this->snapY, dx, dy);
+
+	QPen oldPen = painter->pen();
+	QPen pen;
+	pen.setWidth(2);
+	pen.setColor(QColor(000, 204, 000));
+	painter->setPen(pen);
+
+	painter->drawLine(dx, dy - 4, dx - 4, dy);
+	painter->drawLine(dx - 4, dy, dx, dy + 4);
+	painter->drawLine(dx, dy + 4, dx + 4, dy);
+	painter->drawLine(dx + 4, dy, dx, dy - 4);
+
+	painter->setPen(oldPen);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -229,6 +321,9 @@ bool ShObjectSnapStrategy_Perpendicular::FindSnapPoint(QMouseEvent *event, doubl
 
 void ShObjectSnapStrategy_Perpendicular::Draw(QPainter *painter) {
 	
+	if (this->isValid == false)
+		return;
+
 	if (painter->isActive() == false)
 		painter->begin(this->view);
 
@@ -247,9 +342,4 @@ void ShObjectSnapStrategy_Perpendicular::Draw(QPainter *painter) {
 	painter->drawLine(dx, dy + 4, dx, dy);
 
 	painter->setPen(oldPen);
-}
-
-QString ShObjectSnapStrategy_Perpendicular::GetCommandEditText() {
-
-	return QString("_perpendicular to ");
 }

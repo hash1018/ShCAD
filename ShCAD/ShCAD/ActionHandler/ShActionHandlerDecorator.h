@@ -75,6 +75,9 @@ public:
 	
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	virtual void Draw(QPainter *painter);
+
+protected:
+	void SendFailedMessage(ObjectSnap objectSnap);
 };
 
 //End,Mid,Center,Quadrant

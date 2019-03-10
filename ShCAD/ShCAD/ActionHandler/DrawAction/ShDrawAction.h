@@ -39,6 +39,7 @@ public:
 
 protected:
 	void AddEntity(ShEntity* newEntity, const QString& commandText);
+	void AddEntityAndFinish(ShEntity *newEntity, const QString& commandText);
 	
 
 };

@@ -34,7 +34,6 @@ class ShLine;
 class ShDrawLineAction : public ShDrawAction{
 	
 	friend class ShDrawLineMethod;
-	//friend class ShSubLineDecorator_SnapMode_Perpendicular;
 
 public:
 	enum Status {
@@ -61,27 +60,21 @@ public:
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
-	//virtual void SetObjectSnap(ObjectSnap objectSnap);
-	
 	virtual ActionType GetType();
 
-	//inline ShDrawLineAction::Status GetStatus() const { return this->status; }
-	//inline ShDrawLineAction::DrawMethod GetDrawMethod() const { return this->drawMethod; }
-
-	//virtual void ApplyOrthogonalShape(bool isOrthogonalModeOn);
-
+	virtual void ApplyOrthogonalShape(bool on);
 	
-	//void ApplyLineEndPointToOrthogonal(ShLine *line);
-	//void ApplyLineEndPointToMouse(ShLine *line);
 
-	virtual void SetActionHeadTitle();
+	virtual QString GetActionHeadTitle();
 	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
 	inline Status GetStatus() const { return this->status; }
-	DrawMethod GetDrawMethod() const { return this->drawMethod; }
+	inline DrawMethod GetDrawMethod() const { return this->drawMethod; }
 
 	void ChangeDrawMethod(DrawMethod drawMethod);
 	ShDrawLineMethod *GetDrawLineMethod() const { return this->drawLineMethod; }
+
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

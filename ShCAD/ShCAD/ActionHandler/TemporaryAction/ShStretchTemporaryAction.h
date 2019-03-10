@@ -28,6 +28,10 @@ public:
 	virtual QCursor GetCursorShape();
 	virtual ActionType GetType();
 
+	virtual void ApplyOrthogonalShape(bool on);
+	virtual QString GetActionHeadTitle();
+	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
+
 private:
 	void DrawVertex();
 	void EraseVertex();

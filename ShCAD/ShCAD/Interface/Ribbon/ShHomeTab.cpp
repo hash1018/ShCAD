@@ -75,9 +75,6 @@ void ShDrawColumn::LineButtonClicked() {
 	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawLine);
 	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 	
-	//ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawLine);
-
-
 }
 
 void ShDrawColumn::CircleButtonClicked() {
@@ -90,7 +87,6 @@ void ShDrawColumn::CircleButtonClicked() {
 
 	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawCircle);
 	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
-	//ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawCircle);
 
 }
 
@@ -104,8 +100,6 @@ void ShDrawColumn::ArcButtonClicked() {
 
 	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawArc);
 	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
-	
-	//ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(ActionType::ActionDrawArc);
 
 }
 

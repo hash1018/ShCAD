@@ -2,6 +2,7 @@
 
 #include "ShBothPerpendicularVisitor.h"
 #include "Entity\Leaf\ShLine.h"
+#include "Entity\Leaf\ShCircle.h"
 #include "ShMath.h"
 ShBothPerpendicularVisitor::ShBothPerpendicularVisitor(ShEntity *perpendicularEntity, ShPoint3d &perpendicular,
 	bool &isValid)
@@ -13,39 +14,40 @@ ShBothPerpendicularVisitor::~ShBothPerpendicularVisitor() {
 
 }
 
-void ShBothPerpendicularVisitor::Visit(ShLine *line) {
+void ShBothPerpendicularVisitor::Visit(ShLine *firstPerpendicularLine) {
 
-	ShLinePerpendicularVisitor visitor(line, this->perpendicular, this->isValid);
+	ShFirstLinePerpendicularVisitor visitor(firstPerpendicularLine, this->perpendicular, this->isValid);
 	this->perpendicularEntity->Accept(&visitor);
 }
 
-void ShBothPerpendicularVisitor::Visit(ShCircle *circle) {
+void ShBothPerpendicularVisitor::Visit(ShCircle *firstPerpendicularCircle) {
 
 }
 
-void ShBothPerpendicularVisitor::Visit(ShArc *arc) {
+void ShBothPerpendicularVisitor::Visit(ShArc *firstPerpendicularArc) {
 
 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-ShLinePerpendicularVisitor::ShLinePerpendicularVisitor(ShLine *baseLine, ShPoint3d &perpendicular,
+ShFirstLinePerpendicularVisitor::ShFirstLinePerpendicularVisitor(ShLine *firstLine, ShPoint3d &perpendicular,
 	bool &isValid)
-	:baseLine(baseLine), perpendicular(perpendicular), isValid(isValid) {
+	:firstLine(firstLine), perpendicular(perpendicular), isValid(isValid) {
 
 }
 
-ShLinePerpendicularVisitor::~ShLinePerpendicularVisitor() {
+ShFirstLinePerpendicularVisitor::~ShFirstLinePerpendicularVisitor() {
 
 }
 
 
-void ShLinePerpendicularVisitor::Visit(ShLine *line) {
+void ShFirstLinePerpendicularVisitor::Visit(ShLine *secondPerpendicularLine) {
 	
-	double angle = Math::GetAbsAngle(line->GetStart().x, line->GetStart().y, line->GetEnd().x, line->GetEnd().y);
-	double angle2 = Math::GetAbsAngle(this->baseLine->GetStart().x, this->baseLine->GetStart().y,
-		this->baseLine->GetEnd().x, this->baseLine->GetEnd().y);
+	double angle = Math::GetAbsAngle(secondPerpendicularLine->GetStart().x, secondPerpendicularLine->GetStart().y,
+		secondPerpendicularLine->GetEnd().x, secondPerpendicularLine->GetEnd().y);
+	double angle2 = Math::GetAbsAngle(this->firstLine->GetStart().x, this->firstLine->GetStart().y,
+		this->firstLine->GetEnd().x, this->firstLine->GetEnd().y);
 
 
 
@@ -60,11 +62,28 @@ void ShLinePerpendicularVisitor::Visit(ShLine *line) {
 	this->isValid = false;
 }
 
-void ShLinePerpendicularVisitor::Visit(ShCircle *circle) {
+#include "Visitor Pattern\ShFootOfPerpendicularVisitor.h"
+void ShFirstLinePerpendicularVisitor::Visit(ShCircle *secondPerpendicularCircle) {
+
+	ShPoint3d center = secondPerpendicularCircle->GetCenter();
+	double radius = secondPerpendicularCircle->GetRadius();
+
+	ShPoint3d point;
+	ShFootOfPerpendicularVisitor visitor(point.x, point.y, center);
+	this->firstLine->Accept(&visitor);
+
+
+	double angle = Math::GetAbsAngle(center.x, center.y, point.x, point.y);
+	Math::Rotate(angle, center.x, center.y, center.x + radius, center.y, this->perpendicular.x, this->perpendicular.y);
+
+
+	this->isValid = true;
 
 }
 
-void ShLinePerpendicularVisitor::Visit(ShArc *arc) {
+void ShFirstLinePerpendicularVisitor::Visit(ShArc *secondPerpendicularArc) {
 
 
 }
+
+///////////////////////////////////////////////////////////////////////

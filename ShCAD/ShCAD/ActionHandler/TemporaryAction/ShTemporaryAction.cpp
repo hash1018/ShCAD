@@ -24,7 +24,6 @@
 --*/
 
 #include "ShTemporaryAction.h"
-
 ShTemporaryAction::ShTemporaryAction(ShGraphicView *graphicView)
 	:ShActionHandler(graphicView), previousAction(0){
 

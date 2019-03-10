@@ -16,4 +16,16 @@ public:
 
 };
 
+
+#include <qstring.h>
+
+class ShCreatorObjectSnapCommandFactory {
+
+public:
+	ShCreatorObjectSnapCommandFactory();
+	~ShCreatorObjectSnapCommandFactory();
+
+	static QString Create(ObjectSnap objectSnap);
+};
+
 #endif //_SHCREATOROBJECTSNAPFACTORY_H

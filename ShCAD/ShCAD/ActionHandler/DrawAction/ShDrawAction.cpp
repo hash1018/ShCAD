@@ -58,3 +58,25 @@ void ShDrawAction::AddEntity(ShEntity* newEntity,const QString& commandText) {
 
 
 }
+
+#include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
+void ShDrawAction::AddEntityAndFinish(ShEntity *newEntity, const QString& commandText) {
+
+	this->graphicView->entityTable.Add(newEntity);
+	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
+	this->graphicView->CaptureImage();
+
+
+	ShAddEntityCommand *command = new ShAddEntityCommand(this->graphicView, newEntity, commandText);
+
+	this->graphicView->undoTaker.Push(command);
+
+	if (!this->graphicView->redoTaker.IsEmpty())
+		this->graphicView->redoTaker.DeleteAll();
+
+
+	ShChangeCurrentActionCurrentFinished strategy(ActionType::ActionDefault);
+	this->graphicView->ChangeCurrentAction(strategy);
+
+
+}

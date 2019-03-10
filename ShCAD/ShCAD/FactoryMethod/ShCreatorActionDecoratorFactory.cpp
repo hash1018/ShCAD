@@ -59,13 +59,11 @@ ShActionHandlerDecorator* ShCreatorActionDecoratorFactory::Create(ShGraphicView 
 			
 				decorator = new ShDrawLineAction_DisposableSnap_Per_Per(view, actionHandler, decorator);
 			}
-
-		
 		}
-
-
-
-
+		else {
+			decorator = new ShActionHandlerDecorator_DisposableSnap_Perpendicular(view,
+				actionHandler, decorator);
+		}
 	}
 
 
