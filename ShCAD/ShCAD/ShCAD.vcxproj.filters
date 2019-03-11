@@ -239,12 +239,6 @@
     <ClCompile Include="Interface\Items\ShCustomizedWidget.cpp">
       <Filter>Interface\Items</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ShCustomizedWidget.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ShCustomizedWidget.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_ShColorComboBox.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -409,6 +403,12 @@
     </ClCompile>
     <ClCompile Include="Visitor Pattern\ShLinePerpendicularVisitor.cpp">
       <Filter>Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShCustomizedWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShCustomizedWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

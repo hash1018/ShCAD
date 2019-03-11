@@ -30,10 +30,11 @@
 class ShButtonWithMenuPopup : public QWidget {
 	Q_OBJECT
 
-private:	
+private:
 	class ShButton : public QPushButton {
 	public:
 		bool hoverMovedIn;
+		bool hoverStayed;
 		ShButton(QWidget *parent = 0);
 		~ShButton();
 
@@ -44,14 +45,13 @@ private:
 	class ShMenuPopupButton : public QPushButton {
 	public:
 		bool hoverMovedIn;
+		bool hoverStayed;
 		ShMenuPopupButton(QWidget *parent = 0);
 		~ShMenuPopupButton();
 	protected:
 		void paintEvent(QPaintEvent *event);
 
 	};
-
-
 
 private:
 	ShButtonWithMenuPopup::ShButton *button;
@@ -72,8 +72,26 @@ private:
 	void ButtonClicked();
 
 protected:
-	void resizeEvent(QResizeEvent *event);
-	bool eventFilter(QObject *obj, QEvent *event);
+	virtual void resizeEvent(QResizeEvent *event);
+	virtual bool eventFilter(QObject *obj, QEvent *event);
+	virtual void leaveEvent(QEvent *event);
+};
+
+
+
+class ShButton : public QPushButton {
+
+private:
+	bool hoverStayed;
+
+public:
+	ShButton(QWidget *parent = 0);
+	~ShButton();
+
+protected:
+	virtual void enterEvent(QEvent* event);
+	virtual void leaveEvent(QEvent *event);
+	virtual void paintEvent(QPaintEvent *event);
 };
 
 #endif //_SHCUSTOMIZEDWIDGET_H

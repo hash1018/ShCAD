@@ -66,7 +66,8 @@ class ShPropertyColumn : public ShColumnInRibbonTab {
 	Q_OBJECT
 
 private:
-	QPushButton *colorCustomButton;
+	//QPushButton *colorCustomButton;
+	ShButton *colorCustomButton;
 	ShColorComboBox *colorCombo;
 
 	ShLineStyleComboBox *lineStyleCombo;

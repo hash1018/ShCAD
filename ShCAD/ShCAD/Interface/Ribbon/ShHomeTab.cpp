@@ -119,8 +119,8 @@ void ShDrawColumn::InitLineButton() {
 	this->lineButton->SetIcon(icon);
 
 	QMenu *menu = new QMenu(this->lineButton);
-	menu->addAction("sdsad");
-	menu->addAction("kkkk");
+	menu->addAction("Construction Line");
+	menu->addAction("Ray");
 	this->lineButton->SetMenu(menu);
 
 
@@ -187,10 +187,11 @@ ShPropertyColumn::ShPropertyColumn(QWidget *parent, const QString &title, int wi
 	manager->Register(this);
 
 
-	this->colorCustomButton = new QPushButton(this);
-	this->colorCustomButton->setStyleSheet("QPushButton {background : transparent}"
-		"QPushButton:hover {background :lightSkyBlue}"
-		"QPushButton:pressed {background : steelBlue}");
+	//this->colorCustomButton = new QPushButton(this);
+	//this->colorCustomButton->setStyleSheet("QPushButton {background : transparent}"
+	//	"QPushButton:hover {background :lightSkyBlue}"
+		//"QPushButton:pressed {background : steelBlue}");
+	this->colorCustomButton = new ShButton(this);
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	QPixmap pix(path + "\\SelectColor.png");
