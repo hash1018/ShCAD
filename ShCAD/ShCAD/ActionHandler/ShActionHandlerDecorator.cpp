@@ -185,6 +185,8 @@ void ShActionHandlerDecorator_DisposableSnap_General::MouseMoveEvent(QMouseEvent
 	if (allowedDraftData.AllowSnap() == true) {
 		if (this->objectSnapStrategy->FindSnapPoint(event) == true)
 			data.AppendDrawType((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
+		else
+			data.AppendDrawType((DrawType)DrawType::DrawCaptureImage);
 	}
 
 
@@ -247,6 +249,8 @@ void ShActionHandlerDecorator_DisposableSnap_Perpendicular::MouseMoveEvent(QMous
 		if (strategy->FindSnapPoint(event, allowedDraftData.GetSnapBasePoint().x,
 			allowedDraftData.GetSnapBasePoint().y) == true)
 			data.AppendDrawType((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
+		else
+			data.AppendDrawType((DrawType)DrawType::DrawCaptureImage);
 	}
 
 	ShActionHandlerDecorator_DisposableSnap::MouseMoveEvent(event, data, decoratorData);
@@ -314,6 +318,8 @@ void ShDrawLineAction_DisposableSnap_Perpendicular_PickedNothing::MouseMoveEvent
 	if (allowedDraftData.AllowSnap() == true) {
 		if (this->objectSnapStrategy->FindSnapPoint(event) == true)
 			data.AppendDrawType((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
+		else
+			data.AppendDrawType((DrawType)DrawType::DrawCaptureImage);
 	}
 
 	ShActionHandlerDecorator_DisposableSnap::MouseMoveEvent(event, data, decoratorData);
@@ -334,7 +340,7 @@ ShDrawLineAction_DisposableSnap_Per_Per::~ShDrawLineAction_DisposableSnap_Per_Pe
 
 }
 
-#include "Visitor Pattern\ShBothPerpendicularVisitor.h"
+#include "Visitor Pattern\ShLineBothPerpendicularVisitor.h"
 void ShDrawLineAction_DisposableSnap_Per_Per::MousePressEvent(QMouseEvent *event, ShActionData& data,
 	ShActionDecoratorData &decoratorData) {
 
@@ -368,7 +374,7 @@ void ShDrawLineAction_DisposableSnap_Per_Per::MousePressEvent(QMouseEvent *event
 	point.x = strategy->GetSnapX();
 	point.y = strategy->GetSnapY();
 
-	ShBothPerpendicularVisitor visitor(strategy->PerpendicularBaseEntity(), point, isValid);
+	ShLineBothPerpendicularVisitor visitor(strategy->PerpendicularBaseEntity(), point, isValid);
 	drawLineMethod->GetPerpendicularBaseEntity()->Accept(&visitor);
 
 	if (isValid == true) {
@@ -399,6 +405,8 @@ void ShDrawLineAction_DisposableSnap_Per_Per::MouseMoveEvent(QMouseEvent *event,
 	if (allowedDraftData.AllowSnap() == true) {
 		if (this->objectSnapStrategy->FindSnapPoint(event) == true)
 			data.AppendDrawType((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
+		else
+			data.AppendDrawType((DrawType)DrawType::DrawCaptureImage);
 	}
 
 	ShActionHandlerDecorator_DisposableSnap::MouseMoveEvent(event, data, decoratorData);

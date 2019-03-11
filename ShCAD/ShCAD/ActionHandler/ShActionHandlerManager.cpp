@@ -75,6 +75,8 @@ void ShActionHandlerManager::ChangeAction(ActionType actionType) {
 
 	this->currentAction = ShCreatorActionFactory::Create(actionType, this->graphicView);
 
+	this->disposableSnap = ObjectSnap::ObjectSnapNothing;
+
 	this->ChangeActionDecorator();
 }
 

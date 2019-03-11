@@ -377,9 +377,6 @@
     <ClCompile Include="Visitor Pattern\ShFootOfPerpendicularVisitor.cpp">
       <Filter>Visitor Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="Visitor Pattern\ShBothPerpendicularVisitor.cpp">
-      <Filter>Visitor Pattern</Filter>
-    </ClCompile>
     <ClCompile Include="Singleton Pattern\ShDraftManager.cpp">
       <Filter>Singleton Pattern</Filter>
     </ClCompile>
@@ -409,6 +406,9 @@
     </ClCompile>
     <ClCompile Include="Strategy Pattern\ShObjectSnapStrategy.cpp">
       <Filter>Strategy Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShLinePerpendicularVisitor.cpp">
+      <Filter>Visitor Pattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -642,9 +642,6 @@
     <ClInclude Include="Visitor Pattern\ShFootOfPerpendicularVisitor.h">
       <Filter>Visitor Pattern</Filter>
     </ClInclude>
-    <ClInclude Include="Visitor Pattern\ShBothPerpendicularVisitor.h">
-      <Filter>Visitor Pattern</Filter>
-    </ClInclude>
     <ClInclude Include="Singleton Pattern\ShDraftManager.h">
       <Filter>Singleton Pattern</Filter>
     </ClInclude>
@@ -671,6 +668,9 @@
     </ClInclude>
     <ClInclude Include="Strategy Pattern\ShObjectSnapStrategy.h">
       <Filter>Strategy Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShLineBothPerpendicularVisitor.h">
+      <Filter>Visitor Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

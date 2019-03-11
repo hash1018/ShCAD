@@ -315,3 +315,13 @@ double Math::GetAngleDifference(double startAngle, double endAngle, bool antiClo
 	}
 	return diff;
 }
+
+double Math::AddAngle(double angle, double angle2) {
+
+	double addedAngle = angle + angle2;
+
+	if (addedAngle >= 360.0)
+		addedAngle -= 360;
+
+	return addedAngle;
+}

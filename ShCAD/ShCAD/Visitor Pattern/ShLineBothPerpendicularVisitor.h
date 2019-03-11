@@ -1,11 +1,11 @@
 
-#ifndef _SHBOTHPERPENDICULARVISITOR_H
-#define _SHBOTHPERPENDICULARVISITOR_H
+#ifndef _SHLINEBOTHPERPENDICULARVISITOR_H
+#define _SHLINEBOTHPERPENDICULARVISITOR_H
 
 #include "ShVisitor.h"
 #include "ShPoint.h"
 class ShEntity;
-class ShBothPerpendicularVisitor : public ShVisitor {
+class ShLineBothPerpendicularVisitor : public ShVisitor {
 
 private:
 	ShPoint3d &perpendicular;
@@ -15,8 +15,8 @@ private:
 	ShEntity* secondPerpendicularEntity;
 
 public:
-	ShBothPerpendicularVisitor(ShEntity *secondPerpendicularEntity, ShPoint3d &perpendicular, bool &isValid);
-	~ShBothPerpendicularVisitor();
+	ShLineBothPerpendicularVisitor(ShEntity *secondPerpendicularEntity, ShPoint3d &perpendicular, bool &isValid);
+	~ShLineBothPerpendicularVisitor();
 
 	virtual void Visit(ShLine *firstPerpendicularLine);
 	virtual void Visit(ShCircle *firstPerpendicularCircle);
@@ -29,7 +29,7 @@ public:
 
 class ShFirstLinePerpendicularVisitor : public ShVisitor {
 
-	friend class ShBothPerpendicularVisitor;
+	friend class ShLineBothPerpendicularVisitor;
 
 private:
 	ShPoint3d &perpendicular;
@@ -47,7 +47,7 @@ private:
 
 class ShFirstCirclePerpendicularVisitor : public ShVisitor {
 
-	friend class ShBothPerpendicularVisitor;
+	friend class ShLineBothPerpendicularVisitor;
 
 private:
 	ShPoint3d &perpendicular;
@@ -63,5 +63,22 @@ private:
 
 };
 
+class ShFirstArcPerpendicularVisitor : public ShVisitor {
 
-#endif //_SHBOTHPERPENDICULARVISITOR_H
+	friend class ShLineBothPerpendicularVisitor;
+
+private:
+	ShPoint3d &perpendicular;
+	ShArc *firstArc;
+	bool &isValid;
+
+	ShFirstArcPerpendicularVisitor(ShArc *firstArc, ShPoint3d &perpendicular, bool &isValid);
+	~ShFirstArcPerpendicularVisitor();
+
+	virtual void Visit(ShLine *secondPerpendicularLine);
+	virtual void Visit(ShCircle *secondPerpendicularCircle);
+	virtual void Visit(ShArc *secondPerpendicularArc);
+};
+
+
+#endif //_SHLINEBOTHPERPENDICULARVISITOR_H
