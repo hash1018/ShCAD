@@ -34,8 +34,21 @@ enum ActionType {
 	ActionDragSelect,
 	ActionDrawLine,
 	ActionSelectionMove,
-	ActionDrawCircle,
-	ActionDrawArc,
+	ActionDrawCircleCenterRadius,
+	ActionDrawCircleCenterDiameter,
+	ActionDrawCircleTwoPoint,
+	ActionDrawCircleThreePoint,
+	ActionDrawArcThreePoint,
+	ActionDrawArcStartCenterEnd,
+	ActionDrawArcStartCenterAngle,
+	ActionDrawArcStartCenterLength,
+	ActionDrawArcStartEndAngle,
+	ActionDrawArcStartEndDirection,
+	ActionDrawArcStartEndRadius,
+	ActionDrawArcCenterStartEnd,
+	ActionDrawArcCenterStartAngle,
+	ActionDrawArcCenterStartLength,
+
 
 
 };

@@ -27,11 +27,10 @@
 #define _SHCUSTOMIZEDWIDGET_H
 
 #include <qpushbutton.h>
-class ShButtonWithMenuPopupStrategyList;
 class ShButtonWithMenuPopup : public QWidget {
 	Q_OBJECT
 
-private:
+protected:
 	class ShButton : public QPushButton {
 	public:
 		bool hoverMovedIn;
@@ -54,22 +53,23 @@ private:
 
 	};
 
-private:
+protected:
 	ShButtonWithMenuPopup::ShButton *button;
 	ShButtonWithMenuPopup::ShMenuPopupButton *popupButton;
-	ShButtonWithMenuPopupStrategyList *strategyList;
+	
 
 public:
 	ShButtonWithMenuPopup(QWidget *parent = 0);
 	~ShButtonWithMenuPopup();
 
-	//void SetIcon(const QIcon& icon);
-	//void SetMenu(QMenu *menu);
+	void SetIcon(const QIcon& icon);
+	void SetMenu(QMenu *menu);
 
-	void SetStrategyList(ShButtonWithMenuPopupStrategyList *list);
 
 private:
 	void ButtonClicked();
+signals:
+	void pressed();
 
 protected:
 	virtual void resizeEvent(QResizeEvent *event);

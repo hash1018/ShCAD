@@ -26,7 +26,6 @@
 #include "ShCustomizedWidget.h"
 #include <QResizeEvent>
 #include <qpainter.h>
-#include "Strategy Pattern\ShButtonWithMenuPopupStrategy.h"
 
 ShButtonWithMenuPopup::ShButton::ShButton(QWidget *parent)
 	:QPushButton(parent), hoverMovedIn(false), hoverStayed(false) {
@@ -91,7 +90,7 @@ void ShButtonWithMenuPopup::ShMenuPopupButton::paintEvent(QPaintEvent *event) {
 
 
 ShButtonWithMenuPopup::ShButtonWithMenuPopup(QWidget *parent)
-	:QWidget(parent), strategyList(0) {
+	:QWidget(parent){
 
 	this->button = new ShButtonWithMenuPopup::ShButton(this);
 	this->button->installEventFilter(this);
@@ -114,13 +113,10 @@ ShButtonWithMenuPopup::ShButtonWithMenuPopup(QWidget *parent)
 
 ShButtonWithMenuPopup::~ShButtonWithMenuPopup() {
 
-	if (this->strategyList != 0)
-		delete this->strategyList;
-
 	
 }
 
-/*
+
 void ShButtonWithMenuPopup::SetIcon(const QIcon &icon) {
 	
 	this->button->setIcon(icon);
@@ -130,40 +126,6 @@ void ShButtonWithMenuPopup::SetIcon(const QIcon &icon) {
 void ShButtonWithMenuPopup::SetMenu(QMenu *menu) {
 
 	this->popupButton->setMenu(menu);
-}
-*/
-
-#include <qpixmap.h>
-#include <qbitmap.h>
-#include <qmenu.h>
-void ShButtonWithMenuPopup::SetStrategyList(ShButtonWithMenuPopupStrategyList *list) {
-
-	if (this->strategyList != 0)
-		delete this->strategyList;
-
-	QPixmap pix;
-	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
-	pix.setMask(mask);
-
-	QIcon icon(pix);
-	this->button->setIcon(icon);
-	
-
-	this->strategyList = list;
-	
-	if (this->strategyList->GetLength() > 0) {
-
-
-
-		this->button->setIcon(this->strategyList->At(0)->GetIcon());
-
-		QMenu *menu = new QMenu(this->popupButton);
-		for (int i = 0; i < this->strategyList->GetLength(); i++)
-			menu->addAction(this->strategyList->At(i)->GetAction(),);
-
-		this->popupButton->setMenu(menu);
-	}
-
 }
 
 
@@ -186,13 +148,9 @@ void ShButtonWithMenuPopup::resizeEvent(QResizeEvent *event) {
 
 void ShButtonWithMenuPopup::ButtonClicked() {
 
-	//emit pressed();
+	emit pressed();
 
-	if (this->strategyList->GetLength() == 0)
-		return;
-
-	ShButtonWithMenuPopupStrategy *strategy = this->strategyList->At(this->strategyList->GetCurrentIndex());
-	strategy->Do();
+	
 }
 
 void ShButtonWithMenuPopup::leaveEvent(QEvent *event) {

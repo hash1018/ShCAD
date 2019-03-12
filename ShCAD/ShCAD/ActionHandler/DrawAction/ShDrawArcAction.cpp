@@ -59,7 +59,7 @@ void ShDrawArcAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 ActionType ShDrawArcAction::GetType() {
 
-	return ActionType::ActionDrawArc;
+	return ActionType::ActionDrawArcCenterStartEnd;
 }
 
 void ShDrawArcAction::ApplyOrthogonalShape(bool on) {

@@ -29,7 +29,7 @@ private:
 	ShDrawCircleMethod *drawCircleMethod;
 
 public:
-	ShDrawCircleAction(ShGraphicView *graphicView);
+	ShDrawCircleAction(ShGraphicView *graphicView, ShDrawCircleAction::DrawMethod drawMethod = CenterRadius);
 	~ShDrawCircleAction();
 
 	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
@@ -42,6 +42,8 @@ public:
 	virtual QString GetActionHeadTitle();
 	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
+private:
+	void SetDrawMethod(DrawMethod drawMethod);
 };
 
 class ShDrawCircleMethod {
@@ -111,9 +113,16 @@ public:
 	virtual void ApplyOrthogonalShape(bool on);
 	virtual QString GetActionHeadTitle();
 	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
+
+private:
+	ShPoint3d GetCenter(const ShPoint3d& first, const ShPoint3d& second);
 };
 
 class ShDrawCircleMethod_ThreePoint : public ShDrawCircleMethod {
+
+private:
+	ShPoint3d first;
+	ShPoint3d second;
 
 public:
 	ShDrawCircleMethod_ThreePoint(ShDrawCircleAction *drawCircleAction, ShGraphicView *view);

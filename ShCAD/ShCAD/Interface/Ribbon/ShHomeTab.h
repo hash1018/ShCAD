@@ -4,7 +4,6 @@
 #define _SHHOMETAB_H
 
 #include "ShRibbon.h"
-#include "Interface\Items\ShCustomizedWidget.h"
 
 class ShDrawColumn;
 class ShPropertyColumn;
@@ -24,12 +23,15 @@ public:
 
 ///////////////////////////////////////////////////////////////////
 
+class ShButtonWithMenuPopup;
+class ShRibbonCircleButton;
+class ShRibbonArcButton;
 class ShDrawColumn : public ShColumnInRibbonTab {
 	Q_OBJECT
 private:
 	ShButtonWithMenuPopup *lineButton;
-	ShButtonWithMenuPopup *circleButton;
-	ShButtonWithMenuPopup *arcButton;
+	ShRibbonCircleButton *circleButton;
+	ShRibbonArcButton *arcButton;
 public:
 	ShDrawColumn(QWidget *parent, const QString &title, int width);
 	~ShDrawColumn();
@@ -39,13 +41,11 @@ protected:
 
 	private slots:
 	void LineButtonClicked();
-	void CircleButtonClicked();
-	void ArcButtonClicked();
+	
 
 private:
 	void InitLineButton();
-	void InitCircleButton();
-	void InitArcButton();
+	
 };
 
 
@@ -62,6 +62,7 @@ class ShNotifyEvent;
 class ShColor;
 class ShLineStyleComboBox;
 class ShLineStyle;
+class ShButton;
 class ShPropertyColumn : public ShColumnInRibbonTab {
 	Q_OBJECT
 

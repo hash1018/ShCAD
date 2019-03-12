@@ -40,13 +40,18 @@ ShActionHandler* ShCreatorActionFactory::Create(ActionType actionType, ShGraphic
 
 	if (actionType == ActionType::ActionDefault)
 		return new ShDefaultAction(graphicView);
-
 	if (actionType == ActionType::ActionDrawLine)
 		return new ShDrawLineAction(graphicView);
-
-	if (actionType == ActionType::ActionDrawCircle)
+	if (actionType == ActionType::ActionDrawCircleCenterRadius)
 		return new ShDrawCircleAction(graphicView);
-	if (actionType == ActionType::ActionDrawArc)
+	if (actionType == ActionType::ActionDrawCircleCenterDiameter)
+		return new ShDrawCircleAction(graphicView, ShDrawCircleAction::DrawMethod::CenterDiameter);
+	if (actionType == ActionType::ActionDrawCircleTwoPoint)
+		return new ShDrawCircleAction(graphicView, ShDrawCircleAction::DrawMethod::TwoPoint);
+	if (actionType == ActionType::ActionDrawCircleThreePoint)
+		return new ShDrawCircleAction(graphicView, ShDrawCircleAction::DrawMethod::ThreePoint);
+
+	if (actionType == ActionType::ActionDrawArcCenterStartEnd)
 		return new ShDrawArcAction(graphicView);
 
 	return new ShDefaultAction(graphicView);
