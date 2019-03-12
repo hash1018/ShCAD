@@ -410,6 +410,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ShCustomizedWidget.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Strategy Pattern\ShButtonWithMenuPopupStragety.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -671,6 +674,9 @@
     </ClInclude>
     <ClInclude Include="Visitor Pattern\ShLineBothPerpendicularVisitor.h">
       <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Strategy Pattern\ShButtonWithMenuPopupStrategy.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

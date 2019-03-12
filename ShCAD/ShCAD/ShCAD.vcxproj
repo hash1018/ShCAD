@@ -302,6 +302,7 @@
     <ClCompile Include="Singleton Pattern\ShDraftManager.cpp" />
     <ClCompile Include="Singleton Pattern\ShLineStyleComboList.cpp" />
     <ClCompile Include="Singleton Pattern\ShWidgetManager.cpp" />
+    <ClCompile Include="Strategy Pattern\ShButtonWithMenuPopupStragety.cpp" />
     <ClCompile Include="Strategy Pattern\ShChangeCurrentActionStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShObjectSnapStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp" />
@@ -585,6 +586,7 @@
     <ClInclude Include="Singleton Pattern\ShDraftManager.h" />
     <ClInclude Include="Singleton Pattern\ShLineStyleComboList.h" />
     <ClInclude Include="Singleton Pattern\ShWidgetManager.h" />
+    <ClInclude Include="Strategy Pattern\ShButtonWithMenuPopupStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShChangeCurrentActionStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShObjectSnapStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewDrawStrategy.h" />

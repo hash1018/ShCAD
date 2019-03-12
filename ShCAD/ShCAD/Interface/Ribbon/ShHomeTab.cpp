@@ -9,7 +9,7 @@
 #include "ShNotifyEvent.h"
 #include "Singleton Pattern\ShWidgetManager.h"
 #include "Singleton Pattern\ShChangeManager.h"
-
+#include "Strategy Pattern\ShButtonWithMenuPopupStrategy.h"
 
 ShHomeTab::ShHomeTab(const QString &title, QWidget *parent)
 	:ShRibbonTab(title, parent) {
@@ -116,17 +116,17 @@ void ShDrawColumn::InitLineButton() {
 
 	QIcon icon(pix);
 	this->lineButton = new ShButtonWithMenuPopup(this->layoutWidget);
-	this->lineButton->SetIcon(icon);
+	//this->lineButton->SetIcon(icon);
 
-	QMenu *menu = new QMenu(this->lineButton);
-	menu->addAction("Construction Line");
-	menu->addAction("Ray");
-	this->lineButton->SetMenu(menu);
-
-
+	//QMenu *menu = new QMenu(this->lineButton);
+	//menu->addAction("Construction Line");
+	//menu->addAction("Ray");
+	//this->lineButton->SetMenu(menu);
 
 
-	connect(this->lineButton, &ShButtonWithMenuPopup::pressed, this, &ShDrawColumn::LineButtonClicked);
+
+
+	//connect(this->lineButton, &ShButtonWithMenuPopup::pressed, this, &ShDrawColumn::LineButtonClicked);
 
 }
 
@@ -134,21 +134,26 @@ void ShDrawColumn::InitCircleButton() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 
-	QPixmap pix(path + "\\Circle.png");
-	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
-	pix.setMask(mask);
+	//QPixmap pix(path + "\\Circle.png");
+	//QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	//pix.setMask(mask);
 
-	QIcon icon(pix);
+	//QIcon icon(pix);
 	this->circleButton = new ShButtonWithMenuPopup(this->layoutWidget);
-	this->circleButton->SetIcon(icon);
+	this->circleButton->SetStrategyList(new ShCircleButtonStrategyList);
+	
 
-	QMenu *menu = new QMenu(this->circleButton);
-	menu->addAction("sdsad");
-	menu->addAction("kkkk");
-	this->circleButton->SetMenu(menu);
+	//this->circleButton->SetIcon(icon);
+	//QMenu *menu = new QMenu(this->circleButton);
+	//menu->addAction("Center-Radius");
+	//menu->addAction("Center-Diameter");
+	//menu->addSeparator();
+	//menu->addAction("2-Point");
+	//menu->addAction("3-Point");
+	//this->circleButton->SetMenu(menu);
 
 
-	connect(this->circleButton, &ShButtonWithMenuPopup::pressed, this, &ShDrawColumn::CircleButtonClicked);
+	//connect(this->circleButton, &ShButtonWithMenuPopup::pressed, this, &ShDrawColumn::CircleButtonClicked);
 }
 
 void ShDrawColumn::InitArcButton() {
@@ -161,15 +166,15 @@ void ShDrawColumn::InitArcButton() {
 
 	QIcon icon(pix);
 	this->arcButton = new ShButtonWithMenuPopup(this->layoutWidget);
-	this->arcButton->SetIcon(icon);
+	//this->arcButton->SetIcon(icon);
 
-	QMenu *menu = new QMenu(this->arcButton);
-	menu->addAction("sdsad");
-	menu->addAction("kkkk");
-	this->arcButton->SetMenu(menu);
+	//QMenu *menu = new QMenu(this->arcButton);
+	//menu->addAction("sdsad");
+	//menu->addAction("kkkk");
+	//this->arcButton->SetMenu(menu);
 
 
-	connect(this->arcButton, &ShButtonWithMenuPopup::pressed, this, &ShDrawColumn::ArcButtonClicked);
+	//connect(this->arcButton, &ShButtonWithMenuPopup::pressed, this, &ShDrawColumn::ArcButtonClicked);
 }
 
 
