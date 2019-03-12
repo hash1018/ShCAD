@@ -7,19 +7,21 @@
 #include "ShMath.h"
 #include "Entity\Leaf\ShRubberBand.h"
 
-ShDrawArcAction::ShDrawArcAction(ShGraphicView *graphicView)
-	:ShDrawAction(graphicView) {
+ShDrawArcAction::ShDrawArcAction(ShGraphicView *graphicView, ShDrawArcAction::DrawMethod drawMethod)
+	:ShDrawAction(graphicView), drawArcMethod(0), drawMethod(drawMethod) {
 
 	this->status = PickedNothing;
-	this->drawMethod = CenterStartEnd;
+	
 
 	ShUpdateListTextEvent event("_Arc", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
 	this->graphicView->Notify(&event);
 
-	ShUpdateCommandEditHeadTitle event2("Arc >> Specify center point: ");
-	this->graphicView->Notify(&event2);
+	this->SetDrawMethod(this->drawMethod);
 
-	this->drawArcMethod = new ShDrawArcMethod_CenterStartEnd(this, this->graphicView);
+	QString headTitle = this->drawArcMethod->GetActionHeadTitle();
+
+	ShUpdateCommandEditHeadTitle event2(headTitle);
+	this->graphicView->Notify(&event2);
 
 }
 
@@ -78,6 +80,51 @@ void ShDrawArcAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 }
 
 
+void ShDrawArcAction::SetDrawMethod(DrawMethod drawMethod) {
+
+	if (this->drawArcMethod != 0)
+		delete this->drawArcMethod;
+
+	switch (drawMethod) {
+
+	case DrawMethod::ThreePoint:
+		this->drawArcMethod = new ShDrawArcMethod_ThreePoint(this, this->graphicView);
+		break;
+	case DrawMethod::StartCenterEnd:
+		this->drawArcMethod = new ShDrawArcMethod_StartCentertEnd(this, this->graphicView);
+		break;
+	case DrawMethod::StartCenterAngle:
+		this->drawArcMethod = new ShDrawArcMethod_StartCentertAngle(this, this->graphicView);
+		break;
+	case DrawMethod::StartCenterLength:
+		this->drawArcMethod = new ShDrawArcMethod_StartCentertLength(this, this->graphicView);
+		break;
+	case DrawMethod::StartEndAngle:
+		this->drawArcMethod = new ShDrawArcMethod_StartEndAngle(this, this->graphicView);
+		break;
+	case DrawMethod::StartEndDirection:
+		this->drawArcMethod = new ShDrawArcMethod_StartEndDirection(this, this->graphicView);
+		break;
+	case DrawMethod::StartEndRadius:
+		this->drawArcMethod = new ShDrawArcMethod_StartEndRadius(this, this->graphicView);
+		break;
+	case DrawMethod::CenterStartEnd:
+		this->drawArcMethod = new ShDrawArcMethod_CenterStartEnd(this, this->graphicView);
+		break;
+	case DrawMethod::CenterStartAngle:
+		this->drawArcMethod = new ShDrawArcMethod_CenterStartAngle(this, this->graphicView);
+		break;
+	case DrawMethod::CenterStartLength:
+		this->drawArcMethod = new ShDrawArcMethod_CenterStartLength(this, this->graphicView);
+		break;
+	default:
+		break;
+	}
+
+
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 ShDrawArcMethod::ShDrawArcMethod(ShDrawArcAction *drawArcAction, ShGraphicView *view)
@@ -92,6 +139,242 @@ ShDrawArcMethod::~ShDrawArcMethod() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+
+ShDrawArcMethod_ThreePoint::ShDrawArcMethod_ThreePoint(ShDrawArcAction *drawArcAction, ShGraphicView *view)
+	:ShDrawArcMethod(drawArcAction, view) {
+
+
+}
+
+ShDrawArcMethod_ThreePoint::~ShDrawArcMethod_ThreePoint() {
+
+}
+
+void ShDrawArcMethod_ThreePoint::MousePressEvent(QMouseEvent *event, ShActionData &data) {
+
+}
+
+void ShDrawArcMethod_ThreePoint::MouseMoveEvent(QMouseEvent *event, ShActionData &data) {
+
+}
+
+void ShDrawArcMethod_ThreePoint::ApplyOrthogonalShape(bool on) {
+
+}
+
+QString ShDrawArcMethod_ThreePoint::GetActionHeadTitle() {
+
+	return QString("");
+}
+
+void ShDrawArcMethod_ThreePoint::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ShDrawArcMethod_StartCentertEnd::ShDrawArcMethod_StartCentertEnd(ShDrawArcAction *drawArcAction, ShGraphicView *view)
+	:ShDrawArcMethod(drawArcAction, view) {
+
+}
+
+ShDrawArcMethod_StartCentertEnd::~ShDrawArcMethod_StartCentertEnd() {
+
+}
+
+void ShDrawArcMethod_StartCentertEnd::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_StartCentertEnd::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_StartCentertEnd::ApplyOrthogonalShape(bool on) {
+
+}
+
+QString ShDrawArcMethod_StartCentertEnd::GetActionHeadTitle() {
+
+	return QString("");
+}
+
+void ShDrawArcMethod_StartCentertEnd::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+ShDrawArcMethod_StartCentertAngle::ShDrawArcMethod_StartCentertAngle(ShDrawArcAction *drawArcAction, ShGraphicView *view)
+	:ShDrawArcMethod(drawArcAction, view) {
+
+}
+
+ShDrawArcMethod_StartCentertAngle::~ShDrawArcMethod_StartCentertAngle() {
+
+}
+
+void ShDrawArcMethod_StartCentertAngle::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_StartCentertAngle::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_StartCentertAngle::ApplyOrthogonalShape(bool on) {
+
+}
+
+QString ShDrawArcMethod_StartCentertAngle::GetActionHeadTitle() {
+
+	return QString("");
+}
+
+void ShDrawArcMethod_StartCentertAngle::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ShDrawArcMethod_StartCentertLength::ShDrawArcMethod_StartCentertLength(ShDrawArcAction *drawArcAction, ShGraphicView *view)
+	:ShDrawArcMethod(drawArcAction, view) {
+
+}
+
+ShDrawArcMethod_StartCentertLength::~ShDrawArcMethod_StartCentertLength() {
+
+}
+
+void ShDrawArcMethod_StartCentertLength::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_StartCentertLength::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_StartCentertLength::ApplyOrthogonalShape(bool on) {
+
+}
+
+QString ShDrawArcMethod_StartCentertLength::GetActionHeadTitle() {
+
+	return QString("");
+}
+
+void ShDrawArcMethod_StartCentertLength::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ShDrawArcMethod_StartEndAngle::ShDrawArcMethod_StartEndAngle(ShDrawArcAction *drawArcAction, ShGraphicView *view)
+	:ShDrawArcMethod(drawArcAction, view) {
+
+}
+
+ShDrawArcMethod_StartEndAngle::~ShDrawArcMethod_StartEndAngle() {
+
+}
+
+void ShDrawArcMethod_StartEndAngle::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_StartEndAngle::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_StartEndAngle::ApplyOrthogonalShape(bool on) {
+
+}
+
+QString ShDrawArcMethod_StartEndAngle::GetActionHeadTitle() {
+
+	return QString("");
+}
+
+void ShDrawArcMethod_StartEndAngle::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ShDrawArcMethod_StartEndDirection::ShDrawArcMethod_StartEndDirection(ShDrawArcAction *drawArcAction, ShGraphicView *view)
+	:ShDrawArcMethod(drawArcAction, view) {
+
+}
+
+ShDrawArcMethod_StartEndDirection::~ShDrawArcMethod_StartEndDirection() {
+
+}
+
+void ShDrawArcMethod_StartEndDirection::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_StartEndDirection::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_StartEndDirection::ApplyOrthogonalShape(bool on) {
+
+}
+
+QString ShDrawArcMethod_StartEndDirection::GetActionHeadTitle() {
+
+	return QString("");
+}
+
+void ShDrawArcMethod_StartEndDirection::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ShDrawArcMethod_StartEndRadius::ShDrawArcMethod_StartEndRadius(ShDrawArcAction *drawArcAction, ShGraphicView *view)
+	:ShDrawArcMethod(drawArcAction, view) {
+
+
+}
+
+
+ShDrawArcMethod_StartEndRadius::~ShDrawArcMethod_StartEndRadius() {
+
+}
+
+void ShDrawArcMethod_StartEndRadius::MousePressEvent(QMouseEvent *event, ShActionData &data) {
+
+}
+
+void ShDrawArcMethod_StartEndRadius::MouseMoveEvent(QMouseEvent *event, ShActionData &data) {
+
+
+}
+
+void ShDrawArcMethod_StartEndRadius::ApplyOrthogonalShape(bool on) {
+
+}
+
+QString ShDrawArcMethod_StartEndRadius::GetActionHeadTitle() {
+
+	return QString("");
+}
+
+void ShDrawArcMethod_StartEndRadius::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 ShDrawArcMethod_CenterStartEnd::ShDrawArcMethod_CenterStartEnd(ShDrawArcAction *drawArcAction, ShGraphicView *view)
 	:ShDrawArcMethod(drawArcAction, view) {
@@ -294,71 +577,69 @@ void ShDrawArcMethod_CenterStartEnd::IsAllowedDraftOperation(ShAllowedDraftData 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-ShDrawArcMethod_StartEndRadius::ShDrawArcMethod_StartEndRadius(ShDrawArcAction *drawArcAction, ShGraphicView *view)
+ShDrawArcMethod_CenterStartAngle::ShDrawArcMethod_CenterStartAngle(ShDrawArcAction *drawArcAction, ShGraphicView *view)
 	:ShDrawArcMethod(drawArcAction, view) {
 
-	
 }
 
-
-ShDrawArcMethod_StartEndRadius::~ShDrawArcMethod_StartEndRadius() {
-
-}
-
-void ShDrawArcMethod_StartEndRadius::MousePressEvent(QMouseEvent *event, ShActionData &data) {
+ShDrawArcMethod_CenterStartAngle::~ShDrawArcMethod_CenterStartAngle() {
 
 }
 
-void ShDrawArcMethod_StartEndRadius::MouseMoveEvent(QMouseEvent *event, ShActionData &data) {
-
-
-}
-
-void ShDrawArcMethod_StartEndRadius::ApplyOrthogonalShape(bool on) {
+void ShDrawArcMethod_CenterStartAngle::MousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 }
 
-QString ShDrawArcMethod_StartEndRadius::GetActionHeadTitle() {
+void ShDrawArcMethod_CenterStartAngle::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
+void ShDrawArcMethod_CenterStartAngle::ApplyOrthogonalShape(bool on) {
+
+}
+
+QString ShDrawArcMethod_CenterStartAngle::GetActionHeadTitle() {
 
 	return QString("");
 }
 
-void ShDrawArcMethod_StartEndRadius::IsAllowedDraftOperation(ShAllowedDraftData &data) {
-
+void ShDrawArcMethod_CenterStartAngle::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ShDrawArcMethod_ThreePoint::ShDrawArcMethod_ThreePoint(ShDrawArcAction *drawArcAction, ShGraphicView *view)
+
+ShDrawArcMethod_CenterStartLength::ShDrawArcMethod_CenterStartLength(ShDrawArcAction *drawArcAction, ShGraphicView *view)
 	:ShDrawArcMethod(drawArcAction, view) {
 
-	
 }
 
-ShDrawArcMethod_ThreePoint::~ShDrawArcMethod_ThreePoint() {
-
-}
-
-void ShDrawArcMethod_ThreePoint::MousePressEvent(QMouseEvent *event, ShActionData &data) {
+ShDrawArcMethod_CenterStartLength::~ShDrawArcMethod_CenterStartLength() {
 
 }
 
-void ShDrawArcMethod_ThreePoint::MouseMoveEvent(QMouseEvent *event, ShActionData &data) {
+void ShDrawArcMethod_CenterStartLength::MousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 }
 
-void ShDrawArcMethod_ThreePoint::ApplyOrthogonalShape(bool on) {
+void ShDrawArcMethod_CenterStartLength::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
 }
 
-QString ShDrawArcMethod_ThreePoint::GetActionHeadTitle() {
+void ShDrawArcMethod_CenterStartLength::ApplyOrthogonalShape(bool on) {
+
+}
+
+QString ShDrawArcMethod_CenterStartLength::GetActionHeadTitle() {
 
 	return QString("");
 }
 
-void ShDrawArcMethod_ThreePoint::IsAllowedDraftOperation(ShAllowedDraftData &data) {
-
+void ShDrawArcMethod_CenterStartLength::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+

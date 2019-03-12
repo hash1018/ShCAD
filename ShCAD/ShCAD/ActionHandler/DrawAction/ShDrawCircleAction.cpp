@@ -12,7 +12,6 @@ ShDrawCircleAction::ShDrawCircleAction(ShGraphicView *graphicView, ShDrawCircleA
 
 	this->status = PickedNothing;
 
-
 	ShUpdateListTextEvent event("_Circle", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
 	this->graphicView->Notify(&event);
 

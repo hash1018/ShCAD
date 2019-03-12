@@ -42,6 +42,7 @@ ShActionHandler* ShCreatorActionFactory::Create(ActionType actionType, ShGraphic
 		return new ShDefaultAction(graphicView);
 	if (actionType == ActionType::ActionDrawLine)
 		return new ShDrawLineAction(graphicView);
+
 	if (actionType == ActionType::ActionDrawCircleCenterRadius)
 		return new ShDrawCircleAction(graphicView);
 	if (actionType == ActionType::ActionDrawCircleCenterDiameter)
@@ -51,8 +52,28 @@ ShActionHandler* ShCreatorActionFactory::Create(ActionType actionType, ShGraphic
 	if (actionType == ActionType::ActionDrawCircleThreePoint)
 		return new ShDrawCircleAction(graphicView, ShDrawCircleAction::DrawMethod::ThreePoint);
 
-	if (actionType == ActionType::ActionDrawArcCenterStartEnd)
-		return new ShDrawArcAction(graphicView);
+
+	if (actionType == ActionType::ActionDrawArcThreePoint)
+		return new ShDrawArcAction(graphicView, ShDrawArcAction::DrawMethod::ThreePoint);
+	if (actionType == ActionType::ActionDrawArcStartCenterEnd)
+		return new ShDrawArcAction(graphicView, ShDrawArcAction::DrawMethod::StartCenterEnd);
+	if (actionType == ActionType::ActionDrawArcStartCenterAngle)
+		return new ShDrawArcAction(graphicView, ShDrawArcAction::DrawMethod::StartCenterAngle);
+	if (actionType == ActionType::ActionDrawArcStartCenterLength)
+		return new ShDrawArcAction(graphicView, ShDrawArcAction::DrawMethod::StartCenterLength);
+	if (actionType == ActionType::ActionDrawArcStartEndAngle)
+		return new ShDrawArcAction(graphicView, ShDrawArcAction::DrawMethod::StartEndAngle);
+	if (actionType == ActionType::ActionDrawArcStartEndDirection)
+		return new ShDrawArcAction(graphicView, ShDrawArcAction::DrawMethod::StartEndDirection);
+	if (actionType == ActionType::ActionDrawArcStartEndRadius)
+		return new ShDrawArcAction(graphicView, ShDrawArcAction::DrawMethod::StartEndRadius);
+	if(actionType==ActionType::ActionDrawArcCenterStartEnd)
+		return new ShDrawArcAction(graphicView,ShDrawArcAction::DrawMethod::CenterStartEnd);
+	if (actionType == ActionType::ActionDrawArcCenterStartAngle)
+		return new ShDrawArcAction(graphicView, ShDrawArcAction::DrawMethod::CenterStartAngle);
+	if (actionType == ActionType::ActionDrawArcCenterStartLength)
+		return new ShDrawArcAction(graphicView, ShDrawArcAction::DrawMethod::CenterStartLength);
+	
 
 	return new ShDefaultAction(graphicView);
 }
