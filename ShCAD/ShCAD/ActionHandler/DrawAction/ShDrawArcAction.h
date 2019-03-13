@@ -120,6 +120,10 @@ private:
 
 class ShDrawArcMethod_StartCentertEnd : public ShDrawArcMethod {
 
+private:
+	ShPoint3d start;
+	ShPoint3d center;
+
 public:
 	ShDrawArcMethod_StartCentertEnd(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartCentertEnd();
@@ -134,6 +138,10 @@ public:
 };
 
 class ShDrawArcMethod_StartCentertAngle : public ShDrawArcMethod {
+
+private:
+	ShPoint3d start;
+	ShPoint3d center;
 
 public:
 	ShDrawArcMethod_StartCentertAngle (ShDrawArcAction *drawArcAction, ShGraphicView *view);
@@ -169,6 +177,10 @@ public:
 
 class ShDrawArcMethod_StartEndAngle : public ShDrawArcMethod {
 
+private:
+	ShPoint3d start;
+	ShPoint3d end;
+
 public:
 	ShDrawArcMethod_StartEndAngle(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartEndAngle();
@@ -180,6 +192,9 @@ public:
 	virtual QString GetActionHeadTitle();
 	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
+private:
+	bool GetArcDataWithStartEndAnother(const ShPoint3d& start, const ShPoint3d& end, const ShPoint3d& another,
+		ShArcData& data);
 };
 
 
