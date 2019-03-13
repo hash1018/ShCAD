@@ -234,10 +234,11 @@ void ShDrawCircleMethod_CenterRadius::IsAllowedDraftOperation(ShAllowedDraftData
 	
 	if (status == ShDrawCircleAction::Status::PickedNothing) {
 	
-		data.SetAllowOrthogonal(false);
+		data.SetAllowOrthogonal(true);
 		data.SetAllowtSnap(true);
 
 		ShPoint3d mouse = this->view->GetCursorPoint();
+		data.SetOrthogonalBasePoint(mouse);
 		data.SetSnapBasePoint(mouse);
 	}
 	else if (status == ShDrawCircleAction::Status::PickedCenter) {
@@ -376,10 +377,11 @@ void ShDrawCircleMethod_CenterDiameter::IsAllowedDraftOperation(ShAllowedDraftDa
 
 	if (status == ShDrawCircleAction::Status::PickedNothing) {
 
-		data.SetAllowOrthogonal(false);
+		data.SetAllowOrthogonal(true);
 		data.SetAllowtSnap(true);
 
 		ShPoint3d mouse = this->view->GetCursorPoint();
+		data.SetOrthogonalBasePoint(mouse);
 		data.SetSnapBasePoint(mouse);
 	}
 	else if (status == ShDrawCircleAction::Status::PickedCenter) {
@@ -526,10 +528,11 @@ void ShDrawCircleMethod_TwoPoint::IsAllowedDraftOperation(ShAllowedDraftData &da
 
 	if (status == ShDrawCircleAction::Status::PickedNothing) {
 
-		data.SetAllowOrthogonal(false);
+		data.SetAllowOrthogonal(true);
 		data.SetAllowtSnap(true);
 
 		ShPoint3d mouse = this->view->GetCursorPoint();
+		data.SetOrthogonalBasePoint(mouse);
 		data.SetSnapBasePoint(mouse);
 	}
 	else if (status == ShDrawCircleAction::Status::PickedFirstPoint) {
@@ -751,10 +754,11 @@ void ShDrawCircleMethod_ThreePoint::IsAllowedDraftOperation(ShAllowedDraftData &
 
 	if (status == ShDrawCircleAction::Status::PickedNothing) {
 
-		data.SetAllowOrthogonal(false);
+		data.SetAllowOrthogonal(true);
 		data.SetAllowtSnap(true);
 
 		ShPoint3d mouse = this->view->GetCursorPoint();
+		data.SetOrthogonalBasePoint(mouse);
 		data.SetSnapBasePoint(mouse);
 	}
 	else if (status == ShDrawCircleAction::Status::PickedFirstPoint ||

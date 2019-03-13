@@ -131,13 +131,12 @@ QString ShDrawLineAction::GetActionHeadTitle() {
 void ShDrawLineAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
 	if (this->status == Status::PickedNothing) {
-		data.SetAllowOrthogonal(false);
+		data.SetAllowOrthogonal(true);
 		data.SetAllowtSnap(true);
 
-		QPoint point = this->graphicView->mapFromGlobal(QCursor::pos());
-		ShPoint3d temp;
-		this->graphicView->ConvertDeviceToEntity(point.x(), point.y(), temp.x, temp.y);
-		data.SetSnapBasePoint(temp);
+		ShPoint3d mouse = this->graphicView->GetCursorPoint();
+		data.SetOrthogonalBasePoint(mouse);
+		data.SetSnapBasePoint(mouse);
 	}
 	else {
 

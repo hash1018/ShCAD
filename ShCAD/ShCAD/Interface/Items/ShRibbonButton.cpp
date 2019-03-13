@@ -86,7 +86,7 @@ void ShRibbonCircleButton::ThreePointActionClicked() {
 ShRibbonArcButton::ShRibbonArcButton(QWidget *parent)
 	:ShAbstractRibbonButton(parent) {
 
-	this->strategy = new ShArcButtonCenterStartEndStrategy;
+	this->strategy = new ShArcButtonThreePointStrategy;
 	this->SetIcon(this->strategy->GetIcon());
 
 	QMenu *menu = new QMenu(this->popupButton);

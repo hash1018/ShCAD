@@ -413,14 +413,14 @@
     <ClCompile Include="Strategy Pattern\ShButtonWithMenuPopupStragety.cpp">
       <Filter>Strategy Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\Items\ShRibbonButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_ShRibbonButton.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_ShRibbonButton.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Items\ShRibbonButton.cpp">
+      <Filter>Interface\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -461,7 +461,7 @@
       <Filter>Interface</Filter>
     </CustomBuild>
     <CustomBuild Include="Interface\Items\ShRibbonButton.h">
-      <Filter>Header Files</Filter>
+      <Filter>Interface\Items</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

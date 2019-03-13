@@ -18,6 +18,7 @@ public:
 		PickedStart,
 		PickedFirstPoint,
 		PickedSecondPoint,
+		PickedEnd,
 	};
 	enum DrawMethod {
 		ThreePoint,
@@ -92,7 +93,12 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+class ShArcData;
 class ShDrawArcMethod_ThreePoint : public ShDrawArcMethod {
+
+private:
+	ShPoint3d first;
+	ShPoint3d second;
 
 public:
 	ShDrawArcMethod_ThreePoint(ShDrawArcAction *drawArcAction, ShGraphicView *view);
@@ -105,6 +111,9 @@ public:
 	virtual QString GetActionHeadTitle();
 	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
+private:
+	bool GetArcDataWithThreePoint(const ShPoint3d& first, const ShPoint3d& second, const ShPoint3d& third,
+		ShArcData &data);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -192,6 +201,10 @@ public:
 
 class ShDrawArcMethod_StartEndRadius : public ShDrawArcMethod {
 
+private:
+	ShPoint3d start;
+	ShPoint3d end;
+
 public:
 	ShDrawArcMethod_StartEndRadius(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartEndRadius();
@@ -203,6 +216,9 @@ public:
 	virtual QString GetActionHeadTitle();
 	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
+private:
+	bool GetArcDataWithStartEndAnother(const ShPoint3d& start, const ShPoint3d& end, const ShPoint3d& another,
+		ShArcData& data);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
