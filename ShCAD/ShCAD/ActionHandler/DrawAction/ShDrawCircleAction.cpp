@@ -29,9 +29,9 @@ ShDrawCircleAction::~ShDrawCircleAction() {
 		delete this->drawCircleMethod;
 }
 
-void ShDrawCircleAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawCircleAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
-	this->drawCircleMethod->MousePressEvent(event, data);
+	this->drawCircleMethod->LMousePressEvent(event, data);
 	
 }
 
@@ -124,7 +124,7 @@ ShDrawCircleMethod_CenterRadius::~ShDrawCircleMethod_CenterRadius() {
 
 }
 
-void ShDrawCircleMethod_CenterRadius::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawCircleMethod_CenterRadius::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShDrawCircleAction::Status &status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
@@ -269,7 +269,7 @@ ShDrawCircleMethod_CenterDiameter::~ShDrawCircleMethod_CenterDiameter() {
 
 }
 
-void ShDrawCircleMethod_CenterDiameter::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawCircleMethod_CenterDiameter::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShDrawCircleAction::Status &status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
@@ -408,7 +408,7 @@ ShDrawCircleMethod_TwoPoint::~ShDrawCircleMethod_TwoPoint() {
 
 }
 
-void ShDrawCircleMethod_TwoPoint::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawCircleMethod_TwoPoint::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShDrawCircleAction::Status &status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
@@ -570,7 +570,7 @@ ShDrawCircleMethod_ThreePoint::~ShDrawCircleMethod_ThreePoint() {
 
 }
 
-void ShDrawCircleMethod_ThreePoint::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawCircleMethod_ThreePoint::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShDrawCircleAction::Status &status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();

@@ -35,8 +35,12 @@ ShPanMoveAction::~ShPanMoveAction() {
 
 }
 
+void ShPanMoveAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
+
+}
+
 //Pan Move Start here
-void ShPanMoveAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShPanMoveAction::MMousePressEvent(QMouseEvent *event, ShActionData& data) {
 	qDebug("ShPanMoveAction->MousePressEvent");
 
 	this->graphicView->setCursor(Qt::ClosedHandCursor);

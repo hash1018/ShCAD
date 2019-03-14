@@ -28,6 +28,17 @@ QIcon ShButtonWithMenuPopupStrategy::GetIcon(const QString& filePath) {
 	return icon;
 }
 
+QIcon ShButtonWithMenuPopupStrategy::GetIcon_(const QString& filePath) {
+
+	QPixmap pix(filePath);
+	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+
+	QIcon icon(pix);
+
+	return icon;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 ShCircleButtonCenterRadiusStrategy::ShCircleButtonCenterRadiusStrategy() {
@@ -56,6 +67,13 @@ QIcon ShCircleButtonCenterRadiusStrategy::GetIcon(){
 
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Circle\\Center-Radius.png");
 
+}
+
+QIcon ShCircleButtonCenterRadiusStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Circle\\Center-Radius.png");
 }
 
 
@@ -88,6 +106,13 @@ QIcon ShCircleButtonCenterDiameterStrategy::GetIcon(){
 	
 }
 
+QIcon ShCircleButtonCenterDiameterStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Circle\\Center-Diameter.png");
+
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShCircleButtonTwoPointStrategy::ShCircleButtonTwoPointStrategy() {
@@ -113,6 +138,14 @@ QIcon ShCircleButtonTwoPointStrategy::GetIcon(){
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Circle\\2Point.png");
+
+}
+
+
+QIcon ShCircleButtonTwoPointStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Circle\\2Point.png");
 
 }
 
@@ -145,6 +178,13 @@ QIcon ShCircleButtonThreePointStrategy::GetIcon(){
 	
 }
 
+QIcon ShCircleButtonThreePointStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Circle\\3Point.png");
+
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShArcButtonThreePointStrategy::ShArcButtonThreePointStrategy() {
@@ -170,6 +210,13 @@ QIcon ShArcButtonThreePointStrategy::GetIcon() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Arc\\3Point.png");
+}
+
+
+QIcon ShArcButtonThreePointStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\3Point.png");
 }
 
 
@@ -200,6 +247,13 @@ QIcon ShArcButtonStartCenterEndStrategy::GetIcon() {
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Arc\\Start-Center-End.png");
 }
 
+
+QIcon ShArcButtonStartCenterEndStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-Center-End.png");
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShArcButtonStartCenterAngleStrategy::ShArcButtonStartCenterAngleStrategy() {
@@ -225,6 +279,13 @@ QIcon ShArcButtonStartCenterAngleStrategy::GetIcon() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Arc\\Start-Center-Angle.png");
+}
+
+
+QIcon ShArcButtonStartCenterAngleStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-Center-Angle.png");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,6 +316,13 @@ QIcon ShArcButtonStartCenterLengthStrategy::GetIcon() {
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Arc\\Start-Center-Length.png");
 }
 
+
+QIcon ShArcButtonStartCenterLengthStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-Center-Length.png");
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -283,6 +351,13 @@ QIcon ShArcButtonStartEndAngleStrategy::GetIcon() {
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Arc\\Start-End-Angle.png");
 }
 
+
+QIcon ShArcButtonStartEndAngleStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-End-Angle.png");
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 ShArcButtonStartEndDirectionStrategy::ShArcButtonStartEndDirectionStrategy() {
@@ -308,6 +383,13 @@ QIcon ShArcButtonStartEndDirectionStrategy::GetIcon() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Arc\\Start-End-Direction.png");
+}
+
+
+QIcon ShArcButtonStartEndDirectionStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-End-Direction.png");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -338,6 +420,13 @@ QIcon ShArcButtonStartEndRadiusStrategy::GetIcon() {
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Arc\\Start-End-Radius.png");
 }
 
+
+QIcon ShArcButtonStartEndRadiusStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-End-Radius.png");
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 ShArcButtonCenterStartEndStrategy::ShArcButtonCenterStartEndStrategy() {
@@ -363,6 +452,13 @@ QIcon ShArcButtonCenterStartEndStrategy::GetIcon() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Arc\\Center-Start-End.png");
+}
+
+
+QIcon ShArcButtonCenterStartEndStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Center-Start-End.png");
 }
 
 
@@ -394,6 +490,13 @@ QIcon ShArcButtonCenterStartAngleStrategy::GetIcon() {
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Arc\\Center-Start-Angle.png");
 }
 
+
+QIcon ShArcButtonCenterStartAngleStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Center-Start-Angle.png");
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShArcButtonCenterStartLengthStrategy::ShArcButtonCenterStartLengthStrategy() {
@@ -419,4 +522,11 @@ QIcon ShArcButtonCenterStartLengthStrategy::GetIcon() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\Arc\\Center-Start-Length.png");
+}
+
+
+QIcon ShArcButtonCenterStartLengthStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Center-Start-Length.png");
 }

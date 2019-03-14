@@ -17,6 +17,9 @@ ShHomeTab::ShHomeTab(const QString &title, QWidget *parent)
 	this->drawColumn = new ShDrawColumn(this, "Draw", 100);
 	this->AddColumn(this->drawColumn);
 
+	this->modifyColumn = new ShModifyColumn(this, "Modify", 150);
+	this->AddColumn(this->modifyColumn);
+
 	this->propertyColumn = new ShPropertyColumn(this, "Property", 250);
 	this->AddColumn(this->propertyColumn);
 
@@ -100,6 +103,18 @@ void ShDrawColumn::InitLineButton() {
 
 
 	connect(this->lineButton, &ShButtonWithMenuPopup::pressed, this, &ShDrawColumn::LineButtonClicked);
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ShModifyColumn::ShModifyColumn(QWidget *parent, const QString &title, int width)
+	:ShColumnInRibbonTab(parent, title, width) {
+
+}
+
+ShModifyColumn::~ShModifyColumn() {
+
 
 }
 

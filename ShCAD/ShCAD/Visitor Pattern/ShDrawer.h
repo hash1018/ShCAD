@@ -6,7 +6,7 @@
 #include "ShVisitor.h"
 #include <qopenglfunctions.h>
 #include "ShVariable.h"
-
+#include "ShPoint.h"
 typedef struct GLPoint {
 	double x;
 	double y;
@@ -58,8 +58,8 @@ protected:
 
 	void DrawLine(const GLPoint& start, const GLPoint& end, const GLColor& color);
 	void DrawFilledRect(const GLPoint& topLeft, const GLPoint& bottomRight, const GLColor& color);
-	void DrawCircle(const GLPoint& center, double radius, const GLColor& color, int segments = 360);
-	void DrawArc(const GLPoint& center, double radius, double startAngle, double endAngle, const GLColor& color, int segments = 360);
+	void DrawCircle(const ShPoint3d& center, double radius, const GLColor& color, int segments = 360);
+	void DrawArc(const ShPoint3d& center, double radius, double startAngle, double endAngle, const GLColor& color, int segments = 360);
 };
 
 class ShSelectedEntityDrawer : public ShDrawer {

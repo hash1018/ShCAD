@@ -52,7 +52,7 @@ ShStretchTemporaryAction::~ShStretchTemporaryAction() {
 
 
 #include "Command Pattern\Entity Command\ShStretchEntityCommand.h"
-void ShStretchTemporaryAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShStretchTemporaryAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShPoint3d point = data.GetPoint();
 	

@@ -31,9 +31,9 @@ ShDrawArcAction::~ShDrawArcAction() {
 		delete this->drawArcMethod;
 }
 
-void ShDrawArcAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawArcAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
-	this->drawArcMethod->MousePressEvent(event, data);
+	this->drawArcMethod->LMousePressEvent(event, data);
 
 }
 
@@ -151,7 +151,7 @@ ShDrawArcMethod_ThreePoint::~ShDrawArcMethod_ThreePoint() {
 
 }
 
-void ShDrawArcMethod_ThreePoint::MousePressEvent(QMouseEvent *event, ShActionData &data) {
+void ShDrawArcMethod_ThreePoint::LMousePressEvent(QMouseEvent *event, ShActionData &data) {
 	
 	ShDrawArcAction::Status &status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
@@ -371,7 +371,7 @@ ShDrawArcMethod_StartCentertEnd::~ShDrawArcMethod_StartCentertEnd() {
 
 }
 
-void ShDrawArcMethod_StartCentertEnd::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawArcMethod_StartCentertEnd::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShDrawArcAction::Status &status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
@@ -574,7 +574,7 @@ ShDrawArcMethod_StartCentertAngle::~ShDrawArcMethod_StartCentertAngle() {
 
 }
 
-void ShDrawArcMethod_StartCentertAngle::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawArcMethod_StartCentertAngle::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShDrawArcAction::Status &status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
@@ -778,25 +778,204 @@ ShDrawArcMethod_StartCentertLength::~ShDrawArcMethod_StartCentertLength() {
 
 }
 
-void ShDrawArcMethod_StartCentertLength::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawArcMethod_StartCentertLength::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
+	ShDrawArcAction::Status &status = this->GetStatus();
+	ShPoint3d point = data.GetPoint();
+	ShPoint3d nextPoint = data.GetNextPoint();
+
+	if (status == ShDrawArcAction::Status::PickedNothing) {
+
+		this->start = point;
+
+		status = ShDrawArcAction::Status::PickedStart;
+
+		this->view->rubberBand = new ShRubberBand(ShLineData(point, nextPoint));
+
+		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		ShUpdateListTextEvent event2("");
+		this->view->Notify(&event2);
+
+		ShUpdateCommandEditHeadTitle event3("Arc >> Specify center point of arc: ");
+		this->view->Notify(&event3);
+
+	}
+	else if (status == ShDrawArcAction::Status::PickedStart) {
+
+		this->center = point;
+
+		status = ShDrawArcAction::Status::PickedCenter;
+
+		ShArcData arcData;
+		this->GetArcDataWithStartCenterLength(this->start, this->center,
+			Math::GetDistance(this->start.x, this->start.y, nextPoint.x, nextPoint.y),
+			arcData);
+
+
+		this->view->preview.Add(new ShArc(ShPropertyData(*this->view->GetData()->GetPropertyData()),
+			arcData, this->view->entityTable.GetLayerTable()->GetCurrentLayer()));
+
+		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		ShUpdateListTextEvent event2("");
+		this->view->Notify(&event2);
+
+		ShUpdateCommandEditHeadTitle event3("Arc >> Specify length of chord: ");
+		this->view->Notify(&event3);
+
+	}
+	else if (status = ShDrawArcAction::Status::PickedStart) {
+
+		ShArcData arcData;
+		this->GetArcDataWithStartCenterLength(this->start,this->center,
+			Math::GetDistance(this->start.x, this->start.y, point.x, point.y),
+			arcData);
+
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		previewArc->SetData(arcData);
+
+		ShUpdateListTextEvent event2("");
+		this->view->Notify(&event2);
+
+		this->AddEntityAndFinish(previewArc->Clone(), "Arc");
+
+	}
 }
 
 void ShDrawArcMethod_StartCentertLength::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::Status::PickedStart) {
+
+		ShPoint3d point = data.GetPoint();
+
+		this->view->rubberBand->SetEnd(point);
+
+		data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+	else if (status == ShDrawArcAction::Status::PickedCenter) {
+
+		ShPoint3d point = data.GetPoint();
+
+		ShArcData arcData;
+		this->GetArcDataWithStartCenterLength(this->start, this->center,
+			Math::GetDistance(this->start.x, this->start.y, point.x, point.y),
+			arcData);
+
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		previewArc->SetData(arcData);
+
+
+		this->view->rubberBand->SetEnd(point);
+
+		data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
 }
 
 void ShDrawArcMethod_StartCentertLength::ApplyOrthogonalShape(bool on) {
 
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		return;
+
+	ShPoint3d mouse = this->view->GetCursorPoint();
+
+	if (status == ShDrawArcAction::Status::PickedStart) {
+
+		if (on == true) {
+
+			ShPoint3d orth;
+			this->GetOrthogonal(this->start.x, this->start.y, mouse.x, mouse.y, orth.x, orth.y);
+			this->view->rubberBand->SetEnd(orth);
+		}
+		else {
+			this->view->rubberBand->SetEnd(mouse);
+		}
+
+	}
+	else if (status == ShDrawArcAction::Status::PickedCenter) {
+
+		if (on == true) {
+
+			ShPoint3d orth;
+			this->GetOrthogonal(this->start.x, this->start.y, mouse.x, mouse.y, orth.x, orth.y);
+			this->view->rubberBand->SetEnd(orth);
+		}
+		else
+			this->view->rubberBand->SetEnd(mouse);
+
+		ShPoint3d end = this->view->rubberBand->GetEnd();
+
+		ShArcData arcData;
+		this->GetArcDataWithStartCenterLength(this->start, this->center,
+			Math::GetDistance(this->start.x, this->start.y, end.x, end.y),
+			arcData);
+
+		ShArc *arc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		arc->SetData(arcData);
+	}
+
+	this->view->update((DrawType)(DrawCaptureImage | DrawPreviewEntities));
 }
 
 QString ShDrawArcMethod_StartCentertLength::GetActionHeadTitle() {
 
-	return QString("");
+	ShDrawArcAction::Status status = this->GetStatus();
+	QString str = "";
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		str = "Arc >> Specify start point of arc: ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		str = "Arc >> Specify center point of arc: ";
+	else if (status == ShDrawArcAction::Status::PickedCenter)
+		str = "Arc >> Specify length of chord: ";
+
+	return str;
 }
 
 void ShDrawArcMethod_StartCentertLength::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::Status::PickedNothing) {
+
+		data.SetAllowOrthogonal(true);
+		data.SetAllowtSnap(true);
+
+		ShPoint3d mouse = this->view->GetCursorPoint();
+		data.SetOrthogonalBasePoint(mouse);
+		data.SetSnapBasePoint(mouse);
+	}
+	else if (status == ShDrawArcAction::Status::PickedStart ||
+		status == ShDrawArcAction::Status::PickedCenter) {
+		data.SetAllowOrthogonal(true);
+		data.SetAllowtSnap(true);
+
+		ShPoint3d point = this->view->rubberBand->GetStart();
+
+		data.SetOrthogonalBasePoint(point);
+		data.SetSnapBasePoint(point);
+
+	}
+}
+
+bool ShDrawArcMethod_StartCentertLength::GetArcDataWithStartCenterLength(const ShPoint3d& start, const ShPoint3d& center,
+	double length, ShArcData &arcData) {
+
+	double radius = Math::GetDistance(center.x, center.y, start.x, start.y);
+	double height = length / 2;
+	double angle = asin(height / radius) * 180 / 3.1415926535897;
+
+
+	arcData.radius = radius;
+	arcData.center = center;
+	arcData.startAngle = Math::GetAbsAngle(center.x, center.y, start.x, start.y);
+	arcData.endAngle = Math::AddAngle(arcData.startAngle, angle * 2);
+
+	return true;
 }
 
 
@@ -811,7 +990,7 @@ ShDrawArcMethod_StartEndAngle::~ShDrawArcMethod_StartEndAngle() {
 
 }
 
-void ShDrawArcMethod_StartEndAngle::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawArcMethod_StartEndAngle::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShDrawArcAction::Status &status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
@@ -850,8 +1029,6 @@ void ShDrawArcMethod_StartEndAngle::MousePressEvent(QMouseEvent *event, ShAction
 			return;
 		}
 
-		
-		this->view->rubberBand->SetEnd(nextPoint);
 
 		ShArcData arcData;
 		this->GetArcDataWithStartEndAnother(this->start, this->end, nextPoint, arcData);
@@ -934,7 +1111,7 @@ void ShDrawArcMethod_StartEndAngle::ApplyOrthogonalShape(bool on) {
 
 		if (on == true) {
 			ShPoint3d orth;
-			this->GetOrthogonal(this->end.x, this->end.y, mouse.x, mouse.y, orth.x, orth.y);
+			this->GetOrthogonal(this->start.x, this->start.y, mouse.x, mouse.y, orth.x, orth.y);
 			this->view->rubberBand->SetEnd(orth);
 		}
 		else {
@@ -1028,7 +1205,7 @@ ShDrawArcMethod_StartEndDirection::~ShDrawArcMethod_StartEndDirection() {
 
 }
 
-void ShDrawArcMethod_StartEndDirection::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawArcMethod_StartEndDirection::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 }
 
@@ -1062,7 +1239,7 @@ ShDrawArcMethod_StartEndRadius::~ShDrawArcMethod_StartEndRadius() {
 
 }
 
-void ShDrawArcMethod_StartEndRadius::MousePressEvent(QMouseEvent *event, ShActionData &data) {
+void ShDrawArcMethod_StartEndRadius::LMousePressEvent(QMouseEvent *event, ShActionData &data) {
 
 	ShDrawArcAction::Status &status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
@@ -1292,7 +1469,7 @@ ShDrawArcMethod_CenterStartEnd::~ShDrawArcMethod_CenterStartEnd() {
 
 }
 
-void ShDrawArcMethod_CenterStartEnd::MousePressEvent(QMouseEvent *event, ShActionData &data) {
+void ShDrawArcMethod_CenterStartEnd::LMousePressEvent(QMouseEvent *event, ShActionData &data) {
 
 	ShDrawArcAction::Status &status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
@@ -1491,25 +1668,195 @@ ShDrawArcMethod_CenterStartAngle::~ShDrawArcMethod_CenterStartAngle() {
 
 }
 
-void ShDrawArcMethod_CenterStartAngle::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawArcMethod_CenterStartAngle::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
+	ShDrawArcAction::Status &status = this->GetStatus();
+	ShPoint3d point = data.GetPoint();
+	ShPoint3d nextPoint = data.GetNextPoint();
+
+	if (status == ShDrawArcAction::Status::PickedNothing) {
+
+		this->center = point;
+
+		status = ShDrawArcAction::Status::PickedCenter;
+
+		this->view->rubberBand = new ShRubberBand(ShLineData(point, nextPoint));
+
+		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		ShUpdateListTextEvent event2("");
+		this->view->Notify(&event2);
+
+		ShUpdateCommandEditHeadTitle event3("Arc >> Specify start point of arc: ");
+		this->view->Notify(&event3);
+
+	}
+	else if (status == ShDrawArcAction::Status::PickedCenter) {
+
+		this->start = point;
+
+		status = ShDrawArcAction::Status::PickedStart;
+
+
+		ShArcData arcData;
+		arcData.center = this->center;
+		arcData.radius = Math::GetDistance(this->center.x, this->center.y, this->start.x, this->start.y);
+		arcData.startAngle = Math::GetAbsAngle(this->center.x, this->center.y, this->start.x, this->start.y);
+
+		double angleCenterToNext = Math::GetAbsAngle(this->center.x, this->center.y, nextPoint.x, nextPoint.y);
+
+		arcData.endAngle = Math::AddAngle(arcData.startAngle, angleCenterToNext);
+
+
+		this->view->preview.Add(new ShArc(ShPropertyData(*this->view->GetData()->GetPropertyData()),
+			arcData, this->view->entityTable.GetLayerTable()->GetCurrentLayer()));
+
+		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		ShUpdateListTextEvent event2("");
+		this->view->Notify(&event2);
+
+		ShUpdateCommandEditHeadTitle event3("Arc >> Specify included angle: ");
+		this->view->Notify(&event3);
+
+	}
+	else if (status = ShDrawArcAction::Status::PickedStart) {
+
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		double angleCenterToPoint = Math::GetAbsAngle(this->center.x, this->center.y, point.x, point.y);
+		double endAngle = Math::AddAngle(previewArc->GetStartAngle(), angleCenterToPoint);
+		previewArc->SetEndAngle(endAngle);
+
+		ShUpdateListTextEvent event2("");
+		this->view->Notify(&event2);
+
+		this->AddEntityAndFinish(previewArc->Clone(), "Arc");
+
+	}
 }
 
 void ShDrawArcMethod_CenterStartAngle::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::Status::PickedCenter) {
+
+		ShPoint3d point = data.GetPoint();
+
+		this->view->rubberBand->SetEnd(point);
+
+		data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+	else if (status == ShDrawArcAction::Status::PickedStart) {
+
+		ShPoint3d point = data.GetPoint();
+
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+
+		double angleCenterToPoint = Math::GetAbsAngle(this->center.x, this->center.y, point.x, point.y);
+		double endAngle = Math::AddAngle(previewArc->GetStartAngle(), angleCenterToPoint);
+		previewArc->SetEndAngle(endAngle);
+
+		this->view->rubberBand->SetEnd(point);
+
+		data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
 }
 
 void ShDrawArcMethod_CenterStartAngle::ApplyOrthogonalShape(bool on) {
 
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		return;
+
+	ShPoint3d mouse = this->view->GetCursorPoint();
+
+	if (status == ShDrawArcAction::Status::PickedCenter) {
+
+		if (on == true) {
+			ShPoint3d center = this->view->rubberBand->GetStart();
+			ShPoint3d orth;
+			this->GetOrthogonal(center.x, center.y, mouse.x, mouse.y, orth.x, orth.y);
+			this->view->rubberBand->SetEnd(orth);
+		}
+		else {
+			this->view->rubberBand->SetEnd(mouse);
+		}
+
+	}
+	else if (status == ShDrawArcAction::Status::PickedStart) {
+		ShArc *arc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		ShPoint3d center = arc->GetCenter();
+		double angleCenterToPoint;
+
+		if (on == true) {
+
+			ShPoint3d orth;
+			this->GetOrthogonal(center.x, center.y, mouse.x, mouse.y, orth.x, orth.y);
+			this->view->rubberBand->SetEnd(orth);
+			angleCenterToPoint = Math::GetAbsAngle(center.x, center.y, orth.x, orth.y);
+
+		}
+		else {
+			this->view->rubberBand->SetEnd(mouse);
+			angleCenterToPoint = Math::GetAbsAngle(center.x, center.y, mouse.x, mouse.y);
+		}
+
+
+		arc->SetEndAngle(Math::AddAngle(arc->GetStartAngle(), angleCenterToPoint));
+	}
+
+	this->view->update((DrawType)(DrawCaptureImage | DrawPreviewEntities));
 }
 
 QString ShDrawArcMethod_CenterStartAngle::GetActionHeadTitle() {
 
-	return QString("");
+	ShDrawArcAction::Status status = this->GetStatus();
+	QString str = "";
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		str = "Arc >> Specify center point of arc: ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		str = "Arc >> Specify start point of arc: ";
+	else if (status == ShDrawArcAction::Status::PickedCenter)
+		str = "Arc >> Specify included angle: ";
+
+	return str;
 }
 
 void ShDrawArcMethod_CenterStartAngle::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::Status::PickedNothing) {
+
+		data.SetAllowOrthogonal(true);
+		data.SetAllowtSnap(true);
+
+		ShPoint3d mouse = this->view->GetCursorPoint();
+		data.SetOrthogonalBasePoint(mouse);
+		data.SetSnapBasePoint(mouse);
+	}
+	else if (status == ShDrawArcAction::Status::PickedCenter) {
+		data.SetAllowOrthogonal(true);
+		data.SetAllowtSnap(true);
+
+		ShPoint3d point = this->view->rubberBand->GetStart();
+
+		data.SetOrthogonalBasePoint(point);
+		data.SetSnapBasePoint(point);
+
+	}
+	else if (status == ShDrawArcAction::Status::PickedStart) {
+		data.SetAllowOrthogonal(true);
+		data.SetAllowtSnap(true);
+
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+
+		data.SetOrthogonalBasePoint(previewArc->GetCenter());
+		data.SetSnapBasePoint(previewArc->GetCenter());
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1524,25 +1871,208 @@ ShDrawArcMethod_CenterStartLength::~ShDrawArcMethod_CenterStartLength() {
 
 }
 
-void ShDrawArcMethod_CenterStartLength::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawArcMethod_CenterStartLength::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
+	ShDrawArcAction::Status &status = this->GetStatus();
+	ShPoint3d point = data.GetPoint();
+	ShPoint3d nextPoint = data.GetNextPoint();
+
+	if (status == ShDrawArcAction::Status::PickedNothing) {
+
+		this->center = point;
+
+		status = ShDrawArcAction::Status::PickedCenter;
+
+		this->view->rubberBand = new ShRubberBand(ShLineData(point, nextPoint));
+
+		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		ShUpdateListTextEvent event2("");
+		this->view->Notify(&event2);
+
+		ShUpdateCommandEditHeadTitle event3("Arc >> Specify start point of arc: ");
+		this->view->Notify(&event3);
+
+	}
+	else if (status == ShDrawArcAction::Status::PickedCenter) {
+
+		this->start = point;
+
+		status = ShDrawArcAction::Status::PickedStart;
+
+		this->view->rubberBand->SetStart(this->start);
+		this->view->rubberBand->SetEnd(nextPoint);
+
+		ShArcData arcData;
+		this->GetArcDataWithCenterStartLength(this->center, this->start,
+			Math::GetDistance(this->start.x, this->start.y, nextPoint.x, nextPoint.y),
+			arcData);
+
+
+		this->view->preview.Add(new ShArc(ShPropertyData(*this->view->GetData()->GetPropertyData()),
+			arcData, this->view->entityTable.GetLayerTable()->GetCurrentLayer()));
+
+		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		ShUpdateListTextEvent event2("");
+		this->view->Notify(&event2);
+
+		ShUpdateCommandEditHeadTitle event3("Arc >> Specify length of chord: ");
+		this->view->Notify(&event3);
+
+	}
+	else if (status = ShDrawArcAction::Status::PickedStart) {
+
+		ShArcData arcData;
+		this->GetArcDataWithCenterStartLength(this->center, this->start,
+			Math::GetDistance(this->start.x, this->start.y, point.x, point.y),
+			arcData);
+
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		previewArc->SetData(arcData);
+
+		ShUpdateListTextEvent event2("");
+		this->view->Notify(&event2);
+
+		this->AddEntityAndFinish(previewArc->Clone(), "Arc");
+
+	}
 }
 
 void ShDrawArcMethod_CenterStartLength::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::Status::PickedCenter) {
+
+		ShPoint3d point = data.GetPoint();
+
+		this->view->rubberBand->SetEnd(point);
+
+		data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+	else if (status == ShDrawArcAction::Status::PickedStart) {
+
+		ShPoint3d point = data.GetPoint();
+
+		ShArcData arcData;
+		this->GetArcDataWithCenterStartLength(this->center, this->start,
+			Math::GetDistance(this->start.x, this->start.y, point.x, point.y),
+			arcData);
+
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		previewArc->SetData(arcData);
+
+	
+		this->view->rubberBand->SetEnd(point);
+
+		data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
 }
 
 void ShDrawArcMethod_CenterStartLength::ApplyOrthogonalShape(bool on) {
 
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		return;
+
+	ShPoint3d mouse = this->view->GetCursorPoint();
+
+	if (status == ShDrawArcAction::Status::PickedCenter) {
+
+		if (on == true) {
+	
+			ShPoint3d orth;
+			this->GetOrthogonal(this->center.x, this->center.y, mouse.x, mouse.y, orth.x, orth.y);
+			this->view->rubberBand->SetEnd(orth);
+		}
+		else {
+			this->view->rubberBand->SetEnd(mouse);
+		}
+
+	}
+	else if (status == ShDrawArcAction::Status::PickedStart) {
+		
+		if (on == true) {
+
+			ShPoint3d orth;
+			this->GetOrthogonal(this->start.x, this->start.y, mouse.x, mouse.y, orth.x, orth.y);
+			this->view->rubberBand->SetEnd(orth);
+		}
+		else 
+			this->view->rubberBand->SetEnd(mouse);
+
+		ShPoint3d end = this->view->rubberBand->GetEnd();
+
+		ShArcData arcData;
+		this->GetArcDataWithCenterStartLength(this->center, this->start,
+			Math::GetDistance(this->start.x, this->start.y, end.x, end.y),
+			arcData);
+
+		ShArc *arc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		arc->SetData(arcData);
+	}
+
+	this->view->update((DrawType)(DrawCaptureImage | DrawPreviewEntities));
 }
 
 QString ShDrawArcMethod_CenterStartLength::GetActionHeadTitle() {
 
-	return QString("");
+	ShDrawArcAction::Status status = this->GetStatus();
+	QString str = "";
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		str = "Arc >> Specify center point of arc: ";
+	else if (status == ShDrawArcAction::Status::PickedCenter)
+		str = "Arc >> Specify start point of arc: ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		str = "Arc >> Specify length of chord: ";
+
+	return str;
 }
 
 void ShDrawArcMethod_CenterStartLength::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::Status::PickedNothing) {
+
+		data.SetAllowOrthogonal(true);
+		data.SetAllowtSnap(true);
+
+		ShPoint3d mouse = this->view->GetCursorPoint();
+		data.SetOrthogonalBasePoint(mouse);
+		data.SetSnapBasePoint(mouse);
+	}
+	else if (status == ShDrawArcAction::Status::PickedCenter ||
+		status == ShDrawArcAction::Status::PickedStart) {
+		data.SetAllowOrthogonal(true);
+		data.SetAllowtSnap(true);
+
+		ShPoint3d point = this->view->rubberBand->GetStart();
+
+		data.SetOrthogonalBasePoint(point);
+		data.SetSnapBasePoint(point);
+
+	}
+	
+}
+
+bool ShDrawArcMethod_CenterStartLength::GetArcDataWithCenterStartLength(const ShPoint3d& center, const ShPoint3d& start,
+	double length, ShArcData &arcData) {
+
+	double radius = Math::GetDistance(center.x, center.y, start.x, start.y);
+	double height = length / 2;
+	double angle = asin(height / radius) * 180 / 3.1415926535897;
+
+	
+	arcData.radius = radius;
+	arcData.center = center;
+	arcData.startAngle= Math::GetAbsAngle(center.x, center.y, start.x, start.y);
+	arcData.endAngle = Math::AddAngle(arcData.startAngle, angle * 2);
+
+	return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////

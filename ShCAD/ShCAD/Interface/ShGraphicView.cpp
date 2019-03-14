@@ -76,6 +76,7 @@ void ShGraphicView::resizeGL(int width, int height) {
 	QOpenGLWidget::resizeGL(width, height);
 	this->update();
 	this->CaptureImage();
+
 }
 
 
@@ -109,7 +110,13 @@ void ShGraphicView::mousePressEvent(QMouseEvent *event) {
 	if (event->buttons() & Qt::MiddleButton)
 		this->SetTemporaryAction(new ShPanMoveAction(this));
 		
-	this->actionHandlerManager->MousePressEvent(event);
+
+	if (event->buttons() & Qt::LeftButton)
+		this->actionHandlerManager->LMousePressEvent(event);
+	else if (event->buttons() & Qt::MiddleButton)
+		this->actionHandlerManager->MMousePressEvent(event);
+	else if (event->buttons() & Qt::RightButton)
+		this->actionHandlerManager->RMousePressEvent(event);
 
 }
 

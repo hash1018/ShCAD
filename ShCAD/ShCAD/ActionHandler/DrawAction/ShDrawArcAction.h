@@ -46,7 +46,7 @@ public:
 	ShDrawArcAction(ShGraphicView *graphicView, ShDrawArcAction::DrawMethod drawMethod = ThreePoint);
 	~ShDrawArcAction();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
@@ -73,7 +73,7 @@ public:
 	ShDrawArcMethod(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	virtual ~ShDrawArcMethod() = 0;
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data) = 0;
 
 	virtual void ApplyOrthogonalShape(bool on) = 0;
@@ -104,7 +104,7 @@ public:
 	ShDrawArcMethod_ThreePoint(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_ThreePoint();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -128,7 +128,7 @@ public:
 	ShDrawArcMethod_StartCentertEnd(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartCentertEnd();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -147,7 +147,7 @@ public:
 	ShDrawArcMethod_StartCentertAngle (ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartCentertAngle();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -159,16 +159,24 @@ public:
 
 class ShDrawArcMethod_StartCentertLength : public ShDrawArcMethod {
 
+private:
+	ShPoint3d start;
+	ShPoint3d center;
+
 public:
 	ShDrawArcMethod_StartCentertLength(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartCentertLength();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
 	virtual QString GetActionHeadTitle();
 	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
+
+private:
+	bool GetArcDataWithStartCenterLength(const ShPoint3d& start, const ShPoint3d& center, double length,
+		ShArcData &arcData);
 
 };
 
@@ -185,7 +193,7 @@ public:
 	ShDrawArcMethod_StartEndAngle(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartEndAngle();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -204,7 +212,7 @@ public:
 	ShDrawArcMethod_StartEndDirection(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartEndDirection();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -224,7 +232,7 @@ public:
 	ShDrawArcMethod_StartEndRadius(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartEndRadius();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -244,7 +252,7 @@ public:
 	ShDrawArcMethod_CenterStartEnd(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_CenterStartEnd();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -256,11 +264,15 @@ public:
 
 class ShDrawArcMethod_CenterStartAngle : public ShDrawArcMethod {
 
+private:
+	ShPoint3d center;
+	ShPoint3d start;
+
 public:
 	ShDrawArcMethod_CenterStartAngle(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_CenterStartAngle();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -272,17 +284,23 @@ public:
 
 class ShDrawArcMethod_CenterStartLength : public ShDrawArcMethod {
 
+private:
+	ShPoint3d center;
+	ShPoint3d start;
+
 public:
 	ShDrawArcMethod_CenterStartLength(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_CenterStartLength();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
 	virtual QString GetActionHeadTitle();
 	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
+	bool GetArcDataWithCenterStartLength(const ShPoint3d& center, const ShPoint3d& start, double length,
+		ShArcData &arcData);
 };
 
 

@@ -20,12 +20,28 @@ ShActionHandlerDecorator::~ShActionHandlerDecorator() {
 		delete this->child;
 }
 
-void ShActionHandlerDecorator::MousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
+void ShActionHandlerDecorator::LMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
 
 	if (this->child != 0)
-		this->child->MousePressEvent(event, data, decoratorData);
+		this->child->LMousePressEvent(event, data, decoratorData);
 	else
-		this->actionHandler->MousePressEvent(event, data);
+		this->actionHandler->LMousePressEvent(event, data);
+}
+
+void ShActionHandlerDecorator::MMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
+
+	if (this->child != 0)
+		this->child->MMousePressEvent(event, data, decoratorData);
+	else
+		this->actionHandler->MMousePressEvent(event, data);
+}
+
+void ShActionHandlerDecorator::RMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
+
+	if (this->child != 0)
+		this->child->RMousePressEvent(event, data, decoratorData);
+	else
+		this->actionHandler->RMousePressEvent(event, data);
 }
 
 void ShActionHandlerDecorator::MouseMoveEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
@@ -154,7 +170,7 @@ ShActionHandlerDecorator_DisposableSnap_General::~ShActionHandlerDecorator_Dispo
 
 }
 
-void ShActionHandlerDecorator_DisposableSnap_General::MousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
+void ShActionHandlerDecorator_DisposableSnap_General::LMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
 
 	ShAllowedDraftData allowedDraftData;
 	this->actionHandler->IsAllowedDraftOperation(allowedDraftData);
@@ -173,7 +189,7 @@ void ShActionHandlerDecorator_DisposableSnap_General::MousePressEvent(QMouseEven
 		decoratorData.SetSnapClicked(true);
 	}
 	
-	ShActionHandlerDecorator_DisposableSnap::MousePressEvent(event, data, decoratorData);
+	ShActionHandlerDecorator_DisposableSnap::LMousePressEvent(event, data, decoratorData);
 
 }
 
@@ -209,7 +225,7 @@ ShActionHandlerDecorator_DisposableSnap_Perpendicular::~ShActionHandlerDecorator
 
 }
 
-void ShActionHandlerDecorator_DisposableSnap_Perpendicular::MousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
+void ShActionHandlerDecorator_DisposableSnap_Perpendicular::LMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
 	
 	ShAllowedDraftData allowedDraftData;
 	this->actionHandler->IsAllowedDraftOperation(allowedDraftData);
@@ -232,7 +248,7 @@ void ShActionHandlerDecorator_DisposableSnap_Perpendicular::MousePressEvent(QMou
 		decoratorData.SetSnapClicked(true);
 	}
 
-	ShActionHandlerDecorator_DisposableSnap::MousePressEvent(event, data, decoratorData);
+	ShActionHandlerDecorator_DisposableSnap::LMousePressEvent(event, data, decoratorData);
 
 }
 
@@ -272,7 +288,7 @@ ShDrawLineAction_DisposableSnap_Perpendicular_PickedNothing::~ShDrawLineAction_D
 }
 
 
-void ShDrawLineAction_DisposableSnap_Perpendicular_PickedNothing::MousePressEvent(QMouseEvent *event,
+void ShDrawLineAction_DisposableSnap_Perpendicular_PickedNothing::LMousePressEvent(QMouseEvent *event,
 	ShActionData& data, ShActionDecoratorData &decoratorData) {
 
 	ShAllowedDraftData allowedDraftData;
@@ -292,7 +308,7 @@ void ShDrawLineAction_DisposableSnap_Perpendicular_PickedNothing::MousePressEven
 		decoratorData.SetSnapClicked(true);
 	}
 
-	ShActionHandlerDecorator_DisposableSnap::MousePressEvent(event, data, decoratorData);
+	ShActionHandlerDecorator_DisposableSnap::LMousePressEvent(event, data, decoratorData);
 
 	ShDrawLineAction *drawLineAction = dynamic_cast<ShDrawLineAction*>(this->actionHandler);
 
@@ -341,7 +357,7 @@ ShDrawLineAction_DisposableSnap_Per_Per::~ShDrawLineAction_DisposableSnap_Per_Pe
 }
 
 #include "Visitor Pattern\ShLineBothPerpendicularVisitor.h"
-void ShDrawLineAction_DisposableSnap_Per_Per::MousePressEvent(QMouseEvent *event, ShActionData& data,
+void ShDrawLineAction_DisposableSnap_Per_Per::LMousePressEvent(QMouseEvent *event, ShActionData& data,
 	ShActionDecoratorData &decoratorData) {
 
 	ShAllowedDraftData allowedDraftData;
@@ -379,7 +395,7 @@ void ShDrawLineAction_DisposableSnap_Per_Per::MousePressEvent(QMouseEvent *event
 
 	if (isValid == true) {
 		data.SetPoint(point);
-		ShActionHandlerDecorator_DisposableSnap::MousePressEvent(event, data, decoratorData);
+		ShActionHandlerDecorator_DisposableSnap::LMousePressEvent(event, data, decoratorData);
 	}
 	else {
 		//Fail message.
@@ -425,7 +441,7 @@ ShActionHandlerDecorator_Orthogonal::~ShActionHandlerDecorator_Orthogonal() {
 }
 
 
-void ShActionHandlerDecorator_Orthogonal::MousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
+void ShActionHandlerDecorator_Orthogonal::LMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {
 
 	ShAllowedDraftData allowedDraftData;
 	this->actionHandler->IsAllowedDraftOperation(allowedDraftData);
@@ -451,7 +467,7 @@ void ShActionHandlerDecorator_Orthogonal::MousePressEvent(QMouseEvent *event, Sh
 	}
 
 
-	ShActionHandlerDecorator_Draft::MousePressEvent(event, data, decoratorData);
+	ShActionHandlerDecorator_Draft::LMousePressEvent(event, data, decoratorData);
 }
 
 void ShActionHandlerDecorator_Orthogonal::MouseMoveEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData) {

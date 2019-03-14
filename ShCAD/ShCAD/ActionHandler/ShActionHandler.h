@@ -80,7 +80,10 @@ public:
 	ShActionHandler(ShGraphicView *graphicView);
 	virtual ~ShActionHandler() = 0;
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
+	virtual void MMousePressEvent(QMouseEvent *event, ShActionData& data) {}
+	virtual void RMousePressEvent(QMouseEvent *event, ShActionData& data) {}
+
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data) = 0;
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data) = 0;
 	virtual void MouseReleaseEvent(QMouseEvent *event, ShActionData& data) {}

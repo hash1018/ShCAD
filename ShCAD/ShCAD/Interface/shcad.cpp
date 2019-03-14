@@ -71,7 +71,7 @@ void ShCAD::NewActionClicked() {
 	newWidget->setMinimumSize(400, 400);
 
 	this->mdiArea->addSubWindow(newWidget,Qt::WindowFlags::enum_type::SubWindow);
-	newWidget->show();
+	newWidget->showMaximized();
 	
 	ShWidgetManager::GetInstance()->Add(newWidget);
 }

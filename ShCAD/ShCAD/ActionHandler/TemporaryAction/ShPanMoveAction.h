@@ -38,8 +38,9 @@ private:
 public:
 	ShPanMoveAction(ShGraphicView *graphicView);
 	~ShPanMoveAction();
-
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData &data);
+	virtual void MMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 	virtual void MouseReleaseEvent(QMouseEvent *event, ShActionData& data);

@@ -29,17 +29,29 @@
 #include "ShTemporaryAction.h"
 class ShDragSelectAction : public ShTemporaryAction {
 
-private:
+public:
+	enum Mode {
+		SelectMode,
+		UnSelectMode,
+	};
+
+	enum SelectMethod {
+		AllPart,
+		OnePart,
+	};
+
+protected:
 	double firstX;
 	double firstY;
 	double secondX;
 	double secondY;
+	Mode mode;
 
 public:
-	ShDragSelectAction(ShGraphicView *graphicView, double firstX,double firstY);
+	ShDragSelectAction(ShGraphicView *graphicView, double firstX, double firstY, Mode mode = SelectMode);
 	~ShDragSelectAction();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 	
@@ -48,6 +60,11 @@ public:
 
 	virtual QCursor GetCursorShape();
 	virtual void Draw(QPainter *painter);
+
+
+private:
+	void GetDragRectPoint(const ShPoint3d& first, const ShPoint3d& second, ShPoint3d &topLeft, ShPoint3d &bottomRight,
+		SelectMethod &selectMethod);
 };
 
 #endif //_SHDRAGSELECTACTION_H

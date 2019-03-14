@@ -43,13 +43,13 @@ ShRibbonCircleButton::ShRibbonCircleButton(QWidget *parent)
 
 	this->strategy = new ShCircleButtonCenterRadiusStrategy;
 	this->SetIcon(this->strategy->GetIcon());
-
+	
 	QMenu *menu = new QMenu(this->popupButton);
-	menu->addAction("Center, Radius", this, SLOT(CenterRadiusActionClicked()));
-	menu->addAction("Center, Diameter", this, SLOT(CenterDiameterActionClicked()));
+	menu->addAction(ShCircleButtonCenterRadiusStrategy::GetIcon_(), "Center, Radius", this, SLOT(CenterRadiusActionClicked()));
+	menu->addAction(ShCircleButtonCenterDiameterStrategy::GetIcon_(), "Center, Diameter", this, SLOT(CenterDiameterActionClicked()));
 	menu->addSeparator();
-	menu->addAction("2-Point", this, SLOT(TwoPointActionClicked()));
-	menu->addAction("3-Point", this, SLOT(ThreePointActionClicked()));
+	menu->addAction(ShCircleButtonTwoPointStrategy::GetIcon_(), "2-Point", this, SLOT(TwoPointActionClicked()));
+	menu->addAction(ShCircleButtonThreePointStrategy::GetIcon_(), "3-Point", this, SLOT(ThreePointActionClicked()));
 
 	this->popupButton->setMenu(menu);
 
@@ -90,19 +90,41 @@ ShRibbonArcButton::ShRibbonArcButton(QWidget *parent)
 	this->SetIcon(this->strategy->GetIcon());
 
 	QMenu *menu = new QMenu(this->popupButton);
-	menu->addAction("3-Point", this, SLOT(ThreePointActionClicked()));
+	menu->addAction(ShArcButtonThreePointStrategy::GetIcon_(), "3-Point", 
+		this, SLOT(ThreePointActionClicked()));
+
 	menu->addSeparator();
-	menu->addAction("Start, Center, End", this, SLOT(StartCenterEndActionClicked()));
-	menu->addAction("Start, Center, Angle", this, SLOT(StartCenterAngleActionClicked()));
-	menu->addAction("Start, Center, Length", this, SLOT(StartCenterLengthActionClicked()));
+
+	menu->addAction(ShArcButtonStartCenterEndStrategy::GetIcon_(), "Start, Center, End", 
+		this, SLOT(StartCenterEndActionClicked()));
+
+	menu->addAction(ShArcButtonStartCenterAngleStrategy::GetIcon_(), "Start, Center, Angle",
+		this, SLOT(StartCenterAngleActionClicked()));
+
+	menu->addAction(ShArcButtonStartCenterLengthStrategy::GetIcon_(), "Start, Center, Length",
+		this, SLOT(StartCenterLengthActionClicked()));
+
 	menu->addSeparator();
-	menu->addAction("Start, End, Angle", this, SLOT(StartEndAngleActionClicked()));
-	menu->addAction("Start, End, Direction", this, SLOT(StartEndDirectionActionClicked()));
-	menu->addAction("Start, End, Radius", this, SLOT(StartEndRadiusActionClicked()));
+
+	menu->addAction(ShArcButtonStartEndAngleStrategy::GetIcon_(), "Start, End, Angle",
+		this, SLOT(StartEndAngleActionClicked()));
+
+	menu->addAction(ShArcButtonStartEndDirectionStrategy::GetIcon_(), "Start, End, Direction",
+		this, SLOT(StartEndDirectionActionClicked()));
+
+	menu->addAction(ShArcButtonStartEndRadiusStrategy::GetIcon_(), "Start, End, Radius",
+		this, SLOT(StartEndRadiusActionClicked()));
+
 	menu->addSeparator();
-	menu->addAction("Center, Start, End", this, SLOT(CenterStartEndActionClicked()));
-	menu->addAction("Center, Start, Angle", this, SLOT(CenterStartAngleActionClicked()));
-	menu->addAction("Center, Start, Length", this, SLOT(CenterStartLengthActionClicked()));
+
+	menu->addAction(ShArcButtonCenterStartEndStrategy::GetIcon_(),"Center, Start, End", 
+		this, SLOT(CenterStartEndActionClicked()));
+
+	menu->addAction(ShArcButtonCenterStartAngleStrategy::GetIcon_(),"Center, Start, Angle", 
+		this, SLOT(CenterStartAngleActionClicked()));
+
+	menu->addAction(ShArcButtonCenterStartLengthStrategy::GetIcon_(), "Center, Start, Length",
+		this, SLOT(CenterStartLengthActionClicked()));
 
 	this->popupButton->setMenu(menu);
 }

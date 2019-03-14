@@ -27,7 +27,10 @@ public:
 	ShActionHandlerManager(ShGraphicView *graphicView, const ShDraftFlag& draftFlag);
 	~ShActionHandlerManager();
 
-	virtual void MousePressEvent(QMouseEvent *event);
+	virtual void LMousePressEvent(QMouseEvent *event);
+	virtual void MMousePressEvent(QMouseEvent *event);
+	virtual void RMousePressEvent(QMouseEvent *event);
+
 	virtual void MouseMoveEvent(QMouseEvent *event);
 	virtual void MouseReleaseEvent(QMouseEvent *event);
 	virtual void KeyPressEvent(QKeyEvent *event);

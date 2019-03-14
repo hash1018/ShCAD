@@ -50,9 +50,9 @@ ShDrawLineAction::~ShDrawLineAction() {
 }
 
 
-void ShDrawLineAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawLineAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
-	this->drawLineMethod->MousePressEvent(event, data);
+	this->drawLineMethod->LMousePressEvent(event, data);
 
 }
 
@@ -187,7 +187,7 @@ ShDrawLineMethod_Default::~ShDrawLineMethod_Default() {
 
 }
 
-void ShDrawLineMethod_Default::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawLineMethod_Default::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 	
 	ShDrawLineAction::Status& status = this->GetStatus();
 	ShPoint3d point = data.GetPoint();
@@ -260,7 +260,7 @@ ShDrawLineMethod_Perpendicular::~ShDrawLineMethod_Perpendicular() {
 }
 
 #include "Visitor Pattern\ShFootOfPerpendicularVisitor.h"
-void ShDrawLineMethod_Perpendicular::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDrawLineMethod_Perpendicular::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->GetStatus() == ShDrawLineAction::PickedStart) {
 

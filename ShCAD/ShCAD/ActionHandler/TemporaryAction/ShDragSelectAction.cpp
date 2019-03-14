@@ -27,10 +27,10 @@
 #include <QMouseEvent>
 #include <qpainter.h>
 ShDragSelectAction::ShDragSelectAction(ShGraphicView *graphicView,
-	double firstX, double firstY)
-	:ShTemporaryAction(graphicView), firstX(firstX), firstY(firstY), secondX(0), secondY(0) {
+	double firstX, double firstY, Mode mode)
+	:ShTemporaryAction(graphicView), firstX(firstX), firstY(firstY), secondX(0), secondY(0), mode(mode) {
 
-	
+
 }
 
 ShDragSelectAction::~ShDragSelectAction() {
@@ -38,8 +38,15 @@ ShDragSelectAction::~ShDragSelectAction() {
 }
 
 
-//about to close dragRect , and back to previousAction
-void ShDragSelectAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDragSelectAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
+
+
+
+
+
+
+
+
 
 	this->graphicView->setCursor(this->previousAction->GetCursorShape());
 	this->graphicView->update(DrawType::DrawCaptureImage);
@@ -75,48 +82,71 @@ void ShDragSelectAction::Draw(QPainter *painter) {
 	if (painter->isActive() == false)
 		painter->begin(this->graphicView);
 
-	int firstX, firstY, secondX, secondY;
-	this->graphicView->ConvertEntityToDevice(this->firstX, this->firstY, firstX, firstY);
-	this->graphicView->ConvertEntityToDevice(this->secondX, this->secondY, secondX, secondY);
 
-	int width = abs(firstX - secondX);
-	int height = abs(firstY - secondY);
+	SelectMethod selectMethod;
+	ShPoint3d topLeft, bottomRight;
+	this->GetDragRectPoint(ShPoint3d(this->firstX, this->firstY), ShPoint3d(this->secondX, this->secondY),
+		topLeft, bottomRight, selectMethod);
+
+	int topLeftX, topLeftY, bottomRightX, bottomRightY, width, height;
+	this->graphicView->ConvertEntityToDevice(topLeft.x, topLeft.y, topLeftX, topLeftY);
+	this->graphicView->ConvertEntityToDevice(bottomRight.x, bottomRight.y, bottomRightX, bottomRightY);
+	width = abs(topLeftX - bottomRightX);
+	height = abs(topLeftY - bottomRightY);
+
 
 	QPen oldPen = painter->pen();
-
 	QPen pen;
 	pen.setColor(QColor(255, 255, 255));
 	painter->setPen(pen);
 
-	//in this case, entity is selected when its all part is in dragRect.
-	if (firstX <= secondX) {
 
-		if (firstY >= secondY) {
-			painter->drawRect(firstX, firstY - height, width, height);
-			painter->fillRect(firstX, firstY - height, width, height, QColor(102, 102, 204, 125));
-		}
-		else {
-			painter->drawRect(firstX, firstY, width, height);
-			painter->fillRect(firstX, firstY, width, height, QColor(102, 102, 204, 125));
-		}
-
-	}
-	//entity is selected when its any part of body is in dragRect.
-	else {
-
+	if (selectMethod == SelectMethod::OnePart) {
 		pen.setStyle(Qt::PenStyle::DotLine);
 		painter->setPen(pen);
-		if (firstY >= secondY) {
-			painter->drawRect(secondX, secondY, width, height);
-			painter->fillRect(secondX, secondY, width, height, QColor(102, 204, 102, 125));
-		}
-		else {
-			painter->drawRect(secondX, firstY, width, height);
-			painter->fillRect(secondX, firstY, width, height, QColor(102, 204, 102, 125));
-		}
+		painter->drawRect(topLeftX, topLeftY, width, height);
+		painter->fillRect(topLeftX, topLeftY, width, height, QColor(102, 204, 102, 125));
+	}
+	else {
+		painter->drawRect(topLeftX, topLeftY, width, height);
+		painter->fillRect(topLeftX, topLeftY, width, height, QColor(102, 102, 204, 125));
 
 	}
 
+	
 	painter->setPen(oldPen);
 	painter->end();
+}
+
+void ShDragSelectAction::GetDragRectPoint(const ShPoint3d& first, const ShPoint3d& second,
+	ShPoint3d &topLeft, ShPoint3d &bottomRight, SelectMethod &selectMethod) {
+
+	if (first.x > second.x && first.y > second.y) {
+		selectMethod = OnePart;
+		topLeft.x = second.x;
+		topLeft.y = first.y;
+		bottomRight.x = first.x;
+		bottomRight.y = second.y;
+	}
+	else if (first.x <= second.x && first.y > second.y) {
+		selectMethod = AllPart;
+		topLeft.x = first.x;
+		topLeft.y = first.y;
+		bottomRight.x = second.x;
+		bottomRight.y = second.y;
+	}
+	else if (first.x > second.x && first.y <= second.y) {
+		selectMethod = OnePart;
+		topLeft.x = second.x;
+		topLeft.y = second.y;
+		bottomRight.x = first.x;
+		bottomRight.y = first.y;
+	}
+	else if (first.x <= second.x && first.y <= second.y) {
+		selectMethod = AllPart;
+		topLeft.x = first.x;
+		topLeft.y = second.y;
+		bottomRight.x = second.x;
+		bottomRight.y = first.y;
+	}
 }

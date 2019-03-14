@@ -39,7 +39,8 @@ public:
 	ShDefaultAction(ShGraphicView *graphicView);
 	~ShDefaultAction();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
+
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
@@ -64,7 +65,9 @@ public:
 	virtual ~ShSubDefaultAction() = 0;
 
 
-	virtual void MousePressEvent(QMouseEvent *event) = 0;
+	virtual void LMousePressEvent(QMouseEvent *event) = 0;
+	
+
 	virtual void MouseMoveEvent(QMouseEvent *event) = 0;
 
 };
@@ -75,8 +78,9 @@ public:
 	ShSubDefaultAction_Default(ShDefaultAction *defaultAction, ShGraphicView *view);
 	~ShSubDefaultAction_Default();
 
-	void MousePressEvent(QMouseEvent *event);
-	void MouseMoveEvent(QMouseEvent *event);
+	virtual void LMousePressEvent(QMouseEvent *event);
+
+	virtual void MouseMoveEvent(QMouseEvent *event);
 
 };
 
@@ -92,8 +96,10 @@ public:
 		const ShPoint3d& vertex);
 	~ShSubDefaultAction_MouseIsInEntityVertex();
 
-	void MousePressEvent(QMouseEvent *event);
-	void MouseMoveEvent(QMouseEvent *event);
+	virtual void LMousePressEvent(QMouseEvent *event);
+
+
+	virtual void MouseMoveEvent(QMouseEvent *event);
 
 private:
 	void DrawVertex();

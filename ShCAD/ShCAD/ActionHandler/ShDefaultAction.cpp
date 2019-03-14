@@ -42,11 +42,12 @@ ShDefaultAction::~ShDefaultAction() {
 }
 
 
-void ShDefaultAction::MousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShDefaultAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 	
-	this->subDefaultAction->MousePressEvent(event);
+	this->subDefaultAction->LMousePressEvent(event);
 	
 }
+
 
 void ShDefaultAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
@@ -158,7 +159,7 @@ ShSubDefaultAction_Default::~ShSubDefaultAction_Default() {
 
 }
 
-void ShSubDefaultAction_Default::MousePressEvent(QMouseEvent *event) {
+void ShSubDefaultAction_Default::LMousePressEvent(QMouseEvent *event) {
 
 	ShEntity *entity = this->view->entityTable.FindEntity(this->view->GetX(),
 		this->view->GetY(), this->view->GetZoomRate());
@@ -167,7 +168,14 @@ void ShSubDefaultAction_Default::MousePressEvent(QMouseEvent *event) {
 
 		double firstX, firstY;
 		this->view->ConvertDeviceToEntity(event->x(), event->y(), firstX, firstY);
-		this->view->SetTemporaryAction(new ShDragSelectAction(this->view/*, this->defaultAction*/, firstX, firstY));
+		
+		if (event->modifiers() == Qt::ShiftModifier)
+			this->view->SetTemporaryAction(new ShDragSelectAction(this->view, firstX, firstY,
+				ShDragSelectAction::Mode::UnSelectMode));
+		else
+			this->view->SetTemporaryAction(new ShDragSelectAction(this->view, firstX, firstY));
+
+
 		return;
 	}
 
@@ -185,6 +193,7 @@ void ShSubDefaultAction_Default::MousePressEvent(QMouseEvent *event) {
 	}
 
 }
+
 
 #include "Visitor Pattern\ShHitTester.h"
 void ShSubDefaultAction_Default::MouseMoveEvent(QMouseEvent *event) {
@@ -244,7 +253,7 @@ ShSubDefaultAction_MouseIsInEntityVertex::~ShSubDefaultAction_MouseIsInEntityVer
 
 
 #include "ActionHandler\TemporaryAction\ShStretchTemporaryAction.h"
-void ShSubDefaultAction_MouseIsInEntityVertex::MousePressEvent(QMouseEvent *event) {
+void ShSubDefaultAction_MouseIsInEntityVertex::LMousePressEvent(QMouseEvent *event) {
 	//Change to SelectionMove.
 
 	HitPoint hitPoint = HitPoint::HitNothing;
@@ -275,6 +284,7 @@ void ShSubDefaultAction_MouseIsInEntityVertex::MousePressEvent(QMouseEvent *even
 
 
 }
+
 
 #include "ShMath.h"
 void ShSubDefaultAction_MouseIsInEntityVertex::MouseMoveEvent(QMouseEvent *event) {

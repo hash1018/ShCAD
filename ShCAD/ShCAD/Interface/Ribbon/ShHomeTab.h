@@ -6,12 +6,14 @@
 #include "ShRibbon.h"
 
 class ShDrawColumn;
+class ShModifyColumn;
 class ShPropertyColumn;
 class ShLayerColumn;
 class ShHomeTab : public ShRibbonTab {
 	Q_OBJECT
 private:
 	ShDrawColumn *drawColumn;
+	ShModifyColumn *modifyColumn;
 	ShPropertyColumn *propertyColumn;
 	ShLayerColumn *layerColumn;
 
@@ -46,6 +48,17 @@ protected:
 private:
 	void InitLineButton();
 	
+};
+
+////////////////////////////////////////////////////////////////////
+
+class ShModifyColumn : public ShColumnInRibbonTab {
+
+public:
+	ShModifyColumn(QWidget *parent, const QString &title, int width);
+	~ShModifyColumn();
+
+
 };
 
 

@@ -20,7 +20,9 @@ public:
 		const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex);
 	~ShStretchTemporaryAction();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
+	
+
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 

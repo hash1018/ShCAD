@@ -25,20 +25,40 @@ ShActionHandlerManager::~ShActionHandlerManager() {
 
 }
 
-void ShActionHandlerManager::MousePressEvent(QMouseEvent *event) {
+void ShActionHandlerManager::LMousePressEvent(QMouseEvent *event) {
 
 	ShActionData info;
 	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), info.point.x, info.point.y);
 	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), info.nextPoint.x, info.nextPoint.y);
 
 	ShActionDecoratorData decoratorData;
-	this->actionDecorator->MousePressEvent(event, info, decoratorData);
+	this->actionDecorator->LMousePressEvent(event, info, decoratorData);
 	
-	if (event->buttons()& Qt::LeftButton) {
-		this->disposableSnap = ObjectSnap::ObjectSnapNothing;
-		this->ChangeActionDecorator();
-	}
+	
+	this->disposableSnap = ObjectSnap::ObjectSnapNothing;
+	this->ChangeActionDecorator();
+	
+}
 
+void ShActionHandlerManager::MMousePressEvent(QMouseEvent *event) {
+
+	ShActionData info;
+	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), info.point.x, info.point.y);
+	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), info.nextPoint.x, info.nextPoint.y);
+
+	ShActionDecoratorData decoratorData;
+	this->actionDecorator->MMousePressEvent(event, info, decoratorData);
+	
+}
+
+void ShActionHandlerManager::RMousePressEvent(QMouseEvent *event) {
+
+	ShActionData info;
+	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), info.point.x, info.point.y);
+	this->graphicView->ConvertDeviceToEntity(event->x(), event->y(), info.nextPoint.x, info.nextPoint.y);
+
+	ShActionDecoratorData decoratorData;
+	this->actionDecorator->RMousePressEvent(event, info, decoratorData);
 }
 
 void ShActionHandlerManager::MouseMoveEvent(QMouseEvent *event) {

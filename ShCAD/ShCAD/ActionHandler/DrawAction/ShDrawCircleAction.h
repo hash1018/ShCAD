@@ -32,7 +32,7 @@ public:
 	ShDrawCircleAction(ShGraphicView *graphicView, ShDrawCircleAction::DrawMethod drawMethod = CenterRadius);
 	~ShDrawCircleAction();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
@@ -56,7 +56,7 @@ public:
 	ShDrawCircleMethod(ShDrawCircleAction *drawCircleAction, ShGraphicView *view);
 	virtual ~ShDrawCircleMethod() = 0;
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data) = 0;
 
 	virtual void ApplyOrthogonalShape(bool on) = 0;
@@ -79,7 +79,7 @@ public:
 	ShDrawCircleMethod_CenterRadius(ShDrawCircleAction *drawCircleAction, ShGraphicView *view);
 	~ShDrawCircleMethod_CenterRadius();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -93,7 +93,7 @@ public:
 	ShDrawCircleMethod_CenterDiameter(ShDrawCircleAction *drawCircleAction, ShGraphicView *view);
 	~ShDrawCircleMethod_CenterDiameter();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -107,7 +107,7 @@ public:
 	ShDrawCircleMethod_TwoPoint(ShDrawCircleAction *drawCircleAction, ShGraphicView *view);
 	~ShDrawCircleMethod_TwoPoint();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);
@@ -128,7 +128,7 @@ public:
 	ShDrawCircleMethod_ThreePoint(ShDrawCircleAction *drawCircleAction, ShGraphicView *view);
 	~ShDrawCircleMethod_ThreePoint();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	virtual void ApplyOrthogonalShape(bool on);

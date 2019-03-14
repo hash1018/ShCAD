@@ -56,7 +56,7 @@ public:
 	ShDrawLineAction(ShGraphicView *graphicView);
 	~ShDrawLineAction();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
@@ -88,7 +88,7 @@ public:
 	ShDrawLineMethod(ShDrawLineAction *drawLineAction, ShGraphicView *view);
 	virtual ~ShDrawLineMethod() = 0;
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data) = 0;
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data) = 0;
 	
 protected:
@@ -104,7 +104,7 @@ public:
 	ShDrawLineMethod_Default(ShDrawLineAction *drawLineAction, ShGraphicView *view);
 	~ShDrawLineMethod_Default();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 };
@@ -118,7 +118,7 @@ public:
 	ShDrawLineMethod_Perpendicular(ShDrawLineAction *drawLineAction, ShGraphicView *view);
 	~ShDrawLineMethod_Perpendicular();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data);
 
 	inline ShEntity* GetPerpendicularBaseEntity() const { return this->perpendicularBaseEntity; }

@@ -33,7 +33,10 @@ public:
 	ShActionHandlerDecorator(ShGraphicView *graphicView, ShActionHandler *actionHandler, ShActionHandlerDecorator *child = 0);
 	virtual ~ShActionHandlerDecorator() = 0;
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
+	virtual void MMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
+	virtual void RMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
+
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	virtual void MouseReleaseEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
@@ -88,7 +91,7 @@ public:
 		ObjectSnap objectSnap, ShActionHandlerDecorator *child = 0);
 	~ShActionHandlerDecorator_DisposableSnap_General();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	
 
@@ -101,7 +104,7 @@ public:
 		ShActionHandler *actionHandler, ShActionHandlerDecorator *child = 0);
 	~ShActionHandlerDecorator_DisposableSnap_Perpendicular();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	
 };
@@ -115,7 +118,7 @@ public:
 		ShActionHandler *actionHandler, ShActionHandlerDecorator *child = 0);
 	~ShDrawLineAction_DisposableSnap_Perpendicular_PickedNothing();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	
 
@@ -131,7 +134,7 @@ public:
 		ShActionHandlerDecorator *child = 0);
 	~ShDrawLineAction_DisposableSnap_Per_Per();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	
 
@@ -144,7 +147,7 @@ public:
 	ShActionHandlerDecorator_Orthogonal(ShGraphicView *graphicView, ShActionHandler *actionHandler, ShActionHandlerDecorator *child = 0);
 	~ShActionHandlerDecorator_Orthogonal();
 
-	virtual void MousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	virtual void MouseMoveEvent(QMouseEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data, ShActionDecoratorData &decoratorData);
 
