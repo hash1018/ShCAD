@@ -61,6 +61,7 @@ public:
 	virtual QCursor GetCursorShape();
 	virtual void Draw(QPainter *painter);
 
+	virtual QString GetActionHeadTitle();
 
 private:
 	void GetDragRectPoint(const ShPoint3d& first, const ShPoint3d& second, ShPoint3d &topLeft, ShPoint3d &bottomRight,

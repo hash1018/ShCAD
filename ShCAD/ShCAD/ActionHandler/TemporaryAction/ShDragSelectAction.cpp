@@ -26,11 +26,13 @@
 #include "ShDragSelectAction.h"
 #include <QMouseEvent>
 #include <qpainter.h>
+#include "ShNotifyEvent.h"
 ShDragSelectAction::ShDragSelectAction(ShGraphicView *graphicView,
 	double firstX, double firstY, Mode mode)
 	:ShTemporaryAction(graphicView), firstX(firstX), firstY(firstY), secondX(0), secondY(0), mode(mode) {
 
-
+	ShUpdateCommandEditHeadTitle event(this->GetActionHeadTitle());
+	this->graphicView->Notify(&event);
 }
 
 ShDragSelectAction::~ShDragSelectAction() {
@@ -38,19 +40,56 @@ ShDragSelectAction::~ShDragSelectAction() {
 }
 
 
+#include "Visitor Pattern\ShFinder.h"
 void ShDragSelectAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
+	ShPoint3d topLeft, bottomRight;
+	SelectMethod selectMethod;
+	this->GetDragRectPoint(ShPoint3d(this->firstX, this->firstY), ShPoint3d(this->secondX, this->secondY),
+		topLeft, bottomRight, selectMethod);
+
+	ShRectFinder::FindMethod findMethod;
+	if (selectMethod == SelectMethod::AllPart)
+		findMethod = ShRectFinder::AllPartLiesInsideRect;
+	else
+		findMethod = ShRectFinder::OnePartLiesInsideRect;
 
 
+	ShEntity *entity;
+	ShRectFinder rectFinder(topLeft, bottomRight, &entity, findMethod);
+
+	QLinkedList<ShEntity*>::iterator itr;
+	QLinkedList<ShEntity*> foundList;
+
+	for (itr = this->graphicView->entityTable.TurnOnLayerBegin(); itr != this->graphicView->entityTable.TurnOnLayerEnd(); ++itr) {
+	
+		entity = 0;
+		(*itr)->Accept(&rectFinder);
+
+		if (entity != 0)
+			foundList.append((*itr));
+	}
 
 
+	if (this->mode == Mode::SelectMode) {
+
+		this->graphicView->selectedEntityManager.Push(foundList);
+
+		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
+		this->graphicView->CaptureImage();
+
+	}
+	else if (this->mode == Mode::UnSelectMode) {
+
+		this->graphicView->selectedEntityManager.Pop(foundList);
+
+		this->graphicView->update(DrawType::DrawAll);
+		this->graphicView->CaptureImage();
+	}
 
 
-
-
-	this->graphicView->setCursor(this->previousAction->GetCursorShape());
-	this->graphicView->update(DrawType::DrawCaptureImage);
-
+	ShUpdateCommandEditHeadTitle event2(this->previousAction->GetActionHeadTitle());
+	this->graphicView->Notify(&event2);
 	this->ReturnToPrevious();
 }
 
@@ -149,4 +188,9 @@ void ShDragSelectAction::GetDragRectPoint(const ShPoint3d& first, const ShPoint3
 		bottomRight.x = second.x;
 		bottomRight.y = first.y;
 	}
+}
+
+QString ShDragSelectAction::GetActionHeadTitle() {
+
+	return QString("Specify opposite corner: ");
 }

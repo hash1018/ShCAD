@@ -61,8 +61,12 @@ public:
 	//returns false if entity is already selected.
 	bool Push(ShEntity *entity);
 
+	void Push(const QLinkedList<ShEntity*>& list);
+
 	//returns false if entity is not already selected.
 	bool Pop(ShEntity *entity);
+
+	void Pop(const QLinkedList<ShEntity*>& list);
 	
 	void SelectAll(ShEntityTable *entityTable);
 	void UnSelectAll();

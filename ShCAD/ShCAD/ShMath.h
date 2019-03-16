@@ -35,6 +35,7 @@ namespace Math {
 
 	bool CheckPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, const ShPoint3d& end, double tolerance);
 	bool CheckPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& topLeft, const ShPoint3d& bottomRight,double tolerance);
+	bool CheckPointLiesInsideCircle(const ShPoint3d& point, const ShPoint3d& center, double radius);
 	bool CheckPointLiesOnCircleBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double tolerance);
 	bool CheckPointLiesOnArcBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double startAngle, double endAngle, double tolerance);
 	bool CheckAngleLiesOnAngleBetween(double startAngle, double endAngle, double angle);
@@ -47,6 +48,13 @@ namespace Math {
 
 	bool CheckLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
 		ShPoint3d& intersect);
+
+	bool CheckTwoSegmentsIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
+		ShPoint3d& intersect);
+
+	bool CheckCircleLineSegmentIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end);
+	bool CheckCircleLineIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end,
+		ShPoint3d &intersect, ShPoint3d &intersect2);
 
 
 	double Det(double a, double b, double c, double d);

@@ -103,13 +103,23 @@ bool Math::CheckPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, 
 	return false;
 }
 
-bool Math::CheckPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& topLeft, const ShPoint3d& bottomRight,double tolerance) {
+bool Math::CheckPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& topLeft, const ShPoint3d& bottomRight, double tolerance) {
 
 	if (point.x >= topLeft.x - tolerance && point.x <= bottomRight.x + tolerance &&
 		point.y <= topLeft.y + tolerance && point.y >= bottomRight.y - tolerance)
 		return true;
 
 	return false;
+}
+
+bool Math::CheckPointLiesInsideCircle(const ShPoint3d& point, const ShPoint3d& center, double radius) {
+	
+	double dis = GetDistance(point.x, point.y, center.x, center.y);
+
+	if (Compare(dis, radius) == 1)
+		return false;
+	
+	return true;
 }
 
 bool Math::CheckPointLiesOnCircleBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double tolerance) {
@@ -291,6 +301,113 @@ bool Math::CheckLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1
 
 	return true; //All OK
 
+}
+
+bool Math::CheckTwoSegmentsIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
+	ShPoint3d &intersect) {
+
+	float s1_x, s1_y, s2_x, s2_y;
+	s1_x = end1.x - start1.x;     s1_y = end1.y - start1.y;
+	s2_x = end2.x - start2.x;     s2_y = end2.y - start2.y;
+
+	float s, t;
+	s = (-s1_y * (start1.x - start2.x) + s1_x * (start1.y - start2.y)) / (-s2_x * s1_y + s1_x * s2_y);
+	t = (s2_x * (start1.y - start2.y) - s2_y * (start1.x - start2.x)) / (-s2_x * s1_y + s1_x * s2_y);
+
+	if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
+		// Collision detected
+		intersect.x = start1.x + (t * s1_x);
+		intersect.y = start1.y + (t * s1_y);
+		return true;
+	}
+
+	return false; // No collision
+}
+
+bool Math::CheckCircleLineSegmentIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end) {
+	
+	double a, b, c, d, u1, u2, ret, retP1, retP2;
+	ShPoint3d v1, v2;
+	
+	v1.x = end.x - start.x;
+	v1.y = end.y - start.y;
+	v2.x = start.x - center.x;
+	v2.y = start.y - center.y;
+	b = (v1.x * v2.x + v1.y * v2.y);
+	c = 2 * (v1.x * v1.x + v1.y * v1.y);
+	b *= -2;
+	d = sqrt(b * b - 2 * c * (v2.x * v2.x + v2.y * v2.y - radius * radius));
+
+	//if (isNaN(d)) { // no intercept
+	//	return[];
+	//}
+
+	u1 = (b - d) / c;  // these represent the unit distance of point one and two on the line
+	u2 = (b + d) / c;
+	
+	if (u1 <= 1 && u1 >= 0) {  // add point if on the line segment
+		//retP1.x = start.x + v1.x * u1;
+		//retP1.y = start.y + v1.y * u1;
+		//ret[0] = retP1;
+		return true;
+	}
+	if (u2 <= 1 && u2 >= 0) {  // second add point if on the line segment
+		//retP2.x = start.x + v1.x * u2;
+		//retP2.y = start.y + v1.y * u2;
+		//ret[ret.length] = retP2;
+		return true;
+	}
+
+	return false;
+
+}
+
+bool Math::CheckCircleLineIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end,
+	ShPoint3d &intersect, ShPoint3d &intersect2) {
+
+	// compute the euclidean distance between A and B
+	double dis = sqrt(pow((end.x - start.x), 2) + pow((end.y - start.y), 2));
+
+	// compute the direction vector D from A to B
+	double dx = (end.x - start.x) / dis;
+	double dy = (end.y - start.y) / dis;
+
+	// the equation of the line AB is x = Dx*t + start.x, y = Dy*t + start.y with 0 <= t <= LAB.
+
+	// compute the distance between the points A and E, where
+	// E is the point of AB closest the circle center (center.x, center.y)
+	double t = dx*(center.x - start.x) + dy*(center.y - start.y);
+
+	// compute the coordinates of the point E
+	double ex = t*dx + start.x;
+	double ey = t*dy + start.y;
+
+	// compute the euclidean distance between E and C
+	double LEC = sqrt(pow((ex - center.x), 2) + pow((ey - center.y), 2));
+
+	// test if the line intersects the circle
+	if (LEC < radius) {
+		
+		// compute distance from t to circle intersection point
+		double dt = sqrt(pow(radius, 2) - pow(LEC, 2));
+
+		// compute first intersection point
+		intersect.x = (t - dt)*dx + start.x;
+		intersect.y = (t - dt)*dy + start.y;
+
+		// compute second intersection point
+		intersect2.x = (t + dt)*dx + start.x;
+		intersect2.y = (t + dt)*dy + start.y;
+		return true;
+	}
+
+	// else test if the line is tangent to circle
+	else if (LEC == radius)
+		// tangent point to circle is E
+		return false;
+
+	// line doesn't touch circle
+	return false;
 }
 
 double Math::GetAngleDifference(double startAngle, double endAngle, bool antiClockWise) {

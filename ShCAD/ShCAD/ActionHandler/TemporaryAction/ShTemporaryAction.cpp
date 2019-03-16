@@ -44,8 +44,8 @@ void ShTemporaryAction::ReturnToPrevious() {
 	this->graphicView->actionHandlerManager->ReplaceAction(this->previousAction);
 	this->graphicView->setCursor(this->graphicView->actionHandlerManager->GetCursorShape());
 
-	ShCurrentActionChangedEvent event(this->graphicView->actionHandlerManager->GetType());
-	this->graphicView->Notify(&event);
+	ShCurrentActionChangedEvent event2(this->graphicView->actionHandlerManager->GetType());
+	this->graphicView->Notify(&event2);
 
 	this->previousAction = NULL;
 

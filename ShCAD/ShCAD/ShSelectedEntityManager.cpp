@@ -65,12 +65,9 @@ bool ShSelectedEntityManager::Push(ShEntity *entity) {
 
 
 	////
-	//this->justUnSelectedEntityList.empty();
+	
 	this->RemoveAll(this->justUnSelectedEntityList);
-
-	//this->justSelectedEntityList.empty();
 	this->RemoveAll(this->justSelectedEntityList);
-
 	this->justSelectedEntityList.append(entity);
 	////
 
@@ -87,6 +84,38 @@ bool ShSelectedEntityManager::Push(ShEntity *entity) {
 	return true;
 }
 
+void ShSelectedEntityManager::Push(const QLinkedList<ShEntity*>& list) {
+
+	this->RemoveAll(this->justUnSelectedEntityList);
+	this->RemoveAll(this->justSelectedEntityList);
+
+	QLinkedList<ShEntity*>::iterator itr;
+	
+	for (itr = const_cast<QLinkedList<ShEntity*>&>(list).begin(); 
+		itr != const_cast<QLinkedList<ShEntity*>&>(list).end(); ++itr) {
+
+		if ((*itr)->IsSelected() == false) {
+		
+			(*itr)->Select();
+			this->list.append((*itr));
+			this->justSelectedEntityList.append((*itr));
+		}
+	}
+
+
+	this->UpdateDataForCombo();
+
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+
+	ShSelectedEntityCountChangedEvent event(this->view, this->propertyDataForCombo,
+		this->layerPropertyDataForCombo, this->blockPropertyDataForCombo, this->layerForCombo,
+		this->isAllSameColor, this->isAllSameLineStyle, this->isAllSameLayer, this->list.size());
+
+	manager->Notify(this, &event);
+	
+
+}
+
 bool ShSelectedEntityManager::Pop(ShEntity *entity) {
 
 	if (entity->IsSelected() == false)
@@ -96,12 +125,8 @@ bool ShSelectedEntityManager::Pop(ShEntity *entity) {
 	this->list.removeOne(entity);
 
 	////
-	//this->justSelectedEntityList.empty();
 	this->RemoveAll(this->justSelectedEntityList);
-
-	//this->justUnSelectedEntityList.empty();
 	this->RemoveAll(this->justUnSelectedEntityList);
-
 	this->justUnSelectedEntityList.append(entity);
 	////
 
@@ -116,6 +141,36 @@ bool ShSelectedEntityManager::Pop(ShEntity *entity) {
 	manager->Notify(this, &event);
 
 	return true;
+}
+
+void ShSelectedEntityManager::Pop(const QLinkedList<ShEntity*>& list) {
+
+	this->RemoveAll(this->justSelectedEntityList);
+	this->RemoveAll(this->justUnSelectedEntityList);
+
+	QLinkedList<ShEntity*>::iterator itr;
+
+	for (itr = const_cast<QLinkedList<ShEntity*>&>(list).begin();
+		itr != const_cast<QLinkedList<ShEntity*>&>(list).end(); ++itr) {
+
+		if ((*itr)->IsSelected() == true) {
+
+			(*itr)->UnSelect();
+			this->list.removeOne((*itr));
+			this->justUnSelectedEntityList.append((*itr));
+		}
+	}
+
+
+	this->UpdateDataForCombo();
+
+	ShChangeManager *manager = ShChangeManager::GetInstance();
+
+	ShSelectedEntityCountChangedEvent event(this->view, this->propertyDataForCombo,
+		this->layerPropertyDataForCombo, this->blockPropertyDataForCombo, this->layerForCombo,
+		this->isAllSameColor, this->isAllSameLineStyle, this->isAllSameLayer, this->list.size());
+
+	manager->Notify(this, &event);
 }
 
 void ShSelectedEntityManager::SelectAll(ShEntityTable *entityTable) {
