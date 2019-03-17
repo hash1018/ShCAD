@@ -51,13 +51,39 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////
-
+class ShButton;
 class ShModifyColumn : public ShColumnInRibbonTab {
+	Q_OBJECT
+private:
+	ShButton *moveButton;
+	ShButton *copyButton;
+	ShButton *stretchButton;
+
+	ShButton *rotateButton;
+	ShButton *mirrorButton;
+	ShButton *scaleButton;
+
+	ShButton *eraseButton;
+	ShButton *extendButton;
+	ShButton *trimButton;
 
 public:
 	ShModifyColumn(QWidget *parent, const QString &title, int width);
 	~ShModifyColumn();
 
+protected:
+	void resizeEvent(QResizeEvent *event);
+
+	private slots:
+	void MoveButtonClicked();
+	void CopyButtonClicked();
+	void StretchButtonClicked();
+	void RotateButtonClicked();
+	void MirrorButtonClicked();
+	void ScaleButtonClicked();
+	void EraseButtonClicked();
+	void ExtendButtonClicked();
+	void TrimButtonClicked();
 
 };
 
@@ -75,7 +101,6 @@ class ShNotifyEvent;
 class ShColor;
 class ShLineStyleComboBox;
 class ShLineStyle;
-class ShButton;
 class ShPropertyColumn : public ShColumnInRibbonTab {
 	Q_OBJECT
 

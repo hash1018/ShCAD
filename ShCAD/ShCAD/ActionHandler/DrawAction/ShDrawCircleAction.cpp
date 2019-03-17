@@ -110,6 +110,32 @@ ShDrawCircleMethod::~ShDrawCircleMethod() {
 
 }
 
+void ShDrawCircleMethod::UpdateNextListText() {
+
+	ShUpdateListTextEvent event("");
+	this->view->Notify(&event);
+
+	ShUpdateCommandEditHeadTitle event2(this->drawCircleAction->GetActionHeadTitle());
+	this->view->Notify(&event2);
+}
+
+bool ShDrawCircleMethod::CheckValidDataAndUpdateListText(const ShCircleData& data) {
+
+	if (Math::Compare(data.radius, 0) == 0) {
+		ShUpdateListTextEvent event("");
+		this->view->Notify(&event);
+		ShUpdateListTextEvent event2("Radius must be nonzero.",
+			ShUpdateListTextEvent::UpdateType::TextWithoutAnything);
+		this->view->Notify(&event2);
+		ShUpdateCommandEditHeadTitle event3(this->drawCircleAction->GetActionHeadTitle());
+		this->view->Notify(&event3);
+		return false;
+	}
+
+	return true;
+
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ShDrawCircleMethod_CenterRadius::ShDrawCircleMethod_CenterRadius(ShDrawCircleAction *drawCircleAction, ShGraphicView *view)
@@ -143,27 +169,22 @@ void ShDrawCircleMethod_CenterRadius::LMousePressEvent(QMouseEvent *event, ShAct
 
 		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 
-		ShUpdateListTextEvent event2("");
-		this->view->Notify(&event2);
-
-		ShUpdateCommandEditHeadTitle event3("Circle >> Specify radius of circle: ");
-		this->view->Notify(&event3);
+		this->UpdateNextListText();
 
 	}
 	else if (status == ShDrawCircleAction::Status::PickedCenter) {
 	
 		ShCircle *previewCircle = dynamic_cast<ShCircle*>((*this->view->preview.Begin()));
-		ShPoint3d center = previewCircle->GetCenter();
+		ShCircleData data = previewCircle->GetData();
 
-		double radius = Math::GetDistance(center.x, center.y, point.x, point.y);
-		previewCircle->SetRadius(radius);
+		data.radius = Math::GetDistance(data.center.x, data.center.y, point.x, point.y);
 
-
-		ShUpdateListTextEvent event2("");
-		this->view->Notify(&event2);
-
-		this->AddEntityAndFinish(previewCircle->Clone(), "Circle");
-		
+		if (this->CheckValidDataAndUpdateListText(data) == true) {
+			previewCircle->SetData(data);
+			ShUpdateListTextEvent event2("");
+			this->view->Notify(&event2);
+			this->AddEntityAndFinish(previewCircle->Clone(), "Circle");
+		}
 	}
 
 }
@@ -288,26 +309,22 @@ void ShDrawCircleMethod_CenterDiameter::LMousePressEvent(QMouseEvent *event, ShA
 
 		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 
-		ShUpdateListTextEvent event2("");
-		this->view->Notify(&event2);
-
-		ShUpdateCommandEditHeadTitle event3("Circle >> Specify diameter of circle: ");
-		this->view->Notify(&event3);
+		this->UpdateNextListText();
 
 	}
 	else if (status == ShDrawCircleAction::Status::PickedCenter) {
 
 		ShCircle *previewCircle = dynamic_cast<ShCircle*>((*this->view->preview.Begin()));
-		ShPoint3d center = previewCircle->GetCenter();
+		ShCircleData data = previewCircle->GetData();
 
-		double radius = Math::GetDistance(center.x, center.y, point.x, point.y) / 2.0;
-		previewCircle->SetRadius(radius);
-
-
-		ShUpdateListTextEvent event2("");
-		this->view->Notify(&event2);
-
-		this->AddEntityAndFinish(previewCircle->Clone(), "Circle");
+		data.radius = Math::GetDistance(data.center.x, data.center.y, point.x, point.y) / 2.0;
+		
+		if (this->CheckValidDataAndUpdateListText(data) == true) {
+			previewCircle->SetData(data);
+			ShUpdateListTextEvent event2("");
+			this->view->Notify(&event2);
+			this->AddEntityAndFinish(previewCircle->Clone(), "Circle");
+		}
 
 	}
 }
@@ -429,11 +446,7 @@ void ShDrawCircleMethod_TwoPoint::LMousePressEvent(QMouseEvent *event, ShActionD
 
 		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 
-		ShUpdateListTextEvent event2("");
-		this->view->Notify(&event2);
-
-		ShUpdateCommandEditHeadTitle event3("Circle >> Specify second end point of circle's diameter: ");
-		this->view->Notify(&event3);
+		this->UpdateNextListText();
 
 	}
 	else if (status == ShDrawCircleAction::Status::PickedFirstPoint) {
@@ -442,18 +455,17 @@ void ShDrawCircleMethod_TwoPoint::LMousePressEvent(QMouseEvent *event, ShActionD
 		ShPoint3d point = data.GetPoint();
 
 		ShCircle *previewCircle = dynamic_cast<ShCircle*>((*this->view->preview.Begin()));
+		ShCircleData data;
 
-		ShPoint3d center = this->GetCenter(first, point);
-		double radius = Math::GetDistance(first.x, first.y, point.x, point.y) / 2.0;
+		data.center = this->GetCenter(first, point);
+		data.radius = Math::GetDistance(first.x, first.y, point.x, point.y) / 2.0;
 
-		previewCircle->SetCenter(center);
-		previewCircle->SetRadius(radius);
-
-
-		ShUpdateListTextEvent event2("");
-		this->view->Notify(&event2);
-
-		this->AddEntityAndFinish(previewCircle->Clone(), "Circle");
+		if (this->CheckValidDataAndUpdateListText(data) == true) {
+			previewCircle->SetData(data);
+			ShUpdateListTextEvent event2("");
+			this->view->Notify(&event2);
+			this->AddEntityAndFinish(previewCircle->Clone(), "Circle");
+		}
 
 	}
 }
@@ -587,11 +599,7 @@ void ShDrawCircleMethod_ThreePoint::LMousePressEvent(QMouseEvent *event, ShActio
 
 		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 
-		ShUpdateListTextEvent event2("");
-		this->view->Notify(&event2);
-
-		ShUpdateCommandEditHeadTitle event3("Circle >> Specify second point on circle: ");
-		this->view->Notify(&event3);
+		this->UpdateNextListText();
 
 	}
 	else if (status == ShDrawCircleAction::Status::PickedFirstPoint) {
@@ -619,11 +627,7 @@ void ShDrawCircleMethod_ThreePoint::LMousePressEvent(QMouseEvent *event, ShActio
 
 		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 
-		ShUpdateListTextEvent event2("");
-		this->view->Notify(&event2);
-
-		ShUpdateCommandEditHeadTitle event3("Circle >> Specify third point on circle: ");
-		this->view->Notify(&event3);
+		this->UpdateNextListText();
 	}
 	else if (status == ShDrawCircleAction::Status::PickedSecondPoint) {
 	
@@ -634,6 +638,8 @@ void ShDrawCircleMethod_ThreePoint::LMousePressEvent(QMouseEvent *event, ShActio
 			ShUpdateListTextEvent event3("Circle does not exist.",
 				ShUpdateListTextEvent::UpdateType::TextWithoutAnything);
 			this->view->Notify(&event3);
+			ShUpdateCommandEditHeadTitle event4(this->drawCircleAction->GetActionHeadTitle());
+			this->view->Notify(&event4);
 			return;
 		}
 		else {

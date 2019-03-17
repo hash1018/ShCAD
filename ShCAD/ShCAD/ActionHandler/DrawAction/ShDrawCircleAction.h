@@ -46,6 +46,7 @@ private:
 	void SetDrawMethod(DrawMethod drawMethod);
 };
 
+class ShCircleData;
 class ShDrawCircleMethod {
 
 protected:
@@ -71,6 +72,9 @@ protected:
 	void GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY) {
 		this->drawCircleAction->GetOrthogonal(x, y, mouseX, mouseY, orthX, orthY);
 	}
+
+	void UpdateNextListText();
+	bool CheckValidDataAndUpdateListText(const ShCircleData& data);
 };
 
 class ShDrawCircleMethod_CenterRadius : public ShDrawCircleMethod {

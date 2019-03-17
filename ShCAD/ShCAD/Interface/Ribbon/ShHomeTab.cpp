@@ -111,6 +111,88 @@ void ShDrawColumn::InitLineButton() {
 ShModifyColumn::ShModifyColumn(QWidget *parent, const QString &title, int width)
 	:ShColumnInRibbonTab(parent, title, width) {
 
+	QString path = ShDirectoryManager::GetImageUiPath();
+
+	QPixmap pix(path + "\\Modify\\Move.png");
+	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+	QIcon icon(pix);
+	this->moveButton = new ShButton(this->layoutWidget);
+	this->moveButton->setIcon(icon);
+
+
+
+	pix = QPixmap(path + "\\Modify\\Copy.png");
+	mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+	icon = QIcon(pix);
+	this->copyButton = new ShButton(this->layoutWidget);
+	this->copyButton->setIcon(icon);
+
+
+	pix = QPixmap(path + "\\Modify\\Stretch.png");
+	mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+	icon = QIcon(pix);
+	this->stretchButton = new ShButton(this->layoutWidget);
+	this->stretchButton->setIcon(icon);
+
+
+
+	pix = QPixmap(path + "\\Modify\\Rotate.png");
+	mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+	icon = QIcon(pix);
+	this->rotateButton = new ShButton(this->layoutWidget);
+	this->rotateButton->setIcon(icon);
+
+
+	pix = QPixmap(path + "\\Modify\\Mirror.png");
+	mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+	icon = QIcon(pix);
+	this->mirrorButton = new ShButton(this->layoutWidget);
+	this->mirrorButton->setIcon(icon);
+
+	pix = QPixmap(path + "\\Modify\\Scale.png");
+	mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+	icon = QIcon(pix);
+	this->scaleButton = new ShButton(this->layoutWidget);
+	this->scaleButton->setIcon(icon);
+
+
+	pix = QPixmap(path + "\\Modify\\Erase.png");
+	mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+	icon = QIcon(pix);
+	this->eraseButton = new ShButton(this->layoutWidget);
+	this->eraseButton->setIcon(icon);
+
+	pix = QPixmap(path + "\\Modify\\Extend.png");
+	mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+	icon = QIcon(pix);
+	this->extendButton = new ShButton(this->layoutWidget);
+	this->extendButton->setIcon(icon);
+
+	pix = QPixmap(path + "\\Modify\\Trim.png");
+	mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+	icon = QIcon(pix);
+	this->trimButton = new ShButton(this->layoutWidget);
+	this->trimButton->setIcon(icon);
+
+	connect(this->moveButton, &ShButton::released, this, &ShModifyColumn::MoveButtonClicked);
+	connect(this->copyButton, &ShButton::released, this, &ShModifyColumn::CopyButtonClicked);
+	connect(this->stretchButton, &ShButton::released, this, &ShModifyColumn::StretchButtonClicked);
+	connect(this->rotateButton, &ShButton::released, this, &ShModifyColumn::RotateButtonClicked);
+	connect(this->mirrorButton, &ShButton::released, this, &ShModifyColumn::MirrorButtonClicked);
+	connect(this->scaleButton, &ShButton::released, this, &ShModifyColumn::ScaleButtonClicked);
+	connect(this->eraseButton, &ShButton::released, this, &ShModifyColumn::EraseButtonClicked);
+	connect(this->extendButton, &ShButton::released, this, &ShModifyColumn::ExtendButtonClicked);
+	connect(this->trimButton, &ShButton::released, this, &ShModifyColumn::TrimButtonClicked);
+
 }
 
 ShModifyColumn::~ShModifyColumn() {
@@ -118,6 +200,66 @@ ShModifyColumn::~ShModifyColumn() {
 
 }
 
+void ShModifyColumn::resizeEvent(QResizeEvent *event) {
+
+	ShColumnInRibbonTab::resizeEvent(event);
+
+	//3row 3column
+	int width = this->layoutWidget->width() / 3;
+	int height = this->layoutWidget->height() / 3;
+
+
+
+	this->moveButton->setGeometry(0, 0, width, height);
+	this->copyButton->setGeometry(0, height, width, height);
+	this->stretchButton->setGeometry(0, height * 2, width, height);
+
+	this->rotateButton->setGeometry(width, 0, width, height);
+	this->mirrorButton->setGeometry(width, height, width, height);
+	this->scaleButton->setGeometry(width, height * 2, width, height);
+
+	this->eraseButton->setGeometry(width * 2, 0, width, height);
+	this->extendButton->setGeometry(width * 2, height, width, height);
+	this->trimButton->setGeometry(width * 2, height * 2, width, height);
+
+}
+
+void ShModifyColumn::MoveButtonClicked() {
+
+}
+
+void ShModifyColumn::CopyButtonClicked() {
+
+}
+
+void ShModifyColumn::StretchButtonClicked() {
+
+}
+
+void ShModifyColumn::RotateButtonClicked() {
+
+}
+
+void ShModifyColumn::MirrorButtonClicked() {
+
+}
+
+void ShModifyColumn::ScaleButtonClicked() {
+
+}
+
+void ShModifyColumn::EraseButtonClicked() {
+
+}
+
+void ShModifyColumn::ExtendButtonClicked() {
+
+}
+
+void ShModifyColumn::TrimButtonClicked() {
+
+
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 

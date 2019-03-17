@@ -139,6 +139,7 @@ void ShRectFinder::Visit(ShCircle *circle) {
 
 }
 
+
 void ShRectFinder::Visit(ShArc *arc) {
 
 	ShArcData data = arc->GetData();
@@ -147,15 +148,11 @@ void ShRectFinder::Visit(ShArc *arc) {
 		Math::CheckPointLiesInsideRect(arc->GetEnd(), this->topLeft, this->bottomRight, 0) == true &&
 		Math::CheckPointLiesInsideRect(arc->GetMid(), this->topLeft, this->bottomRight, 0) == true) {
 
-		ShPoint3d top, left, bottom, right;
-		top.x = data.center.x;
-		top.y = data.center.y + data.radius;
-		left.x = data.center.x + data.radius;
-		left.y = data.center.y;
-		bottom.x = data.center.x;
-		bottom.y = data.center.y - data.radius;
-		right.x = data.center.x - data.radius;
-		right.y = data.center.y;
+		ShPoint3d top(data.center.x, data.center.y + data.radius);
+		ShPoint3d left(data.center.x + data.radius, data.center.y);
+		ShPoint3d bottom(data.center.x, data.center.y - data.radius);
+		ShPoint3d right(data.center.x - data.radius, data.center.y);
+		
 
 		bool flag = true;
 		if (Math::CheckAngleLiesOnAngleBetween(data.startAngle, data.endAngle, 90.0) == true) {
@@ -181,6 +178,28 @@ void ShRectFinder::Visit(ShArc *arc) {
 		}
 	}
 
+	if (this->findMethod == FindMethod::OnePartLiesInsideRect) {
 
+		if (Math::CheckArcLineSegmentIntersect(data.center, data.radius, data.startAngle, data.endAngle,
+			this->topLeft, ShPoint3d(this->topLeft.x, this->bottomRight.y)) == true) {
+			*this->foundEntity = arc;
+			return;
+		}
+		if (Math::CheckArcLineSegmentIntersect(data.center, data.radius, data.startAngle, data.endAngle,
+			this->topLeft, ShPoint3d(this->bottomRight.x, this->topLeft.y)) == true) {
+			*this->foundEntity = arc;
+			return;
+		}
+		if (Math::CheckArcLineSegmentIntersect(data.center, data.radius, data.startAngle, data.endAngle,
+			ShPoint3d(this->topLeft.x, this->bottomRight.y), this->bottomRight) == true) {
+			*this->foundEntity = arc;
+			return;
+		}
+		if (Math::CheckArcLineSegmentIntersect(data.center, data.radius, data.startAngle, data.endAngle,
+			ShPoint3d(this->bottomRight.x, this->topLeft.y), this->bottomRight) == true) {
+			*this->foundEntity = arc;
+			return;
+		}
+	}
 
 }

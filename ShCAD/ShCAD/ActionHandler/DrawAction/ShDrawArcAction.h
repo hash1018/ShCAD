@@ -63,6 +63,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+class ShArcData;
 class ShDrawArcMethod {
 
 protected:
@@ -88,12 +89,15 @@ protected:
 	void GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY) {
 		this->drawArcAction->GetOrthogonal(x, y, mouseX, mouseY, orthX, orthY);
 	}
+
+	void UpdateNextListText();
+	bool CheckValidDataAndUpdateListText(const ShArcData& data);
 	
 };
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-class ShArcData;
+
 class ShDrawArcMethod_ThreePoint : public ShDrawArcMethod {
 
 private:

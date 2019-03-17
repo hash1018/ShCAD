@@ -32,29 +32,28 @@ namespace Math {
 
 	int ToInt(double value);
 	int Compare(double first, double second, double epsilon = 0.0001);
-
+	bool IsBetween(double v, double bound1, double bound2, double tolerance);
 	bool CheckPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, const ShPoint3d& end, double tolerance);
 	bool CheckPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& topLeft, const ShPoint3d& bottomRight,double tolerance);
 	bool CheckPointLiesInsideCircle(const ShPoint3d& point, const ShPoint3d& center, double radius);
 	bool CheckPointLiesOnCircleBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double tolerance);
 	bool CheckPointLiesOnArcBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double startAngle, double endAngle, double tolerance);
 	bool CheckAngleLiesOnAngleBetween(double startAngle, double endAngle, double angle);
-	
+	bool CheckLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
+		ShPoint3d& intersect);
+	bool CheckTwoSegmentsIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
+		ShPoint3d& intersect);
+	bool CheckCircleLineSegmentIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end);
+	bool CheckCircleLineIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end,
+		ShPoint3d &intersect, ShPoint3d &intersect2);
+	bool CheckArcLineSegmentIntersect(const ShPoint3d& center, double radius, double startAngle, double endAngle,
+		const ShPoint3d& start, const ShPoint3d& end);
+
 	bool GetCenterWithThreePoint(const ShPoint3d& first, const ShPoint3d& second, const ShPoint3d& third, ShPoint3d &center);
 	double GetAbsAngle(double centerX, double centerY, double anotherX, double anotherY);
 	void Rotate(double angle, double centerX, double centerY, double anotherX, double anotherY, double &appliedX, double &appliedY);
 
 	double GetDistance(double x, double y, double x2, double y2);
-
-	bool CheckLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
-		ShPoint3d& intersect);
-
-	bool CheckTwoSegmentsIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
-		ShPoint3d& intersect);
-
-	bool CheckCircleLineSegmentIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end);
-	bool CheckCircleLineIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end,
-		ShPoint3d &intersect, ShPoint3d &intersect2);
 
 
 	double Det(double a, double b, double c, double d);

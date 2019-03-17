@@ -59,8 +59,22 @@ int Math::Compare(double first, double second, double epsilon) {
 
 }
 
-bool Math::CheckPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, const ShPoint3d& end, double tolerance) {
+bool Math::IsBetween(double v, double bound1, double bound2, double tolerance) {
+	
+	if (bound2 >= bound1) {
+		if (v >= bound1 - tolerance && v <= bound2 + tolerance)
+			return true;
+	}
+	
+	else {
+		if (v >= bound2 - tolerance && v <= bound1 + tolerance)
+			return true;
+	}
+	return false;
+}
 
+bool Math::CheckPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, const ShPoint3d& end, double tolerance) {
+	/*
 	ShPoint3d topLeft, bottomRight;
 
 	if (start.x < end.x) {
@@ -101,6 +115,19 @@ bool Math::CheckPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, 
 
 
 	return false;
+	*/
+
+	if (IsBetween(point.x, start.x, end.x, tolerance) == false || IsBetween(point.y, start.y, end.y, tolerance) == false)
+		return false;
+	
+
+	if (Compare(end.x - start.x, 0) == 0) // Vertical line.
+		return true;
+
+	double m = (end.y - start.y) / (end.x - start.x);
+	double c = -(m*start.x) + start.y;
+
+	return fabs(point.y - (m*point.x + c)) <= tolerance;
 }
 
 bool Math::CheckPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& topLeft, const ShPoint3d& bottomRight, double tolerance) {
@@ -407,6 +434,31 @@ bool Math::CheckCircleLineIntersect(const ShPoint3d& center, double radius, cons
 		return false;
 
 	// line doesn't touch circle
+	return false;
+}
+
+bool Math::CheckArcLineSegmentIntersect(const ShPoint3d& center, double radius, double startAngle, double endAngle,
+	const ShPoint3d& start, const ShPoint3d& end) {
+
+	if (CheckCircleLineSegmentIntersect(center, radius, start, end) == false)
+		return false;
+
+	ShPoint3d intersect, intersect2;
+	if (CheckCircleLineIntersect(center, radius, start, end, intersect, intersect2) == false)
+		return false;
+
+	double angle = GetAbsAngle(center.x, center.y, intersect.x, intersect.y);
+	
+	if (CheckAngleLiesOnAngleBetween(startAngle, endAngle, angle) == true) {
+		if (CheckPointLiesOnLine(intersect, start, end, 1) == true)
+			return true;
+	}
+	
+	angle = GetAbsAngle(center.x, center.y, intersect2.x, intersect2.y);
+	if (CheckAngleLiesOnAngleBetween(startAngle, endAngle, angle) == true)
+		if (CheckPointLiesOnLine(intersect2, start, end, 1) == true)
+			return true;
+	
 	return false;
 }
 

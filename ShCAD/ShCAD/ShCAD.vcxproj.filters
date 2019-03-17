@@ -93,6 +93,9 @@
     <Filter Include="Command Pattern\UI Command">
       <UniqueIdentifier>{85c2108d-bf9a-4586-9565-e3182dbcd085}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionHandler\ModifyAction">
+      <UniqueIdentifier>{2316960b-4714-43b0-b675-92172aca3273}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -422,6 +425,9 @@
     <ClCompile Include="Interface\Items\ShRibbonButton.cpp">
       <Filter>Interface\Items</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -689,6 +695,9 @@
     </ClInclude>
     <ClInclude Include="Strategy Pattern\ShButtonWithMenuPopupStrategy.h">
       <Filter>Strategy Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
