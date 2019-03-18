@@ -44,6 +44,8 @@ public:
 	virtual ~ShTemporaryAction() = 0;
 	void SetPreviousAction(ShActionHandler *previousAction) { this->previousAction = previousAction; }
 
+	virtual bool EnabledDrawEntityVertex() { return this->previousAction->EnabledDrawEntityVertex(); }
+
 protected:
 	void ReturnToPrevious();
 };

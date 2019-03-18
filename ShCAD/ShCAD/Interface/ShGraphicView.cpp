@@ -310,3 +310,8 @@ ShPoint3d ShGraphicView::GetCursorPoint() {
 
 	return mouse;
 }
+
+bool ShGraphicView::EnabledDrawEntityVertex() {
+
+	return this->actionHandlerManager->EnabledDrawEntityVertex();
+}

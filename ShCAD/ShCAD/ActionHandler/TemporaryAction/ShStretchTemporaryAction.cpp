@@ -129,7 +129,7 @@ QCursor ShStretchTemporaryAction::GetCursorShape() {
 
 ActionType ShStretchTemporaryAction::GetType() {
 
-	return ActionType::ActionSelectionMove;
+	return ActionType::ActionStretch;
 }
 
 #include <qpainter.h>

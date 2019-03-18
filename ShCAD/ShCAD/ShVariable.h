@@ -33,7 +33,7 @@ enum ActionType {
 	ActionPanMove,
 	ActionDragSelect,
 	ActionDrawLine,
-	ActionSelectionMove,
+	ActionStretch,
 	ActionDrawCircleCenterRadius,
 	ActionDrawCircleCenterDiameter,
 	ActionDrawCircleTwoPoint,
@@ -48,8 +48,15 @@ enum ActionType {
 	ActionDrawArcCenterStartEnd,
 	ActionDrawArcCenterStartAngle,
 	ActionDrawArcCenterStartLength,
-
-
+	ActionModifyMove,
+	ActionModifyCopy,
+	ActionModifyStretch,
+	ActionModifyMirror,
+	ActionModifyRotate,
+	ActionModifyScale,
+	ActionModifyErase,
+	ActionModifyExtend,
+	ActionModifyTrim,
 
 };
 

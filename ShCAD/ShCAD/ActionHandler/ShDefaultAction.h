@@ -48,6 +48,8 @@ public:
 
 	void ChangeSubAction(ShSubDefaultAction *subDefaultAction);
 	virtual void SetActionHeadTitle();
+
+	virtual bool EnabledDrawEntityVertex() { return true; }
 };
 
 

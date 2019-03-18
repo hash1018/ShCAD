@@ -48,6 +48,8 @@ public:
 	void SetDraftFlag(const ShDraftFlag& draftFlag);
 	void SetDisposableObjectSnap(ObjectSnap objectSnap);
 
+	bool EnabledDrawEntityVertex();
+
 private:
 	void ChangeActionDecorator();
 };

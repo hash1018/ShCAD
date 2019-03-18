@@ -41,6 +41,7 @@ public:
 	ShLine* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
 	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
+	virtual void Move(double cx, double cy);
 
 	inline ShLineData GetData() const { return this->data; }
 	void SetData(const ShLineData& data) { this->data = data; }

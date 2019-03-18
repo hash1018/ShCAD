@@ -145,6 +145,7 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerManager.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerDecorator.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="Command Pattern\Entity Command\ShChangeEntityLayerCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShDeleteEntityCommand.cpp" />
+    <ClCompile Include="Command Pattern\Entity Command\ShMoveEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShStretchEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\ShCommand.cpp" />
     <ClCompile Include="Command Pattern\ShRedoTaker.cpp" />
@@ -352,6 +354,7 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerManager.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerDecorator.h" />
@@ -364,6 +367,7 @@
     <ClInclude Include="Command Pattern\Entity Command\ShChangeEntityLayerCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShDeleteEntityCommand.h" />
+    <ClInclude Include="Command Pattern\Entity Command\ShMoveEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShStretchEntityCommand.h" />
     <ClInclude Include="Command Pattern\ShCommand.h" />
     <ClInclude Include="Command Pattern\ShRedoTaker.h" />

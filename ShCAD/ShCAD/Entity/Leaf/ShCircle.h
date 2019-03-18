@@ -38,6 +38,7 @@ public:
 	virtual ShCircle* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
 	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
+	virtual void Move(double cx, double cy);
 
 	inline ShCircleData GetData() const { return this->data; }
 	void SetData(const ShCircleData& data) { this->data = data; }

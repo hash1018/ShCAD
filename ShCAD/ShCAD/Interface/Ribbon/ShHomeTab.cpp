@@ -226,38 +226,101 @@ void ShModifyColumn::resizeEvent(QResizeEvent *event) {
 
 void ShModifyColumn::MoveButtonClicked() {
 
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyMove);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 }
 
 void ShModifyColumn::CopyButtonClicked() {
 
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyCopy);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 }
 
 void ShModifyColumn::StretchButtonClicked() {
 
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyStretch);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 }
 
 void ShModifyColumn::RotateButtonClicked() {
 
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyRotate);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 }
 
 void ShModifyColumn::MirrorButtonClicked() {
 
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyMirror);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 }
 
 void ShModifyColumn::ScaleButtonClicked() {
 
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyScale);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 }
 
 void ShModifyColumn::EraseButtonClicked() {
 
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyErase);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 }
 
 void ShModifyColumn::ExtendButtonClicked() {
 
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyExtend);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 }
 
 void ShModifyColumn::TrimButtonClicked() {
 
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyTrim);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 
 }
 

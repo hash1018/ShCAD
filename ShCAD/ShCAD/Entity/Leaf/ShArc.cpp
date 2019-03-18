@@ -99,6 +99,12 @@ void ShArc::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
 
 }
 
+void ShArc::Move(double cx, double cy) {
+
+	this->data.center.x += cx;
+	this->data.center.y += cy;
+}
+
 
 #include "ShMath.h"
 ShPoint3d ShArc::GetStart() {

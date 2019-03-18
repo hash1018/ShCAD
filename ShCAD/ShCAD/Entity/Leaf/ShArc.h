@@ -41,6 +41,7 @@ public:
 	ShArc* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
 	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
+	virtual void Move(double cx, double cy);
 
 	inline ShArcData GetData() const { return this->data; }
 	void SetData(const ShArcData& data) { this->data = data; }

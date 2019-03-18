@@ -192,3 +192,8 @@ void ShActionHandlerManager::ChangeActionDecorator() {
 	this->actionDecorator = ShCreatorActionDecoratorFactory::Create(this->graphicView, this->currentAction,
 		this->draftFlag, this->disposableSnap);
 }
+
+bool ShActionHandlerManager::EnabledDrawEntityVertex() {
+
+	return this->currentAction->EnabledDrawEntityVertex();
+}

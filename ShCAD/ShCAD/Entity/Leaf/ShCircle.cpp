@@ -106,3 +106,9 @@ void ShCircle::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
 	}
 
 }
+
+void ShCircle::Move(double cx, double cy) {
+
+	this->data.center.x += cx;
+	this->data.center.y += cy;
+}

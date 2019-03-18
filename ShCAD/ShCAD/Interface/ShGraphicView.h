@@ -172,6 +172,7 @@ public:
 	inline ShDraftFlag GetDraftFlag() const { return this->draftFlag; }
 
 	ShPoint3d GetCursorPoint();
+	bool EnabledDrawEntityVertex();
 };
 
 

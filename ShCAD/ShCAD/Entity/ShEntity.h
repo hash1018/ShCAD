@@ -31,7 +31,7 @@ public:
 	virtual ShEntity* Clone() = 0;
 	virtual void Accept(ShVisitor *shVisitor) = 0;
 	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
-
+	virtual void Move(double cx, double cy) {}
 	
 	void SetLayer(ShLayer *layer) { this->layer = layer; }
 	void SetPropertyData(const ShPropertyData& data) { this->propertyData = data; }

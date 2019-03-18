@@ -105,6 +105,14 @@ void ShLine::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
 
 }
 
+void ShLine::Move(double cx, double cy) {
+
+	this->data.start.x += cx;
+	this->data.start.y += cy;
+	this->data.end.x += cx;
+	this->data.end.y += cy;
+}
+
 
 #include <math.h>
 ShPoint3d ShLine::GetMid() {

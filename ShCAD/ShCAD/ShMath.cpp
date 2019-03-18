@@ -61,11 +61,10 @@ int Math::Compare(double first, double second, double epsilon) {
 
 bool Math::IsBetween(double v, double bound1, double bound2, double tolerance) {
 	
-	if (bound2 >= bound1) {
+	if (Math::Compare(bound2, bound1) == 1) {
 		if (v >= bound1 - tolerance && v <= bound2 + tolerance)
 			return true;
 	}
-	
 	else {
 		if (v >= bound2 - tolerance && v <= bound1 + tolerance)
 			return true;
@@ -73,30 +72,14 @@ bool Math::IsBetween(double v, double bound1, double bound2, double tolerance) {
 	return false;
 }
 
+
 bool Math::CheckPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, const ShPoint3d& end, double tolerance) {
-	/*
-	ShPoint3d topLeft, bottomRight;
-
-	if (start.x < end.x) {
-		topLeft.x = start.x;
-		bottomRight.x = end.x;
-	}
-	else {
-		topLeft.x = end.x;
-		bottomRight.x = start.x;
-	}
-
-	if (start.y > end.y) {
-		topLeft.y = start.y;
-		bottomRight.y = end.y;	
-	}
-	else {
-		topLeft.y = end.y;
-		bottomRight.y = start.y;
-	}
-
-	if (CheckPointLiesInsideRect(point, topLeft, bottomRight, tolerance) == false)
+	
+	if (IsBetween(point.x, start.x, end.x, tolerance) == false || IsBetween(point.y, start.y, end.y, tolerance) == false)
 		return false;
+
+	if (Compare(fabs(end.x - start.x), 0) == 0) // Vertical line.
+		return true;
 
 	double angle = GetAbsAngle(start.x, start.y, end.x, end.y);
 	double pointAngle = GetAbsAngle(start.x, start.y, point.x, point.y);
@@ -115,19 +98,31 @@ bool Math::CheckPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, 
 
 
 	return false;
-	*/
+	
+	
 
+
+	/*
 	if (IsBetween(point.x, start.x, end.x, tolerance) == false || IsBetween(point.y, start.y, end.y, tolerance) == false)
 		return false;
 	
 
-	if (Compare(end.x - start.x, 0) == 0) // Vertical line.
+	if (Compare(abs(end.x - start.x), 0) == 0) // Vertical line.
 		return true;
 
 	double m = (end.y - start.y) / (end.x - start.x);
 	double c = -(m*start.x) + start.y;
 
-	return fabs(point.y - (m*point.x + c)) <= tolerance;
+	double temp = abs(point.y - (m*point.x + c));
+
+	qDebug("m= %f.6   c= %f.6   temp= %f.6", m, c, temp);
+	if (temp < tolerance)
+		return true;
+	
+	qDebug("false");
+	return false;
+	*/
+	
 }
 
 bool Math::CheckPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& topLeft, const ShPoint3d& bottomRight, double tolerance) {

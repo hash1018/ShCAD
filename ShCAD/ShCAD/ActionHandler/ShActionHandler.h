@@ -100,6 +100,8 @@ public:
 	//change individual items when orthogonalMode turned on/off.
 	virtual void ApplyOrthogonalShape(bool on) {}
 
+	virtual bool EnabledDrawEntityVertex() { return false; }
+
 protected:
 	bool UnSelectSelectedEntities();
 	void GetOrthogonal(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY);

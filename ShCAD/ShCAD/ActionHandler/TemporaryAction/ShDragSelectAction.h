@@ -27,6 +27,7 @@
 #define _SHDRAGSELECTACTION_H
 
 #include "ShTemporaryAction.h"
+
 class ShDragSelectAction : public ShTemporaryAction {
 
 public:
@@ -63,9 +64,24 @@ public:
 
 	virtual QString GetActionHeadTitle();
 
-private:
+protected:
 	void GetDragRectPoint(const ShPoint3d& first, const ShPoint3d& second, ShPoint3d &topLeft, ShPoint3d &bottomRight,
 		SelectMethod &selectMethod);
+	void FindEntities(const ShPoint3d& first, const ShPoint3d& second, QLinkedList<ShEntity*>& foundList);
+	
+
+};
+
+class ShModifyDragSelectAction : public ShDragSelectAction {
+
+public:
+	ShModifyDragSelectAction(ShGraphicView *graphicView, double firstX, double firstY, Mode mode = SelectMode);
+	~ShModifyDragSelectAction();
+
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
+	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
+
+
 };
 
 #endif //_SHDRAGSELECTACTION_H
