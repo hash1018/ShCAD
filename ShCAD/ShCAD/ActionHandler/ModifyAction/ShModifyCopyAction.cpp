@@ -1,14 +1,14 @@
 
-#include "ShModifyMoveAction.h"
+#include "ShModifyCopyAction.h"
 #include <QKeyEvent>
 #include "ShNotifyEvent.h"
 #include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
 #include "Entity\Leaf\ShRubberBand.h"
 #include "Entity\Composite\ShPreview.h"
-ShModifyMoveAction::ShModifyMoveAction(ShGraphicView *graphicView)
+ShModifyCopyAction::ShModifyCopyAction(ShGraphicView *graphicView)
 	:ShModifyAction(graphicView), status(SelectingEntities) {
-	
-	ShUpdateListTextEvent event("_Move", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
+
+	ShUpdateListTextEvent event("_Copy", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
 	this->graphicView->Notify(&event);
 
 	QString headTitle = this->GetActionHeadTitle();
@@ -17,16 +17,16 @@ ShModifyMoveAction::ShModifyMoveAction(ShGraphicView *graphicView)
 	this->graphicView->Notify(&event2);
 }
 
-ShModifyMoveAction::~ShModifyMoveAction() {
+ShModifyCopyAction::~ShModifyCopyAction() {
 
 }
 
-#include "Command Pattern\Entity Command\ShMoveEntityCommand.h"
+
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
-void ShModifyMoveAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShModifyCopyAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
-	
+
 		ShPoint3d point = this->graphicView->GetCursorPoint();
 		ShEntity* entity = this->graphicView->entityTable.FindEntity(point.x, point.y, this->graphicView->GetZoomRate());
 
@@ -45,7 +45,7 @@ void ShModifyMoveAction::LMousePressEvent(QMouseEvent *event, ShActionData& data
 
 	}
 	else if (this->status == FinishedSelectingEntities) {
-	
+
 		this->status = PickedBasePoint;
 		this->base = data.GetPoint();
 
@@ -69,42 +69,49 @@ void ShModifyMoveAction::LMousePressEvent(QMouseEvent *event, ShActionData& data
 
 		this->previous.x = data.GetNextPoint().x;
 		this->previous.y = data.GetNextPoint().y;
-	
+
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
 	else if (this->status == PickedBasePoint) {
-	
-		double disX = data.GetPoint().x - this->base.x;
-		double disY = data.GetPoint().y - this->base.y;
+
+		double disX = data.GetPoint().x - this->previous.x;
+		double disY = data.GetPoint().y - this->previous.y;
 
 		QLinkedList<ShEntity*> list;
 		QLinkedList<ShEntity*>::iterator itr;
-		for (itr = this->graphicView->selectedEntityManager.Begin();
-			itr != this->graphicView->selectedEntityManager.End();
+		for (itr = this->graphicView->preview.Begin();
+			itr != this->graphicView->preview.End();
 			++itr) {
-
 			(*itr)->Move(disX, disY);
-			list.append((*itr));
+			list.append((*itr)->Clone());
 		}
 
-		ShMoveEntityCommand *command = new ShMoveEntityCommand(this->graphicView, list, ShPoint3d(disX, disY));
-		this->graphicView->undoTaker.Push(command);
+		this->graphicView->entityTable.Add(list);
 
-		if (!this->graphicView->redoTaker.IsEmpty())
-			this->graphicView->redoTaker.DeleteAll();
+		for (itr = this->graphicView->preview.Begin();
+			itr != this->graphicView->preview.End();
+			++itr) {
+			(*itr)->Move(-disX, -disY);
+		}
 
-		ShChangeCurrentActionCurrentFinished strategy(ActionType::ActionDefault);
-		this->graphicView->ChangeCurrentAction(strategy);
+		//this->previous.x = data.GetPoint().x;
+		//this->previous.y = data.GetPoint().y;
+
+		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
+		this->graphicView->CaptureImage();
+
+		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
 
 	}
 }
 
-void ShModifyMoveAction::RMousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShModifyCopyAction::RMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
-	
+
 		if (this->graphicView->selectedEntityManager.GetSize() != 0) {
-			
+
 			this->status = FinishedSelectingEntities;
 
 			this->UpdateNextListText();
@@ -121,10 +128,10 @@ void ShModifyMoveAction::RMousePressEvent(QMouseEvent *event, ShActionData& data
 
 }
 
-void ShModifyMoveAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
+void ShModifyCopyAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == PickedBasePoint) {
-	
+
 		this->graphicView->rubberBand->SetEnd(data.GetPoint());
 
 		QLinkedList<ShEntity*>::iterator itr;
@@ -146,7 +153,7 @@ void ShModifyMoveAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) 
 }
 
 
-void ShModifyMoveAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
+void ShModifyCopyAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 	if (event->key() == Qt::Key::Key_Escape) {
 
@@ -161,13 +168,13 @@ void ShModifyMoveAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 	}
 }
 
-ActionType ShModifyMoveAction::GetType() {
+ActionType ShModifyCopyAction::GetType() {
 
 	return ActionType::ActionModifyMove;
 }
 
 #include <qpainter.h>
-QCursor ShModifyMoveAction::GetCursorShape() {
+QCursor ShModifyCopyAction::GetCursorShape() {
 
 	if (this->status == Status::SelectingEntities) {
 		QPixmap pix(32, 32);
@@ -178,28 +185,28 @@ QCursor ShModifyMoveAction::GetCursorShape() {
 
 		return QCursor(pix);
 	}
-	
+
 	return QCursor(Qt::CursorShape::CrossCursor);
 }
 
-QString ShModifyMoveAction::GetActionHeadTitle() {
+QString ShModifyCopyAction::GetActionHeadTitle() {
 
 	QString str = "";
 
 	if (this->status == SelectingEntities) {
-		str = "Move >> Select objects: ";
+		str = "Copy >> Select objects: ";
 	}
 	else if (this->status == FinishedSelectingEntities) {
-		str = "Move >> Specify base point: ";
+		str = "Copy >> Specify base point: ";
 	}
 	else if (this->status == PickedBasePoint) {
-		str = "Move >> Specify second point: ";
+		str = "Copy >> Specify second point: ";
 	}
 
 	return str;
 }
 
-void ShModifyMoveAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+void ShModifyCopyAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
 	if (this->status == Status::SelectingEntities)
 		return;
@@ -213,7 +220,7 @@ void ShModifyMoveAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 		data.SetSnapBasePoint(mouse);
 	}
 	else if (this->status == Status::PickedBasePoint) {
-	
+
 		data.SetAllowOrthogonal(true);
 		data.SetAllowtSnap(true);
 
@@ -224,10 +231,10 @@ void ShModifyMoveAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
 }
 
-void ShModifyMoveAction::ApplyOrthogonalShape(bool on) {
+void ShModifyCopyAction::ApplyOrthogonalShape(bool on) {
 
 	if (this->status == Status::PickedBasePoint) {
-		
+
 		ShPoint3d mouse = this->graphicView->GetCursorPoint();
 
 		if (on == true) {
@@ -259,7 +266,7 @@ void ShModifyMoveAction::ApplyOrthogonalShape(bool on) {
 
 }
 
-void ShModifyMoveAction::UpdateNextListText() {
+void ShModifyCopyAction::UpdateNextListText() {
 
 	ShUpdateListTextEvent event("");
 	this->graphicView->Notify(&event);

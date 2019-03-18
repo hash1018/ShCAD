@@ -31,6 +31,11 @@ ShPanMoveAction::ShPanMoveAction(ShGraphicView *graphicView)
 
 }
 
+ShPanMoveAction::ShPanMoveAction(ShGraphicView *graphicView, ShActionHandler *previousAction)
+	: ShTemporaryAction(graphicView), prevX(0), prevY(0) {
+
+}
+
 ShPanMoveAction::~ShPanMoveAction() {
 
 }

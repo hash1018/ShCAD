@@ -50,6 +50,9 @@ public:
 
 	bool EnabledDrawEntityVertex();
 
+	inline const ShActionHandler* GetCurrentAction() const { return this->currentAction; }
+
+
 private:
 	void ChangeActionDecorator();
 };

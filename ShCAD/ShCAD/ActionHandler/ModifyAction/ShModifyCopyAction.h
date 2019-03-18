@@ -1,9 +1,10 @@
 
-#ifndef _SHMOVEACTION_H
-#define _SHMOVEACTION_H
+#ifndef _SHMODIFYCOPYACTION_H
+#define _SHMODIFYCOPYACTION_H
+
 
 #include "ShModifyAction.h"
-class ShModifyMoveAction : public ShModifyAction {
+class ShModifyCopyAction : public ShModifyAction {
 
 public:
 	enum Status {
@@ -18,8 +19,8 @@ private:
 	ShPoint3d previous;
 
 public:
-	ShModifyMoveAction(ShGraphicView *graphicView);
-	~ShModifyMoveAction();
+	ShModifyCopyAction(ShGraphicView *graphicView);
+	~ShModifyCopyAction();
 
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void RMousePressEvent(QMouseEvent *event, ShActionData& data);
@@ -36,4 +37,4 @@ private:
 	void UpdateNextListText();
 };
 
-#endif //_SHMODIFYMOVEACTION_H
+#endif //_SHMODIFYCOPYACTION_H

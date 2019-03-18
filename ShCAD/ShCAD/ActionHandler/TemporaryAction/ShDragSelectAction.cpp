@@ -35,6 +35,15 @@ ShDragSelectAction::ShDragSelectAction(ShGraphicView *graphicView,
 	this->graphicView->Notify(&event);
 }
 
+ShDragSelectAction::ShDragSelectAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+	double firstX, double firstY, Mode mode)
+	:ShTemporaryAction(graphicView, previousAction), firstX(firstX), firstY(firstY),
+	secondX(0), secondY(0), mode(mode) {
+
+	ShUpdateCommandEditHeadTitle event(this->GetActionHeadTitle());
+	this->graphicView->Notify(&event);
+}
+
 ShDragSelectAction::~ShDragSelectAction() {
 
 }
@@ -180,7 +189,7 @@ void ShDragSelectAction::GetDragRectPoint(const ShPoint3d& first, const ShPoint3
 }
 
 QString ShDragSelectAction::GetActionHeadTitle() {
-
+	
 	return QString("Specify opposite corner: ");
 }
 
@@ -220,7 +229,16 @@ ShModifyDragSelectAction::ShModifyDragSelectAction(ShGraphicView *graphicView, d
 
 }
 
+ShModifyDragSelectAction::ShModifyDragSelectAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+	double firstX, double firstY, Mode mode)
+	: ShDragSelectAction(graphicView, previousAction, firstX, firstY, mode) {
+
+	ShUpdateCommandEditHeadTitle event(this->GetActionHeadTitle());
+	this->graphicView->Notify(&event);
+}
+
 ShModifyDragSelectAction::~ShModifyDragSelectAction() {
+
 
 }
 
@@ -315,4 +333,9 @@ void ShModifyDragSelectAction::KeyPressEvent(QKeyEvent *event, ShActionData& dat
 		ShKeyPressedEvent event2(event);
 		this->graphicView->Notify(&event2);
 	}
+}
+
+QString ShModifyDragSelectAction::GetActionHeadTitle() {
+
+	return this->previousAction->GetActionHeadTitle() + ShDragSelectAction::GetActionHeadTitle();
 }

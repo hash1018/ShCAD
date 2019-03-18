@@ -434,6 +434,9 @@
     <ClCompile Include="Command Pattern\Entity Command\ShMoveEntityCommand.cpp">
       <Filter>Command Pattern\Entity Command</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -710,6 +713,9 @@
     </ClInclude>
     <ClInclude Include="Command Pattern\Entity Command\ShMoveEntityCommand.h">
       <Filter>Command Pattern\Entity Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

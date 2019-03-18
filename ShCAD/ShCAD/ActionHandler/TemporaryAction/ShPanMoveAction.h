@@ -37,6 +37,7 @@ private:
 
 public:
 	ShPanMoveAction(ShGraphicView *graphicView);
+	ShPanMoveAction(ShGraphicView *graphicView, ShActionHandler *previousAction);
 	~ShPanMoveAction();
 	
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData &data);

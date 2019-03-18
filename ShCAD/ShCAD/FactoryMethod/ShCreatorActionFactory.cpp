@@ -29,6 +29,7 @@
 #include "ActionHandler\DrawAction\ShDrawCircleAction.h"
 #include "ActionHandler\DrawAction\ShDrawArcAction.h"
 #include "ActionHandler\ModifyAction\ShModifyMoveAction.h"
+#include "ActionHandler\ModifyAction\ShModifyCopyAction.h"
 ShCreatorActionFactory::ShCreatorActionFactory(){
 
 }
@@ -76,6 +77,8 @@ ShActionHandler* ShCreatorActionFactory::Create(ActionType actionType, ShGraphic
 		return new ShDrawArcAction(graphicView, ShDrawArcAction::DrawMethod::CenterStartLength);
 	if (actionType == ActionType::ActionModifyMove)
 		return new ShModifyMoveAction(graphicView);
+	if (actionType == ActionType::ActionModifyCopy)
+		return new ShModifyCopyAction(graphicView);
 
 	return new ShDefaultAction(graphicView);
 }

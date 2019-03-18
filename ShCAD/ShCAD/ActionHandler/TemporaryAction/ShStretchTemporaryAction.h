@@ -18,6 +18,8 @@ private:
 public:
 	ShStretchTemporaryAction(ShGraphicView *graphicView,
 		const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex);
+	ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+		const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex);
 	~ShStretchTemporaryAction();
 
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);

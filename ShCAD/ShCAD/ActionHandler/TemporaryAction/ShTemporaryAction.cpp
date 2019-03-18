@@ -29,6 +29,12 @@ ShTemporaryAction::ShTemporaryAction(ShGraphicView *graphicView)
 
 }
 
+ShTemporaryAction::ShTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction)
+	: ShActionHandler(graphicView), previousAction(previousAction) {
+
+
+}
+
 ShTemporaryAction::~ShTemporaryAction() {
 
 	if (this->previousAction != NULL)

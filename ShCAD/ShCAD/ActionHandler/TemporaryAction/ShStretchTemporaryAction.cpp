@@ -36,6 +36,33 @@ ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView
 	qDebug("Changed to StretchTemporaryAction.");
 }
 
+ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+	const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex)
+	:ShTemporaryAction(graphicView, previousAction), list(list), hitList(hitList), vertex(vertex) {
+
+	ShUpdateListTextEvent event("_Stretch", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
+	this->graphicView->Notify(&event);
+
+	ShUpdateCommandEditHeadTitle event2("Stretch >> Specify stretch point: ");
+	this->graphicView->Notify(&event2);
+
+	QLinkedList<ShEntity*>::iterator itr;
+
+	for (itr = this->list.begin(); itr != this->list.end(); ++itr)
+		this->graphicView->preview.Add((*itr)->Clone());
+
+	if (this->graphicView->rubberBand != 0)
+		delete this->graphicView->rubberBand;
+
+	ShPoint3d point(vertex.x, vertex.y);
+	this->graphicView->rubberBand = new ShRubberBand(ShLineData(point, point));
+
+	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage |
+		DrawType::DrawPreviewEntities | DrawType::DrawActionHandler));
+
+	qDebug("Changed to StretchTemporaryAction.");
+}
+
 ShStretchTemporaryAction::~ShStretchTemporaryAction() {
 
 	

@@ -50,6 +50,9 @@ protected:
 
 public:
 	ShDragSelectAction(ShGraphicView *graphicView, double firstX, double firstY, Mode mode = SelectMode);
+	ShDragSelectAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+		double firstX, double firstY, Mode mode = SelectMode);
+
 	~ShDragSelectAction();
 
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
@@ -76,11 +79,15 @@ class ShModifyDragSelectAction : public ShDragSelectAction {
 
 public:
 	ShModifyDragSelectAction(ShGraphicView *graphicView, double firstX, double firstY, Mode mode = SelectMode);
+	ShModifyDragSelectAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+		double firstX, double firstY, Mode mode = SelectMode);
+
 	~ShModifyDragSelectAction();
 
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void KeyPressEvent(QKeyEvent *event, ShActionData& data);
 
+	virtual QString GetActionHeadTitle();
 
 };
 
