@@ -30,6 +30,9 @@
 #include "ActionHandler\DrawAction\ShDrawArcAction.h"
 #include "ActionHandler\ModifyAction\ShModifyMoveAction.h"
 #include "ActionHandler\ModifyAction\ShModifyCopyAction.h"
+#include "ActionHandler\ModifyAction\ShModifyRotateAction.h"
+#include "ActionHandler\ModifyAction\ShModifyMirrorAction.h"
+#include "ActionHandler\ModifyAction\ShModifyEraseAction.h"
 ShCreatorActionFactory::ShCreatorActionFactory(){
 
 }
@@ -79,6 +82,14 @@ ShActionHandler* ShCreatorActionFactory::Create(ActionType actionType, ShGraphic
 		return new ShModifyMoveAction(graphicView);
 	if (actionType == ActionType::ActionModifyCopy)
 		return new ShModifyCopyAction(graphicView);
+	if (actionType == ActionType::ActionModifyRotate)
+		return new ShModifyRotateAction(graphicView);
+	if (actionType == ActionType::ActionModifyMirror)
+		return new ShModifyMirrorAction(graphicView);
+	if (actionType == ActionType::ActionModifyErase)
+		return new ShModifyEraseAction(graphicView);
+
+
 
 	return new ShDefaultAction(graphicView);
 }

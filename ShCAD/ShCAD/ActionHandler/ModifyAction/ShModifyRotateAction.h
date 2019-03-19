@@ -1,10 +1,10 @@
 
-#ifndef _SHMODIFYCOPYACTION_H
-#define _SHMODIFYCOPYACTION_H
 
+#ifndef _SHMODIFYROTATEACTION_H
+#define _SHMODIFYROTATEACTION_H
 
 #include "ShModifyAction.h"
-class ShModifyCopyAction : public ShModifyAction {
+class ShModifyRotateAction : public ShModifyAction {
 
 public:
 	enum Status {
@@ -16,12 +16,11 @@ public:
 private:
 	Status status;
 	ShPoint3d base;
-	ShPoint3d previous;
-	QLinkedList<ShEntity*> copiedEntityList;
+	double previousAngle;
 
 public:
-	ShModifyCopyAction(ShGraphicView *graphicView);
-	~ShModifyCopyAction();
+	ShModifyRotateAction(ShGraphicView *graphicView);
+	~ShModifyRotateAction();
 
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void RMousePressEvent(QMouseEvent *event, ShActionData& data);
@@ -37,5 +36,4 @@ public:
 private:
 	void UpdateNextListText();
 };
-
-#endif //_SHMODIFYCOPYACTION_H
+#endif //_SHMODIFYROTATEACTION_H

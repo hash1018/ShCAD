@@ -146,7 +146,10 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyEraseAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyMirrorAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerManager.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerDecorator.cpp" />
@@ -158,8 +161,11 @@
     <ClCompile Include="Command Pattern\Entity Command\ShAddEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShChangeEntityLayerCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.cpp" />
+    <ClCompile Include="Command Pattern\Entity Command\ShCopyEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShDeleteEntityCommand.cpp" />
+    <ClCompile Include="Command Pattern\Entity Command\ShMirrorEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShMoveEntityCommand.cpp" />
+    <ClCompile Include="Command Pattern\Entity Command\ShRotateEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShStretchEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\ShCommand.cpp" />
     <ClCompile Include="Command Pattern\ShRedoTaker.cpp" />
@@ -325,6 +331,8 @@
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
     <ClCompile Include="Visitor Pattern\ShFinder.cpp" />
     <ClCompile Include="Visitor Pattern\ShHitTester.cpp" />
+    <ClCompile Include="Visitor Pattern\ShMirror.cpp" />
+    <ClCompile Include="Visitor Pattern\ShRotater.cpp" />
     <ClCompile Include="Visitor Pattern\ShSnapPointFinder.cpp" />
     <ClCompile Include="Visitor Pattern\ShStretchVisitor.cpp" />
     <ClCompile Include="Visitor Pattern\ShVisitor.cpp" />
@@ -356,7 +364,10 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyEraseAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyMirrorAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerManager.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerDecorator.h" />
@@ -368,8 +379,11 @@
     <ClInclude Include="Command Pattern\Entity Command\ShAddEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShChangeEntityLayerCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.h" />
+    <ClInclude Include="Command Pattern\Entity Command\ShCopyEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShDeleteEntityCommand.h" />
+    <ClInclude Include="Command Pattern\Entity Command\ShMirrorEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShMoveEntityCommand.h" />
+    <ClInclude Include="Command Pattern\Entity Command\ShRotateEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShStretchEntityCommand.h" />
     <ClInclude Include="Command Pattern\ShCommand.h" />
     <ClInclude Include="Command Pattern\ShRedoTaker.h" />
@@ -631,6 +645,8 @@
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />
     <ClInclude Include="Visitor Pattern\ShFinder.h" />
     <ClInclude Include="Visitor Pattern\ShHitTester.h" />
+    <ClInclude Include="Visitor Pattern\ShMirror.h" />
+    <ClInclude Include="Visitor Pattern\ShRotater.h" />
     <ClInclude Include="Visitor Pattern\ShSnapPointFinder.h" />
     <ClInclude Include="Visitor Pattern\ShStretchVisitor.h" />
     <ClInclude Include="Visitor Pattern\ShVisitor.h" />

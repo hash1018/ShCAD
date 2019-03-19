@@ -71,6 +71,8 @@ void ShModifyMoveAction::LMousePressEvent(QMouseEvent *event, ShActionData& data
 		this->previous.y = data.GetNextPoint().y;
 	
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		this->UpdateNextListText();
 	}
 	else if (this->status == PickedBasePoint) {
 	

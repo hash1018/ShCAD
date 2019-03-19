@@ -1,14 +1,17 @@
 
-#include "ShModifyCopyAction.h"
+
+#include "ShModifyRotateAction.h"
 #include <QKeyEvent>
 #include "ShNotifyEvent.h"
 #include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
 #include "Entity\Leaf\ShRubberBand.h"
 #include "Entity\Composite\ShPreview.h"
-ShModifyCopyAction::ShModifyCopyAction(ShGraphicView *graphicView)
+#include "ShMath.h"
+#include "Visitor Pattern\ShRotater.h"
+ShModifyRotateAction::ShModifyRotateAction(ShGraphicView *graphicView)
 	:ShModifyAction(graphicView), status(SelectingEntities) {
 
-	ShUpdateListTextEvent event("_Copy", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
+	ShUpdateListTextEvent event("_Rotate", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
 	this->graphicView->Notify(&event);
 
 	QString headTitle = this->GetActionHeadTitle();
@@ -17,23 +20,13 @@ ShModifyCopyAction::ShModifyCopyAction(ShGraphicView *graphicView)
 	this->graphicView->Notify(&event2);
 }
 
-#include "Command Pattern\Entity Command\ShCopyEntityCommand.h"
-ShModifyCopyAction::~ShModifyCopyAction() {
+ShModifyRotateAction::~ShModifyRotateAction() {
 
-	if (this->copiedEntityList.count() != 0) {
-	
-		ShCopyEntityCommand *command = new ShCopyEntityCommand(this->graphicView, this->copiedEntityList);
-
-		this->graphicView->undoTaker.Push(command);
-
-		if (!this->graphicView->redoTaker.IsEmpty())
-			this->graphicView->redoTaker.DeleteAll();
-	}
 }
 
-
+#include "Command Pattern\Entity Command\ShRotateEntityCommand.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
-void ShModifyCopyAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShModifyRotateAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
 
@@ -68,17 +61,16 @@ void ShModifyCopyAction::LMousePressEvent(QMouseEvent *event, ShActionData& data
 			this->graphicView->preview.Add((*itr)->Clone());
 		}
 
-		double disX = data.GetNextPoint().x - data.GetPoint().x;
-		double disY = data.GetNextPoint().y - data.GetPoint().y;
+		double angle = Math::GetAbsAngle(this->base.x, this->base.y, data.GetNextPoint().x, data.GetNextPoint().y);
 
+		ShRotater rotater(this->base, angle);
 		for (itr = this->graphicView->preview.Begin();
 			itr != this->graphicView->preview.End();
 			++itr) {
-			(*itr)->Move(disX, disY);
+			(*itr)->Accept(&rotater);
 		}
 
-		this->previous.x = data.GetNextPoint().x;
-		this->previous.y = data.GetNextPoint().y;
+		this->previousAngle = angle;
 
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 
@@ -86,40 +78,33 @@ void ShModifyCopyAction::LMousePressEvent(QMouseEvent *event, ShActionData& data
 	}
 	else if (this->status == PickedBasePoint) {
 
-		double disX = data.GetPoint().x - this->previous.x;
-		double disY = data.GetPoint().y - this->previous.y;
+		double angle = Math::GetAbsAngle(this->base.x, this->base.y, data.GetPoint().x, data.GetPoint().y);
+		ShRotater rotater(this->base, angle);
 
 		QLinkedList<ShEntity*> list;
 		QLinkedList<ShEntity*>::iterator itr;
-		for (itr = this->graphicView->preview.Begin();
-			itr != this->graphicView->preview.End();
+		for (itr = this->graphicView->selectedEntityManager.Begin();
+			itr != this->graphicView->selectedEntityManager.End();
 			++itr) {
-			(*itr)->Move(disX, disY);
-			ShEntity *copiedEntity = (*itr)->Clone();
-			list.append(copiedEntity);
-			this->copiedEntityList.append(copiedEntity);
+
+			(*itr)->Accept(&rotater);
+			list.append((*itr));
 		}
 
-		this->graphicView->entityTable.Add(list);
+		ShRotateEntityCommand *command = new ShRotateEntityCommand(this->graphicView, list, this->base, angle);
+		this->graphicView->undoTaker.Push(command);
 
-		for (itr = this->graphicView->preview.Begin();
-			itr != this->graphicView->preview.End();
-			++itr) {
-			(*itr)->Move(-disX, -disY);
-		}
-
+		if (!this->graphicView->redoTaker.IsEmpty())
+			this->graphicView->redoTaker.DeleteAll();
 		
 
-		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
-		this->graphicView->CaptureImage();
-
-		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
-
+		ShChangeCurrentActionCurrentFinished strategy(ActionType::ActionDefault);
+		this->graphicView->ChangeCurrentAction(strategy);
 
 	}
 }
 
-void ShModifyCopyAction::RMousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShModifyRotateAction::RMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
 
@@ -141,24 +126,25 @@ void ShModifyCopyAction::RMousePressEvent(QMouseEvent *event, ShActionData& data
 
 }
 
-void ShModifyCopyAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
+void ShModifyRotateAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == PickedBasePoint) {
 
 		this->graphicView->rubberBand->SetEnd(data.GetPoint());
 
-		QLinkedList<ShEntity*>::iterator itr;
-		double disX = data.GetPoint().x - this->previous.x;
-		double disY = data.GetPoint().y - this->previous.y;
+		double angle = Math::GetAbsAngle(this->base.x, this->base.y, data.GetPoint().x, data.GetPoint().y);
 
+		ShRotater rotater(this->base, angle - this->previousAngle);
+
+		QLinkedList<ShEntity*>::iterator itr;
 		for (itr = this->graphicView->preview.Begin();
 			itr != this->graphicView->preview.End();
 			++itr) {
-			(*itr)->Move(disX, disY);
+			(*itr)->Accept(&rotater);
 		}
 
-		this->previous.x = data.GetPoint().x;
-		this->previous.y = data.GetPoint().y;
+		this->previousAngle = angle;
+	
 
 
 		data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
@@ -166,7 +152,7 @@ void ShModifyCopyAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) 
 }
 
 
-void ShModifyCopyAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
+void ShModifyRotateAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 	if (event->key() == Qt::Key::Key_Escape) {
 
@@ -181,13 +167,13 @@ void ShModifyCopyAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 	}
 }
 
-ActionType ShModifyCopyAction::GetType() {
+ActionType ShModifyRotateAction::GetType() {
 
 	return ActionType::ActionModifyMove;
 }
 
 #include <qpainter.h>
-QCursor ShModifyCopyAction::GetCursorShape() {
+QCursor ShModifyRotateAction::GetCursorShape() {
 
 	if (this->status == Status::SelectingEntities) {
 		QPixmap pix(32, 32);
@@ -202,24 +188,24 @@ QCursor ShModifyCopyAction::GetCursorShape() {
 	return QCursor(Qt::CursorShape::CrossCursor);
 }
 
-QString ShModifyCopyAction::GetActionHeadTitle() {
+QString ShModifyRotateAction::GetActionHeadTitle() {
 
 	QString str = "";
 
 	if (this->status == SelectingEntities) {
-		str = "Copy >> Select objects: ";
+		str = "Rotate >> Select objects: ";
 	}
 	else if (this->status == FinishedSelectingEntities) {
-		str = "Copy >> Specify base point: ";
+		str = "Rotate >> Specify base point: ";
 	}
 	else if (this->status == PickedBasePoint) {
-		str = "Copy >> Specify second point: ";
+		str = "Rotate >> Specify rotation angle: ";
 	}
 
 	return str;
 }
 
-void ShModifyCopyAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+void ShModifyRotateAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
 	if (this->status == Status::SelectingEntities)
 		return;
@@ -244,7 +230,7 @@ void ShModifyCopyAction::IsAllowedDraftOperation(ShAllowedDraftData &data) {
 
 }
 
-void ShModifyCopyAction::ApplyOrthogonalShape(bool on) {
+void ShModifyRotateAction::ApplyOrthogonalShape(bool on) {
 
 	if (this->status == Status::PickedBasePoint) {
 
@@ -261,25 +247,25 @@ void ShModifyCopyAction::ApplyOrthogonalShape(bool on) {
 
 		ShPoint3d end = this->graphicView->rubberBand->GetEnd();
 
-		QLinkedList<ShEntity*>::iterator itr;
-		double disX = end.x - this->previous.x;
-		double disY = end.y - this->previous.y;
+		double angle = Math::GetAbsAngle(this->base.x, this->base.y, end.x, end.y);
 
+		ShRotater rotater(this->base, angle - this->previousAngle);
+
+		QLinkedList<ShEntity*>::iterator itr;
 		for (itr = this->graphicView->preview.Begin();
 			itr != this->graphicView->preview.End();
 			++itr) {
-			(*itr)->Move(disX, disY);
+			(*itr)->Accept(&rotater);
 		}
 
-		this->previous.x = end.x;
-		this->previous.y = end.y;
+		this->previousAngle = angle;
 
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
 
 }
 
-void ShModifyCopyAction::UpdateNextListText() {
+void ShModifyRotateAction::UpdateNextListText() {
 
 	ShUpdateListTextEvent event("");
 	this->graphicView->Notify(&event);

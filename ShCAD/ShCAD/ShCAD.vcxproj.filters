@@ -437,6 +437,30 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
+    <ClCompile Include="Command Pattern\Entity Command\ShCopyEntityCommand.cpp">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShRotater.cpp">
+      <Filter>Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\Entity Command\ShRotateEntityCommand.cpp">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyMirrorAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShMirror.cpp">
+      <Filter>Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command Pattern\Entity Command\ShMirrorEntityCommand.cpp">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyEraseAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -715,6 +739,30 @@
       <Filter>Command Pattern\Entity Command</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\Entity Command\ShCopyEntityCommand.h">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShRotater.h">
+      <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\Entity Command\ShRotateEntityCommand.h">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyMirrorAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShMirror.h">
+      <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\Entity Command\ShMirrorEntityCommand.h">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyEraseAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
   </ItemGroup>

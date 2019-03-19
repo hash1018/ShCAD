@@ -1,27 +1,23 @@
 
-#ifndef _SHMODIFYCOPYACTION_H
-#define _SHMODIFYCOPYACTION_H
-
+#ifndef _SHMODIFYERASEACTION_H
+#define _SHMODIFYERASEACTION_H
 
 #include "ShModifyAction.h"
-class ShModifyCopyAction : public ShModifyAction {
+class ShModifyEraseAction : public ShModifyAction {
 
 public:
 	enum Status {
 		SelectingEntities,
-		FinishedSelectingEntities,
-		PickedBasePoint,
 	};
 
 private:
 	Status status;
-	ShPoint3d base;
-	ShPoint3d previous;
-	QLinkedList<ShEntity*> copiedEntityList;
+	
+
 
 public:
-	ShModifyCopyAction(ShGraphicView *graphicView);
-	~ShModifyCopyAction();
+	ShModifyEraseAction(ShGraphicView *graphicView);
+	~ShModifyEraseAction();
 
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void RMousePressEvent(QMouseEvent *event, ShActionData& data);
@@ -37,5 +33,4 @@ public:
 private:
 	void UpdateNextListText();
 };
-
-#endif //_SHMODIFYCOPYACTION_H
+#endif //_SHMODIFYERASEACTION_H
