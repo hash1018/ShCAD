@@ -465,7 +465,13 @@
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
     <ClCompile Include="Entity\ShEntityData.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyExtendAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShExtender.cpp">
+      <Filter>Visitor Pattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -775,7 +781,13 @@
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
     <ClInclude Include="Entity\ShEntityData.h">
-      <Filter>Header Files</Filter>
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyExtendAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShExtender.h">
+      <Filter>Visitor Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

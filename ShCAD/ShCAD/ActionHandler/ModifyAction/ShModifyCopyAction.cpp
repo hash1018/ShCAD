@@ -183,7 +183,7 @@ void ShModifyCopyAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 ActionType ShModifyCopyAction::GetType() {
 
-	return ActionType::ActionModifyMove;
+	return ActionType::ActionModifyCopy;
 }
 
 #include <qpainter.h>

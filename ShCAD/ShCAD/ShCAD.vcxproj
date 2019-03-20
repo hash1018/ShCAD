@@ -147,6 +147,7 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyEraseAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyExtendAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMirrorAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp" />
@@ -328,6 +329,7 @@
     <ClCompile Include="Strategy Pattern\ShObjectSnapStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp" />
+    <ClCompile Include="Visitor Pattern\ShExtender.cpp" />
     <ClCompile Include="Visitor Pattern\ShLinePerpendicularVisitor.cpp" />
     <ClCompile Include="Visitor Pattern\ShFootOfPerpendicularVisitor.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
@@ -367,6 +369,7 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyEraseAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyExtendAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMirrorAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h" />
@@ -644,6 +647,7 @@
     <ClInclude Include="Strategy Pattern\ShObjectSnapStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewDrawStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.h" />
+    <ClInclude Include="Visitor Pattern\ShExtender.h" />
     <ClInclude Include="Visitor Pattern\ShLineBothPerpendicularVisitor.h" />
     <ClInclude Include="Visitor Pattern\ShFootOfPerpendicularVisitor.h" />
     <ClInclude Include="Visitor Pattern\ShDrawer.h" />

@@ -1,25 +1,22 @@
 
-#ifndef _SHMODIFYMOVEACTION_H
-#define _SHMODIFYMOVEACTION_H
+#ifndef _SHMODIFYEXTENDACTION_H
+#define _SHMODIFYEXTENDACTION_H
 
 #include "ShModifyAction.h"
-class ShModifyMoveAction : public ShModifyAction {
+class ShModifyExtendAction : public ShModifyAction {
 
 public:
 	enum Status {
 		SelectingEntities,
 		FinishedSelectingEntities,
-		PickedBasePoint,
 	};
 
 private:
 	Status status;
-	ShPoint3d base;
-	ShPoint3d previous;
 
 public:
-	ShModifyMoveAction(ShGraphicView *graphicView);
-	~ShModifyMoveAction();
+	ShModifyExtendAction(ShGraphicView *graphicView);
+	~ShModifyExtendAction();
 
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void RMousePressEvent(QMouseEvent *event, ShActionData& data);
@@ -29,8 +26,6 @@ public:
 
 	virtual QCursor GetCursorShape();
 	virtual QString GetActionHeadTitle();
-	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
-	virtual void ApplyOrthogonalShape(bool on);
 
 private:
 	void UpdateNextListText();

@@ -96,7 +96,7 @@ void ShModifyEraseAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 ActionType ShModifyEraseAction::GetType() {
 
-	return ActionType::ActionModifyMove;
+	return ActionType::ActionModifyErase;
 }
 
 #include <qpainter.h>

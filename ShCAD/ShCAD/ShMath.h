@@ -41,7 +41,7 @@ namespace Math {
 	bool CheckAngleLiesOnAngleBetween(double startAngle, double endAngle, double angle);
 	bool CheckLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
 		ShPoint3d& intersect);
-	bool CheckTwoSegmentsIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
+	bool CheckTwoLineSegmentsIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
 		ShPoint3d& intersect);
 	bool CheckCircleLineSegmentIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end);
 	bool CheckCircleLineIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end,

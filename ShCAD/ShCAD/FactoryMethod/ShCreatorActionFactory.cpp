@@ -34,6 +34,7 @@
 #include "ActionHandler\ModifyAction\ShModifyMirrorAction.h"
 #include "ActionHandler\ModifyAction\ShModifyEraseAction.h"
 #include "ActionHandler\ModifyAction\ShModifyStretchAction.h"
+#include "ActionHandler\ModifyAction\ShModifyExtendAction.h"
 ShCreatorActionFactory::ShCreatorActionFactory(){
 
 }
@@ -91,7 +92,8 @@ ShActionHandler* ShCreatorActionFactory::Create(ActionType actionType, ShGraphic
 		return new ShModifyEraseAction(graphicView);
 	if (actionType == ActionType::ActionModifyStretch)
 		return new ShModifyStretchAction(graphicView);
-
+	if (actionType == ActionType::ActionModifyExtend)
+		return new ShModifyExtendAction(graphicView);
 
 	return new ShDefaultAction(graphicView);
 }

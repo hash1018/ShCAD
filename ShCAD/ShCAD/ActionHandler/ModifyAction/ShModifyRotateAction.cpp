@@ -169,7 +169,7 @@ void ShModifyRotateAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 ActionType ShModifyRotateAction::GetType() {
 
-	return ActionType::ActionModifyMove;
+	return ActionType::ActionModifyRotate;
 }
 
 #include <qpainter.h>

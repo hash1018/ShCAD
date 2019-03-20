@@ -174,7 +174,7 @@ void ShModifyStretchAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) 
 
 ActionType ShModifyStretchAction::GetType() {
 
-	return ActionType::ActionModifyMove;
+	return ActionType::ActionModifyStretch;
 }
 
 #include <qpainter.h>

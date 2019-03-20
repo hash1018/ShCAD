@@ -76,22 +76,22 @@ void ShRectFinder::Visit(ShLine *line) {
 
 		//Rectangle has four line-segment.
 		ShPoint3d intersect;
-		if (Math::CheckTwoSegmentsIntersect(data.start, data.end, this->topLeft, ShPoint3d(this->topLeft.x, this->bottomRight.y),
+		if (Math::CheckTwoLineSegmentsIntersect(data.start, data.end, this->topLeft, ShPoint3d(this->topLeft.x, this->bottomRight.y),
 			intersect) == true) {
 			*this->foundEntity = line;
 			return;
 		}
-		if (Math::CheckTwoSegmentsIntersect(data.start, data.end, this->topLeft, ShPoint3d(this->bottomRight.x, this->topLeft.y),
+		if (Math::CheckTwoLineSegmentsIntersect(data.start, data.end, this->topLeft, ShPoint3d(this->bottomRight.x, this->topLeft.y),
 			intersect) == true) {
 			*this->foundEntity = line;
 			return;
 		}
-		if (Math::CheckTwoSegmentsIntersect(data.start, data.end, ShPoint3d(this->topLeft.x, this->bottomRight.y), this->bottomRight,
+		if (Math::CheckTwoLineSegmentsIntersect(data.start, data.end, ShPoint3d(this->topLeft.x, this->bottomRight.y), this->bottomRight,
 			intersect) == true) {
 			*this->foundEntity = line;
 			return;
 		}
-		if (Math::CheckTwoSegmentsIntersect(data.start, data.end, ShPoint3d(this->bottomRight.x, this->topLeft.y), this->bottomRight,
+		if (Math::CheckTwoLineSegmentsIntersect(data.start, data.end, ShPoint3d(this->bottomRight.x, this->topLeft.y), this->bottomRight,
 			intersect) == true) {
 			*this->foundEntity = line;
 			return;

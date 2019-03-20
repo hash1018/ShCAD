@@ -178,7 +178,7 @@ void ShModifyMirrorAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 ActionType ShModifyMirrorAction::GetType() {
 
-	return ActionType::ActionModifyMove;
+	return ActionType::ActionModifyMirror;
 }
 
 #include <qpainter.h>

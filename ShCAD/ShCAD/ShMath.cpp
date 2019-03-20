@@ -325,7 +325,7 @@ bool Math::CheckLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1
 
 }
 
-bool Math::CheckTwoSegmentsIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
+bool Math::CheckTwoLineSegmentsIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
 	ShPoint3d &intersect) {
 
 	float s1_x, s1_y, s2_x, s2_y;
