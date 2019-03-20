@@ -4,21 +4,6 @@
 #define _SHCIRCLE_H
 
 #include "ShLeaf.h"
-#include "ShPoint.h"
-
-class ShCircleData {
-
-public:
-	ShPoint3d center;
-	double radius;
-	
-	ShCircleData();
-	ShCircleData(ShPoint3d& center, double radius);
-	ShCircleData(const ShCircleData& data);
-	bool operator==(const ShCircleData& data);
-	ShCircleData& operator=(const ShCircleData &data);
-
-};
 
 /* Class for Circle entity */
 
@@ -37,8 +22,11 @@ public:
 
 	virtual ShCircle* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
-	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
+	virtual void GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point);
 	virtual void Move(double cx, double cy);
+
+	virtual ShCircleData* CreateData();
+	virtual void SetData(ShEntityData *data);
 
 	inline ShCircleData GetData() const { return this->data; }
 	void SetData(const ShCircleData& data) { this->data = data; }

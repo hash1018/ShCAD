@@ -31,7 +31,6 @@ public:
 	virtual bool Add(ShEntity* shEntity);
 	virtual bool Add(QLinkedList<ShEntity*> &list);
 
-
 	virtual void Delete(ShEntity *shEntity);
 	virtual void Remove(ShEntity *shEntity);
 	

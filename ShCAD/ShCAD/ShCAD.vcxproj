@@ -150,6 +150,7 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMirrorAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyStretchAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerManager.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerDecorator.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
     <ClCompile Include="Entity\ShEntity.cpp" />
+    <ClCompile Include="Entity\ShEntityData.cpp" />
     <ClCompile Include="Facade Pattern\ShCadFacade.cpp" />
     <ClCompile Include="FactoryMethod\ShCreatorActionFactory.cpp" />
     <ClCompile Include="FactoryMethod\ShCreatorActionDecoratorFactory.cpp" />
@@ -368,6 +370,7 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMirrorAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyStretchAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerManager.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerDecorator.h" />
@@ -403,6 +406,7 @@
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />
     <ClInclude Include="Entity\ShEntity.h" />
+    <ClInclude Include="Entity\ShEntityData.h" />
     <ClInclude Include="Facade Pattern\ShCadFacade.h" />
     <ClInclude Include="FactoryMethod\ShCreatorActionFactory.h" />
     <CustomBuild Include="Interface\Dialog\ShLayerDialog.h">

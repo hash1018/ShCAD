@@ -73,19 +73,18 @@ enum DrawType {
 
 };
 
-//speicfic area ( mouse hovered or something)  of entity object.
-enum HitPoint {
-	HitNothing,
-	HitStart,
-	HitEnd,
-	HitMid,
-	HitOther,
-	HitCenter,
-	HitLeft,
-	HitRight,
-	HitTop,
-	HitBottom,
 
+enum VertexPoint {
+	VertexNothing,
+	VertexStart,
+	VertexEnd,
+	VertexMid,
+	VertexOther,
+	VertexCenter,
+	VertexLeft,
+	VertexRight,
+	VertexTop,
+	VertexBottom,
 
 };
 

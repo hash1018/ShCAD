@@ -13,13 +13,13 @@ class ShStretchTemporaryAction : public ShTemporaryAction {
 private:
 	ShPoint3d vertex;
 	QLinkedList<ShEntity*> list;
-	QLinkedList<HitPoint> hitList;
+	QLinkedList<VertexPoint> vertexList;
 
 public:
 	ShStretchTemporaryAction(ShGraphicView *graphicView,
-		const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex);
+		const QLinkedList<ShEntity*>& list, const QLinkedList<VertexPoint>& vertexList, ShPoint3d vertex);
 	ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
-		const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex);
+		const QLinkedList<ShEntity*>& list, const QLinkedList<VertexPoint>& vertexList, ShPoint3d vertex);
 	~ShStretchTemporaryAction();
 
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);

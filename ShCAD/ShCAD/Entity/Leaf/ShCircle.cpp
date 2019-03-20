@@ -3,38 +3,6 @@
 #include "Visitor Pattern\ShVisitor.h"
 
 
-ShCircleData::ShCircleData() {
-
-}
-
-ShCircleData::ShCircleData(ShPoint3d &center, double radius)
-	:center(center), radius(radius) {
-
-}
-
-ShCircleData::ShCircleData(const ShCircleData &data)
-	: center(data.center), radius(data.radius) {
-
-
-}
-
-bool ShCircleData::operator==(const ShCircleData& data) {
-
-	if (this->center == data.center && this->radius == data.radius)
-		return true;
-
-	return false;
-
-}
-
-ShCircleData& ShCircleData::operator=(const ShCircleData& data) {
-
-	this->center = data.center;
-	this->radius = data.radius;
-
-	return *this;
-}
-
 
 ShCircle::ShCircle() {
 
@@ -83,24 +51,24 @@ void ShCircle::Accept(ShVisitor *shVisitor) {
 }
 
 
-void ShCircle::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
+void ShCircle::GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point) {
 
-	if (hitPoint == HitPoint::HitCenter) {
+	if (vertexPoint == VertexPoint::VertexCenter) {
 		point = this->data.center;
 	}
-	else if (hitPoint == HitPoint::HitTop) {
+	else if (vertexPoint == VertexPoint::VertexTop) {
 		point.x = this->data.center.x;
 		point.y = this->data.center.y + this->data.radius;
 	}
-	else if (hitPoint == HitPoint::HitLeft) {
+	else if (vertexPoint == VertexPoint::VertexLeft) {
 		point.x = this->data.center.x - this->data.radius;
 		point.y = this->data.center.y;
 	}
-	else if (hitPoint == HitPoint::HitBottom) {
+	else if (vertexPoint == VertexPoint::VertexBottom) {
 		point.x = this->data.center.x;
 		point.y = this->data.center.y - this->data.radius;
 	}
-	else if (hitPoint == HitPoint::HitRight) {
+	else if (vertexPoint == VertexPoint::VertexRight) {
 		point.x = this->data.center.x + this->data.radius;
 		point.y = this->data.center.y;
 	}
@@ -111,4 +79,15 @@ void ShCircle::Move(double cx, double cy) {
 
 	this->data.center.x += cx;
 	this->data.center.y += cy;
+}
+
+ShCircleData* ShCircle::CreateData() {
+
+	return new ShCircleData(this->data);
+}
+
+void ShCircle::SetData(ShEntityData *data) {
+
+	if (dynamic_cast<ShCircleData*>(data))
+		this->data = *(dynamic_cast<ShCircleData*>(data));
 }

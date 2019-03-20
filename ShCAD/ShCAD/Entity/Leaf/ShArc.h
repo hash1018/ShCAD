@@ -4,24 +4,6 @@
 #define _SHARC_H
 
 #include "ShLeaf.h"
-#include "ShPoint.h"
-
-class ShArcData {
-
-public:
-	ShPoint3d center;
-	double radius;
-	double startAngle;
-	double endAngle;
-
-
-	ShArcData();
-	ShArcData(ShPoint3d& center, double radius, double startAngle, double endAngle);
-	ShArcData(const ShArcData& data);
-	bool operator==(const ShArcData& data);
-	ShArcData& operator=(const ShArcData &data);
-
-};
 
 /* Class for Arc entity */
 
@@ -40,8 +22,10 @@ public:
 
 	ShArc* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
-	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
+	virtual void GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point);
 	virtual void Move(double cx, double cy);
+	virtual ShArcData* CreateData();
+	virtual void SetData(ShEntityData *data);
 
 	inline ShArcData GetData() const { return this->data; }
 	void SetData(const ShArcData& data) { this->data = data; }

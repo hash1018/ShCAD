@@ -251,63 +251,27 @@ void ShModifyDragSelectAction::LMousePressEvent(QMouseEvent *event, ShActionData
 
 	if (this->mode == Mode::SelectMode) {
 		
-		int duplicateCount = 0;
-		QLinkedList<ShEntity*>::iterator itr;
-		for (itr = foundList.begin(); itr != foundList.end(); ++itr) {
-		
-			if ((*itr)->IsSelected() == true)
-				duplicateCount++;
-		}
+		int duplicateCount = this->AlreadySelectedCount(foundList);
 
 		this->graphicView->selectedEntityManager.Push(foundList);
 		int totalCount = this->graphicView->selectedEntityManager.GetSize();
 
-		if (duplicateCount == 0) {
+		this->UpdateListTextSelectMode(foundCount, duplicateCount, totalCount);
 
-			ShUpdateListTextEvent event2(QString::number(foundCount) +
-				" found, "  +QString::number(totalCount) + " total",
-				ShUpdateListTextEvent::UpdateType::editTextWithText);
-
-			this->graphicView->Notify(&event2);
-		}
-		else {
-			ShUpdateListTextEvent event2(QString::number(foundCount) +
-				" found (" + QString::number(duplicateCount) + " duplicate), " +
-				QString::number(totalCount) + " total",
-				ShUpdateListTextEvent::UpdateType::editTextWithText);
-
-			this->graphicView->Notify(&event2);
-		}
 		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
 		this->graphicView->CaptureImage();
+
 	}
 	else if (this->mode == Mode::UnSelectMode) {
 
-		int removeCount = 0;
-		QLinkedList<ShEntity*>::iterator itr;
-		for (itr = foundList.begin(); itr != foundList.end(); ++itr) {
-
-			if ((*itr)->IsSelected() == true)
-				removeCount++;
-		}
+		int removeCount = this->AlreadySelectedCount(foundList);
 
 		this->graphicView->selectedEntityManager.Pop(foundList);
 		int totalCount = this->graphicView->selectedEntityManager.GetSize();
 
-		if (removeCount == 0) {
-			ShUpdateListTextEvent event(QString::number(foundCount) + " found, " +
-				QString::number(totalCount) + " total",
-				ShUpdateListTextEvent::UpdateType::editTextWithText);
+		this->UpdateListTextUnSelectMode(foundCount, removeCount, totalCount);
 
-			this->graphicView->Notify(&event);
-		}
-		else {
-			ShUpdateListTextEvent event(QString::number(foundCount) + " found, " +
-				QString::number(removeCount) + " removed, " + QString::number(totalCount) + " total",
-				ShUpdateListTextEvent::UpdateType::editTextWithText);
-
-			this->graphicView->Notify(&event);
-		}
+	
 		this->graphicView->update(DrawType::DrawAll);
 		this->graphicView->CaptureImage();
 
@@ -338,4 +302,223 @@ void ShModifyDragSelectAction::KeyPressEvent(QKeyEvent *event, ShActionData& dat
 QString ShModifyDragSelectAction::GetActionHeadTitle() {
 
 	return this->previousAction->GetActionHeadTitle() + ShDragSelectAction::GetActionHeadTitle();
+}
+
+void ShModifyDragSelectAction::UpdateListTextSelectMode(int foundCount, int duplicateCount, int totalCount) {
+
+	if (duplicateCount == 0) {
+
+		ShUpdateListTextEvent event2(QString::number(foundCount) +
+			" found, " + QString::number(totalCount) + " total",
+			ShUpdateListTextEvent::UpdateType::editTextWithText);
+
+		this->graphicView->Notify(&event2);
+	}
+	else {
+		ShUpdateListTextEvent event2(QString::number(foundCount) +
+			" found (" + QString::number(duplicateCount) + " duplicate), " +
+			QString::number(totalCount) + " total",
+			ShUpdateListTextEvent::UpdateType::editTextWithText);
+
+		this->graphicView->Notify(&event2);
+	}
+}
+
+void ShModifyDragSelectAction::UpdateListTextUnSelectMode(int foundCount, int removedCount, int totalCount) {
+
+	if (removedCount == 0) {
+		ShUpdateListTextEvent event(QString::number(foundCount) + " found, " +
+			QString::number(totalCount) + " total",
+			ShUpdateListTextEvent::UpdateType::editTextWithText);
+
+		this->graphicView->Notify(&event);
+	}
+	else {
+		ShUpdateListTextEvent event(QString::number(foundCount) + " found, " +
+			QString::number(removedCount) + " removed, " + QString::number(totalCount) + " total",
+			ShUpdateListTextEvent::UpdateType::editTextWithText);
+
+		this->graphicView->Notify(&event);
+	}
+}
+
+int ShModifyDragSelectAction::AlreadySelectedCount(const QLinkedList<ShEntity*>& foundList) {
+	
+	int duplicateCount = 0;
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = const_cast<QLinkedList<ShEntity*>&>(foundList).begin(); itr !=
+		const_cast<QLinkedList<ShEntity*>&>(foundList).end(); ++itr) {
+
+		if ((*itr)->IsSelected() == true)
+			duplicateCount++;
+	}
+
+	return duplicateCount;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+ShModifyStretchDragSelectAction::ShModifyStretchDragSelectAction(ShGraphicView *graphicView,
+	double firstX, double firstY,
+	QLinkedList<ShEntity*> *stretchList, QLinkedList<VertexPoint> *vertexList, Mode mode)
+	:ShModifyDragSelectAction(graphicView, firstX, firstY, mode), stretchList(stretchList), vertexList(vertexList) {
+
+}
+
+ShModifyStretchDragSelectAction::ShModifyStretchDragSelectAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+	QLinkedList<ShEntity*> *stretchList, QLinkedList<VertexPoint> *vertexList,
+	double firstX, double firstY, Mode mode)
+	: ShModifyDragSelectAction(graphicView, previousAction, firstX, firstY, mode), stretchList(stretchList), vertexList(vertexList) {
+
+}
+
+
+ShModifyStretchDragSelectAction::~ShModifyStretchDragSelectAction() {
+
+}
+
+
+void ShModifyStretchDragSelectAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
+
+	QLinkedList<ShEntity*> foundList;
+	this->FindEntities(ShPoint3d(this->firstX, this->firstY), ShPoint3d(this->secondX, this->secondY), foundList);
+
+	int foundCount = foundList.count();
+
+	if (this->mode == Mode::SelectMode) {
+
+		QLinkedList<ShEntity*> unSelectedList;
+		this->GetUnSelectedList(foundList, unSelectedList);
+		this->FindStretchPointAndAddList(unSelectedList);
+
+
+
+		int duplicateCount = this->AlreadySelectedCount(foundList);
+		
+		this->graphicView->selectedEntityManager.Push(foundList);
+		int totalCount = this->graphicView->selectedEntityManager.GetSize();
+
+		this->UpdateListTextSelectMode(foundCount, duplicateCount, totalCount);
+
+		this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
+		this->graphicView->CaptureImage();
+
+	}
+	else if (this->mode == Mode::UnSelectMode) {
+
+		QLinkedList<ShEntity*> selectedList;
+		this->GetAlreadySelectedList(foundList, selectedList);
+		this->RemoveStretchPointAndList(selectedList);
+
+
+		int removeCount = this->AlreadySelectedCount(foundList);
+
+		this->graphicView->selectedEntityManager.Pop(foundList);
+		int totalCount = this->graphicView->selectedEntityManager.GetSize();
+
+		this->UpdateListTextUnSelectMode(foundCount, removeCount, totalCount);
+
+
+		this->graphicView->update(DrawType::DrawAll);
+		this->graphicView->CaptureImage();
+
+	}
+
+	ShUpdateCommandEditHeadTitle event2(this->previousAction->GetActionHeadTitle());
+	this->graphicView->Notify(&event2);
+	this->ReturnToPrevious();
+}
+
+void ShModifyStretchDragSelectAction::GetUnSelectedList(const QLinkedList<ShEntity*>& foundList, QLinkedList<ShEntity*>& unSelectedList) {
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = const_cast<QLinkedList<ShEntity*>&>(foundList).begin();
+		itr != const_cast<QLinkedList<ShEntity*>&>(foundList).end(); ++itr) {
+
+		if ((*itr)->IsSelected() == false)
+			unSelectedList.append((*itr));
+	}
+
+}
+
+void ShModifyStretchDragSelectAction::GetAlreadySelectedList(const QLinkedList<ShEntity*>& foundList, QLinkedList<ShEntity*>& selectedList) {
+	
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = const_cast<QLinkedList<ShEntity*>&>(foundList).begin();
+		itr != const_cast<QLinkedList<ShEntity*>&>(foundList).end(); ++itr) {
+
+		if ((*itr)->IsSelected() == true)
+			selectedList.append((*itr));
+	}
+
+}
+
+#include "Visitor Pattern\ShStretchVisitor.h"
+void ShModifyStretchDragSelectAction::FindStretchPointAndAddList(const QLinkedList<ShEntity*>& unSelectedList) {
+	//unselected Entities, that is about to be selected. 
+	//Find Stretch Point and store into list.
+
+	ShPoint3d topLeft, bottomRight;
+	SelectMethod selectMethod;
+	this->GetDragRectPoint(ShPoint3d(this->firstX, this->firstY), ShPoint3d(this->secondX, this->secondY),
+		topLeft, bottomRight, selectMethod);
+
+	VertexPoint vertexPoint;
+	
+	if (selectMethod == SelectMethod::AllPart) {
+		ShFindStretchMovePointVisitor visitor(vertexPoint);
+		QLinkedList<ShEntity*>::iterator itr;
+		for (itr = const_cast<QLinkedList<ShEntity*>&>(unSelectedList).begin();
+			itr != const_cast<QLinkedList<ShEntity*>&>(unSelectedList).end(); ++itr) {
+
+			(*itr)->Accept(&visitor);
+			this->stretchList->append((*itr));
+			this->vertexList->append(vertexPoint);
+		}
+	}
+	else {
+		ShFindStretchPointWithRectVisitor visitor(vertexPoint, topLeft, bottomRight);
+		QLinkedList<ShEntity*>::iterator itr;
+		for (itr = const_cast<QLinkedList<ShEntity*>&>(unSelectedList).begin();
+			itr != const_cast<QLinkedList<ShEntity*>&>(unSelectedList).end(); ++itr) {
+
+			(*itr)->Accept(&visitor);
+			this->stretchList->append((*itr));
+			this->vertexList->append(vertexPoint);
+		}
+
+	}
+
+}
+
+void ShModifyStretchDragSelectAction::RemoveStretchPointAndList(const QLinkedList<ShEntity*>& selectedList) {
+	
+	QLinkedList<VertexPoint>::iterator verItr;
+	QLinkedList<ShEntity*>::iterator subItr;
+	int index = 0;
+	int i = 0;
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = const_cast<QLinkedList<ShEntity*>&>(selectedList).begin();
+		itr != const_cast<QLinkedList<ShEntity*>&>(selectedList).end(); ++itr) {
+
+		index = 0;
+		subItr = this->stretchList->begin();
+		while (subItr != this->stretchList->end() && (*subItr) != (*itr)) {
+			index++;
+			++subItr;
+		}
+
+		this->stretchList->removeOne((*itr));
+
+		verItr = this->vertexList->begin();
+		i = 0;
+		while (i < index) {
+			++verItr;
+			i++;
+		}
+		this->vertexList->erase(verItr);
+	}
+
 }

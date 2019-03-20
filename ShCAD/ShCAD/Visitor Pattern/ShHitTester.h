@@ -44,11 +44,11 @@ private:
 	double x;
 	double y;
 	double zoomRate;
-	HitPoint &hitPoint;
+	VertexPoint &vertexPoint;
 	double tolerance;
 
 public:
-	ShHitTester(double x, double y, double zoomRate, HitPoint &hitPoint, double tolerance = 6.0);
+	ShHitTester(double x, double y, double zoomRate, VertexPoint &vertexPoint, double tolerance = 6.0);
 	~ShHitTester();
 
 	void Visit(ShLine *line);

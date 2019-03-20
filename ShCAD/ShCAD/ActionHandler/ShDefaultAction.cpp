@@ -201,25 +201,25 @@ void ShSubDefaultAction_Default::MouseMoveEvent(QMouseEvent *event) {
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
 
-	HitPoint hitPoint = HitPoint::HitNothing;
+	VertexPoint vertexPoint = VertexPoint::VertexNothing;
 
-	ShHitTester hitTester(x, y, view->GetZoomRate(), hitPoint);
+	ShHitTester hitTester(x, y, view->GetZoomRate(), vertexPoint);
 
 	QLinkedList<ShEntity*>::iterator itr = this->view->selectedEntityManager.Begin();
 
 	while (itr != this->view->selectedEntityManager.End() &&
-		(hitPoint == HitPoint::HitNothing || hitPoint == HitPoint::HitOther)) {
+		(vertexPoint == VertexPoint::VertexNothing || vertexPoint == VertexPoint::VertexOther)) {
 
 		(*itr)->Accept(&hitTester);
 		++itr;
 	}
 
 
-	if (hitPoint != HitPoint::HitNothing && hitPoint != HitPoint::HitOther) {
+	if (vertexPoint != VertexPoint::VertexNothing && vertexPoint != VertexPoint::VertexOther) {
 
 		--itr;
 		ShPoint3d vertex;
-		(*itr)->GetHitPoint(hitPoint, vertex);
+		(*itr)->GetVertexPoint(vertexPoint, vertex);
 
 		//Set Cursor to vertex.
 		int dx, dy;
@@ -256,11 +256,11 @@ ShSubDefaultAction_MouseIsInEntityVertex::~ShSubDefaultAction_MouseIsInEntityVer
 void ShSubDefaultAction_MouseIsInEntityVertex::LMousePressEvent(QMouseEvent *event) {
 	//Change to SelectionMove.
 
-	HitPoint hitPoint = HitPoint::HitNothing;
-	ShHitTester hitTester(this->vertex.x, this->vertex.y, this->view->GetZoomRate(), hitPoint);
+	VertexPoint vertexPoint = VertexPoint::VertexNothing;
+	ShHitTester hitTester(this->vertex.x, this->vertex.y, this->view->GetZoomRate(), vertexPoint);
 
 	QLinkedList<ShEntity*> list;
-	QLinkedList<HitPoint> hitList;
+	QLinkedList<VertexPoint> vertexList;
 
 	QLinkedList<ShEntity*>::iterator itr;
 	for (itr = this->view->selectedEntityManager.Begin();
@@ -269,14 +269,14 @@ void ShSubDefaultAction_MouseIsInEntityVertex::LMousePressEvent(QMouseEvent *eve
 
 		(*itr)->Accept(&hitTester);
 
-		if (hitPoint != HitPoint::HitNothing && hitPoint != HitPoint::HitOther) {
+		if (vertexPoint != VertexPoint::VertexNothing && vertexPoint != VertexPoint::VertexOther) {
 			list.append((*itr));
-			hitList.append(hitPoint);
+			vertexList.append(vertexPoint);
 		}
 	}
 
 	ShStretchTemporaryAction *action = new ShStretchTemporaryAction(this->view/*, this->defaultAction*/,
-		list, hitList, this->vertex);
+		list, vertexList, this->vertex);
 	this->view->SetTemporaryAction(action);
 
 	this->defaultAction->ChangeSubAction(new ShSubDefaultAction_Default(this->defaultAction, this->view));

@@ -9,8 +9,8 @@
 
 
 ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView
-	,const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex)
-	:ShTemporaryAction(graphicView), list(list), hitList(hitList), vertex(vertex) {
+	,const QLinkedList<ShEntity*>& list, const QLinkedList<VertexPoint>& vertexList, ShPoint3d vertex)
+	:ShTemporaryAction(graphicView), list(list), vertexList(vertexList), vertex(vertex) {
 
 
 	ShUpdateListTextEvent event("_Stretch", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
@@ -37,8 +37,8 @@ ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView
 }
 
 ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
-	const QLinkedList<ShEntity*>& list, const QLinkedList<HitPoint>& hitList, ShPoint3d vertex)
-	:ShTemporaryAction(graphicView, previousAction), list(list), hitList(hitList), vertex(vertex) {
+	const QLinkedList<ShEntity*>& list, const QLinkedList<VertexPoint>& vertexList, ShPoint3d vertex)
+	:ShTemporaryAction(graphicView, previousAction), list(list), vertexList(vertexList), vertex(vertex) {
 
 	ShUpdateListTextEvent event("_Stretch", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
 	this->graphicView->Notify(&event);
@@ -56,6 +56,7 @@ ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView, S
 
 	ShPoint3d point(vertex.x, vertex.y);
 	this->graphicView->rubberBand = new ShRubberBand(ShLineData(point, point));
+
 
 	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage |
 		DrawType::DrawPreviewEntities | DrawType::DrawActionHandler));
@@ -84,7 +85,7 @@ void ShStretchTemporaryAction::LMousePressEvent(QMouseEvent *event, ShActionData
 	ShPoint3d point = data.GetPoint();
 	
 	ShStretchEntityCommand *command = new ShStretchEntityCommand(this->graphicView,
-		this->list, this->hitList, this->vertex, point);
+		this->list, this->vertexList, this->vertex, point);
 
 	command->Execute();
 
@@ -111,23 +112,25 @@ void ShStretchTemporaryAction::MouseMoveEvent(QMouseEvent *event, ShActionData& 
 	ShPoint3d end = data.GetPoint();
 	this->graphicView->rubberBand->SetEnd(end);
 
-	ShStretchVisitor visitor(end.x, end.y);
+	ShStretchVisitor visitor(this->vertex, end);
 
 	QLinkedList<ShEntity*>::iterator itr;
-	QLinkedList<HitPoint>::iterator itrHitPoint = this->hitList.begin();
+	QLinkedList<VertexPoint>::iterator itrVertexPoint = this->vertexList.begin();
 	QLinkedList<ShEntity*>::iterator originalItr = this->list.begin();
 
 	for (itr = this->graphicView->preview.Begin();
 		itr != this->graphicView->preview.End();
 		++itr) {
 
-		visitor.SetHitPoint((*itrHitPoint));
-		visitor.SetOrigianlEntity((*originalItr));
+		visitor.SetVertexPoint((*itrVertexPoint));
+		visitor.SetOriginalEntity((*originalItr));
 
 		++originalItr;
-		++itrHitPoint;
+		++itrVertexPoint;
 		(*itr)->Accept(&visitor);
 	}
+
+	
 
 	data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage |
 			DrawType::DrawPreviewEntities | DrawType::DrawActionHandler));
@@ -196,9 +199,8 @@ void ShStretchTemporaryAction::Draw(QPainter *painter) {
 void ShStretchTemporaryAction::ApplyOrthogonalShape(bool on) {
 
 	ShPoint3d mouse, point;
-	QPoint pos = this->graphicView->mapFromGlobal(QCursor::pos());
-	this->graphicView->ConvertDeviceToEntity(pos.x(), pos.y(), mouse.x, mouse.y);
-
+	mouse = this->graphicView->GetCursorPoint();
+	
 	if (on == true)
 		this->GetOrthogonal(this->vertex.x, this->vertex.y, mouse.x, mouse.y, point.x, point.y);
 	else
@@ -207,21 +209,22 @@ void ShStretchTemporaryAction::ApplyOrthogonalShape(bool on) {
 
 	this->graphicView->rubberBand->SetEnd(point);
 
-	ShStretchVisitor visitor(point.x, point.y);
+
+	ShStretchVisitor visitor(this->vertex, point);
 
 	QLinkedList<ShEntity*>::iterator itr;
-	QLinkedList<HitPoint>::iterator itrHitPoint = this->hitList.begin();
+	QLinkedList<VertexPoint>::iterator itrVertexPoint = this->vertexList.begin();
 	QLinkedList<ShEntity*>::iterator originalItr = this->list.begin();
 
 	for (itr = this->graphicView->preview.Begin();
 		itr != this->graphicView->preview.End();
 		++itr) {
 
-		visitor.SetHitPoint((*itrHitPoint));
-		visitor.SetOrigianlEntity((*originalItr));
+		visitor.SetVertexPoint((*itrVertexPoint));
+		visitor.SetOriginalEntity((*originalItr));
 
 		++originalItr;
-		++itrHitPoint;
+		++itrVertexPoint;
 		(*itr)->Accept(&visitor);
 	}
 

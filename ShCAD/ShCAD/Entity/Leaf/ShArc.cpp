@@ -3,42 +3,6 @@
 #include "Visitor Pattern\ShVisitor.h"
 
 
-ShArcData::ShArcData() {
-
-}
-
-ShArcData::ShArcData(ShPoint3d &center, double radius, double startAngle, double endAngle)
-	:center(center), radius(radius), startAngle(startAngle), endAngle(endAngle) {
-
-}
-
-ShArcData::ShArcData(const ShArcData &data)
-	: center(data.center), radius(data.radius), startAngle(data.startAngle), endAngle(data.endAngle) {
-
-
-}
-
-bool ShArcData::operator==(const ShArcData& data) {
-
-	if (this->center == data.center && this->radius == data.radius &&
-		this->startAngle == data.startAngle && this->endAngle == data.endAngle)
-		return true;
-
-	return false;
-
-}
-
-ShArcData& ShArcData::operator=(const ShArcData& data) {
-
-	this->center = data.center;
-	this->radius = data.radius;
-	this->startAngle = data.startAngle;
-	this->endAngle = data.endAngle;
-
-	return *this;
-}
-
-
 ShArc::ShArc() {
 
 
@@ -86,15 +50,15 @@ void ShArc::Accept(ShVisitor *shVisitor) {
 
 }
 
-void ShArc::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
+void ShArc::GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point) {
 
-	if (hitPoint == HitPoint::HitCenter)
+	if (vertexPoint == VertexPoint::VertexCenter)
 		point = this->data.center;
-	else if (hitPoint == HitPoint::HitStart)
+	else if (vertexPoint == VertexPoint::VertexStart)
 		point = this->GetStart();
-	else if (hitPoint == HitPoint::HitEnd)
+	else if (vertexPoint == VertexPoint::VertexEnd)
 		point = this->GetEnd();
-	else if (hitPoint == HitPoint::HitMid)
+	else if (vertexPoint == VertexPoint::VertexMid)
 		point = this->GetMid();
 
 }
@@ -141,4 +105,15 @@ ShPoint3d ShArc::GetMid() {
 	Math::Rotate(this->data.startAngle + (difference / 2.0), center.x, center.y, center.x + radius, center.y, mid.x, mid.y);
 
 	return mid;
+}
+
+ShArcData* ShArc::CreateData() {
+
+	return new ShArcData(this->data);
+}
+
+void ShArc::SetData(ShEntityData *data) {
+
+	if (dynamic_cast<ShArcData*>(data))
+		this->data = *(dynamic_cast<ShArcData*>(data));
 }

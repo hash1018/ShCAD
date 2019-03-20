@@ -3,40 +3,6 @@
 #include "ShLine.h"
 #include "Visitor Pattern\ShVisitor.h"
 
-ShLineData::ShLineData() {
-
-}
-
-ShLineData::ShLineData(const ShPoint3d &start, const ShPoint3d &end)
-	:start(start), end(end) {
-
-
-}
-
-ShLineData::ShLineData(const ShLineData &data)
-	: start(data.start), end(data.end) {
-
-
-}
-
-bool ShLineData::operator==(const ShLineData& data) {
-
-	if (this->start == data.start && this->end == data.end)
-		return true;
-
-	return false;
-
-}
-
-ShLineData& ShLineData::operator=(const ShLineData& data) {
-
-
-	this->start = data.start;
-	this->end = data.end;
-
-	return *this;
-}
-
 
 ShLine::ShLine() {
 
@@ -85,19 +51,19 @@ void ShLine::Accept(ShVisitor *shVisitor) {
 
 }
 
-void ShLine::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
+void ShLine::GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point) {
 
-	if (hitPoint == HitPoint::HitStart) {
+	if (vertexPoint == VertexPoint::VertexStart) {
 
 		point.x = this->data.start.x;
 		point.y = this->data.start.y;
 	}
-	else if (hitPoint == HitPoint::HitEnd) {
+	else if (vertexPoint == VertexPoint::VertexEnd) {
 	
 		point.x = this->data.end.x;
 		point.y = this->data.end.y;
 	}
-	else if (hitPoint == HitPoint::HitMid) {
+	else if (vertexPoint == VertexPoint::VertexMid) {
 	
 		point = this->GetMid();
 	}
@@ -140,5 +106,17 @@ ShPoint3d ShLine::GetMid() {
 	
 
 	return ShPoint3d(midX, midY);
+
+}
+
+ShLineData* ShLine::CreateData() {
+	
+	return new ShLineData(this->data);
+}
+
+void ShLine::SetData(ShEntityData *data) {
+	
+	if (dynamic_cast<ShLineData*>(data))
+		this->data = *(dynamic_cast<ShLineData*>(data));
 
 }

@@ -11,7 +11,7 @@ public:
 	virtual ~ShModifyAction() = 0;
 
 protected:
-	void DoFollowUpWithFoundEntity(ShEntity* foundEntity, Qt::KeyboardModifiers modifier);
+	virtual void DoFollowUpWithFoundEntity(ShEntity* foundEntity, Qt::KeyboardModifiers modifier);
 
 };
 

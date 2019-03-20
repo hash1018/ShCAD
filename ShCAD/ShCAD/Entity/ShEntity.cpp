@@ -42,7 +42,7 @@ ShEntity& ShEntity::operator=(const ShEntity& other) {
 	return *this;
 }
 
-void ShEntity::GetHitPoint(HitPoint hitPoint, ShPoint3d &point) {
+void ShEntity::GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point) {
 
 }
 
@@ -53,3 +53,4 @@ void ShEntity::Select() {
 void ShEntity::UnSelect() {
 	this->isSelected = false;
 }
+

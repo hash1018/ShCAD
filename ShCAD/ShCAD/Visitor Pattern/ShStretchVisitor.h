@@ -5,24 +5,58 @@
 
 #include "ShVisitor.h"
 #include "ShVariable.h"
+#include "ShPoint.h"
 class ShEntity;
 class ShStretchVisitor : public ShVisitor {
 
 private:
-	double x;
-	double y;
-	HitPoint hitPoint;
-	ShEntity *origianlEntity;
+	ShPoint3d base;
+	ShPoint3d current;
+	VertexPoint vertexPoint;
+	ShEntity *original;
 public:
-	ShStretchVisitor(double x, double y);
+	ShStretchVisitor(const ShPoint3d& base, const ShPoint3d& current);
 	~ShStretchVisitor();
 	
-	void Visit(ShLine *line);
-	void Visit(ShCircle *circle);
-	void Visit(ShArc *arc);
+	virtual void Visit(ShLine *line);
+	virtual void Visit(ShCircle *circle);
+	virtual void Visit(ShArc *arc);
 
-	void SetHitPoint(HitPoint point) { this->hitPoint = point; }
-	void SetOrigianlEntity(ShEntity *entity) { this->origianlEntity = entity; }
+	void SetVertexPoint(VertexPoint point) { this->vertexPoint = point; }
+	void SetOriginalEntity(ShEntity *entity) { this->original = entity; }
+
+};
+
+
+class ShFindStretchMovePointVisitor : public ShVisitor {
+
+private:
+	VertexPoint &vertexPoint;
+	
+public:
+	ShFindStretchMovePointVisitor(VertexPoint &vertexPoint);
+	~ShFindStretchMovePointVisitor();
+
+	virtual void Visit(ShLine *line);
+	virtual void Visit(ShCircle *circle);
+	virtual void Visit(ShArc *arc);
+
+};
+
+class ShFindStretchPointWithRectVisitor : public ShVisitor {
+
+private:
+	VertexPoint &vertexPoint;
+	ShPoint3d topLeft;
+	ShPoint3d bottomRight;
+
+public:
+	ShFindStretchPointWithRectVisitor(VertexPoint &vertexPoint, const ShPoint3d& topLeft, const ShPoint3d& bottomRight);
+	~ShFindStretchPointWithRectVisitor();
+
+	virtual void Visit(ShLine *line);
+	virtual void Visit(ShCircle *circle);
+	virtual void Visit(ShArc *arc);
 
 };
 

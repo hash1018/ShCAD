@@ -5,8 +5,8 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
-ShHitTester::ShHitTester(double x, double y, double zoomRate, HitPoint &hitPoint, double tolerance)
-	:x(x), y(y), zoomRate(zoomRate), hitPoint(hitPoint), tolerance(tolerance) {
+ShHitTester::ShHitTester(double x, double y, double zoomRate, VertexPoint &vertexPoint, double tolerance)
+	:x(x), y(y), zoomRate(zoomRate), vertexPoint(vertexPoint), tolerance(tolerance) {
 
 }
 
@@ -26,7 +26,7 @@ void ShHitTester::Visit(ShLine *line) {
 		this->y >= start.y - (this->tolerance / this->zoomRate) && 
 		this->y <= start.y + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitStart;
+		this->vertexPoint = VertexPoint::VertexStart;
 		return;
 	}
 
@@ -35,7 +35,7 @@ void ShHitTester::Visit(ShLine *line) {
 		this->y >= end.y- (this->tolerance / this->zoomRate) && 
 		this->y <= end.y + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitEnd;
+		this->vertexPoint = VertexPoint::VertexEnd;
 		return;
 	}
 
@@ -44,14 +44,14 @@ void ShHitTester::Visit(ShLine *line) {
 		this->y >= mid.y - (this->tolerance / this->zoomRate) &&
 		this->y <= mid.y + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitMid;
+		this->vertexPoint = VertexPoint::VertexMid;
 		return;
 	}
 
 	if (Math::CheckPointLiesOnLine(ShPoint3d(this->x, this->y), start, end, this->tolerance) == true)
-		this->hitPoint = HitPoint::HitOther;
+		this->vertexPoint = VertexPoint::VertexOther;
 	else
-		this->hitPoint = HitPoint::HitNothing;
+		this->vertexPoint = VertexPoint::VertexNothing;
 
 }
 
@@ -65,7 +65,7 @@ void ShHitTester::Visit(ShCircle *circle) {
 		this->y >= center.y - (this->tolerance / this->zoomRate) &&
 		this->y <= center.y + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitCenter;
+		this->vertexPoint = VertexPoint::VertexCenter;
 		return;
 	}
 
@@ -74,7 +74,7 @@ void ShHitTester::Visit(ShCircle *circle) {
 		this->y >= center.y - (this->tolerance / this->zoomRate) &&
 		this->y <= center.y + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitRight;
+		this->vertexPoint = VertexPoint::VertexRight;
 		return;
 	}
 
@@ -83,7 +83,7 @@ void ShHitTester::Visit(ShCircle *circle) {
 		this->y >= center.y - radius - (this->tolerance / this->zoomRate) &&
 		this->y <= center.y - radius + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitBottom;
+		this->vertexPoint = VertexPoint::VertexBottom;
 		return;
 	}
 
@@ -92,7 +92,7 @@ void ShHitTester::Visit(ShCircle *circle) {
 		this->y >= center.y - (this->tolerance / this->zoomRate) &&
 		this->y <= center.y + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitLeft;
+		this->vertexPoint = VertexPoint::VertexLeft;
 		return;
 	}
 
@@ -101,14 +101,14 @@ void ShHitTester::Visit(ShCircle *circle) {
 		this->y >= center.y + radius - (this->tolerance / this->zoomRate) &&
 		this->y <= center.y + radius + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitTop;
+		this->vertexPoint = VertexPoint::VertexTop;
 		return;
 	}
 
 	if (Math::CheckPointLiesOnCircleBoundary(ShPoint3d(this->x, this->y), center, radius, this->tolerance)==true)
-		this->hitPoint = HitPoint::HitOther;
+		this->vertexPoint = VertexPoint::VertexOther;
 	else
-		this->hitPoint = HitPoint::HitNothing;
+		this->vertexPoint = VertexPoint::VertexNothing;
 	
 }
 
@@ -121,7 +121,7 @@ void ShHitTester::Visit(ShArc *arc) {
 		this->y >= center.y - (this->tolerance / this->zoomRate) &&
 		this->y <= center.y + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitCenter;
+		this->vertexPoint = VertexPoint::VertexCenter;
 		return;
 	}
 
@@ -132,7 +132,7 @@ void ShHitTester::Visit(ShArc *arc) {
 		this->y >= start.y - (this->tolerance / this->zoomRate) &&
 		this->y <= start.y + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitStart;
+		this->vertexPoint = VertexPoint::VertexStart;
 		return;
 	}
 
@@ -143,7 +143,7 @@ void ShHitTester::Visit(ShArc *arc) {
 		this->y >= end.y - (this->tolerance / this->zoomRate) &&
 		this->y <= end.y + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitEnd;
+		this->vertexPoint = VertexPoint::VertexEnd;
 		return;
 	}
 
@@ -154,15 +154,15 @@ void ShHitTester::Visit(ShArc *arc) {
 		this->y >= mid.y - (this->tolerance / this->zoomRate) &&
 		this->y <= mid.y + (this->tolerance / this->zoomRate)) {
 
-		this->hitPoint = HitPoint::HitMid;
+		this->vertexPoint = VertexPoint::VertexMid;
 		return;
 	}
 
 	if (Math::CheckPointLiesOnArcBoundary(ShPoint3d(this->x, this->y), center, arc->GetRadius(), arc->GetStartAngle(),
 		arc->GetEndAngle(), tolerance) == true) 
-		this->hitPoint = HitPoint::HitOther;
+		this->vertexPoint = VertexPoint::VertexOther;
 	else
-		this->hitPoint = HitPoint::HitNothing;
+		this->vertexPoint = VertexPoint::VertexNothing;
 
 
 }

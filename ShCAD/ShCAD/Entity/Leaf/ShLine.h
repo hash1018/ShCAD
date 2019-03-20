@@ -5,22 +5,6 @@
 #define _SHLINE_H
 
 #include "ShLeaf.h"
-#include "ShPoint.h"
-
-class ShLineData {
-
-public:
-	ShPoint3d start;
-	ShPoint3d end;
-
-public:
-	ShLineData();
-	ShLineData(const ShPoint3d& start, const ShPoint3d& end);
-	ShLineData(const ShLineData& data);
-	bool operator==(const ShLineData& data);
-	ShLineData& operator=(const ShLineData &data);
-
-};
 
 /* Class for Line entity */
 
@@ -40,8 +24,11 @@ public:
 
 	ShLine* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
-	virtual void GetHitPoint(HitPoint hitPoint, ShPoint3d &point);
+	virtual void GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point);
 	virtual void Move(double cx, double cy);
+
+	virtual ShLineData* CreateData();
+	virtual void SetData(ShEntityData *data);
 
 	inline ShLineData GetData() const { return this->data; }
 	void SetData(const ShLineData& data) { this->data = data; }

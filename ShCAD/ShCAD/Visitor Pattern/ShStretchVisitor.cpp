@@ -5,8 +5,9 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
-ShStretchVisitor::ShStretchVisitor(double x, double y)
-	:x(x), y(y), origianlEntity(0), hitPoint(HitPoint::HitNothing) {
+#include <math.h>
+ShStretchVisitor::ShStretchVisitor(const ShPoint3d& base, const ShPoint3d& current)
+	:base(base),current(current), original(0), vertexPoint(VertexPoint::VertexNothing) {
 
 
 }
@@ -15,54 +16,63 @@ ShStretchVisitor::~ShStretchVisitor() {
 
 }
 
-
 void ShStretchVisitor::Visit(ShLine *line) {
 
-	ShLineData data = line->GetData();
-	ShPoint3d start = data.start;
-	ShPoint3d end = data.end;
+	if (this->original == 0 || !dynamic_cast<ShLine*>(this->original))
+		return;
+
+	ShLine *original = dynamic_cast<ShLine*>(this->original);
+
+	ShLineData data = original->GetData();
+	
+
+	double disX = this->current.x - this->base.x;
+	double disY = this->current.y - this->base.y;
+
+	if (this->vertexPoint == VertexPoint::VertexStart) {
+		data.start.x += disX;
+		data.start.y += disY;
+	}
+	else if (this->vertexPoint == VertexPoint::VertexEnd) {
+		data.end.x += disX;
+		data.end.y += disY;
+	}
+	else if (this->vertexPoint == VertexPoint::VertexMid) {
+		data.start.x += disX;
+		data.start.y += disY;
+		data.end.x += disX;
+		data.end.y += disY;
+	}
 
 
-	if (this->hitPoint == HitPoint::HitStart) {
-		start.x = this->x;
-		start.y = this->y;
-	}
-	else if (this->hitPoint == HitPoint::HitEnd) {
-		end.x = this->x;
-		end.y = this->y;
-	}
-	else if (this->hitPoint == HitPoint::HitMid) {
-		ShPoint3d mid = line->GetMid();
-		double disX = mid.x - this->x;
-		double disY = mid.y - this->y;
-		start.x -= disX;
-		start.y -= disY;
-		end.x -= disX;
-		end.y -= disY;
-	}
-
-	line->SetData(ShLineData(start, end));
+	line->SetData(data);
 
 }
 
 void ShStretchVisitor::Visit(ShCircle *circle) {
 
-	ShCircleData data = circle->GetData();
+	if (this->original == 0 || !dynamic_cast<ShCircle*>(this->original))
+		return;
+
+	ShCircle *original = dynamic_cast<ShCircle*>(this->original);
+
+	ShCircleData data = original->GetData();
 	ShPoint3d center = data.center;
-	
-	if (this->hitPoint == HitPoint::HitCenter) {
-		double disX = center.x - this->x;
-		double disY = center.y - this->y;
-		center.x -= disX;
-		center.y -= disY;
+
+	double disX = this->current.x - this->base.x;
+	double disY = this->current.y - this->base.y;
+
+	if (this->vertexPoint == VertexPoint::VertexCenter) {
+		center.x += disX;
+		center.y += disY;
 		data.center = center;
 	}
-	else if (this->hitPoint == HitPoint::HitRight ||
-		this->hitPoint == HitPoint::HitBottom ||
-		this->hitPoint == HitPoint::HitLeft ||
-		this->hitPoint == HitPoint::HitTop) {
+	else if (this->vertexPoint == VertexPoint::VertexRight ||
+		this->vertexPoint == VertexPoint::VertexBottom ||
+		this->vertexPoint == VertexPoint::VertexLeft ||
+		this->vertexPoint == VertexPoint::VertexTop) {
 	
-		double radius = Math::GetDistance(center.x, center.y, this->x, this->y);
+		double radius = Math::GetDistance(center.x, center.y, this->current.x, this->current.y);
 		data.radius = radius;
 	}
 
@@ -71,34 +81,44 @@ void ShStretchVisitor::Visit(ShCircle *circle) {
 
 void ShStretchVisitor::Visit(ShArc *arc) {
 
-	ShArcData data = arc->GetData();
+	if (this->original == 0 || !dynamic_cast<ShArc*>(this->original))
+		return;
 
-	if (this->hitPoint == HitPoint::HitCenter) {
+	ShArc *original = dynamic_cast<ShArc*>(this->original);
+	ShArcData data = original->GetData();
 
-		ShPoint3d center = data.center;
+	double disX = this->current.x - this->base.x;
+	double disY = this->current.y - this->base.y;
 
-		double disX = center.x - this->x;
-		double disY = center.y - this->y;
-		center.x -= disX;
-		center.y -= disY;
-		data.center = center;
+	if (this->vertexPoint == VertexPoint::VertexCenter) {
+
+		data.center.x += disX;
+		data.center.y += disY;
 	}
-	else if (this->hitPoint == HitPoint::HitStart || 
-		this->hitPoint==HitPoint::HitEnd ||
-		this->hitPoint==HitPoint::HitMid) {
+	else if (this->vertexPoint == VertexPoint::VertexStart || 
+		this->vertexPoint==VertexPoint::VertexEnd ||
+		this->vertexPoint==VertexPoint::VertexMid) {
 
-		ShArc *arc = dynamic_cast<ShArc*>(this->origianlEntity);
-		ShPoint3d start = arc->GetStart();
-		ShPoint3d end = arc->GetEnd();
-		ShPoint3d mid = arc->GetMid();
+		ShPoint3d start = original->GetStart();
+		ShPoint3d end = original->GetEnd();
+		ShPoint3d mid = original->GetMid();
 		ShPoint3d center;
-
-		if (this->hitPoint == HitPoint::HitStart)
-			start = ShPoint3d(this->x, this->y);
-		else if (this->hitPoint == HitPoint::HitEnd)
-			end = ShPoint3d(this->x, this->y);
-		else if (this->hitPoint == HitPoint::HitMid)
-			mid = ShPoint3d(this->x, this->y);
+		
+		if (this->vertexPoint == VertexPoint::VertexStart) {
+		
+			start.x += disX;
+			start.y += disY;
+		}
+		else if (this->vertexPoint == VertexPoint::VertexEnd) {
+		
+			end.x += disX;
+			end.y += disY;
+		}
+		else if (this->vertexPoint == VertexPoint::VertexMid) {
+			
+			mid.x += disX;
+			mid.y += disY;
+		}
 
 		if (Math::GetCenterWithThreePoint(start, mid, end, center) == false)
 			return;
@@ -106,7 +126,7 @@ void ShStretchVisitor::Visit(ShArc *arc) {
 		double startAngle = Math::GetAbsAngle(center.x, center.y, start.x, start.y);
 		double endAngle = Math::GetAbsAngle(center.x, center.y, end.x, end.y);
 		double midAngle = Math::GetAbsAngle(center.x, center.y, mid.x, mid.y);
-		double radius = Math::GetDistance(center.x, center.y, this->x, this->y);
+		double radius = Math::GetDistance(center.x, center.y, start.x, start.y);
 
 		data.center = center;
 		data.radius = radius;
@@ -119,8 +139,104 @@ void ShStretchVisitor::Visit(ShArc *arc) {
 			data.startAngle = endAngle;
 			data.endAngle = startAngle;
 		}
+		
 	}
 	
 	arc->SetData(data);
+
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+ShFindStretchMovePointVisitor::ShFindStretchMovePointVisitor(VertexPoint &vertexPoint)
+	:vertexPoint(vertexPoint) {
+
+}
+
+ShFindStretchMovePointVisitor::~ShFindStretchMovePointVisitor() {
+
+}
+
+
+void ShFindStretchMovePointVisitor::Visit(ShLine *line) {
+
+	this->vertexPoint = VertexMid;
+}
+
+void ShFindStretchMovePointVisitor::Visit(ShCircle *circle) {
+
+	this->vertexPoint = VertexCenter;
+}
+
+void ShFindStretchMovePointVisitor::Visit(ShArc *arc) {
+	
+	this->vertexPoint = VertexCenter;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+ShFindStretchPointWithRectVisitor::ShFindStretchPointWithRectVisitor(VertexPoint &vertexPoint,
+	const ShPoint3d& topLeft, const ShPoint3d& bottomRight)
+	:vertexPoint(vertexPoint), topLeft(topLeft), bottomRight(bottomRight) {
+
+}
+
+ShFindStretchPointWithRectVisitor::~ShFindStretchPointWithRectVisitor() {
+
+}
+
+
+void ShFindStretchPointWithRectVisitor::Visit(ShLine *line) {
+
+	int insideCount = 0;
+	VertexPoint vertexPoint = VertexNothing;
+
+	if (Math::CheckPointLiesInsideRect(line->GetStart(), this->topLeft, this->bottomRight, 0) == true) {
+		insideCount++;
+		vertexPoint = VertexStart;
+	}
+
+	if (Math::CheckPointLiesInsideRect(line->GetEnd(), this->topLeft, this->bottomRight, 0) == true) {
+		insideCount++;
+		vertexPoint = VertexEnd;
+	}
+
+	if (insideCount == 2)
+		this->vertexPoint = VertexMid; // Move,
+	else
+		this->vertexPoint = vertexPoint;
+	
+}
+
+void ShFindStretchPointWithRectVisitor::Visit(ShCircle *circle) {
+
+	if (Math::CheckPointLiesInsideRect(circle->GetCenter(), this->topLeft, this->bottomRight, 0) == true)
+		this->vertexPoint = VertexCenter;
+	else
+		this->vertexPoint = VertexNothing;
+}
+
+void ShFindStretchPointWithRectVisitor::Visit(ShArc *arc) {
+
+	int insideCount = 0;
+	VertexPoint vertexPoint = VertexNothing;
+
+	if (Math::CheckPointLiesInsideRect(arc->GetStart(), this->topLeft, this->bottomRight, 0) == true) {
+		insideCount++;
+		vertexPoint = VertexStart;
+	}
+	
+	if (Math::CheckPointLiesInsideRect(arc->GetEnd(), this->topLeft, this->bottomRight, 0) == true) {
+		insideCount++;
+		vertexPoint = VertexEnd;
+	}
+
+	if (insideCount == 2)
+		this->vertexPoint = VertexCenter;
+	else
+		this->vertexPoint = vertexPoint;
 
 }

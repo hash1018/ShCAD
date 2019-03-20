@@ -89,6 +89,38 @@ public:
 
 	virtual QString GetActionHeadTitle();
 
+protected:
+	void UpdateListTextSelectMode(int foundCount, int duplicateCount, int totalCount);
+	void UpdateListTextUnSelectMode(int foundCount, int removedCount, int totalCount);
+	int AlreadySelectedCount(const QLinkedList<ShEntity*>& foundList);
+
+};
+
+class ShModifyStretchDragSelectAction : public ShModifyDragSelectAction {
+	friend class ShModifyStretchAction;
+
+private:
+	QLinkedList<ShEntity*> *stretchList;
+	QLinkedList<VertexPoint> *vertexList;
+
+private:
+	ShModifyStretchDragSelectAction(ShGraphicView *graphicView, double firstX, double firstY,
+		QLinkedList<ShEntity*> *stretchList, QLinkedList<VertexPoint> *vertexList, Mode mode = SelectMode);
+
+	ShModifyStretchDragSelectAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
+		QLinkedList<ShEntity*> *stretchList, QLinkedList<VertexPoint> *vertexList,
+		double firstX, double firstY, Mode mode = SelectMode);
+
+public:
+	~ShModifyStretchDragSelectAction();
+
+	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
+
+private:
+	void GetUnSelectedList(const QLinkedList<ShEntity*>& foundList, QLinkedList<ShEntity*>& unSelectedList);
+	void GetAlreadySelectedList(const QLinkedList<ShEntity*>& foundList, QLinkedList<ShEntity*>& selectedList);
+	void FindStretchPointAndAddList(const QLinkedList<ShEntity*>& unSelectedList);
+	void RemoveStretchPointAndList(const QLinkedList<ShEntity*>& selectedList);
 };
 
 #endif //_SHDRAGSELECTACTION_H
