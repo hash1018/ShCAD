@@ -85,5 +85,9 @@ private:
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
 
+	bool CheckPossibleToExtend(ShArc *arcToExtend, PointToExtend pointToExtend, const ShPoint3d& extensionPoint);
+	bool CheckPossibleToExtend(ShArc *arcToExtend, PointToExtend pointToExtend, const ShPoint3d& extensionPoint,
+		const ShPoint3d& extensionPoint2, ShPoint3d& finalExtensionPoint);
+
 };
 #endif //_SHEXTENDER_H

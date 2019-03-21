@@ -43,26 +43,22 @@ void ShExtender::Visit(ShLine *line) {
 	if (extensionPointList.count() == 0)
 		return;
 	
-	QLinkedList<ShPoint3d>::iterator intersectItr = extensionPointList.begin();
-	ShPoint3d closest = (*intersectItr);
-	++intersectItr;
+	QLinkedList<ShPoint3d>::iterator extensionItr = extensionPointList.begin();
+	ShPoint3d closest = (*extensionItr);
+	++extensionItr;
 
-	while (intersectItr != extensionPointList.end()) {
+	while (extensionItr != extensionPointList.end()) {
 	
 		double disToClosest = Math::GetDistance(linePointToExtend.x, linePointToExtend.y,
 			closest.x, closest.y);
-		double disToIntersect = Math::GetDistance(linePointToExtend.x, linePointToExtend.y,
-			(*intersectItr).x, (*intersectItr).y);
+		double disToExtension = Math::GetDistance(linePointToExtend.x, linePointToExtend.y,
+			(*extensionItr).x, (*extensionItr).y);
 
-		if (Math::Compare(disToClosest, disToIntersect) == 1)
-			closest = (*intersectItr);
+		if (Math::Compare(disToClosest, disToExtension) == 1)
+			closest = (*extensionItr);
 
-		++intersectItr;
+		++extensionItr;
 	}
-
-
-	qDebug("closest %.6f  %.6f", closest.x, closest.y);
-	qDebug("line pointToExtend %.6f %.6f", linePointToExtend.x, linePointToExtend.y);
 
 	if (pointToExtend == ShFindExtensionPointLineExtender::PointToExtend::Start) {
 		line->SetStart(closest);
@@ -81,6 +77,74 @@ void ShExtender::Visit(ShCircle *circle) {
 
 void ShExtender::Visit(ShArc *arc) {
 
+	QLinkedList<ShPoint3d> extensionPointList;
+	ShArcData data = arc->GetData();
+	ShPoint3d arcPointToExtend;
+
+	double angleCenterToClick = Math::GetAbsAngle(data.center.x, data.center.y,
+		this->clickPoint.x, this->clickPoint.y);
+	double differenceAngle = Math::GetAngleDifference(data.startAngle, data.endAngle);
+	
+	ShFindExtensionPointArcExtender::PointToExtend pointToExtend;
+	if (Math::CheckAngleLiesOnAngleBetween(data.startAngle,
+		Math::AddAngle(data.startAngle, differenceAngle / 2), 
+		angleCenterToClick) == true) {
+
+		arcPointToExtend = arc->GetStart();
+		pointToExtend = ShFindExtensionPointArcExtender::PointToExtend::Start;
+	}
+	else {
+		arcPointToExtend = arc->GetEnd();
+		pointToExtend = ShFindExtensionPointArcExtender::PointToExtend::End;
+	}
+	
+	ShFindExtensionPointArcExtender visitor(arc, extensionPointList, pointToExtend);
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = this->baseEntities.begin(); itr != this->baseEntities.end(); ++itr)
+		(*itr)->Accept(&visitor);
+
+	if (extensionPointList.count() == 0)
+		return;
+
+	QLinkedList<ShPoint3d>::iterator extensionItr = extensionPointList.begin();
+	ShPoint3d closest = (*extensionItr);
+	++extensionItr;
+
+	while (extensionItr != extensionPointList.end()) {
+
+		double angleCenterToClosest = Math::GetAbsAngle(data.center.x, data.center.y, closest.x, closest.y);
+		double angleCenterToExtensionPoint = Math::GetAbsAngle(data.center.x, data.center.y,
+			(*extensionItr).x, (*extensionItr).y);
+		double angleCenterToPointToExtend = Math::GetAbsAngle(data.center.x, data.center.y,
+			arcPointToExtend.x, arcPointToExtend.y);
+
+		if (pointToExtend == ShFindExtensionPointArcExtender::PointToExtend::Start) {
+			double difference = Math::GetAngleDifference(angleCenterToPointToExtend, angleCenterToExtensionPoint, false);
+			double difference2 = Math::GetAngleDifference(angleCenterToPointToExtend, angleCenterToClosest, false);
+			if (Math::Compare(difference2, difference) == 1)
+				closest = (*extensionItr);
+		}
+		else if (pointToExtend == ShFindExtensionPointArcExtender::PointToExtend::End) {
+			double difference = Math::GetAngleDifference(angleCenterToPointToExtend, angleCenterToExtensionPoint);
+			double difference2 = Math::GetAngleDifference(angleCenterToPointToExtend, angleCenterToClosest);
+			if (Math::Compare(difference2, difference) == 1)
+				closest = (*extensionItr);
+		}
+
+		++extensionItr;
+	}
+
+	if (pointToExtend == ShFindExtensionPointLineExtender::PointToExtend::Start) {
+		data.startAngle = Math::GetAbsAngle(data.center.x, data.center.y, closest.x, closest.y);
+	}
+	else if (pointToExtend == ShFindExtensionPointLineExtender::PointToExtend::End) {
+		data.endAngle = Math::GetAbsAngle(data.center.x, data.center.y, closest.x, closest.y);
+	}
+
+	arc->SetData(data);
+
+	this->view->update((DrawType)(DrawType::DrawAll));
+	this->view->CaptureImage();
 
 }
 
@@ -324,6 +388,38 @@ ShFindExtensionPointArcExtender::~ShFindExtensionPointArcExtender() {
 
 void ShFindExtensionPointArcExtender::Visit(ShLine *line) {
 
+	ShArcData data = this->arcToExtend->GetData();
+	
+
+	ShPoint3d intersect, intersect2, finalExtension;
+	if (Math::CheckCircleLineIntersect(data.center, data.radius, line->GetStart(), line->GetEnd(),
+		intersect, intersect2) == false)
+		return;
+
+	bool insideIntersect = false;
+	bool insideIntersect2 = false;
+	if (Math::CheckPointLiesOnLine(intersect, line->GetStart(), line->GetEnd(), 0.001) == true)
+		insideIntersect = true;
+	if (Math::CheckPointLiesOnLine(intersect2, line->GetStart(), line->GetEnd(), 0.001) == true)
+		insideIntersect2 = true;
+
+	if (insideIntersect == false && insideIntersect2 == false)
+		return;
+
+	if (insideIntersect == true && insideIntersect2 == false) {
+		if (this->CheckPossibleToExtend(this->arcToExtend, this->pointToExtend, intersect) == true)
+			this->extensionPointList.append(intersect);
+	}
+	else if (insideIntersect == false && insideIntersect2 == true) {
+		if (this->CheckPossibleToExtend(this->arcToExtend, this->pointToExtend, intersect2) == true)
+			this->extensionPointList.append(intersect2);
+	}
+	else if (insideIntersect == true && insideIntersect2 == true) {
+		if (this->CheckPossibleToExtend(this->arcToExtend, this->pointToExtend, intersect, intersect2,
+			finalExtension) == true)
+			this->extensionPointList.append(finalExtension);
+	}
+
 }
 
 void ShFindExtensionPointArcExtender::Visit(ShCircle *circle) {
@@ -333,4 +429,116 @@ void ShFindExtensionPointArcExtender::Visit(ShCircle *circle) {
 void ShFindExtensionPointArcExtender::Visit(ShArc *arc) {
 
 
+}
+
+bool ShFindExtensionPointArcExtender::CheckPossibleToExtend(ShArc *arcToExtend, PointToExtend pointToExtend, 
+	const ShPoint3d& extensionPoint) {
+
+	ShArcData data = arcToExtend->GetData();
+
+	if (Math::CheckPointLiesOnArcBoundary(extensionPoint, data.center, data.radius,
+		data.startAngle, data.endAngle, 0.001) == true)
+		return false;
+
+	if (pointToExtend == PointToExtend::Start) {
+		ShPoint3d start = arcToExtend->GetStart();
+		if (Math::Compare(start.x, extensionPoint.x) != 0 ||
+			Math::Compare(start.y, extensionPoint.y) != 0)
+			return true;
+	}
+	else if (pointToExtend == PointToExtend::End) {
+		ShPoint3d end = arcToExtend->GetEnd();
+		if (Math::Compare(end.x, extensionPoint.x) != 0 ||
+			Math::Compare(end.y, extensionPoint.y) != 0)
+			return true;
+	}
+
+	return false;
+}
+
+
+bool ShFindExtensionPointArcExtender::CheckPossibleToExtend(ShArc *arcToExtend, PointToExtend pointToExtend,
+	const ShPoint3d& extensionPoint, const ShPoint3d& extensionPoint2, ShPoint3d& finalExtensionPoint) {
+
+	ShArcData data = arcToExtend->GetData();
+
+	bool insideIntersect = false;
+	bool insideIntersect2 = false;
+
+	if (Math::CheckPointLiesOnArcBoundary(extensionPoint, data.center, data.radius, 
+		data.startAngle, data.endAngle, 0.001) == true)
+		insideIntersect = true;
+	if (Math::CheckPointLiesOnArcBoundary(extensionPoint2, data.center, data.radius,
+		data.startAngle, data.endAngle, 0.001) == true)
+		insideIntersect2 = true;
+
+	if (insideIntersect == true && insideIntersect2 == true)
+		return false;
+
+	bool validExtension = false;
+
+	if (insideIntersect == false && insideIntersect2 == true) {
+		finalExtensionPoint = extensionPoint;
+		validExtension = true;
+	}
+	else if (insideIntersect == true && insideIntersect2 == false) {
+		finalExtensionPoint = extensionPoint2;
+		validExtension = true;
+	}
+	else if (insideIntersect == false && insideIntersect2 == false) {
+
+		double angleCenterToStart = Math::GetAbsAngle(data.center.x, data.center.y,
+			arcToExtend->GetStart().x, arcToExtend->GetStart().y);
+		double angleCenterToIntersect = Math::GetAbsAngle(data.center.x, data.center.y,
+			extensionPoint.x, extensionPoint.y);
+		double angleCenterToIntersect2 = Math::GetAbsAngle(data.center.x, data.center.y,
+			extensionPoint2.x, extensionPoint2.y);
+		double angleCenterToEnd = Math::GetAbsAngle(data.center.x, data.center.y,
+			arcToExtend->GetEnd().x, arcToExtend->GetEnd().y);
+
+
+		if (pointToExtend == PointToExtend::Start) {
+		
+			double difference = Math::GetAngleDifference(angleCenterToStart, angleCenterToIntersect, false);
+			double difference2 = Math::GetAngleDifference(angleCenterToStart, angleCenterToIntersect2, false);
+
+			if (Math::Compare(difference, difference2) == 1)
+				finalExtensionPoint = extensionPoint2;
+			else
+				finalExtensionPoint = extensionPoint;
+
+			validExtension = true;
+		}
+		else if (pointToExtend == PointToExtend::End) {
+			
+			double difference = Math::GetAngleDifference(angleCenterToEnd, angleCenterToIntersect);
+			double difference2 = Math::GetAngleDifference(angleCenterToEnd, angleCenterToIntersect2);
+
+			if (Math::Compare(difference, difference2) == 1)
+				finalExtensionPoint = extensionPoint2;
+			else
+				finalExtensionPoint = extensionPoint;
+
+			validExtension = true;
+		}
+
+	}
+
+	if (validExtension == false)
+		return false;
+
+	if (pointToExtend == PointToExtend::Start) {
+		ShPoint3d start = arcToExtend->GetStart();
+		if (Math::Compare(start.x, finalExtensionPoint.x) != 0 ||
+			Math::Compare(start.y, finalExtensionPoint.y) != 0)
+			return true;
+	}
+	else if (pointToExtend == PointToExtend::End) {
+		ShPoint3d end = arcToExtend->GetEnd();
+		if (Math::Compare(end.x, finalExtensionPoint.x) != 0 ||
+			Math::Compare(end.y, finalExtensionPoint.y) != 0)
+			return true;
+	}
+
+	return false;
 }
