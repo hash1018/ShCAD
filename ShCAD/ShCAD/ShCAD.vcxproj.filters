@@ -473,6 +473,9 @@
     <ClCompile Include="Visitor Pattern\ShExtender.cpp">
       <Filter>Visitor Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="Command Pattern\Entity Command\ShExtendEntityCommand.cpp">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -788,6 +791,9 @@
     </ClInclude>
     <ClInclude Include="Visitor Pattern\ShExtender.h">
       <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\Entity Command\ShExtendEntityCommand.h">
+      <Filter>Command Pattern\Entity Command</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

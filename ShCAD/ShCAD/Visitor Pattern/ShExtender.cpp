@@ -5,12 +5,24 @@
 #include "Entity\Leaf\ShArc.h"
 #include "ShMath.h"
 #include "Interface\ShGraphicView.h"
+#include "Command Pattern\Entity Command\ShExtendEntityCommand.h"
 ShExtender::ShExtender(ShGraphicView *view, const QLinkedList<ShEntity*>& baseEntities, const ShPoint3d& clickPoint)
 	:view(view), baseEntities(baseEntities), clickPoint(clickPoint) {
 
 }
 
 ShExtender::~ShExtender() {
+
+}
+
+void ShExtender::CreateCommand(ShEntity* entityToExtend, ShEntityData *original, ShEntityData *extendedData) {
+
+	ShExtendEntityCommand *command = new ShExtendEntityCommand(this->view, entityToExtend, original, extendedData);
+	
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
 
 }
 
@@ -60,12 +72,17 @@ void ShExtender::Visit(ShLine *line) {
 		++extensionItr;
 	}
 
+	ShEntityData *original = line->CreateData();
 	if (pointToExtend == ShFindExtensionPointLineExtender::PointToExtend::Start) {
 		line->SetStart(closest);
 	}
 	else if (pointToExtend == ShFindExtensionPointLineExtender::PointToExtend::End) {
 		line->SetEnd(closest);
 	}
+
+	ShEntityData *extendedData = line->CreateData();
+
+	this->CreateCommand(line, original, extendedData);
 
 	this->view->update((DrawType)(DrawType::DrawAll));
 	this->view->CaptureImage();
@@ -134,6 +151,7 @@ void ShExtender::Visit(ShArc *arc) {
 		++extensionItr;
 	}
 
+	ShEntityData *original = arc->CreateData();
 	if (pointToExtend == ShFindExtensionPointLineExtender::PointToExtend::Start) {
 		data.startAngle = Math::GetAbsAngle(data.center.x, data.center.y, closest.x, closest.y);
 	}
@@ -142,6 +160,10 @@ void ShExtender::Visit(ShArc *arc) {
 	}
 
 	arc->SetData(data);
+	
+	ShEntityData *extendedData = arc->CreateData();
+
+	this->CreateCommand(arc, original, extendedData);
 
 	this->view->update((DrawType)(DrawType::DrawAll));
 	this->view->CaptureImage();
@@ -423,11 +445,58 @@ void ShFindExtensionPointArcExtender::Visit(ShLine *line) {
 }
 
 void ShFindExtensionPointArcExtender::Visit(ShCircle *circle) {
+	
+	ShArcData arcData = this->arcToExtend->GetData();
+
+	ShPoint3d intersect, intersect2;
+	if (Math::CheckTwoCirclesIntersect(arcData.center, arcData.radius, circle->GetCenter(), circle->GetRadius(),
+		intersect, intersect2) == false)
+		return;
+
+	ShPoint3d finalIntersect;
+	if (this->CheckPossibleToExtend(this->arcToExtend, this->pointToExtend, intersect, intersect2,
+		finalIntersect) == true)
+		this->extensionPointList.append(finalIntersect);
 
 }
 
 void ShFindExtensionPointArcExtender::Visit(ShArc *arc) {
 
+	ShArcData arcData = this->arcToExtend->GetData();
+
+	ShPoint3d intersect, intersect2;
+	if (Math::CheckTwoCirclesIntersect(arcData.center, arcData.radius, arc->GetCenter(), arc->GetRadius(),
+		intersect, intersect2) == false)
+		return;
+
+	bool insideIntersect = false;
+	bool insideIntersect2 = false;
+
+	if (Math::CheckPointLiesOnArcBoundary(intersect, arc->GetCenter(), arc->GetRadius(),
+		arc->GetStartAngle(), arc->GetEndAngle(), 0.001) == true)
+		insideIntersect = true;
+
+	if (Math::CheckPointLiesOnArcBoundary(intersect2, arc->GetCenter(), arc->GetRadius(),
+		arc->GetStartAngle(), arc->GetEndAngle(), 0.001) == true)
+		insideIntersect2 = true;
+
+	if (insideIntersect == false && insideIntersect2 == false)
+		return;
+
+	if (insideIntersect == true && insideIntersect2 == false) {
+		if (this->CheckPossibleToExtend(this->arcToExtend, this->pointToExtend, intersect) == true)
+			this->extensionPointList.append(intersect);
+	}
+	else if (insideIntersect == false && insideIntersect2 == true) {
+		if (this->CheckPossibleToExtend(this->arcToExtend, this->pointToExtend, intersect2) == true)
+			this->extensionPointList.append(intersect2);
+	}
+	else if (insideIntersect == true && insideIntersect2 == true) {
+		ShPoint3d finalIntersect;
+		if (this->CheckPossibleToExtend(this->arcToExtend, this->pointToExtend, intersect, intersect2,
+			finalIntersect) == true)
+			this->extensionPointList.append(finalIntersect);
+	}
 
 }
 

@@ -457,6 +457,49 @@ bool Math::CheckArcLineSegmentIntersect(const ShPoint3d& center, double radius, 
 	return false;
 }
 
+bool Math::CheckTwoCirclesIntersect(const ShPoint3d& center, double radius, const ShPoint3d& center2, double radius2,
+	ShPoint3d &intersect, ShPoint3d& intersect2) {
+
+	//(x-a)^2 + (y-b)^2=r1^2
+	//(x-c)^2 + (y-d)^2=r2^2
+	//-2(a-c)x -2(b-d)y +a^2 + b^2 -c^2 -d^2 -r1^2 + r2^2
+	//Ax +By +C=0
+
+	double A = -2 * (center.x - center2.x);
+	double B = -2 * (center.y - center2.y);
+	double C = center.x*center.x + center.y*center.y - center2.x*center2.x - center2.y*center2.y -
+		radius*radius + radius2*radius2;
+	
+	//y=-(Ax+C)/B
+	//(1+A^2/B^2)x^2 + (-2a + 2AC/B^2 + 2Ab/B)x + a^2+ C^2/B^2 + 2bC/B + b^2 - r^2=0
+	//x=(-E +-(root(E*E-DF))/D
+
+	double D = 1 + ((A*A) / (B*B));
+	double E = (-center.x + ((A*C) / (B*B)) + ((A*center.y) / B));
+	double F = center.x*center.x + (C*C) / (B*B) + (2 * center.y*C) / B + center.y*center.y - radius*radius;
+	double discriminant = E*E - D*F;
+
+	if (discriminant<0) {
+		return false;
+	}
+	if (discriminant == 0) {
+		//intersect point 1 found.
+		//*intersect.x= -E / D;
+		//*intersect.y = (-A*intersect.x - C) / B;
+		//return true 
+	}
+	if (discriminant>0) {
+
+		intersect.x = -(E + sqrt(discriminant)) / D;
+		intersect.y = (-A*intersect.x - C) / B;
+
+		intersect2.x = -(E - sqrt(discriminant)) / D;
+		intersect2.y = (-A*intersect2.x - C) / B;
+		return true;
+	}
+	return false;
+}
+
 double Math::GetAngleDifference(double startAngle, double endAngle, bool antiClockWise) {
 
 	double diff = 0;

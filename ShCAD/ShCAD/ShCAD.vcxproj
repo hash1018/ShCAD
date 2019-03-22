@@ -165,6 +165,7 @@
     <ClCompile Include="Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShCopyEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShDeleteEntityCommand.cpp" />
+    <ClCompile Include="Command Pattern\Entity Command\ShExtendEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShMirrorEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShMoveEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShRotateEntityCommand.cpp" />
@@ -387,6 +388,7 @@
     <ClInclude Include="Command Pattern\Entity Command\ShChangeEntityPropertyDataCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShCopyEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShDeleteEntityCommand.h" />
+    <ClInclude Include="Command Pattern\Entity Command\ShExtendEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShMirrorEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShMoveEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShRotateEntityCommand.h" />

@@ -7,6 +7,7 @@
 #include "ShPoint.h"
 class ShEntity;
 class ShGraphicView;
+class ShEntityData;
 class ShExtender : public ShVisitor {
 
 private:
@@ -22,7 +23,8 @@ public:
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
 
-
+private:
+	void CreateCommand(ShEntity* entityToExtend, ShEntityData *original, ShEntityData *extendedData);
 };
 
 class ShFindExtensionPointer : public ShVisitor {
