@@ -348,7 +348,7 @@ bool Math::CheckTwoLineSegmentsIntersect(const ShPoint3d& start1, const ShPoint3
 
 bool Math::CheckCircleLineSegmentIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end) {
 	
-	double a, b, c, d, u1, u2, ret, retP1, retP2;
+	double a, b, c, d, u1, u2;
 	ShPoint3d v1, v2;
 	
 	v1.x = end.x - start.x;
@@ -383,6 +383,7 @@ bool Math::CheckCircleLineSegmentIntersect(const ShPoint3d& center, double radiu
 	return false;
 
 }
+
 
 bool Math::CheckCircleLineIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end,
 	ShPoint3d &intersect, ShPoint3d &intersect2) {

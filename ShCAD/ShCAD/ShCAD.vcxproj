@@ -152,6 +152,7 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyStretchAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyTrimAction.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerManager.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerDecorator.cpp" />
@@ -340,6 +341,7 @@
     <ClCompile Include="Visitor Pattern\ShRotater.cpp" />
     <ClCompile Include="Visitor Pattern\ShSnapPointFinder.cpp" />
     <ClCompile Include="Visitor Pattern\ShStretchVisitor.cpp" />
+    <ClCompile Include="Visitor Pattern\ShTrimer.cpp" />
     <ClCompile Include="Visitor Pattern\ShVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +377,7 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyStretchAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyTrimAction.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerManager.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerDecorator.h" />
@@ -659,6 +662,7 @@
     <ClInclude Include="Visitor Pattern\ShRotater.h" />
     <ClInclude Include="Visitor Pattern\ShSnapPointFinder.h" />
     <ClInclude Include="Visitor Pattern\ShStretchVisitor.h" />
+    <ClInclude Include="Visitor Pattern\ShTrimer.h" />
     <ClInclude Include="Visitor Pattern\ShVisitor.h" />
     <CustomBuild Include="Interface\shcad.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

@@ -30,7 +30,7 @@ private:
 class ShFindExtensionPointer : public ShVisitor {
 
 protected:
-	QLinkedList < ShPoint3d> &extensionPointList;
+	QLinkedList<ShPoint3d> &extensionPointList;
 
 protected:
 	ShFindExtensionPointer(QLinkedList<ShPoint3d> &extensionPointList) 

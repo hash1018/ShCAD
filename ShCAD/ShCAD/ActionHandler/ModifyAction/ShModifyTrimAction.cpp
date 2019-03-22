@@ -1,12 +1,12 @@
 
-#include "ShModifyExtendAction.h"
+#include "ShModifyTrimAction.h"
 #include <QKeyEvent>
 #include "ShNotifyEvent.h"
 #include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
-ShModifyExtendAction::ShModifyExtendAction(ShGraphicView *graphicView)
+ShModifyTrimAction::ShModifyTrimAction(ShGraphicView *graphicView)
 	:ShModifyAction(graphicView), status(SelectingEntities) {
 
-	ShUpdateListTextEvent event("_Extend", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
+	ShUpdateListTextEvent event("_Trim", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
 	this->graphicView->Notify(&event);
 
 	QString headTitle = this->GetActionHeadTitle();
@@ -15,13 +15,13 @@ ShModifyExtendAction::ShModifyExtendAction(ShGraphicView *graphicView)
 	this->graphicView->Notify(&event2);
 }
 
-ShModifyExtendAction::~ShModifyExtendAction() {
+ShModifyTrimAction::~ShModifyTrimAction() {
 
 }
 
-#include "Visitor Pattern\ShExtender.h"
+#include "Visitor Pattern\ShTrimer.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
-void ShModifyExtendAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShModifyTrimAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
 
@@ -49,7 +49,7 @@ void ShModifyExtendAction::LMousePressEvent(QMouseEvent *event, ShActionData& da
 
 		if (entity == 0)
 			return;
-		
+
 		if (entity->IsSelected() == true)
 			return;
 
@@ -60,13 +60,13 @@ void ShModifyExtendAction::LMousePressEvent(QMouseEvent *event, ShActionData& da
 			++itr)
 			baseEntities.append((*itr));
 
-		ShExtender visitor(this->graphicView, baseEntities, point);
+		ShTrimer visitor(this->graphicView, baseEntities, point);
 		entity->Accept(&visitor);
-		
+
 	}
 }
 
-void ShModifyExtendAction::RMousePressEvent(QMouseEvent *event, ShActionData& data) {
+void ShModifyTrimAction::RMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
 
@@ -88,13 +88,13 @@ void ShModifyExtendAction::RMousePressEvent(QMouseEvent *event, ShActionData& da
 
 }
 
-void ShModifyExtendAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
+void ShModifyTrimAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
-	
+
 }
 
 
-void ShModifyExtendAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
+void ShModifyTrimAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 
 	if (event->key() == Qt::Key::Key_Escape) {
 
@@ -109,15 +109,15 @@ void ShModifyExtendAction::KeyPressEvent(QKeyEvent *event, ShActionData& data) {
 	}
 }
 
-ActionType ShModifyExtendAction::GetType() {
+ActionType ShModifyTrimAction::GetType() {
 
-	return ActionType::ActionModifyExtend;
+	return ActionType::ActionModifyTrim;
 }
 
 #include <qpainter.h>
-QCursor ShModifyExtendAction::GetCursorShape() {
+QCursor ShModifyTrimAction::GetCursorShape() {
 
-	
+
 	QPixmap pix(32, 32);
 	pix.fill(Qt::transparent); // Otherwise you get a black background :(
 	QPainter painter(&pix);
@@ -128,15 +128,15 @@ QCursor ShModifyExtendAction::GetCursorShape() {
 
 }
 
-QString ShModifyExtendAction::GetActionHeadTitle() {
+QString ShModifyTrimAction::GetActionHeadTitle() {
 
 	QString str = "";
 
 	if (this->status == SelectingEntities) {
-		str = "Extend >> Select objects: ";
+		str = "Trim >> Select objects: ";
 	}
 	else if (this->status == FinishedSelectingEntities) {
-		str = "Extend >> Select object to extend: ";
+		str = "Trim >> Select object to extend: ";
 	}
 
 	return str;
@@ -144,7 +144,7 @@ QString ShModifyExtendAction::GetActionHeadTitle() {
 
 
 
-void ShModifyExtendAction::UpdateNextListText() {
+void ShModifyTrimAction::UpdateNextListText() {
 
 	ShUpdateListTextEvent event("");
 	this->graphicView->Notify(&event);

@@ -35,6 +35,7 @@
 #include "ActionHandler\ModifyAction\ShModifyEraseAction.h"
 #include "ActionHandler\ModifyAction\ShModifyStretchAction.h"
 #include "ActionHandler\ModifyAction\ShModifyExtendAction.h"
+#include "ActionHandler\ModifyAction\ShModifyTrimAction.h"
 ShCreatorActionFactory::ShCreatorActionFactory(){
 
 }
@@ -94,6 +95,8 @@ ShActionHandler* ShCreatorActionFactory::Create(ActionType actionType, ShGraphic
 		return new ShModifyStretchAction(graphicView);
 	if (actionType == ActionType::ActionModifyExtend)
 		return new ShModifyExtendAction(graphicView);
+	if (actionType == ActionType::ActionModifyTrim)
+		return new ShModifyTrimAction(graphicView);
 
 	return new ShDefaultAction(graphicView);
 }

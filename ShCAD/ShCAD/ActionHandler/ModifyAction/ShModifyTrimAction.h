@@ -1,9 +1,10 @@
 
-#ifndef _SHMODIFYEXTENDACTION_H
-#define _SHMODIFYEXTENDACTION_H
+
+#ifndef _SHMODIFYTRIMACTION_H
+#define _SHMODIFYTRIMACTION_H
 
 #include "ShModifyAction.h"
-class ShModifyExtendAction : public ShModifyAction {
+class ShModifyTrimAction : public ShModifyAction {
 
 public:
 	enum Status {
@@ -15,8 +16,8 @@ private:
 	Status status;
 
 public:
-	ShModifyExtendAction(ShGraphicView *graphicView);
-	~ShModifyExtendAction();
+	ShModifyTrimAction(ShGraphicView *graphicView);
+	~ShModifyTrimAction();
 
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);
 	virtual void RMousePressEvent(QMouseEvent *event, ShActionData& data);
