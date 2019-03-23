@@ -482,6 +482,9 @@
     <ClCompile Include="Visitor Pattern\ShTrimer.cpp">
       <Filter>Visitor Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="Command Pattern\Entity Command\ShTrimEntityCommand.cpp">
+      <Filter>Command Pattern\Entity Command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -806,6 +809,9 @@
     </ClInclude>
     <ClInclude Include="Visitor Pattern\ShTrimer.h">
       <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command Pattern\Entity Command\ShTrimEntityCommand.h">
+      <Filter>Command Pattern\Entity Command</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

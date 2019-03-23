@@ -15,6 +15,18 @@ ShTrimer::~ShTrimer() {
 
 }
 
+#include "Command Pattern\Entity Command\ShTrimEntityCommand.h"
+void ShTrimer::CreateCommand(ShEntity *original, ShEntity *trimedEntity, ShEntity *trimedEntity2) {
+
+	ShTrimEntityCommand *command = new ShTrimEntityCommand(this->view, original, trimedEntity, trimedEntity2);
+
+	this->view->undoTaker.Push(command);
+
+	if (!this->view->redoTaker.IsEmpty())
+		this->view->redoTaker.DeleteAll();
+
+}
+
 ShPoint3d ShTrimer::GetClosestPointByDistance(const ShPoint3d& clickPoint, const QLinkedList<ShPoint3d>& trimPointList) {
 
 	QLinkedList<ShPoint3d>::iterator trimItr = const_cast<QLinkedList<ShPoint3d>&>(trimPointList).begin();
@@ -54,28 +66,44 @@ void ShTrimer::Visit(ShLine *line) {
 		return;
 
 	ShPoint3d trimPoint, trimPoint2;
+	ShLine *trimedLine;
 	if (betweenStartAndClickTrimPointList.count() != 0 &&
 		betweenEndAndClickTrimPointList.count() == 0) {
-		qDebug("end click count=0");
+
 		trimPoint = this->GetClosestPointByDistance(this->clickPoint, betweenStartAndClickTrimPointList);
-		line->SetEnd(trimPoint);
+		trimedLine = line->Clone();
+		trimedLine->SetEnd(trimPoint);
+		this->view->entityTable.Remove(line);
+		this->view->entityTable.Add(trimedLine);
+		this->CreateCommand(line, trimedLine);
+		
 	}
 	else if (betweenStartAndClickTrimPointList.count() == 0 &&
 		betweenEndAndClickTrimPointList.count() != 0) {
-		qDebug("start click count=0");
+	
 		trimPoint = this->GetClosestPointByDistance(this->clickPoint, betweenEndAndClickTrimPointList);
-		line->SetStart(trimPoint);
+		trimedLine = line->Clone();
+		trimedLine->SetStart(trimPoint);
+		this->view->entityTable.Remove(line);
+		this->view->entityTable.Add(trimedLine);
+		this->CreateCommand(line, trimedLine);
 	}
 	else if (betweenStartAndClickTrimPointList.count() != 0 &&
 		betweenEndAndClickTrimPointList.count() != 0) {
-		qDebug(" both count !=0");
+		
 		trimPoint = this->GetClosestPointByDistance(this->clickPoint, betweenStartAndClickTrimPointList);
 		trimPoint2 = this->GetClosestPointByDistance(this->clickPoint, betweenEndAndClickTrimPointList);
+	
+		trimedLine = line->Clone();
+		ShLine *trimedLine2 = line->Clone();
+		trimedLine->SetEnd(trimPoint);
+		trimedLine2->SetStart(trimPoint2);
 
-		ShLine *line2 = line->Clone();
-		line->SetEnd(trimPoint);
-		line2->SetStart(trimPoint2);
-		this->view->entityTable.Add(line2);
+		this->view->entityTable.Remove(line);
+		this->view->entityTable.Add(trimedLine);
+		this->view->entityTable.Add(trimedLine2);
+		this->CreateCommand(line, trimedLine, trimedLine2);
+
 	}
 
 	this->view->update((DrawType)(DrawType::DrawAll));
@@ -107,6 +135,114 @@ ShFindTrimPointLineTrimer::ShFindTrimPointLineTrimer(ShLine *lineToTrim, const S
 }
 
 ShFindTrimPointLineTrimer::~ShFindTrimPointLineTrimer() {
+
+}
+
+void ShFindTrimPointLineTrimer::OneIntersectLiesOnBaseEntity(ShLine *lineToTrim, const ShPoint3d& clickPoint,
+	const ShPoint3d& intersect,
+	QLinkedList<ShPoint3d> &betweenStartAndClickTrimPointList,
+	QLinkedList<ShPoint3d> &betweenEndAndClickTrimPointList) {
+
+	ShLineData data = lineToTrim->GetData();
+
+	if (Math::Compare(data.start.x, intersect.x) == 0 &&
+		Math::Compare(data.start.y, intersect.y) == 0)
+		return;
+
+	if (Math::Compare(data.end.x, intersect.x) == 0 &&
+		Math::Compare(data.end.y, intersect.y) == 0)
+		return;
+
+	this->AppendTrimPointIntoProperList(lineToTrim, clickPoint, intersect, betweenStartAndClickTrimPointList,
+		betweenEndAndClickTrimPointList);
+
+}
+
+void ShFindTrimPointLineTrimer::TwoIntersectsLieOnBaseEntity(ShLine *lineToTrim, const ShPoint3d& clickPoint,
+	const ShPoint3d& intersect, const ShPoint3d& intersect2,
+	QLinkedList<ShPoint3d> &betweenStartAndClickTrimPointList,
+	QLinkedList<ShPoint3d> &betweenEndAndClickTrimPointList) {
+
+	ShLineData data = lineToTrim->GetData();
+
+	bool insideIntersect = false, insideIntersect2 = false;
+	if (Math::CheckPointLiesOnLine(intersect, data.start, data.end, 0.001) == true)
+		insideIntersect = true;
+	if (Math::CheckPointLiesOnLine(intersect2, data.start, data.end, 0.001) == true)
+		insideIntersect2 = true;
+
+	if (insideIntersect == false && insideIntersect2 == false)
+		return;
+
+	bool sameStartIntersect = false, sameEndIntersect2 = false,
+		sameStartIntersect2 = false, sameEndIntersect = false;
+
+	if (Math::Compare(data.start.x, intersect.x) == 0 &&
+		Math::Compare(data.start.y, intersect.y) == 0)
+		sameStartIntersect = true;
+
+	if (Math::Compare(data.end.x, intersect2.x) == 0 &&
+		Math::Compare(data.end.y, intersect2.y) == 0)
+		sameEndIntersect2 = true;
+
+	if (Math::Compare(data.end.x, intersect.x) == 0 &&
+		Math::Compare(data.end.y, intersect.y) == 0)
+		sameEndIntersect = true;
+
+	if (Math::Compare(data.start.x, intersect2.x) == 0 &&
+		Math::Compare(data.start.y, intersect2.y) == 0)
+		sameStartIntersect2 = true;
+
+
+	if (insideIntersect == true && insideIntersect2 == false) {
+
+		if (sameStartIntersect == true || sameEndIntersect == true)
+			return;
+
+		this->AppendTrimPointIntoProperList(lineToTrim, clickPoint, intersect,
+			betweenStartAndClickTrimPointList, betweenEndAndClickTrimPointList);
+
+	}
+	else if (insideIntersect == false && insideIntersect2 == true) {
+
+		if (sameStartIntersect2 == true || sameEndIntersect2 == true)
+			return;
+
+		this->AppendTrimPointIntoProperList(lineToTrim, clickPoint, intersect2,
+			betweenStartAndClickTrimPointList, betweenEndAndClickTrimPointList);
+	}
+	else if (insideIntersect == true && insideIntersect2 == true) {
+
+		if (sameStartIntersect == true && sameEndIntersect2 == true)
+			return;
+		if (sameStartIntersect2 == true && sameEndIntersect == true)
+			return;
+
+		if (sameStartIntersect == true && sameEndIntersect2 == false) {
+			this->AppendTrimPointIntoProperList(lineToTrim, clickPoint, intersect2,
+				betweenStartAndClickTrimPointList, betweenEndAndClickTrimPointList);
+		}
+		else if (sameStartIntersect == false && sameEndIntersect2 == true) {
+			this->AppendTrimPointIntoProperList(lineToTrim, clickPoint, intersect,
+				betweenStartAndClickTrimPointList, betweenEndAndClickTrimPointList);
+		}
+		else if (sameStartIntersect2 == true && sameEndIntersect == false) {
+			this->AppendTrimPointIntoProperList(lineToTrim, clickPoint, intersect,
+				betweenStartAndClickTrimPointList, betweenEndAndClickTrimPointList);
+		}
+		else if (sameStartIntersect2 == false && sameEndIntersect == true) {
+			this->AppendTrimPointIntoProperList(lineToTrim, clickPoint, intersect2,
+				betweenStartAndClickTrimPointList, betweenEndAndClickTrimPointList);
+		}
+		else if (sameStartIntersect == false && sameEndIntersect2 == false) {
+			this->AppendTrimPointIntoProperList(lineToTrim, clickPoint, intersect, intersect2,
+				betweenStartAndClickTrimPointList, betweenEndAndClickTrimPointList);
+		}
+		else if (sameStartIntersect2 == false && sameEndIntersect == false) {
+			this->AppendTrimPointIntoProperList(lineToTrim, clickPoint, intersect, intersect2,
+				betweenStartAndClickTrimPointList, betweenEndAndClickTrimPointList);
+		}
+	}
 
 }
 
@@ -182,16 +318,8 @@ void ShFindTrimPointLineTrimer::Visit(ShLine *line) {
 		line->GetStart(), line->GetEnd(), intersect) == false)
 		return;
 
-	if (Math::Compare(data.start.x, intersect.x) == 0 &&
-		Math::Compare(data.start.y, intersect.y) == 0)
-		return;
-
-	if (Math::Compare(data.end.x, intersect.x) == 0 &&
-		Math::Compare(data.end.y, intersect.y) == 0)
-		return;
-
-	this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect, this->betweenStartAndClickTrimPointList,
-		this->betweenEndAndClickTrimPointList);
+	this->OneIntersectLiesOnBaseEntity(this->lineToTrim, this->clickPoint, intersect,
+		this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
 }
 
 void ShFindTrimPointLineTrimer::Visit(ShCircle *circle) {
@@ -202,131 +330,42 @@ void ShFindTrimPointLineTrimer::Visit(ShCircle *circle) {
 		intersect, intersect2) == false)
 		return;
 
+	this->TwoIntersectsLieOnBaseEntity(this->lineToTrim, this->clickPoint, intersect, intersect2,
+		this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
+
+	
+}
+
+void ShFindTrimPointLineTrimer::Visit(ShArc *arc) {
+
+	ShLineData data = this->lineToTrim->GetData();
+	ShPoint3d intersect, intersect2;
+	if (Math::CheckCircleLineIntersect(arc->GetCenter(), arc->GetRadius(), data.start, data.end,
+		intersect, intersect2) == false)
+		return;
+
 	bool insideIntersect = false, insideIntersect2 = false;
-	if (Math::CheckPointLiesOnLine(intersect, data.start, data.end, 0.001) == true)
+	if (Math::CheckPointLiesOnArcBoundary(intersect, arc->GetCenter(), arc->GetRadius(),
+		arc->GetStartAngle(), arc->GetEndAngle(), 0.001) == true)
 		insideIntersect = true;
-	if (Math::CheckPointLiesOnLine(intersect2, data.start, data.end, 0.001) == true)
+	if (Math::CheckPointLiesOnArcBoundary(intersect2, arc->GetCenter(), arc->GetRadius(),
+		arc->GetStartAngle(), arc->GetEndAngle(), 0.001) == true)
 		insideIntersect2 = true;
 
 	if (insideIntersect == false && insideIntersect2 == false)
 		return;
 
-	bool sameStartIntersect = false, sameEndIntersect2 = false,
-		sameStartIntersect2 = false, sameEndIntersect = false;
-
-	if (Math::Compare(data.start.x, intersect.x) == 0 &&
-		Math::Compare(data.start.y, intersect.y) == 0)
-		sameStartIntersect = true;
-
-	if (Math::Compare(data.end.x, intersect2.x) == 0 &&
-		Math::Compare(data.end.y, intersect2.y) == 0)
-		sameEndIntersect2 = true;
-
-	if (Math::Compare(data.end.x, intersect.x) == 0 &&
-		Math::Compare(data.end.y, intersect.y) == 0)
-		sameEndIntersect = true;
-
-	if (Math::Compare(data.start.x, intersect2.x) == 0 &&
-		Math::Compare(data.start.y, intersect2.y) == 0)
-		sameStartIntersect2 = true;
-
-
 	if (insideIntersect == true && insideIntersect2 == false) {
-
-		if (sameStartIntersect == true || sameEndIntersect == true)
-			return;
-		
-		this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect,
+		this->OneIntersectLiesOnBaseEntity(this->lineToTrim, this->clickPoint, intersect,
 			this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-
 	}
 	else if (insideIntersect == false && insideIntersect2 == true) {
-
-		if (sameStartIntersect2 == true || sameEndIntersect2 == true)
-			return;
-
-		this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect2,
+		this->OneIntersectLiesOnBaseEntity(this->lineToTrim, this->clickPoint, intersect2,
 			this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
 	}
 	else if (insideIntersect == true && insideIntersect2 == true) {
-
-		if (sameStartIntersect == true && sameEndIntersect2 == true)
-			return;
-		if (sameStartIntersect2 == true && sameEndIntersect == true)
-			return;
-
-		if (sameStartIntersect == true && sameEndIntersect2 == false) {
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect2,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-		}
-		else if (sameStartIntersect == false && sameEndIntersect2 == true) {
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-		}
-		else if (sameStartIntersect2 == true && sameEndIntersect == false) {
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-		}
-		else if (sameStartIntersect2 == false && sameEndIntersect == true) {
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect2,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-		}
-		else if (sameStartIntersect == false && sameEndIntersect2 == false) {
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect, intersect2,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-		}
-		else if (sameStartIntersect2 == false && sameEndIntersect == false) {
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect, intersect2,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-		}
+		this->TwoIntersectsLieOnBaseEntity(this->lineToTrim, this->clickPoint, intersect, intersect2,
+			this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
 	}
-
-
-
-
-
-
-	/*
-	if (sameStartIntersect == true && sameEndIntersect2 == true)
-		return;
-	if (sameStartIntersect2 == true && sameEndIntersect == true)
-		return;
-
-	if (insideIntersect == true && insideIntersect2 == false) {
-		if (sameStartIntersect == false || sameEndIntersect == false)
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-	}
-	else if (insideIntersect == false && insideIntersect2 == true) {
-		if (sameStartIntersect2 == false || sameEndIntersect2 == false)
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect2,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-	}
-	else if (insideIntersect == true && insideIntersect2 == true) {
-
-		if ((sameStartIntersect == true && sameEndIntersect2 == false) ||
-			(sameStartIntersect2 == false && sameEndIntersect == true)) {
-
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect2,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-		}
-		else if ((sameStartIntersect == false && sameEndIntersect2 == true) ||
-			(sameStartIntersect2 == true && sameEndIntersect == false)) {
-
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-		}
-		else if ((sameStartIntersect == false && sameEndIntersect2 == false) ||
-			(sameStartIntersect2 == false && sameEndIntersect == false)) {
-
-			this->AppendTrimPointIntoProperList(this->lineToTrim, this->clickPoint, intersect, intersect2,
-				this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
-		}
-	}
-	*/
-}
-
-void ShFindTrimPointLineTrimer::Visit(ShArc *arc) {
-
 
 }

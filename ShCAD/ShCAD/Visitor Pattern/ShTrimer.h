@@ -24,7 +24,7 @@ public:
 
 private:
 	ShPoint3d GetClosestPointByDistance(const ShPoint3d& clickPoint, const QLinkedList<ShPoint3d>& trimPointList);
-
+	void CreateCommand(ShEntity *original, ShEntity *trimedEntity, ShEntity *trimedEntity2 = 0);
 };
 
 class ShFindTrimPointLineTrimer : public ShVisitor {
@@ -46,6 +46,17 @@ private:
 	virtual void Visit(ShArc *arc);
 
 private:
+	void OneIntersectLiesOnBaseEntity(ShLine *lineToTrim, const ShPoint3d& clickPoint,
+		const ShPoint3d& intersect,
+		QLinkedList<ShPoint3d> &betweenStartAndClickTrimPointList,
+		QLinkedList<ShPoint3d> &betweenEndAndClickTrimPointList);
+
+	void TwoIntersectsLieOnBaseEntity(ShLine *lineToTrim, const ShPoint3d& clickPoint, 
+		const ShPoint3d& intersect, const ShPoint3d& intersect2,
+		QLinkedList<ShPoint3d> &betweenStartAndClickTrimPointList,
+		QLinkedList<ShPoint3d> &betweenEndAndClickTrimPointList);
+
+
 	void AppendTrimPointIntoProperList(ShLine *lineToTrim, const ShPoint3d& clickPoint, const ShPoint3d& trimPoint,
 		QLinkedList<ShPoint3d> &betweenStartAndClickTrimPointList,
 		QLinkedList<ShPoint3d> &betweenEndAndClickTrimPointList);

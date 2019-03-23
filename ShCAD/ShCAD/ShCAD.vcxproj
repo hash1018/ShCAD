@@ -171,6 +171,7 @@
     <ClCompile Include="Command Pattern\Entity Command\ShMoveEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShRotateEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\Entity Command\ShStretchEntityCommand.cpp" />
+    <ClCompile Include="Command Pattern\Entity Command\ShTrimEntityCommand.cpp" />
     <ClCompile Include="Command Pattern\ShCommand.cpp" />
     <ClCompile Include="Command Pattern\ShRedoTaker.cpp" />
     <ClCompile Include="Command Pattern\ShUndoTaker.cpp" />
@@ -396,6 +397,7 @@
     <ClInclude Include="Command Pattern\Entity Command\ShMoveEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShRotateEntityCommand.h" />
     <ClInclude Include="Command Pattern\Entity Command\ShStretchEntityCommand.h" />
+    <ClInclude Include="Command Pattern\Entity Command\ShTrimEntityCommand.h" />
     <ClInclude Include="Command Pattern\ShCommand.h" />
     <ClInclude Include="Command Pattern\ShRedoTaker.h" />
     <ClInclude Include="Command Pattern\ShUndoTaker.h" />
