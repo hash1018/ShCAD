@@ -136,7 +136,7 @@ QString ShModifyTrimAction::GetActionHeadTitle() {
 		str = "Trim >> Select objects: ";
 	}
 	else if (this->status == FinishedSelectingEntities) {
-		str = "Trim >> Select object to extend: ";
+		str = "Trim >> Select object to trim: ";
 	}
 
 	return str;
