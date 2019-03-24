@@ -22,6 +22,7 @@ public:
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
 
+
 private:
 	ShPoint3d GetClosestPointByDistance(const ShPoint3d& clickPoint, const QLinkedList<ShPoint3d>& trimPointList);
 	ShPoint3d GetClosestPointByAngle(const ShPoint3d& clickPoint, const ShPoint3d& center,
@@ -46,6 +47,7 @@ private:
 	virtual void Visit(ShLine *line);
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
 
 private:
 	void OneIntersectLiesOnBaseEntity(ShLine *lineToTrim, const ShPoint3d& clickPoint,
@@ -84,8 +86,15 @@ private:
 	virtual void Visit(ShLine *line);
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
 
 private:
+
+	void OneIntersecLiesOnBaseEntity(ShCircle *circleToTrim, const ShPoint3d& clickPoint,
+		const ShPoint3d& intersect,
+		QLinkedList<ShPoint3d> &clockWiseTrimPointList,
+		QLinkedList<ShPoint3d> &antiClockWiseTrimPointList);
+
 	void TwoIntersectsLieOnBaseEntity(ShCircle *circleToTrim, const ShPoint3d& clickPoint,
 		const ShPoint3d& intersect, const ShPoint3d& intersect2,
 		QLinkedList<ShPoint3d> &clockWiseTrimPointList,
@@ -111,6 +120,7 @@ private:
 	virtual void Visit(ShLine *line);
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
 
 private:
 	void OneIntersectLiesOnBaseEntity(ShArc *arcToTrim, const ShPoint3d& clickPoint,

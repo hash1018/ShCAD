@@ -46,9 +46,10 @@ public:
 	inline bool IsSelected() const { return this->isSelected; }
 
 	friend class ShSelectedEntityManager;
+	friend class ShPolyLine;
 protected:
-	void Select();
-	void UnSelect();
+	virtual void Select();
+	virtual void UnSelect();
 };
 
 

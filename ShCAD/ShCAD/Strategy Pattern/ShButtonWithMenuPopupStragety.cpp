@@ -530,3 +530,106 @@ QIcon ShArcButtonCenterStartLengthStrategy::GetIcon_() {
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Center-Start-Length.png");
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ShRectangleButtonStrategy::ShRectangleButtonStrategy() {
+
+}
+
+ShRectangleButtonStrategy::~ShRectangleButtonStrategy() {
+
+}
+
+void ShRectangleButtonStrategy::Do() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawRectangle);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+QIcon ShRectangleButtonStrategy::GetIcon() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\PolyLine\\Rectangle.png");
+
+}
+
+QIcon ShRectangleButtonStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\PolyLine\\Rectangle.png");
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+ShPolygonButtonStrategy::ShPolygonButtonStrategy() {
+
+}
+
+ShPolygonButtonStrategy::~ShPolygonButtonStrategy() {
+
+}
+
+void ShPolygonButtonStrategy::Do() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawPolygon);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+QIcon ShPolygonButtonStrategy::GetIcon() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\PolyLine\\Polygon.png");
+}
+
+QIcon ShPolygonButtonStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\PolyLine\\Polygon.png");
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+ShPolyLineButtonStrategy::ShPolyLineButtonStrategy() {
+
+}
+
+ShPolyLineButtonStrategy::	~ShPolyLineButtonStrategy() {
+
+}
+
+
+void ShPolyLineButtonStrategy::Do() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawPolyLine);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+QIcon ShPolyLineButtonStrategy::GetIcon() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon(path + "\\PolyLine\\PolyLine.png");
+}
+
+
+QIcon ShPolyLineButtonStrategy::GetIcon_() {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\PolyLine\\PolyLine.png");
+}

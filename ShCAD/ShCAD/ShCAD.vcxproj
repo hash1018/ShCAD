@@ -144,6 +144,7 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawArcAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawPolyLineAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyEraseAction.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="Command Pattern\UI Command\ShMoveViewCommand.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
     <ClCompile Include="Entity\Composite\ShEntityTable.cpp" />
+    <ClCompile Include="Entity\Composite\ShPolyLine.cpp" />
     <ClCompile Include="Entity\Composite\ShPreview.cpp" />
     <ClCompile Include="Entity\Leaf\ShArc.cpp" />
     <ClCompile Include="Entity\Leaf\ShCircle.cpp" />
@@ -333,7 +335,7 @@
     <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp" />
     <ClCompile Include="Visitor Pattern\ShExtender.cpp" />
-    <ClCompile Include="Visitor Pattern\ShLinePerpendicularVisitor.cpp" />
+    <ClCompile Include="Visitor Pattern\ShLineBothPerpendicularVisitor.cpp" />
     <ClCompile Include="Visitor Pattern\ShFootOfPerpendicularVisitor.cpp" />
     <ClCompile Include="Visitor Pattern\ShDrawer.cpp" />
     <ClCompile Include="Visitor Pattern\ShFinder.cpp" />
@@ -370,6 +372,7 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawArcAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawPolyLineAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyEraseAction.h" />
@@ -409,6 +412,7 @@
     <ClInclude Include="Command Pattern\UI Command\ShMoveViewCommand.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />
     <ClInclude Include="Entity\Composite\ShEntityTable.h" />
+    <ClInclude Include="Entity\Composite\ShPolyLine.h" />
     <ClInclude Include="Entity\Composite\ShPreview.h" />
     <ClInclude Include="Entity\Leaf\ShArc.h" />
     <ClInclude Include="Entity\Leaf\ShCircle.h" />

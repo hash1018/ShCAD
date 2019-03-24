@@ -4,6 +4,7 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Composite\ShPolyLine.h"
 #include "ShMath.h"
 #include "Interface\ShGraphicView.h"
 ShTrimer::ShTrimer(ShGraphicView *view, const QLinkedList<ShEntity*>& baseEntities, const ShPoint3d& clickPoint)
@@ -162,11 +163,25 @@ void ShTrimer::Visit(ShCircle *circle) {
 	for (itr = this->baseEntities.begin(); itr != this->baseEntities.end(); ++itr)
 		(*itr)->Accept(&visitor);
 
-	if (clockWiseTrimPointList.count() == 0 || antiClockWiseTrimPointList.count() == 0)
+	qDebug("clock count %d   anti count %d", clockWiseTrimPointList.count(), antiClockWiseTrimPointList.count());
+
+	if (clockWiseTrimPointList.count() == 0 && antiClockWiseTrimPointList.count() == 0)
 		return;
 
-	ShPoint3d trimPoint = this->GetClosestPointByAngle(this->clickPoint, circle->GetCenter(), clockWiseTrimPointList, false);
-	ShPoint3d trimPoint2 = this->GetClosestPointByAngle(this->clickPoint, circle->GetCenter(), antiClockWiseTrimPointList);
+	ShPoint3d trimPoint, trimPoint2;
+
+	if (clockWiseTrimPointList.count() >= 2 && antiClockWiseTrimPointList.count() == 0) {
+		trimPoint = this->GetClosestPointByAngle(this->clickPoint, circle->GetCenter(), clockWiseTrimPointList, false);
+		trimPoint2 = this->GetClosestPointByAngle(this->clickPoint, circle->GetCenter(), clockWiseTrimPointList);
+	}
+	else if (clockWiseTrimPointList.count() == 0 && antiClockWiseTrimPointList.count() >= 2) {
+		trimPoint = this->GetClosestPointByAngle(this->clickPoint, circle->GetCenter(), antiClockWiseTrimPointList, false);
+		trimPoint2 = this->GetClosestPointByAngle(this->clickPoint, circle->GetCenter(), antiClockWiseTrimPointList);
+	}
+	else {
+		trimPoint = this->GetClosestPointByAngle(this->clickPoint, circle->GetCenter(), clockWiseTrimPointList, false);
+		trimPoint2 = this->GetClosestPointByAngle(this->clickPoint, circle->GetCenter(), antiClockWiseTrimPointList);
+	}
 
 	double startAngle = Math::GetAbsAngle(circle->GetCenter().x, circle->GetCenter().y, trimPoint2.x, trimPoint2.y);
 	double endAngle = Math::GetAbsAngle(circle->GetCenter().x, circle->GetCenter().y, trimPoint.x, trimPoint.y);
@@ -491,6 +506,16 @@ void ShFindTrimPointLineTrimer::Visit(ShArc *arc) {
 
 }
 
+void ShFindTrimPointLineTrimer::Visit(ShPolyLine *polyLine) {
+
+	ShFindTrimPointLineTrimer visitor(this->lineToTrim, this->clickPoint, 
+		this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
+		(*itr)->Accept(&visitor);
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -504,6 +529,28 @@ ShFindTrimPointCircleTrimer::ShFindTrimPointCircleTrimer(ShCircle *circleToTrim,
 }
 
 ShFindTrimPointCircleTrimer::~ShFindTrimPointCircleTrimer() {
+
+}
+
+void ShFindTrimPointCircleTrimer::OneIntersecLiesOnBaseEntity(ShCircle *circleToTrim, const ShPoint3d& clickPoint,
+	const ShPoint3d& intersect,
+	QLinkedList<ShPoint3d> &clockWiseTrimPointList,
+	QLinkedList<ShPoint3d> &antiClockWiseTrimPointList) {
+
+	ShCircleData data = circleToTrim->GetData();
+
+	double angleCenterToClick = Math::GetAbsAngle(data.center.x, data.center.y, clickPoint.x, clickPoint.y);
+	double angleCenterToIntersect = Math::GetAbsAngle(data.center.x, data.center.y, intersect.x, intersect.y);
+
+
+	double difference = Math::GetAngleDifference(angleCenterToClick, angleCenterToIntersect);
+
+	if (Math::Compare(difference, 180) == 1) {
+		clockWiseTrimPointList.append(intersect);
+	}
+	else {
+		antiClockWiseTrimPointList.append(intersect);
+	}
 
 }
 
@@ -545,12 +592,21 @@ void ShFindTrimPointCircleTrimer::Visit(ShLine *line) {
 	if (Math::CheckPointLiesOnLine(intersect2, line->GetStart(), line->GetEnd(), 0.001) == true)
 		insideIntersect2 = true;
 
-	if (insideIntersect == false || insideIntersect2 == false)
+	if (insideIntersect == false && insideIntersect2 == false)
 		return;
 
-	this->TwoIntersectsLieOnBaseEntity(this->circleToTrim, this->clickPoint, intersect, intersect2, 
-		this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
-	
+	if (insideIntersect == true && insideIntersect2 == false) {
+		this->OneIntersecLiesOnBaseEntity(this->circleToTrim, this->clickPoint, intersect,
+			this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+	}
+	else if (insideIntersect == false && insideIntersect2 == true) {
+		this->OneIntersecLiesOnBaseEntity(this->circleToTrim, this->clickPoint, intersect2,
+			this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+	}
+	else if (insideIntersect == true && insideIntersect2 == true) {
+		this->TwoIntersectsLieOnBaseEntity(this->circleToTrim, this->clickPoint, intersect, intersect2,
+			this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+	}
 }
 
 void ShFindTrimPointCircleTrimer::Visit(ShCircle *circle) {
@@ -581,12 +637,33 @@ void ShFindTrimPointCircleTrimer::Visit(ShArc *arc) {
 		arc->GetStartAngle(), arc->GetEndAngle(), 0.001) == true)
 		insideIntersect2 = true;
 
-	if (insideIntersect == false || insideIntersect2 == false)
+	if (insideIntersect == false && insideIntersect2 == false)
 		return;
 
-	this->TwoIntersectsLieOnBaseEntity(this->circleToTrim, this->clickPoint, intersect, intersect2,
+	if (insideIntersect == true && insideIntersect2 == false) {
+		this->OneIntersecLiesOnBaseEntity(this->circleToTrim, this->clickPoint, intersect,
+			this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+	}
+	else if (insideIntersect == false && insideIntersect2 == true) {
+		this->OneIntersecLiesOnBaseEntity(this->circleToTrim, this->clickPoint, intersect2,
+			this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+	}
+	else if (insideIntersect == true && insideIntersect2 == true) {
+		this->TwoIntersectsLieOnBaseEntity(this->circleToTrim, this->clickPoint, intersect, intersect2,
+			this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+	}
+
+}
+
+
+void ShFindTrimPointCircleTrimer::Visit(ShPolyLine *polyLine) {
+
+	ShFindTrimPointCircleTrimer visitor(this->circleToTrim, this->clickPoint,
 		this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
 
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
+		(*itr)->Accept(&visitor);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -840,5 +917,17 @@ void ShFindTrimPointArcTrimer::Visit(ShArc *arc) {
 		this->TwoIntersectsLieOnBaseEntity(this->arcToTrim, this->clickPoint, intersect, intersect2,
 			this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
 
+
+}
+
+
+void ShFindTrimPointArcTrimer::Visit(ShPolyLine *polyLine) {
+
+	ShFindTrimPointArcTrimer visitor(this->arcToTrim, this->clickPoint,
+		this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
+		(*itr)->Accept(&visitor);
 
 }

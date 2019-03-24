@@ -45,8 +45,9 @@ void ShDrawAction::AddEntity(ShEntity* newEntity,const QString& commandText) {
 	qDebug("ShDrawAction->AddEntity()");
 
 	this->graphicView->entityTable.Add(newEntity);
-	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities | DrawType::DrawPreviewEntities));
+	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities /*| DrawType::DrawPreviewEntities*/));
 	this->graphicView->CaptureImage();
+	this->graphicView->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 
 
 	ShAddEntityCommand *command = new ShAddEntityCommand(this->graphicView, newEntity, commandText);

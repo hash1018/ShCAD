@@ -21,6 +21,7 @@ protected:
 
 public:
 	ShComposite();
+	ShComposite(const ShPropertyData &propertyData, ShLayer *layer);
 	ShComposite(const ShComposite& other);
 	virtual ~ShComposite() = 0;
 	ShComposite& operator=(const ShComposite& other);

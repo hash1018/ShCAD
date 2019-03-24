@@ -28,12 +28,14 @@ public:
 class ShButtonWithMenuPopup;
 class ShRibbonCircleButton;
 class ShRibbonArcButton;
+class ShRibbonPolyLineButton;
 class ShDrawColumn : public ShColumnInRibbonTab {
 	Q_OBJECT
 private:
 	ShButtonWithMenuPopup *lineButton;
 	ShRibbonCircleButton *circleButton;
 	ShRibbonArcButton *arcButton;
+	ShRibbonPolyLineButton *polyButton;
 public:
 	ShDrawColumn(QWidget *parent, const QString &title, int width);
 	~ShDrawColumn();

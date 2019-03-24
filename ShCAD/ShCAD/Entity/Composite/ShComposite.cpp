@@ -7,7 +7,13 @@ ShComposite::ShComposite() {
 
 }
 
-ShComposite::ShComposite(const ShComposite& other) {
+ShComposite::ShComposite(const ShPropertyData &propertyData, ShLayer *layer)
+	:ShEntity(propertyData, layer) {
+
+}
+
+ShComposite::ShComposite(const ShComposite& other)
+	: ShEntity(other) {
 
 	QLinkedList<ShEntity*>::iterator itr;
 

@@ -5,6 +5,7 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Composite\ShPolyLine.h"
 ShFinder::ShFinder(double x, double y, double zoomRate,ShEntity* *foundEntity)
 	:x(x), y(y), zoomRate(zoomRate),foundEntity(foundEntity) {
 
@@ -46,6 +47,24 @@ void ShFinder::Visit(ShArc *arc) {
 
 	if (Math::CheckPointLiesOnArcBoundary(ShPoint3d(this->x, this->y), data.center, data.radius, data.startAngle, data.endAngle, tolerance) == true)
 		*this->foundEntity = arc;
+
+}
+
+void ShFinder::Visit(ShPolyLine *polyLine) {
+
+	ShEntity *foundEntity = 0;
+	QLinkedList<ShEntity*>::iterator itr = polyLine->Begin();
+	ShFinder visitor(this->x, this->y, this->zoomRate, &foundEntity);
+
+	while (itr != polyLine->End() && foundEntity == 0) {
+		(*itr)->Accept(&visitor);
+		++itr;
+	}
+
+	if (foundEntity != 0) {
+	
+		*this->foundEntity = polyLine;
+	}
 
 }
 

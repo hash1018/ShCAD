@@ -25,6 +25,7 @@ public:
 	void Visit(ShLine *line);
 	void Visit(ShCircle *circle);
 	void Visit(ShArc *arc);
+	void Visit(ShPolyLine *polyLine);
 
 };
 

@@ -145,9 +145,13 @@ void ShDrawAddedEntities::Draw() {
 
 	QLinkedList<ShEntity*>::iterator itr;
 
-	for (itr = this->view->entityTable.JustAddedEntitiesBegin(); itr != this->view->entityTable.JustAddedEntitiesEnd(); ++itr)
-		(*itr)->Accept(&drawer);
+	for (itr = this->view->entityTable.JustAddedEntitiesBegin();
+		itr != this->view->entityTable.JustAddedEntitiesEnd();
+		++itr) {
 
+		if ((*itr)->GetLayer()->IsTurnOn() == true)
+			(*itr)->Accept(&drawer);
+	}
 
 	if (this->strategy != 0)
 		this->strategy->Draw();

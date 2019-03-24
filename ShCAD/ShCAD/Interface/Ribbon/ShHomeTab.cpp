@@ -43,6 +43,7 @@ ShDrawColumn::ShDrawColumn(QWidget *parent, const QString &title, int width)
 	this->InitLineButton();
 	this->circleButton = new ShRibbonCircleButton(this->layoutWidget);
 	this->arcButton = new ShRibbonArcButton(this->layoutWidget);
+	this->polyButton = new ShRibbonPolyLineButton(this->layoutWidget);
 
 
 }
@@ -56,13 +57,15 @@ void ShDrawColumn::resizeEvent(QResizeEvent *event) {
 
 	ShColumnInRibbonTab::resizeEvent(event);
 
-	int width = this->layoutWidget->width();
-	int height = this->layoutWidget->height();
+	int width = this->layoutWidget->width()/2;
+	int height = this->layoutWidget->height()/3;
 
-	this->lineButton->setGeometry(0, 0, width / 2, height / 3);
-	this->circleButton->setGeometry(width / 2, 0, width / 2, height / 3);
+	this->lineButton->setGeometry(0, 0, width, height);
+	this->circleButton->setGeometry(width, 0, width, height);
 
-	this->arcButton->setGeometry(0, height / 3, width / 2, height / 3);
+	this->arcButton->setGeometry(0, height, width, height);
+	this->polyButton->setGeometry(width, height, width, height);
+
 
 }
 

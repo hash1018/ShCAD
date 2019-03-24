@@ -404,9 +404,6 @@
     <ClCompile Include="Strategy Pattern\ShObjectSnapStrategy.cpp">
       <Filter>Strategy Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="Visitor Pattern\ShLinePerpendicularVisitor.cpp">
-      <Filter>Visitor Pattern</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_ShCustomizedWidget.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -484,6 +481,15 @@
     </ClCompile>
     <ClCompile Include="Command Pattern\Entity Command\ShTrimEntityCommand.cpp">
       <Filter>Command Pattern\Entity Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Composite\ShPolyLine.cpp">
+      <Filter>Entity\Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawPolyLineAction.cpp">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShLineBothPerpendicularVisitor.cpp">
+      <Filter>Visitor Pattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -812,6 +818,12 @@
     </ClInclude>
     <ClInclude Include="Command Pattern\Entity Command\ShTrimEntityCommand.h">
       <Filter>Command Pattern\Entity Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Composite\ShPolyLine.h">
+      <Filter>Entity\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawPolyLineAction.h">
+      <Filter>ActionHandler\DrawAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

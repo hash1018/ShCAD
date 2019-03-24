@@ -3,6 +3,7 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Composite\ShPolyLine.h"
 #include "ShMath.h"
 #include "Interface\ShGraphicView.h"
 #include "Command Pattern\Entity Command\ShExtendEntityCommand.h"
@@ -264,6 +265,16 @@ void ShFindExtensionPointLineExtender::Visit(ShArc *arc) {
 	
 }
 
+void ShFindExtensionPointLineExtender::Visit(ShPolyLine *polyLine) {
+
+	ShFindExtensionPointLineExtender visitor(this->lineToExtend, this->extensionPointList, this->pointToExtend);
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
+		(*itr)->Accept(&visitor);
+
+}
+
 bool ShFindExtensionPointLineExtender::CheckPossibleToExtend(ShLine *lineToExtend, PointToExtend pointToExtend, const ShPoint3d& extensionPoint) {
 
 	ShLineData data = lineToExtend->GetData();
@@ -497,6 +508,16 @@ void ShFindExtensionPointArcExtender::Visit(ShArc *arc) {
 			finalIntersect) == true)
 			this->extensionPointList.append(finalIntersect);
 	}
+
+}
+
+void ShFindExtensionPointArcExtender::Visit(ShPolyLine *polyLine) {
+
+	ShFindExtensionPointArcExtender visitor(this->arcToExtend, this->extensionPointList, this->pointToExtend);
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
+		(*itr)->Accept(&visitor);
 
 }
 

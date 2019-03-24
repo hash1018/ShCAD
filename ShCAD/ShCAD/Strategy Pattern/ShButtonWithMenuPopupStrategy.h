@@ -191,6 +191,45 @@ public:
 };
 
 
+class ShRectangleButtonStrategy : public ShButtonWithMenuPopupStrategy {
+
+public:
+	ShRectangleButtonStrategy();
+	~ShRectangleButtonStrategy();
+
+	virtual void Do();
+	virtual QIcon GetIcon();
+
+	static QIcon GetIcon_();
+
+};
+
+class ShPolygonButtonStrategy : public ShButtonWithMenuPopupStrategy {
+
+public:
+	ShPolygonButtonStrategy();
+	~ShPolygonButtonStrategy();
+
+	virtual void Do();
+	virtual QIcon GetIcon();
+
+	static QIcon GetIcon_();
+
+};
+
+class ShPolyLineButtonStrategy : public ShButtonWithMenuPopupStrategy {
+
+public:
+	ShPolyLineButtonStrategy();
+	~ShPolyLineButtonStrategy();
+
+	virtual void Do();
+	virtual QIcon GetIcon();
+
+	static QIcon GetIcon_();
+
+};
+
 
 
 

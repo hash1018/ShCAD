@@ -36,6 +36,7 @@
 #include "ActionHandler\ModifyAction\ShModifyStretchAction.h"
 #include "ActionHandler\ModifyAction\ShModifyExtendAction.h"
 #include "ActionHandler\ModifyAction\ShModifyTrimAction.h"
+#include "ActionHandler\DrawAction\ShDrawPolyLineAction.h"
 ShCreatorActionFactory::ShCreatorActionFactory(){
 
 }
@@ -97,6 +98,8 @@ ShActionHandler* ShCreatorActionFactory::Create(ActionType actionType, ShGraphic
 		return new ShModifyExtendAction(graphicView);
 	if (actionType == ActionType::ActionModifyTrim)
 		return new ShModifyTrimAction(graphicView);
+	if (actionType == ActionType::ActionDrawPolyLine)
+		return new ShDrawPolyLineAction(graphicView);
 
 	return new ShDefaultAction(graphicView);
 }

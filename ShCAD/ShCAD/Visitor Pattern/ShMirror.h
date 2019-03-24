@@ -20,6 +20,8 @@ public:
 	virtual void Visit(ShLine *line);
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
+
 
 	void SetOriginal(ShEntity *original) { this->original = original; }
 };

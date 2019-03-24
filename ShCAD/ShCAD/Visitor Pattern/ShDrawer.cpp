@@ -5,6 +5,7 @@
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShRubberBand.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Composite\ShPolyLine.h"
 #include "Interface\ShGraphicView.h"
 #include "ShMath.h"
 ShDrawer::ShDrawer(ShGraphicView *view, DrawType drawType)
@@ -111,6 +112,15 @@ void ShDrawer::Visit(ShRubberBand *rubberBand) {
 	this->DrawLine(start, end, color);
 	glDisable(GL_LINE_STIPPLE);
 	
+}
+
+void ShDrawer::Visit(ShPolyLine *polyLine) {
+
+	QLinkedList<ShEntity*>::iterator itr;
+	ShDrawer visitor(this->view, this->drawType);
+	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
+		(*itr)->Accept(&visitor);
+
 }
 
 void ShDrawer::ConvertDeviceToOpenGL(int x, int y, double  &ox, double  &oy) {
@@ -400,3 +410,11 @@ void ShSelectedEntityDrawer::Visit(ShArc *arc) {
 	
 }
 
+void ShSelectedEntityDrawer::Visit(ShPolyLine *polyLine) {
+
+	QLinkedList<ShEntity*>::iterator itr;
+	ShSelectedEntityDrawer visitor(this->view, this->drawType);
+	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
+		(*itr)->Accept(&visitor);
+
+}

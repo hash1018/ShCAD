@@ -49,7 +49,8 @@ public:
 	virtual void Visit(ShLine *line);
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
-	void Visit(ShRubberBand *rubberBand);
+	virtual void Visit(ShRubberBand *rubberBand);
+	virtual void Visit(ShPolyLine *polyLine);
 
 protected:
 	void ConvertDeviceToOpenGL(int x, int y, double  &ox, double  &oy);
@@ -68,10 +69,10 @@ public:
 	ShSelectedEntityDrawer(ShGraphicView *view, DrawType drawType);
 	~ShSelectedEntityDrawer();
 
-	void Visit(ShLine *line);
-	void Visit(ShCircle *circle);
-	void Visit(ShArc *arc);
-	
+	virtual void Visit(ShLine *line);
+	virtual void Visit(ShCircle *circle);
+	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
 };
 
 #endif //_SHDRAWER_H

@@ -4,6 +4,7 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Composite\ShPolyLine.h"
 #include "ShMath.h"
 ShRotater::ShRotater(const ShPoint3d& center, double angle)
 	:center(center), angle(angle) {
@@ -42,5 +43,15 @@ void ShRotater::Visit(ShArc *arc) {
 
 	data.startAngle = Math::AddAngle(data.startAngle, this->angle);
 	data.endAngle = Math::AddAngle(data.endAngle, this->angle);
+
+}
+
+void ShRotater::Visit(ShPolyLine *polyLine) {
+
+	ShRotater visitor(this->center, this->angle);
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
+		(*itr)->Accept(&visitor);
 
 }

@@ -48,6 +48,13 @@ enum ActionType {
 	ActionDrawArcCenterStartEnd,
 	ActionDrawArcCenterStartAngle,
 	ActionDrawArcCenterStartLength,
+
+	ActionDrawRectangle,
+	ActionDrawPolygon,
+	ActionDrawPolyLine,
+
+
+
 	ActionModifyMove,
 	ActionModifyCopy,
 	ActionModifyStretch,

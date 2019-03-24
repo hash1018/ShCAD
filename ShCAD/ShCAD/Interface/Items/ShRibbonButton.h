@@ -63,5 +63,18 @@ public:
 
 };
 
+class ShRibbonPolyLineButton : public ShAbstractRibbonButton {
+	Q_OBJECT
+
+public:
+	ShRibbonPolyLineButton(QWidget *parent = 0);
+	~ShRibbonPolyLineButton();
+	
+	private slots:
+	void PolyLineActionClicked();
+	void RectangleActionClicked();
+	void PolygonActionClicked();
+
+};
 
 #endif //_SHRIBBONBUTTON_H

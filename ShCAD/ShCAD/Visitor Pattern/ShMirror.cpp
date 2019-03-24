@@ -3,7 +3,7 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
-
+#include "Entity\Composite\ShPolyLine.h"
 
 #include "ShMath.h"
 ShMirror::ShMirror(const ShPoint3d& center, double angle)
@@ -77,4 +77,25 @@ void ShMirror::Visit(ShArc *arc) {
 
 	arc->SetData(data);
 	
+}
+
+void ShMirror::Visit(ShPolyLine *polyLine) {
+
+	if (this->original == 0 || !dynamic_cast<ShPolyLine*>(this->original))
+		return;
+
+	ShPolyLine *original = dynamic_cast<ShPolyLine*>(this->original);
+
+	ShMirror visitor(this->center, this->angle);
+
+	QLinkedList<ShEntity*>::iterator originalItr = original->Begin();
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr) {
+
+		visitor.SetOriginal((*originalItr));
+		(*itr)->Accept(&visitor);
+
+		++originalItr;
+	}
+
 }

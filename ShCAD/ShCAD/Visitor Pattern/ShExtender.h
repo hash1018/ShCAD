@@ -60,6 +60,7 @@ private:
 	virtual void Visit(ShLine *line);
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
 
 	bool CheckPossibleToExtend(ShLine *lineToExtend, PointToExtend pointToExtend, const ShPoint3d& extensionPoint);
 	bool CheckPossibleToExtend(ShLine *lineToExtend, PointToExtend pointToExtend, const ShPoint3d& extensionPoint,
@@ -86,6 +87,7 @@ private:
 	virtual void Visit(ShLine *line);
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
 
 	bool CheckPossibleToExtend(ShArc *arcToExtend, PointToExtend pointToExtend, const ShPoint3d& extensionPoint);
 	bool CheckPossibleToExtend(ShArc *arcToExtend, PointToExtend pointToExtend, const ShPoint3d& extensionPoint,

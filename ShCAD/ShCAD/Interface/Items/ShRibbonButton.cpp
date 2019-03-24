@@ -183,3 +183,43 @@ void ShRibbonArcButton::CenterStartLengthActionClicked() {
 	this->ChangeStrategy(new ShArcButtonCenterStartLengthStrategy);
 	this->strategy->Do();
 }
+
+/////////////////////////////////////////////////////////////////////////////
+
+ShRibbonPolyLineButton::ShRibbonPolyLineButton(QWidget *parent)
+	:ShAbstractRibbonButton(parent) {
+
+	this->strategy = new ShPolyLineButtonStrategy;
+	this->SetIcon(this->strategy->GetIcon());
+
+	QMenu *menu = new QMenu(this->popupButton);
+	menu->addAction(ShPolyLineButtonStrategy::GetIcon_(), "PolyLine",
+		this, SLOT(PolyLineActionClicked()));
+	menu->addAction(ShRectangleButtonStrategy::GetIcon_(), "Rectangle",
+		this, SLOT(RectangleActionClicked()));
+	menu->addAction(ShPolygonButtonStrategy::GetIcon_(), "Polygon",
+		this, SLOT(PolygonActionClicked()));
+
+
+	this->popupButton->setMenu(menu);
+
+}
+
+ShRibbonPolyLineButton::~ShRibbonPolyLineButton() {
+
+}
+
+void ShRibbonPolyLineButton::PolyLineActionClicked() {
+	this->ChangeStrategy(new ShPolyLineButtonStrategy);
+	this->strategy->Do();
+}
+
+void ShRibbonPolyLineButton::RectangleActionClicked() {
+	this->ChangeStrategy(new ShRectangleButtonStrategy);
+	this->strategy->Do();
+}
+
+void ShRibbonPolyLineButton::PolygonActionClicked() {
+	this->ChangeStrategy(new ShPolygonButtonStrategy);
+	this->strategy->Do();
+}
