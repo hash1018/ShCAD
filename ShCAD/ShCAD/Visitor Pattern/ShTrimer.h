@@ -58,12 +58,11 @@ private:
 		QLinkedList<ShPoint3d> &betweenStartAndClickTrimPointList,
 		QLinkedList<ShPoint3d> &betweenEndAndClickTrimPointList);
 
-
-	void AppendTrimPointIntoProperList(ShLine *lineToTrim, const ShPoint3d& clickPoint, const ShPoint3d& trimPoint,
+	void OneIntersectLiesOnLineToTrim(ShLine *lineToTrim, const ShPoint3d& clickPoint, const ShPoint3d& intersect,
 		QLinkedList<ShPoint3d> &betweenStartAndClickTrimPointList,
 		QLinkedList<ShPoint3d> &betweenEndAndClickTrimPointList);
-	void AppendTrimPointIntoProperList(ShLine *lineToTrim, const ShPoint3d& clickPoint, const ShPoint3d& trimPoint,
-		const ShPoint3d& trimPoint2, QLinkedList<ShPoint3d> &betweenStartAndClickTrimPointList,
+	void TwoIntersectsLieOnLineToTrim(ShLine *lineToTrim, const ShPoint3d& clickPoint, const ShPoint3d& intersect,
+		const ShPoint3d& intersect2, QLinkedList<ShPoint3d> &betweenStartAndClickTrimPointList,
 		QLinkedList<ShPoint3d> &betweenEndAndClickTrimPointList);
 };
 
