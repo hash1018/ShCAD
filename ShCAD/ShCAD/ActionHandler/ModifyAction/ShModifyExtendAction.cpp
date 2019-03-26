@@ -21,12 +21,15 @@ ShModifyExtendAction::~ShModifyExtendAction() {
 
 #include "Visitor Pattern\ShExtender.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
+#include "Strategy Pattern\ShSearchEntityStrategy.h"
 void ShModifyExtendAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
 
 		ShPoint3d point = this->graphicView->GetCursorPoint();
-		ShEntity* entity = this->graphicView->entityTable.FindEntity(point.x, point.y, this->graphicView->GetZoomRate());
+		ShEntity *entity;
+		ShSearchEntityUniqueStrategy strategy(&entity, point.x, point.y, this->graphicView->GetZoomRate());
+		this->graphicView->entityTable.Search(strategy);
 
 		if (entity == 0) {
 
@@ -45,7 +48,10 @@ void ShModifyExtendAction::LMousePressEvent(QMouseEvent *event, ShActionData& da
 	else if (this->status == FinishedSelectingEntities) {
 
 		ShPoint3d point = this->graphicView->GetCursorPoint();
-		ShEntity* entity = this->graphicView->entityTable.FindEntity(point.x, point.y, this->graphicView->GetZoomRate());
+
+		ShEntity *entity;
+		ShSearchEntityUniqueStrategy strategy(&entity, point.x, point.y, this->graphicView->GetZoomRate());
+		this->graphicView->entityTable.Search(strategy);
 
 		if (entity == 0)
 			return;

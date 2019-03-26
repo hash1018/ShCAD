@@ -21,13 +21,17 @@ ShModifyTrimAction::~ShModifyTrimAction() {
 
 #include "Visitor Pattern\ShTrimer.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
+#include "Strategy Pattern\ShSearchEntityStrategy.h"
 void ShModifyTrimAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
 
 		ShPoint3d point = this->graphicView->GetCursorPoint();
-		ShEntity* entity = this->graphicView->entityTable.FindEntity(point.x, point.y, this->graphicView->GetZoomRate());
 
+		ShEntity *entity;
+		ShSearchEntityUniqueStrategy strategy(&entity, point.x, point.y, this->graphicView->GetZoomRate());
+		this->graphicView->entityTable.Search(strategy);
+		
 		if (entity == 0) {
 
 			if (event->modifiers() == Qt::ShiftModifier)
@@ -45,7 +49,10 @@ void ShModifyTrimAction::LMousePressEvent(QMouseEvent *event, ShActionData& data
 	else if (this->status == FinishedSelectingEntities) {
 
 		ShPoint3d point = this->graphicView->GetCursorPoint();
-		ShEntity* entity = this->graphicView->entityTable.FindEntity(point.x, point.y, this->graphicView->GetZoomRate());
+
+		ShEntity *entity;
+		ShSearchEntityUniqueStrategy strategy(&entity, point.x, point.y, this->graphicView->GetZoomRate());
+		this->graphicView->entityTable.Search(strategy);
 
 		if (entity == 0)
 			return;

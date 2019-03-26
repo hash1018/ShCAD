@@ -40,6 +40,8 @@ public:
 	inline QLinkedList<ShEntity*>::iterator Begin() { return this->list.begin(); }
 	inline QLinkedList<ShEntity*>::iterator End() { return this->list.end(); }
 
+	ShEntity* GetEntity(int index);
+	int GetIndex(ShEntity* entity);
 
 protected:
 	void RemoveAll(QLinkedList<ShEntity*> &list);

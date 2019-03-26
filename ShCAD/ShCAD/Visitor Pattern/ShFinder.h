@@ -22,10 +22,10 @@ public:
 	ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity);
 	~ShFinder();
 
-	void Visit(ShLine *line);
-	void Visit(ShCircle *circle);
-	void Visit(ShArc *arc);
-	void Visit(ShPolyLine *polyLine);
+	virtual void Visit(ShLine *line);
+	virtual void Visit(ShCircle *circle);
+	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
 
 };
 
@@ -47,9 +47,10 @@ public:
 	ShRectFinder(const ShPoint3d& topLeft, const ShPoint3d& bottomRight, ShEntity* *foundEntity, FindMethod findMethod = AllPartLiesInsideRect);
 	~ShRectFinder();
 
-	void Visit(ShLine *line);
-	void Visit(ShCircle *circle);
-	void Visit(ShArc *arc);
+	virtual void Visit(ShLine *line);
+	virtual void Visit(ShCircle *circle);
+	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
 
 };
 

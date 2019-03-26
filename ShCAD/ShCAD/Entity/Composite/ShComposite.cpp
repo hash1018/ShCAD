@@ -106,3 +106,42 @@ void ShComposite::RemoveAll(QLinkedList<ShEntity*> &list) {
 	
 
 }
+
+ShEntity* ShComposite::GetEntity(int index) {
+
+	if (index >= this->list.count())
+		return 0;
+
+	if (index < 0)
+		return 0;
+
+	QLinkedList<ShEntity*>::iterator itr = this->list.begin();
+	int i = 0;
+	while (i < index) {
+	
+		++itr;
+		i++;
+	}
+
+	return (*itr);
+}
+
+int ShComposite::GetIndex(ShEntity* entity) {
+
+	if (entity == 0)
+		return -1;
+
+	QLinkedList<ShEntity*>::iterator itr = this->Begin();
+
+	int index = 0;
+	while (itr != this->End() && (*itr) != entity) {
+
+		index++;
+		++itr;
+	}
+
+	if ((*itr) == entity)
+		return index;
+
+	return -1;
+}

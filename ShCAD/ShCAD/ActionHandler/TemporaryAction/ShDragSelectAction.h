@@ -96,19 +96,21 @@ protected:
 
 };
 
+
+class ShStretchData;
 class ShModifyStretchDragSelectAction : public ShModifyDragSelectAction {
 	friend class ShModifyStretchAction;
 
 private:
-	QLinkedList<ShEntity*> *stretchList;
-	QLinkedList<VertexPoint> *vertexList;
+	QList<ShEntity*> &entitiesToStretch;
+	QList<ShStretchData*> &stretchDataList;
 
 private:
 	ShModifyStretchDragSelectAction(ShGraphicView *graphicView, double firstX, double firstY,
-		QLinkedList<ShEntity*> *stretchList, QLinkedList<VertexPoint> *vertexList, Mode mode = SelectMode);
+		QList<ShEntity*> &entitiesToStretch, QList<ShStretchData*> &stretchDataList, Mode mode = SelectMode);
 
 	ShModifyStretchDragSelectAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
-		QLinkedList<ShEntity*> *stretchList, QLinkedList<VertexPoint> *vertexList,
+		QList<ShEntity*> &entitiesToStretch, QList<ShStretchData*> &stretchDataList,
 		double firstX, double firstY, Mode mode = SelectMode);
 
 public:

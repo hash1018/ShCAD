@@ -2,10 +2,11 @@
 
 #include "ShStretchEntityCommand.h"
 #include "Interface\ShGraphicView.h"
-
-ShStretchEntityCommand::ShStretchEntityCommand(ShGraphicView *view, const QLinkedList<ShEntity*>& entities,
-	const QLinkedList<VertexPoint>& vertexPoints, const ShPoint3d& base, const ShPoint3d& current)
-	:ShCommand("Stretch Entity"), view(view), entities(entities), vertexPoints(vertexPoints),
+#include "Visitor Pattern\ShStretchVisitor.h"
+ShStretchEntityCommand::ShStretchEntityCommand(ShGraphicView *view, const QList<ShEntity*>& entitiesToStretch,
+	const QList<ShStretchData*>& stretchDataList,
+	const ShPoint3d& base, const ShPoint3d& current)
+	:ShCommand("Stretch Entity"), view(view), entitiesToStretch(entitiesToStretch), stretchDataList(stretchDataList),
 	base(base), current(current) {
 
 	this->StoreOriginal();
@@ -14,25 +15,29 @@ ShStretchEntityCommand::ShStretchEntityCommand(ShGraphicView *view, const QLinke
 ShStretchEntityCommand::~ShStretchEntityCommand() {
 
 	this->DeleteOriginalAll();
+
+	while (!this->stretchDataList.isEmpty())
+		delete this->stretchDataList.takeFirst();
+
 }
 
 
-#include "Visitor Pattern\ShStretchVisitor.h"
+
 #include "Entity\ShEntity.h"
 void ShStretchEntityCommand::Execute() {
 
 	ShStretchVisitor visitor(this->base, this->current);
 
-	QLinkedList<ShEntity*>::iterator itr;
-	QLinkedList<VertexPoint>::iterator itrVertexPoint = this->vertexPoints.begin();
-	QLinkedList<ShEntity*>::iterator originalItr = this->originalEntities.begin();
+	QList<ShEntity*>::iterator itr;
+	QList<ShEntity*>::iterator originalItr = this->originalEntities.begin();
+	QList<ShStretchData*>::iterator dataItr = this->stretchDataList.begin();
+	
+	for (itr = this->entitiesToStretch.begin(); itr != this->entitiesToStretch.end(); ++itr) {
 
-	for (itr = this->entities.begin(); itr != this->entities.end(); ++itr) {
-
-		visitor.SetVertexPoint((*itrVertexPoint));
-		visitor.SetOriginalEntity((*originalItr));
+		visitor.SetOriginal((*originalItr));
+		visitor.SetStretchData((*dataItr));
 		++originalItr;
-		++itrVertexPoint;
+		++dataItr;
 		(*itr)->Accept(&visitor);
 	}
 
@@ -66,9 +71,9 @@ void ShStretchEntityCommand::UnExecute() {
 	*/
 
 	ShEntityData *data;
-	QLinkedList<ShEntity*>::iterator itr;
-	QLinkedList<ShEntity*>::iterator originalItr = this->originalEntities.begin();
-	for (itr = this->entities.begin(); itr != this->entities.end(); ++itr) {
+	QList<ShEntity*>::iterator itr;
+	QList<ShEntity*>::iterator originalItr = this->originalEntities.begin();
+	for (itr = this->entitiesToStretch.begin(); itr != this->entitiesToStretch.end(); ++itr) {
 
 		data = (*originalItr)->CreateData();
 		(*itr)->SetData(data);
@@ -91,7 +96,7 @@ void ShStretchEntityCommand::DeleteOriginalAll() {
 
 void ShStretchEntityCommand::StoreOriginal() {
 	
-	QLinkedList <ShEntity*>::iterator itr;
-	for (itr = this->entities.begin(); itr != this->entities.end(); ++itr)
+	QList <ShEntity*>::iterator itr;
+	for (itr = this->entitiesToStretch.begin(); itr != this->entitiesToStretch.end(); ++itr)
 		this->originalEntities.append((*itr)->Clone());
 }

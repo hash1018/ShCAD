@@ -332,6 +332,7 @@
     <ClCompile Include="Strategy Pattern\ShButtonWithMenuPopupStragety.cpp" />
     <ClCompile Include="Strategy Pattern\ShChangeCurrentActionStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShObjectSnapStrategy.cpp" />
+    <ClCompile Include="Strategy Pattern\ShSearchEntityStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewDrawStrategy.cpp" />
     <ClCompile Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.cpp" />
     <ClCompile Include="Visitor Pattern\ShExtender.cpp" />
@@ -656,6 +657,7 @@
     <ClInclude Include="Strategy Pattern\ShButtonWithMenuPopupStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShChangeCurrentActionStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShObjectSnapStrategy.h" />
+    <ClInclude Include="Strategy Pattern\ShSearchEntityStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewDrawStrategy.h" />
     <ClInclude Include="Strategy Pattern\ShViewNotifyEventUpdateStrategy.h" />
     <ClInclude Include="Visitor Pattern\ShExtender.h" />

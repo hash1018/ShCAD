@@ -10,7 +10,7 @@ public:
 	ShEntityData(const ShEntityData& other) {}
 	virtual ~ShEntityData() = 0 {}
 	ShEntityData& operator=(const ShEntityData& other) { return *this; }
-
+	virtual ShEntityData* Clone() = 0;
 };
 
 ////////////////////////////////////////////////////////////////
@@ -27,6 +27,7 @@ public:
 	ShLineData(const ShLineData& data);
 	bool operator==(const ShLineData& data);
 	ShLineData& operator=(const ShLineData &data);
+	virtual ShLineData* Clone();
 
 };
 
@@ -43,6 +44,7 @@ public:
 	ShCircleData(const ShCircleData& data);
 	bool operator==(const ShCircleData& data);
 	ShCircleData& operator=(const ShCircleData &data);
+	virtual ShCircleData* Clone();
 
 };
 
@@ -62,10 +64,23 @@ public:
 	ShArcData(const ShArcData& data);
 	bool operator==(const ShArcData& data);
 	ShArcData& operator=(const ShArcData &data);
+	virtual ShArcData* Clone();
 
 };
 
 //////////////////////////////////////////////////////////////////////
+#include <qlist.h>
+class ShPolyLineData : public ShEntityData {
 
+public:
+	QList<ShEntityData*> dataList;
+
+public:
+	ShPolyLineData();
+	ShPolyLineData(const ShPolyLineData& data);
+	~ShPolyLineData();
+	ShPolyLineData& operator=(const ShPolyLineData& data);
+	virtual ShPolyLineData* Clone();
+};
 
 #endif //_SHENTITYDATA_H

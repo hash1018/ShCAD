@@ -46,6 +46,8 @@ void ShPolyLine::Select() {
 	QLinkedList<ShEntity*>::iterator itr;
 	for (itr = this->Begin(); itr != this->End(); ++itr)
 		(*itr)->Select();
+
+	this->isSelected = true;
 }
 
 void ShPolyLine::UnSelect() {
@@ -53,4 +55,36 @@ void ShPolyLine::UnSelect() {
 	QLinkedList<ShEntity*>::iterator itr;
 	for (itr = this->Begin(); itr != this->End(); ++itr)
 		(*itr)->UnSelect();
+
+	this->isSelected = false;
+}
+
+ShPolyLineData* ShPolyLine::CreateData() {
+
+	ShPolyLineData *data = new ShPolyLineData;
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = this->Begin(); itr != this->End(); ++itr) {
+	
+		data->dataList.append((*itr)->CreateData());
+
+	}
+
+	return data;
+}
+
+void ShPolyLine::SetData(ShEntityData *data) {
+
+	if (!dynamic_cast<ShPolyLineData*>(data))
+		return;
+
+
+	int i = 0;
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = this->Begin(); itr != this->End(); ++itr) {
+
+		(*itr)->SetData(dynamic_cast<ShPolyLineData*>(data)->dataList.at(i));
+		i++;
+	}
+
 }

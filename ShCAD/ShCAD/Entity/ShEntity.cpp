@@ -42,9 +42,11 @@ ShEntity& ShEntity::operator=(const ShEntity& other) {
 	return *this;
 }
 
+/*
 void ShEntity::GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point) {
 
 }
+*/
 
 
 void ShEntity::Select() {

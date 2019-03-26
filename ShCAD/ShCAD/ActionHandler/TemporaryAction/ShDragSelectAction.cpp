@@ -360,17 +360,21 @@ int ShModifyDragSelectAction::AlreadySelectedCount(const QLinkedList<ShEntity*>&
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
 ShModifyStretchDragSelectAction::ShModifyStretchDragSelectAction(ShGraphicView *graphicView,
 	double firstX, double firstY,
-	QLinkedList<ShEntity*> *stretchList, QLinkedList<VertexPoint> *vertexList, Mode mode)
-	:ShModifyDragSelectAction(graphicView, firstX, firstY, mode), stretchList(stretchList), vertexList(vertexList) {
+	QList<ShEntity*> &entitiesToStretch, QList<ShStretchData*> &stretchDataList, Mode mode)
+	:ShModifyDragSelectAction(graphicView, firstX, firstY, mode),
+	entitiesToStretch(entitiesToStretch), stretchDataList(stretchDataList) {
+
 
 }
 
 ShModifyStretchDragSelectAction::ShModifyStretchDragSelectAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
-	QLinkedList<ShEntity*> *stretchList, QLinkedList<VertexPoint> *vertexList,
+	QList<ShEntity*> &entitiesToStretch, QList<ShStretchData*> &stretchDataList,
 	double firstX, double firstY, Mode mode)
-	: ShModifyDragSelectAction(graphicView, previousAction, firstX, firstY, mode), stretchList(stretchList), vertexList(vertexList) {
+	: ShModifyDragSelectAction(graphicView, previousAction, firstX, firstY, mode),
+	entitiesToStretch(entitiesToStretch), stretchDataList(stretchDataList) {
 
 }
 
@@ -465,28 +469,30 @@ void ShModifyStretchDragSelectAction::FindStretchPointAndAddList(const QLinkedLi
 	this->GetDragRectPoint(ShPoint3d(this->firstX, this->firstY), ShPoint3d(this->secondX, this->secondY),
 		topLeft, bottomRight, selectMethod);
 
-	VertexPoint vertexPoint;
 	
 	if (selectMethod == SelectMethod::AllPart) {
-		ShFindStretchMovePointVisitor visitor(vertexPoint);
+		
+		ShFindStretchMovePointVisitor visitor(this->entitiesToStretch, this->stretchDataList);
+		
 		QLinkedList<ShEntity*>::iterator itr;
+		
 		for (itr = const_cast<QLinkedList<ShEntity*>&>(unSelectedList).begin();
 			itr != const_cast<QLinkedList<ShEntity*>&>(unSelectedList).end(); ++itr) {
 
 			(*itr)->Accept(&visitor);
-			this->stretchList->append((*itr));
-			this->vertexList->append(vertexPoint);
 		}
 	}
 	else {
-		ShFindStretchPointWithRectVisitor visitor(vertexPoint, topLeft, bottomRight);
+		ShFindStretchPointWithRectVisitor visitor(this->entitiesToStretch, this->stretchDataList, 
+			topLeft, bottomRight);
+
 		QLinkedList<ShEntity*>::iterator itr;
+
 		for (itr = const_cast<QLinkedList<ShEntity*>&>(unSelectedList).begin();
 			itr != const_cast<QLinkedList<ShEntity*>&>(unSelectedList).end(); ++itr) {
 
 			(*itr)->Accept(&visitor);
-			this->stretchList->append((*itr));
-			this->vertexList->append(vertexPoint);
+			
 		}
 
 	}
@@ -503,22 +509,12 @@ void ShModifyStretchDragSelectAction::RemoveStretchPointAndList(const QLinkedLis
 	for (itr = const_cast<QLinkedList<ShEntity*>&>(selectedList).begin();
 		itr != const_cast<QLinkedList<ShEntity*>&>(selectedList).end(); ++itr) {
 
-		index = 0;
-		subItr = this->stretchList->begin();
-		while (subItr != this->stretchList->end() && (*subItr) != (*itr)) {
-			index++;
-			++subItr;
-		}
+		int index = this->entitiesToStretch.indexOf((*itr));
+		this->entitiesToStretch.removeAt(index);
 
-		this->stretchList->removeOne((*itr));
-
-		verItr = this->vertexList->begin();
-		i = 0;
-		while (i < index) {
-			++verItr;
-			i++;
-		}
-		this->vertexList->erase(verItr);
+		delete this->stretchDataList.takeAt(index);
+		
 	}
 
 }
+

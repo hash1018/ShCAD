@@ -3,6 +3,9 @@
 #define _SHMODIFYSTRETCHACTION_H
 
 #include "ShModifyAction.h"
+
+class ShStretchData;
+class ShEntity;
 class ShModifyStretchAction : public ShModifyAction {
 
 public:
@@ -15,8 +18,10 @@ public:
 private:
 	Status status;
 	ShPoint3d base;
-	QLinkedList<ShEntity*> list;
-	QLinkedList<VertexPoint> vertexList;
+	QList<ShEntity*> entitiesToStretch;
+	QList<ShStretchData*> stretchDataList;
+
+	bool mustDeallocateStretchData;
 
 public:
 	ShModifyStretchAction(ShGraphicView *graphicView);
@@ -39,4 +44,6 @@ private:
 protected:
 	virtual void DoFollowUpWithFoundEntity(ShEntity* foundEntity, Qt::KeyboardModifiers modifier);
 };
+
+
 #endif //_SHMODIFYSTRETCHACTION_H

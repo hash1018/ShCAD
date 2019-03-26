@@ -10,7 +10,7 @@
 #include "Visitor Pattern\ShStretchVisitor.h"
 
 ShModifyStretchAction::ShModifyStretchAction(ShGraphicView *graphicView)
-	:ShModifyAction(graphicView), status(SelectingEntities) {
+	:ShModifyAction(graphicView), status(SelectingEntities),mustDeallocateStretchData(true) {
 
 	ShUpdateListTextEvent event("_Stretch", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
 	this->graphicView->Notify(&event);
@@ -23,26 +23,36 @@ ShModifyStretchAction::ShModifyStretchAction(ShGraphicView *graphicView)
 
 ShModifyStretchAction::~ShModifyStretchAction() {
 
+	if (this->mustDeallocateStretchData == true) {
+
+		while (!this->stretchDataList.isEmpty())
+			delete this->stretchDataList.takeFirst();
+	}
 }
 
 #include "Command Pattern\Entity Command\ShStretchEntityCommand.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
+#include "Strategy Pattern\ShSearchEntityStrategy.h"
 void ShModifyStretchAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
 
 		ShPoint3d point = this->graphicView->GetCursorPoint();
-		ShEntity* entity = this->graphicView->entityTable.FindEntity(point.x, point.y, this->graphicView->GetZoomRate());
+
+		ShEntity *entity;
+		ShSearchEntityUniqueStrategy strategy(&entity, point.x, point.y, this->graphicView->GetZoomRate());
+		this->graphicView->entityTable.Search(strategy);
 
 		if (entity == 0) {
-
+			
 			if (event->modifiers() == Qt::ShiftModifier)
 				this->graphicView->SetTemporaryAction(new ShModifyStretchDragSelectAction(this->graphicView, this,
-					&this->list, &this->vertexList, point.x, point.y, ShDragSelectAction::Mode::UnSelectMode));
+					this->entitiesToStretch, this->stretchDataList, point.x, point.y,
+					ShDragSelectAction::Mode::UnSelectMode));
 			else
 				this->graphicView->SetTemporaryAction(new ShModifyStretchDragSelectAction(this->graphicView, this,
-					&this->list, &this->vertexList, point.x, point.y));
-
+					this->entitiesToStretch, this->stretchDataList, point.x, point.y));
+					
 			return;
 		}
 
@@ -65,18 +75,17 @@ void ShModifyStretchAction::LMousePressEvent(QMouseEvent *event, ShActionData& d
 
 		ShStretchVisitor visitor(this->base, data.GetNextPoint());
 
-		QLinkedList<VertexPoint>::iterator itrVertexPoint = this->vertexList.begin();
-		QLinkedList<ShEntity*>::iterator originalItr = this->list.begin();
 
+		QList<ShEntity*>::iterator originalItr = this->entitiesToStretch.begin();
+		QList<ShStretchData*>::iterator dataItr = this->stretchDataList.begin();
 		for (itr = this->graphicView->preview.Begin();
 			itr != this->graphicView->preview.End();
 			++itr) {
 
-			visitor.SetVertexPoint((*itrVertexPoint));
-			visitor.SetOriginalEntity((*originalItr));
-
+			visitor.SetOriginal((*originalItr));
+			visitor.SetStretchData((*dataItr));
 			++originalItr;
-			++itrVertexPoint;
+			++dataItr;
 			(*itr)->Accept(&visitor);
 		}
 		
@@ -88,9 +97,11 @@ void ShModifyStretchAction::LMousePressEvent(QMouseEvent *event, ShActionData& d
 	else if (this->status == PickedBasePoint) {
 
 		ShStretchEntityCommand *command = new ShStretchEntityCommand(this->graphicView,
-			this->list, this->vertexList, this->base, data.GetPoint());
+			this->entitiesToStretch, this->stretchDataList, this->base, data.GetPoint());
 
 		command->Execute();
+
+		this->mustDeallocateStretchData = false;
 
 		this->graphicView->undoTaker.Push(command);
 
@@ -135,18 +146,16 @@ void ShModifyStretchAction::MouseMoveEvent(QMouseEvent *event, ShActionData& dat
 		ShStretchVisitor visitor(this->base, data.GetPoint());
 
 		QLinkedList<ShEntity*>::iterator itr;
-		QLinkedList<VertexPoint>::iterator itrVertexPoint = this->vertexList.begin();
-		QLinkedList<ShEntity*>::iterator originalItr = this->list.begin();
-
+		QList<ShEntity*>::iterator originalItr = this->entitiesToStretch.begin();
+		QList<ShStretchData*>::iterator dataItr = this->stretchDataList.begin();
 		for (itr = this->graphicView->preview.Begin();
 			itr != this->graphicView->preview.End();
 			++itr) {
 
-			visitor.SetVertexPoint((*itrVertexPoint));
-			visitor.SetOriginalEntity((*originalItr));
-
+			visitor.SetOriginal((*originalItr));
+			visitor.SetStretchData((*dataItr));
 			++originalItr;
-			++itrVertexPoint;
+			++dataItr;
 			(*itr)->Accept(&visitor);
 		}
 
@@ -255,18 +264,16 @@ void ShModifyStretchAction::ApplyOrthogonalShape(bool on) {
 		ShStretchVisitor visitor(this->base, end);
 
 		QLinkedList<ShEntity*>::iterator itr;
-		QLinkedList<VertexPoint>::iterator itrVertexPoint = this->vertexList.begin();
-		QLinkedList<ShEntity*>::iterator originalItr = this->list.begin();
-
+		QList<ShEntity*>::iterator originalItr = this->entitiesToStretch.begin();
+		QList<ShStretchData*>::iterator dataItr = this->stretchDataList.begin();
 		for (itr = this->graphicView->preview.Begin();
 			itr != this->graphicView->preview.End();
 			++itr) {
 
-			visitor.SetVertexPoint((*itrVertexPoint));
-			visitor.SetOriginalEntity((*originalItr));
-
+			visitor.SetOriginal((*originalItr));
+			visitor.SetStretchData((*dataItr));
 			++originalItr;
-			++itrVertexPoint;
+			++dataItr;
 			(*itr)->Accept(&visitor);
 		}
 
@@ -290,37 +297,21 @@ void ShModifyStretchAction::DoFollowUpWithFoundEntity(ShEntity* foundEntity, Qt:
 	if (modifier == Qt::Modifier::SHIFT) {
 
 		if (foundEntity->IsSelected() == true) {
-			
-			int index = 0;
-			QLinkedList<ShEntity*>::iterator itr = this->list.begin();
-			
-			while (itr != this->list.end() && (*itr) != foundEntity) {
-			
-				index++;
-				++itr;
-			}
-			
-			this->list.removeOne(foundEntity);
+	
+			int index = this->entitiesToStretch.indexOf(foundEntity);
+			this->entitiesToStretch.removeAt(index);
 
-			QLinkedList<VertexPoint>::iterator vertexItr = this->vertexList.begin();
-			int i = 0;
-			while (i < index) {
-				++vertexItr;
-				i++;
-			}
-			this->vertexList.erase(vertexItr);
+			delete this->stretchDataList.takeAt(index);
+			
 		}
 	}
 	else {
 		if (foundEntity->IsSelected() == false) {
 
-			VertexPoint vertexPoint;
-			ShFindStretchMovePointVisitor visitor(vertexPoint);
+			
+			ShFindStretchMovePointVisitor visitor(this->entitiesToStretch, this->stretchDataList);
 
 			foundEntity->Accept(&visitor);
-
-			this->list.append(foundEntity);
-			this->vertexList.append(vertexPoint);
 
 		}
 	}
@@ -329,3 +320,4 @@ void ShModifyStretchAction::DoFollowUpWithFoundEntity(ShEntity* foundEntity, Qt:
 	ShModifyAction::DoFollowUpWithFoundEntity(foundEntity, modifier);
 
 }
+

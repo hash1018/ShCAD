@@ -6,11 +6,12 @@
 #include "Entity\Composite\ShPreview.h"
 #include "Entity\Leaf\ShRubberBand.h"
 #include "Interface\ShGraphicView.h"
+#include "Visitor Pattern\ShStretchVisitor.h"
 
-
-ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView
-	,const QLinkedList<ShEntity*>& list, const QLinkedList<VertexPoint>& vertexList, ShPoint3d vertex)
-	:ShTemporaryAction(graphicView), list(list), vertexList(vertexList), vertex(vertex) {
+ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView,
+	const QList<ShEntity*>& entitiesToStretch, const QList<ShStretchData*>& stretchDataList, ShPoint3d vertex)
+	:ShTemporaryAction(graphicView), entitiesToStretch(entitiesToStretch),
+	stretchDataList(stretchDataList), vertex(vertex), mustDeallocateStretchData(true) {
 
 
 	ShUpdateListTextEvent event("_Stretch", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
@@ -19,11 +20,12 @@ ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView
 	ShUpdateCommandEditHeadTitle event2("Stretch >> Specify stretch point: ");
 	this->graphicView->Notify(&event2);
 
-	QLinkedList<ShEntity*>::iterator itr;
+	QList<ShEntity*>::iterator itr;
 
-	for (itr = this->list.begin(); itr != this->list.end(); ++itr)
+	for (itr = this->entitiesToStretch.begin(); itr != this->entitiesToStretch.end(); ++itr)
 		this->graphicView->preview.Add((*itr)->Clone());
-	
+
+
 	if (this->graphicView->rubberBand != 0)
 		delete this->graphicView->rubberBand;
 
@@ -37,8 +39,9 @@ ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView
 }
 
 ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
-	const QLinkedList<ShEntity*>& list, const QLinkedList<VertexPoint>& vertexList, ShPoint3d vertex)
-	:ShTemporaryAction(graphicView, previousAction), list(list), vertexList(vertexList), vertex(vertex) {
+	const QList<ShEntity*>& entitiesToStretch, const QList<ShStretchData*>& stretchDataList, ShPoint3d vertex)
+	:ShTemporaryAction(graphicView, previousAction), entitiesToStretch(entitiesToStretch),
+	stretchDataList(stretchDataList), vertex(vertex), mustDeallocateStretchData(true) {
 
 	ShUpdateListTextEvent event("_Stretch", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
 	this->graphicView->Notify(&event);
@@ -46,10 +49,11 @@ ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView, S
 	ShUpdateCommandEditHeadTitle event2("Stretch >> Specify stretch point: ");
 	this->graphicView->Notify(&event2);
 
-	QLinkedList<ShEntity*>::iterator itr;
+	QList<ShEntity*>::iterator itr;
 
-	for (itr = this->list.begin(); itr != this->list.end(); ++itr)
+	for (itr = this->entitiesToStretch.begin(); itr != this->entitiesToStretch.end(); ++itr)
 		this->graphicView->preview.Add((*itr)->Clone());
+
 
 	if (this->graphicView->rubberBand != 0)
 		delete this->graphicView->rubberBand;
@@ -75,6 +79,12 @@ ShStretchTemporaryAction::~ShStretchTemporaryAction() {
 	}
 
 	this->graphicView->update(DrawType::DrawCaptureImage);
+
+	if (this->mustDeallocateStretchData == true) {
+	
+		while (!this->stretchDataList.isEmpty())
+			delete this->stretchDataList.takeFirst();
+	}
 	
 }
 
@@ -85,9 +95,11 @@ void ShStretchTemporaryAction::LMousePressEvent(QMouseEvent *event, ShActionData
 	ShPoint3d point = data.GetPoint();
 	
 	ShStretchEntityCommand *command = new ShStretchEntityCommand(this->graphicView,
-		this->list, this->vertexList, this->vertex, point);
+		this->entitiesToStretch, this->stretchDataList, this->vertex, point);
 
 	command->Execute();
+
+	this->mustDeallocateStretchData = false;
 
 	this->graphicView->undoTaker.Push(command);
 
@@ -106,7 +118,6 @@ void ShStretchTemporaryAction::LMousePressEvent(QMouseEvent *event, ShActionData
 }
 
 
-#include "Visitor Pattern\ShStretchVisitor.h"
 void ShStretchTemporaryAction::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
 	ShPoint3d end = data.GetPoint();
@@ -115,18 +126,16 @@ void ShStretchTemporaryAction::MouseMoveEvent(QMouseEvent *event, ShActionData& 
 	ShStretchVisitor visitor(this->vertex, end);
 
 	QLinkedList<ShEntity*>::iterator itr;
-	QLinkedList<VertexPoint>::iterator itrVertexPoint = this->vertexList.begin();
-	QLinkedList<ShEntity*>::iterator originalItr = this->list.begin();
-
+	QList<ShEntity*>::iterator originalItr = this->entitiesToStretch.begin();
+	QList<ShStretchData*>::iterator dataItr = this->stretchDataList.begin();
 	for (itr = this->graphicView->preview.Begin();
 		itr != this->graphicView->preview.End();
 		++itr) {
 
-		visitor.SetVertexPoint((*itrVertexPoint));
-		visitor.SetOriginalEntity((*originalItr));
-
+		visitor.SetOriginal((*originalItr));
+		visitor.SetStretchData((*dataItr));
 		++originalItr;
-		++itrVertexPoint;
+		++dataItr;
 		(*itr)->Accept(&visitor);
 	}
 
@@ -213,18 +222,16 @@ void ShStretchTemporaryAction::ApplyOrthogonalShape(bool on) {
 	ShStretchVisitor visitor(this->vertex, point);
 
 	QLinkedList<ShEntity*>::iterator itr;
-	QLinkedList<VertexPoint>::iterator itrVertexPoint = this->vertexList.begin();
-	QLinkedList<ShEntity*>::iterator originalItr = this->list.begin();
-
+	QList<ShEntity*>::iterator originalItr = this->entitiesToStretch.begin();
+	QList<ShStretchData*>::iterator dataItr = this->stretchDataList.begin();
 	for (itr = this->graphicView->preview.Begin();
 		itr != this->graphicView->preview.End();
 		++itr) {
 
-		visitor.SetVertexPoint((*itrVertexPoint));
-		visitor.SetOriginalEntity((*originalItr));
-
+		visitor.SetOriginal((*originalItr));
+		visitor.SetStretchData((*dataItr));
 		++originalItr;
-		++itrVertexPoint;
+		++dataItr;
 		(*itr)->Accept(&visitor);
 	}
 

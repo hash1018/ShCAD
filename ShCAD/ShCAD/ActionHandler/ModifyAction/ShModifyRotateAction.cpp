@@ -26,12 +26,16 @@ ShModifyRotateAction::~ShModifyRotateAction() {
 
 #include "Command Pattern\Entity Command\ShRotateEntityCommand.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
+#include "Strategy Pattern\ShSearchEntityStrategy.h"
 void ShModifyRotateAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
 
 		ShPoint3d point = this->graphicView->GetCursorPoint();
-		ShEntity* entity = this->graphicView->entityTable.FindEntity(point.x, point.y, this->graphicView->GetZoomRate());
+
+		ShEntity *entity;
+		ShSearchEntityUniqueStrategy strategy(&entity, point.x, point.y, this->graphicView->GetZoomRate());
+		this->graphicView->entityTable.Search(strategy);
 
 		if (entity == 0) {
 

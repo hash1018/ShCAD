@@ -1,7 +1,10 @@
 
 
 #include "ShEntityTable.h"
-#include "Visitor Pattern\ShFinder.h"
+#include "Visitor Pattern\ShVisitor.h"
+
+//#include "Visitor Pattern\ShFinder.h"
+
 ShEntityTable::ShEntityTable() {
 
 }
@@ -86,6 +89,8 @@ void ShEntityTable::Remove(ShEntity *shEntity) {
 
 }
 
+
+/*
 ShEntity* ShEntityTable::FindEntity(double x, double y, double zoomRate) {
 
 	ShEntity *entity = 0;
@@ -102,4 +107,13 @@ ShEntity* ShEntityTable::FindEntity(double x, double y, double zoomRate) {
 
 	return entity;
 
+}
+
+*/
+
+#include "Strategy Pattern\ShSearchEntityStrategy.h"
+void ShEntityTable::Search(ShSearchEntityStrategy& strategy) {
+
+	strategy.entityTable = this;
+	strategy.Search();
 }

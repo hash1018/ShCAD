@@ -37,7 +37,7 @@ bool ShObjectSnapStrategy_Nothing::FindSnapPoint(QMouseEvent *event) {
 
 #include "Visitor Pattern\ShSnapPointFinder.h"
 #include "Interface\ShGraphicView.h"
-#include "Visitor Pattern\ShFinder.h"
+//#include "Visitor Pattern\ShFinder.h"
 ShObjectSnapStrategy_EndPoint::ShObjectSnapStrategy_EndPoint(ShGraphicView *view)
 	:ShObjectSnapStrategy(view) {
 
@@ -47,13 +47,18 @@ ShObjectSnapStrategy_EndPoint::~ShObjectSnapStrategy_EndPoint() {
 
 }
 
-
+#include "Strategy Pattern\ShSearchEntityStrategy.h"
 bool ShObjectSnapStrategy_EndPoint::FindSnapPoint(QMouseEvent *event) {
 
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
 
-	ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
+
+	//ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
+	ShEntity *entity;
+	ShSearchEntityCompositeChildIncludedStrategy strategy(&entity, x, y, this->view->GetZoomRate());
+	this->view->entityTable.Search(strategy);
+
 
 	if (entity == 0)
 		return false;
@@ -108,7 +113,9 @@ bool ShObjectSnapStrategy_MidPoint::FindSnapPoint(QMouseEvent *event) {
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
 
-	ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
+	ShEntity *entity;
+	ShSearchEntityCompositeChildIncludedStrategy strategy(&entity, x, y, this->view->GetZoomRate());
+	this->view->entityTable.Search(strategy);
 
 	if (entity == 0)
 		return false;
@@ -167,7 +174,9 @@ bool ShObjectSnapStrategy_Center::FindSnapPoint(QMouseEvent *event) {
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
 
-	ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
+	ShEntity *entity;
+	ShSearchEntityCompositeChildIncludedStrategy strategy(&entity, x, y, this->view->GetZoomRate());
+	this->view->entityTable.Search(strategy);
 
 	if (entity == 0)
 		return false;
@@ -221,7 +230,9 @@ bool ShObjectSnapStrategy_Quadrant::FindSnapPoint(QMouseEvent *event) {
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
 
-	ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
+	ShEntity *entity;
+	ShSearchEntityCompositeChildIncludedStrategy strategy(&entity, x, y, this->view->GetZoomRate());
+	this->view->entityTable.Search(strategy);
 
 	if (entity == 0)
 		return false;
@@ -277,7 +288,9 @@ bool ShObjectSnapStrategy_Perpendicular::FindSnapPoint(QMouseEvent *event) {
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
 
-	ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
+	ShEntity *entity;
+	ShSearchEntityCompositeChildIncludedStrategy strategy(&entity, x, y, this->view->GetZoomRate());
+	this->view->entityTable.Search(strategy);
 
 	if (entity == 0)
 		return false;
@@ -299,7 +312,9 @@ bool ShObjectSnapStrategy_Perpendicular::FindSnapPoint(QMouseEvent *event, doubl
 	double x, y;
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
 
-	ShEntity* entity = this->view->entityTable.FindEntity(x, y, this->view->GetZoomRate());
+	ShEntity *entity;
+	ShSearchEntityCompositeChildIncludedStrategy strategy(&entity, x, y, this->view->GetZoomRate());
+	this->view->entityTable.Search(strategy);
 
 	if (entity == 0)
 		return false;

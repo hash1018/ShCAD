@@ -491,6 +491,9 @@
     <ClCompile Include="Visitor Pattern\ShLineBothPerpendicularVisitor.cpp">
       <Filter>Visitor Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="Strategy Pattern\ShSearchEntityStrategy.cpp">
+      <Filter>Strategy Pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -824,6 +827,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\DrawAction\ShDrawPolyLineAction.h">
       <Filter>ActionHandler\DrawAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Strategy Pattern\ShSearchEntityStrategy.h">
+      <Filter>Strategy Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

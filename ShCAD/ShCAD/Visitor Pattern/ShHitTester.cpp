@@ -5,8 +5,9 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
-ShHitTester::ShHitTester(double x, double y, double zoomRate, VertexPoint &vertexPoint, double tolerance)
-	:x(x), y(y), zoomRate(zoomRate), vertexPoint(vertexPoint), tolerance(tolerance) {
+#include "Entity\Composite\ShPolyLine.h"
+ShHitTester::ShHitTester(double x, double y, double zoomRate, VertexPoint &vertexPoint, ShPoint3d &vertex, double tolerance)
+	:x(x), y(y), zoomRate(zoomRate), vertexPoint(vertexPoint), vertex(vertex), tolerance(tolerance) {
 
 }
 
@@ -27,6 +28,7 @@ void ShHitTester::Visit(ShLine *line) {
 		this->y <= start.y + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexStart;
+		this->vertex = start;
 		return;
 	}
 
@@ -36,6 +38,7 @@ void ShHitTester::Visit(ShLine *line) {
 		this->y <= end.y + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexEnd;
+		this->vertex = end;
 		return;
 	}
 
@@ -45,6 +48,7 @@ void ShHitTester::Visit(ShLine *line) {
 		this->y <= mid.y + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexMid;
+		this->vertex = mid;
 		return;
 	}
 
@@ -66,6 +70,7 @@ void ShHitTester::Visit(ShCircle *circle) {
 		this->y <= center.y + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexCenter;
+		this->vertex = center;
 		return;
 	}
 
@@ -75,6 +80,8 @@ void ShHitTester::Visit(ShCircle *circle) {
 		this->y <= center.y + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexRight;
+		this->vertex.x = center.x + radius;
+		this->vertex.y = center.y;
 		return;
 	}
 
@@ -84,6 +91,8 @@ void ShHitTester::Visit(ShCircle *circle) {
 		this->y <= center.y - radius + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexBottom;
+		this->vertex.x = center.x;
+		this->vertex.y = center.y - radius;
 		return;
 	}
 
@@ -93,6 +102,8 @@ void ShHitTester::Visit(ShCircle *circle) {
 		this->y <= center.y + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexLeft;
+		this->vertex.x = center.x - radius;
+		this->vertex.y = center.y;
 		return;
 	}
 
@@ -102,6 +113,8 @@ void ShHitTester::Visit(ShCircle *circle) {
 		this->y <= center.y + radius + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexTop;
+		this->vertex.x = center.x;
+		this->vertex.y = center.y + radius;
 		return;
 	}
 
@@ -122,6 +135,7 @@ void ShHitTester::Visit(ShArc *arc) {
 		this->y <= center.y + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexCenter;
+		this->vertex = center;
 		return;
 	}
 
@@ -133,6 +147,7 @@ void ShHitTester::Visit(ShArc *arc) {
 		this->y <= start.y + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexStart;
+		this->vertex = start;
 		return;
 	}
 
@@ -144,6 +159,7 @@ void ShHitTester::Visit(ShArc *arc) {
 		this->y <= end.y + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexEnd;
+		this->vertex = end;
 		return;
 	}
 
@@ -155,6 +171,7 @@ void ShHitTester::Visit(ShArc *arc) {
 		this->y <= mid.y + (this->tolerance / this->zoomRate)) {
 
 		this->vertexPoint = VertexPoint::VertexMid;
+		this->vertex = mid;
 		return;
 	}
 
@@ -164,5 +181,30 @@ void ShHitTester::Visit(ShArc *arc) {
 	else
 		this->vertexPoint = VertexPoint::VertexNothing;
 
+
+}
+
+void ShHitTester::Visit(ShPolyLine *polyLine) {
+
+	VertexPoint vertexPoint = VertexPoint::VertexNothing;
+	ShPoint3d vertex;
+	ShHitTester visitor(this->x, this->y, this->zoomRate, vertexPoint, vertex, this->tolerance);
+
+	QLinkedList<ShEntity*>::iterator itr = polyLine->Begin();
+	while (itr != polyLine->End() && 
+		(vertexPoint == VertexPoint::VertexNothing || 
+			vertexPoint == VertexPoint::VertexOther)) {
+	
+		(*itr)->Accept(&visitor);
+		++itr;
+	}
+
+	if (vertexPoint != VertexPoint::VertexNothing && vertexPoint != VertexPoint::VertexOther) {
+		this->vertexPoint = vertexPoint;
+		this->vertex = vertex;
+	}
+	else 
+		this->vertexPoint = VertexPoint::VertexNothing;
+	
 
 }

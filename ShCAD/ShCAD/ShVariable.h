@@ -92,7 +92,7 @@ enum VertexPoint {
 	VertexRight,
 	VertexTop,
 	VertexBottom,
-
+	
 };
 
 enum ObjectSnap {
@@ -108,5 +108,21 @@ enum ObjectSnap {
 	ObjectSnapPerpendicular = 0x00000100,
 
 };
+
+enum StretchPoint {
+	StretchNothing,
+	StretchMove,
+	StretchStart,
+	StretchEnd,
+	StretchMid,
+	StretchLeft,
+	StretchBottom,
+	StretchRight,
+	StretchTop,
+	StretchChild, //works for composite enttiy such as polyLine etc.
+
+};
+
+
 
 #endif //_SHVARIABLE_H

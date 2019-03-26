@@ -5,6 +5,8 @@
 
 #include "ShComposite.h"
 #include "ShLayerTable.h"
+
+class ShSearchEntityStrategy;
 class ShEntityTable : public ShComposite {
 
 private:
@@ -25,7 +27,8 @@ public:
 	virtual bool Add(QLinkedList<ShEntity*> &list);
 	virtual void Remove(ShEntity *shEntity);
 
-	ShEntity* FindEntity(double x, double y, double zoomRate);
+	//ShEntity* FindEntity(double x, double y, double zoomRate);
+	void Search(ShSearchEntityStrategy& strategy);
 	
 	inline QLinkedList<ShEntity*>::iterator JustTurnOnLayerBegin() { return this->layerTable.GetJustTurnOnLayer()->Begin(); }
 	inline QLinkedList<ShEntity*>::iterator JustTurnOnLayerEnd() { return this->layerTable.GetJustTurnOnLayer()->End(); }

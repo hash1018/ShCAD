@@ -222,3 +222,56 @@ void ShRectFinder::Visit(ShArc *arc) {
 	}
 
 }
+
+void ShRectFinder::Visit(ShPolyLine *polyLine) {
+
+	if (this->findMethod == FindMethod::AllPartLiesInsideRect) {
+	
+		ShEntity *foundEntity = 0;
+		ShRectFinder visitor(this->topLeft, this->bottomRight, &foundEntity, this->findMethod);
+		QLinkedList<ShEntity*>::iterator itr = polyLine->Begin();
+		(*itr)->Accept(&visitor);
+
+		if (foundEntity == 0)
+			return;
+
+		++itr;
+
+		while (itr != polyLine->End() && foundEntity != 0) {
+		
+			foundEntity = 0;
+			(*itr)->Accept(&visitor);
+			++itr;
+		}
+
+		if (foundEntity != 0)
+			*this->foundEntity = polyLine;
+
+	}
+	else if (this->findMethod == FindMethod::OnePartLiesInsideRect) {
+	
+		ShEntity *foundEntity = 0;
+		ShRectFinder visitor(this->topLeft, this->bottomRight, &foundEntity, this->findMethod);
+		
+		QLinkedList<ShEntity*>::iterator itr = polyLine->Begin();
+		(*itr)->Accept(&visitor);
+
+		if (foundEntity != 0) {
+			*this->foundEntity = polyLine;
+			return;
+		}
+
+		++itr;
+
+		while (itr != polyLine->End() && foundEntity == 0) {
+
+			foundEntity = 0;
+			(*itr)->Accept(&visitor);
+			++itr;
+		}
+
+		if (foundEntity != 0)
+			*this->foundEntity = polyLine;
+
+	}
+}

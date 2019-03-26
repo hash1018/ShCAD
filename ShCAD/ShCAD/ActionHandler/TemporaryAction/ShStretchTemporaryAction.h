@@ -4,22 +4,25 @@
 #define _SHSELECTIONMOVEACTION_H
 
 #include "ActionHandler\TemporaryAction\ShTemporaryAction.h"
-#include <qlinkedlist.h>
+#include <qlist.h>
 #include "ShPoint.h"
 
 class ShEntity;
+class ShStretchData;
 class ShStretchTemporaryAction : public ShTemporaryAction {
 
 private:
 	ShPoint3d vertex;
-	QLinkedList<ShEntity*> list;
-	QLinkedList<VertexPoint> vertexList;
+	QList<ShEntity*> entitiesToStretch;
+	QList<ShStretchData*> stretchDataList;
+
+	bool mustDeallocateStretchData;
 
 public:
 	ShStretchTemporaryAction(ShGraphicView *graphicView,
-		const QLinkedList<ShEntity*>& list, const QLinkedList<VertexPoint>& vertexList, ShPoint3d vertex);
+		const QList<ShEntity*>& entitiesToStretch, const QList<ShStretchData*>& stretchDataList, ShPoint3d vertex);
 	ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
-		const QLinkedList<ShEntity*>& list, const QLinkedList<VertexPoint>& vertexList, ShPoint3d vertex);
+		const QList<ShEntity*>& entitiesToStretch, const QList<ShStretchData*>& stretchDataList, ShPoint3d vertex);
 	~ShStretchTemporaryAction();
 
 	virtual void LMousePressEvent(QMouseEvent *event, ShActionData& data);

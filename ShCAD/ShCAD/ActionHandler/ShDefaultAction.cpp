@@ -158,11 +158,16 @@ ShSubDefaultAction_Default::ShSubDefaultAction_Default(ShDefaultAction *defaultA
 ShSubDefaultAction_Default::~ShSubDefaultAction_Default() {
 
 }
-
+#include "Strategy Pattern\ShSearchEntityStrategy.h"
 void ShSubDefaultAction_Default::LMousePressEvent(QMouseEvent *event) {
 
-	ShEntity *entity = this->view->entityTable.FindEntity(this->view->GetX(),
-		this->view->GetY(), this->view->GetZoomRate());
+	//ShEntity *entity = this->view->entityTable.FindEntity(this->view->GetX(),
+	//	this->view->GetY(), this->view->GetZoomRate());
+
+	ShEntity *entity;
+	ShSearchEntityUniqueStrategy strategy(&entity, this->view->GetX(),
+			this->view->GetY(), this->view->GetZoomRate());
+	this->view->entityTable.Search(strategy);
 
 	if (entity == NULL) {
 
@@ -202,8 +207,8 @@ void ShSubDefaultAction_Default::MouseMoveEvent(QMouseEvent *event) {
 	this->view->ConvertDeviceToEntity(event->x(), event->y(), x, y);
 
 	VertexPoint vertexPoint = VertexPoint::VertexNothing;
-
-	ShHitTester hitTester(x, y, view->GetZoomRate(), vertexPoint);
+	ShPoint3d vertex;
+	ShHitTester hitTester(x, y, view->GetZoomRate(), vertexPoint, vertex);
 
 	QLinkedList<ShEntity*>::iterator itr = this->view->selectedEntityManager.Begin();
 
@@ -217,9 +222,9 @@ void ShSubDefaultAction_Default::MouseMoveEvent(QMouseEvent *event) {
 
 	if (vertexPoint != VertexPoint::VertexNothing && vertexPoint != VertexPoint::VertexOther) {
 
-		--itr;
-		ShPoint3d vertex;
-		(*itr)->GetVertexPoint(vertexPoint, vertex);
+		//--itr;
+		//ShPoint3d vertex;
+		//(*itr)->GetVertexPoint(vertexPoint, vertex);
 
 		//Set Cursor to vertex.
 		int dx, dy;
@@ -253,30 +258,25 @@ ShSubDefaultAction_MouseIsInEntityVertex::~ShSubDefaultAction_MouseIsInEntityVer
 
 
 #include "ActionHandler\TemporaryAction\ShStretchTemporaryAction.h"
+#include "Visitor Pattern\ShStretchVisitor.h"
 void ShSubDefaultAction_MouseIsInEntityVertex::LMousePressEvent(QMouseEvent *event) {
 	//Change to SelectionMove.
 
-	VertexPoint vertexPoint = VertexPoint::VertexNothing;
-	ShHitTester hitTester(this->vertex.x, this->vertex.y, this->view->GetZoomRate(), vertexPoint);
 
-	QLinkedList<ShEntity*> list;
-	QLinkedList<VertexPoint> vertexList;
+	QList<ShEntity*> entitiesToStretch;
+	QList<ShStretchData*> stretchDataList;
+	ShFindEntityToStretchVisitor visitor(this->vertex, entitiesToStretch, stretchDataList);
 
 	QLinkedList<ShEntity*>::iterator itr;
 	for (itr = this->view->selectedEntityManager.Begin();
 		itr != this->view->selectedEntityManager.End();
 		++itr) {
 
-		(*itr)->Accept(&hitTester);
-
-		if (vertexPoint != VertexPoint::VertexNothing && vertexPoint != VertexPoint::VertexOther) {
-			list.append((*itr));
-			vertexList.append(vertexPoint);
-		}
+		(*itr)->Accept(&visitor);
 	}
 
 	ShStretchTemporaryAction *action = new ShStretchTemporaryAction(this->view/*, this->defaultAction*/,
-		list, vertexList, this->vertex);
+		entitiesToStretch, stretchDataList, this->vertex);
 	this->view->SetTemporaryAction(action);
 
 	this->defaultAction->ChangeSubAction(new ShSubDefaultAction_Default(this->defaultAction, this->view));

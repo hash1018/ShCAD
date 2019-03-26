@@ -16,6 +16,9 @@ public:
 	virtual void Accept(ShVisitor *visitor);
 	virtual void Move(double cx, double cy);
 
+	virtual ShPolyLineData* CreateData();
+	virtual void SetData(ShEntityData *data);
+
 protected:
 	virtual void Select();
 	virtual void UnSelect();

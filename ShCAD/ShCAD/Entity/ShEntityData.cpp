@@ -37,6 +37,11 @@ ShLineData& ShLineData::operator=(const ShLineData& data) {
 	return *this;
 }
 
+ShLineData* ShLineData::Clone() {
+
+	return new ShLineData(*this);
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 
@@ -70,6 +75,11 @@ ShCircleData& ShCircleData::operator=(const ShCircleData& data) {
 	this->radius = data.radius;
 
 	return *this;
+}
+
+ShCircleData* ShCircleData::Clone() {
+
+	return new ShCircleData(*this);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -109,4 +119,53 @@ ShArcData& ShArcData::operator=(const ShArcData& data) {
 	this->endAngle = data.endAngle;
 
 	return *this;
+}
+
+ShArcData* ShArcData::Clone() {
+
+	return new ShArcData(*this);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+ShPolyLineData::ShPolyLineData() {
+
+}
+ShPolyLineData::ShPolyLineData(const ShPolyLineData& data) {
+
+	for (int i = 0; i < data.dataList.count(); i++) {
+	
+		this->dataList.append((data.dataList.at(i)->Clone()));
+	}
+
+
+}
+
+ShPolyLineData::~ShPolyLineData() {
+
+	for (int i = 0; i < this->dataList.count(); i++) {
+		delete this->dataList.at(i);
+	}
+
+}
+ShPolyLineData& ShPolyLineData::operator =(const ShPolyLineData& data) {
+
+
+	for (int i = 0; i < this->dataList.count(); i++) {
+		delete this->dataList.at(i);
+	}
+
+	ShEntityData::operator=(data);
+
+	for (int i = 0; i < data.dataList.count(); i++) {
+		this->dataList.append((data.dataList.at(i)->Clone()));
+	}
+
+
+	return *this;
+}
+
+ShPolyLineData* ShPolyLineData::Clone() {
+
+	return new ShPolyLineData(*this);
 }

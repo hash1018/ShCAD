@@ -38,6 +38,7 @@
 
 #include "ShVisitor.h"
 #include "ShVariable.h"
+#include "ShPoint.h"
 class ShHitTester : public ShVisitor {
 
 private:
@@ -45,16 +46,18 @@ private:
 	double y;
 	double zoomRate;
 	VertexPoint &vertexPoint;
+	ShPoint3d &vertex;
+
 	double tolerance;
 
 public:
-	ShHitTester(double x, double y, double zoomRate, VertexPoint &vertexPoint, double tolerance = 6.0);
+	ShHitTester(double x, double y, double zoomRate, VertexPoint &vertexPoint, ShPoint3d &vertex, double tolerance = 6.0);
 	~ShHitTester();
 
-	void Visit(ShLine *line);
-	void Visit(ShCircle *circle);
-	void Visit(ShArc *arc);
-
+	virtual void Visit(ShLine *line);
+	virtual void Visit(ShCircle *circle);
+	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
 };
 
 
