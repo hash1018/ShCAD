@@ -6,26 +6,19 @@
 #include "Entity\Composite\ShPolyLine.h"
 #include "ShMath.h"
 #include "Interface\ShGraphicView.h"
-#include "Command Pattern\Entity Command\ShExtendEntityCommand.h"
-ShExtender::ShExtender(ShGraphicView *view, const QLinkedList<ShEntity*>& baseEntities, const ShPoint3d& clickPoint)
-	:view(view), baseEntities(baseEntities), clickPoint(clickPoint) {
 
+ShExtender::ShExtender(ShGraphicView *view, const QLinkedList<ShEntity*>& baseEntities, const ShPoint3d& clickPoint,
+	ShEntity* *original, ShEntity* *extendedEntity, bool &validToExtend)
+	:view(view), baseEntities(baseEntities), clickPoint(clickPoint),
+	original(original), extendedEntity(extendedEntity), validToExtend(validToExtend) {
+
+	this->validToExtend = false;
 }
 
 ShExtender::~ShExtender() {
 
 }
 
-void ShExtender::CreateCommand(ShEntity* entityToExtend, ShEntityData *original, ShEntityData *extendedData) {
-
-	ShExtendEntityCommand *command = new ShExtendEntityCommand(this->view, entityToExtend, original, extendedData);
-	
-	this->view->undoTaker.Push(command);
-
-	if (!this->view->redoTaker.IsEmpty())
-		this->view->redoTaker.DeleteAll();
-
-}
 
 void ShExtender::Visit(ShLine *line) {
 
@@ -73,17 +66,24 @@ void ShExtender::Visit(ShLine *line) {
 		++extensionItr;
 	}
 
-	ShEntityData *original = line->CreateData();
+
+	this->validToExtend = true;
+
+	*this->original = line;
+	ShLine *extendedLine = line->Clone();
+
 	if (pointToExtend == ShFindExtensionPointLineExtender::PointToExtend::Start) {
-		line->SetStart(closest);
+		extendedLine->SetStart(closest);
 	}
 	else if (pointToExtend == ShFindExtensionPointLineExtender::PointToExtend::End) {
-		line->SetEnd(closest);
+		extendedLine->SetEnd(closest);
 	}
 
-	ShEntityData *extendedData = line->CreateData();
+	*this->extendedEntity = extendedLine;
 
-	this->CreateCommand(line, original, extendedData);
+	this->view->entityTable.Remove(line);
+	this->view->entityTable.Add(extendedLine);
+
 
 	this->view->update((DrawType)(DrawType::DrawAll));
 	this->view->CaptureImage();
@@ -152,7 +152,11 @@ void ShExtender::Visit(ShArc *arc) {
 		++extensionItr;
 	}
 
-	ShEntityData *original = arc->CreateData();
+	this->validToExtend = true;
+
+	*this->original = arc;
+	ShArc *extendedArc = arc->Clone();
+
 	if (pointToExtend == ShFindExtensionPointLineExtender::PointToExtend::Start) {
 		data.startAngle = Math::GetAbsAngle(data.center.x, data.center.y, closest.x, closest.y);
 	}
@@ -160,15 +164,62 @@ void ShExtender::Visit(ShArc *arc) {
 		data.endAngle = Math::GetAbsAngle(data.center.x, data.center.y, closest.x, closest.y);
 	}
 
-	arc->SetData(data);
+	extendedArc->SetData(data);
+
+	*this->extendedEntity = extendedArc;
+
+	this->view->entityTable.Remove(arc);
+	this->view->entityTable.Add(extendedArc);
 	
-	ShEntityData *extendedData = arc->CreateData();
-
-	this->CreateCommand(arc, original, extendedData);
-
+	
 	this->view->update((DrawType)(DrawType::DrawAll));
 	this->view->CaptureImage();
+}
 
+void ShExtender::Visit(ShPolyLine *polyLine) {
+
+	/*
+	int count = polyLine->GetSize();
+	ShEntity* entity = polyLine->FindEntity(this->clickPoint.x, this->clickPoint.y, this->view->GetZoomRate());
+
+	if (entity == 0)
+		return;
+
+	int index = polyLine->GetIndex(entity);
+
+	int binary = count / 2;
+
+	if (index < binary)
+		index = 0;
+	else
+		index = count - 1;
+
+	ShEntityData *original;
+	ShEntityData *extendedData;
+	bool isValid = false;
+	
+	if (index == 0) {
+		ShExtender visitor(this->view, this->baseEntities, this->clickPoint, &original, &extendedData, isValid);
+		polyLine->GetEntity(index)->Accept(&visitor);
+	}
+	else {
+	
+	}
+
+	if (isValid == false)
+		return;
+	
+	*this->originalData = polyLine->CreateData();
+	polyLine->GetEntity(index)->SetData(extendedData);
+	*this->extendedData = polyLine->CreateData();
+	this->validToExtend = true;
+
+	delete original;
+	delete extendedData;
+	
+	this->view->update((DrawType)(DrawType::DrawAll));
+	this->view->CaptureImage();
+	*/
 }
 
 

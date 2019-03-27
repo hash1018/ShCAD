@@ -117,7 +117,7 @@ void ShDrawer::Visit(ShRubberBand *rubberBand) {
 void ShDrawer::Visit(ShPolyLine *polyLine) {
 
 	QLinkedList<ShEntity*>::iterator itr;
-	ShDrawer visitor(this->view, this->drawType);
+	ShPolyLineChildDrawer visitor(this->view, this->drawType);
 	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
 		(*itr)->Accept(&visitor);
 
@@ -185,6 +185,18 @@ void ShDrawer::DrawFilledRect(const GLPoint& topLeft, const GLPoint& bottomRight
 	glVertex2f(bottomRight.x, topLeft.y);
 	glVertex2f(bottomRight.x, bottomRight.y);
 	glVertex2f(topLeft.x, bottomRight.y);
+	glEnd();
+}
+
+void ShDrawer::DrawFilledPolygon(GLPoint(*array), int length, const GLColor& color) {
+
+	glColor3f(color.red, color.green, color.blue);
+	glBegin(GL_POLYGON);
+
+	for (int i = 0; i < length; i++) {
+		glVertex2f(array[i].x, array[i].y);
+	}
+
 	glEnd();
 }
 
@@ -412,9 +424,119 @@ void ShSelectedEntityDrawer::Visit(ShArc *arc) {
 
 void ShSelectedEntityDrawer::Visit(ShPolyLine *polyLine) {
 
-	QLinkedList<ShEntity*>::iterator itr;
-	ShSelectedEntityDrawer visitor(this->view, this->drawType);
-	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
-		(*itr)->Accept(&visitor);
+	
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+ShPolyLineChildDrawer::ShPolyLineChildDrawer(ShGraphicView *view, DrawType drawType)
+	:ShDrawer(view, drawType) {
+
+}
+
+ShPolyLineChildDrawer::~ShPolyLineChildDrawer() {
+
+}
+
+
+void ShPolyLineChildDrawer::Visit(ShLine *line) {
+
+	if (line->IsSelected() == true) {
+		ShSelectedPolyLineChildDrawer selectedDrawer(this->view, this->drawType);
+		selectedDrawer.Visit(line);
+		return;
+	}
+	else {
+		ShDrawer::Visit(line);
+	}
+}
+
+void ShPolyLineChildDrawer::Visit(ShCircle *circle) {
+
+}
+
+void ShPolyLineChildDrawer::Visit(ShArc *arc) {
+
+}
+
+void ShPolyLineChildDrawer::Visit(ShPolyLine *polyLine) {
+
+
+}
+
+
+/////////////////////////////////////////////////////////////////
+
+ShSelectedPolyLineChildDrawer::ShSelectedPolyLineChildDrawer(ShGraphicView *view, DrawType drawType)
+	:ShDrawer(view, drawType) {
+
+}
+
+ShSelectedPolyLineChildDrawer::~ShSelectedPolyLineChildDrawer() {
+
+}
+
+void ShSelectedPolyLineChildDrawer::Visit(ShLine *line) {
+
+	ShLineData data = line->GetData();
+
+	GLPoint start, end;
+	this->ConvertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
+	this->ConvertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
+
+
+	if (this->drawType == DrawType::DrawSelectedEntities) {
+		//in this case, Draw entity with the background color of view
+		//and Draw entity that represents it is selected.
+
+		this->DrawLine(start, end, GLColor(0, 0, 0)); //third argument is the background color of view.
+	}
+
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+
+	this->DrawLine(start, end, GLColor(153.f / 255, 153.f / 155, 1.f));
+	glDisable(GL_LINE_STIPPLE);
+
+	if (this->view->EnabledDrawEntityVertex() == true) {
+
+		int startX, startY, midX, midY, endX, endY;
+		this->ConvertEntityToDevice(data.start.x, data.start.y, startX, startY);
+		this->ConvertEntityToDevice(data.end.x, data.end.y, endX, endY);
+		this->ConvertEntityToDevice(line->GetMid().x, line->GetMid().y, midX, midY);
+
+		GLPoint topLeft, bottomRight;
+		this->ConvertDeviceToOpenGL(startX - 3, startY - 3, topLeft.x, topLeft.y);
+		this->ConvertDeviceToOpenGL(startX + 3, startY + 3, bottomRight.x, bottomRight.y);
+		this->DrawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+		
+		GLPoint center;
+		this->ConvertDeviceToOpenGL(midX, midY, center.x, center.y);
+		this->ConvertDeviceToOpenGL(midX - 4, midY - 4, topLeft.x, topLeft.y);
+		this->ConvertDeviceToOpenGL(midX + 4, midY + 4, bottomRight.x, bottomRight.y);
+		
+
+		GLPoint array[4] = { GLPoint(center.x,topLeft.y),GLPoint(topLeft.x,center.y),
+		GLPoint(center.x,bottomRight.y),GLPoint(bottomRight.x,center.y) };
+		this->DrawFilledPolygon(array, 4, GLColor(0.0, 1.0, 1.0));
+
+		this->ConvertDeviceToOpenGL(endX - 3, endY - 3, topLeft.x, topLeft.y);
+		this->ConvertDeviceToOpenGL(endX + 3, endY + 3, bottomRight.x, bottomRight.y);
+		this->DrawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+	}
+}
+
+void ShSelectedPolyLineChildDrawer::Visit(ShCircle *circle) {
+
+}
+
+void ShSelectedPolyLineChildDrawer::Visit(ShArc *arc) {
+
+}
+
+void ShSelectedPolyLineChildDrawer::Visit(ShPolyLine *polyLine) {
+
 
 }

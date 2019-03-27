@@ -7,7 +7,6 @@
 #include "ShPoint.h"
 class ShEntity;
 class ShGraphicView;
-class ShEntityData;
 class ShExtender : public ShVisitor {
 
 private:
@@ -15,16 +14,20 @@ private:
 	QLinkedList<ShEntity*> baseEntities;
 	ShPoint3d clickPoint;
 
+	ShEntity* *original;
+	ShEntity* *extendedEntity;
+	bool &validToExtend;
+
 public:
-	ShExtender(ShGraphicView *view, const QLinkedList<ShEntity*>& baseEntities, const ShPoint3d& clickPoint);
+	ShExtender(ShGraphicView *view, const QLinkedList<ShEntity*>& baseEntities, const ShPoint3d& clickPoint,
+		ShEntity* *original, ShEntity* *extendedEntity, bool &validToExtend);
 	~ShExtender();
 
 	virtual void Visit(ShLine *line);
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
 
-private:
-	void CreateCommand(ShEntity* entityToExtend, ShEntityData *original, ShEntityData *extendedData);
 };
 
 class ShFindExtensionPointer : public ShVisitor {

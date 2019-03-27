@@ -22,6 +22,7 @@ ShModifyExtendAction::~ShModifyExtendAction() {
 #include "Visitor Pattern\ShExtender.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "Strategy Pattern\ShSearchEntityStrategy.h"
+#include "Command Pattern\Entity Command\ShExtendEntityCommand.h"
 void ShModifyExtendAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
@@ -66,8 +67,23 @@ void ShModifyExtendAction::LMousePressEvent(QMouseEvent *event, ShActionData& da
 			++itr)
 			baseEntities.append((*itr));
 
-		ShExtender visitor(this->graphicView, baseEntities, point);
+
+		ShEntity *original = 0;
+		ShEntity *extendedEntity;
+		bool isValid = false;
+
+		ShExtender visitor(this->graphicView, baseEntities, point, &original, &extendedEntity, isValid);
 		entity->Accept(&visitor);
+
+		if (isValid == true) {
+
+			ShExtendEntityCommand *command = new ShExtendEntityCommand(this->graphicView, original, extendedEntity);
+
+			this->graphicView->undoTaker.Push(command);
+
+			if (!this->graphicView->redoTaker.IsEmpty())
+				this->graphicView->redoTaker.DeleteAll();
+		}
 		
 	}
 }

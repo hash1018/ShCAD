@@ -5,17 +5,18 @@
 #include "Command Pattern\ShCommand.h"
 class ShEntity;
 class ShGraphicView;
-class ShEntityData;
 class ShExtendEntityCommand :public ShCommand {
 
 private:
 	ShGraphicView *view;
-	ShEntity *entityToExtend;
-	ShEntityData *original;
-	ShEntityData *extendedData;
+	ShEntity *original;
+	ShEntity *extendedEntity;
+	bool mustDeallocateOriginal;
+	bool mustDeallocateExtended;
+	
 
 public:
-	ShExtendEntityCommand(ShGraphicView *view, ShEntity *entityToExtend, ShEntityData *original, ShEntityData *extededData);
+	ShExtendEntityCommand(ShGraphicView *view, ShEntity *original, ShEntity *extendedEntity);
 	
 	virtual void Execute();
 	virtual void UnExecute();

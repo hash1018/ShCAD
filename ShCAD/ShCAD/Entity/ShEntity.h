@@ -31,14 +31,10 @@ public:
 
 	virtual ShEntity* Clone() = 0;
 	virtual void Accept(ShVisitor *shVisitor) = 0;
-	//virtual void GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point);
 	virtual void Move(double cx, double cy) {}
 	
-	virtual ShEntityData* CreateData() { return 0; }
-	virtual void SetData(ShEntityData *data) {}
-	
-	void SetLayer(ShLayer *layer) { this->layer = layer; }
-	void SetPropertyData(const ShPropertyData& data) { this->propertyData = data; }
+	virtual void SetLayer(ShLayer *layer) { this->layer = layer; }
+	virtual void SetPropertyData(const ShPropertyData& data) { this->propertyData = data; }
 	
 	
 	inline ShPropertyData GetPropertyData() const { return this->propertyData; }

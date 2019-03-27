@@ -4,27 +4,21 @@
 #define _SHSTRETCHENTITYCOMMAND_H
 
 #include "Command Pattern\ShCommand.h"
-#include "ShVariable.h"
-#include "ShPoint.h"
 #include <qlist.h>
 class ShGraphicView;
 class ShEntity;
-class ShStretchData;
 class ShStretchEntityCommand : public ShCommand {
 
 private:
 	ShGraphicView *view;
-	QList<ShEntity*> entitiesToStretch;
-	QList<ShStretchData*> stretchDataList;
-	ShPoint3d base;
-	ShPoint3d current;
-
+	QList<ShEntity*> stretchedEntites;
 	QList<ShEntity*> originalEntities;
+
+	bool mustDeallocateOriginal;
+	bool mustDeallocateStretched;
 	
 public:
-	ShStretchEntityCommand(ShGraphicView *view, const QList<ShEntity*>& entitiesToStretch,
-		const QList<ShStretchData*>& stretchDataList,
-		const ShPoint3d& base, const ShPoint3d& current);
+	ShStretchEntityCommand(ShGraphicView *view, const QList<ShEntity*>& originalEntities, const QList<ShEntity*>& stretchedEntites);
 
 	virtual void Execute();
 	virtual void UnExecute();
@@ -32,9 +26,6 @@ public:
 protected:
 	~ShStretchEntityCommand();
 
-private:
-	void StoreOriginal();
-	void DeleteOriginalAll();
 };
 
 #endif //_SHSTRETCHENTITYCOMMAND_H

@@ -253,7 +253,7 @@ ShSubDefaultAction_MouseIsInEntityVertex::ShSubDefaultAction_MouseIsInEntityVert
 
 ShSubDefaultAction_MouseIsInEntityVertex::~ShSubDefaultAction_MouseIsInEntityVertex() {
 
-	this->EraseVertex();
+	//this->EraseVertex();
 }
 
 
@@ -275,7 +275,7 @@ void ShSubDefaultAction_MouseIsInEntityVertex::LMousePressEvent(QMouseEvent *eve
 		(*itr)->Accept(&visitor);
 	}
 
-	ShStretchTemporaryAction *action = new ShStretchTemporaryAction(this->view/*, this->defaultAction*/,
+	ShStretchTemporaryAction *action = new ShStretchTemporaryAction(this->view,
 		entitiesToStretch, stretchDataList, this->vertex);
 	this->view->SetTemporaryAction(action);
 
@@ -302,8 +302,9 @@ void ShSubDefaultAction_MouseIsInEntityVertex::MouseMoveEvent(QMouseEvent *event
 
 
 	if (Math::CheckPointLiesInsideRect(point, topLeft, bottomRight, 1) == false) {
-
+		this->view->update(DrawType::DrawCaptureImage);
 		this->defaultAction->ChangeSubAction(new ShSubDefaultAction_Default(this->defaultAction, this->view));
+		
 	}
 
 

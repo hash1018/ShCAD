@@ -92,6 +92,24 @@ void ShComposite::Remove(ShEntity *shEntity) {
 
 }
 
+#include "Visitor Pattern\ShFinder.h"
+ShEntity* ShComposite::FindEntity(double x, double y, double zoomRate) {
+
+	ShEntity *entity = 0;
+
+	ShFinder finder(x, y, zoomRate, &entity);
+
+	QLinkedList<ShEntity*>::iterator itr = this->Begin();
+
+	while (itr != this->End() && entity == 0) {
+
+		(*itr)->Accept(&finder);
+		++itr;
+	}
+
+	return entity;
+}
+
 bool ShComposite::IsListEmpty() {
 
 	return this->list.isEmpty();

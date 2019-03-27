@@ -21,8 +21,6 @@ private:
 	QList<ShEntity*> entitiesToStretch;
 	QList<ShStretchData*> stretchDataList;
 
-	bool mustDeallocateStretchData;
-
 public:
 	ShModifyStretchAction(ShGraphicView *graphicView);
 	~ShModifyStretchAction();

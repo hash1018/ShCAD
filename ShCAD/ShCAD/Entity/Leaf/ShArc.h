@@ -22,11 +22,8 @@ public:
 
 	ShArc* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
-	virtual void GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point);
 	virtual void Move(double cx, double cy);
-	virtual ShArcData* CreateData();
-	virtual void SetData(ShEntityData *data);
-
+	
 	inline ShArcData GetData() const { return this->data; }
 	void SetData(const ShArcData& data) { this->data = data; }
 

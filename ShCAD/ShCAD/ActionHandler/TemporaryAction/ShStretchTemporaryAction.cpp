@@ -11,7 +11,7 @@
 ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView,
 	const QList<ShEntity*>& entitiesToStretch, const QList<ShStretchData*>& stretchDataList, ShPoint3d vertex)
 	:ShTemporaryAction(graphicView), entitiesToStretch(entitiesToStretch),
-	stretchDataList(stretchDataList), vertex(vertex), mustDeallocateStretchData(true) {
+	stretchDataList(stretchDataList), vertex(vertex){
 
 
 	ShUpdateListTextEvent event("_Stretch", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
@@ -41,7 +41,7 @@ ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView,
 ShStretchTemporaryAction::ShStretchTemporaryAction(ShGraphicView *graphicView, ShActionHandler *previousAction,
 	const QList<ShEntity*>& entitiesToStretch, const QList<ShStretchData*>& stretchDataList, ShPoint3d vertex)
 	:ShTemporaryAction(graphicView, previousAction), entitiesToStretch(entitiesToStretch),
-	stretchDataList(stretchDataList), vertex(vertex), mustDeallocateStretchData(true) {
+	stretchDataList(stretchDataList), vertex(vertex){
 
 	ShUpdateListTextEvent event("_Stretch", ShUpdateListTextEvent::UpdateType::editTextAndNewLineHeadTitleWithText);
 	this->graphicView->Notify(&event);
@@ -80,11 +80,10 @@ ShStretchTemporaryAction::~ShStretchTemporaryAction() {
 
 	this->graphicView->update(DrawType::DrawCaptureImage);
 
-	if (this->mustDeallocateStretchData == true) {
 	
-		while (!this->stretchDataList.isEmpty())
-			delete this->stretchDataList.takeFirst();
-	}
+	
+	while (!this->stretchDataList.isEmpty())
+		delete this->stretchDataList.takeFirst();
 	
 }
 
@@ -94,12 +93,44 @@ void ShStretchTemporaryAction::LMousePressEvent(QMouseEvent *event, ShActionData
 
 	ShPoint3d point = data.GetPoint();
 	
+
+	QList<ShEntity*> entitiesToStretch;
+	QList<ShEntity*>::iterator itr = this->entitiesToStretch.begin();
+	for (itr = this->entitiesToStretch.begin();
+		itr != this->entitiesToStretch.end();
+		++itr) {
+	
+		entitiesToStretch.append((*itr)->Clone());
+	}
+
+	ShStretchVisitor visitor(this->vertex, point);
+
+	QList<ShEntity*>::iterator originalItr = this->entitiesToStretch.begin();
+	QList<ShStretchData*>::iterator dataItr = this->stretchDataList.begin();
+	for (itr = entitiesToStretch.begin();
+		itr != entitiesToStretch.end();
+		++itr) {
+	
+		this->graphicView->selectedEntityManager.Pop((*originalItr));
+		this->graphicView->entityTable.Remove((*originalItr));
+
+		this->graphicView->selectedEntityManager.Push((*itr));
+		this->graphicView->entityTable.Add((*itr));
+
+		visitor.SetOriginal((*originalItr));
+		visitor.SetStretchData((*dataItr));
+		++originalItr;
+		++dataItr;
+		(*itr)->Accept(&visitor);
+	}
+
+	
+
+	this->graphicView->update(DrawType::DrawAll);
+	this->graphicView->CaptureImage();
+
 	ShStretchEntityCommand *command = new ShStretchEntityCommand(this->graphicView,
-		this->entitiesToStretch, this->stretchDataList, this->vertex, point);
-
-	command->Execute();
-
-	this->mustDeallocateStretchData = false;
+		this->entitiesToStretch, entitiesToStretch);
 
 	this->graphicView->undoTaker.Push(command);
 

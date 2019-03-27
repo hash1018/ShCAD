@@ -131,35 +131,20 @@ ShArcData* ShArcData::Clone() {
 ShPolyLineData::ShPolyLineData() {
 
 }
-ShPolyLineData::ShPolyLineData(const ShPolyLineData& data) {
-
-	for (int i = 0; i < data.dataList.count(); i++) {
-	
-		this->dataList.append((data.dataList.at(i)->Clone()));
-	}
+ShPolyLineData::ShPolyLineData(const ShPolyLineData& data)
+	:start(data.start), end(data.end) {
 
 
 }
 
 ShPolyLineData::~ShPolyLineData() {
 
-	for (int i = 0; i < this->dataList.count(); i++) {
-		delete this->dataList.at(i);
-	}
-
+	
 }
 ShPolyLineData& ShPolyLineData::operator =(const ShPolyLineData& data) {
 
-
-	for (int i = 0; i < this->dataList.count(); i++) {
-		delete this->dataList.at(i);
-	}
-
-	ShEntityData::operator=(data);
-
-	for (int i = 0; i < data.dataList.count(); i++) {
-		this->dataList.append((data.dataList.at(i)->Clone()));
-	}
+	this->start = data.start;
+	this->end = data.end;
 
 
 	return *this;

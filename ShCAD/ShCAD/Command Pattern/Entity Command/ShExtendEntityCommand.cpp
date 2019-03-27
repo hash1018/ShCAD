@@ -2,24 +2,28 @@
 #include "ShExtendEntityCommand.h"
 #include "Entity\ShEntity.h"
 #include "Interface\ShGraphicView.h"
-ShExtendEntityCommand::ShExtendEntityCommand(ShGraphicView *view, ShEntity *entityToExtend,
-	ShEntityData *original, ShEntityData *extendedData)
-	:ShCommand("Extend Entity"), view(view), entityToExtend(entityToExtend), original(original),
-	extendedData(extendedData) {
+ShExtendEntityCommand::ShExtendEntityCommand(ShGraphicView *view, ShEntity *original, ShEntity *extendedEntity)
+	:ShCommand("Extend Entity"), view(view), original(original), extendedEntity(extendedEntity),
+	mustDeallocateExtended(false), mustDeallocateOriginal(true) {
 
 }
 
 ShExtendEntityCommand::~ShExtendEntityCommand() {
 
-	if (this->extendedData != 0)
-		delete this->extendedData;
-	if (this->original != 0)
+	if (this->mustDeallocateOriginal == true)
 		delete this->original;
+
+	if (this->mustDeallocateExtended == true)
+		delete this->extendedEntity;
 }
 
 void ShExtendEntityCommand::Execute() {
 
-	this->entityToExtend->SetData(this->extendedData);
+	this->view->entityTable.Add(this->extendedEntity);
+	this->view->entityTable.Remove(this->original);
+
+	this->mustDeallocateExtended = false;
+	this->mustDeallocateOriginal = true;
 
 	this->view->update(DrawType::DrawAll);
 	this->view->CaptureImage();
@@ -27,7 +31,11 @@ void ShExtendEntityCommand::Execute() {
 
 void ShExtendEntityCommand::UnExecute() {
 
-	this->entityToExtend->SetData(this->original);
+	this->view->entityTable.Remove(this->extendedEntity);
+	this->view->entityTable.Add(this->original);
+
+	this->mustDeallocateExtended = true;
+	this->mustDeallocateOriginal = false;
 
 	this->view->update(DrawType::DrawAll);
 	this->view->CaptureImage();

@@ -23,6 +23,7 @@ ShPolyLine& ShPolyLine::operator=(const ShPolyLine& other) {
 	return *this;
 }
 
+
 ShPolyLine* ShPolyLine::Clone() {
 
 	return new ShPolyLine(*this);
@@ -59,32 +60,21 @@ void ShPolyLine::UnSelect() {
 	this->isSelected = false;
 }
 
-ShPolyLineData* ShPolyLine::CreateData() {
+void ShPolyLine::SetLayer(ShLayer *layer) {
 
-	ShPolyLineData *data = new ShPolyLineData;
+	this->layer = layer;
 
 	QLinkedList<ShEntity*>::iterator itr;
-	for (itr = this->Begin(); itr != this->End(); ++itr) {
-	
-		data->dataList.append((*itr)->CreateData());
-
-	}
-
-	return data;
+	for (itr = this->Begin(); itr != this->End(); ++itr)
+		(*itr)->SetLayer(layer);
 }
 
-void ShPolyLine::SetData(ShEntityData *data) {
+void ShPolyLine::SetPropertyData(const ShPropertyData& data) {
 
-	if (!dynamic_cast<ShPolyLineData*>(data))
-		return;
+	this->propertyData = data;
 
-
-	int i = 0;
 	QLinkedList<ShEntity*>::iterator itr;
-	for (itr = this->Begin(); itr != this->End(); ++itr) {
-
-		(*itr)->SetData(dynamic_cast<ShPolyLineData*>(data)->dataList.at(i));
-		i++;
-	}
+	for (itr = this->Begin(); itr != this->End(); ++itr)
+		(*itr)->SetPropertyData(data);
 
 }

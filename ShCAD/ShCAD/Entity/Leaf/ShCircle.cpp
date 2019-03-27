@@ -51,43 +51,8 @@ void ShCircle::Accept(ShVisitor *shVisitor) {
 }
 
 
-void ShCircle::GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point) {
-
-	if (vertexPoint == VertexPoint::VertexCenter) {
-		point = this->data.center;
-	}
-	else if (vertexPoint == VertexPoint::VertexTop) {
-		point.x = this->data.center.x;
-		point.y = this->data.center.y + this->data.radius;
-	}
-	else if (vertexPoint == VertexPoint::VertexLeft) {
-		point.x = this->data.center.x - this->data.radius;
-		point.y = this->data.center.y;
-	}
-	else if (vertexPoint == VertexPoint::VertexBottom) {
-		point.x = this->data.center.x;
-		point.y = this->data.center.y - this->data.radius;
-	}
-	else if (vertexPoint == VertexPoint::VertexRight) {
-		point.x = this->data.center.x + this->data.radius;
-		point.y = this->data.center.y;
-	}
-
-}
-
 void ShCircle::Move(double cx, double cy) {
 
 	this->data.center.x += cx;
 	this->data.center.y += cy;
-}
-
-ShCircleData* ShCircle::CreateData() {
-
-	return new ShCircleData(this->data);
-}
-
-void ShCircle::SetData(ShEntityData *data) {
-
-	if (dynamic_cast<ShCircleData*>(data))
-		this->data = *(dynamic_cast<ShCircleData*>(data));
 }

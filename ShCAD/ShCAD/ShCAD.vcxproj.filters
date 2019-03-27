@@ -96,6 +96,9 @@
     <Filter Include="ActionHandler\ModifyAction">
       <UniqueIdentifier>{2316960b-4714-43b0-b675-92172aca3273}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface\Menu">
+      <UniqueIdentifier>{3d0f31fc-97b0-485f-a387-308038b8c479}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -136,9 +139,6 @@
     </ClCompile>
     <ClCompile Include="Entity\Composite\ShEntityTable.cpp">
       <Filter>Entity\Composite</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\ShMenuBar.cpp">
-      <Filter>Interface</Filter>
     </ClCompile>
     <ClCompile Include="Entity\Leaf\ShArc.cpp">
       <Filter>Entity\Leaf</Filter>
@@ -494,6 +494,12 @@
     <ClCompile Include="Strategy Pattern\ShSearchEntityStrategy.cpp">
       <Filter>Strategy Pattern</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\Menu\ShMenuBar.cpp">
+      <Filter>Interface\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Menu\ShMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -560,9 +566,6 @@
     </ClInclude>
     <ClInclude Include="Entity\Composite\ShEntityTable.h">
       <Filter>Entity\Composite</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\ShMenuBar.h">
-      <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Leaf\ShCircle.h">
       <Filter>Entity\Leaf</Filter>
@@ -830,6 +833,12 @@
     </ClInclude>
     <ClInclude Include="Strategy Pattern\ShSearchEntityStrategy.h">
       <Filter>Strategy Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Menu\ShMenu.h">
+      <Filter>Interface\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Menu\ShMenuBar.h">
+      <Filter>Interface\Menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

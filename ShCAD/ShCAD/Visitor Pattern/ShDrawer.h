@@ -59,6 +59,7 @@ protected:
 
 	void DrawLine(const GLPoint& start, const GLPoint& end, const GLColor& color);
 	void DrawFilledRect(const GLPoint& topLeft, const GLPoint& bottomRight, const GLColor& color);
+	void DrawFilledPolygon(GLPoint(*array), int length, const GLColor& color);
 	void DrawCircle(const ShPoint3d& center, double radius, const GLColor& color, int segments = 360);
 	void DrawArc(const ShPoint3d& center, double radius, double startAngle, double endAngle, const GLColor& color, int segments = 360);
 };
@@ -73,6 +74,32 @@ public:
 	virtual void Visit(ShCircle *circle);
 	virtual void Visit(ShArc *arc);
 	virtual void Visit(ShPolyLine *polyLine);
+};
+
+class ShPolyLineChildDrawer : public ShDrawer {
+
+public:
+	ShPolyLineChildDrawer(ShGraphicView *view, DrawType drawType);
+	~ShPolyLineChildDrawer();
+
+	virtual void Visit(ShLine *line);
+	virtual void Visit(ShCircle *circle);
+	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
+
+};
+
+class ShSelectedPolyLineChildDrawer : public ShDrawer {
+
+public:
+	ShSelectedPolyLineChildDrawer(ShGraphicView *view, DrawType drawType);
+	~ShSelectedPolyLineChildDrawer();
+
+	virtual void Visit(ShLine *line);
+	virtual void Visit(ShCircle *circle);
+	virtual void Visit(ShArc *arc);
+	virtual void Visit(ShPolyLine *polyLine);
+
 };
 
 #endif //_SHDRAWER_H

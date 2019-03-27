@@ -24,12 +24,15 @@
 --*/
 
 #include "ShMenuBar.h"
+#include "Interface\Menu\ShMenu.h"
 
 ShMenuBar::ShMenuBar(QWidget *parent)
 	:QMenuBar(parent) {
 
+	this->emptyFileMenu = new ShEmptyDrawingFileMenu("File", this);
 	this->fileMenu = new ShFileMenu("File", this);
-	this->addMenu(this->fileMenu);
+	this->drawMenu = new ShDrawMenu("Draw", this);
+	
 	
 }
 
@@ -38,7 +41,23 @@ ShMenuBar::~ShMenuBar() {
 
 }
 
-#include "shcad.h"
+void ShMenuBar::ActivateMenu() {
+
+	this->clear();
+	this->addMenu(this->fileMenu);
+	this->addMenu(this->drawMenu);
+}
+
+
+void ShMenuBar::DeActivateMenu() {
+
+	this->clear();
+	this->addMenu(this->emptyFileMenu);
+}
+
+
+
+#include "Interface\shcad.h"
 void ShMenuBar::NewActionClicked() {
 
 	ShCAD *shCAD = dynamic_cast<ShCAD*>(this->parent());
@@ -46,19 +65,3 @@ void ShMenuBar::NewActionClicked() {
 
 }
 
-
-ShFileMenu::ShFileMenu(const QString &title, QWidget *parent)
-	:QMenu(title, parent) {
-
-	this->newAction = new QAction("New", this);
-
-	this->addAction(this->newAction);
-
-	ShMenuBar *menuBar = dynamic_cast<ShMenuBar*>(this->parent());
-	connect(this->newAction, &QAction::triggered, menuBar, &ShMenuBar::NewActionClicked);
-}
-
-ShFileMenu::~ShFileMenu() {
-
-
-}

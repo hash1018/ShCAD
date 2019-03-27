@@ -50,19 +50,6 @@ void ShArc::Accept(ShVisitor *shVisitor) {
 
 }
 
-void ShArc::GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point) {
-
-	if (vertexPoint == VertexPoint::VertexCenter)
-		point = this->data.center;
-	else if (vertexPoint == VertexPoint::VertexStart)
-		point = this->GetStart();
-	else if (vertexPoint == VertexPoint::VertexEnd)
-		point = this->GetEnd();
-	else if (vertexPoint == VertexPoint::VertexMid)
-		point = this->GetMid();
-
-}
-
 void ShArc::Move(double cx, double cy) {
 
 	this->data.center.x += cx;
@@ -105,15 +92,4 @@ ShPoint3d ShArc::GetMid() {
 	Math::Rotate(this->data.startAngle + (difference / 2.0), center.x, center.y, center.x + radius, center.y, mid.x, mid.y);
 
 	return mid;
-}
-
-ShArcData* ShArc::CreateData() {
-
-	return new ShArcData(this->data);
-}
-
-void ShArc::SetData(ShEntityData *data) {
-
-	if (dynamic_cast<ShArcData*>(data))
-		this->data = *(dynamic_cast<ShArcData*>(data));
 }

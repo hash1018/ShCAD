@@ -16,8 +16,6 @@ private:
 	QList<ShEntity*> entitiesToStretch;
 	QList<ShStretchData*> stretchDataList;
 
-	bool mustDeallocateStretchData;
-
 public:
 	ShStretchTemporaryAction(ShGraphicView *graphicView,
 		const QList<ShEntity*>& entitiesToStretch, const QList<ShStretchData*>& stretchDataList, ShPoint3d vertex);

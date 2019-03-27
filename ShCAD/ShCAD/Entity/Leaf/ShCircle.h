@@ -22,11 +22,7 @@ public:
 
 	virtual ShCircle* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
-	virtual void GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point);
 	virtual void Move(double cx, double cy);
-
-	virtual ShCircleData* CreateData();
-	virtual void SetData(ShEntityData *data);
 
 	inline ShCircleData GetData() const { return this->data; }
 	void SetData(const ShCircleData& data) { this->data = data; }

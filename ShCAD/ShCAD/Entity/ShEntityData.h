@@ -69,11 +69,14 @@ public:
 };
 
 //////////////////////////////////////////////////////////////////////
-#include <qlist.h>
+
 class ShPolyLineData : public ShEntityData {
 
 public:
-	QList<ShEntityData*> dataList;
+	
+
+	ShPoint3d start;
+	ShPoint3d end;
 
 public:
 	ShPolyLineData();

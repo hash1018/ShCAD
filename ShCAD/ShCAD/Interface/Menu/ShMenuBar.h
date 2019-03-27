@@ -29,6 +29,8 @@
 #include <qmenubar.h>
 
 class ShFileMenu;
+class ShEmptyDrawingFileMenu;
+class ShDrawMenu;
 class ShMenuBar : public QMenuBar {
 
 
@@ -36,23 +38,19 @@ public:
 	ShMenuBar(QWidget *parent = 0);
 	~ShMenuBar();
 
+	void ActivateMenu();
+	void DeActivateMenu();
+
+
 	void NewActionClicked();
 
 private:
-	ShFileMenu *fileMenu;
-};
-
-
-class ShFileMenu : public QMenu {
-
-private:
-	QAction *newAction;
-
-public:
-	ShFileMenu(const QString &title, QWidget *parent = 0);
-	~ShFileMenu();
-
 	
+	ShFileMenu *fileMenu;
+	ShEmptyDrawingFileMenu *emptyFileMenu;
+	ShDrawMenu *drawMenu;
+
 };
+
 
 #endif //_SHMENUBAR_H

@@ -24,7 +24,7 @@
 --*/
 
 #include "shcad.h"
-#include "ShMenuBar.h"
+#include "Interface\Menu\ShMenuBar.h"
 #include <qmdiarea.h>
 #include <qdockwidget.h>
 #include <qtoolbar.h>
@@ -177,6 +177,8 @@ void ShCAD::InitWidgets() {
 
 void ShCAD::ActivateWidgets() {
 
+	this->menuBar->ActivateMenu();
+
 	this->setCentralWidget(this->mdiArea);
 	this->mdiArea->show();
 
@@ -205,6 +207,8 @@ void ShCAD::ActivateWidgets() {
 }
 
 void ShCAD::DeActivateWidgets() {
+
+	this->menuBar->DeActivateMenu();
 
 	this->takeCentralWidget();
 	this->removeToolBar(this->ribbon);

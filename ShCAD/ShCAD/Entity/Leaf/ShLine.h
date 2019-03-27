@@ -24,11 +24,7 @@ public:
 
 	ShLine* Clone();
 	virtual void Accept(ShVisitor *shVisitor);
-	virtual void GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point);
 	virtual void Move(double cx, double cy);
-
-	virtual ShLineData* CreateData();
-	virtual void SetData(ShEntityData *data);
 
 	inline ShLineData GetData() const { return this->data; }
 	void SetData(const ShLineData& data) { this->data = data; }

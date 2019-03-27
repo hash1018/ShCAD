@@ -51,25 +51,6 @@ void ShLine::Accept(ShVisitor *shVisitor) {
 
 }
 
-void ShLine::GetVertexPoint(VertexPoint vertexPoint, ShPoint3d &point) {
-
-	if (vertexPoint == VertexPoint::VertexStart) {
-
-		point.x = this->data.start.x;
-		point.y = this->data.start.y;
-	}
-	else if (vertexPoint == VertexPoint::VertexEnd) {
-	
-		point.x = this->data.end.x;
-		point.y = this->data.end.y;
-	}
-	else if (vertexPoint == VertexPoint::VertexMid) {
-	
-		point = this->GetMid();
-	}
-
-
-}
 
 void ShLine::Move(double cx, double cy) {
 
@@ -106,17 +87,5 @@ ShPoint3d ShLine::GetMid() {
 	
 
 	return ShPoint3d(midX, midY);
-
-}
-
-ShLineData* ShLine::CreateData() {
-	
-	return new ShLineData(this->data);
-}
-
-void ShLine::SetData(ShEntityData *data) {
-	
-	if (dynamic_cast<ShLineData*>(data))
-		this->data = *(dynamic_cast<ShLineData*>(data));
 
 }
