@@ -7,8 +7,10 @@
 #include "Entity\Composite\ShPolyLine.h"
 #include "ShMath.h"
 #include "Interface\ShGraphicView.h"
-ShTrimer::ShTrimer(ShGraphicView *view, const QLinkedList<ShEntity*>& baseEntities, const ShPoint3d& clickPoint)
-	:view(view), baseEntities(baseEntities), clickPoint(clickPoint) {
+ShTrimer::ShTrimer(ShGraphicView *view, const QLinkedList<ShEntity*>& baseEntities, const ShPoint3d& clickPoint,
+	ShEntity* *original, ShEntity* *trimedEntity, ShEntity* *trimedEntity2, bool &validToTrim)
+	:view(view), baseEntities(baseEntities), clickPoint(clickPoint), original(original), trimedEntity(trimedEntity),
+	trimedEntity2(trimedEntity2), validToTrim(validToTrim) {
 
 }
 
@@ -16,17 +18,6 @@ ShTrimer::~ShTrimer() {
 
 }
 
-#include "Command Pattern\Entity Command\ShTrimEntityCommand.h"
-void ShTrimer::CreateCommand(ShEntity *original, ShEntity *trimedEntity, ShEntity *trimedEntity2) {
-
-	ShTrimEntityCommand *command = new ShTrimEntityCommand(this->view, original, trimedEntity, trimedEntity2);
-
-	this->view->undoTaker.Push(command);
-
-	if (!this->view->redoTaker.IsEmpty())
-		this->view->redoTaker.DeleteAll();
-
-}
 
 ShPoint3d ShTrimer::GetClosestPointByDistance(const ShPoint3d& clickPoint, const QLinkedList<ShPoint3d>& trimPointList) {
 
@@ -113,22 +104,29 @@ void ShTrimer::Visit(ShLine *line) {
 		betweenEndAndClickTrimPointList.count() == 0) {
 
 		trimPoint = this->GetClosestPointByDistance(this->clickPoint, betweenStartAndClickTrimPointList);
+	
+		*this->original = line;
+
 		trimedLine = line->Clone();
 		trimedLine->SetEnd(trimPoint);
-		this->view->entityTable.Remove(line);
-		this->view->entityTable.Add(trimedLine);
-		this->CreateCommand(line, trimedLine);
-		
+		*this->trimedEntity = trimedLine;
+
+		this->validToTrim = true;
+
 	}
 	else if (betweenStartAndClickTrimPointList.count() == 0 &&
 		betweenEndAndClickTrimPointList.count() != 0) {
 	
 		trimPoint = this->GetClosestPointByDistance(this->clickPoint, betweenEndAndClickTrimPointList);
+
+		*this->original = line;
+
 		trimedLine = line->Clone();
 		trimedLine->SetStart(trimPoint);
-		this->view->entityTable.Remove(line);
-		this->view->entityTable.Add(trimedLine);
-		this->CreateCommand(line, trimedLine);
+		*this->trimedEntity = trimedLine;
+
+		this->validToTrim = true;
+		
 	}
 	else if (betweenStartAndClickTrimPointList.count() != 0 &&
 		betweenEndAndClickTrimPointList.count() != 0) {
@@ -136,20 +134,22 @@ void ShTrimer::Visit(ShLine *line) {
 		trimPoint = this->GetClosestPointByDistance(this->clickPoint, betweenStartAndClickTrimPointList);
 		trimPoint2 = this->GetClosestPointByDistance(this->clickPoint, betweenEndAndClickTrimPointList);
 	
+		*this->original = line;
 		trimedLine = line->Clone();
 		ShLine *trimedLine2 = line->Clone();
 		trimedLine->SetEnd(trimPoint);
 		trimedLine2->SetStart(trimPoint2);
 
-		this->view->entityTable.Remove(line);
-		this->view->entityTable.Add(trimedLine);
-		this->view->entityTable.Add(trimedLine2);
-		this->CreateCommand(line, trimedLine, trimedLine2);
+		*this->trimedEntity = trimedLine;
+		*this->trimedEntity2 = trimedLine2;
+
+		this->validToTrim = true;
+
+		
 
 	}
 
-	this->view->update((DrawType)(DrawType::DrawAll));
-	this->view->CaptureImage();
+	
 }
 
 void ShTrimer::Visit(ShCircle *circle) {
@@ -189,12 +189,9 @@ void ShTrimer::Visit(ShCircle *circle) {
 	ShArcData data = ShArcData(circle->GetCenter(), circle->GetRadius(), startAngle, endAngle);
 	ShArc *trimedArc = new ShArc(circle->GetPropertyData(), data, circle->GetLayer());
 
-	this->view->entityTable.Remove(circle);
-	this->view->entityTable.Add(trimedArc);
-	this->CreateCommand(circle, trimedArc);
-	
-	this->view->update((DrawType)(DrawType::DrawAll));
-	this->view->CaptureImage();
+	*this->original = circle;
+	*this->trimedEntity = trimedArc;
+	this->validToTrim = true;
 
 }
 
@@ -218,13 +215,15 @@ void ShTrimer::Visit(ShArc *arc) {
 		
 		double angle = Math::GetAbsAngle(arc->GetCenter().x, arc->GetCenter().y, trimPoint.x, trimPoint.y);
 
+		*this->original = arc;
+
 		ShArc *trimedArc = arc->Clone();
 		trimedArc->SetEndAngle(angle);
 
-		this->view->entityTable.Remove(arc);
-		this->view->entityTable.Add(trimedArc);
+		*this->trimedEntity = trimedArc;
 
-		this->CreateCommand(arc, trimedArc);
+		this->validToTrim = true;
+
 	}
 	else if (clockWiseTrimPointList.count() == 0 && antiClockWiseTrimPointList.count() != 0) {
 
@@ -232,13 +231,15 @@ void ShTrimer::Visit(ShArc *arc) {
 
 		double angle = Math::GetAbsAngle(arc->GetCenter().x, arc->GetCenter().y, trimPoint.x, trimPoint.y);
 
+		*this->original = arc;
+
 		ShArc *trimedArc = arc->Clone();
 		trimedArc->SetStartAngle(angle);
 
-		this->view->entityTable.Remove(arc);
-		this->view->entityTable.Add(trimedArc);
+		*this->trimedEntity = trimedArc;
 
-		this->CreateCommand(arc, trimedArc);
+		this->validToTrim = true;
+
 	}
 	else if (clockWiseTrimPointList.count() != 0 && antiClockWiseTrimPointList.count() != 0) {
 		qDebug("clock count %d    anti count %d", clockWiseTrimPointList.count(), antiClockWiseTrimPointList.count());
@@ -248,21 +249,21 @@ void ShTrimer::Visit(ShArc *arc) {
 		double angle = Math::GetAbsAngle(arc->GetCenter().x, arc->GetCenter().y, trimPoint.x, trimPoint.y);
 		double angle2 = Math::GetAbsAngle(arc->GetCenter().x, arc->GetCenter().y, trimPoint2.x, trimPoint2.y);
 
+		*this->original = arc;
+
 		ShArc *trimedArc = arc->Clone();
 		ShArc *trimedArc2 = arc->Clone();
 
 		trimedArc->SetEndAngle(angle);
 		trimedArc2->SetStartAngle(angle2);
 
-		this->view->entityTable.Remove(arc);
-		this->view->entityTable.Add(trimedArc);
-		this->view->entityTable.Add(trimedArc2);
+		*this->trimedEntity = trimedArc;
+		*this->trimedEntity2 = trimedArc2;
 
-		this->CreateCommand(arc, trimedArc, trimedArc2);
+		this->validToTrim = true;
 	}
 
-	this->view->update((DrawType)(DrawType::DrawAll));
-	this->view->CaptureImage();
+	
 }
 
 

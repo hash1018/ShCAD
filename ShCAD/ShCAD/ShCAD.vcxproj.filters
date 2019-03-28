@@ -498,7 +498,7 @@
       <Filter>Interface\Menu</Filter>
     </ClCompile>
     <ClCompile Include="Interface\Menu\ShMenu.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Interface\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

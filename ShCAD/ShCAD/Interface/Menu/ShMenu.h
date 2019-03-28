@@ -43,6 +43,10 @@ class ShDrawMenu : public ShAbstractMenu {
 private:
 	QAction *lineAction;
 
+	QAction *polyLineAction;
+	QAction *polygonAction;
+	QAction *rectangleAction;
+
 	QMenu *circleMenu;
 	QAction *circleCenterRadiusAction;
 	QAction *circleCenterDiameterAction;
@@ -74,6 +78,10 @@ private:
 	private slots:
 	void LineActionClicked();
 
+	void PolyLineActionClicked();
+	void PolygonActionClicked();
+	void RectangleActionClicked();
+
 	void CircleCenterRadiusClicked();
 	void CircleCenterDiameterClicked();
 
@@ -95,6 +103,35 @@ private:
 	void ArcCenterStartLengthClicked();
 };
 
+class ShModifyMenu : public ShAbstractMenu {
+
+private:
+	QAction *eraseAction;
+	QAction *copyAction;
+	QAction *mirrorAction;
+	QAction *moveAction;
+	QAction *rotateAction;
+	QAction *scaleAction;
+	QAction *stretchAction;
+	QAction *trimAction;
+	QAction *extendAction;
+
+public:
+	ShModifyMenu(const QString &title, QWidget *parent = 0);
+	~ShModifyMenu();
+
+	private slots:
+	void EraseActionClicked();
+	void CopyActionClicked();
+	void MirrorActionClicked();
+	void MoveActionClicked();
+	void RotateActionClicked();
+	void ScaleActionClicked();
+	void StretchActionClicked();
+	void TrimActionClicked();
+	void ExtendActionClicked();
+
+};
 
 
 #endif //_SHMENU_H

@@ -22,6 +22,7 @@ ShModifyTrimAction::~ShModifyTrimAction() {
 #include "Visitor Pattern\ShTrimer.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "Strategy Pattern\ShSearchEntityStrategy.h"
+#include "Command Pattern\Entity Command\ShTrimEntityCommand.h"
 void ShModifyTrimAction::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
 	if (this->status == SelectingEntities) {
@@ -67,9 +68,26 @@ void ShModifyTrimAction::LMousePressEvent(QMouseEvent *event, ShActionData& data
 			++itr)
 			baseEntities.append((*itr));
 
-		ShTrimer visitor(this->graphicView, baseEntities, point);
+
+		ShEntity *original;
+		ShEntity *trimed = 0;
+		ShEntity *trimed2 = 0;
+		bool validToTrim = false;
+
+		ShTrimer visitor(this->graphicView, baseEntities, point, &original, &trimed, &trimed2, validToTrim);
 		entity->Accept(&visitor);
 
+		if (validToTrim == true) {
+
+			ShTrimEntityCommand *command = new ShTrimEntityCommand(this->graphicView, original, trimed, trimed2);
+			
+			command->Execute();
+
+			this->graphicView->undoTaker.Push(command);
+
+			if (!this->graphicView->redoTaker.IsEmpty())
+				this->graphicView->redoTaker.DeleteAll();
+		}
 	}
 }
 

@@ -28,8 +28,9 @@ public:
 	void SetData(const ShPolyLineData& data) { this->data = data; }
 	inline ShPolyLineData GetData() const { return this->data; }
 
-	void SetStart(const ShPoint3d& start) { this->data.start = start; }
-	void SetEnd(const ShPoint3d& end) { this->data.end = end;}
+	void UpdateStartEnd();
+
+	ShEntity* ReplaceEntity(ShEntity *newEntity, int index);
 
 protected:
 	virtual void Select();

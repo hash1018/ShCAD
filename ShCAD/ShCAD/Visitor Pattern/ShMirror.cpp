@@ -86,6 +86,7 @@ void ShMirror::Visit(ShPolyLine *polyLine) {
 
 	ShPolyLine *original = dynamic_cast<ShPolyLine*>(this->original);
 
+
 	ShMirror visitor(this->center, this->angle);
 
 	QLinkedList<ShEntity*>::iterator originalItr = original->Begin();
@@ -98,4 +99,5 @@ void ShMirror::Visit(ShPolyLine *polyLine) {
 		++originalItr;
 	}
 
+	polyLine->UpdateStartEnd();
 }

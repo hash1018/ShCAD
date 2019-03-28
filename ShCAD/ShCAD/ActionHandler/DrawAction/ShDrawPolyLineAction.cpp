@@ -53,12 +53,14 @@ void ShDrawPolyLineAction::LMousePressEvent(QMouseEvent *event, ShActionData& da
 		if (this->polyLine == 0) {
 			this->polyLine = new ShPolyLine(ShPropertyData(*this->graphicView->GetData()->GetPropertyData()),
 				this->graphicView->entityTable.GetLayerTable()->GetCurrentLayer());
-			this->polyLine->SetStart(data.start);
+			//this->polyLine->SetStart(data.start);
 		}
 
 	
 		this->polyLine->Add(prevLine->Clone());
-		this->polyLine->SetEnd(data.end);
+		//this->polyLine->SetEnd(data.end);
+
+		this->polyLine->UpdateStartEnd();
 
 		if (this->previous == PickedNothing) {
 			this->AddEntity(polyLine, "PLine");

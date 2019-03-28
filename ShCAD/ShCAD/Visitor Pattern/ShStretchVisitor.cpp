@@ -255,6 +255,8 @@ void ShStretchVisitor::Visit(ShPolyLine *polyLine) {
 		}
 	}
 
+	polyLine->UpdateStartEnd();
+
 }
 
 

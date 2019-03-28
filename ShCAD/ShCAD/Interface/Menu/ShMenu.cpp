@@ -80,6 +80,24 @@ ShDrawMenu::ShDrawMenu(const QString &title, QWidget *parent)
 
 	this->addSeparator();
 
+	icon = this->GetIcon(path + "\\PolyLine\\PolyLine.png");
+	this->polyLineAction = new QAction(icon, "PolyLine", this);
+	this->addAction(this->polyLineAction);
+	connect(this->polyLineAction, &QAction::triggered, this, &ShDrawMenu::PolyLineActionClicked);
+
+	icon = this->GetIcon(path + "\\PolyLine\\Polygon.png");
+	this->polygonAction = new QAction(icon, "Polygon", this);
+	this->addAction(this->polygonAction);
+	connect(this->polygonAction, &QAction::triggered, this, &ShDrawMenu::PolygonActionClicked);
+
+	icon = this->GetIcon(path + "\\PolyLine\\Rectangle.png");
+	this->rectangleAction = new QAction(icon, "Rectangle", this);
+	this->addAction(this->rectangleAction);
+	connect(this->rectangleAction, &QAction::triggered, this, &ShDrawMenu::RectangleActionClicked);
+
+	this->addSeparator();
+
+
 	this->CreateCircleMenu();
 	
 	this->addSeparator();
@@ -213,6 +231,40 @@ void ShDrawMenu::LineActionClicked() {
 	}
 
 	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawLine);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+
+}
+
+void ShDrawMenu::PolyLineActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawPolyLine);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+void ShDrawMenu::PolygonActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawPolygon);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+void ShDrawMenu::RectangleActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawRectangle);
 	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 
 }
@@ -372,4 +424,175 @@ void ShDrawMenu::ArcCenterStartLengthClicked() {
 	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionDrawArcCenterStartLength);
 	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+ShModifyMenu::ShModifyMenu(const QString &title, QWidget *parent)
+	:ShAbstractMenu(title, parent) {
+
+	QString path = ShDirectoryManager::GetImageUiPath();
+	QIcon icon;
+
+	icon = this->GetIcon(path + "\\Modify\\Erase.png");
+	this->eraseAction = new QAction(icon, "Erase", this);
+	this->addAction(this->eraseAction);
+
+	icon = this->GetIcon(path + "\\Modify\\Copy.png");
+	this->copyAction = new QAction(icon, "Copy", this);
+	this->addAction(this->copyAction);
+
+	icon = this->GetIcon(path + "\\Modify\\Mirror.png");
+	this->mirrorAction = new QAction(icon, "Mirror", this);
+	this->addAction(this->mirrorAction);
+
+	this->addSeparator();
+
+	icon = this->GetIcon(path + "\\Modify\\Move.png");
+	this->moveAction = new QAction(icon, "Move", this);
+	this->addAction(this->moveAction);
+
+	icon = this->GetIcon(path + "\\Modify\\Rotate.png");
+	this->rotateAction = new QAction(icon, "Rotate", this);
+	this->addAction(this->rotateAction);
+
+	icon = this->GetIcon(path + "\\Modify\\Scale.png");
+	this->scaleAction = new QAction(icon, "Scale", this);
+	this->addAction(this->scaleAction);
+
+	icon = this->GetIcon(path + "\\Modify\\Stretch.png");
+	this->stretchAction = new QAction(icon, "Stretch", this);
+	this->addAction(this->stretchAction);
+
+	this->addSeparator();
+
+	icon = this->GetIcon(path + "\\Modify\\Trim.png");
+	this->trimAction = new QAction(icon, "Trim", this);
+	this->addAction(this->trimAction);
+
+	icon = this->GetIcon(path + "\\Modify\\Extend.png");
+	this->extendAction = new QAction(icon, "Extend", this);
+	this->addAction(this->extendAction);
+
+
+
+
+	connect(this->moveAction, &QAction::triggered, this, &ShModifyMenu::MoveActionClicked);
+	connect(this->copyAction, &QAction::triggered, this, &ShModifyMenu::CopyActionClicked);
+	connect(this->stretchAction, &QAction::triggered, this, &ShModifyMenu::StretchActionClicked);
+	connect(this->rotateAction, &QAction::triggered, this, &ShModifyMenu::RotateActionClicked);
+	connect(this->mirrorAction, &QAction::triggered, this, &ShModifyMenu::MirrorActionClicked);
+	connect(this->scaleAction, &QAction::triggered, this, &ShModifyMenu::ScaleActionClicked);
+	connect(this->eraseAction, &QAction::triggered, this, &ShModifyMenu::EraseActionClicked);
+	connect(this->extendAction, &QAction::triggered, this, &ShModifyMenu::ExtendActionClicked);
+	connect(this->trimAction, &QAction::triggered, this, &ShModifyMenu::TrimActionClicked);
+
+
+
+}
+
+ShModifyMenu::~ShModifyMenu() {
+
+}
+
+
+void ShModifyMenu::EraseActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyErase);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+void ShModifyMenu::CopyActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyCopy);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+void ShModifyMenu::MirrorActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyMirror);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+void ShModifyMenu::MoveActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyMove);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+void ShModifyMenu::RotateActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyRotate);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+void ShModifyMenu::ScaleActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyScale);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+void ShModifyMenu::StretchActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyStretch);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+void ShModifyMenu::TrimActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyTrim);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
+}
+
+void ShModifyMenu::ExtendActionClicked() {
+
+	if (ShWidgetManager::GetInstance()->GetActivatedWidget() == 0) {
+		qDebug("no activated widget");
+		return;
+	}
+
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionModifyExtend);
+	ShWidgetManager::GetInstance()->GetActivatedWidget()->ChangeCurrentAction(strategy);
 }

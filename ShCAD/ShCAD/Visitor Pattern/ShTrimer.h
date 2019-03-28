@@ -14,8 +14,14 @@ private:
 	QLinkedList<ShEntity*> baseEntities;
 	ShPoint3d clickPoint;
 
+	ShEntity* *original;
+	ShEntity* *trimedEntity;
+	ShEntity* *trimedEntity2;
+	bool &validToTrim;
+
 public:
-	ShTrimer(ShGraphicView *view, const QLinkedList<ShEntity*>& baseEntities, const ShPoint3d& clickPoint);
+	ShTrimer(ShGraphicView *view, const QLinkedList<ShEntity*>& baseEntities, const ShPoint3d& clickPoint,
+		ShEntity* *original, ShEntity* *trimedEntity, ShEntity* *trimedEntity2, bool &validToTrim);
 	~ShTrimer();
 
 	virtual void Visit(ShLine *line);
@@ -27,7 +33,7 @@ private:
 	ShPoint3d GetClosestPointByDistance(const ShPoint3d& clickPoint, const QLinkedList<ShPoint3d>& trimPointList);
 	ShPoint3d GetClosestPointByAngle(const ShPoint3d& clickPoint, const ShPoint3d& center,
 		const QLinkedList<ShPoint3d>& trimPointList, bool antiClockWise = true);
-	void CreateCommand(ShEntity *original, ShEntity *trimedEntity, ShEntity *trimedEntity2 = 0);
+	
 };
 
 class ShFindTrimPointLineTrimer : public ShVisitor {

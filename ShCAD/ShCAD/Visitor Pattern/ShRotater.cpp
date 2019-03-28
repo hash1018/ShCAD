@@ -54,4 +54,5 @@ void ShRotater::Visit(ShPolyLine *polyLine) {
 	for (itr = polyLine->Begin(); itr != polyLine->End(); ++itr)
 		(*itr)->Accept(&visitor);
 
+	polyLine->UpdateStartEnd();
 }

@@ -79,6 +79,8 @@ void ShModifyExtendAction::LMousePressEvent(QMouseEvent *event, ShActionData& da
 
 			ShExtendEntityCommand *command = new ShExtendEntityCommand(this->graphicView, original, extendedEntity);
 
+			command->Execute();
+
 			this->graphicView->undoTaker.Push(command);
 
 			if (!this->graphicView->redoTaker.IsEmpty())

@@ -36,6 +36,11 @@ void ShPolyLine::Accept(ShVisitor *visitor) {
 
 void ShPolyLine::Move(double cx, double cy) {
 	
+	this->data.start.x += cx;
+	this->data.start.y += cy;
+	this->data.end.x += cx;
+	this->data.end.y += cy;
+
 	QLinkedList<ShEntity*>::iterator itr;
 	for (itr = this->Begin(); itr != this->End(); ++itr)
 		(*itr)->Move(cx, cy);
@@ -77,4 +82,35 @@ void ShPolyLine::SetPropertyData(const ShPropertyData& data) {
 	for (itr = this->Begin(); itr != this->End(); ++itr)
 		(*itr)->SetPropertyData(data);
 
+}
+
+#include "Entity\Leaf\ShLine.h"
+void ShPolyLine::UpdateStartEnd() {
+
+	//only line works at the moment.
+
+	ShLine *first = dynamic_cast<ShLine*>(*this->Begin());
+	this->data.start = first->GetStart();
+
+	ShLine *last = dynamic_cast<ShLine*>(*(--(this->End())));
+	this->data.end = last->GetEnd();
+
+}
+
+ShEntity* ShPolyLine::ReplaceEntity(ShEntity *newEntity, int index) {
+
+	int i = 0;
+	QLinkedList<ShEntity*>::iterator itr = this->Begin();
+
+	while (i < index) {
+		++itr;
+		i++;
+	}
+	ShEntity *oldEntity = (*itr);
+
+	itr=this->list.erase(itr);
+	this->list.insert(itr, newEntity);
+	
+	
+	return oldEntity;
 }

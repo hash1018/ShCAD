@@ -81,12 +81,12 @@ void ShExtender::Visit(ShLine *line) {
 
 	*this->extendedEntity = extendedLine;
 
-	this->view->entityTable.Remove(line);
-	this->view->entityTable.Add(extendedLine);
+	//this->view->entityTable.Remove(line);
+	//this->view->entityTable.Add(extendedLine);
 
 
-	this->view->update((DrawType)(DrawType::DrawAll));
-	this->view->CaptureImage();
+	//this->view->update((DrawType)(DrawType::DrawAll));
+	//this->view->CaptureImage();
 }
 
 void ShExtender::Visit(ShCircle *circle) {
@@ -168,17 +168,17 @@ void ShExtender::Visit(ShArc *arc) {
 
 	*this->extendedEntity = extendedArc;
 
-	this->view->entityTable.Remove(arc);
-	this->view->entityTable.Add(extendedArc);
+	//this->view->entityTable.Remove(arc);
+	//this->view->entityTable.Add(extendedArc);
 	
 	
-	this->view->update((DrawType)(DrawType::DrawAll));
-	this->view->CaptureImage();
+	//this->view->update((DrawType)(DrawType::DrawAll));
+	//this->view->CaptureImage();
 }
 
 void ShExtender::Visit(ShPolyLine *polyLine) {
 
-	/*
+	
 	int count = polyLine->GetSize();
 	ShEntity* entity = polyLine->FindEntity(this->clickPoint.x, this->clickPoint.y, this->view->GetZoomRate());
 
@@ -194,32 +194,36 @@ void ShExtender::Visit(ShPolyLine *polyLine) {
 	else
 		index = count - 1;
 
-	ShEntityData *original;
-	ShEntityData *extendedData;
+
+
+	ShEntity *originalChild;
+	ShEntity *extendedChild;
 	bool isValid = false;
 	
 	if (index == 0) {
-		ShExtender visitor(this->view, this->baseEntities, this->clickPoint, &original, &extendedData, isValid);
+		ShExtender visitor(this->view, this->baseEntities, polyLine->GetData().start, &originalChild, &extendedChild, isValid);
 		polyLine->GetEntity(index)->Accept(&visitor);
 	}
 	else {
-	
+		ShExtender visitor(this->view, this->baseEntities, polyLine->GetData().end, &originalChild, &extendedChild, isValid);
+		polyLine->GetEntity(index)->Accept(&visitor);
 	}
 
 	if (isValid == false)
 		return;
 	
-	*this->originalData = polyLine->CreateData();
-	polyLine->GetEntity(index)->SetData(extendedData);
-	*this->extendedData = polyLine->CreateData();
 	this->validToExtend = true;
+	*this->original = polyLine;
 
-	delete original;
-	delete extendedData;
+	ShPolyLine *extendedPolyLine = polyLine->Clone();
+	*this->extendedEntity = extendedPolyLine;
+
+	ShEntity *replaced=extendedPolyLine->ReplaceEntity(extendedChild, index);
+	extendedPolyLine->UpdateStartEnd();
+
+	delete replaced;
+
 	
-	this->view->update((DrawType)(DrawType::DrawAll));
-	this->view->CaptureImage();
-	*/
 }
 
 
