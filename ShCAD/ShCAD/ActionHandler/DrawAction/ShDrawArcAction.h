@@ -212,6 +212,10 @@ private:
 
 class ShDrawArcMethod_StartEndDirection : public ShDrawArcMethod {
 
+private:
+	ShPoint3d start;
+	ShPoint3d end;
+
 public:
 	ShDrawArcMethod_StartEndDirection(ShDrawArcAction *drawArcAction, ShGraphicView *view);
 	~ShDrawArcMethod_StartEndDirection();
@@ -223,6 +227,9 @@ public:
 	virtual QString GetActionHeadTitle();
 	virtual void IsAllowedDraftOperation(ShAllowedDraftData &data);
 
+private:
+	ShArcData GetArcDataWithTwoPointTangentLine(const ShPoint3d& first, const ShPoint3d& second,
+		const ShPoint3d& start, const ShPoint3d& end);
 };
 
 

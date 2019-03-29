@@ -1226,22 +1226,220 @@ ShDrawArcMethod_StartEndDirection::~ShDrawArcMethod_StartEndDirection() {
 
 void ShDrawArcMethod_StartEndDirection::LMousePressEvent(QMouseEvent *event, ShActionData& data) {
 
+	ShDrawArcAction::Status &status = this->GetStatus();
+	ShPoint3d point = data.GetPoint();
+	ShPoint3d nextPoint = data.GetNextPoint();
+
+	if (status == ShDrawArcAction::Status::PickedNothing) {
+
+		this->start = point;
+
+		status = ShDrawArcAction::Status::PickedStart;
+
+		this->view->rubberBand = new ShRubberBand(ShLineData(point, nextPoint));
+
+		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		this->UpdateNextListText();
+
+	}
+	else if (status == ShDrawArcAction::Status::PickedStart) {
+
+		double dis = Math::GetDistance(this->start.x, this->start.y, point.x, point.y);
+		if (Math::Compare(dis, 0) == 0) {
+			ShUpdateListTextEvent event2("");
+			this->view->Notify(&event2);
+			ShUpdateListTextEvent event3("Invalid point.",
+				ShUpdateListTextEvent::UpdateType::TextWithoutAnything);
+			this->view->Notify(&event3);
+			ShUpdateCommandEditHeadTitle event4(this->drawArcAction->GetActionHeadTitle());
+			this->view->Notify(&event4);
+			return;
+		}
+
+		status = ShDrawArcAction::Status::PickedEnd;
+
+		this->end = point;
+
+		ShArcData arcData = this->GetArcDataWithTwoPointTangentLine(this->start, this->end,
+			this->view->rubberBand->GetStart(), this->view->rubberBand->GetEnd());
+
+		this->view->preview.Add(new ShArc(ShPropertyData(*this->view->GetData()->GetPropertyData()),
+			arcData, this->view->entityTable.GetLayerTable()->GetCurrentLayer()));
+
+		this->view->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		this->UpdateNextListText();
+
+	}
+	else if (status == ShDrawArcAction::Status::PickedEnd) {
+
+		ShArcData arcData= this->GetArcDataWithTwoPointTangentLine(this->start, this->end,
+			this->view->rubberBand->GetStart(), this->view->rubberBand->GetEnd());
+
+		if (this->CheckValidDataAndUpdateListText(arcData) == false)
+			return;
+
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		previewArc->SetData(arcData);
+
+		ShUpdateListTextEvent event2("");
+		this->view->Notify(&event2);
+
+		this->AddEntityAndFinish(previewArc->Clone(), "Arc");
+	}
 }
 
 void ShDrawArcMethod_StartEndDirection::MouseMoveEvent(QMouseEvent *event, ShActionData& data) {
 
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::PickedStart) {
+
+		ShPoint3d point = data.GetPoint();
+
+		this->view->rubberBand->SetEnd(point);
+		data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+	}
+	else if (status == ShDrawArcAction::PickedEnd) {
+
+		ShPoint3d point = data.GetPoint();
+
+		ShArcData arcData = this->GetArcDataWithTwoPointTangentLine(this->start, this->end,
+			this->view->rubberBand->GetStart(), point);
+		
+
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		previewArc->SetData(arcData);
+
+		this->view->rubberBand->SetEnd(point);
+
+		data.AppendDrawType((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+	}
 }
 
 void ShDrawArcMethod_StartEndDirection::ApplyOrthogonalShape(bool on) {
 
+	if (this->GetStatus() == ShDrawArcAction::Status::PickedNothing)
+		return;
+
+	ShPoint3d mouse = this->view->GetCursorPoint();
+
+	if (this->GetStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		if (on == true) {
+			ShPoint3d orth;
+			this->GetOrthogonal(this->start.x, this->start.y, mouse.x, mouse.y, orth.x, orth.y);
+			this->view->rubberBand->SetEnd(orth);
+		}
+		else {
+			this->view->rubberBand->SetEnd(mouse);
+		}
+	}
+	else if (this->GetStatus() == ShDrawArcAction::Status::PickedEnd) {
+
+		if (on == true) {
+			ShPoint3d orth;
+			this->GetOrthogonal(this->start.x, this->start.y, mouse.x, mouse.y, orth.x, orth.y);
+			this->view->rubberBand->SetEnd(orth);
+		}
+		else {
+			this->view->rubberBand->SetEnd(mouse);
+		}
+		ShPoint3d third = this->view->rubberBand->GetEnd();
+
+		ShArcData arcData= this->GetArcDataWithTwoPointTangentLine(this->start, this->end,
+			this->view->rubberBand->GetStart(), this->view->rubberBand->GetEnd());
+		
+
+		ShArc *previewArc = dynamic_cast<ShArc*>((*this->view->preview.Begin()));
+		previewArc->SetData(arcData);
+	}
+
+
+	this->view->update((DrawType)(DrawCaptureImage | DrawPreviewEntities));
 }
 
 QString ShDrawArcMethod_StartEndDirection::GetActionHeadTitle() {
 
-	return QString("");
+	ShDrawArcAction::Status status = this->GetStatus();
+	QString str;
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		str = "Arc >> Specify start point of arc: ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		str = "Arc >> Specify end point of arc: ";
+	else if (status == ShDrawArcAction::Status::PickedEnd)
+		str = "Arc >> Specify tangent direction for the start point of arc: ";
+
+	return str;
 }
 
 void ShDrawArcMethod_StartEndDirection::IsAllowedDraftOperation(ShAllowedDraftData &data) {
+
+	ShDrawArcAction::Status status = this->GetStatus();
+
+	if (status == ShDrawArcAction::Status::PickedNothing) {
+
+		data.SetAllowOrthogonal(true);
+		data.SetAllowtSnap(true);
+
+		ShPoint3d mouse = this->view->GetCursorPoint();
+		data.SetOrthogonalBasePoint(mouse);
+		data.SetSnapBasePoint(mouse);
+	}
+	else if (status == ShDrawArcAction::Status::PickedStart ||
+		status == ShDrawArcAction::Status::PickedEnd) {
+		data.SetAllowOrthogonal(true);
+		data.SetAllowtSnap(true);
+
+		ShPoint3d first = this->view->rubberBand->GetStart();
+
+		data.SetOrthogonalBasePoint(first);
+		data.SetSnapBasePoint(first);
+
+	}
+
+}
+
+ShArcData ShDrawArcMethod_StartEndDirection::GetArcDataWithTwoPointTangentLine(const ShPoint3d& first, const ShPoint3d& second,
+	const ShPoint3d& start, const ShPoint3d& end) {
+
+	double angleStartToEnd = Math::GetAbsAngle(start.x, start.y, end.x, end.y);
+	ShPoint3d tempEnd;
+	Math::Rotate(angleStartToEnd + 90, first.x, first.y, first.x + 10, first.y, tempEnd.x, tempEnd.y);
+
+
+	double angleFirstToSecond = Math::GetAbsAngle(first.x, first.y, second.x, second.y);
+
+	double difference = Math::GetAngleDifference(angleStartToEnd, angleFirstToSecond);
+	ShPoint3d tempEnd2;
+	Math::Rotate(angleFirstToSecond + 90 + difference, second.x, second.y, second.x + 10, second.y, tempEnd2.x, tempEnd2.y);
+
+	ShPoint3d center;
+	Math::CheckLineLineIntersect(first, tempEnd, second, tempEnd2, center);
+
+	ShArcData data;
+
+	data.center = center;
+	data.radius = Math::GetDistance(data.center.x, data.center.y, first.x, first.y);
+
+	double angleCenterToFirst = Math::GetAbsAngle(data.center.x, data.center.y, first.x, first.y);
+	double angleCenterToSecond = Math::GetAbsAngle(data.center.x, data.center.y, second.x, second.y);
+
+	if (Math::CheckAngleLiesOnAngleBetween(angleFirstToSecond,Math::AddAngle(angleFirstToSecond,180), angleStartToEnd) == true) {
+		data.startAngle = angleCenterToSecond;
+		data.endAngle = angleCenterToFirst;
+	}
+	else {
+		data.startAngle = angleCenterToFirst;
+		data.endAngle = angleCenterToSecond;
+	}
+
+	
+	return data;
 
 }
 

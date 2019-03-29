@@ -200,6 +200,21 @@ bool Math::CheckAngleLiesOnAngleBetween(double startAngle, double endAngle, doub
 	return false;
 }
 
+
+ShPoint3d Math::GetCenterWithTwoPointRadius(const ShPoint3d& first, const ShPoint3d& second, const double& radius) {
+
+	double radsq = radius * radius;
+	double q = sqrt(((second.x - first.x) * (second.x - first.x)) + ((second.y - first.y) * (second.y - first.y)));
+	double x3 = (first.x + second.x) / 2;
+	double y3 = (first.y + second.y) / 2;
+
+	ShPoint3d center;
+	center.x = x3 + sqrt(radsq - ((q / 2) * (q / 2))) * ((first.y - second.y) / q);
+	center.y = y3 + sqrt(radsq - ((q / 2) * (q / 2))) * ((second.x - first.x) / q);
+
+	return center;
+}
+
 bool Math::GetCenterWithThreePoint(const ShPoint3d& first, const ShPoint3d& second, const ShPoint3d& third, ShPoint3d &center) {
 
 	double dy1, dy2, d, d2, yi;
@@ -532,4 +547,14 @@ double Math::AddAngle(double angle, double angle2) {
 		addedAngle -= 360;
 
 	return addedAngle;
+}
+
+void Math::GetEquationLine(const ShPoint3d& start, const ShPoint3d& end, double &slope, double &interceptY) {
+
+	slope = 0.0;
+
+	if (Compare(start.x, end.x) != 0)
+		slope = (end.y - start.y) / (end.x - start.x);
+
+	interceptY = start.y - slope*start.x;
 }

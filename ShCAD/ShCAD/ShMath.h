@@ -50,6 +50,8 @@ namespace Math {
 		const ShPoint3d& start, const ShPoint3d& end);
 	bool CheckTwoCirclesIntersect(const ShPoint3d& center, double radius, const ShPoint3d& center2, double radius2,
 		ShPoint3d &intersect, ShPoint3d& intersect2);
+	
+	ShPoint3d GetCenterWithTwoPointRadius(const ShPoint3d& first, const ShPoint3d& second, const double& radius);
 
 	bool GetCenterWithThreePoint(const ShPoint3d& first, const ShPoint3d& second, const ShPoint3d& third, ShPoint3d &center);
 	double GetAbsAngle(double centerX, double centerY, double anotherX, double anotherY);
@@ -64,6 +66,8 @@ namespace Math {
 
 	// **angle as a full 360 degree rotation
 	double AddAngle(double angle, double angle2);
+
+	void GetEquationLine(const ShPoint3d& start, const ShPoint3d& end, double &slope, double &interceptY);
 }
 
 
