@@ -141,6 +141,7 @@ public:
 	void MoveView(double ex, double ey, double zoomRate, int dx, int dy);
 	void SetTemporaryAction(ShTemporaryAction *temporaryAction);
 	void SetOrthogonalMode();
+	void Print(QPainter *painter, double scale = 1.0);
 
 protected:
 	virtual void initializeGL();

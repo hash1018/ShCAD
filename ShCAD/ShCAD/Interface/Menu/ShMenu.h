@@ -32,9 +32,26 @@ class ShFileMenu : public ShAbstractMenu {
 private:
 	QAction *newAction;
 
+	QAction *printAction;
+	QAction *previewAction;
+
 public:
 	ShFileMenu(const QString &title, QWidget *parent = 0);
 	~ShFileMenu();
+
+	private slots:
+	void PrintActionClicked();
+	void PreviewActionClicked();
+
+};
+
+class ShEditMenu : public ShAbstractMenu {
+
+public:
+	ShEditMenu(const QString &title, QWidget *parent = 0);
+	~ShEditMenu();
+
+
 
 };
 

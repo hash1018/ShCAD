@@ -123,6 +123,11 @@ enum StretchPoint {
 
 };
 
+enum WhatToPlot {
+	PlotDisplay,
+	PlotWindow,
+};
+
 
 
 #endif //_SHVARIABLE_H

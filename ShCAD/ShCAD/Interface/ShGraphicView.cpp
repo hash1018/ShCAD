@@ -315,3 +315,18 @@ bool ShGraphicView::EnabledDrawEntityVertex() {
 
 	return this->actionHandlerManager->EnabledDrawEntityVertex();
 }
+
+#include "Visitor Pattern\ShPrintVisitor.h"
+void ShGraphicView::Print(QPainter *painter, double scale) {
+
+
+	ShPrintVisitor visitor(this, painter, scale);
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = this->entityTable.TurnOnLayerBegin();
+		itr != this->entityTable.TurnOnLayerEnd();
+		++itr) {
+
+		(*itr)->Accept(&visitor);
+	}
+}

@@ -30,6 +30,7 @@
 
 class ShFileMenu;
 class ShEmptyDrawingFileMenu;
+class ShEditMenu;
 class ShDrawMenu;
 class ShModifyMenu;
 class ShMenuBar : public QMenuBar {
@@ -49,6 +50,7 @@ private:
 	
 	ShFileMenu *fileMenu;
 	ShEmptyDrawingFileMenu *emptyFileMenu;
+	ShEditMenu *editMenu;
 	ShDrawMenu *drawMenu;
 	ShModifyMenu *modifyMenu;
 

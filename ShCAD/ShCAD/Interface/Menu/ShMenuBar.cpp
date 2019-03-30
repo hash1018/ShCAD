@@ -31,6 +31,7 @@ ShMenuBar::ShMenuBar(QWidget *parent)
 
 	this->emptyFileMenu = new ShEmptyDrawingFileMenu("File", this);
 	this->fileMenu = new ShFileMenu("File", this);
+	this->editMenu = new ShEditMenu("Edit", this);
 	this->drawMenu = new ShDrawMenu("Draw", this);
 	this->modifyMenu = new ShModifyMenu("Modify", this);
 	
@@ -46,6 +47,7 @@ void ShMenuBar::ActivateMenu() {
 
 	this->clear();
 	this->addMenu(this->fileMenu);
+	this->addMenu(this->editMenu);
 	this->addMenu(this->drawMenu);
 	this->addMenu(this->modifyMenu);
 }

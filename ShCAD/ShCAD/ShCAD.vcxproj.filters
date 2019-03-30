@@ -500,6 +500,30 @@
     <ClCompile Include="Interface\Menu\ShMenu.cpp">
       <Filter>Interface\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShPlotDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShPlotDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Dialog\ShPlotDialog.cpp">
+      <Filter>Interface\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton Pattern\ShPrinterManager.cpp">
+      <Filter>Singleton Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShPreviewDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Dialog\ShPreviewDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShPreviewDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor Pattern\ShPrintVisitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -540,6 +564,12 @@
     </CustomBuild>
     <CustomBuild Include="Interface\Items\ShRibbonButton.h">
       <Filter>Interface\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Dialog\ShPlotDialog.h">
+      <Filter>Interface\Dialog</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Dialog\ShPreviewDialog.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -839,6 +869,12 @@
     </ClInclude>
     <ClInclude Include="Interface\Menu\ShMenuBar.h">
       <Filter>Interface\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton Pattern\ShPrinterManager.h">
+      <Filter>Singleton Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor Pattern\ShPrintVisitor.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

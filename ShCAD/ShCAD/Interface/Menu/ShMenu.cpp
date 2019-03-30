@@ -52,14 +52,49 @@ ShFileMenu::ShFileMenu(const QString &title, QWidget *parent)
 	:ShAbstractMenu(title, parent) {
 
 	this->newAction = new QAction("New", this);
-
 	this->addAction(this->newAction);
+
+	this->addSeparator();
+
+	this->printAction = new QAction("Print", this);
+	this->addAction(this->printAction);
+
+	this->previewAction = new QAction("Preview", this);
+	this->addAction(this->previewAction);
 
 	ShMenuBar *menuBar = dynamic_cast<ShMenuBar*>(this->parent());
 	connect(this->newAction, &QAction::triggered, menuBar, &ShMenuBar::NewActionClicked);
+	connect(this->printAction, &QAction::triggered, this, &ShFileMenu::PrintActionClicked);
+	connect(this->previewAction, &QAction::triggered, this, &ShFileMenu::PreviewActionClicked);
+
+	
 }
 
 ShFileMenu::~ShFileMenu() {
+
+
+}
+
+#include "Interface\Dialog\ShPlotDialog.h"
+void ShFileMenu::PrintActionClicked() {
+
+	ShPlotDialog *dialog = new ShPlotDialog(this);
+	dialog->exec();
+}
+
+void ShFileMenu::PreviewActionClicked() {
+
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+ShEditMenu::ShEditMenu(const QString &title, QWidget *parent)
+	:ShAbstractMenu(title, parent) {
+
+}
+
+ShEditMenu::~ShEditMenu() {
 
 
 }
