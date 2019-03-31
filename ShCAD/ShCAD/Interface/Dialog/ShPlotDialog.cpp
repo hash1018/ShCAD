@@ -166,7 +166,7 @@ void ShPlotDialog::UpdatePrinterCombo() {
 void ShPlotDialog::PrintButtonClicked() {
 	
 	ShPrinterManager *printerManager = ShPrinterManager::GetInstance();
-	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+	ShGraphicView *view = ShWidgetManager::GetInstance()->GetActivatedWidget();
 	QPrinter *printer = printerManager->Printer();
 
 	printer->setCopyCount(this->numberSpinBox->value());
@@ -183,7 +183,7 @@ void ShPlotDialog::PrintButtonClicked() {
 
 	if (printerManager->GetWhatToPlot() == WhatToPlot::PlotDisplay) {
 
-		windowRect = manager->GetActivatedWidget()->rect();
+		windowRect = view->rect();
 	}
 	else {
 
@@ -228,7 +228,7 @@ void ShPlotDialog::PrintButtonClicked() {
 
 
 
-	manager->GetActivatedWidget()->Print(&painter, scale);
+	view->Print(&painter, scale);
 
 	painter.resetTransform();
 

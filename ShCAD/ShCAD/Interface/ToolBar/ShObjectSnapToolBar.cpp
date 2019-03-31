@@ -2,22 +2,22 @@
 
 #include "ShObjectSnapToolBar.h"
 #include "ShDirectoryManager.h"
-#include <qbitmap.h>
-ShObjectSnapToolBar::ShObjectSnapToolBar(QWidget *parent)
-	:QToolBar(parent) {
+
+ShObjectSnapToolBar::ShObjectSnapToolBar(const QString &title, QWidget *parent)
+	:ShAbstractToolBar(title, parent) {
 
 	this->setIconSize(QSize(20, 20));
 
-	QString path=ShDirectoryManager::GetImageUiPath();
+	QString path = ShDirectoryManager::GetImageUiPath();
 	QIcon icon;
 
 	this->GetIcon(path + "\\Temporary track point.png", icon);
-	QAction *action=this->addAction(icon, "Temporary track point");
+	QAction *action = this->addAction(icon, "Temporary track point");
 	connect(action, &QAction::triggered, this, &ShObjectSnapToolBar::TemporaryTrackPointClicked);
 
 	this->addSeparator();
 
-	this->GetIcon(path + "\\End point.png",icon);
+	this->GetIcon(path + "\\End point.png", icon);
 	action = this->addAction(icon, "End point");
 	connect(action, &QAction::triggered, this, &ShObjectSnapToolBar::EndPointClicked);
 
@@ -26,7 +26,7 @@ ShObjectSnapToolBar::ShObjectSnapToolBar(QWidget *parent)
 	connect(action, &QAction::triggered, this, &ShObjectSnapToolBar::MidPointClicked);
 
 	this->GetIcon(path + "\\Intersection point.png", icon);
-	action=this->addAction(icon, "Intersection point");
+	action = this->addAction(icon, "Intersection point");
 	connect(action, &QAction::triggered, this, &ShObjectSnapToolBar::IntersectionPointClicked);
 
 	this->GetIcon(path + "\\Apparent intersection point.png", icon);
@@ -61,16 +61,6 @@ ShObjectSnapToolBar::ShObjectSnapToolBar(QWidget *parent)
 }
 
 ShObjectSnapToolBar::~ShObjectSnapToolBar() {
-
-}
-
-void ShObjectSnapToolBar::GetIcon(const QString& filePath, QIcon& icon) {
-	
-	QPixmap pix(filePath);
-	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
-	pix.setMask(mask);
-
-	icon = QIcon(pix);
 
 }
 

@@ -27,18 +27,18 @@ void ShPreviewDialog::PrintWidget(QPrinter *printer) {
 
 	QPainter painter(printer);
 	ShPrinterManager *printerManager = ShPrinterManager::GetInstance();
-	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+	ShGraphicView *view = ShWidgetManager::GetInstance()->GetActivatedWidget();
 	double xscale, yscale, scale;
 	QRect rect;
 
 	if (printerManager->GetWhatToPlot() == WhatToPlot::PlotDisplay) {
+		
+		int width = view->width();
+		int height = view->height();
 
-		xscale = printer->pageRect().width() / double(manager->GetActivatedWidget()->width());
-		yscale = printer->pageRect().height() / double(manager->GetActivatedWidget()->height());
+		xscale = printer->pageRect().width() / double(width);
+		yscale = printer->pageRect().height() / double(height);
 		scale = qMin(xscale, yscale);
-
-		int width = manager->GetActivatedWidget()->width();
-		int height = manager->GetActivatedWidget()->height();
 
 		if (width >= height) {
 			rect = QRect(QPoint(printer->paperRect().topLeft().x(),
@@ -61,7 +61,7 @@ void ShPreviewDialog::PrintWidget(QPrinter *printer) {
 			}
 		}
 
-		manager->GetActivatedWidget()->Print(&painter, scale);
+		view->Print(&painter, scale);
 		painter.eraseRect(rect);
 
 	}
@@ -104,7 +104,7 @@ void ShPreviewDialog::PrintWidget(QPrinter *printer) {
 		}
 
 
-		manager->GetActivatedWidget()->Print(&painter, scale);
+		view->Print(&painter, scale);
 
 		painter.eraseRect(rect);
 		
@@ -139,14 +139,15 @@ void ShPreviewDialog::PrintWidgetTemp(QPrinter *printer) {
 
 	QPainter painter(printer);
 	ShPrinterManager *printerManager = ShPrinterManager::GetInstance();
-	ShWidgetManager *manager = ShWidgetManager::GetInstance();
+	ShGraphicView *view = ShWidgetManager::GetInstance()->GetActivatedWidget();
 	double xscale, yscale, scale;
 	QRect drawRect;
 	QRect windowRect;
 
+
 	if (printerManager->GetWhatToPlot() == WhatToPlot::PlotDisplay) {
 
-		windowRect = manager->GetActivatedWidget()->rect();
+		windowRect = view->rect();
 	}
 	else {
 
@@ -192,7 +193,7 @@ void ShPreviewDialog::PrintWidgetTemp(QPrinter *printer) {
 
 
 
-	manager->GetActivatedWidget()->Print(&painter, scale);
+	view->Print(&painter, scale);
 
 	painter.resetTransform();
 

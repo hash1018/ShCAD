@@ -4,8 +4,8 @@
 #include "Interface\Items\ShLayerComboBox.h"
 #include "Singleton Pattern\ShChangeManager.h"
 #include <qpushbutton.h>
-ShLayerToolBar::ShLayerToolBar(QWidget *parent)
-	:QToolBar(parent) {
+ShLayerToolBar::ShLayerToolBar(const QString &title, QWidget *parent)
+	:ShAbstractToolBar(title, parent) {
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();
 	manager->Register(this);

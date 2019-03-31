@@ -26,24 +26,26 @@
 #include "shcad.h"
 #include "Interface\Menu\ShMenuBar.h"
 #include <qmdiarea.h>
-#include <qdockwidget.h>
-#include <qtoolbar.h>
 #include "Interface\Ribbon\ShRibbonMenu.h"
 #include "ShStatusBar.h"
 #include "Dock\ShCommandDock.h"
 #include "Singleton Pattern\ShChangeManager.h"
-#include "Interface\ToolBar\ShPropertyToolBar.h"
-#include "Interface\ToolBar\ShLayerToolBar.h"
-#include "Interface\ToolBar\ShObjectSnapToolBar.h"
+#include "Interface\ToolBar\ShToolBarContainer.h"
+
 
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 
-	
 	this->InitWidgets();
 	this->NewActionClicked();
 
-	
+	this->contextMenu = new QMenu("ContextMenu", this);
+	this->contextMenu->addMenu(this->toolBarContainer->GetToolBarMenu());
+	this->contextMenu->addAction("sdad", this, SLOT(TestCustomContextMenu()));
+
+
+	this->setContextMenuPolicy(Qt::CustomContextMenu);
+	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(ShowContextMenu(const QPoint &)));
 
 	
 	connect(this->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(SubActivatedWindowChanged(QMdiSubWindow*)));
@@ -55,6 +57,8 @@ ShCAD::~ShCAD(){
 	if (this->mdiArea != NULL)
 		delete this->mdiArea;
 
+	if (this->toolBarContainer != NULL)
+		delete this->toolBarContainer;
 	
 }
 
@@ -84,42 +88,28 @@ void ShCAD::NewActionClicked() {
 #include <QResizeEvent>
 bool ShCAD::eventFilter(QObject *obj, QEvent *event) {
 	
-	if (event->type() == QEvent::Resize && obj == this->dock) {
+	if (event->type() == QEvent::Resize && obj == this->commandDock) {
 		QResizeEvent *resizeEvent = static_cast<QResizeEvent*>(event);
 		qDebug("Dock Resized (New Size) - Width: %d Height: %d",
 			resizeEvent->size().width(),
 			resizeEvent->size().height());
-		
-		
-		this->resizeDocks({ this->dock }, { resizeEvent->size().width() }, 
+	
+		this->resizeDocks({ this->commandDock }, { resizeEvent->size().width() }, 
 			Qt::Orientation::Horizontal);
 
-		this->resizeDocks({ this->dock }, { resizeEvent->size().height() }, Qt::Orientation::Vertical);
+		this->resizeDocks({ this->commandDock }, { resizeEvent->size().height() }, 
+			Qt::Orientation::Vertical);
 	}
 	
 	return QWidget::eventFilter(obj, event);
 }
 
-/*
+
 void ShCAD::ShowContextMenu(const QPoint &pos) {
 
-	QMenu contextMenu(tr("Context menu"), this);
-
-	QAction action1("Remove Data Point", this);
-	connect(&action1, SIGNAL(triggered()), this, SLOT(TestCustomContextMenu()));
-	contextMenu.addAction(&action1);
-
-	contextMenu.exec(mapToGlobal(pos));
-
+	if (this->mdiArea->subWindowList().size() != 0)
+		this->contextMenu->exec(mapToGlobal(pos));
 }
-
-#include <qmessagebox.h>
-void ShCAD::TestCustomContextMenu() {
-	QMessageBox box;
-	box.exec();
-
-}
-*/
 
 void ShCAD::SubActivatedWindowChanged(QMdiSubWindow *window) {
 
@@ -141,7 +131,10 @@ void ShCAD::InitWidgets() {
 
 	this->ribbon = new ShRibbonMenu(150, this);
 	this->ribbon->setWindowTitle("RibbonBar");
+	this->addToolBar(Qt::ToolBarArea::TopToolBarArea, this->ribbon);
 	this->ribbon->hide();
+	this->addToolBarBreak();
+
 	
 
 	this->statusBar = new ShStatusBar(this);
@@ -150,29 +143,18 @@ void ShCAD::InitWidgets() {
 	
 
 	this->commandDock = new ShCommandDock(this);
+	this->commandDock->installEventFilter(this);
 	this->commandDock->setWindowTitle("Command");
 	this->commandDock->hide();
 	
-	this->dock = new QDockWidget(this);
-	this->dock->installEventFilter(this);
-	this->dock->hide();
+	
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();
 	manager->Register(this->statusBar);
 	manager->Register(this->commandDock);
 
-	this->propertyToolBar = new ShPropertyToolBar(this);
-	this->propertyToolBar->setWindowTitle("Property");
-	this->propertyToolBar->hide();
+	this->toolBarContainer = new ShToolBarContainer(this);
 
-	this->layerToolBar = new ShLayerToolBar(this);
-	this->layerToolBar->setWindowTitle("Layer");
-	this->layerToolBar->hide();
-
-	this->objectSnapToolBar = new ShObjectSnapToolBar(this);
-	this->objectSnapToolBar->setWindowTitle("ObjectSnap");
-	this->objectSnapToolBar->hide();
-	
 }
 
 void ShCAD::ActivateWidgets() {
@@ -182,27 +164,14 @@ void ShCAD::ActivateWidgets() {
 	this->setCentralWidget(this->mdiArea);
 	this->mdiArea->show();
 
-	this->addToolBar(this->ribbon);
 	this->ribbon->show();
-	this->addToolBarBreak();
-
+	
 	this->statusBar->show();
 	
 	this->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea, this->commandDock);
 	this->commandDock->show();
 
-	this->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, this->dock);
-	this->dock->show();
-	
-	this->addToolBar(Qt::ToolBarArea::TopToolBarArea,this->propertyToolBar);
-	this->propertyToolBar->show();
-
-	this->addToolBar(Qt::ToolBarArea::TopToolBarArea, this->layerToolBar);
-	this->layerToolBar->show();
-
-	this->addToolBar(Qt::ToolBarArea::TopToolBarArea, this->objectSnapToolBar);
-	this->objectSnapToolBar->show();
-
+	this->toolBarContainer->Activate();
 
 }
 
@@ -211,11 +180,10 @@ void ShCAD::DeActivateWidgets() {
 	this->menuBar->DeActivateMenu();
 
 	this->takeCentralWidget();
-	this->removeToolBar(this->ribbon);
+	this->ribbon->hide();
 	this->statusBar->hide();
 	this->removeDockWidget(this->commandDock);
-	this->removeDockWidget(this->dock);
-	this->removeToolBar(this->propertyToolBar);
-	this->removeToolBar(this->layerToolBar);
-	this->removeToolBar(this->objectSnapToolBar);
+
+	this->toolBarContainer->DeActivate();
+
 }

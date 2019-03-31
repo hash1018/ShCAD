@@ -3,7 +3,7 @@
 #ifndef _SHPROPERTYTOOLBAR_H
 #define _SHPROPERTYTOOLBAR_H
 
-#include <qtoolbar.h>
+#include "ShAbstractToolBar.h"
 
 class ShColorComboBox;
 class ShActivatedWidgetChangedEvent;
@@ -18,7 +18,7 @@ class ShLineStyleComboBox;
 class ShLineStyle;
 
 
-class ShPropertyToolBar : public QToolBar {
+class ShPropertyToolBar : public ShAbstractToolBar {
 	Q_OBJECT
 
 private:
@@ -28,7 +28,7 @@ private:
 	
 
 public:
-	ShPropertyToolBar(QWidget *parent = 0);
+	ShPropertyToolBar(const QString &title, QWidget *parent = 0);
 	~ShPropertyToolBar();
 
 	void Update(ShActivatedWidgetChangedEvent *event);

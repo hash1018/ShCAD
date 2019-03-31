@@ -36,30 +36,22 @@ class ShMenuBar;
 class ShStatusBar;
 class ShRibbonMenu;
 class ShCommandDock;
-class ShPropertyToolBar;
-class ShLayerToolBar;
-class ShObjectSnapToolBar;
-
-class QDockWidget;
-class QToolBar;
 class QMdiSubWindow;
+class ShToolBarContainer;
+class QMenu;
 class ShCAD : public QMainWindow{
 	Q_OBJECT
 
 private:
+	QMenu *contextMenu;
 	ShMenuBar *menuBar;
 	QMdiArea *mdiArea;
 	ShStatusBar *statusBar;
 	ShRibbonMenu *ribbon;
 	ShCommandDock *commandDock;
-	ShPropertyToolBar *propertyToolBar;
-	ShLayerToolBar *layerToolBar;
-	ShObjectSnapToolBar *objectSnapToolBar;
+	ShToolBarContainer *toolBarContainer;
 
 
-	QDockWidget *dock;
-
-	QToolBar *toolBar;
 
 public:
 	ShCAD(QWidget *parent = 0);
@@ -71,20 +63,13 @@ public:
 	void ActivateWidgets();
 	void DeActivateWidgets();
 
-
-	private slots:
-	void SubActivatedWindowChanged(QMdiSubWindow*);
-
-
-
 protected:
 	bool eventFilter(QObject *obj, QEvent *event);
 
-	
-	//void ShowContextMenu(const QPoint &pos);
-	//void TestCustomContextMenu();
+	private slots:
+	void SubActivatedWindowChanged(QMdiSubWindow*);
+	void ShowContextMenu(const QPoint &pos);
 
-	
 };
 
 #endif // SHCAD_H

@@ -3,7 +3,7 @@
 #ifndef _SHLAYERTOOLBAR_H
 #define _SHLAYERTOOLBAR_H
 
-#include <qtoolbar.h>
+#include "ShAbstractToolBar.h"
 class ShLayerComboBox;
 class ShActivatedWidgetChangedEvent;
 class ShCurrentActionChangedEvent;
@@ -12,14 +12,14 @@ class ShNotifyEvent;
 class QPushButton;
 class ShLayer;
 class ShColor;
-class ShLayerToolBar : public QToolBar {
+class ShLayerToolBar : public ShAbstractToolBar {
 	Q_OBJECT
 private:
 	QPushButton *layerButton;
 	ShLayerComboBox *layerCombo;
 
 public:
-	ShLayerToolBar(QWidget *parent = 0);
+	ShLayerToolBar(const QString &title, QWidget *parent = 0);
 	~ShLayerToolBar();
 
 	void Update(ShActivatedWidgetChangedEvent *event);

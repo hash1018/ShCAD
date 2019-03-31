@@ -3,16 +3,16 @@
 #ifndef _SHOBJECTSNAPTOOLBAR_H
 #define _SHOBJECTSNAPTOOLBAR_H
 
-#include <qtoolbar.h>
+#include "ShAbstractToolBar.h"
 
-class ShObjectSnapToolBar : public QToolBar {
+class ShObjectSnapToolBar : public ShAbstractToolBar {
 
 public:
-	ShObjectSnapToolBar(QWidget *parent = 0);
+	ShObjectSnapToolBar(const QString &title, QWidget *parent = 0);
 	~ShObjectSnapToolBar();
 
 private:
-	void GetIcon(const QString& filePath, QIcon& icon);
+	
 
 	private slots:
 	void TemporaryTrackPointClicked();

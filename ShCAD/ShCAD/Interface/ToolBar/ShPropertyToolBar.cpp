@@ -10,8 +10,8 @@
 #include "Singleton Pattern\ShLineStyleComboList.h"
 
 
-ShPropertyToolBar::ShPropertyToolBar(QWidget *parent)
-	:QToolBar(parent){
+ShPropertyToolBar::ShPropertyToolBar(const QString &title, QWidget *parent)
+	:ShAbstractToolBar(title, parent) {
 
 	ShChangeManager *manager = ShChangeManager::GetInstance();
 	manager->Register(this);
@@ -21,7 +21,7 @@ ShPropertyToolBar::ShPropertyToolBar(QWidget *parent)
 	this->colorCombo->setMinimumWidth(150);
 	this->addWidget(this->colorCombo);
 
-	
+
 	connect(this->colorCombo, SIGNAL(ColorChanged(const ShColor&)), this, SLOT(ColorSelChanged(const ShColor&)));
 
 	this->addSeparator();
@@ -33,7 +33,7 @@ ShPropertyToolBar::ShPropertyToolBar(QWidget *parent)
 	connect(this->lineStyleCombo, SIGNAL(LineStyleChanged(const ShLineStyle&)), this, SLOT(LineStyleSelChanged(const ShLineStyle&)));
 
 
-	
+
 }
 
 ShPropertyToolBar::~ShPropertyToolBar() {

@@ -32,8 +32,11 @@ QIcon ShAbstractMenu::GetIcon(const QString &filePath) {
 
 ShEmptyDrawingFileMenu::ShEmptyDrawingFileMenu(const QString &title, QWidget *parent)
 	:ShAbstractMenu(title, parent) {
+	QString path = ShDirectoryManager::GetImageUiPath();
+	QIcon icon;
 
-	this->newAction = new QAction("New empty", this);
+	icon = this->GetIcon(path + "\\Utility\\New.png");
+	this->newAction = new QAction(icon, "New", this);
 
 	this->addAction(this->newAction);
 
@@ -51,15 +54,21 @@ ShEmptyDrawingFileMenu::~ShEmptyDrawingFileMenu() {
 ShFileMenu::ShFileMenu(const QString &title, QWidget *parent)
 	:ShAbstractMenu(title, parent) {
 
-	this->newAction = new QAction("New", this);
+	QString path = ShDirectoryManager::GetImageUiPath();
+	QIcon icon;
+
+	icon = this->GetIcon(path + "\\Utility\\New.png");
+	this->newAction = new QAction(icon, "New", this);
 	this->addAction(this->newAction);
 
 	this->addSeparator();
 
-	this->printAction = new QAction("Print", this);
+	icon = this->GetIcon(path + "\\Utility\\Print.png");
+	this->printAction = new QAction(icon, "Print", this);
 	this->addAction(this->printAction);
 
-	this->previewAction = new QAction("Preview", this);
+	icon = this->GetIcon(path + "\\Utility\\Preview.png");
+	this->previewAction = new QAction(icon, "Preview", this);
 	this->addAction(this->previewAction);
 
 	ShMenuBar *menuBar = dynamic_cast<ShMenuBar*>(this->parent());
@@ -82,9 +91,15 @@ void ShFileMenu::PrintActionClicked() {
 	dialog->exec();
 }
 
+#include "Singleton Pattern\ShPrinterManager.h"
+#include "Interface\Dialog\ShPreviewDialog.h"
 void ShFileMenu::PreviewActionClicked() {
 
+	if (ShPrinterManager::GetInstance()->IsSavedInfo() == false)
+		return;
 
+	ShPreviewDialog previewDlg(this);
+	previewDlg.exec();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -515,14 +515,26 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_ShPreviewDialog.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\Dialog\ShPreviewDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_ShPreviewDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Visitor Pattern\ShPrintVisitor.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShToolBarContainer.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Dialog\ShPreviewDialog.cpp">
+      <Filter>Interface\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShAbstractToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShDrawToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShModifyToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -569,7 +581,7 @@
       <Filter>Interface\Dialog</Filter>
     </CustomBuild>
     <CustomBuild Include="Interface\Dialog\ShPreviewDialog.h">
-      <Filter>Header Files</Filter>
+      <Filter>Interface\Dialog</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -874,7 +886,19 @@
       <Filter>Singleton Pattern</Filter>
     </ClInclude>
     <ClInclude Include="Visitor Pattern\ShPrintVisitor.h">
-      <Filter>Header Files</Filter>
+      <Filter>Visitor Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShToolBarContainer.h">
+      <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShAbstractToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShDrawToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShModifyToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
