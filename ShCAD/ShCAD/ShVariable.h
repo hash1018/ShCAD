@@ -65,6 +65,8 @@ enum ActionType {
 	ActionModifyExtend,
 	ActionModifyTrim,
 
+
+	ActionPlotAreaSelect,
 };
 
 

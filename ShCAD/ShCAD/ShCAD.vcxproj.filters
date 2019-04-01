@@ -536,6 +536,9 @@
     <ClCompile Include="Interface\ToolBar\ShModifyToolBar.cpp">
       <Filter>Interface\ToolBar</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ShPlotAreaSelectAction.cpp">
+      <Filter>ActionHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shcad.qrc">
@@ -899,6 +902,9 @@
     </ClInclude>
     <ClInclude Include="Interface\ToolBar\ShModifyToolBar.h">
       <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ShPlotAreaSelectAction.h">
+      <Filter>ActionHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

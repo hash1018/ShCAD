@@ -158,6 +158,7 @@
     <ClCompile Include="ActionHandler\ShActionHandlerManager.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerDecorator.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
+    <ClCompile Include="ActionHandler\ShPlotAreaSelectAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShStretchTemporaryAction.cpp" />
@@ -412,6 +413,7 @@
     <ClInclude Include="ActionHandler\ShActionHandlerManager.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerDecorator.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
+    <ClInclude Include="ActionHandler\ShPlotAreaSelectAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShStretchTemporaryAction.h" />

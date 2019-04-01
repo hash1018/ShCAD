@@ -37,6 +37,7 @@
 #include "ActionHandler\ModifyAction\ShModifyExtendAction.h"
 #include "ActionHandler\ModifyAction\ShModifyTrimAction.h"
 #include "ActionHandler\DrawAction\ShDrawPolyLineAction.h"
+#include "ActionHandler\ShPlotAreaSelectAction.h"
 ShCreatorActionFactory::ShCreatorActionFactory(){
 
 }
@@ -100,6 +101,9 @@ ShActionHandler* ShCreatorActionFactory::Create(ActionType actionType, ShGraphic
 		return new ShModifyTrimAction(graphicView);
 	if (actionType == ActionType::ActionDrawPolyLine)
 		return new ShDrawPolyLineAction(graphicView);
+
+	if (actionType == ActionType::ActionPlotAreaSelect)
+		return new ShPlotAreaSelectAction(graphicView);
 
 	return new ShDefaultAction(graphicView);
 }

@@ -313,23 +313,22 @@ void ShPlotDialog::WhatToPlotIndexChanged(int index) {
 
 }
 
-//#include "State Pattern\PlotMode.h"
+#include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
+#include "ActionHandler\ShActionHandlerManager.h"
+#include "ActionHandler\ShPlotAreaSelectAction.h"
 void ShPlotDialog::WindowButtonClicked() {
-	/*
-	WidgetManager *manager = WidgetManager::GetInstance();
+	
+	ShGraphicView *view = ShWidgetManager::GetInstance()->GetActivatedWidget();
 
-	if (manager->currentWidget != NULL) {
-		manager->currentWidget->InitializeProperty();
-		FigureMode *figureMode = manager->currentWidget->ChangeMode(PLOT);
+	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionPlotAreaSelect);
+	view->ChangeCurrentAction(strategy);
+	ShActionHandler *action = const_cast<ShActionHandler*>(view->actionHandlerManager->GetCurrentAction());
 
-		if (!dynamic_cast<PlotMode*>(figureMode))
-			return;
+	ShPlotAreaSelectAction *plotAreaSelectAction = dynamic_cast<ShPlotAreaSelectAction*>(action);
+	plotAreaSelectAction->SetPlotDialog(this);
+	this->setVisible(false);
 
-		PlotMode *plotMode = dynamic_cast<PlotMode*>(figureMode);
-		plotMode->SetShPlotDialog(this);
-		this->setVisible(false);
-	}
-	*/
+
 }
 
 
