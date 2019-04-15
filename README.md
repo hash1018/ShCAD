@@ -1,6 +1,6 @@
 # ShCAD
 * ShCAD is a 2D CAD program written C++ using Qt framework.
-* ShCAD is a toy project that imporves my programming skills.
+* ShCAD is a toy project that improves my programming skills.
 
 # Main Features
 * Draw Entity (line, circle, arc, etc)
