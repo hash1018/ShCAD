@@ -3,7 +3,7 @@ ShCAD is a 2D CAD program written C++ using Qt framework.
 
 
 # Requirments:
-> Qt 5.12.1
+* Qt 5.12.1
 
 
 
