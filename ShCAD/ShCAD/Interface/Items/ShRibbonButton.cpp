@@ -26,6 +26,7 @@ void ShAbstractRibbonButton::ChangeStrategy(ShButtonWithMenuPopupStrategy *strat
 
 	this->strategy = strategy;
 	this->SetIcon(this->strategy->GetIcon());
+	this->setToolTip(this->strategy->GetToolTip());
 
 }
 
@@ -43,6 +44,7 @@ ShRibbonCircleButton::ShRibbonCircleButton(QWidget *parent)
 
 	this->strategy = new ShCircleButtonCenterRadiusStrategy;
 	this->SetIcon(this->strategy->GetIcon());
+	this->setToolTip(this->strategy->GetToolTip());
 	
 	QMenu *menu = new QMenu(this->popupButton);
 	menu->addAction(ShCircleButtonCenterRadiusStrategy::GetIcon_(), "Center, Radius", this, SLOT(CenterRadiusActionClicked()));
@@ -88,6 +90,7 @@ ShRibbonArcButton::ShRibbonArcButton(QWidget *parent)
 
 	this->strategy = new ShArcButtonThreePointStrategy;
 	this->SetIcon(this->strategy->GetIcon());
+	this->setToolTip(this->strategy->GetToolTip());
 
 	QMenu *menu = new QMenu(this->popupButton);
 	menu->addAction(ShArcButtonThreePointStrategy::GetIcon_(), "3-Point", 
@@ -191,6 +194,7 @@ ShRibbonPolyLineButton::ShRibbonPolyLineButton(QWidget *parent)
 
 	this->strategy = new ShPolyLineButtonStrategy;
 	this->SetIcon(this->strategy->GetIcon());
+	this->setToolTip(this->strategy->GetToolTip());
 
 	QMenu *menu = new QMenu(this->popupButton);
 	menu->addAction(ShPolyLineButtonStrategy::GetIcon_(), "PolyLine",

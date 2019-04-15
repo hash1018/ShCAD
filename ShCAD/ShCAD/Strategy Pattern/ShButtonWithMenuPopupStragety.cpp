@@ -39,6 +39,7 @@ QIcon ShButtonWithMenuPopupStrategy::GetIcon_(const QString& filePath) {
 	return icon;
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 ShCircleButtonCenterRadiusStrategy::ShCircleButtonCenterRadiusStrategy() {
@@ -76,6 +77,10 @@ QIcon ShCircleButtonCenterRadiusStrategy::GetIcon_() {
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Circle\\Center-Radius.png");
 }
 
+QString ShCircleButtonCenterRadiusStrategy::GetToolTip() {
+
+	return QString("Center, Radius \nCreates a circle using a center point and a radius");
+}
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -111,6 +116,11 @@ QIcon ShCircleButtonCenterDiameterStrategy::GetIcon_() {
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Circle\\Center-Diameter.png");
 
+}
+
+QString ShCircleButtonCenterDiameterStrategy::GetToolTip() {
+
+	return QString("Center, Diameter \nCreates a circle using a center point and a diameter");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,6 +159,11 @@ QIcon ShCircleButtonTwoPointStrategy::GetIcon_() {
 
 }
 
+QString ShCircleButtonTwoPointStrategy::GetToolTip() {
+
+	return QString("2-Point \nCreates a circle using two endpoints of the diameter");
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -185,6 +200,11 @@ QIcon ShCircleButtonThreePointStrategy::GetIcon_() {
 
 }
 
+QString ShCircleButtonThreePointStrategy::GetToolTip() {
+
+	return QString("3-Point \nCreates a circle using three points on the circumference");
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShArcButtonThreePointStrategy::ShArcButtonThreePointStrategy() {
@@ -219,6 +239,10 @@ QIcon ShArcButtonThreePointStrategy::GetIcon_() {
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\3Point.png");
 }
 
+QString ShArcButtonThreePointStrategy::GetToolTip() {
+
+	return QString("3-Point \nCreates an arc using three points");
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -254,6 +278,11 @@ QIcon ShArcButtonStartCenterEndStrategy::GetIcon_() {
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-Center-End.png");
 }
 
+QString ShArcButtonStartCenterEndStrategy::GetToolTip() {
+
+	return QString("Start, Center, End \nCreates an arc using a start point, center, and end point");
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShArcButtonStartCenterAngleStrategy::ShArcButtonStartCenterAngleStrategy() {
@@ -286,6 +315,11 @@ QIcon ShArcButtonStartCenterAngleStrategy::GetIcon_() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-Center-Angle.png");
+}
+
+QString ShArcButtonStartCenterAngleStrategy::GetToolTip() {
+
+	return QString("Start, Center, Angle \nCreates an arc using a start point, center, and an included angle");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -323,6 +357,11 @@ QIcon ShArcButtonStartCenterLengthStrategy::GetIcon_() {
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-Center-Length.png");
 }
 
+QString ShArcButtonStartCenterLengthStrategy::GetToolTip() {
+
+	return QString("Start, Center, Length \nCreates an arc using a start point, center, and the length of a chord");
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -358,6 +397,11 @@ QIcon ShArcButtonStartEndAngleStrategy::GetIcon_() {
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-End-Angle.png");
 }
 
+QString ShArcButtonStartEndAngleStrategy::GetToolTip() {
+
+	return QString("Start, End, Angle \nCreates an arc using a start point, end point, and an included angle");
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 ShArcButtonStartEndDirectionStrategy::ShArcButtonStartEndDirectionStrategy() {
@@ -390,6 +434,12 @@ QIcon ShArcButtonStartEndDirectionStrategy::GetIcon_() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-End-Direction.png");
+}
+
+
+QString ShArcButtonStartEndDirectionStrategy::GetToolTip() {
+
+	return QString("Start, End, Direction \nCreates an arc using a start point, end point, and a tangent direction at the start point");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -427,6 +477,11 @@ QIcon ShArcButtonStartEndRadiusStrategy::GetIcon_() {
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Start-End-Radius.png");
 }
 
+QString ShArcButtonStartEndRadiusStrategy::GetToolTip() {
+
+	return QString("Start, End, Radius \nCreates an arc using a start point, end point, and a radius");
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 ShArcButtonCenterStartEndStrategy::ShArcButtonCenterStartEndStrategy() {
@@ -462,6 +517,11 @@ QIcon ShArcButtonCenterStartEndStrategy::GetIcon_() {
 }
 
 
+QString ShArcButtonCenterStartEndStrategy::GetToolTip() {
+
+	return QString("Center, Start, End \nCreates an arc using a center point, start point, and a third point that determines the end point");
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 ShArcButtonCenterStartAngleStrategy::ShArcButtonCenterStartAngleStrategy() {
@@ -495,6 +555,11 @@ QIcon ShArcButtonCenterStartAngleStrategy::GetIcon_() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\Arc\\Center-Start-Angle.png");
+}
+
+QString ShArcButtonCenterStartAngleStrategy::GetToolTip() {
+
+	return QString("Center, Start, Angle \nCreates an arc using a center point, start point, and an included angle");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -532,6 +597,11 @@ QIcon ShArcButtonCenterStartLengthStrategy::GetIcon_() {
 }
 
 
+QString ShArcButtonCenterStartLengthStrategy::GetToolTip() {
+
+	return QString("Center, Start, Length \nCreates an arc using a center point, start point, and a length of the chord");
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ShRectangleButtonStrategy::ShRectangleButtonStrategy() {
@@ -564,6 +634,11 @@ QIcon ShRectangleButtonStrategy::GetIcon_() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\PolyLine\\Rectangle.png");
+}
+
+QString ShRectangleButtonStrategy::GetToolTip() {
+
+	return QString("Rectangle \nCreates a rectangular polyline");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -599,6 +674,11 @@ QIcon ShPolygonButtonStrategy::GetIcon_() {
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\PolyLine\\Polygon.png");
 }
 
+QString ShPolygonButtonStrategy::GetToolTip() {
+
+	return QString("Polygon \nCreates an equilateral closed polyline");
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 ShPolyLineButtonStrategy::ShPolyLineButtonStrategy() {
@@ -632,4 +712,9 @@ QIcon ShPolyLineButtonStrategy::GetIcon_() {
 
 	QString path = ShDirectoryManager::GetImageUiPath();
 	return ShButtonWithMenuPopupStrategy::GetIcon_(path + "\\PolyLine\\PolyLine.png");
+}
+
+QString ShPolyLineButtonStrategy::GetToolTip() {
+
+	return QString("PolyLine \nCreates a polyline");
 }

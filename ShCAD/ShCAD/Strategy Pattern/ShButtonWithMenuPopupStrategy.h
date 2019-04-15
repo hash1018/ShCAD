@@ -12,6 +12,7 @@ public:
 
 	virtual void Do() = 0;
 	virtual QIcon GetIcon()= 0;
+	virtual QString GetToolTip() = 0;
 
 protected:
 	QIcon GetIcon(const QString& filePath);
@@ -29,6 +30,8 @@ public:
 	virtual QIcon GetIcon();
 	
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShCircleButtonCenterDiameterStrategy : public ShButtonWithMenuPopupStrategy {
@@ -41,6 +44,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 	
 };
 
@@ -54,6 +59,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShCircleButtonThreePointStrategy : public ShButtonWithMenuPopupStrategy {
@@ -66,6 +73,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -80,6 +89,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShArcButtonStartCenterEndStrategy : public ShButtonWithMenuPopupStrategy {
@@ -92,6 +103,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShArcButtonStartCenterAngleStrategy : public ShButtonWithMenuPopupStrategy {
@@ -104,6 +117,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShArcButtonStartCenterLengthStrategy : public ShButtonWithMenuPopupStrategy {
@@ -116,6 +131,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShArcButtonStartEndAngleStrategy : public ShButtonWithMenuPopupStrategy {
@@ -128,6 +145,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShArcButtonStartEndDirectionStrategy : public ShButtonWithMenuPopupStrategy {
@@ -140,6 +159,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShArcButtonStartEndRadiusStrategy : public ShButtonWithMenuPopupStrategy {
@@ -152,6 +173,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShArcButtonCenterStartEndStrategy : public ShButtonWithMenuPopupStrategy {
@@ -164,6 +187,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShArcButtonCenterStartAngleStrategy : public ShButtonWithMenuPopupStrategy {
@@ -176,6 +201,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 class ShArcButtonCenterStartLengthStrategy : public ShButtonWithMenuPopupStrategy {
@@ -188,6 +215,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 };
 
 
@@ -202,6 +231,8 @@ public:
 
 	static QIcon GetIcon_();
 
+	virtual QString GetToolTip();
+
 };
 
 class ShPolygonButtonStrategy : public ShButtonWithMenuPopupStrategy {
@@ -215,6 +246,8 @@ public:
 
 	static QIcon GetIcon_();
 
+	virtual QString GetToolTip();
+
 };
 
 class ShPolyLineButtonStrategy : public ShButtonWithMenuPopupStrategy {
@@ -227,6 +260,8 @@ public:
 	virtual QIcon GetIcon();
 
 	static QIcon GetIcon_();
+
+	virtual QString GetToolTip();
 
 };
 

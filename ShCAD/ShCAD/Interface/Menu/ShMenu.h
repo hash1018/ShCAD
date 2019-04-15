@@ -32,7 +32,7 @@ class ShFileMenu : public ShAbstractMenu {
 private:
 	QAction *newAction;
 
-	QAction *printAction;
+	QAction *plotAction;
 	QAction *previewAction;
 
 public:
@@ -40,7 +40,7 @@ public:
 	~ShFileMenu();
 
 	private slots:
-	void PrintActionClicked();
+	void PlotActionClicked();
 	void PreviewActionClicked();
 
 };

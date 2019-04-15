@@ -9,7 +9,6 @@
 #include <qcheckbox.h>
 #include <qspinbox.h>
 
-//#include "SettingManager.h"
 #include <qpagesetupdialog.h>
 
 #include "Singleton Pattern\ShPrinterManager.h"
@@ -17,8 +16,8 @@
 ShPlotDialog::ShPlotDialog(QWidget *parent)
 	:QDialog(parent), windowPrevX(0), windowPrevY(0), windowCurrentX(0), windowCurrentY(0) {
 
-	this->setMinimumSize(450, 600);
-	this->setMaximumSize(450, 600);
+	this->setMinimumSize(450, 400);
+	this->setMaximumSize(450, 400);
 
 
 	this->CreateItems();
@@ -134,22 +133,28 @@ void ShPlotDialog::UpdateWhatToPlotCombo() {
 
 }
 
-
+#include "ShDirectoryManager.h"
+#include <qbitmap.h>
 void ShPlotDialog::UpdatePrinterCombo() {
 	
 	this->printerCombo->clear();
 
-	//QString dir = GetImagePath();
-	//QString filePath;
-	//filePath = dir + "\\Print.bmp";
-	//QIcon icon(filePath);
+	QString dir = ShDirectoryManager::GetImageUiPath();
+	QString filePath;
+	filePath = dir + "\\Utility\\Print.png";
+
+	QPixmap pix(filePath);
+	QBitmap mask = pix.createMaskFromColor(QColor(255, 255, 255), Qt::MaskMode::MaskInColor);
+	pix.setMask(mask);
+
+	QIcon icon(pix);
 
 	QStringList names = QPrinterInfo::availablePrinterNames();
 
 	for (int i = 0; i < names.size(); i++) {
 
-	//	this->printerCombo->addItem(icon, names[i]);
-		this->printerCombo->addItem(names[i]);
+		this->printerCombo->addItem(icon, names[i]);
+		
 	}
 
 	this->printerCombo->setCurrentIndex(this->printerCombo->findText(QPrinterInfo::defaultPrinterName()));

@@ -96,6 +96,7 @@ void ShDrawColumn::InitLineButton() {
 	QIcon icon(pix);
 	this->lineButton = new ShButtonWithMenuPopup(this->layoutWidget);
 	this->lineButton->SetIcon(icon);
+	this->lineButton->setToolTip("Line \nCreates straight line segments");
 
 	QMenu *menu = new QMenu(this->lineButton);
 	menu->addAction("Construction Line");

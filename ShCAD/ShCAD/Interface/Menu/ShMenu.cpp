@@ -64,8 +64,8 @@ ShFileMenu::ShFileMenu(const QString &title, QWidget *parent)
 	this->addSeparator();
 
 	icon = this->GetIcon(path + "\\Utility\\Print.png");
-	this->printAction = new QAction(icon, "Print", this);
-	this->addAction(this->printAction);
+	this->plotAction = new QAction(icon, "Plot", this);
+	this->addAction(this->plotAction);
 
 	icon = this->GetIcon(path + "\\Utility\\Preview.png");
 	this->previewAction = new QAction(icon, "Preview", this);
@@ -73,7 +73,7 @@ ShFileMenu::ShFileMenu(const QString &title, QWidget *parent)
 
 	ShMenuBar *menuBar = dynamic_cast<ShMenuBar*>(this->parent());
 	connect(this->newAction, &QAction::triggered, menuBar, &ShMenuBar::NewActionClicked);
-	connect(this->printAction, &QAction::triggered, this, &ShFileMenu::PrintActionClicked);
+	connect(this->plotAction, &QAction::triggered, this, &ShFileMenu::PlotActionClicked);
 	connect(this->previewAction, &QAction::triggered, this, &ShFileMenu::PreviewActionClicked);
 
 	
@@ -85,7 +85,7 @@ ShFileMenu::~ShFileMenu() {
 }
 
 #include "Interface\Dialog\ShPlotDialog.h"
-void ShFileMenu::PrintActionClicked() {
+void ShFileMenu::PlotActionClicked() {
 
 	ShPlotDialog *dialog = new ShPlotDialog(this);
 	dialog->exec();
