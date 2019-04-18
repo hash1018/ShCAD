@@ -41,7 +41,7 @@ ShCAD::ShCAD(QWidget *parent)
 
 	this->contextMenu = new QMenu("ContextMenu", this);
 	this->contextMenu->addMenu(this->toolBarContainer->GetToolBarMenu());
-	this->contextMenu->addAction("sdad", this, SLOT(TestCustomContextMenu()));
+	//this->contextMenu->addAction("sdad", this, SLOT(TestCustomContextMenu()));
 
 
 	this->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -128,6 +128,7 @@ void ShCAD::InitWidgets() {
 	this->mdiArea = new QMdiArea;
 	this->mdiArea->setDocumentMode(true);
 	this->mdiArea->hide();
+	this->mdiArea->setContextMenuPolicy(Qt::ContextMenuPolicy::PreventContextMenu);
 
 	this->ribbon = new ShRibbonMenu(150, this);
 	this->ribbon->setWindowTitle("RibbonBar");
