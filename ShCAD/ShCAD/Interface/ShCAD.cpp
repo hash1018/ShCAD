@@ -94,6 +94,7 @@ void ShCAD::createCADWidget() {
 void ShCAD::createContextMenu() {
 
 	this->contextMenu = new QMenu("ContextMenu", this);
+	this->addAction(this->commandDock->getMenuAction());
 }
 
 bool ShCAD::eventFilter(QObject *obj, QEvent *event) {

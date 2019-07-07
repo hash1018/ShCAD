@@ -59,6 +59,9 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{cd12fc69-b8ab-4e16-8e83-cdf3fa2f3402}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface\Ribbon\Button">
+      <UniqueIdentifier>{6ce5ff42-b91c-4fa9-ab78-80ce2805e372}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,9 +81,6 @@
     </ClCompile>
     <ClCompile Include="Interface\Dock\ShCommandDock.cpp">
       <Filter>Interface\Dock</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\ShPoint3d.cpp">
-      <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_ShButton.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -106,6 +106,24 @@
     <ClCompile Include="Manager\ShCADWidgetManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Data\ShPoint.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Ribbon\ShRibbon.cpp">
+      <Filter>Interface\Ribbon</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShRibbonButton.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShRibbonButton.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Ribbon\Button\ShRibbonButton.cpp">
+      <Filter>Interface\Ribbon\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Ribbon\Button\ShRibbonButtonStragety.cpp">
+      <Filter>Interface\Ribbon\Button</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -116,6 +134,9 @@
     </CustomBuild>
     <CustomBuild Include="Interface\Item\ShButton.h">
       <Filter>Interface\Item</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Ribbon\Button\ShRibbonButton.h">
+      <Filter>Interface\Ribbon\Button</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="Manager\ShCADWidgetManager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Ribbon\ShRibbon.h">
+      <Filter>Interface\Ribbon</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Ribbon\Button\ShRibbonButtonStrategy.h">
+      <Filter>Interface\Ribbon\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
