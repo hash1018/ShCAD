@@ -7,7 +7,6 @@ int main(int argc, char *argv[])
 	ShCAD w;
 
 	w.showMaximized();
-
 	return a.exec();
 }
 
