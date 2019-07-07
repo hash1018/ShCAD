@@ -12,6 +12,7 @@
 #include "Ribbon\ShRibbonMenu.h"
 #include "StatusBar\ShStatusBar.h"
 #include "ToolBar\ShToolBarContainer.h"
+#include "Manager\ShChangeManager.h"
 
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
@@ -68,6 +69,10 @@ void ShCAD::initWidgets() {
 
 void ShCAD::registerWidgets() {
 
+	ShChangeManager *manager = ShChangeManager::getInstance();
+
+	manager->Register(this->statusBar);
+	manager->Register(this->commandDock);
 }
 
 void ShCAD::activateWidgets() {

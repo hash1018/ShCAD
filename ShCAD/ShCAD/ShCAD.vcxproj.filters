@@ -62,6 +62,18 @@
     <Filter Include="Interface\Ribbon\Button">
       <UniqueIdentifier>{6ce5ff42-b91c-4fa9-ab78-80ce2805e372}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{0fba26f3-1d29-411d-bd04-413be7933246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Visitor Algorithm">
+      <UniqueIdentifier>{4656c48f-a8fb-456a-9306-9839e511fa0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Leaf">
+      <UniqueIdentifier>{2a50712f-aec3-4c9c-8cba-d0b3f8257674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Composite">
+      <UniqueIdentifier>{7fa67adf-d03f-4531-b98d-7d18ffc9b718}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -178,6 +190,30 @@
     <ClCompile Include="Interface\ToolBar\ShToolBarContainer.cpp">
       <Filter>Interface\ToolBar</Filter>
     </ClCompile>
+    <ClCompile Include="Event\ShNotifyEvent.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\ShChangeManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\ShEntityData.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\ShEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Leaf\ShLeaf.cpp">
+      <Filter>Entity\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Leaf\ShLine.cpp">
+      <Filter>Entity\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Visitor Algorithm\ShVisitor.cpp">
+      <Filter>Entity\Visitor Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Leaf\ShRubberBand.cpp">
+      <Filter>Entity\Leaf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -250,6 +286,30 @@
     </ClInclude>
     <ClInclude Include="Interface\ToolBar\ShToolBarContainer.h">
       <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\ShNotifyEvent.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\ShChangeManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\ShEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\ShEntityData.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Leaf\ShLeaf.h">
+      <Filter>Entity\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Leaf\ShLine.h">
+      <Filter>Entity\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Visitor Algorithm\ShVisitor.h">
+      <Filter>Entity\Visitor Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Leaf\ShRubberBand.h">
+      <Filter>Entity\Leaf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

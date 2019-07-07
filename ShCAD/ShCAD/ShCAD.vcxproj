@@ -138,6 +138,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Data\ShPoint.cpp" />
+    <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
+    <ClCompile Include="Entity\Leaf\ShLine.cpp" />
+    <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
+    <ClCompile Include="Entity\ShEntity.cpp" />
+    <ClCompile Include="Entity\ShEntityData.cpp" />
+    <ClCompile Include="Entity\Visitor Algorithm\ShVisitor.cpp" />
+    <ClCompile Include="Event\ShNotifyEvent.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_ShButton.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -226,6 +233,7 @@
     <ClCompile Include="Interface\ToolBar\ShToolBarContainer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager\ShCADWidgetManager.cpp" />
+    <ClCompile Include="Manager\ShChangeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -269,10 +277,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data\ShPoint.h" />
+    <ClInclude Include="Entity\Leaf\ShLeaf.h" />
+    <ClInclude Include="Entity\Leaf\ShLine.h" />
+    <ClInclude Include="Entity\Leaf\ShRubberBand.h" />
+    <ClInclude Include="Entity\ShEntity.h" />
+    <ClInclude Include="Entity\ShEntityData.h" />
+    <ClInclude Include="Entity\Visitor Algorithm\ShVisitor.h" />
+    <ClInclude Include="Event\ShNotifyEvent.h" />
     <ClInclude Include="Interface\Dock\ShCommandDock.h" />
     <ClInclude Include="Interface\Item\ShIcon.h" />
     <ClInclude Include="Interface\Menu\ShMenu.h" />
     <ClInclude Include="Interface\Menu\ShMenuBar.h" />
+    <ClInclude Include="Manager\ShChangeManager.h" />
     <CustomBuild Include="Interface\Ribbon\Button\ShRibbonButton.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ShRibbonButton.h...</Message>

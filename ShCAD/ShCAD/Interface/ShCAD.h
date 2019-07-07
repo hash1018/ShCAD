@@ -11,8 +11,7 @@ class ShRibbonMenu;
 class ShStatusBar;
 class ShToolBarContainer;
 
-class ShCAD : public QMainWindow
-{
+class ShCAD : public QMainWindow {
 	Q_OBJECT
 
 private:
