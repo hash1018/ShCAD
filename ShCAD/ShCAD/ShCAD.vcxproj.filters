@@ -124,6 +124,18 @@
     <ClCompile Include="Interface\Ribbon\Button\ShRibbonButtonStragety.cpp">
       <Filter>Interface\Ribbon\Button</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\Ribbon\ShRibbonMenu.cpp">
+      <Filter>Interface\Ribbon</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShHomeTab.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShHomeTab.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Ribbon\ShHomeTab.cpp">
+      <Filter>Interface\Ribbon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -137,6 +149,9 @@
     </CustomBuild>
     <CustomBuild Include="Interface\Ribbon\Button\ShRibbonButton.h">
       <Filter>Interface\Ribbon\Button</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Ribbon\ShHomeTab.h">
+      <Filter>Interface\Ribbon</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="Interface\Ribbon\Button\ShRibbonButtonStrategy.h">
       <Filter>Interface\Ribbon\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Ribbon\ShRibbonMenu.h">
+      <Filter>Interface\Ribbon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

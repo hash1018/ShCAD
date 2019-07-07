@@ -9,6 +9,7 @@
 #include "Menu\ShMenuBar.h"
 #include "Manager\ShCADWidgetManager.h"
 #include "ShCADWidget.h"
+#include "Ribbon\ShRibbonMenu.h"
 
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
@@ -48,6 +49,12 @@ void ShCAD::initWidgets() {
 	this->commandDock->setWindowTitle("Command");
 	this->commandDock->hide();
 
+	this->ribbonMenu = new ShRibbonMenu(150, this);
+	this->ribbonMenu->setWindowTitle("RibbonMenu");
+	this->addToolBar(Qt::ToolBarArea::TopToolBarArea, this->ribbonMenu);
+	this->ribbonMenu->hide();
+	this->addToolBarBreak();
+
 	
 }
 
@@ -64,6 +71,8 @@ void ShCAD::activateWidgets() {
 
 	this->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea, this->commandDock);
 	this->commandDock->activate();
+
+	this->ribbonMenu->activate();
 }
 
 void ShCAD::deactivateWidgets() {
@@ -74,6 +83,8 @@ void ShCAD::deactivateWidgets() {
 
 	this->removeDockWidget(this->commandDock);
 	this->commandDock->deactivate();
+
+	this->ribbonMenu->deactivate();
 }
 
 void ShCAD::createCADWidget() {
@@ -94,7 +105,8 @@ void ShCAD::createCADWidget() {
 void ShCAD::createContextMenu() {
 
 	this->contextMenu = new QMenu("ContextMenu", this);
-	this->addAction(this->commandDock->getMenuAction());
+	this->contextMenu->addAction(this->ribbonMenu->getMenuAction());
+	this->contextMenu->addAction(this->commandDock->getMenuAction());
 }
 
 bool ShCAD::eventFilter(QObject *obj, QEvent *event) {

@@ -7,7 +7,7 @@ class ShCommandDock;
 class QMdiArea;
 class QMenu;
 class ShMenuBar;
-
+class ShRibbonMenu;
 class ShCAD : public QMainWindow
 {
 	Q_OBJECT
@@ -18,6 +18,7 @@ private:
 	ShCommandDock *commandDock;
 	QMdiArea *mdiArea;
 	ShMenuBar *menuBar;
+	ShRibbonMenu *ribbonMenu;
 
 public:
 	ShCAD(QWidget *parent = nullptr);
