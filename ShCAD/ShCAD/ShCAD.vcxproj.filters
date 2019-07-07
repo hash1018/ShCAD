@@ -56,6 +56,9 @@
     <Filter Include="Interface\StatusBar">
       <UniqueIdentifier>{4d3db713-4408-4997-b1e8-c5f5702fb304}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{cd12fc69-b8ab-4e16-8e83-cdf3fa2f3402}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -91,6 +94,18 @@
     <ClCompile Include="Interface\Item\ShIcon.cpp">
       <Filter>Interface\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\Menu\ShMenu.cpp">
+      <Filter>Interface\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Menu\ShMenuBar.cpp">
+      <Filter>Interface\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ShCADWidget.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\ShCADWidgetManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -112,6 +127,18 @@
     </ClInclude>
     <ClInclude Include="Interface\Item\ShIcon.h">
       <Filter>Interface\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Menu\ShMenu.h">
+      <Filter>Interface\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Menu\ShMenuBar.h">
+      <Filter>Interface\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ShCADWidget.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\ShCADWidgetManager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

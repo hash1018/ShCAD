@@ -6,12 +6,15 @@
 #include <QEvent>
 #include <QResizeEvent>
 #include <qmenu.h>
+#include "Menu\ShMenuBar.h"
+#include "Manager\ShCADWidgetManager.h"
+#include "ShCADWidget.h"
 
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 	
 	this->initWidgets();
-	this->createGraphicView();
+	this->createCADWidget();
 	this->registerWidgets();
 	this->createContextMenu();
 
@@ -32,6 +35,9 @@ ShCAD::~ShCAD(){
 
 void ShCAD::initWidgets() {
 
+	this->menuBar = new ShMenuBar(this);
+	this->setMenuBar(this->menuBar);
+
 	this->mdiArea = new QMdiArea;
 	this->mdiArea->setDocumentMode(true);
 	this->mdiArea->hide();
@@ -51,6 +57,8 @@ void ShCAD::registerWidgets() {
 
 void ShCAD::activateWidgets() {
 
+	this->menuBar->activateMenu();
+
 	this->setCentralWidget(this->mdiArea);
 	this->mdiArea->show();
 
@@ -60,14 +68,27 @@ void ShCAD::activateWidgets() {
 
 void ShCAD::deactivateWidgets() {
 
+	this->menuBar->deactivateMenu();
+
 	this->takeCentralWidget();
 
 	this->removeDockWidget(this->commandDock);
 	this->commandDock->deactivate();
 }
 
-void ShCAD::createGraphicView() {
+void ShCAD::createCADWidget() {
 
+	if (this->mdiArea->subWindowList().size() == 0) {
+		this->activateWidgets();
+	}
+
+	ShCADWidget *cadWidget = new ShCADWidget(this->mdiArea);
+	cadWidget->setMinimumSize(400, 400);
+
+	this->mdiArea->addSubWindow(cadWidget, Qt::WindowFlags::enum_type::SubWindow);
+	cadWidget->showMaximized();
+
+	ShCADWidgetManager::getInstance()->Add(cadWidget);
 }
 
 void ShCAD::createContextMenu() {

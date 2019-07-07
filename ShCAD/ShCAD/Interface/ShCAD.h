@@ -6,6 +6,7 @@ class QMdiSubWindow;
 class ShCommandDock;
 class QMdiArea;
 class QMenu;
+class ShMenuBar;
 
 class ShCAD : public QMainWindow
 {
@@ -16,7 +17,7 @@ private:
 
 	ShCommandDock *commandDock;
 	QMdiArea *mdiArea;
-	
+	ShMenuBar *menuBar;
 
 public:
 	ShCAD(QWidget *parent = nullptr);
@@ -26,7 +27,7 @@ public:
 	void registerWidgets();
 	void activateWidgets();
 	void deactivateWidgets();
-	void createGraphicView();
+	void createCADWidget();
 
 private:
 	void createContextMenu();

@@ -167,8 +167,12 @@
     <ClCompile Include="Interface\Dock\ShCommandDock.cpp" />
     <ClCompile Include="Interface\Item\ShButton.cpp" />
     <ClCompile Include="Interface\Item\ShIcon.cpp" />
+    <ClCompile Include="Interface\Menu\ShMenu.cpp" />
+    <ClCompile Include="Interface\Menu\ShMenuBar.cpp" />
     <ClCompile Include="Interface\ShCAD.cpp" />
+    <ClCompile Include="Interface\ShCADWidget.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Manager\ShCADWidgetManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -214,6 +218,10 @@
     <ClInclude Include="Data\ShPoint.h" />
     <ClInclude Include="Interface\Dock\ShCommandDock.h" />
     <ClInclude Include="Interface\Item\ShIcon.h" />
+    <ClInclude Include="Interface\Menu\ShMenu.h" />
+    <ClInclude Include="Interface\Menu\ShMenuBar.h" />
+    <ClInclude Include="Interface\ShCADWidget.h" />
+    <ClInclude Include="Manager\ShCADWidgetManager.h" />
     <CustomBuild Include="Interface\Item\ShButton.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ShButton.h...</Message>
