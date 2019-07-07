@@ -2,6 +2,9 @@
 #include "ShCADWidget.h"
 #include <QMouseEvent>
 #include "Manager\ShCADWidgetManager.h"
+#include "Manager\ShChangeManager.h"
+#include "Event\ShNotifyEvent.h"
+#include <qdebug.h>
 
 ShCADWidget::ShCADWidget(QWidget *parent)
 	:QOpenGLWidget(parent) {
@@ -68,23 +71,25 @@ void ShCADWidget::wheelEvent(QWheelEvent *event) {
 
 void ShCADWidget::focusInEvent(QFocusEvent *event) {
 
-	//ShCADWidgetManager *manager = ShCADWidgetManager::GetInstance();
+	qDebug() << "ShCADWidget::focusInEvent ";
 
-	//if (manager->GetActivatedView() == this)
-	//	return;
+	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
 
-	//ActivatedViewChangedEvent notifyEvent(this, manager->GetActivatedView());
-	//this->Notfiy(&notifyEvent);
+	if (manager->getActivatedWidget() == this)
+		return;
 
-	//manager->SetActivatedView(this);
+	ShActivatedWidgetChangedEvent notifyEvent(this, manager->getActivatedWidget());
+	this->notify(&notifyEvent);
+
+	manager->setActivatedWidget(this);
 
 }
 
-/*
-void ShCADWidget::Notfiy(NotifyEvent *event) {
 
-	ChangeManager *manager = ChangeManager::GetInstance();
+void ShCADWidget::notify(ShNotifyEvent *event) {
 
-	manager->Notify(this, event);
+	ShChangeManager *manager = ShChangeManager::getInstance();
+
+	manager->notify(this, event);
 }
-*/
+

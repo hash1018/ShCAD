@@ -5,11 +5,15 @@
 
 #include <qopenglwidget.h>
 
+class ShNotifyEvent;
+
 class ShCADWidget : public QOpenGLWidget {
 
 public:
 	ShCADWidget(QWidget *parent = nullptr);
 	~ShCADWidget();
+
+	void notify(ShNotifyEvent *event);
 
 protected:
 	virtual void initializeGL();
