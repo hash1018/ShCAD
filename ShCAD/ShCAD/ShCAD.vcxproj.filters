@@ -136,6 +136,48 @@
     <ClCompile Include="Interface\Ribbon\ShHomeTab.cpp">
       <Filter>Interface\Ribbon</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShStatusBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShStatusBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\StatusBar\ShStatusBar.cpp">
+      <Filter>Interface\StatusBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShAbstractToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShDrawToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShLayerToolBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShLayerToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShModifyToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShLayerToolBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShObjectSnapToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShPropertyToolBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShPropertyToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShPropertyToolBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShToolBarContainer.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -152,6 +194,15 @@
     </CustomBuild>
     <CustomBuild Include="Interface\Ribbon\ShHomeTab.h">
       <Filter>Interface\Ribbon</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\StatusBar\ShStatusBar.h">
+      <Filter>Interface\StatusBar</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\ToolBar\ShLayerToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\ToolBar\ShPropertyToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +235,21 @@
     </ClInclude>
     <ClInclude Include="Interface\Ribbon\ShRibbonMenu.h">
       <Filter>Interface\Ribbon</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShAbstractToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShDrawToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShModifyToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShObjectSnapToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShToolBarContainer.h">
+      <Filter>Interface\ToolBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

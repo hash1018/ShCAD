@@ -72,15 +72,15 @@ protected:
 	virtual void paintEvent(QPaintEvent *event);
 };
 
-class StateButton : public QPushButton {
+class ShStateButton : public QPushButton {
 	Q_OBJECT
 public:
 	bool state;
 
 public:
-	StateButton(const QString &text, QWidget *parent = nullptr);
-	StateButton(QWidget *parent = nullptr);
-	~StateButton();
+	ShStateButton(const QString &text, QWidget *parent = nullptr);
+	ShStateButton(QWidget *parent = nullptr);
+	~ShStateButton();
 
 	void setState(bool on);
 	inline bool getState() const { return this->state; }

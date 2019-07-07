@@ -8,6 +8,9 @@ class QMdiArea;
 class QMenu;
 class ShMenuBar;
 class ShRibbonMenu;
+class ShStatusBar;
+class ShToolBarContainer;
+
 class ShCAD : public QMainWindow
 {
 	Q_OBJECT
@@ -19,6 +22,8 @@ private:
 	QMdiArea *mdiArea;
 	ShMenuBar *menuBar;
 	ShRibbonMenu *ribbonMenu;
+	ShStatusBar *statusBar;
+	ShToolBarContainer *toolBarContainer;
 
 public:
 	ShCAD(QWidget *parent = nullptr);

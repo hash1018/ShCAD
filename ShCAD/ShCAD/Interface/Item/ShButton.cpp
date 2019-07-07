@@ -220,29 +220,29 @@ void ShButton::paintEvent(QPaintEvent *event) {
 
 /////////////////////////////////////////////////////////////////////
 
-StateButton::StateButton(const QString &text, QWidget *parent)
+ShStateButton::ShStateButton(const QString &text, QWidget *parent)
 	:QPushButton(text, parent), state(false) {
 
-	connect(this, &QPushButton::pressed, this, &StateButton::buttonPressed);
+	connect(this, &QPushButton::pressed, this, &ShStateButton::buttonPressed);
 }
 
-StateButton::StateButton(QWidget *parent)
+ShStateButton::ShStateButton(QWidget *parent)
 	: QPushButton(parent), state(false) {
 
-	connect(this, &QPushButton::pressed, this, &StateButton::buttonPressed);
+	connect(this, &QPushButton::pressed, this, &ShStateButton::buttonPressed);
 }
 
-StateButton::~StateButton() {
+ShStateButton::~ShStateButton() {
 
 }
 
-void StateButton::setState(bool on) {
+void ShStateButton::setState(bool on) {
 
 	this->state = on;
 	this->update();
 }
 
-void StateButton::buttonPressed() {
+void ShStateButton::buttonPressed() {
 
 	if (this->state == true)
 		this->state = false;
@@ -255,7 +255,7 @@ void StateButton::buttonPressed() {
 
 }
 
-void StateButton::paintEvent(QPaintEvent *event) {
+void ShStateButton::paintEvent(QPaintEvent *event) {
 
 	QPushButton::paintEvent(event);
 

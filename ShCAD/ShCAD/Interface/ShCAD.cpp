@@ -10,6 +10,8 @@
 #include "Manager\ShCADWidgetManager.h"
 #include "ShCADWidget.h"
 #include "Ribbon\ShRibbonMenu.h"
+#include "StatusBar\ShStatusBar.h"
+#include "ToolBar\ShToolBarContainer.h"
 
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
@@ -30,6 +32,8 @@ ShCAD::~ShCAD(){
 	if (this->mdiArea != nullptr)
 		delete this->mdiArea;
 
+	if (this->toolBarContainer != nullptr)
+		delete this->toolBarContainer;
 	
 }
 
@@ -55,7 +59,11 @@ void ShCAD::initWidgets() {
 	this->ribbonMenu->hide();
 	this->addToolBarBreak();
 
+	this->statusBar = new ShStatusBar(this);
+	this->setStatusBar(this->statusBar);
+	this->statusBar->hide();
 	
+	this->toolBarContainer = new ShToolBarContainer(this);
 }
 
 void ShCAD::registerWidgets() {
@@ -73,6 +81,10 @@ void ShCAD::activateWidgets() {
 	this->commandDock->activate();
 
 	this->ribbonMenu->activate();
+
+	this->statusBar->show();
+
+	this->toolBarContainer->activate();
 }
 
 void ShCAD::deactivateWidgets() {
@@ -85,6 +97,10 @@ void ShCAD::deactivateWidgets() {
 	this->commandDock->deactivate();
 
 	this->ribbonMenu->deactivate();
+
+	this->statusBar->hide();
+
+	this->toolBarContainer->deactivate();
 }
 
 void ShCAD::createCADWidget() {
@@ -107,6 +123,7 @@ void ShCAD::createContextMenu() {
 	this->contextMenu = new QMenu("ContextMenu", this);
 	this->contextMenu->addAction(this->ribbonMenu->getMenuAction());
 	this->contextMenu->addAction(this->commandDock->getMenuAction());
+	this->contextMenu->addMenu(this->toolBarContainer->getToolBarMenu());
 }
 
 bool ShCAD::eventFilter(QObject *obj, QEvent *event) {
