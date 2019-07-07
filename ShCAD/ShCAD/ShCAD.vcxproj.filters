@@ -29,13 +29,43 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{9f36cd66-68f1-4bb8-92d8-bbf84568d8b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{5a451eb7-b071-469e-9439-791ae27a6a52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{80831d7d-aaad-430c-a43b-6a07a274b82a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface\Dock">
+      <UniqueIdentifier>{6ccce533-5f96-4ce2-9467-f4d4dc3c3c34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface\Item">
+      <UniqueIdentifier>{e9cfc095-4d1f-4178-b85f-9f9939a5d1d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface\Menu">
+      <UniqueIdentifier>{4262f4d9-ba17-49d3-9272-cb37d055caf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface\Ribbon">
+      <UniqueIdentifier>{65bcc4df-a182-4508-8712-97a7f1b9eedd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface\ToolBar">
+      <UniqueIdentifier>{8acfc2af-f03b-45f4-b519-30a6495ffd8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface\StatusBar">
+      <UniqueIdentifier>{4d3db713-4408-4997-b1e8-c5f5702fb304}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShCAD.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GeneratedFiles\qrc_ShCAD.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\ShCAD.cpp">
+      <Filter>Interface</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_ShCAD.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -43,16 +73,21 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ShCAD.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_ShCAD.cpp">
-      <Filter>Generated Files</Filter>
+    <ClCompile Include="Interface\Dock\ShCommandDock.cpp">
+      <Filter>Interface\Dock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="ShCAD.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="ShCAD.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="Interface\ShCAD.h">
+      <Filter>Interface</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Interface\Dock\ShCommandDock.h">
+      <Filter>Interface\Dock</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

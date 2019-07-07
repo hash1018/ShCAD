@@ -1,4 +1,50 @@
 <RCC>
-    <qresource prefix="ShCAD">
+    <qresource prefix="/">
+        <file>Image/CurrentLayer.png</file>
+        <file>Image/LayerTurnOff.png</file>
+        <file>Image/LayerTurnOn.png</file>
+        <file>Image/Orthogonal.png</file>
+        <file>Image/SelectColor.png</file>
+        <file>Image/Draw/Arc/3Point.png</file>
+        <file>Image/Draw/Arc/Center-Start-Angle.png</file>
+        <file>Image/Draw/Arc/Center-Start-End.png</file>
+        <file>Image/Draw/Arc/Center-Start-Length.png</file>
+        <file>Image/Draw/Arc/Start-Center-Angle.png</file>
+        <file>Image/Draw/Arc/Start-Center-End.png</file>
+        <file>Image/Draw/Arc/Start-Center-Length.png</file>
+        <file>Image/Draw/Arc/Start-End-Angle.png</file>
+        <file>Image/Draw/Arc/Start-End-Direction.png</file>
+        <file>Image/Draw/Arc/Start-End-Radius.png</file>
+        <file>Image/Draw/Circle/2Point.png</file>
+        <file>Image/Draw/Circle/3Point.png</file>
+        <file>Image/Draw/Circle/Center-Diameter.png</file>
+        <file>Image/Draw/Circle/Center-Radius.png</file>
+        <file>Image/Draw/PolyLine/Polygon.png</file>
+        <file>Image/Draw/PolyLine/PolyLine.png</file>
+        <file>Image/Draw/PolyLine/Rectangle.png</file>
+        <file>Image/Draw/Line.png</file>
+        <file>Image/File/New.png</file>
+        <file>Image/File/Preview.png</file>
+        <file>Image/File/Print.png</file>
+        <file>Image/Modify/Copy.png</file>
+        <file>Image/Modify/Erase.png</file>
+        <file>Image/Modify/Extend.png</file>
+        <file>Image/Modify/Mirror.png</file>
+        <file>Image/Modify/Move.png</file>
+        <file>Image/Modify/Rotate.png</file>
+        <file>Image/Modify/Scale.png</file>
+        <file>Image/Modify/Stretch.png</file>
+        <file>Image/Modify/Trim.png</file>
+        <file>Image/Snap/Apparent intersection point.png</file>
+        <file>Image/Snap/Center point.png</file>
+        <file>Image/Snap/End point.png</file>
+        <file>Image/Snap/Extension point.png</file>
+        <file>Image/Snap/Intersection point.png</file>
+        <file>Image/Snap/Mid point.png</file>
+        <file>Image/Snap/Perpendicular.png</file>
+        <file>Image/Snap/Quadrant point.png</file>
+        <file>Image/Snap/SnapModeOnOff.png</file>
+        <file>Image/Snap/Tangent point.png</file>
+        <file>Image/Snap/Temporary track point.png</file>
     </qresource>
 </RCC>
