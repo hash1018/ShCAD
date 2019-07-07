@@ -76,6 +76,21 @@
     <ClCompile Include="Interface\Dock\ShCommandDock.cpp">
       <Filter>Interface\Dock</Filter>
     </ClCompile>
+    <ClCompile Include="Data\ShPoint3d.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShButton.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShButton.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Item\ShButton.cpp">
+      <Filter>Interface\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Item\ShIcon.cpp">
+      <Filter>Interface\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -84,10 +99,19 @@
     <CustomBuild Include="Interface\ShCAD.h">
       <Filter>Interface</Filter>
     </CustomBuild>
+    <CustomBuild Include="Interface\Item\ShButton.h">
+      <Filter>Interface\Item</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interface\Dock\ShCommandDock.h">
       <Filter>Interface\Dock</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShPoint.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Item\ShIcon.h">
+      <Filter>Interface\Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

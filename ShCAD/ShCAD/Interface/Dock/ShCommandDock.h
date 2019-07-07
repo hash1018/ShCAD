@@ -14,7 +14,7 @@ class ShCommandList : public QTextEdit {
 	friend class ShCommandContainer;
 
 private:
-	ShCommandList(QWidget *parent = 0);
+	ShCommandList(QWidget *parent = nullptr);
 	~ShCommandList();
 };
 
@@ -23,7 +23,7 @@ class ShCommandEdit : public QLineEdit {
 	friend class ShCommandContainer;
 
 private:
-	ShCommandEdit(QWidget *parent = 0);
+	ShCommandEdit(QWidget *parent = nullptr);
 	~ShCommandEdit();
 
 };
@@ -36,7 +36,7 @@ private:
 	ShCommandEdit *edit;
 
 private:
-	ShCommandContainer(QWidget *parent = 0);
+	ShCommandContainer(QWidget *parent = nullptr);
 	~ShCommandContainer();
 
 protected:
@@ -55,7 +55,7 @@ private:
 	QAction *menuAction;
 
 public:
-	ShCommandDock(QWidget *parent = 0);
+	ShCommandDock(QWidget *parent = nullptr);
 	~ShCommandDock();
 
 	void activate();
