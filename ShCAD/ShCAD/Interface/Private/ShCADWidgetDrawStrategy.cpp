@@ -12,7 +12,6 @@ ShCADWidgetDrawStrategy::ShCADWidgetDrawStrategy(ShCADWidget *widget, QPainter *
 ShCADWidgetDrawStrategy::ShCADWidgetDrawStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType)
 	: widget(widget), painter(painter) {
 
-	qDebug() << "yyyy" << drawType;
 	this->strategy = ShCADWidgetDrawStrategyFactory::create(this->widget, this->painter, drawType);
 
 }
@@ -26,10 +25,6 @@ ShCADWidgetDrawStrategy::~ShCADWidgetDrawStrategy() {
 
 void ShCADWidgetDrawStrategy::draw() {
 
-	qDebug() << "vvvvvvv";
-
-	
-
 	if (this->strategy != nullptr)
 		this->strategy->draw();
 }
@@ -38,7 +33,6 @@ void ShCADWidgetDrawStrategy::draw() {
 ShDrawAllStrategy::ShDrawAllStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType)
 	:ShCADWidgetDrawStrategy(widget, painter) {
 
-	qDebug() << "hhhh";
 	this->strategy = ShCADWidgetDrawStrategyFactory::create(this->widget, this->painter, drawType);
 }
 
@@ -57,7 +51,7 @@ void ShDrawAllStrategy::draw() {
 	for (itr = this->view->entityTable.TurnOnLayerBegin(); itr != this->view->entityTable.TurnOnLayerEnd(); ++itr)
 	(*itr)->Accept(&drawer);
 	*/
-	qDebug() << "asdsadasdasdsadasdasdasddas";
+	
 
 	this->widget->getAxis().draw(this->painter, this->widget);
 
@@ -84,7 +78,7 @@ void ShDrawCaptureImageStrategy::draw() {
 	if (this->painter->isActive() == false)
 		this->painter->begin(this->widget);
 
-	this->painter->drawImage(0, 0, this->widget->getCaptureImage(), 0, 0, 0, 0);
+	this->painter->drawImage(0, 0, this->widget->getCapturedImage(), 0, 0, 0, 0);
 	this->painter->end();
 
 	if (this->strategy != nullptr)

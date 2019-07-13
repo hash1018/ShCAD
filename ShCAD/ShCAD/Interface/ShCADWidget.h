@@ -19,7 +19,7 @@ private:
 	double hPos;
 	double vPos;
 	DrawType drawType;
-	QImage captureImage;
+	QImage capturedImage;
 	
 
 public:
@@ -27,6 +27,13 @@ public:
 	~ShCADWidget();
 
 	void notify(ShNotifyEvent *event);
+	void update(ShNotifyEvent *event);
+	void update(DrawType drawType = DrawType::DrawAll);
+
+	void convertDeviceToEntity(const int &x, const int &y, double &ex, double &ey);
+	void convertEntityToDevice(const double &x, const double &y, int &dx, int &dy);
+
+	void captureImage();
 
 protected:
 	virtual void initializeGL();
@@ -54,7 +61,7 @@ public:
 	inline double getZoomRate() const { return this->zoomRate; }
 	inline ShAxis& getAxis() const { return const_cast<ShAxis&>(this->axis); }
 	inline DrawType getDrawType() const { return this->drawType; }
-	inline const QImage& getCaptureImage() const { return const_cast<QImage&>(this->captureImage); }
+	inline const QImage& getCapturedImage() const { return const_cast<QImage&>(this->capturedImage); }
 };
 
 #endif //_SHCADWIDGET_H

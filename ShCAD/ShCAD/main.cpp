@@ -1,6 +1,6 @@
 #include "Interface\ShCAD.h"
 #include <QtWidgets/QApplication>
-#include <vld.h>
+//#include <vld.h>
 #include "Manager\ShLanguageManager.h"
 
 int main(int argc, char *argv[])

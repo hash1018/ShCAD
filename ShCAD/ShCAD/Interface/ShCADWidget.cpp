@@ -7,6 +7,7 @@
 #include <qdebug.h>
 #include "Private\ShCADWidgetDrawStrategy.h"
 #include <qpainter.h>
+#include "Base\ShMath.h"
 
 ShCADWidget::ShCADWidget(QWidget *parent)
 	:QOpenGLWidget(parent),zoomRate(1.0),hPos(0),vPos(0),drawType(DrawAll) {
@@ -27,6 +28,7 @@ ShCADWidget::~ShCADWidget() {
 void ShCADWidget::initializeGL() {
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	this->captureImage();
 
 
 }
@@ -36,12 +38,13 @@ void ShCADWidget::resizeGL(int width, int height) {
 
 	QOpenGLWidget::resizeGL(width, height);
 	this->update();
+	this->captureImage();
 
 
 }
 
 void ShCADWidget::paintGL() {
-	qDebug() << "kkkkkkkkkkkkk";
+	
 	QPainter painter(this);
 
 	ShCADWidgetDrawStrategy strategy(this, &painter, this->drawType);
@@ -102,3 +105,33 @@ void ShCADWidget::notify(ShNotifyEvent *event) {
 	manager->notify(this, event);
 }
 
+void ShCADWidget::update(ShNotifyEvent *event) {
+
+}
+
+void ShCADWidget::update(DrawType drawType) {
+
+	this->drawType = drawType;
+	QOpenGLWidget::update();
+}
+
+void ShCADWidget::convertDeviceToEntity(const int &x, const int &y, double &ex, double &ey) {
+
+
+	ex = (x + this->hPos - (this->axis.getCenter().x*this->zoomRate))*1.000 / this->zoomRate;
+	ey = (-1 * (y + this->vPos - (this->axis.getCenter().y)*this->zoomRate))*1.000 / this->zoomRate;
+}
+
+void ShCADWidget::convertEntityToDevice(const double &x, const double &y, int &dx, int &dy) {
+
+	double tempX = ((x*this->zoomRate) - this->hPos + (this->axis.getCenter().x*this->zoomRate));
+	double tempY = (-1 * ((y*this->zoomRate) + this->vPos - (this->axis.getCenter().y*this->zoomRate)));
+
+	dx = math::toInt(tempX);
+	dy = math::toInt(tempY);
+}
+
+void ShCADWidget::captureImage() {
+
+	this->capturedImage = this->grabFramebuffer();
+}
