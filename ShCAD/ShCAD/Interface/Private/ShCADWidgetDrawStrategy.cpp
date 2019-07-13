@@ -4,6 +4,7 @@
 #include "Interface\ShCADWidget.h"
 #include <qpainter.h>
 #include <qdebug.h>
+#include "ActionHandler\ShActionHandlerProxy.h"
 
 ShCADWidgetDrawStrategy::ShCADWidgetDrawStrategy(ShCADWidget *widget, QPainter *painter)
 	:widget(widget), painter(painter), strategy(nullptr) {
@@ -250,6 +251,10 @@ ShDrawActionHandlerStrategy::~ShDrawActionHandlerStrategy() {
 
 void ShDrawActionHandlerStrategy::draw() {
 
+	this->widget->getActionHandlerProxy()->draw(this->painter);
+
+	if (this->strategy != nullptr)
+		this->strategy->draw();
 }
 
 	

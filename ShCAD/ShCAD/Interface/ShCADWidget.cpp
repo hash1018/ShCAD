@@ -42,7 +42,7 @@ void ShCADWidget::initializeGL() {
 void ShCADWidget::resizeGL(int width, int height) {
 
 	QOpenGLWidget::resizeGL(width, height);
-	this->updateImmediately();
+	this->update();
 	this->captureImage();
 
 }
@@ -119,22 +119,24 @@ void ShCADWidget::update(ShNotifyEvent *event) {
 
 }
 
-void ShCADWidget::update(DrawType drawType) {
-	qDebug() << "ShCADWidget::update" << drawType;
-	this->drawType = (DrawType)(this->drawType | drawType);
-	qDebug() << "ShCADWidget::update  this->drawType" << this->drawType;
+void ShCADWidget::store(DrawType drawType) {
 	
+	this->drawType = (DrawType)(this->drawType | drawType);
 }
 
 
-void ShCADWidget::updateImmediately(DrawType drawType) {
-	qDebug() << "ShCADWidget::updateImmediately" << drawType;
+void ShCADWidget::update(DrawType drawType) {
+	
 	this->drawType = drawType;
 
-	if ((this->drawType & ~DrawType::DrawNone) != DrawType::DrawNone) {
-		qDebug() << "ShCADWidget::aboutToDraw";
+	if ((this->drawType & ~DrawType::DrawNone) != DrawType::DrawNone)
 		QOpenGLWidget::update();
-	}
+	
+}
+
+void ShCADWidget::clearDrawType() {
+
+	this->drawType = DrawType::DrawNone;
 }
 
 void ShCADWidget::replaceAction(ShActionHandler *actionHandler) {

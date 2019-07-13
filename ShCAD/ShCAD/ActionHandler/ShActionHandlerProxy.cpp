@@ -48,16 +48,18 @@ void ShActionHandlerProxy::mouseRightPressEvent(QMouseEvent *event) {
 
 	this->currentAction->mouseRightPressEvent(data);
 }
-#include <qdebug.h>
+
 void ShActionHandlerProxy::mouseMoveEvent(QMouseEvent *event) {
-	qDebug() << "Proxy::mouseMoveEvent";
+	
+	this->widget->clearDrawType();
+	
 	ShActionData data;
 	this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
 	data.mouseEvent = event;
 
 	this->currentAction->mouseMoveEvent(data);
 
-	this->widget->updateImmediately(this->widget->getDrawType());
+	this->widget->update(this->widget->getDrawType());
 }
 
 void ShActionHandlerProxy::mouseReleaseEvent(QMouseEvent *event) {

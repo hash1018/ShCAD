@@ -32,9 +32,11 @@ public:
 
 	void notify(ShNotifyEvent *event);
 	void update(ShNotifyEvent *event);
-	//*this function not update but store drawtype like a buffer.
+	
+	void store(DrawType drawType);
+	//**do not use in the mouseMoveEvent method. use store instead. 
 	void update(DrawType drawType = DrawType::DrawAll);
-	void updateImmediately(DrawType drawType = DrawType::DrawAll);
+	void clearDrawType();
 
 	void replaceAction(ShActionHandler *actionHandler);
 	void setTemporaryAction(ShTemporaryAction *temporaryAction);
@@ -69,6 +71,7 @@ public:
 	inline ShAxis& getAxis() const { return const_cast<ShAxis&>(this->axis); }
 	inline DrawType getDrawType() const { return this->drawType; }
 	inline const QImage& getCapturedImage() const { return const_cast<QImage&>(this->capturedImage); }
+	inline ShActionHandlerProxy* getActionHandlerProxy() const { return this->actionHandlerProxy; }
 };
 
 #endif //_SHCADWIDGET_H

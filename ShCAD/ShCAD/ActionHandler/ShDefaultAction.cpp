@@ -1,7 +1,8 @@
 
 
 #include "ShDefaultAction.h"
-
+#include <QMouseEvent>
+#include "TemporaryAction\ShDragSelectAction.h"
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 	:ShActionHandler(widget) {
@@ -69,6 +70,11 @@ ShSubDefaultAction_Default::~ShSubDefaultAction_Default() {
 
 void ShSubDefaultAction_Default::mouseLeftPressEvent(ShActionData &data) {
 
+	if (data.mouseEvent->modifiers() == Qt::ShiftModifier)
+		this->widget->setTemporaryAction(new ShDragSelectAction(this->widget, this->defaultAction, data.point.x, data.point.y,
+			ShDragSelectAction::Mode::UnSelectMode));
+	else
+		this->widget->setTemporaryAction(new ShDragSelectAction(this->widget, this->defaultAction, data.point.x, data.point.y));
 }
 
 void ShSubDefaultAction_Default::mouseMoveEvent(ShActionData &data) {

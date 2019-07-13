@@ -24,9 +24,8 @@ void ShPanMoveAction::mouseMidPressEvent(ShActionData &data) {
 	
 }
 
-#include <qdebug.h>
 void ShPanMoveAction::mouseMoveEvent(ShActionData &data) {
-	qDebug() << "PanMoveAction::mouseMoveEvent";
+	
 	double hPos = this->widget->getScrollPosition().horizontal;
 	double vPos = this->widget->getScrollPosition().vertical;
 	hPos += this->prevX - data.mouseEvent->x();
@@ -37,15 +36,15 @@ void ShPanMoveAction::mouseMoveEvent(ShActionData &data) {
 	this->prevX = data.mouseEvent->x();
 	this->prevY = data.mouseEvent->y();
 
-	this->widget->update();
+	this->widget->store(DrawType::DrawAll);
 }
 
 void ShPanMoveAction::mouseReleaseEvent(ShActionData &data) {
-	qDebug() << "PanMoveAction::mouseReleaseEvent";
+	
 	if (data.mouseEvent->button() & Qt::MouseButton::MiddleButton) {
 
 		this->widget->captureImage();
-		this->widget->updateImmediately((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
 
 	this->returnToPrevious();
