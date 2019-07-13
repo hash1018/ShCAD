@@ -226,6 +226,15 @@
     <ClCompile Include="Manager\ShLanguageManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\Private\ShAxis.cpp">
+      <Filter>Interface\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Private\ShCADWidgetDrawStrategyFactory.cpp">
+      <Filter>Interface\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Private\ShCADWidgetDrawStrategy.cpp">
+      <Filter>Interface\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -328,6 +337,18 @@
     </ClInclude>
     <ClInclude Include="Manager\ShLanguageManager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShVariable.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Private\ShAxis.h">
+      <Filter>Interface\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Private\ShCADWidgetDrawStrategy.h">
+      <Filter>Interface\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Private\ShCADWidgetDrawStrategyFactory.h">
+      <Filter>Interface\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

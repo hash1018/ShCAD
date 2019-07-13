@@ -4,10 +4,23 @@
 #define _SHCADWidget_H
 
 #include <qopenglwidget.h>
+#include "Data\ShPoint.h"
+#include "Interface\Private\ShAxis.h"
+#include "Base\ShVariable.h"
 
 class ShNotifyEvent;
 
 class ShCADWidget : public QOpenGLWidget {
+
+private:
+	ShPoint3d coordinate;
+	double zoomRate;
+	ShAxis axis;
+	double hPos;
+	double vPos;
+	DrawType drawType;
+	QImage captureImage;
+	
 
 public:
 	ShCADWidget(QWidget *parent = nullptr);
@@ -28,6 +41,20 @@ protected:
 	virtual void focusInEvent(QFocusEvent *event);
 
 
+public:
+	void setCoordinate(const ShPoint3d &coordinate) { this->coordinate = coordinate; }
+	void setVPos(const double &vPos) { this->vPos = vPos; }
+	void setHPos(const double &hPos) { this->hPos = hPos; }
+	void setZoomRate(const double &zoomRate) { this->zoomRate = zoomRate; }
+
+public:
+	inline ShPoint3d getCoordinate() const { return this->coordinate; }
+	inline double getVPos() const { return this->vPos; }
+	inline double getHPos() const { return this->hPos; }
+	inline double getZoomRate() const { return this->zoomRate; }
+	inline ShAxis& getAxis() const { return const_cast<ShAxis&>(this->axis); }
+	inline DrawType getDrawType() const { return this->drawType; }
+	inline const QImage& getCaptureImage() const { return const_cast<QImage&>(this->captureImage); }
 };
 
 #endif //_SHCADWIDGET_H

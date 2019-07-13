@@ -5,11 +5,15 @@
 #include "Manager\ShChangeManager.h"
 #include "Event\ShNotifyEvent.h"
 #include <qdebug.h>
+#include "Private\ShCADWidgetDrawStrategy.h"
+#include <qpainter.h>
 
 ShCADWidget::ShCADWidget(QWidget *parent)
-	:QOpenGLWidget(parent) {
+	:QOpenGLWidget(parent),zoomRate(1.0),hPos(0),vPos(0),drawType(DrawAll) {
 
 	this->setFocusPolicy(Qt::FocusPolicy::ClickFocus);
+	
+	this->axis.setCenter(ShPoint3d(100, 500));
 
 }
 
@@ -24,6 +28,7 @@ void ShCADWidget::initializeGL() {
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+
 }
 
 
@@ -36,7 +41,11 @@ void ShCADWidget::resizeGL(int width, int height) {
 }
 
 void ShCADWidget::paintGL() {
+	qDebug() << "kkkkkkkkkkkkk";
+	QPainter painter(this);
 
+	ShCADWidgetDrawStrategy strategy(this, &painter, this->drawType);
+	strategy.draw();
 
 }
 
