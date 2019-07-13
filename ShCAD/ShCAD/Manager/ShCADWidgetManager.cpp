@@ -29,13 +29,13 @@ ShCADWidget* ShCADWidgetManager::getActivatedWidget() {
 	return this->activatedWidget;
 }
 
-void ShCADWidgetManager::Add(ShCADWidget *widget) {
+void ShCADWidgetManager::add(ShCADWidget *widget) {
 
 	this->list.append(widget);
 	widget->setWindowTitle("Unknown" + QString::number(this->nameIndex++));
 }
 
-void ShCADWidgetManager::Remove(ShCADWidget *widget) {
+void ShCADWidgetManager::remove(ShCADWidget *widget) {
 
 	this->list.removeOne(widget);
 

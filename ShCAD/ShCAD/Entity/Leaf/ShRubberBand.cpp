@@ -1,6 +1,6 @@
 
 #include "ShRubberBand.h"
-#include "Entity\Visitor Algorithm\ShVisitor.h"
+#include "Entity\Private\ShVisitor.h"
 
 ShRubberBand::ShRubberBand() {
 

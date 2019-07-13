@@ -27,8 +27,8 @@ public:
 	static ShCADWidgetManager* getInstance();
 	ShCADWidget* getActivatedWidget();
 
-	void Add(ShCADWidget *widget);
-	void Remove(ShCADWidget *widget);
+	void add(ShCADWidget *widget);
+	void remove(ShCADWidget *widget);
 
 	void setActivatedWidget(ShCADWidget *widget);
 

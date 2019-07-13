@@ -56,7 +56,7 @@ public:
 	ShKeyPressedEvent(QKeyEvent *event);
 	~ShKeyPressedEvent();
 
-	inline QKeyEvent* GetEvent() const { return this->event; }
+	inline QKeyEvent* getEvent() const { return this->event; }
 
 protected:
 	QKeyEvent *event;

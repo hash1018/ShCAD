@@ -137,13 +137,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Base\Math.cpp" />
     <ClCompile Include="Data\ShPoint.cpp" />
     <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
+    <ClCompile Include="Entity\Private\ShVisitor.cpp" />
     <ClCompile Include="Entity\ShEntity.cpp" />
     <ClCompile Include="Entity\ShEntityData.cpp" />
-    <ClCompile Include="Entity\Visitor Algorithm\ShVisitor.cpp" />
     <ClCompile Include="Event\ShNotifyEvent.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_ShButton.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -216,8 +217,8 @@
     <ClCompile Include="Interface\Item\ShIcon.cpp" />
     <ClCompile Include="Interface\Menu\ShMenu.cpp" />
     <ClCompile Include="Interface\Menu\ShMenuBar.cpp" />
+    <ClCompile Include="Interface\Private\ShRibbonButtonStragety.cpp" />
     <ClCompile Include="Interface\Ribbon\Button\ShRibbonButton.cpp" />
-    <ClCompile Include="Interface\Ribbon\Button\ShRibbonButtonStragety.cpp" />
     <ClCompile Include="Interface\Ribbon\ShHomeTab.cpp" />
     <ClCompile Include="Interface\Ribbon\ShRibbon.cpp" />
     <ClCompile Include="Interface\Ribbon\ShRibbonMenu.cpp" />
@@ -276,18 +277,20 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Base\Math.h" />
     <ClInclude Include="Data\ShPoint.h" />
     <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />
+    <ClInclude Include="Entity\Private\ShVisitor.h" />
     <ClInclude Include="Entity\ShEntity.h" />
     <ClInclude Include="Entity\ShEntityData.h" />
-    <ClInclude Include="Entity\Visitor Algorithm\ShVisitor.h" />
     <ClInclude Include="Event\ShNotifyEvent.h" />
     <ClInclude Include="Interface\Dock\ShCommandDock.h" />
     <ClInclude Include="Interface\Item\ShIcon.h" />
     <ClInclude Include="Interface\Menu\ShMenu.h" />
     <ClInclude Include="Interface\Menu\ShMenuBar.h" />
+    <ClInclude Include="Interface\Private\ShRibbonButtonStrategy.h" />
     <ClInclude Include="Manager\ShChangeManager.h" />
     <CustomBuild Include="Interface\Ribbon\Button\ShRibbonButton.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -307,7 +310,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
     </CustomBuild>
-    <ClInclude Include="Interface\Ribbon\Button\ShRibbonButtonStrategy.h" />
     <CustomBuild Include="Interface\Ribbon\ShHomeTab.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ShHomeTab.h...</Message>

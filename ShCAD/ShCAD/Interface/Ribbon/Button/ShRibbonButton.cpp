@@ -1,7 +1,7 @@
 
 #include "ShRibbonButton.h"
 #include <qmenu.h>
-#include "ShRibbonButtonStrategy.h"
+#include "Interface\Private\ShRibbonButtonStrategy.h"
 
 ShAbstractRibbonButton::ShAbstractRibbonButton(QWidget *parent)
 	:ShButtonWithMenuPopup(parent), strategy(0) {

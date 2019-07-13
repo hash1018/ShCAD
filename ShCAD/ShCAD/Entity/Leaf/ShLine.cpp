@@ -1,6 +1,6 @@
 
 #include "ShLine.h"
-#include "Entity\Visitor Algorithm\ShVisitor.h"
+#include "Entity\Private\ShVisitor.h"
 
 ShLine::ShLine() {
 

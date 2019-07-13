@@ -16,7 +16,7 @@ ShCADWidget::ShCADWidget(QWidget *parent)
 ShCADWidget::~ShCADWidget() {
 
 
-	ShCADWidgetManager::getInstance()->Remove(this);
+	ShCADWidgetManager::getInstance()->remove(this);
 }
 
 

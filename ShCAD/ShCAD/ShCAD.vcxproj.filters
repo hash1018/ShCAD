@@ -65,14 +65,20 @@
     <Filter Include="Entity">
       <UniqueIdentifier>{0fba26f3-1d29-411d-bd04-413be7933246}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entity\Visitor Algorithm">
-      <UniqueIdentifier>{4656c48f-a8fb-456a-9306-9839e511fa0a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Entity\Leaf">
       <UniqueIdentifier>{2a50712f-aec3-4c9c-8cba-d0b3f8257674}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entity\Composite">
       <UniqueIdentifier>{7fa67adf-d03f-4531-b98d-7d18ffc9b718}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Private">
+      <UniqueIdentifier>{c5bc58ab-9889-416a-8e7a-014ab28e3b0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface\Private">
+      <UniqueIdentifier>{8fc4f40b-cd89-4731-9bc6-ba8a04548e29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{86b58f83-a18b-483d-937f-64480bed704f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -131,9 +137,6 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Interface\Ribbon\Button\ShRibbonButton.cpp">
-      <Filter>Interface\Ribbon\Button</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\Ribbon\Button\ShRibbonButtonStragety.cpp">
       <Filter>Interface\Ribbon\Button</Filter>
     </ClCompile>
     <ClCompile Include="Interface\Ribbon\ShRibbonMenu.cpp">
@@ -208,11 +211,17 @@
     <ClCompile Include="Entity\Leaf\ShLine.cpp">
       <Filter>Entity\Leaf</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\Visitor Algorithm\ShVisitor.cpp">
-      <Filter>Entity\Visitor Algorithm</Filter>
-    </ClCompile>
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp">
       <Filter>Entity\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\ShVisitor.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Private\ShRibbonButtonStragety.cpp">
+      <Filter>Interface\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Math.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,9 +275,6 @@
     <ClInclude Include="Interface\Ribbon\ShRibbon.h">
       <Filter>Interface\Ribbon</Filter>
     </ClInclude>
-    <ClInclude Include="Interface\Ribbon\Button\ShRibbonButtonStrategy.h">
-      <Filter>Interface\Ribbon\Button</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\Ribbon\ShRibbonMenu.h">
       <Filter>Interface\Ribbon</Filter>
     </ClInclude>
@@ -305,11 +311,17 @@
     <ClInclude Include="Entity\Leaf\ShLine.h">
       <Filter>Entity\Leaf</Filter>
     </ClInclude>
-    <ClInclude Include="Entity\Visitor Algorithm\ShVisitor.h">
-      <Filter>Entity\Visitor Algorithm</Filter>
-    </ClInclude>
     <ClInclude Include="Entity\Leaf\ShRubberBand.h">
       <Filter>Entity\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShVisitor.h">
+      <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Private\ShRibbonButtonStrategy.h">
+      <Filter>Interface\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Math.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

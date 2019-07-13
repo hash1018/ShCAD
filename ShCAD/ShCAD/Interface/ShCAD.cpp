@@ -120,7 +120,7 @@ void ShCAD::createCADWidget() {
 	this->mdiArea->addSubWindow(cadWidget, Qt::WindowFlags::enum_type::SubWindow);
 	cadWidget->showMaximized();
 
-	ShCADWidgetManager::getInstance()->Add(cadWidget);
+	ShCADWidgetManager::getInstance()->add(cadWidget);
 }
 
 void ShCAD::createContextMenu() {
