@@ -1,6 +1,6 @@
 
 
-#include "Math.h"
+#include "ShMath.h"
 #include <math.h>
 
 int math::toInt(double value) {

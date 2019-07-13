@@ -3,15 +3,16 @@
 #include "ShMenu.h"
 #include "Interface/ShCAD.h"
 #include <qdebug.h>
+#include "Manager\ShLanguageManager.h"
 
 ShMenuBar::ShMenuBar(ShCAD *parent)
 	:QMenuBar(parent),parent(parent) {
 
-	this->emptyFileMenu = new ShEmptyDrawingFileMenu("File", this);
-	this->fileMenu = new ShFileMenu("File", this);
-	this->editMenu = new ShEditMenu("Edit", this);
-	this->drawMenu = new ShDrawMenu("Draw", this);
-	this->modifyMenu = new ShModifyMenu("Modify", this);
+	this->emptyFileMenu = new ShEmptyDrawingFileMenu(shGetLanValue_ui("File/File"), this);
+	this->fileMenu = new ShFileMenu(shGetLanValue_ui("File/File"), this);
+	this->editMenu = new ShEditMenu(shGetLanValue_ui("Edit/Edit"), this);
+	this->drawMenu = new ShDrawMenu(shGetLanValue_ui("Draw/Draw"), this);
+	this->modifyMenu = new ShModifyMenu(shGetLanValue_ui("Modify/Modify"), this);
 
 }
 

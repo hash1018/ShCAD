@@ -8,11 +8,12 @@
 #include "ShPropertyToolBar.h"
 #include "ShModifyToolBar.h"
 #include "ShObjectSnapToolBar.h"
+#include "Manager\ShLanguageManager.h"
 
 ShToolBarContainer::ShToolBarContainer(ShCAD *parent)
 	:parent(parent) {
 
-	this->toolBarMenu = new QMenu("ToolBars");
+	this->toolBarMenu = new QMenu(shGetLanValue_ui("ToolBar/ToolBars"));
 
 	this->createToolBars();
 
@@ -36,19 +37,19 @@ ShToolBarContainer::~ShToolBarContainer() {
 
 void ShToolBarContainer::createToolBars() {
 
-	this->drawToolBar = new ShDrawToolBar("Draw", this->parent);
+	this->drawToolBar = new ShDrawToolBar(shGetLanValue_ui("Draw/Draw"), this->parent);
 	this->list.append(this->drawToolBar);
 
-	this->propertyToolBar = new ShPropertyToolBar("Property", this->parent);
+	this->propertyToolBar = new ShPropertyToolBar(shGetLanValue_ui("Property/Property"), this->parent);
 	this->list.append(this->propertyToolBar);
 
-	this->modifyToolBar = new ShModifyToolBar("Modify", this->parent);
+	this->modifyToolBar = new ShModifyToolBar(shGetLanValue_ui("Modify/Modify"), this->parent);
 	this->list.append(this->modifyToolBar);
 
-	this->layerToolBar = new ShLayerToolBar("Layer", this->parent);
+	this->layerToolBar = new ShLayerToolBar(shGetLanValue_ui("Layer/Layer"), this->parent);
 	this->list.append(this->layerToolBar);
 
-	this->objectSnapToolBar = new ShObjectSnapToolBar("ObjectSnap", this->parent);
+	this->objectSnapToolBar = new ShObjectSnapToolBar(shGetLanValue_ui("ObjectSnap/ObjectSnap"), this->parent);
 	this->list.append(this->objectSnapToolBar);
 
 

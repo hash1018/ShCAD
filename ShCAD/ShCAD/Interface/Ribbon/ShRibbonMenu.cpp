@@ -1,29 +1,32 @@
 
 #include "ShRibbonMenu.h"
 #include "ShHomeTab.h"
+#include "Manager\ShLanguageManager.h"
 
 ShRibbonMenu::ShRibbonMenu(int height, QWidget *parent)
 	:ShRibbon(height, parent), menuActionChecked(true) {
 
-	this->homeTab = new ShHomeTab("Home", this);
+	this->setWindowTitle(shGetLanValue_ui("Ribbon/RibbonMenu"));
+
+	this->homeTab = new ShHomeTab(shGetLanValue_ui("Home/Home"), this);
 	this->addTab(this->homeTab);
 
-	this->insertTab = new ShInsertTab("Insert", this);
+	this->insertTab = new ShInsertTab(shGetLanValue_ui("Insert/Insert"), this);
 	this->addTab(this->insertTab);
 
-	this->annotateTab = new ShAnnotateTab("Annotate", this);
+	this->annotateTab = new ShAnnotateTab(shGetLanValue_ui("Annotate/Annotate"), this);
 	this->addTab(this->annotateTab);
 
-	this->parametricTab = new ShParametricTab("Parametric", this);
+	this->parametricTab = new ShParametricTab(shGetLanValue_ui("Parametric/Parametric"), this);
 	this->addTab(this->parametricTab);
 
-	this->viewTab = new ShViewTab("View", this);
+	this->viewTab = new ShViewTab(shGetLanValue_ui("View/View"), this);
 	this->addTab(this->viewTab);
 
-	this->manageTab = new ShManageTab("Manage", this);
+	this->manageTab = new ShManageTab(shGetLanValue_ui("Manage/Manage"), this);
 	this->addTab(this->manageTab);
 
-	this->menuAction = new QAction("RibbonMenu");
+	this->menuAction = new QAction(shGetLanValue_ui("Ribbon/RibbonMenu"));
 	this->menuAction->setCheckable(true);
 	this->menuAction->setChecked(true);
 

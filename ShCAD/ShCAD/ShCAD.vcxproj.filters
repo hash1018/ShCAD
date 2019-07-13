@@ -220,8 +220,11 @@
     <ClCompile Include="Interface\Private\ShRibbonButtonStragety.cpp">
       <Filter>Interface\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Math.cpp">
+    <ClCompile Include="Base\ShMath.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\ShLanguageManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,8 +323,11 @@
     <ClInclude Include="Interface\Private\ShRibbonButtonStrategy.h">
       <Filter>Interface\Private</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Math.h">
+    <ClInclude Include="Base\ShMath.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\ShLanguageManager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

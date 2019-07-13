@@ -51,11 +51,9 @@ void ShCAD::initWidgets() {
 
 	this->commandDock = new ShCommandDock(this);
 	this->commandDock->installEventFilter(this);
-	this->commandDock->setWindowTitle("Command");
 	this->commandDock->hide();
 
 	this->ribbonMenu = new ShRibbonMenu(150, this);
-	this->ribbonMenu->setWindowTitle("RibbonMenu");
 	this->addToolBar(Qt::ToolBarArea::TopToolBarArea, this->ribbonMenu);
 	this->ribbonMenu->hide();
 	this->addToolBarBreak();

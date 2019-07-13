@@ -3,20 +3,21 @@
 #include "Interface\Item\ShButton.h"
 #include "Interface\Item\ShIcon.h"
 #include "Interface\Ribbon\Button\ShRibbonButton.h"
+#include "Manager\ShLanguageManager.h"
 
 ShHomeTab::ShHomeTab(const QString &title, QWidget *parent)
 	:ShRibbonTab(title, parent) {
 
-	this->drawPanel = new ShDrawPanel(this, "Draw", 100);
+	this->drawPanel = new ShDrawPanel(this, shGetLanValue_ui("Home/Draw"), 100);
 	this->addPanel(this->drawPanel);
 
-	this->modifyPanel = new ShModifyPanel(this, "Modify", 150);
+	this->modifyPanel = new ShModifyPanel(this, shGetLanValue_ui("Home/Modify"), 150);
 	this->addPanel(this->modifyPanel);
 
-	this->propertyPanel = new ShPropertyPanel(this, "Property", 250);
+	this->propertyPanel = new ShPropertyPanel(this, shGetLanValue_ui("Home/Property"), 250);
 	this->addPanel(this->propertyPanel);
 
-	this->layerPanel = new ShLayerPanel(this, "Layer", 250);
+	this->layerPanel = new ShLayerPanel(this, shGetLanValue_ui("Home/Layer"), 250);
 	this->addPanel(this->layerPanel);
 }
 

@@ -2,6 +2,7 @@
 #include "ShCommandDock.h"
 #include <QResizeEvent>
 #include <qaction.h>
+#include "Manager\ShLanguageManager.h"
 
 ShCommandList::ShCommandList(QWidget *parent)
 	:QTextEdit(parent) {
@@ -63,12 +64,11 @@ ShCommandDock::ShCommandDock(QWidget *parent)
 	:QDockWidget(parent), menuActionChecked(true) {
 
 	this->setAllowedAreas(Qt::DockWidgetArea::BottomDockWidgetArea);
-
+	this->setWindowTitle(shGetLanValue_ui("Command/Command"));
 
 	this->container = new ShCommandContainer(this);
 	this->setWidget(this->container);
-
-	this->menuAction = new QAction("CommandDock");
+	this->menuAction = new QAction(shGetLanValue_ui("Command/CommandDock"));
 	this->menuAction->setCheckable(true);
 	this->menuAction->setChecked(true);
 
