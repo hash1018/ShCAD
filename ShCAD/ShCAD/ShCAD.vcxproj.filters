@@ -80,6 +80,12 @@
     <Filter Include="Base">
       <UniqueIdentifier>{86b58f83-a18b-483d-937f-64480bed704f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionHandler">
+      <UniqueIdentifier>{d4d862b7-e7ea-4271-b367-8a91a9f541c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ActionHandler\Private">
+      <UniqueIdentifier>{55d8efc7-5cc8-4ffa-84e7-5b2a8cb7a59e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -238,6 +244,21 @@
     <ClCompile Include="Data\ShScrollPosition.cpp">
       <Filter>Data</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\Private\ShActionData.cpp">
+      <Filter>ActionHandler\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\ShActionHandler.cpp">
+      <Filter>ActionHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\ShActionHandlerProxy.cpp">
+      <Filter>ActionHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\Private\ShActionHandlerFactory.cpp">
+      <Filter>ActionHandler\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\ShDefaultAction.cpp">
+      <Filter>ActionHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -355,6 +376,21 @@
     </ClInclude>
     <ClInclude Include="Data\ShScrollPosition.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ShActionHandler.h">
+      <Filter>ActionHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\Private\ShActionData.h">
+      <Filter>ActionHandler\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ShActionHandlerProxy.h">
+      <Filter>ActionHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\Private\ShActionHandlerFactory.h">
+      <Filter>ActionHandler\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ShDefaultAction.h">
+      <Filter>ActionHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -29,17 +29,14 @@ void ShCADWidget::initializeGL() {
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	this->captureImage();
-
-
 }
 
 
 void ShCADWidget::resizeGL(int width, int height) {
 
 	QOpenGLWidget::resizeGL(width, height);
-	this->update();
+	this->updateImmediately();
 	this->captureImage();
-
 
 }
 
@@ -110,6 +107,13 @@ void ShCADWidget::update(ShNotifyEvent *event) {
 }
 
 void ShCADWidget::update(DrawType drawType) {
+
+	this->drawType = (DrawType)(this->drawType | drawType);
+	
+}
+
+
+void ShCADWidget::updateImmediately(DrawType drawType) {
 
 	this->drawType = drawType;
 	QOpenGLWidget::update();

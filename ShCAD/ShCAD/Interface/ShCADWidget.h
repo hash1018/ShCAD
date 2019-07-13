@@ -28,7 +28,9 @@ public:
 
 	void notify(ShNotifyEvent *event);
 	void update(ShNotifyEvent *event);
+	//*this function not update but store drawtype like a buffer.
 	void update(DrawType drawType = DrawType::DrawAll);
+	void updateImmediately(DrawType drawType = DrawType::DrawAll);
 
 	void convertDeviceToEntity(const int &x, const int &y, double &ex, double &ey);
 	void convertEntityToDevice(const double &x, const double &y, int &dx, int &dy);
