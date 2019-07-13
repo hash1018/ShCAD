@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 #include "Private\ShActionData.h"
 #include "Interface\ShCADWidget.h"
+#include "ActionHandler\TemporaryAction\ShTemporaryAction.h"
 
 ShActionHandlerProxy::ShActionHandlerProxy(ShCADWidget *widget)
 	:widget(widget),currentAction(nullptr) {
@@ -47,14 +48,16 @@ void ShActionHandlerProxy::mouseRightPressEvent(QMouseEvent *event) {
 
 	this->currentAction->mouseRightPressEvent(data);
 }
-
+#include <qdebug.h>
 void ShActionHandlerProxy::mouseMoveEvent(QMouseEvent *event) {
-
+	qDebug() << "Proxy::mouseMoveEvent";
 	ShActionData data;
 	this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
 	data.mouseEvent = event;
 
 	this->currentAction->mouseMoveEvent(data);
+
+	this->widget->updateImmediately(this->widget->getDrawType());
 }
 
 void ShActionHandlerProxy::mouseReleaseEvent(QMouseEvent *event) {
@@ -84,10 +87,12 @@ void ShActionHandlerProxy::changeAction(ActionType actionType) {
 
 void ShActionHandlerProxy::replaceAction(ShActionHandler *actionHandler) {
 
+	this->currentAction = actionHandler;
 }
 
 void ShActionHandlerProxy::setTemporaryAction(ShTemporaryAction *temporaryAction) {
 
+	this->currentAction = temporaryAction;
 }
 
 QCursor ShActionHandlerProxy::getCursorShape() {

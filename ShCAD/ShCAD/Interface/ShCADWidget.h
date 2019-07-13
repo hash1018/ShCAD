@@ -10,6 +10,9 @@
 #include "Data\ShScrollPosition.h"
 
 class ShNotifyEvent;
+class ShActionHandler;
+class ShTemporaryAction;
+class ShActionHandlerProxy;
 
 class ShCADWidget : public QOpenGLWidget {
 
@@ -20,6 +23,7 @@ private:
 	ShScrollPosition scroll;
 	DrawType drawType;
 	QImage capturedImage;
+	ShActionHandlerProxy *actionHandlerProxy;
 	
 
 public:
@@ -31,6 +35,9 @@ public:
 	//*this function not update but store drawtype like a buffer.
 	void update(DrawType drawType = DrawType::DrawAll);
 	void updateImmediately(DrawType drawType = DrawType::DrawAll);
+
+	void replaceAction(ShActionHandler *actionHandler);
+	void setTemporaryAction(ShTemporaryAction *temporaryAction);
 
 	void convertDeviceToEntity(const int &x, const int &y, double &ex, double &ey);
 	void convertEntityToDevice(const double &x, const double &y, int &dx, int &dy);

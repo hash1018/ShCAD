@@ -3,7 +3,7 @@
 #ifndef _SHENTITY_H
 #define _SHENTITY_H
 
-#include "ShEntityData.h"
+#include "Private\ShEntityData.h"
 
 class ShVisitor;
 class ShEntity {

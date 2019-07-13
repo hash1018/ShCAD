@@ -142,15 +142,17 @@
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerProxy.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
+    <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
+    <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
     <ClCompile Include="Data\ShPoint.cpp" />
     <ClCompile Include="Data\ShScrollPosition.cpp" />
     <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
+    <ClCompile Include="Entity\Private\ShEntityData.cpp" />
     <ClCompile Include="Entity\Private\ShVisitor.cpp" />
     <ClCompile Include="Entity\ShEntity.cpp" />
-    <ClCompile Include="Entity\ShEntityData.cpp" />
     <ClCompile Include="Event\ShNotifyEvent.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_ShButton.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -292,6 +294,8 @@
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerProxy.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
+    <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
+    <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
     <ClInclude Include="Base\ShMath.h" />
     <ClInclude Include="Base\ShVariable.h" />
     <ClInclude Include="Data\ShPoint.h" />
@@ -299,9 +303,9 @@
     <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />
+    <ClInclude Include="Entity\Private\ShEntityData.h" />
     <ClInclude Include="Entity\Private\ShVisitor.h" />
     <ClInclude Include="Entity\ShEntity.h" />
-    <ClInclude Include="Entity\ShEntityData.h" />
     <ClInclude Include="Event\ShNotifyEvent.h" />
     <ClInclude Include="Interface\Dock\ShCommandDock.h" />
     <ClInclude Include="Interface\Item\ShIcon.h" />

@@ -3,10 +3,12 @@
 #ifndef _SHACTIONHANDLER_H
 #define _SHACTIONHANDLER_H
 
+#include "Interface\ShCADWidget.h"
 #include "Base\ShVariable.h"
 #include <qcursor.h>
+#include "Private\ShActionData.h"
 
-class ShCADWidget;
+
 class QMouseEvent;
 class QKeyEvent;
 class QPainter;
