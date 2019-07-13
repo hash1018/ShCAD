@@ -41,10 +41,6 @@ bool ShLanguageManager::setLanguage(Language language) {
 	return true;
 }
 
-QString ShLanguageManager::getValueUi(const QString &key) {
-
-	return this->getValue(KeyTable::Interface, key);
-}
 
 QString ShLanguageManager::getValue(const KeyTable &keyTable,const QString &key) {
 

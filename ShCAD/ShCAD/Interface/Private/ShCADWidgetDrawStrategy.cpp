@@ -4,6 +4,7 @@
 #include "Interface\ShCADWidget.h"
 #include <qpainter.h>
 #include <qdebug.h>
+
 ShCADWidgetDrawStrategy::ShCADWidgetDrawStrategy(ShCADWidget *widget, QPainter *painter)
 	:widget(widget), painter(painter), strategy(nullptr) {
 
@@ -31,9 +32,9 @@ void ShCADWidgetDrawStrategy::draw() {
 
 
 ShDrawAllStrategy::ShDrawAllStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType)
-	:ShCADWidgetDrawStrategy(widget, painter) {
+	:ShCADWidgetDrawStrategy(widget, painter, drawType) {
 
-	this->strategy = ShCADWidgetDrawStrategyFactory::create(this->widget, this->painter, drawType);
+
 }
 
 ShDrawAllStrategy::~ShDrawAllStrategy() {
@@ -64,12 +65,12 @@ void ShDrawAllStrategy::draw() {
 
 
 ShDrawCaptureImageStrategy::ShDrawCaptureImageStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType)
-	:ShCADWidgetDrawStrategy(widget, painter) {
+	:ShCADWidgetDrawStrategy(widget, painter, drawType) {
 
-	this->strategy = ShCADWidgetDrawStrategyFactory::create(this->widget, this->painter, drawType);
+
 }
 
-ShDrawCaptureImageStrategy::	~ShDrawCaptureImageStrategy() {
+ShDrawCaptureImageStrategy::~ShDrawCaptureImageStrategy() {
 
 }
 
@@ -93,9 +94,9 @@ void ShDrawCaptureImageStrategy::draw() {
 
 
 ShDrawPreviewEntitiesStrategy::ShDrawPreviewEntitiesStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType)
-	:ShCADWidgetDrawStrategy(widget, painter) {
+	:ShCADWidgetDrawStrategy(widget, painter, drawType) {
 
-	this->strategy = ShCADWidgetDrawStrategyFactory::create(this->widget, this->painter, drawType);
+
 }
 
 ShDrawPreviewEntitiesStrategy::	~ShDrawPreviewEntitiesStrategy() {
@@ -131,13 +132,13 @@ void ShDrawPreviewEntitiesStrategy::draw() {
 
 
 
-ShDrawAddedEntitiesStrategy::ShDrawAddedEntitiesStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType) 
-	:ShCADWidgetDrawStrategy(widget, painter) {
+ShDrawAddedEntitiesStrategy::ShDrawAddedEntitiesStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType)
+	:ShCADWidgetDrawStrategy(widget, painter, drawType) {
 
-	this->strategy = ShCADWidgetDrawStrategyFactory::create(this->widget, this->painter, drawType);
+
 }
 
-ShDrawAddedEntitiesStrategy::	~ShDrawAddedEntitiesStrategy() {
+ShDrawAddedEntitiesStrategy::~ShDrawAddedEntitiesStrategy() {
 
 }
 
@@ -167,10 +168,10 @@ void ShDrawAddedEntitiesStrategy::draw() {
 
 
 
-ShDrawSelectedEntitiesStrategy::ShDrawSelectedEntitiesStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType) 
-	:ShCADWidgetDrawStrategy(widget, painter) {
+ShDrawSelectedEntitiesStrategy::ShDrawSelectedEntitiesStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType)
+	:ShCADWidgetDrawStrategy(widget, painter, drawType) {
 
-	this->strategy = ShCADWidgetDrawStrategyFactory::create(this->widget, this->painter, drawType);
+
 }
 
 ShDrawSelectedEntitiesStrategy::~ShDrawSelectedEntitiesStrategy() {
@@ -203,13 +204,13 @@ void ShDrawSelectedEntitiesStrategy::draw() {
 
 
 
-ShDrawJustTurnOnLayerStrategy::ShDrawJustTurnOnLayerStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType) 
-	:ShCADWidgetDrawStrategy(widget, painter) {
+ShDrawJustTurnOnLayerStrategy::ShDrawJustTurnOnLayerStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType)
+	:ShCADWidgetDrawStrategy(widget, painter, drawType) {
 
-	this->strategy = ShCADWidgetDrawStrategyFactory::create(this->widget, this->painter, drawType);
+
 }
 
-ShDrawJustTurnOnLayerStrategy::	~ShDrawJustTurnOnLayerStrategy() {
+ShDrawJustTurnOnLayerStrategy::~ShDrawJustTurnOnLayerStrategy() {
 
 }
 
@@ -237,10 +238,10 @@ void ShDrawJustTurnOnLayerStrategy::draw() {
 ///////////////////////////////////////////////////////////////
 
 
-ShDrawActionHandlerStrategy::ShDrawActionHandlerStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType) 
-	:ShCADWidgetDrawStrategy(widget, painter) {
+ShDrawActionHandlerStrategy::ShDrawActionHandlerStrategy(ShCADWidget *widget, QPainter *painter, DrawType drawType)
+	:ShCADWidgetDrawStrategy(widget, painter, drawType) {
 
-	this->strategy = ShCADWidgetDrawStrategyFactory::create(this->widget, this->painter, drawType);
+
 }
 
 ShDrawActionHandlerStrategy::~ShDrawActionHandlerStrategy() {

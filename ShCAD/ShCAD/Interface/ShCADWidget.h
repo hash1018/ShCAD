@@ -7,6 +7,7 @@
 #include "Data\ShPoint.h"
 #include "Interface\Private\ShAxis.h"
 #include "Base\ShVariable.h"
+#include "Data\ShScrollPosition.h"
 
 class ShNotifyEvent;
 
@@ -16,8 +17,7 @@ private:
 	ShPoint3d coordinate;
 	double zoomRate;
 	ShAxis axis;
-	double hPos;
-	double vPos;
+	ShScrollPosition scroll;
 	DrawType drawType;
 	QImage capturedImage;
 	
@@ -50,14 +50,12 @@ protected:
 
 public:
 	void setCoordinate(const ShPoint3d &coordinate) { this->coordinate = coordinate; }
-	void setVPos(const double &vPos) { this->vPos = vPos; }
-	void setHPos(const double &hPos) { this->hPos = hPos; }
+	void setScrollPosition(const ShScrollPosition &scrollPosition) { this->scroll = scrollPosition; }
 	void setZoomRate(const double &zoomRate) { this->zoomRate = zoomRate; }
 
 public:
 	inline ShPoint3d getCoordinate() const { return this->coordinate; }
-	inline double getVPos() const { return this->vPos; }
-	inline double getHPos() const { return this->hPos; }
+	inline ShScrollPosition getScrollPosition() const { return this->scroll; }
 	inline double getZoomRate() const { return this->zoomRate; }
 	inline ShAxis& getAxis() const { return const_cast<ShAxis&>(this->axis); }
 	inline DrawType getDrawType() const { return this->drawType; }

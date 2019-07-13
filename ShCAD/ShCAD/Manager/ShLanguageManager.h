@@ -1,12 +1,12 @@
 
-#ifndef _LANGUAGEMANAGER_H
-#define _LANGUAGEMANAGER_H
+#ifndef _SHLANGUAGEMANAGER_H
+#define _SHLANGUAGEMANAGER_H
 
 #include <qstring.h>
 class QSettings;
 
 #define shGetLanValue ShLanguageManager::getInstance()->getValue
-#define shGetLanValue_ui ShLanguageManager::getInstance()->getValueUi
+#define shGetLanValue_ui(key) (ShLanguageManager::getInstance()->getValue(ShLanguageManager::Interface, key))
 
 class ShLanguageManager {
 
@@ -34,7 +34,6 @@ public:
 	static ShLanguageManager* getInstance();
 
 	bool setLanguage(Language language);
-	QString getValueUi(const QString &key);
 	QString getValue(const KeyTable &keyTable, const QString &key);
 	
 
@@ -43,4 +42,4 @@ private:
 	static QString ConvertFileName(const KeyTable &table);
 };
 
-#endif //_LANGUAGEMANAGER_H
+#endif //_SHLANGUAGEMANAGER_H

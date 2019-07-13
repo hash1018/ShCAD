@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
-	ShLanguageManager::getInstance()->setLanguage(ShLanguageManager::English);
+	ShLanguageManager::getInstance()->setLanguage(ShLanguageManager::Korean);
 
 	ShCAD w;
 	w.showMaximized();

@@ -235,6 +235,9 @@
     <ClCompile Include="Interface\Private\ShCADWidgetDrawStrategy.cpp">
       <Filter>Interface\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Data\ShScrollPosition.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="Interface\Private\ShCADWidgetDrawStrategyFactory.h">
       <Filter>Interface\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShScrollPosition.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

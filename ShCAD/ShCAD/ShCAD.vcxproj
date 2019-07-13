@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="Base\ShMath.cpp" />
     <ClCompile Include="Data\ShPoint.cpp" />
+    <ClCompile Include="Data\ShScrollPosition.cpp" />
     <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
@@ -284,6 +285,7 @@
     <ClInclude Include="Base\ShMath.h" />
     <ClInclude Include="Base\ShVariable.h" />
     <ClInclude Include="Data\ShPoint.h" />
+    <ClInclude Include="Data\ShScrollPosition.h" />
     <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />

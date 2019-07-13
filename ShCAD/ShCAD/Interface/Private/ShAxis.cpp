@@ -63,8 +63,8 @@ void ShAxis::draw(QPainter *painter, ShCADWidget *widget) {
 	if (painter->isActive() == false)
 		painter->begin(widget);
 
-	double hPos = widget->getHPos();
-	double vPos = widget->getVPos();
+	double hPos = widget->getScrollPosition().horizontal;
+	double vPos = widget->getScrollPosition().vertical;
 	double zoomRate = widget->getZoomRate();
 
 	QPen pen = painter->pen();

@@ -10,7 +10,7 @@
 #include "Base\ShMath.h"
 
 ShCADWidget::ShCADWidget(QWidget *parent)
-	:QOpenGLWidget(parent),zoomRate(1.0),hPos(0),vPos(0),drawType(DrawAll) {
+	:QOpenGLWidget(parent),zoomRate(1.0){
 
 	this->setFocusPolicy(Qt::FocusPolicy::ClickFocus);
 	
@@ -117,15 +117,14 @@ void ShCADWidget::update(DrawType drawType) {
 
 void ShCADWidget::convertDeviceToEntity(const int &x, const int &y, double &ex, double &ey) {
 
-
-	ex = (x + this->hPos - (this->axis.getCenter().x*this->zoomRate))*1.000 / this->zoomRate;
-	ey = (-1 * (y + this->vPos - (this->axis.getCenter().y)*this->zoomRate))*1.000 / this->zoomRate;
+	ex = (x + this->scroll.horizontal - (this->axis.getCenter().x*this->zoomRate))*1.000 / this->zoomRate;
+	ey = (-1 * (y + this->scroll.vertical - (this->axis.getCenter().y)*this->zoomRate))*1.000 / this->zoomRate;
 }
 
 void ShCADWidget::convertEntityToDevice(const double &x, const double &y, int &dx, int &dy) {
 
-	double tempX = ((x*this->zoomRate) - this->hPos + (this->axis.getCenter().x*this->zoomRate));
-	double tempY = (-1 * ((y*this->zoomRate) + this->vPos - (this->axis.getCenter().y*this->zoomRate)));
+	double tempX = ((x*this->zoomRate) - this->scroll.horizontal + (this->axis.getCenter().x*this->zoomRate));
+	double tempY = (-1 * ((y*this->zoomRate) + this->scroll.vertical - (this->axis.getCenter().y*this->zoomRate)));
 
 	dx = math::toInt(tempX);
 	dy = math::toInt(tempY);
