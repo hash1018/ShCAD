@@ -28,8 +28,8 @@ void ShChangeManager::Register(ShCommandDock *commandDock) {
 	this->commandDock = commandDock;
 }
 
-void ShChangeManager::notify(ShCADWidget *view, ShNotifyEvent *event) {
+void ShChangeManager::notify(ShCADWidget *widget, ShNotifyEvent *event) {
 
-	//this->statusBar->Update(event);
+	this->statusBar->update(event);
 
 }

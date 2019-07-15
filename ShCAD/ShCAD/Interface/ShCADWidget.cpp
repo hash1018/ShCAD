@@ -75,6 +75,12 @@ void ShCADWidget::mouseMoveEvent(QMouseEvent *event) {
 		this->setFocus();
 
 	this->actionHandlerProxy->mouseMoveEvent(event);
+
+	ShPoint3d point;
+	this->convertDeviceToEntity(event->x(), event->y(), point.x, point.y);
+	ShMousePositionChangedEvent notifyEvent(point);
+	this->notify(&notifyEvent);
+
 }
 
 void ShCADWidget::mouseReleaseEvent(QMouseEvent *event) {
@@ -89,6 +95,41 @@ void ShCADWidget::keyPressEvent(QKeyEvent *event) {
 
 void ShCADWidget::wheelEvent(QWheelEvent *event) {
 
+	this->convertDeviceToEntity(event->x(), event->y(), this->coordinate.x, this->coordinate.y);
+
+	if (event->delta() > 0) {
+
+		if (this->zoomRate < 15 && this->zoomRate >= 1)
+			this->zoomRate++;
+		else if (this->zoomRate < 1)
+			this->zoomRate += 0.2;
+		else
+			return;
+	}
+	else {
+		if (this->zoomRate > 2)
+			this->zoomRate--;
+		else if (this->zoomRate <= 2 && this->zoomRate > 1)
+			this->zoomRate -= 0.5;
+		else if (this->zoomRate <= 1 && math::compare(this->zoomRate, 0.2) == 1)
+			this->zoomRate -= 0.2;
+		else if ((math::compare(this->zoomRate, 0.2) == 0 || math::compare(this->zoomRate, 0.2) == -1) &&
+			math::compare(this->zoomRate, 0.05) == 1)
+			this->zoomRate -= 0.01;
+		else
+			return;
+	}
+
+
+	this->scroll.vertical = (-1 * (this->zoomRate*this->coordinate.y) -
+		event->y() + (this->axis.getCenter().y*this->zoomRate));
+	this->scroll.horizontal = (this->zoomRate*this->coordinate.x -
+		event->x() + (this->axis.getCenter().x*this->zoomRate));
+
+	this->update();
+
+	ShZoomRateChangedEvent notifyEvent(this->zoomRate);
+	this->notify(&notifyEvent);
 }
 
 void ShCADWidget::focusInEvent(QFocusEvent *event) {

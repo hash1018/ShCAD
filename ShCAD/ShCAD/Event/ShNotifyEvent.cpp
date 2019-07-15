@@ -12,8 +12,8 @@ ShNotifyEvent::~ShNotifyEvent() {
 
 ////////////////////////////////////////////
 
-ShZoomRateChangedEvent::ShZoomRateChangedEvent()
-	:ShNotifyEvent(Type::ZoomRateChanged) {
+ShZoomRateChangedEvent::ShZoomRateChangedEvent(const double &zoomRate)
+	:ShNotifyEvent(Type::ZoomRateChanged), zoomRate(zoomRate) {
 
 }
 
@@ -24,8 +24,8 @@ ShZoomRateChangedEvent::~ShZoomRateChangedEvent() {
 
 ////////////////////////////////////////////
 
-ShMousePositionChangedEvent::ShMousePositionChangedEvent()
-	:ShNotifyEvent(Type::MousePositionChanged) {
+ShMousePositionChangedEvent::ShMousePositionChangedEvent(const ShPoint3d &point)
+	:ShNotifyEvent(Type::MousePositionChanged), point(point) {
 
 }
 

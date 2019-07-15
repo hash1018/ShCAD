@@ -2,6 +2,8 @@
 #ifndef _SHNOTIFYEVENT_H
 #define _SHNOTIFYEVENT_H
 
+#include "Data\ShPoint.h"
+
 class QKeyEvent;
 class ShCADWidget;
 
@@ -31,9 +33,13 @@ protected:
 class ShZoomRateChangedEvent : public ShNotifyEvent {
 
 public:
-	ShZoomRateChangedEvent();
+	ShZoomRateChangedEvent(const double &zoomRate);
 	~ShZoomRateChangedEvent();
 
+	inline double getZoomRate() const { return this->zoomRate; }
+
+private:
+	double zoomRate;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -41,10 +47,12 @@ public:
 class ShMousePositionChangedEvent : public ShNotifyEvent {
 
 public:
-	ShMousePositionChangedEvent();
+	ShMousePositionChangedEvent(const ShPoint3d &point);
 	~ShMousePositionChangedEvent();
 
-	
+	inline ShPoint3d getPoint() const { return this->point; }
+private:
+	ShPoint3d point;
 };
 
 ///////////////////////////////////////////////////////////////////////
