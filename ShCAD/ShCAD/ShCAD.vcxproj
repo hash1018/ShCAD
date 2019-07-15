@@ -145,6 +145,7 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
+    <ClCompile Include="Base\ShGlobal.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
     <ClCompile Include="Data\ShPoint.cpp" />
     <ClCompile Include="Data\ShScrollPosition.cpp" />
@@ -301,6 +302,7 @@
     <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
+    <ClInclude Include="Base\ShGlobal.h" />
     <ClInclude Include="Base\ShMath.h" />
     <ClInclude Include="Base\ShVariable.h" />
     <ClInclude Include="Data\ShPoint.h" />

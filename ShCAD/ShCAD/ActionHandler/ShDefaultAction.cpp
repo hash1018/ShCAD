@@ -3,8 +3,8 @@
 #include "ShDefaultAction.h"
 #include <QMouseEvent>
 #include "TemporaryAction\ShDragSelectAction.h"
+#include "Base\ShGlobal.h"
 #include "Event\ShNotifyEvent.h"
-#include "UnRedo\ShTransaction.h"
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 	:ShActionHandler(widget) {
@@ -32,24 +32,13 @@ void ShDefaultAction::keyPressEvent(ShActionData &data) {
 
 	if (data.keyEvent->modifiers() == Qt::Modifier::CTRL && data.keyEvent->key() == Qt::Key::Key_Z) {
 
-		if (!this->widget->getUndoStack()->isEmpty()) {
-		
-			ShTransaction *transaction = this->widget->getUndoStack()->pop();
-			transaction->undo();
-
-			this->widget->getRedoStack()->push(transaction);
-		}
-
+		this->changeSubAction(new ShSubDefaultAction_Default(this, this->widget));
+		ShGlobal::undo(this->widget);
 	}
 	else if (data.keyEvent->modifiers() == Qt::Modifier::CTRL && data.keyEvent->key() == Qt::Key::Key_Y) {
 
-		if (!this->widget->getRedoStack()->isEmpty()) {
-
-			ShTransaction *transaction = this->widget->getRedoStack()->pop();
-			transaction->redo();
-
-			this->widget->getUndoStack()->push(transaction);
-		}
+		this->changeSubAction(new ShSubDefaultAction_Default(this, this->widget));
+		ShGlobal::redo(this->widget);
 
 	}
 	else if (data.keyEvent->modifiers() == Qt::Modifier::CTRL && data.keyEvent->key() == Qt::Key::Key_A) {
