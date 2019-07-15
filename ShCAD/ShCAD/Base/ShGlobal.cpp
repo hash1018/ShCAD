@@ -43,3 +43,10 @@ void ShGlobal::selectAll(ShCADWidget *widget) {
 void ShGlobal::deleteSelectedEntity(ShCADWidget *widget) {
 
 }
+
+void ShGlobal::pushNewTransaction(ShCADWidget *widget, ShTransaction *transaction) {
+
+	widget->getUndoStack()->push(transaction);
+	if (!widget->getRedoStack()->isEmpty())
+		widget->getRedoStack()->deleteAll();
+}

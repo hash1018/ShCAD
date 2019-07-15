@@ -3,6 +3,7 @@
 #define _SHGLOBAL_H
 
 class ShCADWidget;
+class ShTransaction;
 
 
 //Facade Pattern.
@@ -19,6 +20,7 @@ public:
 	static void redo(ShCADWidget *widget);
 	static void selectAll(ShCADWidget *widget);
 	static void deleteSelectedEntity(ShCADWidget *widget);
+	static void pushNewTransaction(ShCADWidget *widget, ShTransaction *transaction);
 
 };
 
