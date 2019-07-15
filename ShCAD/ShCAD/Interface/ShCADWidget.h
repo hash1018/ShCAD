@@ -8,6 +8,7 @@
 #include "Interface\Private\ShAxis.h"
 #include "Base\ShVariable.h"
 #include "Data\ShScrollPosition.h"
+#include "UnRedo\ShTransactionStack.h"
 
 class ShNotifyEvent;
 class ShActionHandler;
@@ -24,6 +25,8 @@ private:
 	DrawType drawType;
 	QImage capturedImage;
 	ShActionHandlerProxy *actionHandlerProxy;
+	ShTransactionStack *undoStack;
+	ShTransactionStack *redoStack;
 	
 
 public:
@@ -45,6 +48,7 @@ public:
 	void convertEntityToDevice(const double &x, const double &y, int &dx, int &dy);
 
 	void captureImage();
+	void shiftViewport(const ShPoint3d &coordinate, int dx, int dy);
 
 protected:
 	virtual void initializeGL();
@@ -72,6 +76,8 @@ public:
 	inline DrawType getDrawType() const { return this->drawType; }
 	inline const QImage& getCapturedImage() const { return const_cast<QImage&>(this->capturedImage); }
 	inline ShActionHandlerProxy* getActionHandlerProxy() const { return this->actionHandlerProxy; }
+	inline ShTransactionStack* getRedoStack() const { return this->redoStack; }
+	inline ShTransactionStack* getUndoStack() const { return this->undoStack; }
 };
 
 #endif //_SHCADWIDGET_H

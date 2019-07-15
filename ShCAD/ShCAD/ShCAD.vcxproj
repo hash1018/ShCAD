@@ -248,6 +248,9 @@
     <ClCompile Include="Manager\ShLanguageManager.cpp" />
     <ClCompile Include="Manager\ShCADWidgetManager.cpp" />
     <ClCompile Include="Manager\ShChangeManager.cpp" />
+    <ClCompile Include="UnRedo\ShPanTransaction.cpp" />
+    <ClCompile Include="UnRedo\ShTransaction.cpp" />
+    <ClCompile Include="UnRedo\ShTransactionStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -319,6 +322,9 @@
     <ClInclude Include="Interface\Private\ShRibbonButtonStrategy.h" />
     <ClInclude Include="Manager\ShLanguageManager.h" />
     <ClInclude Include="Manager\ShChangeManager.h" />
+    <ClInclude Include="UnRedo\ShTransaction.h" />
+    <ClInclude Include="UnRedo\ShTransactionStack.h" />
+    <ClInclude Include="UnRedo\ShPanTransaction.h" />
     <CustomBuild Include="Interface\Ribbon\Button\ShRibbonButton.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ShRibbonButton.h...</Message>

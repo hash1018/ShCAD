@@ -21,12 +21,21 @@ ShCADWidget::ShCADWidget(QWidget *parent)
 	
 	this->axis.setCenter(ShPoint3d(100, 500));
 
+	this->undoStack = new ShTransactionStack;
+	this->redoStack = new ShTransactionStack;
+
 }
 
 ShCADWidget::~ShCADWidget() {
 
 	if (this->actionHandlerProxy != nullptr)
 		delete this->actionHandlerProxy;
+
+	if (this->undoStack != nullptr)
+		delete this->undoStack;
+	
+	if (this->redoStack != nullptr)
+		delete this->redoStack;
 
 	ShCADWidgetManager::getInstance()->remove(this);
 }
@@ -209,4 +218,23 @@ void ShCADWidget::convertEntityToDevice(const double &x, const double &y, int &d
 void ShCADWidget::captureImage() {
 	qDebug() << "captureImage";
 	this->capturedImage = this->grabFramebuffer();
+}
+
+void ShCADWidget::shiftViewport(const ShPoint3d &coordinate, int dx, int dy) {
+
+	this->coordinate = coordinate;
+
+	this->scroll.vertical = (-1 * (this->zoomRate*this->coordinate.y) - dy +
+		(this->axis.getCenter().y*this->zoomRate));
+	this->scroll.horizontal = (this->zoomRate*this->coordinate.x - dx +
+		(this->axis.getCenter().x*this->zoomRate));
+
+	this->update(DrawType::DrawAll);
+	this->captureImage();
+
+	QPoint pos = this->mapFromGlobal(QCursor::pos());
+	this->convertDeviceToEntity(pos.x(), pos.y(), this->coordinate.x, this->coordinate.y);
+
+	ShMousePositionChangedEvent notifyEvent(this->coordinate);
+	this->notify(&notifyEvent);
 }

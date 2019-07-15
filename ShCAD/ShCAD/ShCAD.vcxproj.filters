@@ -89,6 +89,9 @@
     <Filter Include="ActionHandler\TemporaryAction">
       <UniqueIdentifier>{8f5189d3-71cf-4858-9fb3-cc5242f782ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UnRedo">
+      <UniqueIdentifier>{8c406a12-a8ed-4879-a47b-21fcf29a8590}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -271,6 +274,15 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClCompile>
+    <ClCompile Include="UnRedo\ShTransaction.cpp">
+      <Filter>UnRedo</Filter>
+    </ClCompile>
+    <ClCompile Include="UnRedo\ShTransactionStack.cpp">
+      <Filter>UnRedo</Filter>
+    </ClCompile>
+    <ClCompile Include="UnRedo\ShPanTransaction.cpp">
+      <Filter>UnRedo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -412,6 +424,15 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h">
       <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClInclude>
+    <ClInclude Include="UnRedo\ShTransaction.h">
+      <Filter>UnRedo</Filter>
+    </ClInclude>
+    <ClInclude Include="UnRedo\ShTransactionStack.h">
+      <Filter>UnRedo</Filter>
+    </ClInclude>
+    <ClInclude Include="UnRedo\ShPanTransaction.h">
+      <Filter>UnRedo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

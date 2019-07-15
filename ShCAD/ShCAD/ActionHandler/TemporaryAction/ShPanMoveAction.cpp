@@ -1,7 +1,7 @@
 
 #include "ShPanMoveAction.h"
 #include <QMouseEvent>
-
+#include "UnRedo\ShPanTransaction.h"
 
 ShPanMoveAction::ShPanMoveAction(ShCADWidget *widget, ShActionHandler *previousAction)
 	:ShTemporaryAction(widget, previousAction) {
@@ -21,6 +21,11 @@ void ShPanMoveAction::mouseMidPressEvent(ShActionData &data) {
 	this->prevX = dx;
 	this->prevY = dy;
 
+	ShPoint3d coordinate = data.point;
+
+	this->widget->getUndoStack()->push(new ShPanTransaction(this->widget, coordinate, dx, dy));
+	if (!this->widget->getRedoStack()->isEmpty())
+		this->widget->getRedoStack()->deleteAll();
 	
 }
 
