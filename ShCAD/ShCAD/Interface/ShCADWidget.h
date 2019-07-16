@@ -16,7 +16,7 @@ class ShTemporaryAction;
 class ShActionHandlerProxy;
 
 class ShCADWidget : public QOpenGLWidget {
-
+	
 private:
 	ShPoint3d coordinate;
 	double zoomRate;
@@ -61,6 +61,7 @@ protected:
 	virtual void keyPressEvent(QKeyEvent *event);
 	virtual void wheelEvent(QWheelEvent *event);
 	virtual void focusInEvent(QFocusEvent *event);
+	virtual void focusOutEvent(QFocusEvent *event);
 
 
 public:

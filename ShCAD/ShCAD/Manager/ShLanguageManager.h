@@ -7,6 +7,7 @@ class QSettings;
 
 #define shGetLanValue ShLanguageManager::getInstance()->getValue
 #define shGetLanValue_ui(key) (ShLanguageManager::getInstance()->getValue(ShLanguageManager::Interface, key))
+#define shGetLanValue_command(key)(ShLanguageManager::getInstance()->getValue(ShLanguageManager::Command,key))
 
 class ShLanguageManager {
 
@@ -18,6 +19,7 @@ public:
 
 	enum KeyTable {
 		Interface,
+		Command,
 	};
 
 private:

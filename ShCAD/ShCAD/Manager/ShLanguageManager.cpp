@@ -83,6 +83,8 @@ QString ShLanguageManager::ConvertFileName(const KeyTable &table) {
 
 	if (table == KeyTable::Interface)
 		return QString("interface.ini");
+	else if (table == KeyTable::Command)
+		return QString("command.ini");
 
 	return QString("interface.ini");
 }

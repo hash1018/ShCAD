@@ -8,6 +8,7 @@
 #include <qlineedit.h>
 #include <qdockwidget.h>
 
+class ShNotifyEvent;
 
 class ShCommandList : public QTextEdit {
 	friend class ShCommandDock;
@@ -23,9 +24,14 @@ class ShCommandEdit : public QLineEdit {
 	friend class ShCommandContainer;
 
 private:
+	bool calledKeyPressEventByNotify;
+	QString headTitle;
+
+private:
 	ShCommandEdit(QWidget *parent = nullptr);
 	~ShCommandEdit();
 
+	void keyPressEvent(QKeyEvent *event);
 };
 
 class ShCommandContainer : public QWidget {
@@ -60,6 +66,11 @@ public:
 
 	void activate();
 	void deactivate();
+	void update(ShNotifyEvent *event);
+	void notify(ShNotifyEvent *event);
+
+	void setCalledKeyPressedEventByNotify(bool on);
+	void keyPressEvent(QKeyEvent *event);
 
 	inline QAction* getMenuAction() const { return this->menuAction; }
 	inline bool isMenuActionChecked() const { return this->menuActionChecked; }
@@ -72,4 +83,4 @@ protected:
 
 };
 
-#endif //_COMMANDDOCK_H
+#endif //_SHCOMMANDDOCK_H

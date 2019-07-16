@@ -2,6 +2,8 @@
 #include "ShChangeManager.h"
 #include "Interface/StatusBar/ShStatusBar.h"
 #include "Interface/Dock/ShCommandDock.h"
+#include "Manager\ShCADWidgetManager.h"
+#include "Interface\ShCADWidget.h"
 
 ShChangeManager ShChangeManager::instance;
 
@@ -31,5 +33,17 @@ void ShChangeManager::Register(ShCommandDock *commandDock) {
 void ShChangeManager::notify(ShCADWidget *widget, ShNotifyEvent *event) {
 
 	this->statusBar->update(event);
+	this->commandDock->update(event);
+
+}
+
+void ShChangeManager::notify(ShCommandDock *commandDock, ShNotifyEvent *event) {
+
+	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
+
+	if (manager->getActivatedWidget() == nullptr)
+		return;
+
+	manager->getActivatedWidget()->update(event);
 
 }

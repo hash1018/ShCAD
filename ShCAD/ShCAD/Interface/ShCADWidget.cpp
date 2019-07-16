@@ -10,6 +10,7 @@
 #include "Base\ShMath.h"
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "ActionHandler\TemporaryAction\ShPanMoveAction.h"
+#include "Event\ShCADWidgetEventFilter.h"
 
 ShCADWidget::ShCADWidget(QWidget *parent)
 	:QOpenGLWidget(parent),zoomRate(1.0){
@@ -136,6 +137,7 @@ void ShCADWidget::wheelEvent(QWheelEvent *event) {
 		event->x() + (this->axis.getCenter().x*this->zoomRate));
 
 	this->update();
+	this->captureImage();
 
 	ShZoomRateChangedEvent notifyEvent(this->zoomRate);
 	this->notify(&notifyEvent);
@@ -147,14 +149,24 @@ void ShCADWidget::focusInEvent(QFocusEvent *event) {
 
 	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
 
-	if (manager->getActivatedWidget() == this)
+	if (manager->getActivatedWidget() == this) {
+
+		this->update(DrawType::DrawCaptureImage);
 		return;
+	}
+		
 
 	ShActivatedWidgetChangedEvent notifyEvent(this, manager->getActivatedWidget());
 	this->notify(&notifyEvent);
 
 	manager->setActivatedWidget(this);
 
+}
+
+void ShCADWidget::focusOutEvent(QFocusEvent *event) {
+
+
+	this->update(DrawType::DrawCaptureImage);
 }
 
 
@@ -167,6 +179,8 @@ void ShCADWidget::notify(ShNotifyEvent *event) {
 
 void ShCADWidget::update(ShNotifyEvent *event) {
 
+	ShCADWidgetEventFilter filter(this, event);
+	filter.update();
 }
 
 void ShCADWidget::store(DrawType drawType) {

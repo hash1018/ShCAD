@@ -155,6 +155,8 @@
     <ClCompile Include="Entity\Private\ShEntityData.cpp" />
     <ClCompile Include="Entity\Private\ShVisitor.cpp" />
     <ClCompile Include="Entity\ShEntity.cpp" />
+    <ClCompile Include="Event\ShCADWidgetEventFilter.cpp" />
+    <ClCompile Include="Event\ShCommandDockEventFilter.cpp" />
     <ClCompile Include="Event\ShNotifyEvent.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_ShButton.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -313,6 +315,8 @@
     <ClInclude Include="Entity\Private\ShEntityData.h" />
     <ClInclude Include="Entity\Private\ShVisitor.h" />
     <ClInclude Include="Entity\ShEntity.h" />
+    <ClInclude Include="Event\ShCADWidgetEventFilter.h" />
+    <ClInclude Include="Event\ShCommandDockEventFilter.h" />
     <ClInclude Include="Event\ShNotifyEvent.h" />
     <ClInclude Include="Interface\Dock\ShCommandDock.h" />
     <ClInclude Include="Interface\Item\ShIcon.h" />

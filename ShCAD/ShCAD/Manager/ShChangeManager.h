@@ -26,6 +26,7 @@ public:
 
 
 	void notify(ShCADWidget *widget, ShNotifyEvent *event);
+	void notify(ShCommandDock *commandDock, ShNotifyEvent *event);
 
 private:
 	ShStatusBar *statusBar;

@@ -286,6 +286,12 @@
     <ClCompile Include="Base\ShGlobal.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="Event\ShCADWidgetEventFilter.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\ShCommandDockEventFilter.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -439,6 +445,12 @@
     </ClInclude>
     <ClInclude Include="Base\ShGlobal.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\ShCADWidgetEventFilter.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\ShCommandDockEventFilter.h">
+      <Filter>Event</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

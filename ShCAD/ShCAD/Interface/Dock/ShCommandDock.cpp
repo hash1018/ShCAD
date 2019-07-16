@@ -3,6 +3,9 @@
 #include <QResizeEvent>
 #include <qaction.h>
 #include "Manager\ShLanguageManager.h"
+#include "Event\ShNotifyEvent.h"
+#include "Manager\ShChangeManager.h"
+#include "Event\ShCommandDockEventFilter.h"
 
 ShCommandList::ShCommandList(QWidget *parent)
 	:QTextEdit(parent) {
@@ -17,12 +20,42 @@ ShCommandList::~ShCommandList() {
 //////////////////////////////////////////////////
 
 ShCommandEdit::ShCommandEdit(QWidget *parent)
-	:QLineEdit(parent) {
+	:QLineEdit(parent),calledKeyPressEventByNotify(false) {
 
+	this->headTitle = shGetLanValue_command("Command/Command");
 
+	this->setText(this->headTitle);
 }
 
 ShCommandEdit::~ShCommandEdit() {
+
+}
+
+void ShCommandEdit::keyPressEvent(QKeyEvent *event) {
+
+	if (this->hasFocus() == false)
+		this->setFocus();
+
+	if (this->calledKeyPressEventByNotify == true) {
+
+		if (event->key() == Qt::Key_Left)
+			if (this->cursorPosition() == this->headTitle.length())
+				return;
+
+		if (this->hasSelectedText() == false) {
+			if (event->key() == Qt::Key::Key_Backspace)
+				if (this->cursorPosition() == this->headTitle.length())
+					return;
+		}
+
+		QLineEdit::keyPressEvent(event);
+
+	}
+	else {
+		ShKeyPressedEvent notifyEvent(event);
+		dynamic_cast<ShCommandDock*>(this->parent()->parent())->notify(&notifyEvent);
+	
+	}
 
 }
 
@@ -117,4 +150,28 @@ void ShCommandDock::deactivate() {
 
 	if (this->menuActionChecked == true)
 		this->hide();
+}
+
+void ShCommandDock::update(ShNotifyEvent *event) {
+
+	ShCommandDockEventFilter filter(this, event);
+	filter.update();
+
+}
+
+void ShCommandDock::notify(ShNotifyEvent *event) {
+
+	ShChangeManager *manager = ShChangeManager::getInstance();
+
+	manager->notify(this, event);
+}
+
+void ShCommandDock::setCalledKeyPressedEventByNotify(bool on) {
+
+	this->container->edit->calledKeyPressEventByNotify = on;
+}
+
+void ShCommandDock::keyPressEvent(QKeyEvent *event) {
+
+	this->container->edit->keyPressEvent(event);
 }
