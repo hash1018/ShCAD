@@ -8,6 +8,8 @@ ShCommandDockEventFilter::ShCommandDockEventFilter(ShCommandDock *commandDock, S
 
 	if (event->getType() == ShNotifyEvent::KeyPressed)
 		this->strategy = new ShCommandDockKeyPressedEventFilterStrategy(commandDock, event);
+	else if (event->getType() == ShNotifyEvent::UpdateTextToCommandList)
+		this->strategy = new ShCommandDockUpdateTextToCommandListEventFilterStrategy(commandDock, event);
 
 }
 
@@ -50,4 +52,41 @@ void ShCommandDockKeyPressedEventFilterStrategy::update() {
 	this->commandDock->setCalledKeyPressedEventByNotify(true);
 	this->commandDock->keyPressEvent(dynamic_cast<ShKeyPressedEvent*>(this->event)->getEvent());
 	this->commandDock->setCalledKeyPressedEventByNotify(false);
+}
+
+///////////////////////////////////////////////////////////////////
+
+
+ShCommandDockUpdateTextToCommandListEventFilterStrategy::ShCommandDockUpdateTextToCommandListEventFilterStrategy(ShCommandDock *commandDock, ShNotifyEvent *event)
+	:ShCommandDockEventFilterStrategy(commandDock, event) {
+
+}
+
+ShCommandDockUpdateTextToCommandListEventFilterStrategy::~ShCommandDockUpdateTextToCommandListEventFilterStrategy() {
+
+}
+
+void ShCommandDockUpdateTextToCommandListEventFilterStrategy::update() {
+
+	ShUpdateTextToCommandListEvent *event = dynamic_cast<ShUpdateTextToCommandListEvent*>(this->event);
+	
+	if (event->getUpdateType() == ShUpdateTextToCommandListEvent::UpdateType::EditTextWithText) {
+
+		QString currentText = this->commandDock->getHeadTitle() + this->commandDock->getEditText() + event->getText();
+		this->commandDock->appendTextToList(currentText);
+		this->commandDock->clearEditText();
+
+	}
+	else if (event->getUpdateType() == ShUpdateTextToCommandListEvent::UpdateType::EditTextAndNewLineHeadTitleWithText) {
+
+		QString currentText = this->commandDock->getHeadTitle() + this->commandDock->getEditText();
+		this->commandDock->appendTextToList(currentText);
+		this->commandDock->appendTextToList(this->commandDock->getHeadTitle() + event->getText());
+		this->commandDock->clearEditText();
+	}
+	else if (event->getUpdateType() == ShUpdateTextToCommandListEvent::UpdateType::OnlyText) {
+
+		this->commandDock->appendTextToList(event->getText());
+	}
+
 }

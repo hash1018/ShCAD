@@ -71,7 +71,15 @@ public:
 
 	void setCalledKeyPressedEventByNotify(bool on);
 	void keyPressEvent(QKeyEvent *event);
+	void appendTextToList(const QString &text);
+	void clearEditText();
+	void setHeadTitle(const QString &headTitle);
+	void setListText(const QString &text);
+	void setEditText(const QString &text);
 
+	QString getEditText();
+	inline QString getHeadTitle() const { return this->container->edit->headTitle; }
+	inline QString getListText() const { return this->container->list->toPlainText(); }
 	inline QAction* getMenuAction() const { return this->menuAction; }
 	inline bool isMenuActionChecked() const { return this->menuActionChecked; }
 

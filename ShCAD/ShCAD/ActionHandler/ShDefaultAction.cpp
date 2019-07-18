@@ -6,6 +6,7 @@
 #include "Event\ShNotifyEvent.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
+#include "Manager\ShLanguageManager.h"
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 	:ShActionHandler(widget) {
@@ -52,6 +53,10 @@ void ShDefaultAction::keyPressEvent(ShActionData &data) {
 	}
 	else if (data.keyEvent->key() == Qt::Key::Key_Escape) {
 
+		this->changeSubAction(new ShSubDefaultAction_Default(this, this->widget));
+		
+		ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
+		this->widget->notify(&notifyEvent);
 	}
 	else {
 

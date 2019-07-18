@@ -175,3 +175,43 @@ void ShCommandDock::keyPressEvent(QKeyEvent *event) {
 
 	this->container->edit->keyPressEvent(event);
 }
+
+void ShCommandDock::appendTextToList(const QString &text) {
+
+	this->container->list->append(text);
+}
+
+void ShCommandDock::clearEditText() {
+
+	this->container->edit->clear();
+	this->container->edit->setText(this->container->edit->headTitle);
+}
+
+void ShCommandDock::setHeadTitle(const QString &headTitle) {
+
+	QString text = this->getEditText();
+	this->container->edit->headTitle = headTitle;
+	this->container->edit->clear();
+	this->container->edit->setText(headTitle + text);
+}
+
+void ShCommandDock::setListText(const QString &text) {
+
+	this->container->list->clear();
+	this->container->list->append(text);
+}
+
+void ShCommandDock::setEditText(const QString &text) {
+
+	this->container->edit->clear();
+	this->container->edit->setText(this->getHeadTitle() + text);
+}
+
+
+QString ShCommandDock::getEditText() {
+
+	QString text = this->container->edit->text();
+	QString headTitle = this->container->edit->headTitle;
+
+	return text.section(headTitle, 1);
+}

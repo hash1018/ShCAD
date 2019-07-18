@@ -17,7 +17,7 @@ public:
 		Korean,
 	};
 
-	enum KeyTable {
+	enum Type {
 		Interface,
 		Command,
 	};
@@ -25,7 +25,7 @@ public:
 private:
 	Language language;
 	QSettings *settings;
-	KeyTable keyTable;
+	Type type;
 
 private:
 	ShLanguageManager();
@@ -36,12 +36,12 @@ public:
 	static ShLanguageManager* getInstance();
 
 	bool setLanguage(Language language);
-	QString getValue(const KeyTable &keyTable, const QString &key);
+	QString getValue(const Type &type, const QString &key);
 	
 
 private:
 	static QString ConvertDirectoryName(const Language &language);
-	static QString ConvertFileName(const KeyTable &table);
+	static QString ConvertFileName(const Type &type);
 };
 
 #endif //_SHLANGUAGEMANAGER_H

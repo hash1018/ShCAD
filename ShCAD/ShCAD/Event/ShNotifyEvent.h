@@ -3,7 +3,7 @@
 #define _SHNOTIFYEVENT_H
 
 #include "Data\ShPoint.h"
-
+#include <qstring.h>
 class QKeyEvent;
 class ShCADWidget;
 
@@ -16,6 +16,7 @@ public:
 		MousePositionChanged,
 		KeyPressed,
 		ActivatedWidgetChanged,
+		UpdateTextToCommandList,
 	};
 
 	ShNotifyEvent(Type type);
@@ -87,4 +88,28 @@ private:
 	ShCADWidget *previousWidget;
 };
 
-#endif //_NOTIFYEVENT_H
+//////////////////////////////////////////////////////////////////////
+
+class ShUpdateTextToCommandListEvent : public ShNotifyEvent {
+
+public:
+	enum UpdateType {
+		EditTextWithText,
+		EditTextAndNewLineHeadTitleWithText,
+		OnlyText,
+	};
+
+public:
+	ShUpdateTextToCommandListEvent(const QString &text, ShUpdateTextToCommandListEvent::UpdateType type = UpdateType::EditTextWithText);
+	~ShUpdateTextToCommandListEvent();
+
+	inline QString getText() const { return this->text; }
+	inline UpdateType getUpdateType() const { return this->updateType; }
+
+private:
+	QString text;
+	UpdateType updateType;
+
+};
+
+#endif //_SHNOTIFYEVENT_H

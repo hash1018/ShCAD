@@ -153,12 +153,8 @@ void ShCADWidget::focusInEvent(QFocusEvent *event) {
 
 	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
 
-	if (manager->getActivatedWidget() == this) {
-
-		this->update(DrawType::DrawCaptureImage);
+	if (manager->getActivatedWidget() == this)
 		return;
-	}
-		
 
 	ShActivatedWidgetChangedEvent notifyEvent(this, manager->getActivatedWidget());
 	this->notify(&notifyEvent);
@@ -186,9 +182,7 @@ void ShCADWidget::update(ShNotifyEvent *event) {
 void ShCADWidget::update(DrawType drawType) {
 	
 	this->drawType = drawType;
-
-	if ((this->drawType & ~DrawType::DrawNone) != DrawType::DrawNone)
-		QOpenGLWidget::update();
+	QOpenGLWidget::update();
 	
 }
 

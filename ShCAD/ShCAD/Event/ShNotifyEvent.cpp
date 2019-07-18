@@ -56,3 +56,17 @@ ShActivatedWidgetChangedEvent::ShActivatedWidgetChangedEvent(ShCADWidget *newWid
 ShActivatedWidgetChangedEvent::~ShActivatedWidgetChangedEvent() {
 
 }
+
+///////////////////////////////////////////////////////////////////////
+
+
+ShUpdateTextToCommandListEvent::ShUpdateTextToCommandListEvent(const QString &text, ShUpdateTextToCommandListEvent::UpdateType type)
+	:ShNotifyEvent(Type::UpdateTextToCommandList), text(text), updateType(type) {
+
+}
+
+ShUpdateTextToCommandListEvent::~ShUpdateTextToCommandListEvent() {
+
+}
+
+/////////////////////////////////////////////////////////////////////

@@ -6,7 +6,7 @@
 ShLanguageManager ShLanguageManager::instance;
 
 ShLanguageManager::ShLanguageManager()
-	:keyTable(Interface), settings(nullptr),language(English) {
+	:type(Interface), settings(nullptr),language(English) {
 
 
 }
@@ -42,21 +42,21 @@ bool ShLanguageManager::setLanguage(Language language) {
 }
 
 
-QString ShLanguageManager::getValue(const KeyTable &keyTable,const QString &key) {
+QString ShLanguageManager::getValue(const Type &type, const QString &key) {
 
-	if (this->keyTable != keyTable) {
+	if (this->type != type) {
 		if (this->settings != nullptr) {
 			delete this->settings;
 			this->settings = nullptr;
 		}
 
-		this->keyTable = keyTable;
+		this->type = type;
 	}
 
 
 	if (this->settings == nullptr) {
 		QString filePath = QDir::currentPath() + "/Language/" + this->ConvertDirectoryName(this->language) +
-			"/" + this->ConvertFileName(keyTable);
+			"/" + this->ConvertFileName(type);
 
 		if (!QFile(filePath).exists())
 			Q_ASSERT_X(false, "ShLanguageManager::ShLanguageManager", "invalid filePath");
@@ -79,11 +79,11 @@ QString ShLanguageManager::ConvertDirectoryName(const Language &language) {
 	return QString("English");
 }
 
-QString ShLanguageManager::ConvertFileName(const KeyTable &table) {
+QString ShLanguageManager::ConvertFileName(const Type &type) {
 
-	if (table == KeyTable::Interface)
+	if (type == Type::Interface)
 		return QString("interface.ini");
-	else if (table == KeyTable::Command)
+	else if (type == Type::Command)
 		return QString("command.ini");
 
 	return QString("interface.ini");

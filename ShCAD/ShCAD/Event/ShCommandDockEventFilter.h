@@ -45,4 +45,14 @@ public:
 
 };
 
+class ShCommandDockUpdateTextToCommandListEventFilterStrategy : public ShCommandDockEventFilterStrategy {
+
+public:
+	ShCommandDockUpdateTextToCommandListEventFilterStrategy(ShCommandDock *commandDock, ShNotifyEvent *event);
+	~ShCommandDockUpdateTextToCommandListEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHCOMMANDDOCKEVENTFILTER_H
