@@ -25,7 +25,7 @@ protected:
 	Mode mode;
 
 public:
-	ShDragSelectAction(ShCADWidget *widget, ShActionHandler *previousAction, double firstX, double firstY, Mode mode = SelectMode);
+	ShDragSelectAction(ShCADWidget *widget, double firstX, double firstY, Mode mode = SelectMode);
 	~ShDragSelectAction();
 
 	virtual void mouseLeftPressEvent(ShActionData &data);

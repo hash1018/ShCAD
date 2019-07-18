@@ -2,9 +2,10 @@
 
 #include "ShDefaultAction.h"
 #include <QMouseEvent>
-#include "TemporaryAction\ShDragSelectAction.h"
 #include "Base\ShGlobal.h"
 #include "Event\ShNotifyEvent.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 	:ShActionHandler(widget) {
@@ -100,11 +101,18 @@ ShSubDefaultAction_Default::~ShSubDefaultAction_Default() {
 
 void ShSubDefaultAction_Default::mouseLeftPressEvent(ShActionData &data) {
 
-	if (data.mouseEvent->modifiers() == Qt::ShiftModifier)
-		this->widget->setTemporaryAction(new ShDragSelectAction(this->widget, this->defaultAction, data.point.x, data.point.y,
-			ShDragSelectAction::Mode::UnSelectMode));
-	else
-		this->widget->setTemporaryAction(new ShDragSelectAction(this->widget, this->defaultAction, data.point.x, data.point.y));
+	if (data.mouseEvent->modifiers() == Qt::ShiftModifier) {
+	
+		ShChangeTemporaryStrategy strategy(new ShDragSelectAction(this->widget, data.point.x, data.point.y,
+			ShDragSelectAction::Mode::UnSelectMode), this->defaultAction);
+		this->widget->changeAction(strategy);
+	}
+		
+	else {
+		ShChangeTemporaryStrategy strategy(new ShDragSelectAction(this->widget, data.point.x, data.point.y), this->defaultAction);
+		this->widget->changeAction(strategy);
+	}
+		
 }
 
 void ShSubDefaultAction_Default::mouseMoveEvent(ShActionData &data) {

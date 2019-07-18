@@ -1,22 +1,21 @@
 
-#include "ShPanMoveAction.h"
+#include "ShPanAction.h"
 #include <QMouseEvent>
 #include "UnRedo\ShPanTransaction.h"
 #include "Base\ShGlobal.h"
 
-ShPanMoveAction::ShPanMoveAction(ShCADWidget *widget, ShActionHandler *previousAction)
-	:ShTemporaryAction(widget, previousAction) {
+ShPanAction::ShPanAction(ShCADWidget *widget)
+	:ShTemporaryAction(widget) {
 
 }
 
-ShPanMoveAction::~ShPanMoveAction() {
+ShPanAction::~ShPanAction() {
 
 }
 
-void ShPanMoveAction::mouseMidPressEvent(ShActionData &data) {
+void ShPanAction::mouseMidPressEvent(ShActionData &data) {
 
-	this->widget->setCursor(Qt::ClosedHandCursor);
-
+	
 	int dx = data.mouseEvent->x();
 	int dy = data.mouseEvent->y();
 	this->prevX = dx;
@@ -29,7 +28,7 @@ void ShPanMoveAction::mouseMidPressEvent(ShActionData &data) {
 	
 }
 
-void ShPanMoveAction::mouseMoveEvent(ShActionData &data) {
+void ShPanAction::mouseMoveEvent(ShActionData &data) {
 	
 	double hPos = this->widget->getScrollPosition().horizontal;
 	double vPos = this->widget->getScrollPosition().vertical;
@@ -41,10 +40,10 @@ void ShPanMoveAction::mouseMoveEvent(ShActionData &data) {
 	this->prevX = data.mouseEvent->x();
 	this->prevY = data.mouseEvent->y();
 
-	this->widget->store(DrawType::DrawAll);
+	this->widget->update(DrawType::DrawAll);
 }
 
-void ShPanMoveAction::mouseReleaseEvent(ShActionData &data) {
+void ShPanAction::mouseReleaseEvent(ShActionData &data) {
 	
 	if (data.mouseEvent->button() & Qt::MouseButton::MiddleButton) {
 
@@ -53,14 +52,15 @@ void ShPanMoveAction::mouseReleaseEvent(ShActionData &data) {
 	}
 
 	this->returnToPrevious();
+
 }
 
-ActionType ShPanMoveAction::getType() {
+ActionType ShPanAction::getType() {
 
-	return ActionType::ActionPanMove;
+	return ActionType::ActionTempPan;
 }
 
-QCursor ShPanMoveAction::getCursorShape() {
+QCursor ShPanAction::getCursorShape() {
 
 	return QCursor(Qt::ClosedHandCursor);
 }

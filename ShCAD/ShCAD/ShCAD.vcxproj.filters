@@ -268,9 +268,6 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClCompile>
-    <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp">
-      <Filter>ActionHandler\TemporaryAction</Filter>
-    </ClCompile>
     <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClCompile>
@@ -291,6 +288,12 @@
     </ClCompile>
     <ClCompile Include="Event\ShCommandDockEventFilter.cpp">
       <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\Private\ShChangeActionStrategy.cpp">
+      <Filter>ActionHandler\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\TemporaryAction\ShPanAction.cpp">
+      <Filter>ActionHandler\TemporaryAction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,9 +431,6 @@
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClInclude>
-    <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h">
-      <Filter>ActionHandler\TemporaryAction</Filter>
-    </ClInclude>
     <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClInclude>
@@ -451,6 +451,12 @@
     </ClInclude>
     <ClInclude Include="Event\ShCommandDockEventFilter.h">
       <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\Private\ShChangeActionStrategy.h">
+      <Filter>ActionHandler\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\TemporaryAction\ShPanAction.h">
+      <Filter>ActionHandler\TemporaryAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

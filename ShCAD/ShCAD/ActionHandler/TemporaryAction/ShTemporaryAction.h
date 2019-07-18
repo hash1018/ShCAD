@@ -10,8 +10,11 @@ protected:
 	ShActionHandler *previousAction;
 
 public:
-	ShTemporaryAction(ShCADWidget *widget, ShActionHandler *previousAction);
+	ShTemporaryAction(ShCADWidget *widget);
 	virtual ~ShTemporaryAction() = 0;
+
+	void setPreviousAction(ShActionHandler *previousAction);
+	inline ShActionHandler *getPreviousAction() const { return this->previousAction; }
 
 protected:
 	void returnToPrevious();

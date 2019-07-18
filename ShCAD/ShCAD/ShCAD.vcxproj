@@ -139,11 +139,12 @@
   <ItemGroup>
     <ClCompile Include="ActionHandler\Private\ShActionData.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionHandlerFactory.cpp" />
+    <ClCompile Include="ActionHandler\Private\ShChangeActionStrategy.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerProxy.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp" />
-    <ClCompile Include="ActionHandler\TemporaryAction\ShPanMoveAction.cpp" />
+    <ClCompile Include="ActionHandler\TemporaryAction\ShPanAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
     <ClCompile Include="Base\ShGlobal.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
@@ -298,11 +299,12 @@
   <ItemGroup>
     <ClInclude Include="ActionHandler\Private\ShActionData.h" />
     <ClInclude Include="ActionHandler\Private\ShActionHandlerFactory.h" />
+    <ClInclude Include="ActionHandler\Private\ShChangeActionStrategy.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerProxy.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h" />
-    <ClInclude Include="ActionHandler\TemporaryAction\ShPanMoveAction.h" />
+    <ClInclude Include="ActionHandler\TemporaryAction\ShPanAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
     <ClInclude Include="Base\ShGlobal.h" />
     <ClInclude Include="Base\ShMath.h" />

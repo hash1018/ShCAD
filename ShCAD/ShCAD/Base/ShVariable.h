@@ -30,10 +30,10 @@
 enum ActionType {
 	ActionUnknown,
 	ActionDefault,
-	ActionPanMove,
-	ActionDragSelect,
+	ActionTempPan,
+	ActionTempDragSelect,
+	ActionTempStretch,
 	ActionDrawLine,
-	ActionStretch,
 	ActionDrawCircleCenterRadius,
 	ActionDrawCircleCenterDiameter,
 	ActionDrawCircleTwoPoint,

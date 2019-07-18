@@ -18,8 +18,8 @@ ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 	
 	this->initWidgets();
-	this->createCADWidget();
 	this->registerWidgets();
+	this->createCADWidget();
 	this->createContextMenu();
 
 	this->setContextMenuPolicy(Qt::CustomContextMenu);

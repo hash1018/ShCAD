@@ -30,9 +30,7 @@ public:
 	void mouseReleaseEvent(QMouseEvent *event);
 	void keyPressEvent(QKeyEvent *event);
 
-	void changeAction(ActionType actionType);
-	void replaceAction(ShActionHandler *actionHandler);
-	void setTemporaryAction(ShTemporaryAction *temporaryAction);
+	void setCurrentAction(ShActionHandler *actionHandler);
 
 	QCursor getCursorShape();
 	ActionType getType();

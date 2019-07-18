@@ -2,8 +2,8 @@
 #include "ShDragSelectAction.h"
 #include <qpainter.h>
 
-ShDragSelectAction::ShDragSelectAction(ShCADWidget *widget, ShActionHandler *previousAction, double firstX, double firstY, Mode mode)
-	:ShTemporaryAction(widget, previousAction), firstX(firstX), firstY(firstY), mode(mode) {
+ShDragSelectAction::ShDragSelectAction(ShCADWidget *widget, double firstX, double firstY, Mode mode)
+	:ShTemporaryAction(widget), firstX(firstX), firstY(firstY), mode(mode) {
 
 }
 
@@ -33,7 +33,7 @@ void ShDragSelectAction::mouseMoveEvent(ShActionData &data) {
 	this->secondX = data.point.x;
 	this->secondY = data.point.y;
 
-	this->widget->store((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawActionHandler));
+	this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawActionHandler));
 }
 
 void ShDragSelectAction::keyPressEvent(ShActionData &data) {
@@ -42,7 +42,7 @@ void ShDragSelectAction::keyPressEvent(ShActionData &data) {
 
 ActionType ShDragSelectAction::getType() {
 
-	return ActionType::ActionDragSelect;
+	return ActionType::ActionTempDragSelect;
 }
 
 QCursor ShDragSelectAction::getCursorShape() {

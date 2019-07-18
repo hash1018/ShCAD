@@ -14,6 +14,7 @@ class ShNotifyEvent;
 class ShActionHandler;
 class ShTemporaryAction;
 class ShActionHandlerProxy;
+class ShChangeActionStrategy;
 
 class ShCADWidget : public QOpenGLWidget {
 	
@@ -36,13 +37,10 @@ public:
 	void notify(ShNotifyEvent *event);
 	void update(ShNotifyEvent *event);
 	
-	void store(DrawType drawType);
-	//**do not use in the mouseMoveEvent method. use store instead. 
 	void update(DrawType drawType = DrawType::DrawAll);
-	void clearDrawType();
 
-	void replaceAction(ShActionHandler *actionHandler);
-	void setTemporaryAction(ShTemporaryAction *temporaryAction);
+	void changeAction(ShChangeActionStrategy &strategy);
+	
 
 	void convertDeviceToEntity(const int &x, const int &y, double &ex, double &ey);
 	void convertEntityToDevice(const double &x, const double &y, int &dx, int &dy);
@@ -61,7 +59,6 @@ protected:
 	virtual void keyPressEvent(QKeyEvent *event);
 	virtual void wheelEvent(QWheelEvent *event);
 	virtual void focusInEvent(QFocusEvent *event);
-	virtual void focusOutEvent(QFocusEvent *event);
 
 
 public:

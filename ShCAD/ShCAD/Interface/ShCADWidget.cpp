@@ -9,8 +9,8 @@
 #include <qpainter.h>
 #include "Base\ShMath.h"
 #include "ActionHandler\ShActionHandlerProxy.h"
-#include "ActionHandler\TemporaryAction\ShPanMoveAction.h"
 #include "Event\ShCADWidgetEventFilter.h"
+#include "ActionHandler\TemporaryAction\ShPanAction.h"
 
 ShCADWidget::ShCADWidget(QWidget *parent)
 	:QOpenGLWidget(parent),zoomRate(1.0){
@@ -66,10 +66,14 @@ void ShCADWidget::paintGL() {
 
 }
 
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
 void ShCADWidget::mousePressEvent(QMouseEvent *event) {
 
-	if (event->buttons() & Qt::MiddleButton)
-		this->setTemporaryAction(new ShPanMoveAction(this, this->actionHandlerProxy->getCurrentAction()));
+	if (event->buttons() & Qt::MiddleButton) {
+		ShChangeTemporaryStrategy strategy(new ShPanAction(this), this->actionHandlerProxy->getCurrentAction());
+		this->changeAction(strategy);
+	}
+
 
 	if (event->buttons() & Qt::LeftButton)
 		this->actionHandlerProxy->mouseLeftPressEvent(event);
@@ -163,11 +167,6 @@ void ShCADWidget::focusInEvent(QFocusEvent *event) {
 
 }
 
-void ShCADWidget::focusOutEvent(QFocusEvent *event) {
-
-
-	this->update(DrawType::DrawCaptureImage);
-}
 
 
 void ShCADWidget::notify(ShNotifyEvent *event) {
@@ -183,11 +182,6 @@ void ShCADWidget::update(ShNotifyEvent *event) {
 	filter.update();
 }
 
-void ShCADWidget::store(DrawType drawType) {
-	
-	this->drawType = (DrawType)(this->drawType | drawType);
-}
-
 
 void ShCADWidget::update(DrawType drawType) {
 	
@@ -198,20 +192,10 @@ void ShCADWidget::update(DrawType drawType) {
 	
 }
 
-void ShCADWidget::clearDrawType() {
+void ShCADWidget::changeAction(ShChangeActionStrategy &strategy) {
 
-	this->drawType = DrawType::DrawNone;
-}
-
-void ShCADWidget::replaceAction(ShActionHandler *actionHandler) {
-
-	this->actionHandlerProxy->replaceAction(actionHandler);
-}
-
-void ShCADWidget::setTemporaryAction(ShTemporaryAction *temporaryAction) {
-
-	this->actionHandlerProxy->setTemporaryAction(temporaryAction);
-	this->setCursor(this->actionHandlerProxy->getCursorShape());
+	strategy.widget = this;
+	strategy.change();
 }
 
 void ShCADWidget::convertDeviceToEntity(const int &x, const int &y, double &ex, double &ey) {

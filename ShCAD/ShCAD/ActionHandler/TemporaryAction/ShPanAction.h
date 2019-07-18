@@ -1,18 +1,18 @@
 
-#ifndef _SHPANMOVEACTION_H
-#define _SHPANMOVEACTION_H
+#ifndef _SHPANACTION_H
+#define _SHPANACTION_H
 
 #include "ShTemporaryAction.h"
 
-class ShPanMoveAction : public ShTemporaryAction {
+class ShPanAction : public ShTemporaryAction {
 
 private:
 	double prevX;
 	double prevY;
 
 public:
-	ShPanMoveAction(ShCADWidget *widget, ShActionHandler *previousAction);
-	~ShPanMoveAction();
+	ShPanAction(ShCADWidget *widget);
+	~ShPanAction();
 
 	virtual void mouseMidPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
@@ -24,4 +24,4 @@ public:
 
 };
 
-#endif //_SHPANMOVEACTION_H
+#endif //_SHPANACTION_H

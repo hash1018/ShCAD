@@ -15,6 +15,7 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 
 	if (actionType == ActionType::ActionDefault)
 		return new ShDefaultAction(widget);
+	
 
 	return new ShDefaultAction(widget);
 }
