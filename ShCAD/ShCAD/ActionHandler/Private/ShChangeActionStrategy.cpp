@@ -31,6 +31,9 @@ ShChangeActionAfterCancelingCurrentStrategy::~ShChangeActionAfterCancelingCurren
 
 void ShChangeActionAfterCancelingCurrentStrategy::change() {
 
+	if (this->widget == nullptr)
+		Q_ASSERT("ShChangeActionAfterCancelingCurrentStrategy::change() >> widget is null ptr");
+
 	DrawType drawType = DrawType::DrawCaptureImage;
 
 	if ((drawType & DrawType::DrawAll) == DrawType::DrawAll) {
@@ -48,6 +51,7 @@ void ShChangeActionAfterCancelingCurrentStrategy::change() {
 	this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
 	this->widget->setCursor(newAction->getCursorShape());
 
+	//maybe this has to be added condition.
 	ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
 	this->widget->notify(&notifyEvent);
 
@@ -107,7 +111,7 @@ ShReturnToPreviousFromTemporaryStrategy::~ShReturnToPreviousFromTemporaryStrateg
 void ShReturnToPreviousFromTemporaryStrategy::change() {
 
 	if(this->widget==nullptr)
-		Q_ASSERT("ShChangeTemporaryStrategy::change() >> widget is null ptr");
+		Q_ASSERT("ShReturnToPreviousFromTemporaryStrategy::change() >> widget is null ptr");
 
 	ShActionHandler *previous = this->temporaryAction->getPreviousAction();
 
