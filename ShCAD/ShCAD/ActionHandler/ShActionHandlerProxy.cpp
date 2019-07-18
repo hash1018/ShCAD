@@ -54,6 +54,8 @@ void ShActionHandlerProxy::mouseMoveEvent(QMouseEvent *event) {
 	this->widget->getDrawBuffer().saveToBuffer = true;
 	this->widget->getDrawBuffer().buffer = DrawType::DrawNone;
 
+
+
 	ShActionData data;
 	this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
 	data.mouseEvent = event;
@@ -61,11 +63,12 @@ void ShActionHandlerProxy::mouseMoveEvent(QMouseEvent *event) {
 	this->currentAction->mouseMoveEvent(data);
 
 	
-	if ((this->widget->getDrawBuffer().buffer & ~DrawType::DrawNone) != DrawType::DrawNone) {
-		this->widget->getDrawBuffer().saveToBuffer = false;
+	this->widget->getDrawBuffer().saveToBuffer = false;
+
+	if ((this->widget->getDrawBuffer().buffer & ~DrawType::DrawNone) != DrawType::DrawNone)
 		this->widget->update(this->widget->getDrawBuffer().buffer);
-		this->widget->getDrawBuffer().buffer = DrawType::DrawNone;
-	}
+
+	this->widget->getDrawBuffer().buffer = DrawType::DrawNone;
 }
 
 void ShActionHandlerProxy::mouseReleaseEvent(QMouseEvent *event) {
