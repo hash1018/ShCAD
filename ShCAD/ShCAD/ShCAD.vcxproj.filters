@@ -295,6 +295,9 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanAction.cpp">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClCompile>
+    <ClCompile Include="Data\ShDrawBuffer.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -457,6 +460,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanAction.h">
       <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShDrawBuffer.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

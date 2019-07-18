@@ -9,6 +9,7 @@
 #include "Base\ShVariable.h"
 #include "Data\ShScrollPosition.h"
 #include "UnRedo\ShTransactionStack.h"
+#include "Data\ShDrawBuffer.h"
 
 class ShNotifyEvent;
 class ShActionHandler;
@@ -23,7 +24,7 @@ private:
 	double zoomRate;
 	ShAxis axis;
 	ShScrollPosition scroll;
-	DrawType drawType;
+	ShDrawBuffer drawBuffer;
 	QImage capturedImage;
 	ShActionHandlerProxy *actionHandlerProxy;
 	ShTransactionStack *undoStack;
@@ -71,7 +72,7 @@ public:
 	inline ShScrollPosition getScrollPosition() const { return this->scroll; }
 	inline double getZoomRate() const { return this->zoomRate; }
 	inline ShAxis& getAxis() const { return const_cast<ShAxis&>(this->axis); }
-	inline DrawType getDrawType() const { return this->drawType; }
+	inline ShDrawBuffer& getDrawBuffer() const { return const_cast<ShDrawBuffer&>(this->drawBuffer); }
 	inline const QImage& getCapturedImage() const { return const_cast<QImage&>(this->capturedImage); }
 	inline ShActionHandlerProxy* getActionHandlerProxy() const { return this->actionHandlerProxy; }
 	inline ShTransactionStack* getRedoStack() const { return this->redoStack; }

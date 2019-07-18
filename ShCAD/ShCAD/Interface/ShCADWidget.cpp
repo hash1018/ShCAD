@@ -58,10 +58,10 @@ void ShCADWidget::resizeGL(int width, int height) {
 }
 
 void ShCADWidget::paintGL() {
-	qDebug() << "paintGL" << this->drawType;
+	qDebug() << "paintGL";
 	QPainter painter(this);
 
-	ShCADWidgetDrawStrategy strategy(this, &painter, this->drawType);
+	ShCADWidgetDrawStrategy strategy(this, &painter, this->drawBuffer.drawType);
 	strategy.draw();
 
 }
@@ -181,9 +181,13 @@ void ShCADWidget::update(ShNotifyEvent *event) {
 
 void ShCADWidget::update(DrawType drawType) {
 	
-	this->drawType = drawType;
-	QOpenGLWidget::update();
-	
+	if (this->drawBuffer.saveToBuffer == true) {
+		this->drawBuffer.buffer = (DrawType)(this->drawBuffer.buffer | drawType);
+	}
+	else {
+		this->drawBuffer.drawType = drawType;
+		QOpenGLWidget::update();
+	}
 }
 
 void ShCADWidget::changeAction(ShChangeActionStrategy &strategy) {
