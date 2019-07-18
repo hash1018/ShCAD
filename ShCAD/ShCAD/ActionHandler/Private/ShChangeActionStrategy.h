@@ -28,6 +28,9 @@ protected:
 
 class ShChangeActionAfterCancelingCurrentStrategy : public ShChangeActionStrategy {
 
+private:
+	ActionType typeToChange;
+
 public:
 	ShChangeActionAfterCancelingCurrentStrategy(ActionType typeToChange);
 	~ShChangeActionAfterCancelingCurrentStrategy();

@@ -3,6 +3,9 @@
 #include <qdebug.h>
 #include "ActionHandler\TemporaryAction\ShTemporaryAction.h"
 #include "ActionHandler\ShActionHandlerProxy.h"
+#include "ActionHandler\Private\ShActionHandlerFactory.h"
+#include "Event\ShNotifyEvent.h"
+#include "Manager\ShLanguageManager.h"
 
 ShChangeActionStrategy::ShChangeActionStrategy()
 	:widget(nullptr) {
@@ -17,8 +20,9 @@ ShChangeActionStrategy::~ShChangeActionStrategy() {
 
 
 ShChangeActionAfterCancelingCurrentStrategy::ShChangeActionAfterCancelingCurrentStrategy(ActionType typeToChange)
-{
+	:typeToChange(typeToChange) {
 
+	
 }
 
 ShChangeActionAfterCancelingCurrentStrategy::~ShChangeActionAfterCancelingCurrentStrategy() {
@@ -26,6 +30,26 @@ ShChangeActionAfterCancelingCurrentStrategy::~ShChangeActionAfterCancelingCurren
 }
 
 void ShChangeActionAfterCancelingCurrentStrategy::change() {
+
+	DrawType drawType = DrawType::DrawCaptureImage;
+
+	if ((drawType & DrawType::DrawAll) == DrawType::DrawAll) {
+		this->widget->update(DrawType::DrawAll);
+		this->widget->captureImage();
+	}
+	else if ((drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage)
+		this->widget->update(DrawType::DrawCaptureImage);
+
+	ShActionHandler *newAction = ShActionHandlerFactory::create(typeToChange, this->widget);
+
+	if (this->widget->getActionHandlerProxy()->getCurrentAction() != nullptr)
+		delete this->widget->getActionHandlerProxy()->getCurrentAction();
+
+	this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
+	this->widget->setCursor(newAction->getCursorShape());
+
+	ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
+	this->widget->notify(&notifyEvent);
 
 }
 
