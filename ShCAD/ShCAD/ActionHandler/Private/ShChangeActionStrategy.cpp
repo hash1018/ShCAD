@@ -43,17 +43,22 @@ void ShChangeActionAfterCancelingCurrentStrategy::change() {
 	else if ((drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage)
 		this->widget->update(DrawType::DrawCaptureImage);
 
-	ShActionHandler *newAction = ShActionHandlerFactory::create(typeToChange, this->widget);
+	ShActionHandler *newAction = ShActionHandlerFactory::create(this->typeToChange, this->widget);
 
-	if (this->widget->getActionHandlerProxy()->getCurrentAction() != nullptr)
-		delete this->widget->getActionHandlerProxy()->getCurrentAction();
+	if (this->widget->getActionHandlerProxy()->getCurrentAction() == nullptr)
+		Q_ASSERT("ShChangeActionAfterCancelingCurrentStrategy::change() >> currentAction is null ptr");
+		
+
+	if (this->widget->getActionHandlerProxy()->getCurrentAction()->getType() != ActionType::ActionDefault) {
+		ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
+		this->widget->notify(&notifyEvent);
+	}
+
+	delete this->widget->getActionHandlerProxy()->getCurrentAction();
 
 	this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
 	this->widget->setCursor(newAction->getCursorShape());
-
-	//maybe this has to be added condition.
-	ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
-	this->widget->notify(&notifyEvent);
+	shReplaceCommandHeadTitle(this->widget, newAction->getHeadTitle());
 
 }
 
@@ -91,8 +96,9 @@ void ShChangeTemporaryStrategy::change() {
 
 	this->temporaryAction->setPreviousAction(this->previousAction);
 
-	this->widget->getActionHandlerProxy()->setCurrentAction(temporaryAction);
-	this->widget->setCursor(this->widget->getActionHandlerProxy()->getCursorShape());
+	this->widget->getActionHandlerProxy()->setCurrentAction(this->temporaryAction);
+	this->widget->setCursor(this->temporaryAction->getCursorShape());
+	shReplaceCommandHeadTitle(this->widget, this->temporaryAction->getHeadTitle());
 
 }
 
@@ -119,5 +125,6 @@ void ShReturnToPreviousFromTemporaryStrategy::change() {
 	delete this->temporaryAction;
 
 	this->widget->getActionHandlerProxy()->setCurrentAction(previous);
-	this->widget->setCursor(this->widget->getActionHandlerProxy()->getCursorShape());
+	this->widget->setCursor(previous->getCursorShape());
+	shReplaceCommandHeadTitle(this->widget, previous->getHeadTitle());
 }

@@ -298,6 +298,9 @@
     <ClCompile Include="Data\ShDrawBuffer.cpp">
       <Filter>Data</Filter>
     </ClCompile>
+    <ClCompile Include="Data\ShCommandLog.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -462,6 +465,9 @@
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClInclude>
     <ClInclude Include="Data\ShDrawBuffer.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShCommandLog.h">
       <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,7 +21,7 @@ public:
 	virtual ActionType getType();
 
 	virtual QCursor getCursorShape();
-
+	virtual QString getHeadTitle();
 };
 
 #endif //_SHPANACTION_H

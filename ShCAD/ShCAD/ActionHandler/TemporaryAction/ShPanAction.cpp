@@ -3,6 +3,7 @@
 #include <QMouseEvent>
 #include "UnRedo\ShPanTransaction.h"
 #include "Base\ShGlobal.h"
+#include "Manager\ShLanguageManager.h"
 
 ShPanAction::ShPanAction(ShCADWidget *widget)
 	:ShTemporaryAction(widget) {
@@ -63,4 +64,9 @@ ActionType ShPanAction::getType() {
 QCursor ShPanAction::getCursorShape() {
 
 	return QCursor(Qt::ClosedHandCursor);
+}
+
+QString ShPanAction::getHeadTitle() {
+
+	return shGetLanValue_command("Command/Command");
 }

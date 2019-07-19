@@ -10,6 +10,7 @@
 #include "Data\ShScrollPosition.h"
 #include "UnRedo\ShTransactionStack.h"
 #include "Data\ShDrawBuffer.h"
+#include "Data\ShCommandLog.h"
 
 class ShNotifyEvent;
 class ShActionHandler;
@@ -29,6 +30,7 @@ private:
 	ShActionHandlerProxy *actionHandlerProxy;
 	ShTransactionStack *undoStack;
 	ShTransactionStack *redoStack;
+	ShCommandLog commandLog;
 	
 
 public:
@@ -77,6 +79,7 @@ public:
 	inline ShActionHandlerProxy* getActionHandlerProxy() const { return this->actionHandlerProxy; }
 	inline ShTransactionStack* getRedoStack() const { return this->redoStack; }
 	inline ShTransactionStack* getUndoStack() const { return this->undoStack; }
+	inline ShCommandLog& getCommandLog() const { return const_cast<ShCommandLog&>(this->commandLog); }
 };
 
 #endif //_SHCADWIDGET_H

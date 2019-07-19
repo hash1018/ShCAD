@@ -3,6 +3,7 @@
 #include <qpainter.h>
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include <QKeyEvent>
+#include "Manager\ShLanguageManager.h"
 
 ShDragSelectAction::ShDragSelectAction(ShCADWidget *widget, double firstX, double firstY, Mode mode)
 	:ShTemporaryAction(widget), firstX(firstX), firstY(firstY), mode(mode) {
@@ -56,6 +57,11 @@ ActionType ShDragSelectAction::getType() {
 QCursor ShDragSelectAction::getCursorShape() {
 
 	return QCursor(Qt::CursorShape::DragCopyCursor);
+}
+
+QString ShDragSelectAction::getHeadTitle() {
+
+	return shGetLanValue_command("Command/Specify opposite corner");
 }
 
 void ShDragSelectAction::draw(QPainter *painter) {

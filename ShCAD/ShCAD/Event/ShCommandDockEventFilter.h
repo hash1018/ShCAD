@@ -55,4 +55,23 @@ public:
 
 };
 
+class ShCommandDockActivatedWidgetChangedEventFilterStrategy : public ShCommandDockEventFilterStrategy {
+
+public:
+	ShCommandDockActivatedWidgetChangedEventFilterStrategy(ShCommandDock *commandDock, ShNotifyEvent *event);
+	~ShCommandDockActivatedWidgetChangedEventFilterStrategy();
+
+	virtual void update();
+};
+
+class ShCommandDockUpdateCommandHeadTitleEventFilterStrategy : public ShCommandDockEventFilterStrategy {
+
+public:
+	ShCommandDockUpdateCommandHeadTitleEventFilterStrategy(ShCommandDock *commandDock, ShNotifyEvent *event);
+	~ShCommandDockUpdateCommandHeadTitleEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHCOMMANDDOCKEVENTFILTER_H

@@ -71,6 +71,11 @@ ActionType ShDefaultAction::getType() {
 	return ActionType::ActionDefault;
 }
 
+QString ShDefaultAction::getHeadTitle() {
+
+	return shGetLanValue_command("Command/Command");
+}
+
 void ShDefaultAction::changeSubAction(ShSubDefaultAction *subDefaultAction) {
 
 	if (this->subDefaultAction != nullptr)

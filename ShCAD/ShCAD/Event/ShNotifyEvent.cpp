@@ -70,3 +70,12 @@ ShUpdateTextToCommandListEvent::~ShUpdateTextToCommandListEvent() {
 }
 
 /////////////////////////////////////////////////////////////////////
+
+ShUpdateCommandHeadTitleEvent::ShUpdateCommandHeadTitleEvent(const QString &headTitle, UpdateType type)
+	:ShNotifyEvent(Type::UpdateCommandHeadTitle), headTitle(headTitle), updateType(type) {
+
+}
+
+ShUpdateCommandHeadTitleEvent::~ShUpdateCommandHeadTitleEvent() {
+
+}

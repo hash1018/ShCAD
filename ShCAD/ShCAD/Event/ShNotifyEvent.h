@@ -7,6 +7,10 @@
 class QKeyEvent;
 class ShCADWidget;
 
+
+
+#define shReplaceCommandHeadTitle(widget,headTitle) ShUpdateCommandHeadTitleEvent notifyEvent(headTitle); widget->notify(&notifyEvent)
+
 class ShNotifyEvent {
 
 public:
@@ -17,6 +21,7 @@ public:
 		KeyPressed,
 		ActivatedWidgetChanged,
 		UpdateTextToCommandList,
+		UpdateCommandHeadTitle,
 	};
 
 	ShNotifyEvent(Type type);
@@ -80,8 +85,8 @@ public:
 	ShActivatedWidgetChangedEvent(ShCADWidget *newWidget, ShCADWidget *previousWidget);
 	~ShActivatedWidgetChangedEvent();
 
-	inline ShCADWidget* GetNewView() const { return this->newWidget; }
-	inline ShCADWidget* GetPreviousView() const { return this->previousWidget; }
+	inline ShCADWidget* getNewWidget() const { return this->newWidget; }
+	inline ShCADWidget* getPreviousWidget() const { return this->previousWidget; }
 
 private:
 	ShCADWidget *newWidget;
@@ -110,6 +115,28 @@ private:
 	QString text;
 	UpdateType updateType;
 
+};
+
+/////////////////////////////////////////////////////////////////////////
+
+class ShUpdateCommandHeadTitleEvent : public ShNotifyEvent {
+
+public:
+	enum UpdateType {
+		AddHeadTitleToCurrent,
+		ReplaceHeadTitle,
+	};
+
+public:
+	ShUpdateCommandHeadTitleEvent(const QString &headTitle, UpdateType type = ReplaceHeadTitle);
+	~ShUpdateCommandHeadTitleEvent();
+
+	inline QString getHeadTitle() const { return this->headTitle; }
+	inline UpdateType getUpdateType() const { return this->updateType; }
+
+private:
+	QString headTitle;
+	UpdateType updateType;
 };
 
 #endif //_SHNOTIFYEVENT_H

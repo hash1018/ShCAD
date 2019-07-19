@@ -21,6 +21,7 @@ public:
 
 
 	virtual ActionType getType();
+	virtual QString getHeadTitle();
 	
 	void changeSubAction(ShSubDefaultAction *subDefaultAction);
 

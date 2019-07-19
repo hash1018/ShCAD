@@ -148,6 +148,7 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
     <ClCompile Include="Base\ShGlobal.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
+    <ClCompile Include="Data\ShCommandLog.cpp" />
     <ClCompile Include="Data\ShDrawBuffer.cpp" />
     <ClCompile Include="Data\ShPoint.cpp" />
     <ClCompile Include="Data\ShScrollPosition.cpp" />
@@ -310,6 +311,7 @@
     <ClInclude Include="Base\ShGlobal.h" />
     <ClInclude Include="Base\ShMath.h" />
     <ClInclude Include="Base\ShVariable.h" />
+    <ClInclude Include="Data\ShCommandLog.h" />
     <ClInclude Include="Data\ShDrawBuffer.h" />
     <ClInclude Include="Data\ShPoint.h" />
     <ClInclude Include="Data\ShScrollPosition.h" />

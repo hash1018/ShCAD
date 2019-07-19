@@ -35,6 +35,7 @@ public:
 
 	virtual ActionType getType() = 0;
 	virtual QCursor getCursorShape();
+	virtual QString getHeadTitle() = 0;
 
 };
 
