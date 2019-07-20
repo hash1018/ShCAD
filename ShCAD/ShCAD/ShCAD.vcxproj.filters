@@ -95,6 +95,9 @@
     <Filter Include="ActionHandler\DrawAction">
       <UniqueIdentifier>{80d9762e-fc62-45e4-b7fe-9dd0bf2f07e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="KeyHandler">
+      <UniqueIdentifier>{dbfb1f28-2004-4808-ba69-a7f305b89afc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -313,6 +316,12 @@
     <ClCompile Include="ActionHandler\Private\ShActionTypeConverter.cpp">
       <Filter>ActionHandler\Private</Filter>
     </ClCompile>
+    <ClCompile Include="KeyHandler\ShKeyHandler.cpp">
+      <Filter>KeyHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyHandler\ShKey.cpp">
+      <Filter>KeyHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -490,6 +499,15 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\Private\ShActionTypeConverter.h">
       <Filter>ActionHandler\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyHandler\ShKeyHandler.h">
+      <Filter>KeyHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyHandler\ShKey.h">
+      <Filter>KeyHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyHandler\ShCustomKey.h">
+      <Filter>KeyHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

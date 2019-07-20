@@ -50,6 +50,9 @@ void ShCommandEdit::keyPressEvent(QKeyEvent *event) {
 
 		QLineEdit::keyPressEvent(event);
 
+		if (event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key::Key_A)
+			this->setSelection(this->headTitle.length(), this->maxLength());
+	
 	}
 	else {
 		ShKeyPressedEvent notifyEvent(event);

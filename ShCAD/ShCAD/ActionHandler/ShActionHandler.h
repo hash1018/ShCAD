@@ -13,11 +13,13 @@ class QMouseEvent;
 class QKeyEvent;
 class QPainter;
 class ShActionData;
+class ShKeyHandler;
 
 class ShActionHandler {
 
 protected:
 	ShCADWidget *widget;
+	ShKeyHandler *keyHandler;
 
 public:
 	ShActionHandler(ShCADWidget *widget);
@@ -29,7 +31,7 @@ public:
 	virtual void mouseMoveEvent(ShActionData &data);
 	virtual void mouseReleaseEvent(ShActionData &data);
 
-	virtual void keyPressEvent(ShActionData &data);
+	void keyPressEvent(ShActionData &data);
 
 	virtual void draw(QPainter *painter);
 

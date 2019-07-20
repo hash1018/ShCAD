@@ -1,14 +1,17 @@
 
 #include "ShActionHandler.h"
 #include <qpainter.h>
+#include "KeyHandler\ShKeyHandler.h"
 
 ShActionHandler::ShActionHandler(ShCADWidget *widget)
-	:widget(widget) {
+	:widget(widget), keyHandler(nullptr) {
 
 }
 
 ShActionHandler::~ShActionHandler() {
 
+	if (this->keyHandler != nullptr)
+		delete this->keyHandler;
 }
 
 void ShActionHandler::mouseLeftPressEvent(ShActionData &data) {
@@ -34,6 +37,8 @@ void ShActionHandler::mouseReleaseEvent(ShActionData &data) {
 
 void ShActionHandler::keyPressEvent(ShActionData &data) {
 
+	if (this->keyHandler != nullptr)
+		this->keyHandler->keyPressEvent(data.keyEvent);
 }
 
 void ShActionHandler::draw(QPainter *painter) {

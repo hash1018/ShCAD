@@ -21,6 +21,8 @@ public:
 private:
 	Status status;
 	DrawMethod drawMethod;
+	//ShKeyHandler<ShDrawLineAction> *keyHandler;
+	//ShKeyHandler *keyHandler;
 
 public:
 	ShDrawLineAction(ShCADWidget *widget);
@@ -28,11 +30,12 @@ public:
 
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
-	virtual void keyPressEvent(ShActionData &data);
 
 	virtual ActionType getType();
 
 	virtual QString getHeadTitle();
+
+	void temp();
 };
 
 

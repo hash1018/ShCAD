@@ -30,6 +30,7 @@ void ShDefaultAction::mouseMoveEvent(ShActionData &data) {
 	this->subDefaultAction->mouseMoveEvent(data);
 }
 
+/*
 void ShDefaultAction::keyPressEvent(ShActionData &data) {
 
 	if (data.keyEvent->modifiers() == Qt::Modifier::CTRL && data.keyEvent->key() == Qt::Key::Key_Z) {
@@ -65,6 +66,7 @@ void ShDefaultAction::keyPressEvent(ShActionData &data) {
 
 	}
 }
+*/
 
 ActionType ShDefaultAction::getType() {
 
