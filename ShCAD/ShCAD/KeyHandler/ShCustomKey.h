@@ -8,11 +8,11 @@ template <class T>
 class ShCustomKey : public ShKey{
 
 private:
-	T *sender;
+	T *receiver;
 	void (T::*method)();
 
 public:
-	ShCustomKey(const Qt::Key &key, const Qt::KeyboardModifiers &modifier, T *sender, void (T::*method)());
+	ShCustomKey(const Qt::Key &key, const Qt::KeyboardModifiers &modifier, T *receiver, void (T::*method)());
 	~ShCustomKey();
 
 	virtual void press();
@@ -20,8 +20,8 @@ public:
 };
 
 template <class T>
-ShCustomKey<T>::ShCustomKey(const Qt::Key &key, const Qt::KeyboardModifiers &modifier, T *sender, void (T::*method)())
-	:ShKey(key, modifier), sender(sender), method(method) {
+ShCustomKey<T>::ShCustomKey(const Qt::Key &key, const Qt::KeyboardModifiers &modifier, T *receiver, void (T::*method)())
+	:ShKey(key, modifier), receiver(receiver), method(method) {
 
 }
 
@@ -34,7 +34,7 @@ ShCustomKey<T>::ShCustomKey::~ShCustomKey() {
 template <class T>
 void ShCustomKey<T>::ShCustomKey::press() {
 
-	(this->sender->*method)();
+	(this->receiver->*method)();
 }
 
 
