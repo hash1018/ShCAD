@@ -92,6 +92,9 @@
     <Filter Include="UnRedo">
       <UniqueIdentifier>{8c406a12-a8ed-4879-a47b-21fcf29a8590}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionHandler\DrawAction">
+      <UniqueIdentifier>{80d9762e-fc62-45e4-b7fe-9dd0bf2f07e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -301,6 +304,15 @@
     <ClCompile Include="Data\ShCommandLog.cpp">
       <Filter>Data</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\Private\ShActionTypeConverter.cpp">
+      <Filter>ActionHandler\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -469,6 +481,15 @@
     </ClInclude>
     <ClInclude Include="Data\ShCommandLog.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\Private\ShActionTypeConverter.h">
+      <Filter>ActionHandler\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

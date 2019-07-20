@@ -4,6 +4,7 @@
 #include "Interface\Item\ShIcon.h"
 #include "Interface\Ribbon\Button\ShRibbonButton.h"
 #include "Manager\ShLanguageManager.h"
+#include "Manager\ShCADWidgetManager.h"
 
 ShHomeTab::ShHomeTab(const QString &title, QWidget *parent)
 	:ShRibbonTab(title, parent) {
@@ -128,9 +129,19 @@ void ShModifyPanel::resizeEvent(QResizeEvent *event) {
 	this->trimButton->setGeometry(width * 2, height * 2, width, height);
 }
 
+#include "Interface\ShCADWidget.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
 void ShModifyPanel::moveButtonClicked() {
 
+	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
 
+	if (manager->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawLine);
+
+	manager->getActivatedWidget()->changeAction(strategy);
+	
 }
 
 void ShModifyPanel::copyButtonClicked() {

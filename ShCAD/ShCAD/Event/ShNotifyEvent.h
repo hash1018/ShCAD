@@ -10,6 +10,8 @@ class ShCADWidget;
 
 
 #define shReplaceCommandHeadTitle(widget,headTitle) ShUpdateCommandHeadTitleEvent notifyEvent(headTitle); widget->notify(&notifyEvent)
+#define shAddEditTextAndNewHeadTitleWithText(widget,text) ShUpdateTextToCommandListEvent notifyEvent(text, ShUpdateTextToCommandListEvent::EditTextAndNewLineHeadTitleWithText);widget->notify(&notifyEvent)
+
 
 class ShNotifyEvent {
 

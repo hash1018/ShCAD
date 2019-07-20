@@ -39,6 +39,35 @@ protected:
 	virtual void change();
 };
 
+////////////////////////////////////////////////////////
+
+class ShChangeDefaultAfterCancelingCurrentStrategy : public ShChangeActionStrategy {
+	friend class ShChangeActionAfterCancelingCurrentStrategy;
+
+public:
+	ShChangeDefaultAfterCancelingCurrentStrategy();
+	~ShChangeDefaultAfterCancelingCurrentStrategy();
+
+protected:
+	virtual void change();
+
+};
+
+class ShChangeActionFromDefaultStrategy : public ShChangeActionStrategy {
+	friend class ShChangeActionAfterCancelingCurrentStrategy;
+
+private:
+	ActionType typeToChange;
+
+public:
+	ShChangeActionFromDefaultStrategy(ActionType typeToChange);
+	~ShChangeActionFromDefaultStrategy();
+
+protected:
+	virtual void change();
+
+};
+
 ///////////////////////////////////////////////////////
 
 class ShChangeDefaultAfterFinishingCurrentStrategy : public ShChangeActionStrategy {
