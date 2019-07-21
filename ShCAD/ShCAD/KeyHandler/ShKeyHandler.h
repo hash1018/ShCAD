@@ -11,7 +11,8 @@ class QKeyEvent;
 class ShKey;
 class ShAbstractCustomKey;
 
-//Builder Pattern.
+//Builder Pattern , Strategy Pattern, FlyWeight Pattern.
+//ShKey.h, ShKeyHandler.h, ShKeyFlyWeight.h, etc.
 
 class ShKeyHandler {
 
@@ -22,6 +23,8 @@ private:
 	QList<ShKey*> list;
 
 public:
+	//Nested class.
+
 	class ShBuilder {
 		friend class ShKeyHandler;
 	private:

@@ -70,16 +70,13 @@ void ShChangeDefaultAfterCancelingCurrentStrategy::change() {
 	else if ((drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage)
 		this->widget->update(DrawType::DrawCaptureImage);
 
+	ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
+	this->widget->notify(&notifyEvent);
 
 	ShActionHandler *newAction = ShActionHandlerFactory::create(ActionType::ActionDefault, this->widget);
 
 	if (this->widget->getActionHandlerProxy()->getCurrentAction() == nullptr)
 		Q_ASSERT("ShChangeDefaultAfterCancelingCurrentStrategy::change() >> currentAction is null ptr");
-
-	if (this->widget->getActionHandlerProxy()->getCurrentAction()->getType() != ActionType::ActionDefault) {
-		ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
-		this->widget->notify(&notifyEvent);
-	}
 
 	delete this->widget->getActionHandlerProxy()->getCurrentAction();
 

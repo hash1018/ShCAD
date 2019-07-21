@@ -2,16 +2,23 @@
 
 #include "ShDefaultAction.h"
 #include <QMouseEvent>
-#include "Base\ShGlobal.h"
-#include "Event\ShNotifyEvent.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "Manager\ShLanguageManager.h"
+#include "KeyHandler\ShKeyHandler.h"
+#include "KeyHandler\ShCustomKey.h"
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 	:ShActionHandler(widget) {
 
 	this->subDefaultAction = new ShSubDefaultAction_Default(this, this->widget);
+
+	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
+		allowInput().
+		allowKey(KeyType::EscCancelCurrent).
+		allowKey(KeyType::Control_Z).
+		allowKey(KeyType::Control_Y).
+		build();
 }
 
 ShDefaultAction::~ShDefaultAction() {
@@ -30,43 +37,6 @@ void ShDefaultAction::mouseMoveEvent(ShActionData &data) {
 	this->subDefaultAction->mouseMoveEvent(data);
 }
 
-/*
-void ShDefaultAction::keyPressEvent(ShActionData &data) {
-
-	if (data.keyEvent->modifiers() == Qt::Modifier::CTRL && data.keyEvent->key() == Qt::Key::Key_Z) {
-
-		this->changeSubAction(new ShSubDefaultAction_Default(this, this->widget));
-		ShGlobal::undo(this->widget);
-	}
-	else if (data.keyEvent->modifiers() == Qt::Modifier::CTRL && data.keyEvent->key() == Qt::Key::Key_Y) {
-
-		this->changeSubAction(new ShSubDefaultAction_Default(this, this->widget));
-		ShGlobal::redo(this->widget);
-
-	}
-	else if (data.keyEvent->modifiers() == Qt::Modifier::CTRL && data.keyEvent->key() == Qt::Key::Key_A) {
-
-		
-
-	}
-	else if (data.keyEvent->key() == Qt::Key::Key_Delete) {
-
-	}
-	else if (data.keyEvent->key() == Qt::Key::Key_Escape) {
-
-		this->changeSubAction(new ShSubDefaultAction_Default(this, this->widget));
-		
-		ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
-		this->widget->notify(&notifyEvent);
-	}
-	else {
-
-		ShKeyPressedEvent notifyEvent(data.keyEvent);
-		this->widget->notify(&notifyEvent);
-
-	}
-}
-*/
 
 ActionType ShDefaultAction::getType() {
 

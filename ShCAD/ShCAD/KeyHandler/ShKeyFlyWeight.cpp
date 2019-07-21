@@ -68,6 +68,10 @@ ShKey* ShKeyFactory::create(KeyType keyType) {
 		return new ShEscKey(KeyType::EscBackToPrevious);
 	else if (keyType == KeyType::EscCancelCurrent)
 		return new ShEscKey(KeyType::EscCancelCurrent);
+	else if (keyType == KeyType::Control_Z)
+		return new ShCtrlZKey;
+	else if (keyType == KeyType::Control_Y)
+		return new ShCtrlYKey;
 
 	return new ShEnterKey;
 }

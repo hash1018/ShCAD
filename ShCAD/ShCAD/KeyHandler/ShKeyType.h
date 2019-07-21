@@ -9,7 +9,8 @@ enum KeyType {
 	EscBackToPrevious,
 	EscCancelCurrent,
 	Custom,
-
+	Control_Z,
+	Control_Y,
 
 };
 
