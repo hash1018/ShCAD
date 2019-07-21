@@ -101,6 +101,7 @@ protected:
 
 ///////////////////////////////////////////////////////
 
+//in case temporaryAction is done successfully.
 class ShReturnToPreviousFromTemporaryStrategy : public ShChangeActionStrategy {
 
 private:
@@ -109,6 +110,22 @@ private:
 public:
 	ShReturnToPreviousFromTemporaryStrategy(ShTemporaryAction *temporaryAction);
 	~ShReturnToPreviousFromTemporaryStrategy();
+
+protected:
+	virtual void change();
+
+};
+
+/////////////////////////////////////////////////////////
+
+class ShReturnToPreviousAfterCancelingTemporaryStrategy : public ShChangeActionStrategy {
+
+private:
+	ShTemporaryAction *temporaryAction;
+
+public:
+	ShReturnToPreviousAfterCancelingTemporaryStrategy(ShTemporaryAction *temporaryAction);
+	~ShReturnToPreviousAfterCancelingTemporaryStrategy();
 
 protected:
 	virtual void change();

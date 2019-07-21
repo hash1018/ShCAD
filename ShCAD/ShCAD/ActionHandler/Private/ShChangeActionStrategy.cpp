@@ -86,6 +86,7 @@ void ShChangeDefaultAfterCancelingCurrentStrategy::change() {
 	this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
 	this->widget->setCursor(newAction->getCursorShape());
 	shReplaceCommandHeadTitle(this->widget, newAction->getHeadTitle());
+	
 }
 
 
@@ -191,6 +192,37 @@ void ShReturnToPreviousFromTemporaryStrategy::change() {
 
 	if(this->widget==nullptr)
 		Q_ASSERT("ShReturnToPreviousFromTemporaryStrategy::change() >> widget is null ptr");
+
+	ShActionHandler *previous = this->temporaryAction->getPreviousAction();
+
+	this->temporaryAction->setPreviousAction(nullptr);
+	delete this->temporaryAction;
+
+	this->widget->getActionHandlerProxy()->setCurrentAction(previous);
+	this->widget->setCursor(previous->getCursorShape());
+	shReplaceCommandHeadTitle(this->widget, previous->getHeadTitle());
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+ShReturnToPreviousAfterCancelingTemporaryStrategy::ShReturnToPreviousAfterCancelingTemporaryStrategy(ShTemporaryAction *temporaryAction)
+	:temporaryAction(temporaryAction) {
+
+}
+
+ShReturnToPreviousAfterCancelingTemporaryStrategy::~ShReturnToPreviousAfterCancelingTemporaryStrategy() {
+
+}
+
+void ShReturnToPreviousAfterCancelingTemporaryStrategy::change() {
+
+	if (this->widget == nullptr)
+		Q_ASSERT("ShReturnToPreviousAfterCancelingTemporaryStrategy::change() >> widget is null ptr");
+
+	this->widget->update(DrawType::DrawCaptureImage);
+
+	ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
+	this->widget->notify(&notifyEvent);
 
 	ShActionHandler *previous = this->temporaryAction->getPreviousAction();
 

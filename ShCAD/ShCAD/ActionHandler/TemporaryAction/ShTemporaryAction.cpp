@@ -2,9 +2,11 @@
 #include "ShTemporaryAction.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 
+
 ShTemporaryAction::ShTemporaryAction(ShCADWidget *widget)
 	:ShActionHandler(widget), previousAction(nullptr) {
 
+	
 }
 
 ShTemporaryAction::~ShTemporaryAction() {
@@ -20,11 +22,6 @@ void ShTemporaryAction::setPreviousAction(ShActionHandler *previousAction) {
 
 
 void ShTemporaryAction::returnToPrevious() {
-
-	//this->widget->setCursor(this->previousAction->getCursorShape());
-	//this->widget->replaceAction(this->previousAction);
-	//this->previousAction = nullptr;
-	//delete this;
 
 	ShReturnToPreviousFromTemporaryStrategy strategy(this);
 	this->widget->changeAction(strategy);

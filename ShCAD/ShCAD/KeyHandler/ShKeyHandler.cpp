@@ -79,7 +79,7 @@ void ShKeyHandler::keyPressEvent(QKeyEvent *event) {
 	
 	
 	if (i < this->list.size()) {
-		this->list.at(i)->pressed();
+		this->list.at(i)->pressed(this->widget, this->actionHandler);
 		return;
 	}
 	

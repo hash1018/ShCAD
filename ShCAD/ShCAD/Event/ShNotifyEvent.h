@@ -9,8 +9,8 @@ class ShCADWidget;
 
 
 
-#define shReplaceCommandHeadTitle(widget,headTitle) ShUpdateCommandHeadTitleEvent notifyEvent(headTitle); widget->notify(&notifyEvent)
-#define shAddEditTextAndNewHeadTitleWithText(widget,text) ShUpdateTextToCommandListEvent notifyEvent(text, ShUpdateTextToCommandListEvent::EditTextAndNewLineHeadTitleWithText);widget->notify(&notifyEvent)
+#define shReplaceCommandHeadTitle(widget,headTitle) ShUpdateCommandHeadTitleEvent evt(headTitle); widget->notify(&evt)
+#define shAddEditTextAndNewHeadTitleWithText(widget,text) ShUpdateTextToCommandListEvent evt(text, ShUpdateTextToCommandListEvent::EditTextAndNewLineHeadTitleWithText);widget->notify(&evt)
 
 
 class ShNotifyEvent {

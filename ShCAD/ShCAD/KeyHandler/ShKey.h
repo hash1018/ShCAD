@@ -5,6 +5,7 @@
 #include <qnamespace.h>
 #include "ShKeyType.h"
 class ShActionHandler;
+class ShCADWidget;
 
 class ShKey {
 	
@@ -20,7 +21,7 @@ public:
 	bool compare(const Qt::Key &key, const Qt::KeyboardModifiers &modifier);
 	ShKey& operator=(const ShKey &other);
 
-	virtual void pressed() = 0;
+	virtual void pressed(ShCADWidget *widget, ShActionHandler *actionHandler) = 0;
 	KeyType getKeyType();
 };
 
@@ -32,7 +33,7 @@ public:
 	bool operator==(const ShEscKey &other);
 	ShEscKey& operator=(const ShEscKey &other);
 
-	virtual void pressed();
+	virtual void pressed(ShCADWidget *widget, ShActionHandler *actionHandler);
 
 };
 
@@ -45,7 +46,7 @@ public:
 	bool operator==(const ShEnterKey &other);
 	ShEnterKey& operator=(const ShEnterKey &other);
 
-	virtual void pressed();
+	virtual void pressed(ShCADWidget *widget, ShActionHandler *actionHandler);
 
 };
 
@@ -57,7 +58,7 @@ public:
 	bool operator==(const ShReturnKey &other);
 	ShReturnKey& operator=(const ShReturnKey &other);
 		
-	virtual void pressed();
+	virtual void pressed(ShCADWidget *widget, ShActionHandler *actionHandler);
 };
 
 #endif //_SHKEY_H

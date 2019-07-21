@@ -28,7 +28,7 @@ public:
 	ShCustomKey(const Qt::Key &key, const Qt::KeyboardModifiers &modifier, T *receiver, void (T::*method)());
 	~ShCustomKey();
 
-	virtual void pressed();
+	virtual void pressed(ShCADWidget *widget, ShActionHandler *actionHandler);
 
 };
 
@@ -45,7 +45,7 @@ ShCustomKey<T>::ShCustomKey::~ShCustomKey() {
 }
 
 template <class T>
-void ShCustomKey<T>::ShCustomKey::pressed() {
+void ShCustomKey<T>::ShCustomKey::pressed(ShCADWidget *widget, ShActionHandler *actionHandler) {
 
 	(this->receiver->*method)();
 }

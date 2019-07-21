@@ -1,13 +1,19 @@
 
 #include "ShDragSelectAction.h"
 #include <qpainter.h>
-#include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include <QKeyEvent>
 #include "Manager\ShLanguageManager.h"
+#include "KeyHandler\ShKeyHandler.h"
 
 ShDragSelectAction::ShDragSelectAction(ShCADWidget *widget, double firstX, double firstY, Mode mode)
 	:ShTemporaryAction(widget), firstX(firstX), firstY(firstY), mode(mode) {
 
+	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
+		allowKey(KeyType::Enter).
+		allowKey(KeyType::Return).
+		allowKey(KeyType::EscBackToPrevious).
+		allowInput().
+		build();
 }
 
 ShDragSelectAction::~ShDragSelectAction() {
@@ -39,15 +45,6 @@ void ShDragSelectAction::mouseMoveEvent(ShActionData &data) {
 	this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawActionHandler));
 }
 
-void ShDragSelectAction::keyPressEvent(ShActionData &data) {
-
-	if (data.keyEvent->key() == Qt::Key::Key_Escape) {
-	
-		ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDefault);
-		this->widget->changeAction(strategy);
-	}
-
-}
 
 ActionType ShDragSelectAction::getType() {
 

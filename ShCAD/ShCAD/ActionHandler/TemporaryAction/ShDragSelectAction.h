@@ -30,7 +30,6 @@ public:
 
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
-	virtual void keyPressEvent(ShActionData &data);
 
 	virtual ActionType getType();
 	virtual QCursor getCursorShape();

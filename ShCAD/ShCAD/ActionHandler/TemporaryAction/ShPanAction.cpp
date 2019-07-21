@@ -68,5 +68,5 @@ QCursor ShPanAction::getCursorShape() {
 
 QString ShPanAction::getHeadTitle() {
 
-	return shGetLanValue_command("Command/Command");
+	return this->previousAction->getHeadTitle();
 }

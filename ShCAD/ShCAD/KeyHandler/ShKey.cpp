@@ -1,6 +1,10 @@
 
 #include "ShKey.h"
 #include <qmessagebox.h>
+#include "Interface\ShCADWidget.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "ActionHandler\TemporaryAction\ShTemporaryAction.h"
+
 
 ShKey::ShKey(KeyType keyType, const Qt::Key &key, const Qt::KeyboardModifiers &modifier)
 	:keyType(keyType), key(key), modifier(modifier) {
@@ -65,19 +69,21 @@ ShEscKey& ShEscKey::operator=(const ShEscKey &other) {
 	return *this;
 }
 
-void ShEscKey::pressed() {
+void ShEscKey::pressed(ShCADWidget *widget, ShActionHandler *actionHandler) {
 
 
 	if (this->keyType == EscCancelCurrent) {
-		QMessageBox box;
-		box.setText("EscKey::esc  cancel Current");
-		box.exec();
+		
+		ShChangeDefaultAfterCancelingCurrentStrategy strategy;
+		widget->changeAction(strategy);
 	}
 	else if (this->keyType == EscBackToPrevious) {
-		QMessageBox box;
-		box.setText("EscKey::esc  back to previous");
-		box.exec();
+		
+		if (!dynamic_cast<ShTemporaryAction*>(actionHandler))
+			return;
 
+		ShReturnToPreviousAfterCancelingTemporaryStrategy strategy(dynamic_cast<ShTemporaryAction*>(actionHandler));
+		widget->changeAction(strategy);
 	}
 
 }
@@ -105,7 +111,7 @@ ShEnterKey& ShEnterKey::operator=(const ShEnterKey &other) {
 	return *this;
 }
 
-void ShEnterKey::pressed() {
+void ShEnterKey::pressed(ShCADWidget *widget, ShActionHandler *actionHandler) {
 
 	QMessageBox box;
 	box.setText("EnterKey::enter");
@@ -136,7 +142,7 @@ ShReturnKey& ShReturnKey::operator=(const ShReturnKey &other) {
 	return *this;
 }
 
-void ShReturnKey::pressed() {
+void ShReturnKey::pressed(ShCADWidget *widget, ShActionHandler *actionHandler) {
 
 	QMessageBox box;
 	box.setText("ReturnKey::enter");
