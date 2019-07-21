@@ -5,6 +5,8 @@
 
 #include "Private\ShEntityData.h"
 
+//Composite Pattern, Visitor Pattern, Prototype Pattern
+
 class ShVisitor;
 class ShEntity {
 

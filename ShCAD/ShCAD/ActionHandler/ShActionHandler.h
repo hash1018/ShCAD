@@ -8,6 +8,7 @@
 #include <qcursor.h>
 #include "Private\ShActionData.h"
 
+//State Pattern.
 
 class QMouseEvent;
 class QKeyEvent;

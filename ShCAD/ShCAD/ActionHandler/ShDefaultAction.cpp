@@ -6,7 +6,6 @@
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "Manager\ShLanguageManager.h"
 #include "KeyHandler\ShKeyHandler.h"
-#include "KeyHandler\ShCustomKey.h"
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 	:ShActionHandler(widget) {

@@ -13,11 +13,11 @@ protected:
 
 public:
 	ShTransaction();
-	ShTransaction(const QString &commandName);
+	ShTransaction(const QString &transactionName);
 	virtual void redo() = 0;
 	virtual void undo() = 0;
 
-	inline QString getCommandName() const { return this->transactionName; }
+	inline QString getTransactionName() const { return this->transactionName; }
 
 private:
 	void destroy();
