@@ -322,6 +322,9 @@
     <ClCompile Include="KeyHandler\ShKey.cpp">
       <Filter>KeyHandler</Filter>
     </ClCompile>
+    <ClCompile Include="KeyHandler\ShKeyFlyWeight.cpp">
+      <Filter>KeyHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -507,6 +510,12 @@
       <Filter>KeyHandler</Filter>
     </ClInclude>
     <ClInclude Include="KeyHandler\ShCustomKey.h">
+      <Filter>KeyHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyHandler\ShKeyFlyWeight.h">
+      <Filter>KeyHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyHandler\ShKeyType.h">
       <Filter>KeyHandler</Filter>
     </ClInclude>
   </ItemGroup>

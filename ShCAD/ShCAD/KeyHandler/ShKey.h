@@ -3,34 +3,39 @@
 #define _SHKEY_H
 
 #include <qnamespace.h>
+#include "ShKeyType.h"
+class ShActionHandler;
 
 class ShKey {
 	
 protected:
 	Qt::Key key;
 	Qt::KeyboardModifiers modifier;
+	KeyType keyType;
 
 public:
-	ShKey(const Qt::Key &key, const Qt::KeyboardModifiers &modifier = Qt::NoModifier);
+	ShKey(KeyType keyType, const Qt::Key &key, const Qt::KeyboardModifiers &modifier = Qt::NoModifier);
 	virtual ~ShKey() = 0;
 	bool operator==(const ShKey &other);
 	bool compare(const Qt::Key &key, const Qt::KeyboardModifiers &modifier);
 	ShKey& operator=(const ShKey &other);
 
-	virtual void press() = 0;
+	virtual void pressed() = 0;
+	KeyType getKeyType();
 };
 
 class ShEscKey : public ShKey {
 
 public:
-	ShEscKey();
+	ShEscKey(KeyType keyType);
 	~ShEscKey();
 	bool operator==(const ShEscKey &other);
 	ShEscKey& operator=(const ShEscKey &other);
 
-	virtual void press();
+	virtual void pressed();
 
 };
+
 
 class ShEnterKey : public ShKey {
 
@@ -40,7 +45,7 @@ public:
 	bool operator==(const ShEnterKey &other);
 	ShEnterKey& operator=(const ShEnterKey &other);
 
-	virtual void press();
+	virtual void pressed();
 
 };
 
@@ -52,7 +57,7 @@ public:
 	bool operator==(const ShReturnKey &other);
 	ShReturnKey& operator=(const ShReturnKey &other);
 		
-	virtual void press();
+	virtual void pressed();
 };
 
 #endif //_SHKEY_H

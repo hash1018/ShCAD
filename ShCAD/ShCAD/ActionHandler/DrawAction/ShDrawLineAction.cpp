@@ -9,11 +9,10 @@
 ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
 	:ShDrawAction(widget), status(PickedNothing), drawMethod(Default) {
 
-	//this->keyHandler = new ShKeyHandler<ShDrawLineAction>(this, &ShDrawLineAction::temp);
-
 	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
-		allowEnter().
-		allowEsc().
+		allowKey(KeyType::Enter).
+		allowKey(KeyType::Return).
+		allowKey(KeyType::EscCancelCurrent).
 		allowInput().
 		allowCustom(new ShCustomKey<ShDrawLineAction>(Qt::Key::Key_I, Qt::KeyboardModifier::ControlModifier, this, &ShDrawLineAction::temp)).
 		build();

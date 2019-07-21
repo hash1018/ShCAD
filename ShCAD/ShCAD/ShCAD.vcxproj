@@ -254,6 +254,7 @@
     <ClCompile Include="Interface\ToolBar\ShPropertyToolBar.cpp" />
     <ClCompile Include="Interface\ToolBar\ShToolBarContainer.cpp" />
     <ClCompile Include="KeyHandler\ShKey.cpp" />
+    <ClCompile Include="KeyHandler\ShKeyFlyWeight.cpp" />
     <ClCompile Include="KeyHandler\ShKeyHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager\ShLanguageManager.cpp" />
@@ -342,7 +343,9 @@
     <ClInclude Include="Interface\Private\ShRibbonButtonStrategy.h" />
     <ClInclude Include="KeyHandler\ShCustomKey.h" />
     <ClInclude Include="KeyHandler\ShKey.h" />
+    <ClInclude Include="KeyHandler\ShKeyFlyWeight.h" />
     <ClInclude Include="KeyHandler\ShKeyHandler.h" />
+    <ClInclude Include="KeyHandler\ShKeyType.h" />
     <ClInclude Include="Manager\ShLanguageManager.h" />
     <ClInclude Include="Manager\ShChangeManager.h" />
     <ClInclude Include="UnRedo\ShTransaction.h" />

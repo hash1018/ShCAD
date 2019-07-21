@@ -2,10 +2,10 @@
 #include "ShKey.h"
 #include <qmessagebox.h>
 
-ShKey::ShKey(const Qt::Key &key, const Qt::KeyboardModifiers &modifier)
-	:key(key), modifier(modifier) {
+ShKey::ShKey(KeyType keyType, const Qt::Key &key, const Qt::KeyboardModifiers &modifier)
+	:keyType(keyType), key(key), modifier(modifier) {
 
-	
+
 }
 
 ShKey::~ShKey() {
@@ -36,10 +36,15 @@ ShKey& ShKey::operator=(const ShKey &other) {
 	return *this;
 }
 
+KeyType ShKey::getKeyType() {
+
+	return this->keyType;
+}
+
 ///////////////////////////////////////////////////////////////////
 
-ShEscKey::ShEscKey()
-	:ShKey(Qt::Key::Key_Escape) {
+ShEscKey::ShEscKey(KeyType keyType)
+	:ShKey(keyType, Qt::Key::Key_Escape) {
 
 }
 
@@ -60,18 +65,27 @@ ShEscKey& ShEscKey::operator=(const ShEscKey &other) {
 	return *this;
 }
 
-void ShEscKey::press() {
+void ShEscKey::pressed() {
 
-	QMessageBox box;
-	box.setText("EscKey::esc");
-	box.exec();
+
+	if (this->keyType == EscCancelCurrent) {
+		QMessageBox box;
+		box.setText("EscKey::esc  cancel Current");
+		box.exec();
+	}
+	else if (this->keyType == EscBackToPrevious) {
+		QMessageBox box;
+		box.setText("EscKey::esc  back to previous");
+		box.exec();
+
+	}
 
 }
 
 ////////////////////////////////////////////////////////////////////
 
 ShEnterKey::ShEnterKey()
-	:ShKey(Qt::Key::Key_Enter, Qt::KeypadModifier) {
+	:ShKey(KeyType::Enter, Qt::Key::Key_Enter, Qt::KeypadModifier) {
 
 }
 
@@ -91,7 +105,7 @@ ShEnterKey& ShEnterKey::operator=(const ShEnterKey &other) {
 	return *this;
 }
 
-void ShEnterKey::press() {
+void ShEnterKey::pressed() {
 
 	QMessageBox box;
 	box.setText("EnterKey::enter");
@@ -102,7 +116,7 @@ void ShEnterKey::press() {
 ////////////////////////////////////////////////////////////////////////
 
 ShReturnKey::ShReturnKey()
-	:ShKey(Qt::Key::Key_Return) {
+	:ShKey(KeyType::Return, Qt::Key::Key_Return) {
 
 }
 
@@ -122,7 +136,7 @@ ShReturnKey& ShReturnKey::operator=(const ShReturnKey &other) {
 	return *this;
 }
 
-void ShReturnKey::press() {
+void ShReturnKey::pressed() {
 
 	QMessageBox box;
 	box.setText("ReturnKey::enter");

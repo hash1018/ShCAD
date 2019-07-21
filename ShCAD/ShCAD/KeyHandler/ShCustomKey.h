@@ -4,8 +4,21 @@
 
 #include "KeyHandler\ShKey.h"
 
+class ShAbstractCustomKey : public ShKey {
+
+public:
+	ShAbstractCustomKey(const Qt::Key &key, const Qt::KeyboardModifiers &modifier)
+		:ShKey(KeyType::Custom, key, modifier) {
+	}
+
+	virtual ~ShAbstractCustomKey() {
+	
+	}
+
+};
+
 template <class T>
-class ShCustomKey : public ShKey{
+class ShCustomKey : public ShAbstractCustomKey{
 
 private:
 	T *receiver;
@@ -15,13 +28,13 @@ public:
 	ShCustomKey(const Qt::Key &key, const Qt::KeyboardModifiers &modifier, T *receiver, void (T::*method)());
 	~ShCustomKey();
 
-	virtual void press();
+	virtual void pressed();
 
 };
 
 template <class T>
 ShCustomKey<T>::ShCustomKey(const Qt::Key &key, const Qt::KeyboardModifiers &modifier, T *receiver, void (T::*method)())
-	:ShKey(key, modifier), receiver(receiver), method(method) {
+	:ShAbstractCustomKey(key, modifier), receiver(receiver), method(method) {
 
 }
 
@@ -32,7 +45,7 @@ ShCustomKey<T>::ShCustomKey::~ShCustomKey() {
 }
 
 template <class T>
-void ShCustomKey<T>::ShCustomKey::press() {
+void ShCustomKey<T>::ShCustomKey::pressed() {
 
 	(this->receiver->*method)();
 }

@@ -3,12 +3,13 @@
 #define _SHKEYHANDLER_H
 
 #include <qlist.h>
+#include "ShKeyType.h"
 
 class ShCADWidget;
 class ShActionHandler;
 class QKeyEvent;
 class ShKey;
-template <class T> class ShCustomKey;
+class ShAbstractCustomKey;
 
 //Builder Pattern.
 
@@ -32,10 +33,9 @@ public:
 	public:
 		ShBuilder(ShCADWidget *widget, ShActionHandler *actionHandler);
 		~ShBuilder();
-		ShKeyHandler::ShBuilder& allowEnter();
-		ShKeyHandler::ShBuilder& allowEsc();
+		ShKeyHandler::ShBuilder& allowKey(KeyType keyType);
 		ShKeyHandler::ShBuilder& allowInput();
-		ShKeyHandler::ShBuilder& allowCustom(ShKey *key);
+		ShKeyHandler::ShBuilder& allowCustom(ShAbstractCustomKey *key);
 		
 		ShKeyHandler* build();
 	};

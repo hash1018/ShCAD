@@ -4,6 +4,8 @@
 #include "Interface\ShCADWidget.h"
 #include "ShKey.h"
 #include <QKeyEvent>
+#include "ShCustomKey.h"
+#include "ShKeyFlyWeight.h"
 
 ShKeyHandler::ShBuilder::ShBuilder(ShCADWidget *widget, ShActionHandler *actionHandler)
 	:widget(widget), actionHandler(actionHandler), allowedInput(false) {
@@ -14,17 +16,16 @@ ShKeyHandler::ShBuilder::~ShBuilder() {
 
 }
 
-ShKeyHandler::ShBuilder& ShKeyHandler::ShBuilder::allowEnter() {
 
-	this->list.append(new ShReturnKey);
-	this->list.append(new ShEnterKey);
-	
-	return *this;
-}
+ShKeyHandler::ShBuilder& ShKeyHandler::ShBuilder::allowKey(KeyType keyType) {
 
-ShKeyHandler::ShBuilder& ShKeyHandler::ShBuilder::allowEsc() {
+	if (keyType == KeyType::Custom)
+		return *this;
 
-	this->list.append(new ShEscKey);
+	ShKeyFactory* factory = ShKeyFactory::getInstance();
+	ShKey *key = factory->get(keyType);
+
+	this->list.append(key);
 
 	return *this;
 }
@@ -35,7 +36,7 @@ ShKeyHandler::ShBuilder& ShKeyHandler::ShBuilder::allowInput() {
 	return *this;
 }
 
-ShKeyHandler::ShBuilder& ShKeyHandler::ShBuilder::allowCustom(ShKey *key) {
+ShKeyHandler::ShBuilder& ShKeyHandler::ShBuilder::allowCustom(ShAbstractCustomKey *key) {
 
 	this->list.append(key);
 
@@ -56,8 +57,11 @@ ShKeyHandler::ShKeyHandler(const ShKeyHandler::ShBuilder &builder)
 
 ShKeyHandler::~ShKeyHandler() {
 
-	for (int i = 0; i < this->list.size(); i++)
-		delete this->list.at(i);
+	for (int i = 0; i < this->list.size(); i++) {
+
+		if (dynamic_cast<ShAbstractCustomKey*>(this->list.at(i)))
+			delete this->list.at(i);
+	}
 }
 
 
@@ -75,7 +79,7 @@ void ShKeyHandler::keyPressEvent(QKeyEvent *event) {
 	
 	
 	if (i < this->list.size()) {
-		this->list.at(i)->press();
+		this->list.at(i)->pressed();
 		return;
 	}
 	
