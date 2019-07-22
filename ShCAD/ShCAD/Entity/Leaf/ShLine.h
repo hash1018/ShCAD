@@ -21,13 +21,13 @@ public:
 	virtual void accept(ShVisitor *visitor);
 
 
-	void setData(const ShLineData &data) { this->data = data; }
+	virtual void setData(const ShLineData &data) { this->data = data; }
 	void setStart(const ShPoint3d &start) { this->data.start = start; }
-	void setEnd(const ShPoint3d &end) { this->data.end = end; }
+	virtual void setEnd(const ShPoint3d &end) { this->data.end = end; }
 
-	inline ShLineData getData() const { return this->data; }
-	inline ShPoint3d getStart() const { return this->data.start; }
-	inline ShPoint3d getEnd() const { return this->data.end; }
+	virtual ShLineData getData() const { return this->data; }
+	virtual ShPoint3d getStart() const { return this->data.start; }
+	virtual ShPoint3d getEnd() const { return this->data.end; }
 
 
 };

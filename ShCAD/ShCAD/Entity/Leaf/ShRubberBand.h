@@ -6,17 +6,26 @@
 
 class ShRubberBand : public ShLine {
 
+private:
+	ShLine *line;
+
 public:
 	ShRubberBand();
-	ShRubberBand(const ShLineData &data);
 	ShRubberBand(const ShRubberBand &other);
 	~ShRubberBand();
-
-	ShRubberBand& operator=(const ShRubberBand &other);
 
 	virtual ShRubberBand* clone();
 	virtual void accept(ShVisitor *visitor);
 
+	virtual void setData(const ShLineData &data);
+	virtual void setEnd(const ShPoint3d &end);
+	virtual ShLineData getData();
+	virtual ShPoint3d getStart();
+	virtual ShPoint3d getEnd();
+
+	void clear();
+	void create(const ShLineData &data);
+	bool isExist();
 
 };
 

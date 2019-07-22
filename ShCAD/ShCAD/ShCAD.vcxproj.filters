@@ -325,6 +325,9 @@
     <ClCompile Include="KeyHandler\ShKeyFlyWeight.cpp">
       <Filter>KeyHandler</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Private\ShDrawer.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -517,6 +520,9 @@
     </ClInclude>
     <ClInclude Include="KeyHandler\ShKeyType.h">
       <Filter>KeyHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShDrawer.h">
+      <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

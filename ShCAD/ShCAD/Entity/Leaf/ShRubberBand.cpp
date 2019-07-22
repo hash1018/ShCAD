@@ -2,29 +2,21 @@
 #include "ShRubberBand.h"
 #include "Entity\Private\ShVisitor.h"
 
-ShRubberBand::ShRubberBand() {
-
-}
-
-ShRubberBand::ShRubberBand(const ShLineData &data)
-	:ShLine(data) {
+ShRubberBand::ShRubberBand()
+	:line(nullptr) {
 
 }
 
 ShRubberBand::ShRubberBand(const ShRubberBand &other)
 	: ShLine(other) {
 
+	this->line = other.line->clone();
 }
 
 ShRubberBand::~ShRubberBand() {
 
-}
-
-ShRubberBand& ShRubberBand::operator=(const ShRubberBand &other) {
-
-	ShLine::operator=(other);
-
-	return *this;
+	if (this->line != nullptr)
+		delete this->line;
 }
 
 ShRubberBand* ShRubberBand::clone() {
@@ -35,4 +27,66 @@ ShRubberBand* ShRubberBand::clone() {
 void ShRubberBand::accept(ShVisitor *visitor) {
 
 	visitor->visit(this);
+}
+
+void ShRubberBand::setData(const ShLineData &data) {
+
+	if (this->line == nullptr)
+		this->line = new ShLine(data);
+}
+
+void ShRubberBand::setEnd(const ShPoint3d &end) {
+
+	if (this->line == nullptr)
+		this->line = new ShLine;
+
+	this->line->setEnd(end);
+}
+
+ShLineData ShRubberBand::getData() {
+	
+	if (this->line == nullptr)
+		this->line = new ShLine;
+
+	return this->line->getData();
+}
+
+ShPoint3d ShRubberBand::getStart() {
+
+	if (this->line == nullptr)
+		this->line = new ShLine;
+
+	return this->line->getStart();
+}
+
+ShPoint3d ShRubberBand::getEnd() {
+
+	if (this->line == nullptr)
+		this->line = new ShLine;
+
+	return this->line->getEnd();
+}
+
+void ShRubberBand::clear() {
+
+	if (this->line != nullptr)
+		delete this->line;
+
+	this->line = nullptr;
+}
+
+void ShRubberBand::create(const ShLineData &data) {
+
+	if (this->line == nullptr)
+		this->line = new ShLine;
+
+	this->line->setData(data);
+}
+
+bool ShRubberBand::isExist() {
+
+	if (this->line == nullptr)
+		return false;
+
+	return true;
 }

@@ -5,6 +5,7 @@
 #include <qpainter.h>
 #include <qdebug.h>
 #include "ActionHandler\ShActionHandlerProxy.h"
+#include "Entity\Private\ShDrawer.h"
 
 ShCADWidgetDrawStrategy::ShCADWidgetDrawStrategy(ShCADWidget *widget, QPainter *painter)
 	:widget(widget), painter(painter), strategy(nullptr) {
@@ -122,6 +123,9 @@ void ShDrawPreviewEntitiesStrategy::draw() {
 
 	*/
 
+	ShDrawerUnSelectedEntity drawer(this->widget);
+	drawer.visit(&(this->widget->getRubberBand()));
+	
 
 	if (this->strategy != nullptr)
 		this->strategy->draw();

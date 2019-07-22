@@ -26,10 +26,25 @@ ShDrawLineAction::~ShDrawLineAction() {
 
 void ShDrawLineAction::mouseLeftPressEvent(ShActionData &data) {
 
+	if (this->status == PickedNothing) {
+	
+		this->status = PickedStart;
+		this->widget->getRubberBand().create(ShLineData(data.point, data.nextPoint));
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+	else if (this->status == PickedStart) {
+	
+	}
+
 }
 
 void ShDrawLineAction::mouseMoveEvent(ShActionData &data) {
 
+	if (this->status == PickedStart) {
+	
+		this->widget->getRubberBand().setEnd(data.point);
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
 }
 
 

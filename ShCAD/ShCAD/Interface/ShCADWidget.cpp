@@ -38,6 +38,8 @@ ShCADWidget::~ShCADWidget() {
 	if (this->redoStack != nullptr)
 		delete this->redoStack;
 
+	this->rubberBand.clear();
+
 	ShCADWidgetManager::getInstance()->remove(this);
 }
 

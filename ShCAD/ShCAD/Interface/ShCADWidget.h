@@ -11,6 +11,7 @@
 #include "UnRedo\ShTransactionStack.h"
 #include "Data\ShDrawBuffer.h"
 #include "Data\ShCommandLog.h"
+#include "Entity\Leaf\ShRubberBand.h"
 
 class ShNotifyEvent;
 class ShActionHandler;
@@ -31,6 +32,7 @@ private:
 	ShTransactionStack *undoStack;
 	ShTransactionStack *redoStack;
 	ShCommandLog commandLog;
+	ShRubberBand rubberBand;
 	
 
 public:
@@ -80,6 +82,8 @@ public:
 	inline ShTransactionStack* getRedoStack() const { return this->redoStack; }
 	inline ShTransactionStack* getUndoStack() const { return this->undoStack; }
 	inline ShCommandLog& getCommandLog() const { return const_cast<ShCommandLog&>(this->commandLog); }
+	inline ShRubberBand& getRubberBand() const { return const_cast<ShRubberBand&>(this->rubberBand); }
+
 };
 
 #endif //_SHCADWIDGET_H

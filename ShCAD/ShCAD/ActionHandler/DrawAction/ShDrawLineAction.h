@@ -21,8 +21,6 @@ public:
 private:
 	Status status;
 	DrawMethod drawMethod;
-	//ShKeyHandler<ShDrawLineAction> *keyHandler;
-	//ShKeyHandler *keyHandler;
 
 public:
 	ShDrawLineAction(ShCADWidget *widget);
