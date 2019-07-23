@@ -72,19 +72,22 @@ void ShChangeDefaultAfterCancelingCurrentStrategy::change() {
 	else if ((drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage)
 		this->widget->update(DrawType::DrawCaptureImage);
 
-	ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
-	this->widget->notify(&notifyEvent);
-
-	ShActionHandler *newAction = ShActionHandlerFactory::create(ActionType::ActionDefault, this->widget);
-
 	if (this->widget->getActionHandlerProxy()->getCurrentAction() == nullptr)
 		Q_ASSERT("ShChangeDefaultAfterCancelingCurrentStrategy::change() >> currentAction is null ptr");
+	
+	if (this->widget->getActionHandlerProxy()->getType() != ActionType::ActionDefault) {
 
-	delete this->widget->getActionHandlerProxy()->getCurrentAction();
+		ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
+		this->widget->notify(&notifyEvent);
 
-	this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
-	this->widget->setCursor(newAction->getCursorShape());
-	shReplaceCommandHeadTitle(this->widget, newAction->getHeadTitle());
+		ShActionHandler *newAction = ShActionHandlerFactory::create(ActionType::ActionDefault, this->widget);
+
+		delete this->widget->getActionHandlerProxy()->getCurrentAction();
+
+		this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
+		this->widget->setCursor(newAction->getCursorShape());
+		shReplaceCommandHeadTitle(this->widget, newAction->getHeadTitle());
+	}
 	
 }
 

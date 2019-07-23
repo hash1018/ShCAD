@@ -45,6 +45,19 @@ bool ShEntityTable::add(ShEntity *entity) {
 }
 
 bool ShEntityTable::add(const QLinkedList<ShEntity*> &list) {
+	
+	if (list.isEmpty())
+		return false;
+
+	this->justAddedEntityList.clear();
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = const_cast<QLinkedList<ShEntity*>&>(list).begin();
+		itr != const_cast<QLinkedList<ShEntity*>&>(list).end();
+		++itr) {
+	
+		this->justAddedEntityList.append((*itr));
+	}
 
 	return ShComposite::add(list);
 }

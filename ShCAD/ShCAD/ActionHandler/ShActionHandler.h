@@ -40,6 +40,9 @@ public:
 	virtual QCursor getCursorShape();
 	virtual QString getHeadTitle() = 0;
 
+	//*template method pattern.
+	void updateCommandEditHeadTitle();
+
 };
 
 #endif //_SHACTIONHANDLER_H

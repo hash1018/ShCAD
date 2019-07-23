@@ -55,6 +55,15 @@ void ShDrawAllStrategy::draw() {
 	(*itr)->Accept(&drawer);
 	*/
 	
+	ShDrawerUnSelectedEntity drawer(this->widget);
+
+	QLinkedList<ShEntity*>::iterator itr;
+	for (itr = this->widget->getEntityTable().begin();
+		itr != this->widget->getEntityTable().end();
+		++itr) {
+	
+		(*itr)->accept(&drawer);
+	}
 
 	this->widget->getAxis().draw(this->painter, this->widget);
 
@@ -125,6 +134,11 @@ void ShDrawPreviewEntitiesStrategy::draw() {
 
 	ShDrawerUnSelectedEntity drawer(this->widget);
 	drawer.visit(&(this->widget->getRubberBand()));
+
+	QLinkedList<ShEntity*>::iterator itr;
+
+	for (itr = this->widget->getPreview().begin(); itr != this->widget->getPreview().end(); ++itr)
+		(*itr)->accept(&drawer);
 	
 
 	if (this->strategy != nullptr)
@@ -162,6 +176,17 @@ void ShDrawAddedEntitiesStrategy::draw() {
 	(*itr)->Accept(&drawer);
 	}
 	*/
+
+	ShDrawerUnSelectedEntity drawer(this->widget);
+
+	QLinkedList<ShEntity*>::iterator itr;
+
+	for (itr = this->widget->getEntityTable().justAddedEntityBegin();
+		itr != this->widget->getEntityTable().justAddedEntityEnd();
+		++itr) {
+	
+		(*itr)->accept(&drawer);
+	}
 
 	if (this->strategy != nullptr)
 		this->strategy->draw();

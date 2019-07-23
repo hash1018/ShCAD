@@ -12,6 +12,8 @@
 #include "Data\ShDrawBuffer.h"
 #include "Data\ShCommandLog.h"
 #include "Entity\Leaf\ShRubberBand.h"
+#include "Entity\Composite\ShPreview.h"
+#include "Entity\Composite\ShEntityTable.h"
 
 class ShNotifyEvent;
 class ShActionHandler;
@@ -33,6 +35,8 @@ private:
 	ShTransactionStack *redoStack;
 	ShCommandLog commandLog;
 	ShRubberBand rubberBand;
+	ShEntityTable entityTable;
+	ShPreview preview;
 	
 
 public:
@@ -83,6 +87,8 @@ public:
 	inline ShTransactionStack* getUndoStack() const { return this->undoStack; }
 	inline ShCommandLog& getCommandLog() const { return const_cast<ShCommandLog&>(this->commandLog); }
 	inline ShRubberBand& getRubberBand() const { return const_cast<ShRubberBand&>(this->rubberBand); }
+	inline ShEntityTable& getEntityTable() const { return const_cast<ShEntityTable&>(this->entityTable); }
+	inline ShPreview& getPreview() const { return const_cast<ShPreview&>(this->preview); }
 
 };
 

@@ -32,6 +32,7 @@ public:
 	virtual ActionType getType();
 
 	virtual QString getHeadTitle();
+	void takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint);
 
 	void temp();
 };

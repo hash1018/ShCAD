@@ -4,7 +4,11 @@
 
 #include "ActionHandler\ShActionHandler.h"
 
+class ShAddEntityTransaction;
 class ShDrawAction : public ShActionHandler {
+
+protected:
+	ShAddEntityTransaction *addTransaction;
 
 public:
 	ShDrawAction(ShCADWidget *widget);
@@ -12,6 +16,8 @@ public:
 
 	virtual QCursor getCursorShape();
 
+protected:
+	void addEntity(ShEntity *newEntity, const QString &type);
 };
 
 #endif //_SHDRAWACTION_H

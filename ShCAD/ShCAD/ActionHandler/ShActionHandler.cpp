@@ -2,6 +2,7 @@
 #include "ShActionHandler.h"
 #include <qpainter.h>
 #include "KeyHandler\ShKeyHandler.h"
+#include "Event\ShNotifyEvent.h"
 
 ShActionHandler::ShActionHandler(ShCADWidget *widget)
 	:widget(widget), keyHandler(nullptr) {
@@ -59,4 +60,11 @@ QCursor ShActionHandler::getCursorShape() {
 	painter.drawRect(21, 21, 6, 6);
 
 	return QCursor(pix);
+}
+
+//*Template method pattern.
+void ShActionHandler::updateCommandEditHeadTitle() {
+
+	ShUpdateCommandHeadTitleEvent notifyEvent(this->getHeadTitle());
+	this->widget->notify(&notifyEvent);
 }

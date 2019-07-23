@@ -6,6 +6,8 @@
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "Manager\ShLanguageManager.h"
 #include "KeyHandler\ShKeyHandler.h"
+#include "KeyHandler\ShCustomKey.h"
+#include "Event\ShNotifyEvent.h"
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 	:ShActionHandler(widget) {
@@ -14,9 +16,9 @@ ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 
 	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
 		allowInput().
-		allowKey(KeyType::EscCancelCurrent).
 		allowKey(KeyType::Control_Z).
 		allowKey(KeyType::Control_Y).
+		allowCustom(new ShCustomKey<ShDefaultAction>(Qt::Key::Key_Escape, Qt::KeyboardModifier::NoModifier, this, &ShDefaultAction::escPressed)).
 		build();
 }
 
@@ -53,6 +55,14 @@ void ShDefaultAction::changeSubAction(ShSubDefaultAction *subDefaultAction) {
 		delete this->subDefaultAction;
 
 	this->subDefaultAction = subDefaultAction;
+}
+
+void ShDefaultAction::escPressed() {
+
+	this->changeSubAction(new ShSubDefaultAction_Default(this, this->widget));
+	ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
+	this->widget->notify(&notifyEvent);
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////

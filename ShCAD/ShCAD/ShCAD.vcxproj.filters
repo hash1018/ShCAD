@@ -337,6 +337,9 @@
     <ClCompile Include="Entity\Composite\ShEntityTable.cpp">
       <Filter>Entity\Composite</Filter>
     </ClCompile>
+    <ClCompile Include="UnRedo\ShEntityTransaction.cpp">
+      <Filter>UnRedo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -541,6 +544,9 @@
     </ClInclude>
     <ClInclude Include="Entity\Composite\ShEntityTable.h">
       <Filter>Entity\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="UnRedo\ShEntityTransaction.h">
+      <Filter>UnRedo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

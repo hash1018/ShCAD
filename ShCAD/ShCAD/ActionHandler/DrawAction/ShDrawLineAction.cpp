@@ -5,6 +5,9 @@
 #include "Manager\ShLanguageManager.h"
 #include "KeyHandler\ShKeyHandler.h"
 #include "KeyHandler\ShCustomKey.h"
+#include "Event\ShNotifyEvent.h"
+
+
 
 ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
 	:ShDrawAction(widget), status(PickedNothing), drawMethod(Default) {
@@ -26,15 +29,7 @@ ShDrawLineAction::~ShDrawLineAction() {
 
 void ShDrawLineAction::mouseLeftPressEvent(ShActionData &data) {
 
-	if (this->status == PickedNothing) {
-	
-		this->status = PickedStart;
-		this->widget->getRubberBand().create(ShLineData(data.point, data.nextPoint));
-		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
-	}
-	else if (this->status == PickedStart) {
-	
-	}
+	this->takeNextStep(data.point, data.nextPoint);
 
 }
 
@@ -42,7 +37,8 @@ void ShDrawLineAction::mouseMoveEvent(ShActionData &data) {
 
 	if (this->status == PickedStart) {
 	
-		this->widget->getRubberBand().setEnd(data.point);
+		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
+		prevLine->setEnd(data.point);
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
 }
@@ -63,6 +59,42 @@ QString ShDrawLineAction::getHeadTitle() {
 		text = "Line >> " + shGetLanValue_command("Command/Specify next point");
 
 	return text;
+}
+
+void ShDrawLineAction::takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint) {
+
+	if (this->status == PickedNothing) {
+	
+		this->status = PickedStart;
+		
+		this->widget->getPreview().add(new ShLine(point, nextPoint));
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		ShUpdateTextToCommandListEvent notifyEvent("");
+		this->widget->notify(&notifyEvent);
+
+		this->updateCommandEditHeadTitle();
+	}
+	else if (this->status == PickedStart) {
+	
+		ShLine *preview = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
+		ShLineData data = preview->getData();
+		data.end = point;
+
+		preview->setData(data);
+
+		this->addEntity(preview->clone(), "Line");
+
+		data = ShLineData(point, nextPoint);
+		preview->setData(data);
+
+		ShUpdateTextToCommandListEvent notifyEvent("");
+		this->widget->notify(&notifyEvent);
+
+		this->updateCommandEditHeadTitle();
+
+	}
+
 }
 
 #include <qmessagebox.h>
