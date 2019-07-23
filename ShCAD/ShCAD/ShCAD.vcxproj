@@ -155,6 +155,9 @@
     <ClCompile Include="Data\ShDrawBuffer.cpp" />
     <ClCompile Include="Data\ShPoint.cpp" />
     <ClCompile Include="Data\ShScrollPosition.cpp" />
+    <ClCompile Include="Entity\Composite\ShComposite.cpp" />
+    <ClCompile Include="Entity\Composite\ShEntityTable.cpp" />
+    <ClCompile Include="Entity\Composite\ShPreview.cpp" />
     <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
@@ -325,6 +328,9 @@
     <ClInclude Include="Data\ShDrawBuffer.h" />
     <ClInclude Include="Data\ShPoint.h" />
     <ClInclude Include="Data\ShScrollPosition.h" />
+    <ClInclude Include="Entity\Composite\ShComposite.h" />
+    <ClInclude Include="Entity\Composite\ShEntityTable.h" />
+    <ClInclude Include="Entity\Composite\ShPreview.h" />
     <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />

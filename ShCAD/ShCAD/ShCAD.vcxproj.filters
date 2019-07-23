@@ -328,6 +328,15 @@
     <ClCompile Include="Entity\Private\ShDrawer.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Composite\ShComposite.cpp">
+      <Filter>Entity\Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Composite\ShPreview.cpp">
+      <Filter>Entity\Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Composite\ShEntityTable.cpp">
+      <Filter>Entity\Composite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -523,6 +532,15 @@
     </ClInclude>
     <ClInclude Include="Entity\Private\ShDrawer.h">
       <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Composite\ShComposite.h">
+      <Filter>Entity\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Composite\ShPreview.h">
+      <Filter>Entity\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Composite\ShEntityTable.h">
+      <Filter>Entity\Composite</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
