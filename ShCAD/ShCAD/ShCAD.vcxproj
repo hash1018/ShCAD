@@ -149,10 +149,12 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShDragSelectAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
+    <ClCompile Include="Base\ShDraftSetting.cpp" />
     <ClCompile Include="Base\ShGlobal.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
     <ClCompile Include="Data\ShCommandLog.cpp" />
     <ClCompile Include="Data\ShDrawBuffer.cpp" />
+    <ClCompile Include="Data\ShObjectSnapData.cpp" />
     <ClCompile Include="Data\ShPoint.cpp" />
     <ClCompile Include="Data\ShScrollPosition.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
@@ -324,11 +326,13 @@
     <ClInclude Include="ActionHandler\TemporaryAction\ShDragSelectAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
+    <ClInclude Include="Base\ShDraftSetting.h" />
     <ClInclude Include="Base\ShGlobal.h" />
     <ClInclude Include="Base\ShMath.h" />
     <ClInclude Include="Base\ShVariable.h" />
     <ClInclude Include="Data\ShCommandLog.h" />
     <ClInclude Include="Data\ShDrawBuffer.h" />
+    <ClInclude Include="Data\ShObjectSnapData.h" />
     <ClInclude Include="Data\ShPoint.h" />
     <ClInclude Include="Data\ShScrollPosition.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />

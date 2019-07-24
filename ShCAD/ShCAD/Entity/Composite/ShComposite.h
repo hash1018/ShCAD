@@ -4,6 +4,7 @@
 
 #include "Entity\ShEntity.h"
 #include <qlinkedlist.h>
+class ShSearchEntityStrategy;
 
 class ShComposite : public ShEntity {
 
@@ -21,6 +22,8 @@ public:
 
 	virtual bool deleteEntity(ShEntity *entity);
 	virtual bool remove(ShEntity *entity);
+
+	virtual void search(ShSearchEntityStrategy &strategy);
 
 	inline bool isEmpty() const { return this->list.isEmpty(); }
 	inline int getSize() const { return this->list.size(); }

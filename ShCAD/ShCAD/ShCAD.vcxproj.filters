@@ -346,6 +346,12 @@
     <ClCompile Include="Entity\Private\ShFinder.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Base\ShDraftSetting.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\ShObjectSnapData.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -559,6 +565,12 @@
     </ClInclude>
     <ClInclude Include="Entity\Private\ShFinder.h">
       <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShDraftSetting.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShObjectSnapData.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

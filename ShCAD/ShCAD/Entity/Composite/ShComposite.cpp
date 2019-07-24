@@ -1,5 +1,6 @@
 
 #include "ShComposite.h"
+#include "Entity\Private\ShSearchEntityStrategy.h"
 
 
 ShComposite::ShComposite() {
@@ -83,4 +84,10 @@ bool ShComposite::deleteEntity(ShEntity *entity) {
 bool ShComposite::remove(ShEntity *entity) {
 
 	return this->list.removeOne(entity);
+}
+
+void ShComposite::search(ShSearchEntityStrategy &strategy) {
+
+	strategy.setList(this->list);
+	strategy.search();
 }
