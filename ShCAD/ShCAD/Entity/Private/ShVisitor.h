@@ -11,7 +11,7 @@ public:
 	virtual ~ShVisitor() = 0;
 
 	virtual void visit(ShLine *line) = 0;
-	virtual void visit(ShRubberBand *rubberBand) = 0;
+	virtual void visit(ShRubberBand *rubberBand) {}
 
 };
 

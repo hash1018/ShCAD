@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include "Manager\ShLanguageManager.h"
 #include "KeyHandler\ShKeyHandler.h"
+#include "Event\ShNotifyEvent.h"
 
 ShDragSelectAction::ShDragSelectAction(ShCADWidget *widget, double firstX, double firstY, Mode mode)
 	:ShTemporaryAction(widget), firstX(firstX), firstY(firstY), mode(mode) {
@@ -33,6 +34,9 @@ void ShDragSelectAction::mouseLeftPressEvent(ShActionData &data) {
 		this->widget->update(DrawType::DrawAll);
 		this->widget->captureImage();
 	}
+
+	ShUpdateTextToCommandListEvent notifyEvent("");
+	this->widget->notify(&notifyEvent);
 
 	this->returnToPrevious();
 }

@@ -163,6 +163,8 @@
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
     <ClCompile Include="Entity\Private\ShDrawer.cpp" />
     <ClCompile Include="Entity\Private\ShEntityData.cpp" />
+    <ClCompile Include="Entity\Private\ShFinder.cpp" />
+    <ClCompile Include="Entity\Private\ShSearchEntityStrategy.cpp" />
     <ClCompile Include="Entity\Private\ShVisitor.cpp" />
     <ClCompile Include="Entity\ShEntity.cpp" />
     <ClCompile Include="Event\ShCADWidgetEventFilter.cpp" />
@@ -337,6 +339,8 @@
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />
     <ClInclude Include="Entity\Private\ShDrawer.h" />
     <ClInclude Include="Entity\Private\ShEntityData.h" />
+    <ClInclude Include="Entity\Private\ShFinder.h" />
+    <ClInclude Include="Entity\Private\ShSearchEntityStrategy.h" />
     <ClInclude Include="Entity\Private\ShVisitor.h" />
     <ClInclude Include="Entity\ShEntity.h" />
     <ClInclude Include="Event\ShCADWidgetEventFilter.h" />

@@ -340,6 +340,12 @@
     <ClCompile Include="UnRedo\ShEntityTransaction.cpp">
       <Filter>UnRedo</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Private\ShSearchEntityStrategy.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\ShFinder.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -547,6 +553,12 @@
     </ClInclude>
     <ClInclude Include="UnRedo\ShEntityTransaction.h">
       <Filter>UnRedo</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShSearchEntityStrategy.h">
+      <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShFinder.h">
+      <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
