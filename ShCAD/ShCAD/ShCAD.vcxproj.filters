@@ -361,6 +361,9 @@
     <ClCompile Include="ActionHandler\DecoratorAction\ShOrthogonalAction.cpp">
       <Filter>ActionHandler\DecoratorAction</Filter>
     </ClCompile>
+    <ClCompile Include="Event\ShStatusBarEventFilter.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -586,6 +589,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\DecoratorAction\ShOrthogonalAction.h">
       <Filter>ActionHandler\DecoratorAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\ShStatusBarEventFilter.h">
+      <Filter>Event</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

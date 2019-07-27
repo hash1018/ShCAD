@@ -3,7 +3,7 @@
 #include <qlabel.h>
 #include "Interface\Item\ShButton.h"
 #include "Interface\Item\ShIcon.h"
-#include "Event\ShNotifyEvent.h"
+#include "Event\ShStatusBarEventFilter.h"
 
 ShStatusBar::ShStatusBar(QWidget *parent)
 	:QStatusBar(parent),zoomRate(1) {
@@ -34,18 +34,9 @@ ShStatusBar::~ShStatusBar() {
 }
 
 void ShStatusBar::update(ShNotifyEvent *event) {
-
-	if (dynamic_cast<ShMousePositionChangedEvent*>(event)) {
 	
-		this->point = dynamic_cast<ShMousePositionChangedEvent*>(event)->getPoint();
-		this->updateCoordiLabel();
-	}
-	else if (dynamic_cast<ShZoomRateChangedEvent*>(event)) {
-	
-		this->zoomRate = dynamic_cast<ShZoomRateChangedEvent*>(event)->getZoomRate();
-		this->updateCoordiLabel();
-	}
-
+	ShStatusBarEventFilter filter(this, event);
+	filter.update();
 }
 
 void ShStatusBar::updateCoordiLabel() {

@@ -28,7 +28,9 @@ public:
 
 	void update(ShNotifyEvent *event);
 
-private:
+	void setPoint(const ShPoint3d &point) { this->point = point; }
+	void setZoomRate(const double &zoomRate) { this->zoomRate = zoomRate; }
+
 	void updateCoordiLabel();
 
 };
