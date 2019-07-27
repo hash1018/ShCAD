@@ -56,6 +56,14 @@ void ShDecoratorAction::mouseReleaseEvent(ShActionData &data) {
 		this->actionHandler->mouseReleaseEvent(data);
 }
 
+void ShDecoratorAction::keyPressEvent(ShActionData &data) {
+
+	if (this->child != nullptr)
+		this->child->keyPressEvent(data);
+	else
+		this->actionHandler->keyPressEvent(data);
+}
+
 void ShDecoratorAction::draw(QPainter *painter) {
 
 	if (this->child != nullptr)
@@ -78,4 +86,12 @@ QString ShDecoratorAction::getHeadTitle() {
 		return this->child->getHeadTitle();
 
 	return this->actionHandler->getHeadTitle();
+}
+
+void ShDecoratorAction::invalidate(ShPoint3d point) {
+
+	if (this->child != nullptr)
+		this->child->invalidate(point);
+
+	this->actionHandler->invalidate(point);
 }

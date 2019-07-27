@@ -34,6 +34,8 @@ public:
 
 	void setCurrentAction(ShActionHandler *actionHandler);
 
+	void invalidate();
+
 	QCursor getCursorShape();
 	ActionType getType();
 

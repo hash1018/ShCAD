@@ -14,12 +14,54 @@ ShOrthogonalAction::~ShOrthogonalAction() {
 
 void ShOrthogonalAction::mouseLeftPressEvent(ShActionData &data) {
 
+	
+	ShAvailableDraft availableDraft = this->actionHandler->getAvailableDraft();
 
+	if (availableDraft.getAvailableOrthogonal() == true) {
+	
+		ShPoint3d basePoint, orth;
+		ShPoint3d mouse = this->widget->getMousePoint();
 
+		basePoint = availableDraft.getOrthogonalBasePoint();
+		this->getOrthogonalPoint(basePoint.x, basePoint.y, mouse.x, mouse.y, orth.x, orth.y);
+		data.point = orth;
+	}
+
+	ShDecoratorAction::mouseLeftPressEvent(data);
 }
 
 void ShOrthogonalAction::mouseMoveEvent(ShActionData &data) {
 
+	ShAvailableDraft availableDraft = this->actionHandler->getAvailableDraft();
+
+	if (availableDraft.getAvailableOrthogonal() == true) {
+
+		ShPoint3d basePoint, orth;
+		ShPoint3d mouse = this->widget->getMousePoint();
+
+		basePoint = availableDraft.getOrthogonalBasePoint();
+		this->getOrthogonalPoint(basePoint.x, basePoint.y, mouse.x, mouse.y, orth.x, orth.y);
+		data.point = orth;
+	}
+
+	ShDecoratorAction::mouseMoveEvent(data);
+}
+
+void ShOrthogonalAction::invalidate(ShPoint3d point) {
+
+	ShAvailableDraft availableDraft = this->actionHandler->getAvailableDraft();
+
+	if (availableDraft.getAvailableOrthogonal() == true) {
+
+		ShPoint3d basePoint, orth;
+		ShPoint3d mouse = this->widget->getMousePoint();
+
+		basePoint = availableDraft.getOrthogonalBasePoint();
+		this->getOrthogonalPoint(basePoint.x, basePoint.y, mouse.x, mouse.y, orth.x, orth.y);
+		point = orth;
+	}
+
+	ShDecoratorAction::invalidate(point);
 }
 
 void ShOrthogonalAction::getOrthogonalPoint(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY) {

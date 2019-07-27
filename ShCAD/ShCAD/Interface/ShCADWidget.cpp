@@ -263,5 +263,7 @@ bool ShCADWidget::setOrthMode() {
 
 	this->actionHandlerProxy->changeDecoratorAction();
 
+	this->actionHandlerProxy->invalidate();
+
 	return this->draftData.getOrthMode();
 }

@@ -33,7 +33,7 @@ public:
 	virtual void mouseMoveEvent(ShActionData &data);
 	virtual void mouseReleaseEvent(ShActionData &data);
 
-	void keyPressEvent(ShActionData &data);
+	virtual void keyPressEvent(ShActionData &data);
 
 	virtual void draw(QPainter *painter);
 
@@ -45,6 +45,8 @@ public:
 	void updateCommandEditHeadTitle();
 
 	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d point);
 
 };
 

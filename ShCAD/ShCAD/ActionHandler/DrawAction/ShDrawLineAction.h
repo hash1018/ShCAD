@@ -34,6 +34,10 @@ public:
 	virtual QString getHeadTitle();
 	void takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint);
 
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d point);
+
 	void temp();
 };
 

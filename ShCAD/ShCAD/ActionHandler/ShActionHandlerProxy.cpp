@@ -6,6 +6,7 @@
 #include "Private\ShActionData.h"
 #include "Interface\ShCADWidget.h"
 #include "Private\ShDecoratorActionFactory.h"
+#include "DecoratorAction\ShDecoratorAction.h"
 
 
 ShActionHandlerProxy::ShActionHandlerProxy(ShCADWidget *widget)
@@ -26,32 +27,50 @@ ShActionHandlerProxy::~ShActionHandlerProxy() {
 
 void ShActionHandlerProxy::mouseLeftPressEvent(QMouseEvent *event) {
 
-	ShActionData data;
-	this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
+	//ShActionData data;
+	//this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
+	//data.nextPoint = data.point;
+	//data.mouseEvent = event;
+
+	//this->currentAction->mouseLeftPressEvent(data);
+
+	ShDecoratorActionData data;
+	data.point = this->widget->getMousePoint();
 	data.nextPoint = data.point;
 	data.mouseEvent = event;
-
-	this->currentAction->mouseLeftPressEvent(data);
+	this->decoratorAction->mouseLeftPressEvent(data);
 }
 
 void ShActionHandlerProxy::mouseMidPressEvent(QMouseEvent *event) {
 
-	ShActionData data;
-	this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
+	//ShActionData data;
+	//this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
+	//data.nextPoint = data.point;
+	//data.mouseEvent = event;
+
+	//this->currentAction->mouseMidPressEvent(data);
+
+	ShDecoratorActionData data;
+	data.point = this->widget->getMousePoint();
 	data.nextPoint = data.point;
 	data.mouseEvent = event;
-
-	this->currentAction->mouseMidPressEvent(data);
+	this->decoratorAction->mouseMidPressEvent(data);
 }
 
 void ShActionHandlerProxy::mouseRightPressEvent(QMouseEvent *event) {
 
-	ShActionData data;
-	this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
+	//ShActionData data;
+	//this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
+	//data.nextPoint = data.point;
+	//data.mouseEvent = event;
+
+	//this->currentAction->mouseRightPressEvent(data);
+
+	ShDecoratorActionData data;
+	data.point = this->widget->getMousePoint();
 	data.nextPoint = data.point;
 	data.mouseEvent = event;
-
-	this->currentAction->mouseRightPressEvent(data);
+	this->decoratorAction->mouseRightPressEvent(data);
 }
 
 void ShActionHandlerProxy::mouseMoveEvent(QMouseEvent *event) {
@@ -61,11 +80,16 @@ void ShActionHandlerProxy::mouseMoveEvent(QMouseEvent *event) {
 
 
 
-	ShActionData data;
-	this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
-	data.mouseEvent = event;
+	//ShActionData data;
+	//this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
+	//data.mouseEvent = event;
 
-	this->currentAction->mouseMoveEvent(data);
+	//this->currentAction->mouseMoveEvent(data);
+
+	ShDecoratorActionData data;
+	data.point = this->widget->getMousePoint();
+	data.mouseEvent = event;
+	this->decoratorAction->mouseMoveEvent(data);
 
 	
 	this->widget->getDrawBuffer().saveToBuffer = false;
@@ -78,24 +102,35 @@ void ShActionHandlerProxy::mouseMoveEvent(QMouseEvent *event) {
 
 void ShActionHandlerProxy::mouseReleaseEvent(QMouseEvent *event) {
 
-	ShActionData data;
-	this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
-	data.mouseEvent = event;
+	//ShActionData data;
+	//this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
+	//data.mouseEvent = event;
 
-	this->currentAction->mouseReleaseEvent(data);
+	//this->currentAction->mouseReleaseEvent(data);
+
+	ShDecoratorActionData data;
+	data.point = this->widget->getMousePoint();
+	data.mouseEvent = event;
+	this->decoratorAction->mouseReleaseEvent(data);
 }
 
 void ShActionHandlerProxy::keyPressEvent(QKeyEvent *event) {
 
-	ShActionData data;
-	data.keyEvent = event;
+	//ShActionData data;
+	//data.keyEvent = event;
 
-	this->currentAction->keyPressEvent(data);
+	//this->currentAction->keyPressEvent(data);
+
+	ShDecoratorActionData data;
+	data.keyEvent = event;
+	this->decoratorAction->keyPressEvent(data);
 }
 
 void ShActionHandlerProxy::setCurrentAction(ShActionHandler *actionHandler) {
 
 	this->currentAction = actionHandler;
+
+	this->changeDecoratorAction();
 }
 
 QCursor ShActionHandlerProxy::getCursorShape() {
@@ -119,4 +154,21 @@ void ShActionHandlerProxy::changeDecoratorAction() {
 		delete this->decoratorAction;
 
 	this->decoratorAction = ShDecoratorActionFactory::create(this->widget, this->currentAction, this->widget->getDraftData());
+}
+
+void ShActionHandlerProxy::invalidate() {
+
+	this->widget->getDrawBuffer().saveToBuffer = true;
+	this->widget->getDrawBuffer().buffer = DrawType::DrawNone;
+
+
+	this->decoratorAction->invalidate(this->widget->getMousePoint());
+
+	this->widget->getDrawBuffer().saveToBuffer = false;
+
+	if ((this->widget->getDrawBuffer().buffer & ~DrawType::DrawNone) != DrawType::DrawNone)
+		this->widget->update(this->widget->getDrawBuffer().buffer);
+
+	this->widget->getDrawBuffer().buffer = DrawType::DrawNone;
+
 }

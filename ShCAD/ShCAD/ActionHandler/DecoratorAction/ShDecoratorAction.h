@@ -20,10 +20,13 @@ public:
 	virtual void mouseRightPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 	virtual void mouseReleaseEvent(ShActionData &data);
+	virtual void keyPressEvent(ShActionData &data);
 
 	virtual void draw(QPainter *painter);
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
+
+	virtual void invalidate(ShPoint3d point);
 
 	void setParent(ShDecoratorAction *parent) { this->parent = parent; }
 	inline ShDecoratorAction* getParent() const { return this->parent; }

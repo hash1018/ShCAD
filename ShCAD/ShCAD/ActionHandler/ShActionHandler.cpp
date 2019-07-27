@@ -73,3 +73,7 @@ ShAvailableDraft ShActionHandler::getAvailableDraft() {
 
 	return ShAvailableDraft();
 }
+
+void ShActionHandler::invalidate(ShPoint3d point) {
+
+}

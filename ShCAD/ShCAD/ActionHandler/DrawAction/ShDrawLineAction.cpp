@@ -95,6 +95,44 @@ void ShDrawLineAction::takeNextStep(const ShPoint3d &point, const ShPoint3d &nex
 
 }
 
+ShAvailableDraft ShDrawLineAction::getAvailableDraft() {
+	
+	ShAvailableDraft draft;
+
+	if (this->status == Status::PickedNothing) {
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		ShPoint3d mouse = this->widget->getMousePoint();
+		draft.setOrthogonalBasePoint(mouse);
+		draft.setSnapBasePoint(mouse);
+	}
+	else {
+	
+		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
+
+		if (this->drawMethod == DrawMethod::Default) {
+			draft.setAvailableOrthogonal(true);
+			draft.setOrthogonalBasePoint(prevLine->getStart());
+		}
+
+		draft.setAvailableSnap(true);
+		draft.setSnapBasePoint(prevLine->getStart());
+	}
+
+	return draft;
+}
+
+void ShDrawLineAction::invalidate(ShPoint3d point) {
+
+	if (this->status == PickedStart) {
+
+		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
+		prevLine->setEnd(point);
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+}
+
+
 #include <qmessagebox.h>
 void ShDrawLineAction::temp() {
 

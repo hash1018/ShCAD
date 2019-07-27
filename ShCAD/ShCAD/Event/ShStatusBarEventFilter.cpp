@@ -18,6 +18,8 @@ ShStatusBarEventFilter::ShStatusBarEventFilter(ShStatusBar *statusBar, ShNotifyE
 
 ShStatusBarEventFilter::~ShStatusBarEventFilter() {
 
+	if (this->strategy != nullptr)
+		delete this->strategy;
 }
 
 void ShStatusBarEventFilter::update() {

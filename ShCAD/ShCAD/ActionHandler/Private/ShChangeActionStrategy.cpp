@@ -64,6 +64,7 @@ void ShChangeDefaultAfterCancelingCurrentStrategy::change() {
 	DrawType drawType = DrawType::DrawCaptureImage;
 
 	this->widget->getRubberBand().clear();
+	this->widget->getPreview().clear();
 
 	if ((drawType & DrawType::DrawAll) == DrawType::DrawAll) {
 		this->widget->update(DrawType::DrawAll);
@@ -112,6 +113,7 @@ void ShChangeActionFromDefaultStrategy::change() {
 	DrawType drawType = DrawType::DrawCaptureImage;
 
 	this->widget->getRubberBand().clear();
+	this->widget->getPreview().clear();
 
 	if ((drawType & DrawType::DrawAll) == DrawType::DrawAll) {
 		this->widget->update(DrawType::DrawAll);
