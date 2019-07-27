@@ -245,3 +245,23 @@ ShPoint3d ShCADWidget::getMousePoint() {
 
 	return mouse;
 }
+
+bool ShCADWidget::setOrthMode() {
+
+	if (this->draftData.getOrthMode() == false) {
+		ShUpdateCommandHeadTitleEvent notifyEvent("<Ortho on> ", ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent);
+		this->notify(&notifyEvent);
+
+		this->draftData.setOrthMode(true);
+	}
+	else {
+		ShUpdateCommandHeadTitleEvent notifyEvent("<Ortho off> ", ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent);
+		this->notify(&notifyEvent);
+
+		this->draftData.setOrthMode(false);
+	}
+
+	this->actionHandlerProxy->changeDecoratorAction();
+
+	return this->draftData.getOrthMode();
+}

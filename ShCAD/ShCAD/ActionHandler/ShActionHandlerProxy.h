@@ -12,12 +12,14 @@ class ShActionHandler;
 class ShCADWidget;
 class ShTemporaryAction;
 class QPainter;
+class ShDecoratorAction;
 
 class ShActionHandlerProxy {
 
 private:
 	ShCADWidget *widget;
 	ShActionHandler *currentAction;
+	ShDecoratorAction *decoratorAction;
 
 public:
 	ShActionHandlerProxy(ShCADWidget *widget);
@@ -39,6 +41,7 @@ public:
 
 	inline ShActionHandler* getCurrentAction() const { return this->currentAction; }
 
+	void changeDecoratorAction();
 };
 
 

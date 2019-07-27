@@ -5,18 +5,23 @@
 #include <QMouseEvent>
 #include "Private\ShActionData.h"
 #include "Interface\ShCADWidget.h"
+#include "Private\ShDecoratorActionFactory.h"
 
 
 ShActionHandlerProxy::ShActionHandlerProxy(ShCADWidget *widget)
 	:widget(widget),currentAction(nullptr) {
 
 	this->currentAction = ShActionHandlerFactory::create(ActionType::ActionDefault, widget);
+	this->decoratorAction = ShDecoratorActionFactory::create(this->widget, this->currentAction, this->widget->getDraftData());
 }
 
 ShActionHandlerProxy::~ShActionHandlerProxy() {
 
 	if (this->currentAction != nullptr)
 		delete this->currentAction;
+
+	if (this->decoratorAction != nullptr)
+		delete this->decoratorAction;
 }
 
 void ShActionHandlerProxy::mouseLeftPressEvent(QMouseEvent *event) {
@@ -88,26 +93,6 @@ void ShActionHandlerProxy::keyPressEvent(QKeyEvent *event) {
 	this->currentAction->keyPressEvent(data);
 }
 
-/*
-void ShActionHandlerProxy::changeAction(ActionType actionType) {
-
-	if (this->currentAction != nullptr)
-		delete this->currentAction;
-
-	this->currentAction = ShActionHandlerFactory::create(actionType, this->widget);
-}
-
-void ShActionHandlerProxy::replaceAction(ShActionHandler *actionHandler) {
-
-	this->currentAction = actionHandler;
-}
-
-void ShActionHandlerProxy::setTemporaryAction(ShTemporaryAction *temporaryAction) {
-
-	this->currentAction = temporaryAction;
-}
-*/
-
 void ShActionHandlerProxy::setCurrentAction(ShActionHandler *actionHandler) {
 
 	this->currentAction = actionHandler;
@@ -126,4 +111,12 @@ ActionType ShActionHandlerProxy::getType() {
 void ShActionHandlerProxy::draw(QPainter *painter) {
 
 	this->currentAction->draw(painter);
+}
+
+void ShActionHandlerProxy::changeDecoratorAction() {
+
+	if (this->decoratorAction != nullptr)
+		delete this->decoratorAction;
+
+	this->decoratorAction = ShDecoratorActionFactory::create(this->widget, this->currentAction, this->widget->getDraftData());
 }

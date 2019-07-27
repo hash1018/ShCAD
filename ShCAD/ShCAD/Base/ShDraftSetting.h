@@ -17,8 +17,9 @@ private:
 	static ShDraftSetting instance;
 
 public:
-	ShDraftSetting* getInstance();
+	static ShDraftSetting* getInstance();
 
+	ShObjectSnapData* getObjectSnapData() { return &(this->objectSnapData); }
 
 
 };

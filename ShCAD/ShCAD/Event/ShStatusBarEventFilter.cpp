@@ -2,6 +2,7 @@
 #include "ShStatusBarEventFilter.h"
 #include "ShNotifyEvent.h"
 #include "Interface\StatusBar\ShStatusBar.h"
+#include "Interface\ShCADWidget.h"
 
 ShStatusBarEventFilter::ShStatusBarEventFilter(ShStatusBar *statusBar, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -87,5 +88,12 @@ ShStatusBarActivatedWidgetChangedEventFilterStrategy::~ShStatusBarActivatedWidge
 
 void ShStatusBarActivatedWidgetChangedEventFilterStrategy::update() {
 
+	ShActivatedWidgetChangedEvent *event = dynamic_cast<ShActivatedWidgetChangedEvent*>(this->event);
 
+	ShCADWidget *widget = event->getNewWidget();
+
+	if (widget->getDraftData().getOrthMode() == true)
+		this->statusBar->setOrthogonalButtonState(true);
+	else
+		this->statusBar->setOrthogonalButtonState(false);
 }

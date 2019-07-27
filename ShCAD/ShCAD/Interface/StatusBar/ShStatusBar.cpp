@@ -4,6 +4,8 @@
 #include "Interface\Item\ShButton.h"
 #include "Interface\Item\ShIcon.h"
 #include "Event\ShStatusBarEventFilter.h"
+#include "Manager\ShCADWidgetManager.h"
+#include "Interface\ShCADWidget.h"
 
 ShStatusBar::ShStatusBar(QWidget *parent)
 	:QStatusBar(parent),zoomRate(1) {
@@ -24,8 +26,10 @@ ShStatusBar::ShStatusBar(QWidget *parent)
 	this->objectSnapButton->setIcon(ShIcon(":/Image/Snap/SnapModeOnOff.png"));
 	this->objectSnapButton->setShortcut(QKeySequence(Qt::Key::Key_F3));
 
-
 	this->updateCoordiLabel();
+
+	connect(this->orthogonalButton, &ShStateButton::pressed, this, &ShStatusBar::orthogonalButtonClicked);
+	connect(this->objectSnapButton, &ShStateButton::pressed, this, &ShStatusBar::objectSnapButtonClicked);
 }
 
 ShStatusBar::~ShStatusBar() {
@@ -47,4 +51,32 @@ void ShStatusBar::updateCoordiLabel() {
 		QString::number(this->zoomRate, 'f', 2);
 
 	this->coordiLabel->setText(str);
+}
+
+void ShStatusBar::setOrthogonalButtonState(bool on) {
+	
+	this->orthogonalButton->setState(on);
+}
+
+void ShStatusBar::setObjectSnapButtonState(bool on) {
+
+	this->objectSnapButton->setState(on);
+}
+
+
+void ShStatusBar::orthogonalButtonClicked() {
+
+	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
+
+	if (manager->getActivatedWidget() == nullptr)
+		return;
+
+	bool mode = manager->getActivatedWidget()->setOrthMode();
+
+	this->orthogonalButton->setState(mode);
+
+}
+
+void ShStatusBar::objectSnapButtonClicked() {
+
 }

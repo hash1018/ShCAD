@@ -14,6 +14,7 @@
 #include "Entity\Leaf\ShRubberBand.h"
 #include "Entity\Composite\ShPreview.h"
 #include "Entity\Composite\ShEntityTable.h"
+#include "Data\DraftData.h"
 
 class ShNotifyEvent;
 class ShActionHandler;
@@ -37,6 +38,7 @@ private:
 	ShRubberBand rubberBand;
 	ShEntityTable entityTable;
 	ShPreview preview;
+	DraftData draftData;
 	
 
 public:
@@ -57,6 +59,9 @@ public:
 	void shiftViewport(const ShPoint3d &coordinate, int dx, int dy);
 
 	ShPoint3d getMousePoint();
+
+	//returns current orthMode.
+	bool setOrthMode();
 
 protected:
 	virtual void initializeGL();
@@ -90,6 +95,7 @@ public:
 	inline ShRubberBand& getRubberBand() const { return const_cast<ShRubberBand&>(this->rubberBand); }
 	inline ShEntityTable& getEntityTable() const { return const_cast<ShEntityTable&>(this->entityTable); }
 	inline ShPreview& getPreview() const { return const_cast<ShPreview&>(this->preview); }
+	inline DraftData& getDraftData() const { return const_cast<DraftData&>(this->draftData); }
 
 };
 

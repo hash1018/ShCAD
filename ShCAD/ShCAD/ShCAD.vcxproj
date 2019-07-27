@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ActionHandler\DecoratorAction\ShDecoratorAction.cpp" />
+    <ClCompile Include="ActionHandler\DecoratorAction\ShDecoratorDefaultAction.cpp" />
     <ClCompile Include="ActionHandler\DecoratorAction\ShOrthogonalAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="ActionHandler\Private\ShActionHandlerFactory.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionTypeConverter.cpp" />
     <ClCompile Include="ActionHandler\Private\ShChangeActionStrategy.cpp" />
+    <ClCompile Include="ActionHandler\Private\ShDecoratorActionFactory.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerProxy.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
@@ -154,6 +156,7 @@
     <ClCompile Include="Base\ShDraftSetting.cpp" />
     <ClCompile Include="Base\ShGlobal.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
+    <ClCompile Include="Data\DraftData.cpp" />
     <ClCompile Include="Data\ShCommandLog.cpp" />
     <ClCompile Include="Data\ShDrawBuffer.cpp" />
     <ClCompile Include="Data\ShObjectSnapData.cpp" />
@@ -318,6 +321,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActionHandler\DecoratorAction\ShDecoratorAction.h" />
+    <ClInclude Include="ActionHandler\DecoratorAction\ShDecoratorDefaultAction.h" />
     <ClInclude Include="ActionHandler\DecoratorAction\ShOrthogonalAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
@@ -325,6 +329,7 @@
     <ClInclude Include="ActionHandler\Private\ShActionHandlerFactory.h" />
     <ClInclude Include="ActionHandler\Private\ShActionTypeConverter.h" />
     <ClInclude Include="ActionHandler\Private\ShChangeActionStrategy.h" />
+    <ClInclude Include="ActionHandler\Private\ShDecoratorActionFactory.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerProxy.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
@@ -335,6 +340,7 @@
     <ClInclude Include="Base\ShGlobal.h" />
     <ClInclude Include="Base\ShMath.h" />
     <ClInclude Include="Base\ShVariable.h" />
+    <ClInclude Include="Data\DraftData.h" />
     <ClInclude Include="Data\ShCommandLog.h" />
     <ClInclude Include="Data\ShDrawBuffer.h" />
     <ClInclude Include="Data\ShObjectSnapData.h" />

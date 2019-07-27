@@ -11,7 +11,8 @@ ShDecoratorAction::ShDecoratorAction(ShCADWidget *widget, ShActionHandler *actio
 
 ShDecoratorAction::~ShDecoratorAction() {
 
-
+	if (this->child != nullptr)
+		delete this->child;
 }
 
 

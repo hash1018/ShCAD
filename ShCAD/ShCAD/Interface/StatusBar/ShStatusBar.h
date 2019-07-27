@@ -33,6 +33,12 @@ public:
 
 	void updateCoordiLabel();
 
+	void setOrthogonalButtonState(bool on);
+	void setObjectSnapButtonState(bool on);
+
+	private slots:
+	void orthogonalButtonClicked();
+	void objectSnapButtonClicked();
 };
 
 #endif //_SHSTATUSBAR_H

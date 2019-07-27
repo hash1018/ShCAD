@@ -364,6 +364,15 @@
     <ClCompile Include="Event\ShStatusBarEventFilter.cpp">
       <Filter>Event</Filter>
     </ClCompile>
+    <ClCompile Include="Data\DraftData.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\Private\ShDecoratorActionFactory.cpp">
+      <Filter>ActionHandler\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DecoratorAction\ShDecoratorDefaultAction.cpp">
+      <Filter>ActionHandler\DecoratorAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -592,6 +601,15 @@
     </ClInclude>
     <ClInclude Include="Event\ShStatusBarEventFilter.h">
       <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\DraftData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\Private\ShDecoratorActionFactory.h">
+      <Filter>ActionHandler\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DecoratorAction\ShDecoratorDefaultAction.h">
+      <Filter>ActionHandler\DecoratorAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
