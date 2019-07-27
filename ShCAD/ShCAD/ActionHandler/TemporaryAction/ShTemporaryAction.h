@@ -1,6 +1,6 @@
 
 #ifndef _SHTEMPORARYACTION_H
-#define _SHTEMPORARYACTOPN_H
+#define _SHTEMPORARYACTION_H
 
 #include "ActionHandler\ShActionHandler.h"
 

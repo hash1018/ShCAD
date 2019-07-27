@@ -7,6 +7,7 @@
 #include "Event\ShNotifyEvent.h"
 #include "Manager\ShLanguageManager.h"
 #include "ActionHandler\Private\ShActionTypeConverter.h"
+#include "ActionHandler\TemporaryAction\ShPanAction.h"
 
 ShChangeActionStrategy::ShChangeActionStrategy()
 	:widget(nullptr) {
@@ -181,6 +182,62 @@ void ShChangeTemporaryStrategy::change() {
 	shReplaceCommandHeadTitle(this->widget, this->temporaryAction->getHeadTitle());
 
 }
+
+/////////////////////////////////////////////////////////////////
+
+ShChangeTemporaryPanStrategy::ShChangeTemporaryPanStrategy(ShActionHandler *previousAction)
+	:previousAction(previousAction) {
+
+}
+
+ShChangeTemporaryPanStrategy::~ShChangeTemporaryPanStrategy() {
+
+}
+
+
+void ShChangeTemporaryPanStrategy::change() {
+
+	if (this->widget == nullptr)
+		Q_ASSERT("ShChangeTemporaryPanStrategy::change() >> widget is null ptr");
+
+	ShPanAction *panAction = new ShPanAction(this->widget);
+
+	panAction->setPreviousAction(this->previousAction);
+
+	this->widget->getActionHandlerProxy()->setCurrentAction(panAction);
+	this->widget->setCursor(panAction->getCursorShape());
+}
+
+
+
+//////////////////////////////////////////////////////////
+
+
+
+ShReturnToPreviousFromPanStrategy::ShReturnToPreviousFromPanStrategy(ShPanAction *panAction)
+	:panAction(panAction) {
+
+}
+
+ShReturnToPreviousFromPanStrategy::~ShReturnToPreviousFromPanStrategy() {
+
+}
+
+void ShReturnToPreviousFromPanStrategy::change() {
+
+	if (this->widget == nullptr)
+		Q_ASSERT("ShReturnToPreviousFromPanStrategy::change() >> widget is null ptr");
+
+	ShActionHandler *previous = this->panAction->getPreviousAction();
+
+	this->panAction->setPreviousAction(nullptr);
+	delete this->panAction;
+
+	this->widget->getActionHandlerProxy()->setCurrentAction(previous);
+	this->widget->setCursor(previous->getCursorShape());
+	
+}
+
 
 /////////////////////////////////////////////////////////////////
 

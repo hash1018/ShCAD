@@ -10,7 +10,9 @@
 #include "Base\ShMath.h"
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "Event\ShCADWidgetEventFilter.h"
-#include "ActionHandler\TemporaryAction\ShPanAction.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
+
+
 
 ShCADWidget::ShCADWidget(QWidget *parent)
 	:QOpenGLWidget(parent),zoomRate(1.0){
@@ -68,11 +70,11 @@ void ShCADWidget::paintGL() {
 
 }
 
-#include "ActionHandler\Private\ShChangeActionStrategy.h"
+
 void ShCADWidget::mousePressEvent(QMouseEvent *event) {
 
 	if (event->buttons() & Qt::MiddleButton) {
-		ShChangeTemporaryStrategy strategy(new ShPanAction(this), this->actionHandlerProxy->getCurrentAction());
+		ShChangeTemporaryPanStrategy strategy(this->actionHandlerProxy->getCurrentAction());
 		this->changeAction(strategy);
 	}
 

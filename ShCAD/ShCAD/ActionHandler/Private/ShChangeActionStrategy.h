@@ -7,6 +7,7 @@
 class ShCADWidget;
 class ShActionHandler;
 class ShTemporaryAction;
+class ShPanAction;
 
 class ShChangeActionStrategy {
 	friend class ShCADWidget;
@@ -98,6 +99,37 @@ protected:
 
 };
 
+/////////////////////////////////////////////////////////
+
+class ShChangeTemporaryPanStrategy : public ShChangeActionStrategy {
+
+private:
+	ShActionHandler *previousAction;
+
+public:
+	ShChangeTemporaryPanStrategy(ShActionHandler *previousAction);
+	~ShChangeTemporaryPanStrategy();
+
+protected:
+	virtual void change();
+
+};
+
+//////////////////////////////////////////////////////////
+
+class ShReturnToPreviousFromPanStrategy : public ShChangeActionStrategy {
+
+private:
+	ShPanAction *panAction;
+
+public:
+	ShReturnToPreviousFromPanStrategy(ShPanAction *panAction);
+	~ShReturnToPreviousFromPanStrategy();
+
+protected:
+	virtual void change();
+
+};
 
 ///////////////////////////////////////////////////////
 

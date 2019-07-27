@@ -4,6 +4,7 @@
 #include "UnRedo\ShPanTransaction.h"
 #include "Base\ShGlobal.h"
 #include "Manager\ShLanguageManager.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
 
 ShPanAction::ShPanAction(ShCADWidget *widget)
 	:ShTemporaryAction(widget) {
@@ -52,7 +53,8 @@ void ShPanAction::mouseReleaseEvent(ShActionData &data) {
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
 
-	this->returnToPrevious();
+	ShReturnToPreviousFromPanStrategy strategy(this);
+	this->widget->changeAction(strategy);
 
 }
 
@@ -68,5 +70,5 @@ QCursor ShPanAction::getCursorShape() {
 
 QString ShPanAction::getHeadTitle() {
 
-	return this->previousAction->getHeadTitle();
+	return "";
 }
