@@ -157,6 +157,7 @@
     <ClCompile Include="Base\ShGlobal.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
     <ClCompile Include="Data\DraftData.cpp" />
+    <ClCompile Include="Data\ShAvailableDraft.cpp" />
     <ClCompile Include="Data\ShCommandLog.cpp" />
     <ClCompile Include="Data\ShDrawBuffer.cpp" />
     <ClCompile Include="Data\ShObjectSnapData.cpp" />
@@ -341,6 +342,7 @@
     <ClInclude Include="Base\ShMath.h" />
     <ClInclude Include="Base\ShVariable.h" />
     <ClInclude Include="Data\DraftData.h" />
+    <ClInclude Include="Data\ShAvailableDraft.h" />
     <ClInclude Include="Data\ShCommandLog.h" />
     <ClInclude Include="Data\ShDrawBuffer.h" />
     <ClInclude Include="Data\ShObjectSnapData.h" />

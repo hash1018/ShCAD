@@ -68,3 +68,8 @@ void ShActionHandler::updateCommandEditHeadTitle() {
 	ShUpdateCommandHeadTitleEvent notifyEvent(this->getHeadTitle());
 	this->widget->notify(&notifyEvent);
 }
+
+ShAvailableDraft ShActionHandler::getAvailableDraft() {
+
+	return ShAvailableDraft();
+}

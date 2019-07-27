@@ -7,6 +7,7 @@
 #include "Base\ShVariable.h"
 #include <qcursor.h>
 #include "Private\ShActionData.h"
+#include "Data\ShAvailableDraft.h"
 
 //State Pattern.
 
@@ -42,6 +43,8 @@ public:
 
 	//*template method pattern.
 	void updateCommandEditHeadTitle();
+
+	virtual ShAvailableDraft getAvailableDraft();
 
 };
 
