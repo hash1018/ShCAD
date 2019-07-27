@@ -7,8 +7,6 @@
 #include "KeyHandler\ShCustomKey.h"
 #include "Event\ShNotifyEvent.h"
 
-
-
 ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
 	:ShDrawAction(widget), status(PickedNothing), drawMethod(Default) {
 

@@ -98,6 +98,9 @@
     <Filter Include="KeyHandler">
       <UniqueIdentifier>{dbfb1f28-2004-4808-ba69-a7f305b89afc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionHandler\DecoratorAction">
+      <UniqueIdentifier>{7e1cddb8-2392-4e61-841c-12f7edbab6ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -352,6 +355,12 @@
     <ClCompile Include="Data\ShObjectSnapData.cpp">
       <Filter>Data</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\DecoratorAction\ShDecoratorAction.cpp">
+      <Filter>ActionHandler\DecoratorAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DecoratorAction\ShOrthogonalAction.cpp">
+      <Filter>ActionHandler\DecoratorAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -571,6 +580,12 @@
     </ClInclude>
     <ClInclude Include="Data\ShObjectSnapData.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DecoratorAction\ShDecoratorAction.h">
+      <Filter>ActionHandler\DecoratorAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DecoratorAction\ShOrthogonalAction.h">
+      <Filter>ActionHandler\DecoratorAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

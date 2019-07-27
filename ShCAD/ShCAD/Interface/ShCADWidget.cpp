@@ -236,3 +236,12 @@ void ShCADWidget::shiftViewport(const ShPoint3d &coordinate, int dx, int dy) {
 	ShMousePositionChangedEvent notifyEvent(this->coordinate);
 	this->notify(&notifyEvent);
 }
+
+ShPoint3d ShCADWidget::getMousePoint() {
+
+	ShPoint3d mouse;
+	QPoint pos = this->mapFromGlobal(QCursor::pos());
+	this->convertDeviceToEntity(pos.x(), pos.y(), mouse.x, mouse.y);
+
+	return mouse;
+}

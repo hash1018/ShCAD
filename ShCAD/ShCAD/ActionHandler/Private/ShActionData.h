@@ -22,5 +22,11 @@ public:
 
 };
 
+class ShDecoratorActionData : public ShActionData {
+
+
+
+};
+
 
 #endif //_SHACTIONDATA_H

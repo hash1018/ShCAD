@@ -49,13 +49,14 @@ public:
 	void update(DrawType drawType = DrawType::DrawAll);
 
 	void changeAction(ShChangeActionStrategy &strategy);
-	
 
 	void convertDeviceToEntity(const int &x, const int &y, double &ex, double &ey);
 	void convertEntityToDevice(const double &x, const double &y, int &dx, int &dy);
 
 	void captureImage();
 	void shiftViewport(const ShPoint3d &coordinate, int dx, int dy);
+
+	ShPoint3d getMousePoint();
 
 protected:
 	virtual void initializeGL();
