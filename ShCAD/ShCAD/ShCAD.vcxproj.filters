@@ -376,6 +376,9 @@
     <ClCompile Include="Data\ShAvailableDraft.cpp">
       <Filter>Data</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.cpp">
+      <Filter>ActionHandler\DecoratorAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -616,6 +619,9 @@
     </ClInclude>
     <ClInclude Include="Data\ShAvailableDraft.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.h">
+      <Filter>ActionHandler\DecoratorAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
