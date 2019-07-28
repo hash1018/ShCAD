@@ -145,7 +145,8 @@ ActionType ShActionHandlerProxy::getType() {
 
 void ShActionHandlerProxy::draw(QPainter *painter) {
 
-	this->currentAction->draw(painter);
+	//this->currentAction->draw(painter);
+	this->decoratorAction->draw(painter);
 }
 
 void ShActionHandlerProxy::changeDecoratorAction() {

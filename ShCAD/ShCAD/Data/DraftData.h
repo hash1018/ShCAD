@@ -23,6 +23,7 @@ public:
 
 	
 	inline bool getOrthMode() const { return this->orthModeOn; }
+	inline ObjectSnap getDisposableSnap() const { return this->disposableSnap; }
 
 };
 

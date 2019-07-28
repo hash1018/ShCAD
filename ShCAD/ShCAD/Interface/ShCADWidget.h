@@ -62,6 +62,7 @@ public:
 
 	//returns current orthMode.
 	bool setOrthMode();
+	void setDisposableSnap(ObjectSnap objectSnap);
 
 protected:
 	virtual void initializeGL();

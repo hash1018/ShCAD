@@ -101,6 +101,9 @@
     <Filter Include="ActionHandler\DecoratorAction">
       <UniqueIdentifier>{7e1cddb8-2392-4e61-841c-12f7edbab6ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ObjectSnap">
+      <UniqueIdentifier>{08448f5b-275a-46fc-a62c-01b197cac7b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -379,11 +382,14 @@
     <ClCompile Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.cpp">
       <Filter>ActionHandler\DecoratorAction</Filter>
     </ClCompile>
-    <ClCompile Include="ActionHandler\Private\ShSearchSnapPointStrategy.cpp">
-      <Filter>ActionHandler\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Entity\Private\ShSnapPointFinder.cpp">
       <Filter>Entity\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectSnap\ShSearchSnapPointStrategy.cpp">
+      <Filter>ObjectSnap</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectSnap\ShObjectSnapCommandFactory.cpp">
+      <Filter>ObjectSnap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -629,11 +635,14 @@
     <ClInclude Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.h">
       <Filter>ActionHandler\DecoratorAction</Filter>
     </ClInclude>
-    <ClInclude Include="ActionHandler\Private\ShSearchSnapPointStrategy.h">
-      <Filter>ActionHandler\Private</Filter>
-    </ClInclude>
     <ClInclude Include="Entity\Private\ShSnapPointFinder.h">
       <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectSnap\ShSearchSnapPointStrategy.h">
+      <Filter>ObjectSnap</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectSnap\ShObjectSnapCommandFactory.h">
+      <Filter>ObjectSnap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

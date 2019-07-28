@@ -19,7 +19,6 @@ public:
 	virtual void keyPressEvent(ShActionData &data);
 	virtual void draw(QPainter *painter);
 
-	virtual void invalidate(ShPoint3d point);
 };
 
 class ShDisposableSnapAction_General : public ShDisposableSnapAction {
@@ -30,6 +29,8 @@ public:
 
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
+
+	virtual void invalidate(ShPoint3d point);
 
 };
 

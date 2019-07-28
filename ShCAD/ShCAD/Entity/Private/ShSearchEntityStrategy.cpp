@@ -54,7 +54,7 @@ void ShSearchEntityUniqueStrategy::search() {
 
 
 ShSearchEntityCompositeChildIncludedStrategy::ShSearchEntityCompositeChildIncludedStrategy(ShEntity* *foundEntity, double x, double y, double zoomRate)
-	:ShSearchEntityStrategy(x, y, zoomRate) {
+	:ShSearchEntityStrategy(x, y, zoomRate), foundEntity(foundEntity) {
 
 }
 
@@ -65,13 +65,13 @@ ShSearchEntityCompositeChildIncludedStrategy::~ShSearchEntityCompositeChildInclu
 
 void ShSearchEntityCompositeChildIncludedStrategy::search() {
 
-	*this->foundEntity = nullptr;
+	(*this->foundEntity) = nullptr;
 
 	ShFinder finder(x, y, zoomRate, this->foundEntity);
 
 	QLinkedList<ShEntity*>::iterator itr = this->list.begin();
 
-	while (itr != this->list.end() && *this->foundEntity == nullptr) {
+	while (itr != this->list.end() && (*this->foundEntity) == nullptr) {
 		(*itr)->accept(&finder);
 		++itr;
 	}

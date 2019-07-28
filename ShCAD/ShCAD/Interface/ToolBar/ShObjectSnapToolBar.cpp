@@ -2,6 +2,9 @@
 
 #include "ShObjectSnapToolBar.h"
 #include "Interface\Item\ShIcon.h"
+#include "Manager\ShCADWidgetManager.h"
+#include "Interface\ShCADWidget.h"
+#include "Base\ShVariable.h"
 
 ShObjectSnapToolBar::ShObjectSnapToolBar(const QString &title, QWidget *parent)
 	:ShAbstractToolBar(title, parent) {
@@ -59,6 +62,10 @@ void ShObjectSnapToolBar::temporaryTrackPointClicked() {
 
 void ShObjectSnapToolBar::endPointClicked() {
 
+	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
+
+	if (manager->getActivatedWidget() != nullptr)
+		manager->getActivatedWidget()->setDisposableSnap(ObjectSnap::ObjectSnapEndPoint);
 
 }
 

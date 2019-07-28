@@ -11,7 +11,9 @@
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "Event\ShCADWidgetEventFilter.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
-
+#include "ObjectSnap\ShObjectSnapCommandFactory.h"
+#include "Data\ShAvailableDraft.h"
+#include "ActionHandler\ShActionHandler.h"
 
 
 ShCADWidget::ShCADWidget(QWidget *parent)
@@ -268,4 +270,46 @@ bool ShCADWidget::setOrthMode() {
 	this->actionHandlerProxy->invalidate();
 
 	return this->draftData.getOrthMode();
+}
+
+void ShCADWidget::setDisposableSnap(ObjectSnap objectSnap) {
+
+	ShAvailableDraft draft = this->actionHandlerProxy->getCurrentAction()->getAvailableDraft();
+
+	QString str = ShObjectSnapCommandFactory::create(objectSnap);
+
+	if (draft.getAvailableSnap() == false) {
+	
+		ShUpdateTextToCommandListEvent notifyEvent(str + "Unknown command.",
+			ShUpdateTextToCommandListEvent::UpdateType::EditTextWithText);
+		this->notify(&notifyEvent);
+
+		return;
+	}
+
+	if (this->draftData.getDisposableSnap() != ObjectSnap::ObjectSnapNothing) {
+	
+		this->draftData.setDisposableSnap(ObjectSnap::ObjectSnapNothing);
+		ShUpdateTextToCommandListEvent event(str,
+			ShUpdateTextToCommandListEvent::UpdateType::EditTextWithText);
+		this->notify(&event);
+
+		ShUpdateTextToCommandListEvent event2("Invalid point.",
+			ShUpdateTextToCommandListEvent::UpdateType::OnlyText);
+		this->notify(&event2);
+
+		ShUpdateCommandHeadTitleEvent event3(this->actionHandlerProxy->getCurrentAction()->getHeadTitle());
+		this->notify(&event3);
+	}
+	else {
+	
+		this->draftData.setDisposableSnap(objectSnap);
+		
+		ShUpdateCommandHeadTitleEvent event(str,
+			ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent);
+		this->notify(&event);
+	}
+
+	this->actionHandlerProxy->changeDecoratorAction();
+
 }

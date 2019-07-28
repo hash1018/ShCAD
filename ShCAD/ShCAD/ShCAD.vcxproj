@@ -148,7 +148,6 @@
     <ClCompile Include="ActionHandler\Private\ShActionTypeConverter.cpp" />
     <ClCompile Include="ActionHandler\Private\ShChangeActionStrategy.cpp" />
     <ClCompile Include="ActionHandler\Private\ShDecoratorActionFactory.cpp" />
-    <ClCompile Include="ActionHandler\Private\ShSearchSnapPointStrategy.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerProxy.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
@@ -278,6 +277,8 @@
     <ClCompile Include="Manager\ShLanguageManager.cpp" />
     <ClCompile Include="Manager\ShCADWidgetManager.cpp" />
     <ClCompile Include="Manager\ShChangeManager.cpp" />
+    <ClCompile Include="ObjectSnap\ShObjectSnapCommandFactory.cpp" />
+    <ClCompile Include="ObjectSnap\ShSearchSnapPointStrategy.cpp" />
     <ClCompile Include="UnRedo\ShEntityTransaction.cpp" />
     <ClCompile Include="UnRedo\ShPanTransaction.cpp" />
     <ClCompile Include="UnRedo\ShTransaction.cpp" />
@@ -335,7 +336,6 @@
     <ClInclude Include="ActionHandler\Private\ShActionTypeConverter.h" />
     <ClInclude Include="ActionHandler\Private\ShChangeActionStrategy.h" />
     <ClInclude Include="ActionHandler\Private\ShDecoratorActionFactory.h" />
-    <ClInclude Include="ActionHandler\Private\ShSearchSnapPointStrategy.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerProxy.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
@@ -385,6 +385,8 @@
     <ClInclude Include="KeyHandler\ShKeyType.h" />
     <ClInclude Include="Manager\ShLanguageManager.h" />
     <ClInclude Include="Manager\ShChangeManager.h" />
+    <ClInclude Include="ObjectSnap\ShObjectSnapCommandFactory.h" />
+    <ClInclude Include="ObjectSnap\ShSearchSnapPointStrategy.h" />
     <ClInclude Include="UnRedo\ShEntityTransaction.h" />
     <ClInclude Include="UnRedo\ShTransaction.h" />
     <ClInclude Include="UnRedo\ShTransactionStack.h" />
