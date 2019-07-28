@@ -1,6 +1,7 @@
 
 #include "ShLine.h"
 #include "Entity\Private\ShVisitor.h"
+#include <math.h>
 
 ShLine::ShLine() {
 
@@ -42,4 +43,31 @@ ShLine* ShLine::clone() {
 void ShLine::accept(ShVisitor *visitor) {
 
 	visitor->visit(this);
+}
+
+ShPoint3d ShLine::getMid() {
+
+	double distanceX = fabs(this->data.end.x - this->data.start.x);
+	double midX = distanceX / 2.0;
+
+	if (this->data.start.x > this->data.end.x)
+		midX = this->data.start.x - midX;
+	else if (this->data.start.x < this->data.end.x)
+		midX = this->data.start.x + midX;
+	else if (this->data.start.x == this->data.end.x)
+		midX = this->data.start.x;
+
+
+	double distanceY = fabs(this->data.end.y - this->data.start.y);
+	double midY = distanceY / 2.0;
+
+	if (this->data.start.y > this->data.end.y)
+		midY = this->data.start.y - midY;
+	else if (this->data.start.y < this->data.end.y)
+		midY = this->data.start.y + midY;
+	else if (this->data.start.y == this->data.end.y)
+		midY = this->data.start.y;
+
+
+	return ShPoint3d(midX, midY);
 }

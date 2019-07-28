@@ -148,6 +148,7 @@
     <ClCompile Include="ActionHandler\Private\ShActionTypeConverter.cpp" />
     <ClCompile Include="ActionHandler\Private\ShChangeActionStrategy.cpp" />
     <ClCompile Include="ActionHandler\Private\ShDecoratorActionFactory.cpp" />
+    <ClCompile Include="ActionHandler\Private\ShSearchSnapPointStrategy.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerProxy.cpp" />
     <ClCompile Include="ActionHandler\ShDefaultAction.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Entity\Private\ShEntityData.cpp" />
     <ClCompile Include="Entity\Private\ShFinder.cpp" />
     <ClCompile Include="Entity\Private\ShSearchEntityStrategy.cpp" />
+    <ClCompile Include="Entity\Private\ShSnapPointFinder.cpp" />
     <ClCompile Include="Entity\Private\ShVisitor.cpp" />
     <ClCompile Include="Entity\ShEntity.cpp" />
     <ClCompile Include="Event\ShCADWidgetEventFilter.cpp" />
@@ -333,6 +335,7 @@
     <ClInclude Include="ActionHandler\Private\ShActionTypeConverter.h" />
     <ClInclude Include="ActionHandler\Private\ShChangeActionStrategy.h" />
     <ClInclude Include="ActionHandler\Private\ShDecoratorActionFactory.h" />
+    <ClInclude Include="ActionHandler\Private\ShSearchSnapPointStrategy.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerProxy.h" />
     <ClInclude Include="ActionHandler\ShDefaultAction.h" />
@@ -360,6 +363,7 @@
     <ClInclude Include="Entity\Private\ShEntityData.h" />
     <ClInclude Include="Entity\Private\ShFinder.h" />
     <ClInclude Include="Entity\Private\ShSearchEntityStrategy.h" />
+    <ClInclude Include="Entity\Private\ShSnapPointFinder.h" />
     <ClInclude Include="Entity\Private\ShVisitor.h" />
     <ClInclude Include="Entity\ShEntity.h" />
     <ClInclude Include="Event\ShCADWidgetEventFilter.h" />

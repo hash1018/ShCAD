@@ -34,7 +34,20 @@ public:
 	ShSearchEntityUniqueStrategy(ShEntity* *foundEntity, double x, double y, double zoomRate);
 	~ShSearchEntityUniqueStrategy();
 
-	void search();
+	virtual void search();
+
+};
+
+class ShSearchEntityCompositeChildIncludedStrategy : public ShSearchEntityStrategy {
+
+protected:
+	ShEntity* *foundEntity;
+
+public:
+	ShSearchEntityCompositeChildIncludedStrategy(ShEntity* *foundEntity, double x, double y, double zoomRate);
+	~ShSearchEntityCompositeChildIncludedStrategy();
+
+	virtual void search();
 
 };
 

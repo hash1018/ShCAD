@@ -29,6 +29,8 @@ public:
 	virtual ShPoint3d getStart() const { return this->data.start; }
 	virtual ShPoint3d getEnd() const { return this->data.end; }
 
+	virtual ShPoint3d getMid();
+
 
 };
 

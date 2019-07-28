@@ -5,7 +5,12 @@
 
 #include "ShDecoratorAction.h"
 
+class ShSearchSnapPointStrategy;
+
 class ShDisposableSnapAction : public ShDecoratorAction {
+
+protected:
+	ShSearchSnapPointStrategy *strategy;
 
 public:
 	ShDisposableSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child = nullptr);

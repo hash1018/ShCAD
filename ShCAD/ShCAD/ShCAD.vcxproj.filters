@@ -379,6 +379,12 @@
     <ClCompile Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.cpp">
       <Filter>ActionHandler\DecoratorAction</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\Private\ShSearchSnapPointStrategy.cpp">
+      <Filter>ActionHandler\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\ShSnapPointFinder.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -622,6 +628,12 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.h">
       <Filter>ActionHandler\DecoratorAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\Private\ShSearchSnapPointStrategy.h">
+      <Filter>ActionHandler\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShSnapPointFinder.h">
+      <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
