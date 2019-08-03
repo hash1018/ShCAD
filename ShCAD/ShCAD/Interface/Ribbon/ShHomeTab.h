@@ -47,6 +47,9 @@ public:
 protected:
 	void resizeEvent(QResizeEvent *event);
 
+	private slots:
+	void lineButtonClicked();
+
 };
 
 ////////////////////////////////////////////////////////////////////

@@ -43,6 +43,7 @@ ShDrawPanel::ShDrawPanel(QWidget *parent, const QString &title, int width)
 	this->arcButton = new ShRibbonArcButton(this->layoutWidget);
 	this->polyButton = new ShRibbonPolyLineButton(this->layoutWidget);
 
+	connect(this->lineButton, &ShButtonWithText::pressed, this, &ShDrawPanel::lineButtonClicked);
 }
 
 ShDrawPanel::~ShDrawPanel() {
@@ -54,9 +55,6 @@ void ShDrawPanel::resizeEvent(QResizeEvent *event) {
 
 	ShPanelInRibbonTab::resizeEvent(event);
 
-	//int width = this->layoutWidget->width() / 2;
-	//int height = this->layoutWidget->height() / 3;
-
 	int width = this->layoutWidget->width() / 5;
 	int height = this->layoutWidget->height();
 
@@ -65,10 +63,20 @@ void ShDrawPanel::resizeEvent(QResizeEvent *event) {
 	this->arcButton->setGeometry(width * 2, 0, width, height);
 	this->polyButton->setGeometry(width * 3, 0, width, height);
 
-	//this->circleButton->setGeometry(width, 0, width, height);
+}
 
-	//this->arcButton->setGeometry(0, height, width, height);
-	//this->polyButton->setGeometry(width, height, width, height);
+#include "Interface\ShCADWidget.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
+void ShDrawPanel::lineButtonClicked() {
+
+	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
+
+	if (manager->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawLine);
+
+	manager->getActivatedWidget()->changeAction(strategy);
 }
 
 
@@ -81,7 +89,6 @@ ShModifyPanel::ShModifyPanel(QWidget *parent, const QString &title, int width)
 	this->moveButton = new ShButtonWithText(this->layoutWidget);
 	this->moveButton->setIcon(ShIcon(":/Image/Modify/Move.png"));
 	this->moveButton->setText(shGetLanValue_ui("Modify/Move"));
-	this->moveButton->setTextDirection(ShButtonWithText::TextDirection::East);
 
 	this->copyButton = new ShButtonWithText(this->layoutWidget);
 	this->copyButton->setIcon(ShIcon(":/Image/Modify/Copy.png"));
@@ -153,18 +160,9 @@ void ShModifyPanel::resizeEvent(QResizeEvent *event) {
 	this->trimButton->setGeometry(width * 2, height * 2, width, height);
 }
 
-#include "Interface\ShCADWidget.h"
-#include "ActionHandler\Private\ShChangeActionStrategy.h"
+
 void ShModifyPanel::moveButtonClicked() {
 
-	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
-
-	if (manager->getActivatedWidget() == nullptr)
-		return;
-
-	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawLine);
-
-	manager->getActivatedWidget()->changeAction(strategy);
 	
 }
 
