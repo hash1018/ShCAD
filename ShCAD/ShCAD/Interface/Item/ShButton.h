@@ -3,6 +3,7 @@
 #define _SHBUTTON_H
 
 #include <qpushbutton.h>
+#include <qstring.h>
 
 class ShButtonWithMenuPopup : public QWidget {
 	Q_OBJECT
@@ -55,6 +56,7 @@ protected:
 	virtual void leaveEvent(QEvent *event);
 };
 
+/////////////////////////////////////////////////////////////////
 
 
 class ShButton : public QPushButton {
@@ -71,6 +73,83 @@ protected:
 	virtual void leaveEvent(QEvent *event);
 	virtual void paintEvent(QPaintEvent *event);
 };
+
+
+//////////////////////////////////////////////////////////////////
+
+class ShButtonWithText : public QWidget {
+	Q_OBJECT
+
+public:
+	enum TextDirection {
+		East,
+		West,
+		South,
+		North,
+	};
+
+
+protected:
+	class ShButton : public QPushButton {
+
+	public:
+		TextDirection direction;
+		bool hoverStayed;
+		ShButton(QWidget *parent = nullptr);
+		~ShButton();
+
+	protected:
+		void paintEvent(QPaintEvent *event);
+	};
+
+	class ShTextButton : public QPushButton {
+
+	public:
+		TextDirection direction;
+		bool hoverStayed;
+		ShTextButton(QWidget *parent = nullptr);
+		~ShTextButton();
+	protected:
+		void paintEvent(QPaintEvent *event);
+
+	};
+
+protected:
+	ShButtonWithText::ShButton *button;
+	ShButtonWithText::ShTextButton *textButton;
+	TextDirection direction;
+	int rate;
+
+public:
+	ShButtonWithText(QWidget *parent = nullptr);
+	~ShButtonWithText();
+
+	void setIcon(const QIcon& icon);
+	void setText(const QString &text);
+	void setTextDirection(const TextDirection &direction);
+	void setIconSize(const QSize &size);
+
+	//Not used yet.
+	void setIconSizeRate(int rate); 
+
+signals:
+	void pressed();
+
+private:
+	void buttonClicked();
+
+
+protected:
+	virtual void resizeEvent(QResizeEvent *event);
+	virtual bool eventFilter(QObject *obj, QEvent *event);
+	virtual void leaveEvent(QEvent *event);
+	
+};
+
+
+//////////////////////////////////////////////////////////////////
+
+
 
 class ShStateButton : public QPushButton {
 	Q_OBJECT
@@ -94,6 +173,10 @@ protected:
 	private slots:
 	void buttonPressed();
 };
+
+
+////////////////////////////////////////////////////////////
+
 
 
 

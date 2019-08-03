@@ -13,7 +13,7 @@ class ShButton;
 class ShRibbonCircleButton;
 class ShRibbonArcButton;
 class ShRibbonPolyLineButton;
-
+class ShButtonWithText;
 
 class ShHomeTab : public ShRibbonTab {
 
@@ -35,6 +35,7 @@ class ShDrawPanel : public ShPanelInRibbonTab {
 	Q_OBJECT
 
 private:
+	ShButtonWithText *lineButton;
 	ShRibbonCircleButton *circleButton;
 	ShRibbonArcButton *arcButton;
 	ShRibbonPolyLineButton *polyButton;
@@ -54,17 +55,17 @@ class ShModifyPanel : public ShPanelInRibbonTab {
 	Q_OBJECT
 
 private:
-	ShButton *moveButton;
-	ShButton *copyButton;
-	ShButton *stretchButton;
+	ShButtonWithText *moveButton;
+	ShButtonWithText *copyButton;
+	ShButtonWithText *stretchButton;
 
-	ShButton *rotateButton;
-	ShButton *mirrorButton;
-	ShButton *scaleButton;
+	ShButtonWithText *rotateButton;
+	ShButtonWithText *mirrorButton;
+	ShButtonWithText *scaleButton;
 
-	ShButton *eraseButton;
-	ShButton *extendButton;
-	ShButton *trimButton;
+	ShButtonWithText *eraseButton;
+	ShButtonWithText *extendButton;
+	ShButtonWithText *trimButton;
 
 public:
 	ShModifyPanel(QWidget *parent, const QString &title, int width);

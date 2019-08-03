@@ -9,10 +9,10 @@
 ShHomeTab::ShHomeTab(const QString &title, QWidget *parent)
 	:ShRibbonTab(title, parent) {
 
-	this->drawPanel = new ShDrawPanel(this, shGetLanValue_ui("Home/Draw"), 100);
+	this->drawPanel = new ShDrawPanel(this, shGetLanValue_ui("Home/Draw"), 250);
 	this->addPanel(this->drawPanel);
 
-	this->modifyPanel = new ShModifyPanel(this, shGetLanValue_ui("Home/Modify"), 150);
+	this->modifyPanel = new ShModifyPanel(this, shGetLanValue_ui("Home/Modify"), 250);
 	this->addPanel(this->modifyPanel);
 
 	this->propertyPanel = new ShPropertyPanel(this, shGetLanValue_ui("Home/Property"), 250);
@@ -33,6 +33,12 @@ ShHomeTab::~ShHomeTab() {
 ShDrawPanel::ShDrawPanel(QWidget *parent, const QString &title, int width)
 	:ShPanelInRibbonTab(parent, title, width) {
 
+	this->lineButton = new ShButtonWithText(this->layoutWidget);
+	this->lineButton->setIcon(ShIcon(":/Image/Draw/Line"));
+	this->lineButton->setText(shGetLanValue_ui("Draw/Line"));
+	this->lineButton->setTextDirection(ShButtonWithText::TextDirection::South);
+	this->lineButton->setIconSize(QSize(this->lineButton->width(), this->lineButton->height()));
+
 	this->circleButton = new ShRibbonCircleButton(this->layoutWidget);
 	this->arcButton = new ShRibbonArcButton(this->layoutWidget);
 	this->polyButton = new ShRibbonPolyLineButton(this->layoutWidget);
@@ -48,13 +54,21 @@ void ShDrawPanel::resizeEvent(QResizeEvent *event) {
 
 	ShPanelInRibbonTab::resizeEvent(event);
 
-	int width = this->layoutWidget->width() / 2;
-	int height = this->layoutWidget->height() / 3;
+	//int width = this->layoutWidget->width() / 2;
+	//int height = this->layoutWidget->height() / 3;
 
+	int width = this->layoutWidget->width() / 5;
+	int height = this->layoutWidget->height();
+
+	this->lineButton->setGeometry(0, 0, width, height);
 	this->circleButton->setGeometry(width, 0, width, height);
+	this->arcButton->setGeometry(width * 2, 0, width, height);
+	this->polyButton->setGeometry(width * 3, 0, width, height);
 
-	this->arcButton->setGeometry(0, height, width, height);
-	this->polyButton->setGeometry(width, height, width, height);
+	//this->circleButton->setGeometry(width, 0, width, height);
+
+	//this->arcButton->setGeometry(0, height, width, height);
+	//this->polyButton->setGeometry(width, height, width, height);
 }
 
 
@@ -64,43 +78,53 @@ void ShDrawPanel::resizeEvent(QResizeEvent *event) {
 ShModifyPanel::ShModifyPanel(QWidget *parent, const QString &title, int width)
 	:ShPanelInRibbonTab(parent, title, width) {
 
-	this->moveButton = new ShButton(this->layoutWidget);
+	this->moveButton = new ShButtonWithText(this->layoutWidget);
 	this->moveButton->setIcon(ShIcon(":/Image/Modify/Move.png"));
+	this->moveButton->setText(shGetLanValue_ui("Modify/Move"));
+	this->moveButton->setTextDirection(ShButtonWithText::TextDirection::East);
 
-	this->copyButton = new ShButton(this->layoutWidget);
+	this->copyButton = new ShButtonWithText(this->layoutWidget);
 	this->copyButton->setIcon(ShIcon(":/Image/Modify/Copy.png"));
+	this->copyButton->setText(shGetLanValue_ui("Modify/Copy"));
 
-	this->stretchButton = new ShButton(this->layoutWidget);
+	this->stretchButton = new ShButtonWithText(this->layoutWidget);
 	this->stretchButton->setIcon(ShIcon(":/Image/Modify/Stretch.png"));
+	this->stretchButton->setText(shGetLanValue_ui("Modify/Stretch"));
 
-	this->rotateButton = new ShButton(this->layoutWidget);
+	this->rotateButton = new ShButtonWithText(this->layoutWidget);
 	this->rotateButton->setIcon(ShIcon(":/Image/Modify/Rotate.png"));
+	this->rotateButton->setText(shGetLanValue_ui("Modify/Rotate"));
 
-	this->mirrorButton = new ShButton(this->layoutWidget);
+	this->mirrorButton = new ShButtonWithText(this->layoutWidget);
 	this->mirrorButton->setIcon(ShIcon(":/Image/Modify/Mirror.png"));
+	this->mirrorButton->setText(shGetLanValue_ui("Modify/Mirror"));
 
-	this->scaleButton = new ShButton(this->layoutWidget);
+	this->scaleButton = new ShButtonWithText(this->layoutWidget);
 	this->scaleButton->setIcon(ShIcon(":/Image/Modify/Scale.png"));
+	this->scaleButton->setText(shGetLanValue_ui("Modify/Scale"));
 
-	this->eraseButton = new ShButton(this->layoutWidget);
+	this->eraseButton = new ShButtonWithText(this->layoutWidget);
 	this->eraseButton->setIcon(ShIcon(":/Image/Modify/Erase.png"));
+	this->eraseButton->setText(shGetLanValue_ui("Modify/Erase"));
 
-	this->extendButton = new ShButton(this->layoutWidget);
+	this->extendButton = new ShButtonWithText(this->layoutWidget);
 	this->extendButton->setIcon(ShIcon(":/Image/Modify/Extend.png"));
+	this->extendButton->setText(shGetLanValue_ui("Modify/Extend"));
 
-	this->trimButton = new ShButton(this->layoutWidget);
+	this->trimButton = new ShButtonWithText(this->layoutWidget);
 	this->trimButton->setIcon(ShIcon(":/Image/Modify/Trim.png"));
+	this->trimButton->setText(shGetLanValue_ui("Modify/Trim"));
 
 
-	connect(this->moveButton, &ShButton::released, this, &ShModifyPanel::moveButtonClicked);
-	connect(this->copyButton, &ShButton::released, this, &ShModifyPanel::copyButtonClicked);
-	connect(this->stretchButton, &ShButton::released, this, &ShModifyPanel::stretchButtonClicked);
-	connect(this->rotateButton, &ShButton::released, this, &ShModifyPanel::rotateButtonClicked);
-	connect(this->mirrorButton, &ShButton::released, this, &ShModifyPanel::mirrorButtonClicked);
-	connect(this->scaleButton, &ShButton::released, this, &ShModifyPanel::scaleButtonClicked);
-	connect(this->eraseButton, &ShButton::released, this, &ShModifyPanel::eraseButtonClicked);
-	connect(this->extendButton, &ShButton::released, this, &ShModifyPanel::extendButtonClicked);
-	connect(this->trimButton, &ShButton::released, this, &ShModifyPanel::trimButtonClicked);
+	connect(this->moveButton, &ShButtonWithText::pressed, this, &ShModifyPanel::moveButtonClicked);
+	connect(this->copyButton, &ShButtonWithText::pressed, this, &ShModifyPanel::copyButtonClicked);
+	connect(this->stretchButton, &ShButtonWithText::pressed, this, &ShModifyPanel::stretchButtonClicked);
+	connect(this->rotateButton, &ShButtonWithText::pressed, this, &ShModifyPanel::rotateButtonClicked);
+	connect(this->mirrorButton, &ShButtonWithText::pressed, this, &ShModifyPanel::mirrorButtonClicked);
+	connect(this->scaleButton, &ShButtonWithText::pressed, this, &ShModifyPanel::scaleButtonClicked);
+	connect(this->eraseButton, &ShButtonWithText::pressed, this, &ShModifyPanel::eraseButtonClicked);
+	connect(this->extendButton, &ShButtonWithText::pressed, this, &ShModifyPanel::extendButtonClicked);
+	connect(this->trimButton, &ShButtonWithText::pressed, this, &ShModifyPanel::trimButtonClicked);
 }
 
 ShModifyPanel::~ShModifyPanel() {
