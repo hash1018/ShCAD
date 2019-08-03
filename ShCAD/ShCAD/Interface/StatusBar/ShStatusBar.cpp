@@ -6,6 +6,7 @@
 #include "Event\ShStatusBarEventFilter.h"
 #include "Manager\ShCADWidgetManager.h"
 #include "Interface\ShCADWidget.h"
+#include "ActionHandler\Private\ShDecorateActionStrategy.h"
 
 ShStatusBar::ShStatusBar(QWidget *parent)
 	:QStatusBar(parent),zoomRate(1) {
@@ -71,9 +72,10 @@ void ShStatusBar::orthogonalButtonClicked() {
 	if (manager->getActivatedWidget() == nullptr)
 		return;
 
-	bool mode = manager->getActivatedWidget()->setOrthMode();
+	ShDecorateOrthogonalActionStrategy strategy;
+	manager->getActivatedWidget()->changeAction(strategy);
 
-	this->orthogonalButton->setState(mode);
+	this->orthogonalButton->setState(manager->getActivatedWidget()->getDraftData().getOrthMode());
 
 }
 

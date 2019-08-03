@@ -60,10 +60,6 @@ public:
 
 	ShPoint3d getMousePoint();
 
-	//returns current orthMode.
-	bool setOrthMode();
-	void setDisposableSnap(ObjectSnap objectSnap);
-
 protected:
 	virtual void initializeGL();
 	virtual void paintGL();

@@ -2,6 +2,7 @@
 #include "ShDisposableSnapAction.h"
 #include "ObjectSnap\ShSearchSnapPointStrategy.h"
 #include "ObjectSnap\ShSearchSnapPointStrategyFactory.h"
+#include "ActionHandler\Private\ShDecorateActionStrategy.h"
 
 ShDisposableSnapAction::ShDisposableSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child)
 	:ShDecoratorAction(widget, actionHandler, child), strategy(nullptr) {
@@ -29,6 +30,12 @@ void ShDisposableSnapAction::draw(QPainter *painter) {
 
 }
 
+void ShDisposableSnapAction::finishDisposableSnap() {
+
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNothing);
+	this->widget->changeAction(strategy);
+}
+
 
 /////////////////////////////////////////////////////////////////
 
@@ -51,7 +58,7 @@ void ShDisposableSnapAction_General::mouseLeftPressEvent(ShActionData &data) {
 	
 		if (this->strategy->search(data.point) == false) {
 		
-			this->widget->setDisposableSnap(ObjectSnap::ObjectSnapNothing);
+			this->finishDisposableSnap();
 			return;
 		}
 
@@ -62,7 +69,7 @@ void ShDisposableSnapAction_General::mouseLeftPressEvent(ShActionData &data) {
 
 	ShDisposableSnapAction::mouseLeftPressEvent(data);
 
-	this->widget->setDisposableSnap(ObjectSnap::ObjectSnapNothing);
+	this->finishDisposableSnap();
 }
 
 void ShDisposableSnapAction_General::mouseMoveEvent(ShActionData &data) {

@@ -19,6 +19,9 @@ public:
 	virtual void keyPressEvent(ShActionData &data);
 	virtual void draw(QPainter *painter);
 
+protected:
+	void finishDisposableSnap();
+
 };
 
 class ShDisposableSnapAction_General : public ShDisposableSnapAction {

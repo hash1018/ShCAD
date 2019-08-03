@@ -5,6 +5,7 @@
 #include "Manager\ShCADWidgetManager.h"
 #include "Interface\ShCADWidget.h"
 #include "Base\ShVariable.h"
+#include "ActionHandler\Private\ShDecorateActionStrategy.h"
 
 ShObjectSnapToolBar::ShObjectSnapToolBar(const QString &title, QWidget *parent)
 	:ShAbstractToolBar(title, parent) {
@@ -64,9 +65,11 @@ void ShObjectSnapToolBar::endPointClicked() {
 
 	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
 
-	if (manager->getActivatedWidget() != nullptr)
-		manager->getActivatedWidget()->setDisposableSnap(ObjectSnap::ObjectSnapEndPoint);
+	if (manager->getActivatedWidget() != nullptr) {
 
+		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapEndPoint);
+		manager->getActivatedWidget()->changeAction(strategy);
+	}
 }
 
 void ShObjectSnapToolBar::midPointClicked() {

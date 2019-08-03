@@ -147,6 +147,7 @@
     <ClCompile Include="ActionHandler\Private\ShActionHandlerFactory.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionTypeConverter.cpp" />
     <ClCompile Include="ActionHandler\Private\ShChangeActionStrategy.cpp" />
+    <ClCompile Include="ActionHandler\Private\ShDecorateActionStrategy.cpp" />
     <ClCompile Include="ActionHandler\Private\ShDecoratorActionFactory.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandler.cpp" />
     <ClCompile Include="ActionHandler\ShActionHandlerProxy.cpp" />
@@ -336,6 +337,7 @@
     <ClInclude Include="ActionHandler\Private\ShActionHandlerFactory.h" />
     <ClInclude Include="ActionHandler\Private\ShActionTypeConverter.h" />
     <ClInclude Include="ActionHandler\Private\ShChangeActionStrategy.h" />
+    <ClInclude Include="ActionHandler\Private\ShDecorateActionStrategy.h" />
     <ClInclude Include="ActionHandler\Private\ShDecoratorActionFactory.h" />
     <ClInclude Include="ActionHandler\ShActionHandler.h" />
     <ClInclude Include="ActionHandler\ShActionHandlerProxy.h" />

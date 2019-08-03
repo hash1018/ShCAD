@@ -164,4 +164,7 @@ protected:
 
 };
 
+
+
+
 #endif //_SHCHANGEACTIONSTRATEGY_H
