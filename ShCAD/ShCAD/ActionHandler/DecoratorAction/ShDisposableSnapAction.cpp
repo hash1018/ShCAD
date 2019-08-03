@@ -1,28 +1,12 @@
 
 #include "ShDisposableSnapAction.h"
 #include "ObjectSnap\ShSearchSnapPointStrategy.h"
+#include "ObjectSnap\ShSearchSnapPointStrategyFactory.h"
 
 ShDisposableSnapAction::ShDisposableSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child)
 	:ShDecoratorAction(widget, actionHandler, child), strategy(nullptr) {
 
-	if (objectSnap == ObjectSnap::ObjectSnapEndPoint)
-		this->strategy = new ShSearchSnapPointStrategy_End(widget);
-
-
-	//else if (objectSnap == ObjectSnap::ObjectSnapMidPoint)
-	//	new ShObjectSnapStrategy_MidPoint(view);
-	//else if (objectSnap == ObjectSnap::ObjectSnapPerpendicular)
-	//	return new ShObjectSnapStrategy_Perpendicular(view);
-	//else if (objectSnap == ObjectSnap::ObjectSnapCenter)
-	//	return new ShObjectSnapStrategy_Center(view);
-	//else if (objectSnap == ObjectSnap::ObjectSnapQuadrant)
-	//	return new ShObjectSnapStrategy_Quadrant(view);
-
-
-	//return new ShObjectSnapStrategy_Nothing(view);
-
-	else
-		this->strategy = new ShSearchSnapPointStrategy_Nothing(widget);
+	this->strategy = ShSearchSnapPointStrategyFactory::create(objectSnap, widget);
 
 }
 
@@ -67,14 +51,18 @@ void ShDisposableSnapAction_General::mouseLeftPressEvent(ShActionData &data) {
 	
 		if (this->strategy->search(data.point) == false) {
 		
+			this->widget->setDisposableSnap(ObjectSnap::ObjectSnapNothing);
 			return;
 		}
 
 		data.point = this->strategy->getSnap();
+		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
 
 	}
 
-	ShDecoratorAction::mouseLeftPressEvent(data);
+	ShDisposableSnapAction::mouseLeftPressEvent(data);
+
+	this->widget->setDisposableSnap(ObjectSnap::ObjectSnapNothing);
 }
 
 void ShDisposableSnapAction_General::mouseMoveEvent(ShActionData &data) {
@@ -88,7 +76,7 @@ void ShDisposableSnapAction_General::mouseMoveEvent(ShActionData &data) {
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
 
-	ShDecoratorAction::mouseMoveEvent(data);
+	ShDisposableSnapAction::mouseMoveEvent(data);
 }
 
 void ShDisposableSnapAction_General::invalidate(ShPoint3d point) {
@@ -102,5 +90,5 @@ void ShDisposableSnapAction_General::invalidate(ShPoint3d point) {
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
 
-	ShDecoratorAction::invalidate(point);
+	ShDisposableSnapAction::invalidate(point);
 }

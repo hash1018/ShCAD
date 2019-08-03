@@ -123,7 +123,7 @@ ShAvailableDraft ShDrawLineAction::getAvailableDraft() {
 }
 
 void ShDrawLineAction::invalidate(ShPoint3d point) {
-
+	
 	if (this->status == PickedStart) {
 
 		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));

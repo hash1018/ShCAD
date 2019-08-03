@@ -17,15 +17,19 @@ public:
 
 public:
 	ShActionData();
-	~ShActionData();
+	virtual ~ShActionData();
 	
 
 };
 
 class ShDecoratorActionData : public ShActionData {
 
+public:
+	bool snapAccepted;
 
-
+public:
+	ShDecoratorActionData();
+	~ShDecoratorActionData();
 };
 
 

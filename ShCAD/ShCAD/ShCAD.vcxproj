@@ -279,6 +279,7 @@
     <ClCompile Include="Manager\ShChangeManager.cpp" />
     <ClCompile Include="ObjectSnap\ShObjectSnapCommandFactory.cpp" />
     <ClCompile Include="ObjectSnap\ShSearchSnapPointStrategy.cpp" />
+    <ClCompile Include="ObjectSnap\ShSearchSnapPointStrategyFactory.cpp" />
     <ClCompile Include="UnRedo\ShEntityTransaction.cpp" />
     <ClCompile Include="UnRedo\ShPanTransaction.cpp" />
     <ClCompile Include="UnRedo\ShTransaction.cpp" />
@@ -387,6 +388,7 @@
     <ClInclude Include="Manager\ShChangeManager.h" />
     <ClInclude Include="ObjectSnap\ShObjectSnapCommandFactory.h" />
     <ClInclude Include="ObjectSnap\ShSearchSnapPointStrategy.h" />
+    <ClInclude Include="ObjectSnap\ShSearchSnapPointStrategyFactory.h" />
     <ClInclude Include="UnRedo\ShEntityTransaction.h" />
     <ClInclude Include="UnRedo\ShTransaction.h" />
     <ClInclude Include="UnRedo\ShTransactionStack.h" />

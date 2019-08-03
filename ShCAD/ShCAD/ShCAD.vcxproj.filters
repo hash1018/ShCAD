@@ -391,6 +391,9 @@
     <ClCompile Include="ObjectSnap\ShObjectSnapCommandFactory.cpp">
       <Filter>ObjectSnap</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectSnap\ShSearchSnapPointStrategyFactory.cpp">
+      <Filter>ObjectSnap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -642,6 +645,9 @@
       <Filter>ObjectSnap</Filter>
     </ClInclude>
     <ClInclude Include="ObjectSnap\ShObjectSnapCommandFactory.h">
+      <Filter>ObjectSnap</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectSnap\ShSearchSnapPointStrategyFactory.h">
       <Filter>ObjectSnap</Filter>
     </ClInclude>
   </ItemGroup>

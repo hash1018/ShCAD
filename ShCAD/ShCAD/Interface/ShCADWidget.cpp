@@ -274,6 +274,12 @@ bool ShCADWidget::setOrthMode() {
 
 void ShCADWidget::setDisposableSnap(ObjectSnap objectSnap) {
 
+	if (objectSnap == ObjectSnap::ObjectSnapNothing) {
+		this->draftData.setDisposableSnap(ObjectSnap::ObjectSnapNothing);
+		this->actionHandlerProxy->changeDecoratorAction();
+		return;
+	}
+
 	ShAvailableDraft draft = this->actionHandlerProxy->getCurrentAction()->getAvailableDraft();
 
 	QString str = ShObjectSnapCommandFactory::create(objectSnap);

@@ -158,7 +158,7 @@ void ShActionHandlerProxy::changeDecoratorAction() {
 }
 
 void ShActionHandlerProxy::invalidate() {
-
+	
 	this->widget->getDrawBuffer().saveToBuffer = true;
 	this->widget->getDrawBuffer().buffer = DrawType::DrawNone;
 

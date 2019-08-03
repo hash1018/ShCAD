@@ -88,10 +88,11 @@ QString ShDecoratorAction::getHeadTitle() {
 	return this->actionHandler->getHeadTitle();
 }
 
+
 void ShDecoratorAction::invalidate(ShPoint3d point) {
 
 	if (this->child != nullptr)
 		this->child->invalidate(point);
-
-	this->actionHandler->invalidate(point);
+	else
+		this->actionHandler->invalidate(point);
 }

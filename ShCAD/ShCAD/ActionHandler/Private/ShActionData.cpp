@@ -9,3 +9,14 @@ ShActionData::ShActionData()
 ShActionData::~ShActionData() {
 
 }
+
+/////////////////////////////////////////
+
+ShDecoratorActionData::ShDecoratorActionData()
+	:snapAccepted(false) {
+
+}
+
+ShDecoratorActionData::~ShDecoratorActionData() {
+
+}
