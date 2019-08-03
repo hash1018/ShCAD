@@ -6,7 +6,7 @@
 #include "Interface\Item\ShButton.h"
 
 class ShRibbonButtonStrategy;
-class ShAbstractRibbonButton : public ShButtonWithMenuPopup {
+class ShAbstractRibbonButton : public ShButtonWithMenuPopupWithText {
 	Q_OBJECT
 protected:
 	ShRibbonButtonStrategy *strategy;

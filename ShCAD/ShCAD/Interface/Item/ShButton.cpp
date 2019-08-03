@@ -498,6 +498,294 @@ bool ShButtonWithText::eventFilter(QObject *obj, QEvent *event) {
 }
 
 
+///////////////////////////////////////////////////////////////////////////
+
+
+
+ShButtonWithMenuPopupWithText::ShButton::ShButton(QWidget *parent)
+	:QPushButton(parent), hoverMovedIn(false), hoverStayed(false), direction(East) {
+
+
+}
+
+ShButtonWithMenuPopupWithText::ShButton::~ShButton() {
+
+}
+
+void ShButtonWithMenuPopupWithText::ShButton::paintEvent(QPaintEvent *event) {
+
+	QPushButton::paintEvent(event);
+
+	if (this->hoverMovedIn == true) {
+
+		QPainter painter(this);
+		painter.setPen(QColor(135, 206, 235, 255)); //sky blue
+
+		if (this->direction == East) {
+
+			painter.drawLine(0, 0, this->width(), 0);
+			painter.drawLine(0, 0, 0, this->height());
+			painter.drawLine(0, this->height() - 1, this->width(), this->height() - 1);
+		}
+		else if (this->direction == West) {
+
+			painter.drawLine(0, 0, this->width() - 1, 0);
+			painter.drawLine(0, this->height() - 1, this->width() - 1, this->height() - 1);
+			painter.drawLine(this->width() - 1, 0, this->width() - 1, this->height() - 1);
+		}
+		else if (this->direction == South) {
+
+			painter.drawLine(0, 0, this->width() - 1, 0);
+			painter.drawLine(0, 0, 0, this->height());
+			painter.drawLine(this->width() - 1, 0, this->width() - 1, this->height() - 1);
+		}
+		else if (this->direction == North) {
+
+			painter.drawLine(0, this->height() - 1, this->width() - 1, this->height() - 1);
+			painter.drawLine(0, this->height() - 1, 0, 0);
+			painter.drawLine(this->width() - 1, this->height() - 1, this->width() - 1, 0);
+		}
+
+	}
+	if (this->hoverStayed == true) {
+
+		QPainter painter(this);
+		painter.fillRect(0, 0, this->width(), this->height(), QColor(000, 153, 255, 60));
+
+	}
+
+}
+
+ShButtonWithMenuPopupWithText::ShMenuPopupButton::ShMenuPopupButton(QWidget *parent)
+	:QPushButton(parent), hoverMovedIn(false), hoverStayed(false), direction(East) {
+
+
+}
+
+ShButtonWithMenuPopupWithText::ShMenuPopupButton::~ShMenuPopupButton() {
+
+}
+
+
+void ShButtonWithMenuPopupWithText::ShMenuPopupButton::paintEvent(QPaintEvent *event) {
+
+	QPushButton::paintEvent(event);
+	QPainter painter(this);
+
+	if (this->hoverMovedIn == true) {
+		
+		painter.setPen(QColor(135, 206, 235, 255)); //sky blue
+
+		if (this->direction == East) {
+
+			painter.drawLine(0, 0, this->width() - 1, 0);
+			painter.drawLine(0, this->height() - 1, this->width() - 1, this->height() - 1);
+			painter.drawLine(this->width() - 1, 0, this->width() - 1, this->height() - 1);
+		}
+		else if (this->direction == West) {
+
+			painter.drawLine(0, 0, this->width(), 0);
+			painter.drawLine(0, 0, 0, this->height());
+			painter.drawLine(0, this->height() - 1, this->width(), this->height() - 1);
+		}
+		else if (this->direction == South) {
+
+			painter.drawLine(0, this->height() - 1, this->width() - 1, this->height() - 1);
+			painter.drawLine(0, this->height() - 1, 0, 0);
+			painter.drawLine(this->width() - 1, this->height() - 1, this->width() - 1, 0);
+
+		}
+		else if (this->direction == North) {
+
+			painter.drawLine(0, 0, this->width() - 1, 0);
+			painter.drawLine(0, 0, 0, this->height());
+			painter.drawLine(this->width() - 1, 0, this->width() - 1, this->height() - 1);
+		}
+	}
+
+	if (this->hoverStayed == true)
+		painter.fillRect(0, 0, this->width(), this->height(), QColor(000, 153, 255, 60));
+	
+
+	QPainterPath path;
+
+	if (this->direction == East) {
+
+		path.moveTo(this->width() - 10, this->height() / 2 - 2);
+		path.lineTo(this->width() - 2, this->height() / 2 - 2);
+		path.lineTo(this->width() - 6, this->height() / 2 + 2);
+		path.lineTo(this->width() - 10, this->height() / 2 - 2);
+	}
+	else if (this->direction == West) {
+
+		
+	}
+	else if (this->direction == South) {
+		
+		path.moveTo(this->width() / 2 - 4, this->height() - 10);
+		path.lineTo(this->width() / 2 + 4, this->height() - 10);
+		path.lineTo(this->width() / 2, this->height() - 6);
+		path.lineTo(this->width() / 2 - 4, this->height() - 10);
+	}
+	else if (this->direction == North) {
+
+		
+	}
+
+	painter.fillPath(path, QBrush(QColor(0, 0, 0)));
+}
+
+
+ShButtonWithMenuPopupWithText::ShButtonWithMenuPopupWithText(QWidget *parent)
+	:QWidget(parent), direction(East) {
+
+	this->button = new ShButtonWithMenuPopupWithText::ShButton(this);
+	this->button->installEventFilter(this);
+
+	this->button->setStyleSheet("QPushButton {background : transparent}");
+
+	this->popupButton = new ShButtonWithMenuPopupWithText::ShMenuPopupButton(this);
+	this->popupButton->installEventFilter(this);
+
+	connect(this->button, &QPushButton::pressed, this, &ShButtonWithMenuPopupWithText::buttonClicked);
+
+}
+
+ShButtonWithMenuPopupWithText::~ShButtonWithMenuPopupWithText() {
+
+
+}
+
+
+void ShButtonWithMenuPopupWithText::setIcon(const QIcon &icon) {
+
+	this->button->setIcon(icon);
+}
+
+
+void ShButtonWithMenuPopupWithText::setMenu(QMenu *menu) {
+
+	this->popupButton->setMenu(menu);
+}
+
+void ShButtonWithMenuPopupWithText::setTextDirection(const TextDirection &direction) {
+
+	this->direction = direction;
+	this->button->direction = direction;
+	this->popupButton->direction = direction;
+	this->button->update();
+	this->popupButton->update();
+	this->updateGeometry();
+}
+
+void ShButtonWithMenuPopupWithText::setText(const QString &text) {
+
+	this->popupButton->setText(text);
+}
+
+void ShButtonWithMenuPopupWithText::setIconSize(const QSize &size) {
+
+	this->button->setIconSize(size);
+}
+
+void ShButtonWithMenuPopupWithText::resizeEvent(QResizeEvent *event) {
+
+	QWidget::resizeEvent(event);
+
+
+	int width = event->size().width();
+	int height = event->size().height();
+
+	if (this->direction == West) {
+
+		this->button->setGeometry(width / 10 * 6, 0, width / 10 * 4, height);
+		this->popupButton->setGeometry(0, 0, width / 10 * 6, height);
+		this->popupButton->setStyleSheet("QPushButton {background : transparent}"
+			"QPushButton {text-align : right}"
+			"QPushButton:menu-indicator {width:0px;}");
+
+	}
+	else if (this->direction == East) {
+		this->button->setGeometry(0, 0, width / 10 * 4, height);
+		this->popupButton->setGeometry(width / 10 * 4, 0, width / 10 * 6, height);
+		this->popupButton->setStyleSheet("QPushButton {background : transparent}"
+			"QPushButton {text-align : left}"
+			"QPushButton:menu-indicator {width:0px;}");
+
+		
+	}
+	else if (this->direction == South) {
+		this->button->setGeometry(0, 0, width, height / 10 * 6);
+		this->popupButton->setGeometry(0, height / 10 * 6, width, height / 10 * 4);
+		this->popupButton->setStyleSheet("QPushButton {background : transparent}"
+			"QPushButton {text-align : top center}"
+			"QPushButton:menu-indicator {width:0px;}");
+	}
+	else if (this->direction == North) {
+		this->button->setGeometry(0, height / 10 * 6, width, height / 10 * 4);
+		this->popupButton->setGeometry(0, 0, width, height / 10 * 6);
+		this->popupButton->setStyleSheet("QPushButton {background : transparent}"
+			"QPushButton {text-align : bottom}"
+			"QPushButton:menu-indicator {width:0px;}");
+
+	}
+
+
+
+}
+
+
+void ShButtonWithMenuPopupWithText::buttonClicked() {
+
+	emit pressed();
+
+
+}
+
+void ShButtonWithMenuPopupWithText::leaveEvent(QEvent *event) {
+
+	this->button->hoverMovedIn = false;
+	this->popupButton->hoverMovedIn = false;
+	this->button->hoverStayed = false;
+	this->popupButton->hoverStayed = false;
+	this->button->update();
+	this->popupButton->update();
+}
+
+bool ShButtonWithMenuPopupWithText::eventFilter(QObject *obj, QEvent *event) {
+
+	if ((event->type() == QEvent::HoverEnter || event->type() == QEvent::HoverMove) && (obj == this->button || obj == this->popupButton)) {
+		this->button->hoverMovedIn = true;
+		this->popupButton->hoverMovedIn = true;
+
+		if (obj == this->button) {
+			this->button->hoverStayed = true;
+			this->popupButton->hoverStayed = false;
+		}
+		else {
+			this->popupButton->hoverStayed = true;
+			this->button->hoverStayed = false;
+		}
+
+		this->button->update();
+		this->popupButton->update();
+
+	}
+	else if (event->type() == QEvent::HoverLeave && (obj == this->button || obj == this->popupButton)) {
+		this->button->hoverMovedIn = false;
+		this->popupButton->hoverMovedIn = false;
+		this->button->hoverStayed = false;
+		this->popupButton->hoverStayed = false;
+		this->button->update();
+		this->popupButton->update();
+
+	}
+
+	return QWidget::eventFilter(obj, event);
+}
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////
 

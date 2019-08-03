@@ -146,6 +146,74 @@ protected:
 	
 };
 
+//////////////////////////////////////////////////////////////////
+
+class ShButtonWithMenuPopupWithText : public QWidget {
+	Q_OBJECT
+
+public:
+	enum TextDirection {
+		East,
+		West,
+		South,
+		North,
+	};
+
+protected:
+	class ShButton : public QPushButton {
+
+	public:
+		TextDirection direction;
+		bool hoverMovedIn;
+		bool hoverStayed;
+		ShButton(QWidget *parent = nullptr);
+		~ShButton();
+
+	protected:
+		void paintEvent(QPaintEvent *event);
+	};
+
+	class ShMenuPopupButton : public QPushButton {
+
+	public:
+		TextDirection direction;
+		bool hoverMovedIn;
+		bool hoverStayed;
+		ShMenuPopupButton(QWidget *parent = nullptr);
+		~ShMenuPopupButton();
+	protected:
+		void paintEvent(QPaintEvent *event);
+
+	};
+
+protected:
+	ShButtonWithMenuPopupWithText::ShButton *button;
+	ShButtonWithMenuPopupWithText::ShMenuPopupButton *popupButton;
+	TextDirection direction;
+
+public:
+	ShButtonWithMenuPopupWithText(QWidget *parent = nullptr);
+	~ShButtonWithMenuPopupWithText();
+
+	void setIcon(const QIcon& icon);
+	void setMenu(QMenu *menu);
+	void setTextDirection(const TextDirection &direction);
+	void setText(const QString &text);
+	void setIconSize(const QSize &size);
+
+signals:
+	void pressed();
+
+private:
+	void buttonClicked();
+
+
+protected:
+	virtual void resizeEvent(QResizeEvent *event);
+	virtual bool eventFilter(QObject *obj, QEvent *event);
+	virtual void leaveEvent(QEvent *event);
+};
+
 
 //////////////////////////////////////////////////////////////////
 

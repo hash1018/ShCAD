@@ -2,11 +2,12 @@
 #include "ShRibbonButton.h"
 #include <qmenu.h>
 #include "Interface\Private\ShRibbonButtonStrategy.h"
+#include "Manager\ShLanguageManager.h"
 
 ShAbstractRibbonButton::ShAbstractRibbonButton(QWidget *parent)
-	:ShButtonWithMenuPopup(parent), strategy(0) {
+	:ShButtonWithMenuPopupWithText(parent), strategy(0) {
 
-	connect(this, &ShButtonWithMenuPopup::pressed, this, &ShAbstractRibbonButton::buttonClicked);
+	connect(this, &ShButtonWithMenuPopupWithText::pressed, this, &ShAbstractRibbonButton::buttonClicked);
 }
 
 ShAbstractRibbonButton::~ShAbstractRibbonButton() {
@@ -37,6 +38,10 @@ void ShAbstractRibbonButton::changeStrategy(ShRibbonButtonStrategy *strategy) {
 
 ShRibbonCircleButton::ShRibbonCircleButton(QWidget *parent)
 	:ShAbstractRibbonButton(parent) {
+
+	this->setTextDirection(South);
+	this->setText(shGetLanValue_ui("Draw/Circle"));
+	this->setIconSize(this->size());
 
 	this->strategy = new ShRibbonCircleButtonCenterRadiusStrategy;
 	this->setIcon(this->strategy->getIcon());
@@ -84,46 +89,50 @@ void ShRibbonCircleButton::threePointActionClicked() {
 ShRibbonArcButton::ShRibbonArcButton(QWidget *parent)
 	:ShAbstractRibbonButton(parent) {
 
+	this->setTextDirection(South);
+	this->setText(shGetLanValue_ui("Draw/Arc"));
+	this->setIconSize(this->size());
+
 	this->strategy = new ShRibbonArcButtonThreePointStrategy;
 	this->setIcon(this->strategy->getIcon());
 	this->setToolTip(this->strategy->getToolTip());
 
 	QMenu *menu = new QMenu(this->popupButton);
 	menu->addAction(ShRibbonArcButtonThreePointStrategy::getIcon_(), "3-Point",
-		this, SLOT(ThreePointActionClicked()));
+		this, SLOT(threePointActionClicked()));
 
 	menu->addSeparator();
 
 	menu->addAction(ShRibbonArcButtonStartCenterEndStrategy::getIcon_(), "Start, Center, End",
-		this, SLOT(StartCenterEndActionClicked()));
+		this, SLOT(startCenterEndActionClicked()));
 
 	menu->addAction(ShRibbonArcButtonStartCenterAngleStrategy::getIcon_(), "Start, Center, Angle",
-		this, SLOT(StartCenterAngleActionClicked()));
+		this, SLOT(startCenterAngleActionClicked()));
 
 	menu->addAction(ShRibbonArcButtonStartCenterLengthStrategy::getIcon_(), "Start, Center, Length",
-		this, SLOT(StartCenterLengthActionClicked()));
+		this, SLOT(startCenterLengthActionClicked()));
 
 	menu->addSeparator();
 
 	menu->addAction(ShRibbonArcButtonStartEndAngleStrategy::getIcon_(), "Start, End, Angle",
-		this, SLOT(StartEndAngleActionClicked()));
+		this, SLOT(startEndAngleActionClicked()));
 
 	menu->addAction(ShRibbonArcButtonStartEndDirectionStrategy::getIcon_(), "Start, End, Direction",
-		this, SLOT(StartEndDirectionActionClicked()));
+		this, SLOT(startEndDirectionActionClicked()));
 
 	menu->addAction(ShRibbonArcButtonStartEndRadiusStrategy::getIcon_(), "Start, End, Radius",
-		this, SLOT(StartEndRadiusActionClicked()));
+		this, SLOT(startEndRadiusActionClicked()));
 
 	menu->addSeparator();
 
 	menu->addAction(ShRibbonArcButtonCenterStartEndStrategy::getIcon_(), "Center, Start, End",
-		this, SLOT(CenterStartEndActionClicked()));
+		this, SLOT(centerStartEndActionClicked()));
 
 	menu->addAction(ShRibbonArcButtonCenterStartAngleStrategy::getIcon_(), "Center, Start, Angle",
-		this, SLOT(CenterStartAngleActionClicked()));
+		this, SLOT(centerStartAngleActionClicked()));
 
 	menu->addAction(ShRibbonArcButtonCenterStartLengthStrategy::getIcon_(), "Center, Start, Length",
-		this, SLOT(CenterStartLengthActionClicked()));
+		this, SLOT(centerStartLengthActionClicked()));
 
 	this->popupButton->setMenu(menu);
 }
@@ -188,17 +197,21 @@ void ShRibbonArcButton::centerStartLengthActionClicked() {
 ShRibbonPolyLineButton::ShRibbonPolyLineButton(QWidget *parent)
 	:ShAbstractRibbonButton(parent) {
 
+	this->setTextDirection(South);
+	this->setText(shGetLanValue_ui("Draw/PolyLine"));
+	this->setIconSize(this->size());
+
 	this->strategy = new ShRibbonPolyLineButtonStrategy;
 	this->setIcon(this->strategy->getIcon());
 	this->setToolTip(this->strategy->getToolTip());
 
 	QMenu *menu = new QMenu(this->popupButton);
 	menu->addAction(ShRibbonPolyLineButtonStrategy::getIcon_(), "PolyLine",
-		this, SLOT(PolyLineActionClicked()));
+		this, SLOT(polyLineActionClicked()));
 	menu->addAction(ShRibbonRectangleButtonStrategy::getIcon_(), "Rectangle",
-		this, SLOT(RectangleActionClicked()));
+		this, SLOT(rectangleActionClicked()));
 	menu->addAction(ShRibbonPolygonButtonStrategy::getIcon_(), "Polygon",
-		this, SLOT(PolygonActionClicked()));
+		this, SLOT(polygonActionClicked()));
 
 
 	this->popupButton->setMenu(menu);
