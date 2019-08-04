@@ -99,3 +99,80 @@ void ShDisposableSnapAction_General::invalidate(ShPoint3d point) {
 
 	ShDisposableSnapAction::invalidate(point);
 }
+
+////////////////////////////////////////////////////////////////////////
+
+
+ShDisposableSnapAction_Perpendicular::ShDisposableSnapAction_Perpendicular(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child)
+	:ShDisposableSnapAction(widget, actionHandler, ObjectSnap::ObjectSnapPerpendicular, child) {
+
+}
+
+ShDisposableSnapAction_Perpendicular::~ShDisposableSnapAction_Perpendicular() {
+
+}
+
+
+void ShDisposableSnapAction_Perpendicular::mouseLeftPressEvent(ShActionData &data) {
+
+}
+
+void ShDisposableSnapAction_Perpendicular::mouseMoveEvent(ShActionData &data) {
+
+}
+
+void ShDisposableSnapAction_Perpendicular::invalidate(ShPoint3d point) {
+
+
+}
+
+
+///////////////////////////////////////////////////////////////////
+
+
+ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing(ShCADWidget *widget, ShActionHandler *actionHandler,
+	ShDecoratorAction *child)
+	:ShDisposableSnapAction(widget, actionHandler, ObjectSnap::ObjectSnapPerpendicular, child) {
+
+}
+
+ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::~ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing() {
+
+}
+
+void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::mouseLeftPressEvent(ShActionData &data) {
+
+}
+
+void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::mouseMoveEvent(ShActionData &data) {
+
+}
+
+void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::invalidate(ShPoint3d point) {
+
+}
+
+
+///////////////////////////////////////////////////////////////////////
+
+ShDisposableSnapAction_DrawLineActionPerPer::ShDisposableSnapAction_DrawLineActionPerPer(ShCADWidget *widget, ShActionHandler *actionHandler,
+	ShDecoratorAction *child)
+	:ShDisposableSnapAction(widget, actionHandler, ObjectSnap::ObjectSnapPerpendicular, child) {
+
+}
+
+ShDisposableSnapAction_DrawLineActionPerPer::~ShDisposableSnapAction_DrawLineActionPerPer() {
+
+}
+
+void ShDisposableSnapAction_DrawLineActionPerPer::mouseLeftPressEvent(ShActionData &data) {
+
+}
+
+void ShDisposableSnapAction_DrawLineActionPerPer::mouseMoveEvent(ShActionData &data) {
+
+}
+
+void ShDisposableSnapAction_DrawLineActionPerPer::invalidate(ShPoint3d point) {
+
+}

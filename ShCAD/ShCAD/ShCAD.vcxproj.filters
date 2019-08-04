@@ -397,6 +397,9 @@
     <ClCompile Include="ActionHandler\Private\ShDecorateActionStrategy.cpp">
       <Filter>ActionHandler\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Private\ShFootOfPerpendicularVisitor.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -655,6 +658,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\Private\ShDecorateActionStrategy.h">
       <Filter>ActionHandler\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShFootOfPerpendicularVisitor.h">
+      <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

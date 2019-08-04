@@ -28,6 +28,8 @@ public:
 
 };
 
+/////////////////////////////////////////////////////////
+
 class ShSearchSnapPointStrategy_Nothing : public ShSearchSnapPointStrategy {
 
 public:
@@ -40,6 +42,8 @@ public:
 
 };
 
+////////////////////////////////////////////////////////
+
 class ShSearchSnapPointStrategy_End : public ShSearchSnapPointStrategy {
 
 public:
@@ -49,6 +53,69 @@ public:
 	virtual bool search(const ShPoint3d &point);
 	virtual ObjectSnap getType();
 	virtual void draw(QPainter *painter);
+
+};
+
+////////////////////////////////////////////////////////
+
+class ShSearchSnapPointStrategy_Mid : public ShSearchSnapPointStrategy {
+
+public:
+	ShSearchSnapPointStrategy_Mid(ShCADWidget *widget);
+	~ShSearchSnapPointStrategy_Mid();
+
+	virtual bool search(const ShPoint3d &point);
+	virtual ObjectSnap getType();
+	virtual void draw(QPainter *painter);
+
+};
+
+/////////////////////////////////////////////////////////
+
+class ShSearchSnapPointStrategy_Center : public ShSearchSnapPointStrategy {
+
+public:
+	ShSearchSnapPointStrategy_Center(ShCADWidget *widget);
+	~ShSearchSnapPointStrategy_Center();
+
+	virtual bool search(const ShPoint3d &point);
+	virtual ObjectSnap getType();
+	virtual void draw(QPainter *painter);
+
+};
+
+//////////////////////////////////////////////////////////
+
+class ShSearchSnapPointStrategy_Quadrant : public ShSearchSnapPointStrategy {
+
+public:
+	ShSearchSnapPointStrategy_Quadrant(ShCADWidget *widget);
+	~ShSearchSnapPointStrategy_Quadrant();
+
+	virtual bool search(const ShPoint3d &point);
+	virtual ObjectSnap getType();
+	virtual void draw(QPainter *painter);
+
+};
+
+//////////////////////////////////////////////////////////
+
+class ShSearchSnapPointStrategy_Perpendicular : public ShSearchSnapPointStrategy {
+
+private:
+	ShEntity *perpendicularBaseEntity;
+
+public:
+	ShSearchSnapPointStrategy_Perpendicular(ShCADWidget *widget);
+	~ShSearchSnapPointStrategy_Perpendicular();
+
+	virtual bool search(const ShPoint3d &point);
+	virtual bool search(const ShPoint3d &point, double perpendicularX, double perpendicularY);
+	virtual ObjectSnap getType();
+	virtual void draw(QPainter *painter);
+
+
+	inline ShEntity* getPerpendicularBase() const { return this->perpendicularBaseEntity; }
 
 };
 

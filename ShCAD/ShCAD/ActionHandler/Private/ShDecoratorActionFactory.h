@@ -17,6 +17,8 @@ public:
 
 	static ShDecoratorAction* create(ShCADWidget *widget, ShActionHandler *actionHandler, const DraftData &draftData);
 
+private:
+	static ShDecoratorAction* createLineActionPerpendicular(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *parent);
 };
 
 #endif //_SHDECORATORACTIONFACTORY_H

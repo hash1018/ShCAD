@@ -14,18 +14,14 @@ ShSearchSnapPointStrategy* ShSearchSnapPointStrategyFactory::create(ObjectSnap o
 
 	if (objectSnap == ObjectSnap::ObjectSnapEndPoint)
 		return new ShSearchSnapPointStrategy_End(widget);
-
-	//else if (objectSnap == ObjectSnap::ObjectSnapMidPoint)
-	//	new ShObjectSnapStrategy_MidPoint(view);
-	//else if (objectSnap == ObjectSnap::ObjectSnapPerpendicular)
-	//	return new ShObjectSnapStrategy_Perpendicular(view);
-	//else if (objectSnap == ObjectSnap::ObjectSnapCenter)
-	//	return new ShObjectSnapStrategy_Center(view);
-	//else if (objectSnap == ObjectSnap::ObjectSnapQuadrant)
-	//	return new ShObjectSnapStrategy_Quadrant(view);
-
-
-	//return new ShObjectSnapStrategy_Nothing(view);
+	else if (objectSnap == ObjectSnap::ObjectSnapMidPoint)
+		return new ShSearchSnapPointStrategy_Mid(widget);
+	else if (objectSnap == ObjectSnap::ObjectSnapPerpendicular)
+		return new ShSearchSnapPointStrategy_Perpendicular(widget);
+	else if (objectSnap == ObjectSnap::ObjectSnapCenter)
+		return new ShSearchSnapPointStrategy_Center(widget);
+	else if (objectSnap == ObjectSnap::ObjectSnapQuadrant)
+		return new ShSearchSnapPointStrategy_Quadrant(widget);
 
 
 	return new ShSearchSnapPointStrategy_Nothing(widget);

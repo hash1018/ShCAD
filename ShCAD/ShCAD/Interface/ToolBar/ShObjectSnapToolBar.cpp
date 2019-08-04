@@ -74,7 +74,13 @@ void ShObjectSnapToolBar::endPointClicked() {
 
 void ShObjectSnapToolBar::midPointClicked() {
 
+	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
 
+	if (manager->getActivatedWidget() != nullptr) {
+
+		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapMidPoint);
+		manager->getActivatedWidget()->changeAction(strategy);
+	}
 }
 
 
@@ -94,12 +100,24 @@ void ShObjectSnapToolBar::extensionPointClicked() {
 
 void ShObjectSnapToolBar::centerPointClicked() {
 
+	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
 
+	if (manager->getActivatedWidget() != nullptr) {
+
+		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapCenter);
+		manager->getActivatedWidget()->changeAction(strategy);
+	}
 }
 
 void ShObjectSnapToolBar::quadrantPointClicked() {
 
+	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
 
+	if (manager->getActivatedWidget() != nullptr) {
+
+		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapQuadrant);
+		manager->getActivatedWidget()->changeAction(strategy);
+	}
 }
 
 void ShObjectSnapToolBar::tangentPointClicked() {
@@ -109,5 +127,11 @@ void ShObjectSnapToolBar::tangentPointClicked() {
 
 void ShObjectSnapToolBar::perpendicularClicked() {
 
+	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
 
+	if (manager->getActivatedWidget() != nullptr) {
+
+		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapPerpendicular);
+		manager->getActivatedWidget()->changeAction(strategy);
+	}
 }

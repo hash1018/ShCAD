@@ -8,7 +8,7 @@
 #include "Event\ShNotifyEvent.h"
 
 ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
-	:ShDrawAction(widget), status(PickedNothing), drawMethod(Default) {
+	:ShDrawAction(widget), status(PickedNothing), subAction(Default) {
 
 	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
 		allowKey(KeyType::Enter).
@@ -18,27 +18,34 @@ ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
 		allowCustom(new ShCustomKey<ShDrawLineAction>(Qt::Key::Key_I, Qt::KeyboardModifier::ControlModifier, this, &ShDrawLineAction::temp)).
 		build();
 
+	this->subDrawLineAction = new ShSubDrawLineAction_Default(this, this->widget);
 }
 
 ShDrawLineAction::~ShDrawLineAction() {
 
-	
+	if (this->subDrawLineAction != nullptr)
+		delete this->subDrawLineAction;
 }
 
 void ShDrawLineAction::mouseLeftPressEvent(ShActionData &data) {
 
-	this->takeNextStep(data.point, data.nextPoint);
+	//this->takeNextStep(data.point, data.nextPoint);
 
+	this->subDrawLineAction->mouseLeftPressEvent(data);
 }
 
 void ShDrawLineAction::mouseMoveEvent(ShActionData &data) {
 
+	/*
 	if (this->status == PickedStart) {
 	
 		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
 		prevLine->setEnd(data.point);
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
+	*/
+
+	this->subDrawLineAction->mouseMoveEvent(data);
 }
 
 
@@ -59,8 +66,9 @@ QString ShDrawLineAction::getHeadTitle() {
 	return text;
 }
 
+/*
 void ShDrawLineAction::takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint) {
-
+	
 	if (this->status == PickedNothing) {
 	
 		this->status = PickedStart;
@@ -88,12 +96,14 @@ void ShDrawLineAction::takeNextStep(const ShPoint3d &point, const ShPoint3d &nex
 
 		ShUpdateTextToCommandListEvent notifyEvent("");
 		this->widget->notify(&notifyEvent);
-
+		
 		this->updateCommandEditHeadTitle();
 
 	}
+	
 
 }
+*/
 
 ShAvailableDraft ShDrawLineAction::getAvailableDraft() {
 	
@@ -110,7 +120,7 @@ ShAvailableDraft ShDrawLineAction::getAvailableDraft() {
 	
 		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
 
-		if (this->drawMethod == DrawMethod::Default) {
+		if (this->subAction == SubAction::Default) {
 			draft.setAvailableOrthogonal(true);
 			draft.setOrthogonalBasePoint(prevLine->getStart());
 		}
@@ -123,13 +133,30 @@ ShAvailableDraft ShDrawLineAction::getAvailableDraft() {
 }
 
 void ShDrawLineAction::invalidate(ShPoint3d point) {
-	
+	/*
 	if (this->status == PickedStart) {
 
 		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
 		prevLine->setEnd(point);
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
+	*/
+
+	this->subDrawLineAction->invalidate(point);
+}
+
+void ShDrawLineAction::changeSubAction(SubAction subAction) {
+
+	if (this->subDrawLineAction != nullptr)
+		delete this->subDrawLineAction;
+
+	this->subAction = subAction;
+
+	if (subAction == SubAction::Default)
+		this->subDrawLineAction = new ShSubDrawLineAction_Default(this, this->widget);
+	else
+		this->subDrawLineAction = new ShSubDrawLineAction_Perpendicular(this, this->widget);
+
 }
 
 
@@ -139,4 +166,131 @@ void ShDrawLineAction::temp() {
 	QMessageBox box;
 	box.setText("Tem");
 	box.exec();
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+ShSubDrawLineAction::ShSubDrawLineAction(ShDrawLineAction *drawLineAction, ShCADWidget *widget)
+	:drawLineAction(drawLineAction), widget(widget) {
+
+}
+
+ShSubDrawLineAction::~ShSubDrawLineAction() {
+
+}
+
+ShDrawLineAction::Status& ShSubDrawLineAction::getStatus() {
+
+	return this->drawLineAction->status;
+}
+
+void ShSubDrawLineAction::addEntity(ShEntity *newEntity, const QString &type) {
+
+	this->drawLineAction->addEntity(newEntity, type);
+}
+
+void ShSubDrawLineAction::updateCommandEditHeadTitle() {
+
+	this->drawLineAction->updateCommandEditHeadTitle();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+ShSubDrawLineAction_Default::ShSubDrawLineAction_Default(ShDrawLineAction *drawLineAction, ShCADWidget *widget)
+	:ShSubDrawLineAction(drawLineAction, widget) {
+
+}
+
+ShSubDrawLineAction_Default::~ShSubDrawLineAction_Default() {
+
+}
+
+void ShSubDrawLineAction_Default::mouseLeftPressEvent(ShActionData &data) {
+
+	this->takeNextStep(data.point, data.nextPoint);
+}
+
+void ShSubDrawLineAction_Default::mouseMoveEvent(ShActionData &data) {
+
+	if (this->getStatus() == ShDrawLineAction::PickedStart) {
+
+		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
+		prevLine->setEnd(data.point);
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+}
+
+void ShSubDrawLineAction_Default::takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint) {
+
+	if (this->getStatus() == ShDrawLineAction::PickedNothing) {
+
+		this->getStatus() = ShDrawLineAction::PickedStart;
+
+		this->widget->getPreview().add(new ShLine(point, nextPoint));
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+
+		ShUpdateTextToCommandListEvent notifyEvent("");
+		this->widget->notify(&notifyEvent);
+
+		this->updateCommandEditHeadTitle();
+	}
+	else if (this->getStatus() == ShDrawLineAction::PickedStart) {
+
+		ShLine *preview = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
+		ShLineData data = preview->getData();
+		data.end = point;
+
+		preview->setData(data);
+
+		this->addEntity(preview->clone(), "Line");
+
+		data = ShLineData(point, nextPoint);
+		preview->setData(data);
+
+		ShUpdateTextToCommandListEvent notifyEvent("");
+		this->widget->notify(&notifyEvent);
+
+		this->updateCommandEditHeadTitle();
+
+	}
+}
+
+void ShSubDrawLineAction_Default::invalidate(ShPoint3d point) {
+
+	if (this->getStatus() == ShDrawLineAction::PickedStart) {
+
+		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
+		prevLine->setEnd(point);
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+ShSubDrawLineAction_Perpendicular::ShSubDrawLineAction_Perpendicular(ShDrawLineAction *drawLineAction, ShCADWidget *widget)
+	:ShSubDrawLineAction(drawLineAction, widget) {
+
+}
+
+ShSubDrawLineAction_Perpendicular::~ShSubDrawLineAction_Perpendicular() {
+
+}
+
+void ShSubDrawLineAction_Perpendicular::mouseLeftPressEvent(ShActionData &data) {
+
+}
+
+void ShSubDrawLineAction_Perpendicular::mouseMoveEvent(ShActionData &data) {
+
+}
+
+void ShSubDrawLineAction_Perpendicular::takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint) {
+
+}
+
+void ShSubDrawLineAction_Perpendicular::invalidate(ShPoint3d point) {
+
 }
