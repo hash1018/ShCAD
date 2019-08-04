@@ -104,6 +104,9 @@
     <Filter Include="ObjectSnap">
       <UniqueIdentifier>{08448f5b-275a-46fc-a62c-01b197cac7b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface\Dialog">
+      <UniqueIdentifier>{a9308ae4-fae1-44f6-b22a-5fb296ec5084}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -403,6 +406,15 @@
     <ClCompile Include="Entity\Private\ShLineBothPerpendicularVisitor.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShStartupDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShStartupDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Dialog\ShStartupDialog.cpp">
+      <Filter>Interface\Dialog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -428,6 +440,9 @@
     </CustomBuild>
     <CustomBuild Include="Interface\ToolBar\ShPropertyToolBar.h">
       <Filter>Interface\ToolBar</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Dialog\ShStartupDialog.h">
+      <Filter>Interface\Dialog</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
