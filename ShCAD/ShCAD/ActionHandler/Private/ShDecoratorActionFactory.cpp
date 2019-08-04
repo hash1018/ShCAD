@@ -5,7 +5,7 @@
 #include "Data\DraftData.h"
 #include "ActionHandler\DecoratorAction\ShDisposableSnapAction.h"
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
-
+#include <qdebug.h>
 
 ShDecoratorActionFactory::ShDecoratorActionFactory() {
 
@@ -50,7 +50,33 @@ ShDecoratorAction* ShDecoratorActionFactory::create(ShCADWidget *widget, ShActio
 }
 
 
-ShDecoratorAction* ShDecoratorActionFactory::createLineActionPerpendicular(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *parent) {
+ShDecoratorAction* ShDecoratorActionFactory::createLineActionPerpendicular(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child) {
 
-	return nullptr;
+	ShDecoratorAction *decoratorAction;
+
+	ShDrawLineAction *drawLineAction = dynamic_cast<ShDrawLineAction*>(actionHandler);
+	ShDrawLineAction::Status status = drawLineAction->getStatus();
+	ShDrawLineAction::SubAction subAction = drawLineAction->getSubAction();
+
+	if (status == ShDrawLineAction::Status::PickedStart &&
+		subAction == ShDrawLineAction::SubAction::Default) {
+	
+		decoratorAction = new ShDisposableSnapAction_Perpendicular(widget, actionHandler, child);
+	}
+	else if (status == ShDrawLineAction::Status::PickedNothing &&
+		subAction == ShDrawLineAction::SubAction::Default) {
+	
+		decoratorAction = new ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing(widget, actionHandler, child);
+	}
+	else if (status == ShDrawLineAction::Status::PickedStart &&
+		subAction == ShDrawLineAction::SubAction::Perpendicular) {
+	
+		decoratorAction = new ShDisposableSnapAction_DrawLineActionPerPer(widget, actionHandler, child);
+	}
+	else {
+	
+		Q_ASSERT("ShDecoratorActionFactory::createLineActionPerpendicular() this can't be happend.");
+	}
+	
+	return decoratorAction;
 }

@@ -34,15 +34,13 @@ public:
 
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
-
-	//void takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint);
-
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d point);
 
 	void temp();
 
+public:
 	inline Status getStatus() const { return this->status; }
 	inline SubAction getSubAction() const { return this->subAction; }
 
