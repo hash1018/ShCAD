@@ -400,6 +400,9 @@
     <ClCompile Include="Entity\Private\ShFootOfPerpendicularVisitor.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Private\ShLineBothPerpendicularVisitor.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -660,6 +663,9 @@
       <Filter>ActionHandler\Private</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Private\ShFootOfPerpendicularVisitor.h">
+      <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShLineBothPerpendicularVisitor.h">
       <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>

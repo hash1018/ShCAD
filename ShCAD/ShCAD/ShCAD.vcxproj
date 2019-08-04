@@ -175,6 +175,7 @@
     <ClCompile Include="Entity\Private\ShEntityData.cpp" />
     <ClCompile Include="Entity\Private\ShFinder.cpp" />
     <ClCompile Include="Entity\Private\ShFootOfPerpendicularVisitor.cpp" />
+    <ClCompile Include="Entity\Private\ShLineBothPerpendicularVisitor.cpp" />
     <ClCompile Include="Entity\Private\ShSearchEntityStrategy.cpp" />
     <ClCompile Include="Entity\Private\ShSnapPointFinder.cpp" />
     <ClCompile Include="Entity\Private\ShVisitor.cpp" />
@@ -367,6 +368,7 @@
     <ClInclude Include="Entity\Private\ShEntityData.h" />
     <ClInclude Include="Entity\Private\ShFinder.h" />
     <ClInclude Include="Entity\Private\ShFootOfPerpendicularVisitor.h" />
+    <ClInclude Include="Entity\Private\ShLineBothPerpendicularVisitor.h" />
     <ClInclude Include="Entity\Private\ShSearchEntityStrategy.h" />
     <ClInclude Include="Entity\Private\ShSnapPointFinder.h" />
     <ClInclude Include="Entity\Private\ShVisitor.h" />
