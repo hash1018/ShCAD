@@ -14,6 +14,8 @@ class ShRibbonCircleButton;
 class ShRibbonArcButton;
 class ShRibbonPolyLineButton;
 class ShButtonWithText;
+class ShColor;
+class ShColorComboBox;
 
 class ShHomeTab : public ShRibbonTab {
 
@@ -98,7 +100,7 @@ class ShPropertyPanel : public ShPanelInRibbonTab {
 	Q_OBJECT
 
 private:
-
+	ShColorComboBox *colorCombo;
 
 public:
 	ShPropertyPanel(QWidget *parent, const QString &title, int width);
@@ -107,6 +109,8 @@ public:
 protected:
 	void resizeEvent(QResizeEvent* event);
 
+	private slots:
+	void colorChanged(const ShColor &color);
 };
 
 //////////////////////////////////////////////////////////////////////////////

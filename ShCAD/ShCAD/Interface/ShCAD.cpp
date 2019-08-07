@@ -142,6 +142,7 @@ bool ShCAD::eventFilter(QObject *obj, QEvent *event) {
 
 		this->resizeDocks({ this->commandDock }, { resizeEvent->size().height() },
 			Qt::Orientation::Vertical);
+		
 	}
 
 	return QWidget::eventFilter(obj, event);

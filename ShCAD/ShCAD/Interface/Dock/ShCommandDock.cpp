@@ -104,6 +104,7 @@ ShCommandDock::ShCommandDock(QWidget *parent)
 
 	this->container = new ShCommandContainer(this);
 	this->setWidget(this->container);
+
 	this->menuAction = new QAction(shGetLanValue_ui("Command/CommandDock"));
 	this->menuAction->setCheckable(true);
 	this->menuAction->setChecked(true);

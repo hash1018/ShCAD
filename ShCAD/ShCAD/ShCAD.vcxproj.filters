@@ -415,6 +415,21 @@
     <ClCompile Include="Interface\Dialog\ShStartupDialog.cpp">
       <Filter>Interface\Dialog</Filter>
     </ClCompile>
+    <ClCompile Include="Data\ShColor.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Item\ShColorComboBox.cpp">
+      <Filter>Interface\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\ShColorList.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShColorComboBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShColorComboBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -443,6 +458,9 @@
     </CustomBuild>
     <CustomBuild Include="Interface\Dialog\ShStartupDialog.h">
       <Filter>Interface\Dialog</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Item\ShColorComboBox.h">
+      <Filter>Interface\Item</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -682,6 +700,12 @@
     </ClInclude>
     <ClInclude Include="Entity\Private\ShLineBothPerpendicularVisitor.h">
       <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShColor.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShColorList.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

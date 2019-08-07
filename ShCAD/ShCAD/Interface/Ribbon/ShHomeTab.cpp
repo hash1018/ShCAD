@@ -5,6 +5,7 @@
 #include "Interface\Ribbon\Button\ShRibbonButton.h"
 #include "Manager\ShLanguageManager.h"
 #include "Manager\ShCADWidgetManager.h"
+#include "Interface\Item\ShColorComboBox.h"
 
 ShHomeTab::ShHomeTab(const QString &title, QWidget *parent)
 	:ShRibbonTab(title, parent) {
@@ -212,6 +213,8 @@ void ShModifyPanel::trimButtonClicked() {
 ShPropertyPanel::ShPropertyPanel(QWidget *parent, const QString &title, int width)
 	:ShPanelInRibbonTab(parent, title, width) {
 
+	this->colorCombo = new ShColorComboBox(this);
+	connect(this->colorCombo, &ShColorComboBox::colorChanged, this, &ShPropertyPanel::colorChanged);
 
 }
 
@@ -223,8 +226,15 @@ ShPropertyPanel::~ShPropertyPanel() {
 
 void ShPropertyPanel::resizeEvent(QResizeEvent *event) {
 
-
 	ShPanelInRibbonTab::resizeEvent(event);
+
+	int height = this->layoutWidget->height();
+
+	this->colorCombo->setGeometry(height / 3 + 2, 3, 150, height / 3 - 8);
+}
+
+void ShPropertyPanel::colorChanged(const ShColor &color) {
+
 
 }
 

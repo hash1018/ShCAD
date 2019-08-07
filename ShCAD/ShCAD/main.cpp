@@ -7,7 +7,6 @@ int main(int argc, char *argv[]) {
 
 	QApplication a(argc, argv);
 
-
 	ShStartupDialog dialog;
 
 	if (dialog.exec() != QDialog::Accepted) {

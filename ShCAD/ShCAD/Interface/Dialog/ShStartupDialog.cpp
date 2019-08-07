@@ -48,13 +48,10 @@ void ShStartupDialog::okButtonClicked() {
 
 
 	this->accept();
-	
 }
 
 void ShStartupDialog::cancelButtonClicked() {
 
-
 	this->reject();
-	
 }
 
