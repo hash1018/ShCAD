@@ -14,6 +14,9 @@
 #include "ToolBar\ShToolBarContainer.h"
 #include "Manager\ShChangeManager.h"
 
+#include "Chain of Responsibility\ShRequest.h"
+
+
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 	
@@ -41,7 +44,7 @@ ShCAD::~ShCAD(){
 
 void ShCAD::initWidgets() {
 
-	this->menuBar = new ShMenuBar(this);
+	this->menuBar = new ShMenuBar(this, this);
 	this->setMenuBar(this->menuBar);
 
 	this->mdiArea = new QMdiArea;
@@ -158,4 +161,10 @@ void ShCAD::showContexMenu(const QPoint &pos) {
 
 	if (this->mdiArea->subWindowList().size() != 0)
 		this->contextMenu->exec(mapToGlobal(pos));
+}
+
+void ShCAD::request(ShRequest *request) {
+
+	if (request->getType() == ShRequest::RequestType::RequestCreateNewCADWidget)
+		this->createCADWidget();
 }

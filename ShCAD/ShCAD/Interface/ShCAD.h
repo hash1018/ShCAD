@@ -2,6 +2,8 @@
 #define SHCAD_H
 
 #include <QtWidgets/QMainWindow>
+#include "Chain of Responsibility\ShChain.h"
+
 class QMdiSubWindow;
 class ShCommandDock;
 class QMdiArea;
@@ -11,7 +13,7 @@ class ShRibbonMenu;
 class ShStatusBar;
 class ShToolBarContainer;
 
-class ShCAD : public QMainWindow {
+class ShCAD : public QMainWindow, public ShChain {
 	Q_OBJECT
 
 private:
@@ -33,6 +35,8 @@ public:
 	void activateWidgets();
 	void deactivateWidgets();
 	void createCADWidget();
+
+	virtual void request(ShRequest *request);
 
 private:
 	void createContextMenu();

@@ -3,15 +3,12 @@
 #define _ShMENU_H
 
 #include <qmenu.h>
+#include "Chain of Responsibility\ShChain.h"
 
-class ShMenuBar;
-class ShAbstractMenu : public QMenu {
-
-protected:
-	ShMenuBar *parent;
+class ShAbstractMenu : public QMenu, public ShChain {
 
 public:
-	ShAbstractMenu(const QString &title, ShMenuBar *parent = nullptr);
+	ShAbstractMenu(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	virtual ~ShAbstractMenu() = 0;
 
 };
@@ -22,9 +19,11 @@ private:
 	QAction *newAction;
 
 public:
-	ShEmptyDrawingFileMenu(const QString &title, ShMenuBar *parent = nullptr);
+	ShEmptyDrawingFileMenu(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShEmptyDrawingFileMenu();
 
+	private slots:
+	void newActionClicked();
 };
 
 class ShFileMenu : public ShAbstractMenu {
@@ -35,14 +34,17 @@ private:
 	QAction *previewAction;
 
 public:
-	ShFileMenu(const QString &title, ShMenuBar *parent = nullptr);
+	ShFileMenu(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShFileMenu();
+
+	private slots:
+	void newActionClicked();
 };
 
 class ShEditMenu : public ShAbstractMenu {
 
 public:
-	ShEditMenu(const QString &title, ShMenuBar *parent = nullptr);
+	ShEditMenu(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShEditMenu();
 
 };
@@ -75,7 +77,7 @@ private:
 	QAction *arcCenterStartLengthAction;
 
 public:
-	ShDrawMenu(const QString &title, ShMenuBar *parent = nullptr);
+	ShDrawMenu(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShDrawMenu();
 
 private:
@@ -97,7 +99,7 @@ private:
 	QAction *extendAction;
 
 public:
-	ShModifyMenu(const QString &title, ShMenuBar *parent = nullptr);
+	ShModifyMenu(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShModifyMenu();
 
 };

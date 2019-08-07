@@ -158,6 +158,8 @@
     <ClCompile Include="Base\ShDraftSetting.cpp" />
     <ClCompile Include="Base\ShGlobal.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
+    <ClCompile Include="Chain of Responsibility\ShChain.cpp" />
+    <ClCompile Include="Chain of Responsibility\ShRequest.cpp" />
     <ClCompile Include="Data\DraftData.cpp" />
     <ClCompile Include="Data\ShAvailableDraft.cpp" />
     <ClCompile Include="Data\ShColor.cpp" />
@@ -371,6 +373,8 @@
     <ClInclude Include="Base\ShGlobal.h" />
     <ClInclude Include="Base\ShMath.h" />
     <ClInclude Include="Base\ShVariable.h" />
+    <ClInclude Include="Chain of Responsibility\ShChain.h" />
+    <ClInclude Include="Chain of Responsibility\ShRequest.h" />
     <ClInclude Include="Data\DraftData.h" />
     <ClInclude Include="Data\ShAvailableDraft.h" />
     <ClInclude Include="Data\ShColor.h" />

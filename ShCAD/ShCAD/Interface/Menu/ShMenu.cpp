@@ -2,12 +2,12 @@
 
 #include "ShMenu.h"
 #include "Interface\Item\ShIcon.h"
-#include "ShMenuBar.h"
 #include <qdebug.h>
 #include "Manager\ShLanguageManager.h"
+#include "Chain of Responsibility\ShRequest.h"
 
-ShAbstractMenu::ShAbstractMenu(const QString &title, ShMenuBar *parent)
-	:QMenu(title, parent) {
+ShAbstractMenu::ShAbstractMenu(const QString &title, ShChain *chain, QWidget *parent)
+	:QMenu(title, parent), ShChain(chain) {
 
 }
 
@@ -17,29 +17,30 @@ ShAbstractMenu::~ShAbstractMenu() {
 
 ///////////////////////////////////////////////////////////////////////////
 
-ShEmptyDrawingFileMenu::ShEmptyDrawingFileMenu(const QString &title, ShMenuBar *parent)
-	:ShAbstractMenu(title, parent) {
+ShEmptyDrawingFileMenu::ShEmptyDrawingFileMenu(const QString &title, ShChain *chain, QWidget *parent)
+	:ShAbstractMenu(title, chain, parent) {
 
 	this->newAction = new QAction(ShIcon(":/Image/File/New.png"), shGetLanValue_ui("File/New"), this);
 
 	this->addAction(this->newAction);
 
-	if (this->parent == nullptr) {
-		qDebug() << "ShEmptyDrawingFileMenu::ShEmptyDrawingFileMenu  parent is nullptr";
-		return;
-	}
-	
-	connect(this->newAction, &QAction::triggered, parent, &ShMenuBar::newActionClicked);
+	connect(this->newAction, &QAction::triggered, this, &ShEmptyDrawingFileMenu::newActionClicked);
 }
 
 ShEmptyDrawingFileMenu::~ShEmptyDrawingFileMenu() {
 
 }
 
+void ShEmptyDrawingFileMenu::newActionClicked() {
+	
+	ShCreateNewCADWidgetRequest request;
+	this->request(&request);
+}
+
 ///////////////////////////////////////////////////////////////////////////
 
-ShFileMenu::ShFileMenu(const QString &title, ShMenuBar *parent)
-	:ShAbstractMenu(title, parent) {
+ShFileMenu::ShFileMenu(const QString &title, ShChain *chain, QWidget *parent)
+	:ShAbstractMenu(title, chain, parent) {
 
 	this->newAction = new QAction(ShIcon(":/Image/File/New.png"), shGetLanValue_ui("File/New"), this);
 	this->addAction(this->newAction);
@@ -52,22 +53,24 @@ ShFileMenu::ShFileMenu(const QString &title, ShMenuBar *parent)
 	this->previewAction = new QAction(ShIcon(":/Image/File/Preview.png"), shGetLanValue_ui("File/Preview"), this);
 	this->addAction(this->previewAction);
 
-	if (this->parent == nullptr) {
-		qDebug() << "ShFileMenu::ShFileMenu  parent is nullptr";
-		return;
-	}
-	
-	connect(this->newAction, &QAction::triggered, parent, &ShMenuBar::newActionClicked);
+
+	connect(this->newAction, &QAction::triggered, this, &ShFileMenu::newActionClicked);
 }
 
 ShFileMenu::~ShFileMenu() {
 
 }
 
+void ShFileMenu::newActionClicked() {
+	
+	ShCreateNewCADWidgetRequest request;
+	this->request(&request);
+}
+
 /////////////////////////////////////////////////////////////////////////
 
-ShEditMenu::ShEditMenu(const QString &title, ShMenuBar *parent)
-	:ShAbstractMenu(title, parent) {
+ShEditMenu::ShEditMenu(const QString &title, ShChain *chain, QWidget *parent)
+	:ShAbstractMenu(title, chain, parent) {
 
 }
 
@@ -78,24 +81,24 @@ ShEditMenu::~ShEditMenu() {
 
 /////////////////////////////////////////////////////////////////////////
 
-ShDrawMenu::ShDrawMenu(const QString &title, ShMenuBar *parent)
-	:ShAbstractMenu(title, parent) {
+ShDrawMenu::ShDrawMenu(const QString &title, ShChain *chain, QWidget *parent)
+	:ShAbstractMenu(title, chain, parent) {
 
-	this->lineAction = new QAction(ShIcon(":/Image/Draw/Line.png"), 
+	this->lineAction = new QAction(ShIcon(":/Image/Draw/Line.png"),
 		shGetLanValue_ui("Draw/Line"), this);
 	this->addAction(this->lineAction);
 
 	this->addSeparator();
 
-	this->polyLineAction = new QAction(ShIcon(":/Image/Draw/PolyLine/PolyLine.png"), 
+	this->polyLineAction = new QAction(ShIcon(":/Image/Draw/PolyLine/PolyLine.png"),
 		shGetLanValue_ui("Draw/PolyLine"), this);
 	this->addAction(this->polyLineAction);
 
-	this->polygonAction = new QAction(ShIcon(":/Image/Draw/PolyLine/Polygon.png"), 
+	this->polygonAction = new QAction(ShIcon(":/Image/Draw/PolyLine/Polygon.png"),
 		shGetLanValue_ui("Draw/Polygon"), this);
 	this->addAction(this->polygonAction);
 
-	this->rectangleAction = new QAction(ShIcon(":/Image/Draw/PolyLine/Rectangle.png"), 
+	this->rectangleAction = new QAction(ShIcon(":/Image/Draw/PolyLine/Rectangle.png"),
 		shGetLanValue_ui("Draw/Rectangle"), this);
 	this->addAction(this->rectangleAction);
 
@@ -197,8 +200,8 @@ void ShDrawMenu::createArcMenu() {
 
 /////////////////////////////////////////////////////////////////////////
 
-ShModifyMenu::ShModifyMenu(const QString &title, ShMenuBar *parent)
-	:ShAbstractMenu(title, parent) {
+ShModifyMenu::ShModifyMenu(const QString &title, ShChain *chain, QWidget *parent)
+	:ShAbstractMenu(title, chain, parent) {
 
 	this->eraseAction = new QAction(ShIcon(":/Image/Modify/Erase.png"), shGetLanValue_ui("Modify/Erase"), this);
 	this->addAction(this->eraseAction);

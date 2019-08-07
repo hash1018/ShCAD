@@ -5,14 +5,22 @@
 
 #include "ShAbstractToolBar.h"
 
+class ShColorComboBox;
+class ShColor;
 
 class ShPropertyToolBar : public ShAbstractToolBar {
 	Q_OBJECT
+
+private:
+	ShColorComboBox *colorCombo;
+
 
 public:
 	ShPropertyToolBar(const QString &title, QWidget *parent = nullptr);
 	~ShPropertyToolBar();
 
+	private slots:
+	void colorChanged(const ShColor &color);
 };
 
 

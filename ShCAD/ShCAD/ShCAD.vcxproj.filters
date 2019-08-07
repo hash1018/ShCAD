@@ -107,6 +107,9 @@
     <Filter Include="Interface\Dialog">
       <UniqueIdentifier>{a9308ae4-fae1-44f6-b22a-5fb296ec5084}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Chain of Responsibility">
+      <UniqueIdentifier>{5a7c2880-f9d6-49a6-b71e-91330f2f5a5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -430,6 +433,12 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ShColorComboBox.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Chain of Responsibility\ShChain.cpp">
+      <Filter>Chain of Responsibility</Filter>
+    </ClCompile>
+    <ClCompile Include="Chain of Responsibility\ShRequest.cpp">
+      <Filter>Chain of Responsibility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -706,6 +715,12 @@
     </ClInclude>
     <ClInclude Include="Data\ShColorList.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Chain of Responsibility\ShChain.h">
+      <Filter>Chain of Responsibility</Filter>
+    </ClInclude>
+    <ClInclude Include="Chain of Responsibility\ShRequest.h">
+      <Filter>Chain of Responsibility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
