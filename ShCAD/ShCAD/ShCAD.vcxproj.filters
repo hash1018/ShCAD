@@ -460,6 +460,24 @@
     <ClCompile Include="Utility\ShColorConverter.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Data\ShLineStyle.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\ShLineStyleList.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\ShLineStyleConverter.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShLineStyleComboBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Item\ShLineStyleComboBox.cpp">
+      <Filter>Interface\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShLineStyleComboBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -490,6 +508,9 @@
       <Filter>Interface\Dialog</Filter>
     </CustomBuild>
     <CustomBuild Include="Interface\Item\ShColorComboBox.h">
+      <Filter>Interface\Item</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Item\ShLineStyleComboBox.h">
       <Filter>Interface\Item</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -759,6 +780,15 @@
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="Utility\ShColorConverter.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShLineStyle.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShLineStyleList.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\ShLineStyleConverter.h">
       <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>

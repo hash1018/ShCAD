@@ -189,16 +189,17 @@ ShDrawerUnSelectedEntity::~ShDrawerUnSelectedEntity() {
 
 void ShDrawerUnSelectedEntity::visit(ShLine *line) {
 
-
 	ShDrawerFunctions f(this->widget);
 
 	ShLineData data = line->getData();
+	ShPropertyData propertyData = line->getPropertyData();
 
 	GLPoint start, end;
 	f.convertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
 	f.convertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
-	GLColor color(255., 255., 255.);
+	GLColor color(propertyData.getColor().getRed() / 255., propertyData.getColor().getGreen() / 255.,
+		propertyData.getColor().getBlue() / 255.);
 
 	f.drawLine(start, end, color);
 	

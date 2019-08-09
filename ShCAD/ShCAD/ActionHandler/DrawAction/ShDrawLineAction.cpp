@@ -172,7 +172,7 @@ void ShSubDrawLineAction_Default::takeNextStep(const ShPoint3d &point, const ShP
 
 		this->getStatus() = ShDrawLineAction::PickedStart;
 
-		this->widget->getPreview().add(new ShLine(point, nextPoint));
+		this->widget->getPreview().add(new ShLine(this->widget->getPropertyData(), ShLineData(point, nextPoint)));
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 
 		ShUpdateTextToCommandListEvent notifyEvent("");

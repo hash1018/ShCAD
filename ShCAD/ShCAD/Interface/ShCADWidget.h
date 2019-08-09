@@ -1,7 +1,7 @@
 
 
-#ifndef _SHCADWidget_H
-#define _SHCADWidget_H
+#ifndef _SHCADWIDGET_H
+#define _SHCADWIDGET_H
 
 #include <qopenglwidget.h>
 #include "Data\ShPoint.h"

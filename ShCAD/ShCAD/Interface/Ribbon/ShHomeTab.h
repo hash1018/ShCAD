@@ -17,6 +17,8 @@ class ShRibbonPolyLineButton;
 class ShButtonWithText;
 class ShColor;
 class ShColorComboBox;
+class ShLineStyle;
+class ShLineStyleComboBox;
 
 class ShHomeTab : public ShRibbonTab {
 
@@ -103,6 +105,7 @@ class ShPropertyPanel : public ShPanelInRibbonTab {
 
 private:
 	ShColorComboBox *colorCombo;
+	ShLineStyleComboBox *lineStyleCombo;
 
 public:
 	ShPropertyPanel(ShChain *chain, QWidget *parent, const QString &title, int width);
@@ -111,12 +114,14 @@ public:
 	void update(ShNotifyEvent *event);
 
 	inline ShColorComboBox* getColorCombo() const { return this->colorCombo; }
+	inline ShLineStyleComboBox* getLineStyleCombo() const { return this->lineStyleCombo; }
 
 protected:
 	void resizeEvent(QResizeEvent* event);
 
 	private slots:
 	void colorChanged(const ShColor &color);
+	void lineStyleChanged(const ShLineStyle &lineStyle);
 };
 
 //////////////////////////////////////////////////////////////////////////////

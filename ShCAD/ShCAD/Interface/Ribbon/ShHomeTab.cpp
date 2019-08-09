@@ -9,6 +9,7 @@
 #include "Chain of Responsibility\ShRequest.h"
 #include "Event\ShHomeTabEventFilter.h"
 #include "Event\ShNotifyEvent.h"
+#include "Interface\Item\ShLineStyleComboBox.h"
 
 ShHomeTab::ShHomeTab(ShChain *chain, const QString &title, QWidget *parent)
 	:ShRibbonTab(title, chain, parent) {
@@ -215,7 +216,10 @@ ShPropertyPanel::ShPropertyPanel(ShChain *chain, QWidget *parent, const QString 
 	:ShPanelInRibbonTab(chain, parent, title, width) {
 
 	this->colorCombo = new ShColorComboBox(this);
+	this->lineStyleCombo = new ShLineStyleComboBox(this);
+
 	connect(this->colorCombo, &ShColorComboBox::colorChanged, this, &ShPropertyPanel::colorChanged);
+	connect(this->lineStyleCombo, &ShLineStyleComboBox::lineStyleChanged, this, &ShPropertyPanel::lineStyleChanged);
 
 }
 
@@ -232,6 +236,7 @@ void ShPropertyPanel::resizeEvent(QResizeEvent *event) {
 	int height = this->layoutWidget->height();
 
 	this->colorCombo->setGeometry(height / 3 + 2, 3, 150, height / 3 - 8);
+	this->lineStyleCombo->setGeometry(height / 3 + 2, height / 3, 150, height / 3 - 8);
 }
 
 void ShPropertyPanel::update(ShNotifyEvent *event) {
@@ -247,6 +252,10 @@ void ShPropertyPanel::colorChanged(const ShColor &color) {
 	this->request(&request);
 }
 
+void ShPropertyPanel::lineStyleChanged(const ShLineStyle &lineStyle) {
+
+
+}
 
 
 
