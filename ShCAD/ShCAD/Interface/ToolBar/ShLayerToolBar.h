@@ -8,7 +8,7 @@ class ShLayerToolBar : public ShAbstractToolBar {
 	Q_OBJECT
 
 public:
-	ShLayerToolBar(const QString &title, QWidget *parent = nullptr);
+	ShLayerToolBar(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShLayerToolBar();
 
 };

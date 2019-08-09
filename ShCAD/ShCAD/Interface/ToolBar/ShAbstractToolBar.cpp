@@ -2,8 +2,8 @@
 
 #include "ShAbstractToolBar.h"
 
-ShAbstractToolBar::ShAbstractToolBar(const QString &title, QWidget *parent)
-	:QToolBar(title, parent), menuActionChecked(false) {
+ShAbstractToolBar::ShAbstractToolBar(const QString &title, ShChain *chain, QWidget *parent)
+	:QToolBar(title, parent), ShChain(chain), menuActionChecked(false) {
 
 	this->menuAction = new QAction(title);
 	this->menuAction->setCheckable(true);

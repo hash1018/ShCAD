@@ -3,8 +3,8 @@
 #include "ShPropertyToolBar.h"
 #include "Interface\Item\ShColorComboBox.h"
 
-ShPropertyToolBar::ShPropertyToolBar(const QString &title, QWidget *parent)
-	:ShAbstractToolBar(title, parent) {
+ShPropertyToolBar::ShPropertyToolBar(const QString &title, ShChain *chain, QWidget *parent)
+	:ShAbstractToolBar(title, chain, parent) {
 
 	this->colorCombo = new ShColorComboBox(this);
 	this->addWidget(this->colorCombo);

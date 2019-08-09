@@ -2,13 +2,12 @@
 
 #include "ShObjectSnapToolBar.h"
 #include "Interface\Item\ShIcon.h"
-#include "Manager\ShCADWidgetManager.h"
-#include "Interface\ShCADWidget.h"
 #include "Base\ShVariable.h"
 #include "ActionHandler\Private\ShDecorateActionStrategy.h"
+#include "Chain of Responsibility\ShRequest.h"
 
-ShObjectSnapToolBar::ShObjectSnapToolBar(const QString &title, QWidget *parent)
-	:ShAbstractToolBar(title, parent) {
+ShObjectSnapToolBar::ShObjectSnapToolBar(const QString &title, ShChain *chain, QWidget *parent)
+	:ShAbstractToolBar(title, chain, parent) {
 
 	this->setIconSize(QSize(20, 20));
 
@@ -63,24 +62,16 @@ void ShObjectSnapToolBar::temporaryTrackPointClicked() {
 
 void ShObjectSnapToolBar::endPointClicked() {
 
-	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
-
-	if (manager->getActivatedWidget() != nullptr) {
-
-		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapEndPoint);
-		manager->getActivatedWidget()->changeAction(strategy);
-	}
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapEndPoint);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShObjectSnapToolBar::midPointClicked() {
 
-	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
-
-	if (manager->getActivatedWidget() != nullptr) {
-
-		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapMidPoint);
-		manager->getActivatedWidget()->changeAction(strategy);
-	}
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapMidPoint);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 
@@ -100,24 +91,16 @@ void ShObjectSnapToolBar::extensionPointClicked() {
 
 void ShObjectSnapToolBar::centerPointClicked() {
 
-	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
-
-	if (manager->getActivatedWidget() != nullptr) {
-
-		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapCenter);
-		manager->getActivatedWidget()->changeAction(strategy);
-	}
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapCenter);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShObjectSnapToolBar::quadrantPointClicked() {
 
-	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
-
-	if (manager->getActivatedWidget() != nullptr) {
-
-		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapQuadrant);
-		manager->getActivatedWidget()->changeAction(strategy);
-	}
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapQuadrant);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShObjectSnapToolBar::tangentPointClicked() {
@@ -127,11 +110,7 @@ void ShObjectSnapToolBar::tangentPointClicked() {
 
 void ShObjectSnapToolBar::perpendicularClicked() {
 
-	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
-
-	if (manager->getActivatedWidget() != nullptr) {
-
-		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapPerpendicular);
-		manager->getActivatedWidget()->changeAction(strategy);
-	}
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapPerpendicular);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }

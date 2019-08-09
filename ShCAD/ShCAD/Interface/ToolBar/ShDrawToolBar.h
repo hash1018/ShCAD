@@ -7,7 +7,7 @@
 class ShDrawToolBar : public ShAbstractToolBar {
 
 public:
-	ShDrawToolBar(const QString &title, QWidget *parent = nullptr);
+	ShDrawToolBar(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShDrawToolBar();
 
 private:

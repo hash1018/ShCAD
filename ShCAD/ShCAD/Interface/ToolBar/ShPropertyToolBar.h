@@ -16,7 +16,7 @@ private:
 
 
 public:
-	ShPropertyToolBar(const QString &title, QWidget *parent = nullptr);
+	ShPropertyToolBar(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShPropertyToolBar();
 
 	private slots:

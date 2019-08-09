@@ -8,7 +8,7 @@
 class ShObjectSnapToolBar : public ShAbstractToolBar {
 
 public:
-	ShObjectSnapToolBar(const QString &title, QWidget *parent = nullptr);
+	ShObjectSnapToolBar(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShObjectSnapToolBar();
 
 

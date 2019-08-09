@@ -65,7 +65,7 @@ void ShCAD::initWidgets() {
 	this->setStatusBar(this->statusBar);
 	this->statusBar->hide();
 	
-	this->toolBarContainer = new ShToolBarContainer(this);
+	this->toolBarContainer = new ShToolBarContainer(this, this);
 }
 
 void ShCAD::registerWidgets() {
@@ -167,4 +167,12 @@ void ShCAD::request(ShRequest *request) {
 
 	if (request->getType() == ShRequest::RequestType::RequestCreateNewCADWidget)
 		this->createCADWidget();
+	else if (request->getType() == ShRequest::RequestChangeActionHandler) {
+	
+		if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+			return;
+		ShRequestChangeActionHandler *request2 = dynamic_cast<ShRequestChangeActionHandler*>(request);
+		ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(*(request2->getStrategy()));
+	}
+
 }

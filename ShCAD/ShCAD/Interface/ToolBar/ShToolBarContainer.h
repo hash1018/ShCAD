@@ -4,6 +4,7 @@
 #define _SHTOOLBARCONTAINER_H
 
 #include <qlist.h>
+#include "Chain of Responsibility\ShChain.h"
 
 class ShCAD;
 class QMenu;
@@ -13,7 +14,7 @@ class ShModifyToolBar;
 class ShLayerToolBar;
 class ShObjectSnapToolBar;
 class ShAbstractToolBar;
-class ShToolBarContainer {
+class ShToolBarContainer : public ShChain {
 
 private:
 	ShCAD *parent;
@@ -30,7 +31,7 @@ private:
 	ShObjectSnapToolBar *objectSnapToolBar;
 
 public:
-	ShToolBarContainer(ShCAD *parent);
+	ShToolBarContainer(ShCAD *parent, ShChain *chain);
 	~ShToolBarContainer();
 
 	void activate();

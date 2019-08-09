@@ -3,8 +3,8 @@
 #include "ShDrawToolBar.h"
 #include "Interface\Item\ShIcon.h"
 
-ShDrawToolBar::ShDrawToolBar(const QString &title, QWidget *parent)
-	:ShAbstractToolBar(title, parent) {
+ShDrawToolBar::ShDrawToolBar(const QString &title, ShChain *chain, QWidget *parent)
+	:ShAbstractToolBar(title, chain, parent) {
 
 	this->setIconSize(QSize(20, 20));
 

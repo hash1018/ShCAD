@@ -32,14 +32,19 @@ void ShDecorateOrthogonalActionStrategy::change() {
 		Q_ASSERT("ShDecorateOrthogonalActionStrategy::change() >> widget is null ptr");
 
 	if (this->widget->getDraftData().getOrthMode() == false) {
-		ShUpdateCommandHeadTitleEvent notifyEvent("<Ortho on> ", ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent);
-		this->widget->notify(&notifyEvent);
+
+		if (this->widget->getActionHandlerProxy()->getType() != ActionType::ActionDefault) {
+			ShUpdateCommandHeadTitleEvent notifyEvent("<Ortho on> ", ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent);
+			this->widget->notify(&notifyEvent);
+		}
 
 		this->widget->getDraftData().setOrthMode(true);
 	}
 	else {
-		ShUpdateCommandHeadTitleEvent notifyEvent("<Ortho off> ", ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent);
-		this->widget->notify(&notifyEvent);
+		if (this->widget->getActionHandlerProxy()->getType() != ActionType::ActionDefault) {
+			ShUpdateCommandHeadTitleEvent notifyEvent("<Ortho off> ", ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent);
+			this->widget->notify(&notifyEvent);
+		}
 
 		this->widget->getDraftData().setOrthMode(false);
 	}

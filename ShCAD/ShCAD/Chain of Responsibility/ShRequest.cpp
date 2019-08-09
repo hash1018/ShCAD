@@ -20,3 +20,14 @@ ShCreateNewCADWidgetRequest::ShCreateNewCADWidgetRequest()
 ShCreateNewCADWidgetRequest::~ShCreateNewCADWidgetRequest() {
 
 }
+
+//////////////////////////////
+
+ShRequestChangeActionHandler::ShRequestChangeActionHandler(ShChangeActionStrategy *strategy)
+	:ShRequest(ShRequest::RequestChangeActionHandler), strategy(strategy) {
+
+}
+
+ShRequestChangeActionHandler::~ShRequestChangeActionHandler() {
+
+}

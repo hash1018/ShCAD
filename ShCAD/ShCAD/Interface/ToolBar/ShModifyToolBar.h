@@ -7,7 +7,7 @@
 class ShModifyToolBar : public ShAbstractToolBar {
 
 public:
-	ShModifyToolBar(const QString &title, QWidget *parent = nullptr);
+	ShModifyToolBar(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShModifyToolBar();
 
 
