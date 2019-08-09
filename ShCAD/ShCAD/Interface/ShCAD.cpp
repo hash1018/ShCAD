@@ -21,7 +21,7 @@ ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 	
 	this->initWidgets();
-	this->registerWidgets();
+	this->registerObservers();
 	this->createCADWidget();
 	this->createContextMenu();
 
@@ -69,12 +69,14 @@ void ShCAD::initWidgets() {
 	
 }
 
-void ShCAD::registerWidgets() {
+void ShCAD::registerObservers() {
 
 	ShChangeManager *manager = ShChangeManager::getInstance();
 
-	manager->Register(this->statusBar);
-	manager->Register(this->commandDock);
+	manager->registerObserver(this->statusBar);
+	manager->registerObserver(this->commandDock);
+	manager->registerObserver(this->ribbonMenu);
+	manager->registerObserver(this->toolBarContainer);
 }
 
 void ShCAD::activateWidgets() {

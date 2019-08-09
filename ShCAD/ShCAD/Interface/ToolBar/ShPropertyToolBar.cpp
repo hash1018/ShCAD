@@ -18,6 +18,11 @@ ShPropertyToolBar::~ShPropertyToolBar() {
 
 }
 
+void ShPropertyToolBar::update(ShNotifyEvent *event) {
+
+}
+
+
 void ShPropertyToolBar::colorChanged(const ShColor &color) {
 
 

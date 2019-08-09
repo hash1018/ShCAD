@@ -5,6 +5,7 @@
 
 #include "ShRibbon.h"
 
+class ShNotifyEvent;
 class ShDrawPanel;
 class ShModifyPanel;
 class ShPropertyPanel;
@@ -30,6 +31,7 @@ public:
 	ShHomeTab(ShChain *chain, const QString &title, QWidget *parent = nullptr);
 	~ShHomeTab();
 
+	void update(ShNotifyEvent *event);
 };
 
 
@@ -106,6 +108,8 @@ public:
 	ShPropertyPanel(ShChain *chain, QWidget *parent, const QString &title, int width);
 	~ShPropertyPanel();
 
+	void update(ShNotifyEvent *event);
+
 protected:
 	void resizeEvent(QResizeEvent* event);
 
@@ -123,6 +127,7 @@ public:
 	ShLayerPanel(ShChain *chain, QWidget *parent, const QString &title, int width);
 	~ShLayerPanel();
 
+	void update(ShNotifyEvent *event);
 
 protected:
 	void resizeEvent(QResizeEvent *event);

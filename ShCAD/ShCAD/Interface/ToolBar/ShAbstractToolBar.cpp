@@ -7,6 +7,7 @@ ShAbstractToolBar::ShAbstractToolBar(const QString &title, ShChain *chain, QWidg
 
 	this->menuAction = new QAction(title);
 	this->menuAction->setCheckable(true);
+	this->menuAction->setChecked(this->menuActionChecked);
 
 	connect(this->menuAction, &QAction::triggered, this, &ShAbstractToolBar::menuActionClicked);
 }

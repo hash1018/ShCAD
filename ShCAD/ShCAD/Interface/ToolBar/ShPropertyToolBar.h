@@ -5,6 +5,7 @@
 
 #include "ShAbstractToolBar.h"
 
+class ShNotifyEvent;
 class ShColorComboBox;
 class ShColor;
 
@@ -18,6 +19,8 @@ private:
 public:
 	ShPropertyToolBar(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShPropertyToolBar();
+
+	void update(ShNotifyEvent *event);
 
 	private slots:
 	void colorChanged(const ShColor &color);

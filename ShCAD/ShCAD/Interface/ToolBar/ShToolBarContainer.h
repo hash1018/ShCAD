@@ -6,6 +6,7 @@
 #include <qlist.h>
 #include "Chain of Responsibility\ShChain.h"
 
+class ShNotifyEvent;
 class ShCAD;
 class QMenu;
 class ShDrawToolBar;
@@ -36,6 +37,8 @@ public:
 
 	void activate();
 	void deactivate();
+
+	void update(ShNotifyEvent *event);
 
 	inline QMenu* getToolBarMenu() const { return this->toolBarMenu; }
 

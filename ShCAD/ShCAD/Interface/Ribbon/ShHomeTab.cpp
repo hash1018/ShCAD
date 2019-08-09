@@ -28,6 +28,11 @@ ShHomeTab::~ShHomeTab() {
 
 }
 
+void ShHomeTab::update(ShNotifyEvent *event) {
+
+	this->propertyPanel->update(event);
+	this->layerPanel->update(event);
+}
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -227,10 +232,17 @@ void ShPropertyPanel::resizeEvent(QResizeEvent *event) {
 	this->colorCombo->setGeometry(height / 3 + 2, 3, 150, height / 3 - 8);
 }
 
+void ShPropertyPanel::update(ShNotifyEvent *event) {
+
+
+}
+
 void ShPropertyPanel::colorChanged(const ShColor &color) {
 
 
 }
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -250,5 +262,10 @@ ShLayerPanel::~ShLayerPanel() {
 void ShLayerPanel::resizeEvent(QResizeEvent *event) {
 
 	ShPanelInRibbonTab::resizeEvent(event);
+
+}
+
+void ShLayerPanel::update(ShNotifyEvent *event) {
+
 
 }

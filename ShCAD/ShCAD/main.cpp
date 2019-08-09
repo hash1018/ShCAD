@@ -2,6 +2,7 @@
 #include <QtWidgets/QApplication>
 //#include <vld.h>
 #include "Interface\Dialog\ShStartupDialog.h"
+#include <qsplashscreen.h>
 
 int main(int argc, char *argv[]) {
 
@@ -14,8 +15,15 @@ int main(int argc, char *argv[]) {
 		a.quit();
 	}
 	else {
+
+		QSplashScreen splash;
+		splash.show();
+		
 		ShCAD shCAD;
 		shCAD.showMaximized();
+
+		splash.finish(&shCAD);
+		
 		a.exec();
 	}
 	

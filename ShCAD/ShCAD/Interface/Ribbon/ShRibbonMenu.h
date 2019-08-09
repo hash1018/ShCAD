@@ -5,6 +5,7 @@
 #include "ShRibbon.h"
 #include "Chain of Responsibility\ShChain.h"
 
+class ShNotifyEvent;
 class ShHomeTab;
 class ShInsertTab;
 class ShAnnotateTab;
@@ -33,6 +34,8 @@ public:
 
 	void activate();
 	void deactivate();
+
+	void update(ShNotifyEvent *event);
 
 	private slots:
 	void menuActionClicked();

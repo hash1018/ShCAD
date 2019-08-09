@@ -8,6 +8,8 @@ class ShNotifyEvent;
 class ShCADWidget;
 class ShStatusBar;
 class ShCommandDock;
+class ShRibbonMenu;
+class ShToolBarContainer;
 
 class ShChangeManager {
 
@@ -21,8 +23,10 @@ public:
 	static ShChangeManager* getInstance();
 
 public:
-	void Register(ShStatusBar *statusBar);
-	void Register(ShCommandDock *commandDock);
+	void registerObserver(ShStatusBar *statusBar);
+	void registerObserver(ShCommandDock *commandDock);
+	void registerObserver(ShRibbonMenu *ribbonMenu);
+	void registerObserver(ShToolBarContainer *toolBarContainer);
 
 
 	void notify(ShCADWidget *widget, ShNotifyEvent *event);
@@ -31,6 +35,8 @@ public:
 private:
 	ShStatusBar *statusBar;
 	ShCommandDock *commandDock;
+	ShRibbonMenu *ribbonMenu;
+	ShToolBarContainer *toolBarContainer;
 };
 
 #endif //_SHCHANGEMANAGER_H

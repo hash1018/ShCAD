@@ -11,3 +11,7 @@ ShLayerToolBar::~ShLayerToolBar() {
 
 }
 
+void ShLayerToolBar::update(ShNotifyEvent *event) {
+
+
+}

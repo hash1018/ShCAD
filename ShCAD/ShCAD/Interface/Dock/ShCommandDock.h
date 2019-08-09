@@ -17,6 +17,7 @@ class ShCommandList : public QTextEdit {
 private:
 	ShCommandList(QWidget *parent = nullptr);
 	~ShCommandList();
+
 };
 
 class ShCommandEdit : public QLineEdit {
@@ -48,7 +49,7 @@ private:
 
 protected:
 	void resizeEvent(QResizeEvent *event);
-	QSize sizeHint() const;
+
 };
 
 

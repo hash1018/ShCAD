@@ -69,7 +69,10 @@ void ShRibbonMenu::deactivate() {
 		this->hide();
 }
 
+void ShRibbonMenu::update(ShNotifyEvent *event) {
 
+	this->homeTab->update(event);
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 

@@ -70,3 +70,9 @@ void ShToolBarContainer::deactivate() {
 		(*itr)->deactivate();
 
 }
+
+void ShToolBarContainer::update(ShNotifyEvent *event) {
+
+	this->propertyToolBar->update(event);
+	this->layerToolBar->update(event);
+}

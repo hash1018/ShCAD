@@ -17,6 +17,7 @@ ShCommandList::~ShCommandList() {
 
 }
 
+
 //////////////////////////////////////////////////
 
 ShCommandEdit::ShCommandEdit(QWidget *parent)
@@ -71,8 +72,9 @@ ShCommandContainer::ShCommandContainer(QWidget *parent)
 
 	this->edit = new ShCommandEdit(this);
 	this->list = new ShCommandList(this);
-
+	
 	this->setMinimumHeight(40);
+	
 
 }
 
@@ -90,10 +92,6 @@ void ShCommandContainer::resizeEvent(QResizeEvent *event) {
 	this->edit->setGeometry(0, event->size().height() - 25, event->size().width(), 25);
 }
 
-QSize ShCommandContainer::sizeHint() const {
-
-	return QSize(0, 300);
-}
 
 /////////////////////////////////////////////////////
 
@@ -126,8 +124,8 @@ void ShCommandDock::closeEvent(QCloseEvent *event) {
 	this->menuActionChecked = false;
 	this->hide();
 	this->menuAction->setChecked(false);
-
 }
+
 
 void ShCommandDock::menuActionClicked() {
 

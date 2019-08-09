@@ -31,7 +31,7 @@ public:
 	~ShCAD();
 
 	void initWidgets();
-	void registerWidgets();
+	void registerObservers();
 	void activateWidgets();
 	void deactivateWidgets();
 	void createCADWidget();
