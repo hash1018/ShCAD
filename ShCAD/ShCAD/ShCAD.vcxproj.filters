@@ -442,6 +442,9 @@
     <ClCompile Include="Interface\Dock\ShAbstractDock.cpp">
       <Filter>Interface\Dock</Filter>
     </ClCompile>
+    <ClCompile Include="Data\ShPropertyData.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -727,6 +730,9 @@
     </ClInclude>
     <ClInclude Include="Interface\Dock\ShAbstractDock.h">
       <Filter>Interface\Dock</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShPropertyData.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

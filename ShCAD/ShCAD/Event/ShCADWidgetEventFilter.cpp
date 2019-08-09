@@ -9,6 +9,8 @@ ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEven
 
 	if (event->getType() == ShNotifyEvent::KeyPressed)
 		this->strategy = new ShCADWidgetKeyPressedEventFilterStrategy(widget, event);
+	else if (event->getType() == ShNotifyEvent::CurrentColorChanged)
+		this->strategy = new ShCADWidgetCurrentColorChangedEventFilterStrategy(widget, event);
 }
 
 ShCADWidgetEventFilter::~ShCADWidgetEventFilter() {
@@ -52,4 +54,19 @@ void ShCADWidgetKeyPressedEventFilterStrategy::update() {
 	ShKeyPressedEvent *event = dynamic_cast<ShKeyPressedEvent*>(this->event);
 
 	this->widget->getActionHandlerProxy()->keyPressEvent(event->getEvent());
+}
+
+/////////////////////////////////////////////////////////////////////
+
+ShCADWidgetCurrentColorChangedEventFilterStrategy::ShCADWidgetCurrentColorChangedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event)
+	:ShCADWidgetEventFilterStrategy(widget, event) {
+
+}
+
+ShCADWidgetCurrentColorChangedEventFilterStrategy::~ShCADWidgetCurrentColorChangedEventFilterStrategy() {
+
+}
+
+void ShCADWidgetCurrentColorChangedEventFilterStrategy::update() {
+
 }

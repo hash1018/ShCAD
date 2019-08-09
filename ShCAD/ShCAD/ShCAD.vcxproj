@@ -168,6 +168,7 @@
     <ClCompile Include="Data\ShDrawBuffer.cpp" />
     <ClCompile Include="Data\ShObjectSnapData.cpp" />
     <ClCompile Include="Data\ShPoint.cpp" />
+    <ClCompile Include="Data\ShPropertyData.cpp" />
     <ClCompile Include="Data\ShScrollPosition.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
     <ClCompile Include="Entity\Composite\ShEntityTable.cpp" />
@@ -384,6 +385,7 @@
     <ClInclude Include="Data\ShDrawBuffer.h" />
     <ClInclude Include="Data\ShObjectSnapData.h" />
     <ClInclude Include="Data\ShPoint.h" />
+    <ClInclude Include="Data\ShPropertyData.h" />
     <ClInclude Include="Data\ShScrollPosition.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />
     <ClInclude Include="Entity\Composite\ShEntityTable.h" />

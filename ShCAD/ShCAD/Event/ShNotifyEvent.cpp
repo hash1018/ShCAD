@@ -79,3 +79,15 @@ ShUpdateCommandHeadTitleEvent::ShUpdateCommandHeadTitleEvent(const QString &head
 ShUpdateCommandHeadTitleEvent::~ShUpdateCommandHeadTitleEvent() {
 
 }
+
+
+///////////////////////////////////////////////////////////////////////
+
+ShCurrentColorChangedEvent::ShCurrentColorChangedEvent(const ShColor &color)
+	:ShNotifyEvent(Type::CurrentColorChanged), color(color) {
+
+}
+
+ShCurrentColorChangedEvent::~ShCurrentColorChangedEvent() {
+
+}

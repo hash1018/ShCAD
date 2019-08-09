@@ -9,6 +9,7 @@ class ShLeaf : public ShEntity {
 
 public:
 	ShLeaf();
+	ShLeaf(const ShPropertyData &propertyData);
 	ShLeaf(const ShLeaf &other);
 	virtual ~ShLeaf() = 0;
 

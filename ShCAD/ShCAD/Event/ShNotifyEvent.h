@@ -4,8 +4,10 @@
 
 #include "Data\ShPoint.h"
 #include <qstring.h>
+
 class QKeyEvent;
 class ShCADWidget;
+class ShColor;
 
 
 
@@ -24,6 +26,9 @@ public:
 		ActivatedWidgetChanged,
 		UpdateTextToCommandList,
 		UpdateCommandHeadTitle,
+		CurrentColorChanged,
+		CurrentLineStyleChanged,
+		CurrentLayerChanged,
 	};
 
 	ShNotifyEvent(Type type);
@@ -139,6 +144,20 @@ public:
 private:
 	QString headTitle;
 	UpdateType updateType;
+};
+
+///////////////////////////////////////////////////////////////////////////
+
+class ShCurrentColorChangedEvent : public ShNotifyEvent {
+
+public:
+	ShCurrentColorChangedEvent(const ShColor &color);
+	~ShCurrentColorChangedEvent();
+
+	inline const ShColor& getColor() const { return this->color; }
+
+private:
+	const ShColor &color;
 };
 
 #endif //_SHNOTIFYEVENT_H

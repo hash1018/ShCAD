@@ -19,6 +19,7 @@ public:
 
 };
 
+////////////////////////////////////////////////////
 
 class ShCADWidgetEventFilterStrategy {
 
@@ -34,11 +35,25 @@ public:
 
 };
 
+///////////////////////////////////////////////////
+
 class ShCADWidgetKeyPressedEventFilterStrategy : public ShCADWidgetEventFilterStrategy {
 
 public:
 	ShCADWidgetKeyPressedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event);
 	~ShCADWidgetKeyPressedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
+////////////////////////////////////////////////////
+
+class ShCADWidgetCurrentColorChangedEventFilterStrategy : public ShCADWidgetEventFilterStrategy {
+
+public:
+	ShCADWidgetCurrentColorChangedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event);
+	~ShCADWidgetCurrentColorChangedEventFilterStrategy();
 
 	virtual void update();
 

@@ -7,6 +7,11 @@ ShLine::ShLine() {
 
 }
 
+ShLine::ShLine(const ShPropertyData &propertyData, const ShLineData &data)
+	:ShLeaf(propertyData), data(data) {
+
+}
+
 ShLine::ShLine(const ShLineData &data)
 	:data(data) {
 
