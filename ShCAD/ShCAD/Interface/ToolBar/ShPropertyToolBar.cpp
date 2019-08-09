@@ -3,6 +3,8 @@
 #include "ShPropertyToolBar.h"
 #include "Interface\Item\ShColorComboBox.h"
 #include "Event\ShToolBarContainerEventFilter.h"
+#include "Event\ShNotifyEvent.h"
+#include "Chain of Responsibility\ShRequest.h"
 
 ShPropertyToolBar::ShPropertyToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
@@ -28,5 +30,7 @@ void ShPropertyToolBar::update(ShNotifyEvent *event) {
 
 void ShPropertyToolBar::colorChanged(const ShColor &color) {
 
-
+	ShCurrentColorChangedEvent notifyEvent(color);
+	ShRequestSendNotifyEvent request(&notifyEvent);
+	this->request(&request);
 }

@@ -8,6 +8,7 @@
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Chain of Responsibility\ShRequest.h"
 #include "Event\ShHomeTabEventFilter.h"
+#include "Event\ShNotifyEvent.h"
 
 ShHomeTab::ShHomeTab(ShChain *chain, const QString &title, QWidget *parent)
 	:ShRibbonTab(title, chain, parent) {
@@ -241,7 +242,9 @@ void ShPropertyPanel::update(ShNotifyEvent *event) {
 
 void ShPropertyPanel::colorChanged(const ShColor &color) {
 
-
+	ShCurrentColorChangedEvent notifyEvent(color);
+	ShRequestSendNotifyEvent request(&notifyEvent);
+	this->request(&request);
 }
 
 

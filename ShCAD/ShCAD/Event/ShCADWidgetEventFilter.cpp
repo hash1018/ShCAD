@@ -3,6 +3,8 @@
 #include "Event\ShNotifyEvent.h"
 #include "Interface\ShCADWidget.h"
 #include "ActionHandler\ShActionHandlerProxy.h"
+#include "UnRedo\ShCADWidgetTransaction.h"
+#include "Base\ShGlobal.h"
 
 ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -69,4 +71,17 @@ ShCADWidgetCurrentColorChangedEventFilterStrategy::~ShCADWidgetCurrentColorChang
 
 void ShCADWidgetCurrentColorChangedEventFilterStrategy::update() {
 
+	ShCurrentColorChangedEvent *event = dynamic_cast<ShCurrentColorChangedEvent*>(this->event);
+
+	ShPropertyData prev = this->widget->getPropertyData();
+	ShPropertyData current = prev;
+	current.setColor(event->getColor());
+	this->widget->setPropertyData(current);
+
+	ShCurrentColorChangedEvent notifyEvent(event->getColor());
+	this->widget->notify(&notifyEvent);
+
+	ShChangeColorTransaction *transaction = new ShChangeColorTransaction(this->widget, prev.getColor(), event->getColor());
+	ShGlobal::pushNewTransaction(this->widget, transaction);
+	
 }

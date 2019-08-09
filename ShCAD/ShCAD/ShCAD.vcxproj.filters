@@ -451,6 +451,9 @@
     <ClCompile Include="Event\ShToolBarContainerEventFilter.cpp">
       <Filter>Event</Filter>
     </ClCompile>
+    <ClCompile Include="UnRedo\ShCADWidgetTransaction.cpp">
+      <Filter>UnRedo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -745,6 +748,9 @@
     </ClInclude>
     <ClInclude Include="Event\ShToolBarContainerEventFilter.h">
       <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="UnRedo\ShCADWidgetTransaction.h">
+      <Filter>UnRedo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
