@@ -22,6 +22,8 @@ public:
 
 	void update(ShNotifyEvent *event);
 
+	inline ShColorComboBox* getColorCombo() const { return this->colorCombo; }
+
 	private slots:
 	void colorChanged(const ShColor &color);
 };

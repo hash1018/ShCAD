@@ -110,6 +110,8 @@ public:
 
 	void update(ShNotifyEvent *event);
 
+	inline ShColorComboBox* getColorCombo() const { return this->colorCombo; }
+
 protected:
 	void resizeEvent(QResizeEvent* event);
 

@@ -445,6 +445,12 @@
     <ClCompile Include="Data\ShPropertyData.cpp">
       <Filter>Data</Filter>
     </ClCompile>
+    <ClCompile Include="Event\ShHomeTabEventFilter.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\ShToolBarContainerEventFilter.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -733,6 +739,12 @@
     </ClInclude>
     <ClInclude Include="Data\ShPropertyData.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\ShHomeTabEventFilter.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\ShToolBarContainerEventFilter.h">
+      <Filter>Event</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

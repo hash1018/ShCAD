@@ -7,6 +7,7 @@
 #include "Interface\Item\ShColorComboBox.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Chain of Responsibility\ShRequest.h"
+#include "Event\ShHomeTabEventFilter.h"
 
 ShHomeTab::ShHomeTab(ShChain *chain, const QString &title, QWidget *parent)
 	:ShRibbonTab(title, chain, parent) {
@@ -234,7 +235,8 @@ void ShPropertyPanel::resizeEvent(QResizeEvent *event) {
 
 void ShPropertyPanel::update(ShNotifyEvent *event) {
 
-
+	ShPropertyPanelEventFilter filter(this, event);
+	filter.update();
 }
 
 void ShPropertyPanel::colorChanged(const ShColor &color) {

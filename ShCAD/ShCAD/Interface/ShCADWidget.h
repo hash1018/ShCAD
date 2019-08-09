@@ -15,6 +15,7 @@
 #include "Entity\Composite\ShPreview.h"
 #include "Entity\Composite\ShEntityTable.h"
 #include "Data\DraftData.h"
+#include "Data\ShPropertyData.h"
 
 class ShNotifyEvent;
 class ShActionHandler;
@@ -39,6 +40,7 @@ private:
 	ShEntityTable entityTable;
 	ShPreview preview;
 	DraftData draftData;
+	ShPropertyData propertyData;
 	
 
 public:
@@ -77,6 +79,7 @@ public:
 	void setCoordinate(const ShPoint3d &coordinate) { this->coordinate = coordinate; }
 	void setScrollPosition(const ShScrollPosition &scrollPosition) { this->scroll = scrollPosition; }
 	void setZoomRate(const double &zoomRate) { this->zoomRate = zoomRate; }
+	void setPropertyData(const ShPropertyData &data) { this->propertyData = data; }
 
 public:
 	inline ShPoint3d getCoordinate() const { return this->coordinate; }
@@ -84,7 +87,7 @@ public:
 	inline double getZoomRate() const { return this->zoomRate; }
 	inline ShAxis& getAxis() const { return const_cast<ShAxis&>(this->axis); }
 	inline ShDrawBuffer& getDrawBuffer() const { return const_cast<ShDrawBuffer&>(this->drawBuffer); }
-	inline const QImage& getCapturedImage() const { return const_cast<QImage&>(this->capturedImage); }
+	inline const QImage& getCapturedImage() const { return this->capturedImage; }
 	inline ShActionHandlerProxy* getActionHandlerProxy() const { return this->actionHandlerProxy; }
 	inline ShTransactionStack* getRedoStack() const { return this->redoStack; }
 	inline ShTransactionStack* getUndoStack() const { return this->undoStack; }
@@ -93,6 +96,7 @@ public:
 	inline ShEntityTable& getEntityTable() const { return const_cast<ShEntityTable&>(this->entityTable); }
 	inline ShPreview& getPreview() const { return const_cast<ShPreview&>(this->preview); }
 	inline DraftData& getDraftData() const { return const_cast<DraftData&>(this->draftData); }
+	inline const ShPropertyData& getPropertyData() const { return this->propertyData; }
 
 };
 

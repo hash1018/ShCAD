@@ -2,6 +2,7 @@
 
 #include "ShPropertyToolBar.h"
 #include "Interface\Item\ShColorComboBox.h"
+#include "Event\ShToolBarContainerEventFilter.h"
 
 ShPropertyToolBar::ShPropertyToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
@@ -20,6 +21,8 @@ ShPropertyToolBar::~ShPropertyToolBar() {
 
 void ShPropertyToolBar::update(ShNotifyEvent *event) {
 
+	ShPropertyToolBarEventFilter filter(this, event);
+	filter.update();
 }
 
 
