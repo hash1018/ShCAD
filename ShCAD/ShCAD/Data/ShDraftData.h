@@ -1,12 +1,12 @@
 
 
-#ifndef _DRAFTDATA_H
-#define _DRAFTDATA_H
+#ifndef _SHDRAFTDATA_H
+#define _SHDRAFTDATA_H
 
 #include "Base\ShVariable.h"
 class ShObjectSnapData;
 
-class DraftData {
+class ShDraftData {
 
 private:
 	bool orthModeOn;
@@ -15,8 +15,8 @@ private:
 	
 
 public:
-	DraftData();
-	~DraftData();
+	ShDraftData();
+	~ShDraftData();
 
 	void setOrthMode(bool on);
 	void setDisposableSnap(ObjectSnap objectSnap);
@@ -27,4 +27,4 @@ public:
 
 };
 
-#endif //_DRAFTDATA_H
+#endif //_SHDRAFTDATA_H

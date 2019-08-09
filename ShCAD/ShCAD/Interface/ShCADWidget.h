@@ -14,7 +14,7 @@
 #include "Entity\Leaf\ShRubberBand.h"
 #include "Entity\Composite\ShPreview.h"
 #include "Entity\Composite\ShEntityTable.h"
-#include "Data\DraftData.h"
+#include "Data\ShDraftData.h"
 #include "Data\ShPropertyData.h"
 
 class ShNotifyEvent;
@@ -39,7 +39,7 @@ private:
 	ShRubberBand rubberBand;
 	ShEntityTable entityTable;
 	ShPreview preview;
-	DraftData draftData;
+	ShDraftData draftData;
 	ShPropertyData propertyData;
 	
 
@@ -95,7 +95,7 @@ public:
 	inline ShRubberBand& getRubberBand() const { return const_cast<ShRubberBand&>(this->rubberBand); }
 	inline ShEntityTable& getEntityTable() const { return const_cast<ShEntityTable&>(this->entityTable); }
 	inline ShPreview& getPreview() const { return const_cast<ShPreview&>(this->preview); }
-	inline DraftData& getDraftData() const { return const_cast<DraftData&>(this->draftData); }
+	inline ShDraftData& getDraftData() const { return const_cast<ShDraftData&>(this->draftData); }
 	inline const ShPropertyData& getPropertyData() const { return this->propertyData; }
 
 };

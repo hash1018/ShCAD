@@ -110,6 +110,9 @@
     <Filter Include="Chain of Responsibility">
       <UniqueIdentifier>{5a7c2880-f9d6-49a6-b71e-91330f2f5a5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{b33898d1-74b4-459e-9c07-0623bf00b41f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -373,9 +376,6 @@
     <ClCompile Include="Event\ShStatusBarEventFilter.cpp">
       <Filter>Event</Filter>
     </ClCompile>
-    <ClCompile Include="Data\DraftData.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
     <ClCompile Include="ActionHandler\Private\ShDecoratorActionFactory.cpp">
       <Filter>ActionHandler\Private</Filter>
     </ClCompile>
@@ -453,6 +453,12 @@
     </ClCompile>
     <ClCompile Include="UnRedo\ShCADWidgetTransaction.cpp">
       <Filter>UnRedo</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\ShDraftData.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\ShColorConverter.cpp">
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -689,9 +695,6 @@
     <ClInclude Include="Event\ShStatusBarEventFilter.h">
       <Filter>Event</Filter>
     </ClInclude>
-    <ClInclude Include="Data\DraftData.h">
-      <Filter>Data</Filter>
-    </ClInclude>
     <ClInclude Include="ActionHandler\Private\ShDecoratorActionFactory.h">
       <Filter>ActionHandler\Private</Filter>
     </ClInclude>
@@ -751,6 +754,12 @@
     </ClInclude>
     <ClInclude Include="UnRedo\ShCADWidgetTransaction.h">
       <Filter>UnRedo</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShDraftData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\ShColorConverter.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

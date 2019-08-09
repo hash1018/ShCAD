@@ -160,7 +160,7 @@
     <ClCompile Include="Base\ShMath.cpp" />
     <ClCompile Include="Chain of Responsibility\ShChain.cpp" />
     <ClCompile Include="Chain of Responsibility\ShRequest.cpp" />
-    <ClCompile Include="Data\DraftData.cpp" />
+    <ClCompile Include="Data\ShDraftData.cpp" />
     <ClCompile Include="Data\ShAvailableDraft.cpp" />
     <ClCompile Include="Data\ShColor.cpp" />
     <ClCompile Include="Data\ShColorList.cpp" />
@@ -314,6 +314,7 @@
     <ClCompile Include="UnRedo\ShPanTransaction.cpp" />
     <ClCompile Include="UnRedo\ShTransaction.cpp" />
     <ClCompile Include="UnRedo\ShTransactionStack.cpp" />
+    <ClCompile Include="Utility\ShColorConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -380,7 +381,7 @@
     <ClInclude Include="Base\ShVariable.h" />
     <ClInclude Include="Chain of Responsibility\ShChain.h" />
     <ClInclude Include="Chain of Responsibility\ShRequest.h" />
-    <ClInclude Include="Data\DraftData.h" />
+    <ClInclude Include="Data\ShDraftData.h" />
     <ClInclude Include="Data\ShAvailableDraft.h" />
     <ClInclude Include="Data\ShColor.h" />
     <ClInclude Include="Data\ShColorList.h" />
@@ -410,6 +411,7 @@
     <ClInclude Include="Event\ShHomeTabEventFilter.h" />
     <ClInclude Include="Event\ShNotifyEvent.h" />
     <ClInclude Include="Event\ShStatusBarEventFilter.h" />
+    <ClInclude Include="Utility\ShColorConverter.h" />
     <CustomBuild Include="Interface\Dialog\ShStartupDialog.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ShStartupDialog.h...</Message>

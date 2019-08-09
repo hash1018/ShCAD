@@ -2,7 +2,7 @@
 #include "ShDecoratorActionFactory.h"
 #include "ActionHandler\DecoratorAction\ShDecoratorDefaultAction.h"
 #include "ActionHandler\DecoratorAction\ShOrthogonalAction.h"
-#include "Data\DraftData.h"
+#include "Data\ShDraftData.h"
 #include "ActionHandler\DecoratorAction\ShDisposableSnapAction.h"
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
 #include <qdebug.h>
@@ -15,7 +15,7 @@ ShDecoratorActionFactory::~ShDecoratorActionFactory() {
 
 }
 
-ShDecoratorAction* ShDecoratorActionFactory::create(ShCADWidget *widget, ShActionHandler *actionHandler, const DraftData &draftData) {
+ShDecoratorAction* ShDecoratorActionFactory::create(ShCADWidget *widget, ShActionHandler *actionHandler, const ShDraftData &draftData) {
 
 	ShDecoratorAction *decoratorAction = new ShDecoratorDefaultAction(widget, actionHandler);
 

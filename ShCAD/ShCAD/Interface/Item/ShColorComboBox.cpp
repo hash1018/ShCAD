@@ -3,7 +3,7 @@
 #include <qpainter.h>
 #include <qcolordialog.h>
 #include "Data\ShColorList.h"
-
+#include "Utility\ShColorConverter.h"
 
 ShColorComboBox::ShColorComboBox(QWidget *parent)
 	:QComboBox(parent), colorComboSelChangedByUser(true), colorComboIndex(0),
@@ -79,11 +79,14 @@ void ShColorComboBox::updateColorCombo() {
 
 	ShColorList *list = ShColorList::getInstance();
 
-	this->addItem(QIcon(list->getColorImage(this->blockColor, 10, 10)), "ByBlock");
-	this->addItem(QIcon(list->getColorImage(this->layerColor, 10, 10)), "ByLayer");
+	this->addItem(QIcon(ShColorConverter::convertColorImage(this->blockColor, 10, 10)), "ByBlock");
+	this->addItem(QIcon(ShColorConverter::convertColorImage(this->layerColor, 10, 10)), "ByLayer");
 
-	for (int i = 0; i < list->getSize(); i++)
-		this->addItem(QIcon(list->getColorImage(10, 10, i)), list->getColorText(i));
+	for (int i = 0; i < list->getSize(); i++) {
+
+		this->addItem(QIcon(ShColorConverter::convertColorImage(list->getColor(i), 10, 10)),
+			ShColorConverter::convertColorText(list->getColor(i)));
+	}
 
 	QPixmap pix(10, 10);
 	QPainter painter(&pix);

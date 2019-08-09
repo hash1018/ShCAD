@@ -1,8 +1,8 @@
 
-#include "DraftData.h"
+#include "ShDraftData.h"
 #include "Base\ShDraftSetting.h"
 
-DraftData::DraftData()
+ShDraftData::ShDraftData()
 	:orthModeOn(false), disposableSnap(ObjectSnap::ObjectSnapNothing), objectSnapData(nullptr) {
 
 	ShDraftSetting *setting = ShDraftSetting::getInstance();
@@ -11,16 +11,16 @@ DraftData::DraftData()
 
 }
 
-DraftData::~DraftData() {
+ShDraftData::~ShDraftData() {
 
 }
 
-void DraftData::setOrthMode(bool on) {
+void ShDraftData::setOrthMode(bool on) {
 
 	this->orthModeOn = on;
 }
 
-void DraftData::setDisposableSnap(ObjectSnap objectSnap) {
+void ShDraftData::setDisposableSnap(ObjectSnap objectSnap) {
 
 	this->disposableSnap = objectSnap;
 }

@@ -7,7 +7,7 @@
 class ShDecoratorAction;
 class ShActionHandler;
 class ShCADWidget;
-class DraftData;
+class ShDraftData;
 
 class ShDecoratorActionFactory {
 
@@ -15,7 +15,7 @@ public:
 	ShDecoratorActionFactory();
 	~ShDecoratorActionFactory();
 
-	static ShDecoratorAction* create(ShCADWidget *widget, ShActionHandler *actionHandler, const DraftData &draftData);
+	static ShDecoratorAction* create(ShCADWidget *widget, ShActionHandler *actionHandler, const ShDraftData &draftData);
 
 private:
 	static ShDecoratorAction* createLineActionPerpendicular(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child);

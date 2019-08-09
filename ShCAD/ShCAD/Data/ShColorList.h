@@ -4,7 +4,6 @@
 
 #include <qlist.h>
 #include "ShColor.h"
-#include <qpixmap.h>
 
 class ShColorList {
 
@@ -19,10 +18,6 @@ private:
 
 public:
 	static ShColorList* getInstance();
-
-	QPixmap getColorImage(const ShColor &color, int width, int height);
-	QPixmap getColorImage(int width, int height, int index);
-	QString getColorText(int index);
 
 	int search(const ShColor &color);
 	void add(const ShColor &color);
