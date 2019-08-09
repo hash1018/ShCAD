@@ -28,8 +28,8 @@
 #include <qtabwidget.h>
 #include <qpainter.h>
 
-ShRibbon::ShRibbon(QWidget *parent)
-	:QToolBar(parent) {
+ShRibbon::ShRibbon(ShChain *chain, QWidget *parent)
+	:QToolBar(parent), ShChain(chain) {
 
 	this->setMovable(false);
 	this->setFloatable(false);
@@ -38,8 +38,8 @@ ShRibbon::ShRibbon(QWidget *parent)
 	this->addWidget(this->tab);
 }
 
-ShRibbon::ShRibbon(const QSize& size, QWidget *parent)
-	:QToolBar(parent) {
+ShRibbon::ShRibbon(ShChain *chain, const QSize& size, QWidget *parent)
+	:QToolBar(parent), ShChain(chain) {
 
 	this->setFixedSize(size);
 
@@ -50,8 +50,8 @@ ShRibbon::ShRibbon(const QSize& size, QWidget *parent)
 	this->addWidget(this->tab);
 }
 
-ShRibbon::ShRibbon(int height, QWidget *parent)
-	:QToolBar(parent) {
+ShRibbon::ShRibbon(ShChain *chain, int height, QWidget *parent)
+	:QToolBar(parent), ShChain(chain) {
 
 	this->setFixedHeight(height);
 
@@ -70,7 +70,7 @@ ShRibbon::~ShRibbon() {
 
 ShRibbonTab* ShRibbon::addTab(const QString &title) {
 
-	ShRibbonTab* shRibbonTab = new ShRibbonTab(this->tab);
+	ShRibbonTab* shRibbonTab = new ShRibbonTab(this, this->tab);
 	this->tab->addTab(shRibbonTab, title);
 
 	return shRibbonTab;
@@ -88,13 +88,13 @@ ShRibbonTab* ShRibbon::addTab(ShRibbonTab *tab) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-ShRibbonTab::ShRibbonTab(QWidget *parent)
-	:QToolBar(parent) {
+ShRibbonTab::ShRibbonTab(ShChain *chain, QWidget *parent)
+	:QToolBar(parent), ShChain(chain) {
 
 }
 
-ShRibbonTab::ShRibbonTab(const QString& title, QWidget *parent)
-	: QToolBar(parent) {
+ShRibbonTab::ShRibbonTab(const QString& title, ShChain *chain, QWidget *parent)
+	: QToolBar(parent), ShChain(chain) {
 
 	this->setWindowTitle(title);
 
@@ -106,7 +106,7 @@ ShRibbonTab::~ShRibbonTab() {
 
 ShPanelInRibbonTab* ShRibbonTab::addPanel() {
 
-	ShPanelInRibbonTab *widget = new ShPanelInRibbonTab(this, "");
+	ShPanelInRibbonTab *widget = new ShPanelInRibbonTab(this, this, "");
 	this->addWidget(widget);
 	this->addSeparator();
 
@@ -115,7 +115,7 @@ ShPanelInRibbonTab* ShRibbonTab::addPanel() {
 
 ShPanelInRibbonTab* ShRibbonTab::addPanel(const QString& columnTitle) {
 
-	ShPanelInRibbonTab *widget = new ShPanelInRibbonTab(this, columnTitle);
+	ShPanelInRibbonTab *widget = new ShPanelInRibbonTab(this, this, columnTitle);
 	this->addWidget(widget);
 	this->addSeparator();
 
@@ -124,7 +124,7 @@ ShPanelInRibbonTab* ShRibbonTab::addPanel(const QString& columnTitle) {
 
 ShPanelInRibbonTab* ShRibbonTab::addPanel(const QString& columnTitle, int columnWidth) {
 
-	ShPanelInRibbonTab *widget = new ShPanelInRibbonTab(this, columnTitle);
+	ShPanelInRibbonTab *widget = new ShPanelInRibbonTab(this, this, columnTitle);
 	widget->setFixedWidth(columnWidth);
 	this->addWidget(widget);
 	this->addSeparator();
@@ -143,8 +143,8 @@ ShPanelInRibbonTab* ShRibbonTab::addPanel(ShPanelInRibbonTab *panel) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ShPanelInRibbonTab::ShPanelInRibbonTab(QWidget *parent, const QString& title)
-	:QWidget(parent), title(title) {
+ShPanelInRibbonTab::ShPanelInRibbonTab(ShChain *chain, QWidget *parent, const QString& title)
+	:ShChain(chain), QWidget(parent), title(title) {
 
 	this->area = BottomPanelTitleArea;
 
@@ -153,8 +153,8 @@ ShPanelInRibbonTab::ShPanelInRibbonTab(QWidget *parent, const QString& title)
 
 }
 
-ShPanelInRibbonTab::ShPanelInRibbonTab(QWidget *parent, const QString &title, int width)
-	:QWidget(parent), title(title) {
+ShPanelInRibbonTab::ShPanelInRibbonTab(ShChain *chain, QWidget *parent, const QString &title, int width)
+	:ShChain(chain), QWidget(parent), title(title) {
 
 	this->area = BottomPanelTitleArea;
 	this->setFixedWidth(width);

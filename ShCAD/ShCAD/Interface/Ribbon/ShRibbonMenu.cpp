@@ -3,27 +3,27 @@
 #include "ShHomeTab.h"
 #include "Manager\ShLanguageManager.h"
 
-ShRibbonMenu::ShRibbonMenu(int height, QWidget *parent)
-	:ShRibbon(height, parent), menuActionChecked(true) {
+ShRibbonMenu::ShRibbonMenu(int height, ShChain *chain, QWidget *parent)
+	:ShRibbon(chain, height, parent), menuActionChecked(true) {
 
 	this->setWindowTitle(shGetLanValue_ui("Ribbon/RibbonMenu"));
 
-	this->homeTab = new ShHomeTab(shGetLanValue_ui("Home/Home"), this);
+	this->homeTab = new ShHomeTab(this, shGetLanValue_ui("Home/Home"), this);
 	this->addTab(this->homeTab);
 
-	this->insertTab = new ShInsertTab(shGetLanValue_ui("Insert/Insert"), this);
+	this->insertTab = new ShInsertTab(shGetLanValue_ui("Insert/Insert"), this, this);
 	this->addTab(this->insertTab);
 
-	this->annotateTab = new ShAnnotateTab(shGetLanValue_ui("Annotate/Annotate"), this);
+	this->annotateTab = new ShAnnotateTab(shGetLanValue_ui("Annotate/Annotate"), this, this);
 	this->addTab(this->annotateTab);
 
-	this->parametricTab = new ShParametricTab(shGetLanValue_ui("Parametric/Parametric"), this);
+	this->parametricTab = new ShParametricTab(shGetLanValue_ui("Parametric/Parametric"), this, this);
 	this->addTab(this->parametricTab);
 
-	this->viewTab = new ShViewTab(shGetLanValue_ui("View/View"), this);
+	this->viewTab = new ShViewTab(shGetLanValue_ui("View/View"), this, this);
 	this->addTab(this->viewTab);
 
-	this->manageTab = new ShManageTab(shGetLanValue_ui("Manage/Manage"), this);
+	this->manageTab = new ShManageTab(shGetLanValue_ui("Manage/Manage"), this, this);
 	this->addTab(this->manageTab);
 
 	this->menuAction = new QAction(shGetLanValue_ui("Ribbon/RibbonMenu"));
@@ -73,8 +73,8 @@ void ShRibbonMenu::deactivate() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-ShInsertTab::ShInsertTab(const QString &title, QWidget *parent)
-	:ShRibbonTab(title, parent) {
+ShInsertTab::ShInsertTab(const QString &title, ShChain *chain, QWidget *parent)
+	:ShRibbonTab(title, chain, parent) {
 
 }
 
@@ -84,8 +84,8 @@ ShInsertTab::~ShInsertTab() {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-ShAnnotateTab::ShAnnotateTab(const QString &title, QWidget *parent)
-	:ShRibbonTab(title, parent) {
+ShAnnotateTab::ShAnnotateTab(const QString &title, ShChain *chain, QWidget *parent)
+	:ShRibbonTab(title, chain, parent) {
 
 }
 
@@ -96,8 +96,8 @@ ShAnnotateTab::~ShAnnotateTab() {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-ShParametricTab::ShParametricTab(const QString &title, QWidget *parent)
-	:ShRibbonTab(title, parent) {
+ShParametricTab::ShParametricTab(const QString &title, ShChain *chain, QWidget *parent)
+	:ShRibbonTab(title, chain, parent) {
 
 }
 
@@ -108,8 +108,8 @@ ShParametricTab::~ShParametricTab() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-ShViewTab::ShViewTab(const QString &title, QWidget *parent)
-	:ShRibbonTab(title, parent) {
+ShViewTab::ShViewTab(const QString &title, ShChain *chain, QWidget *parent)
+	:ShRibbonTab(title, chain, parent) {
 
 }
 
@@ -119,8 +119,8 @@ ShViewTab::~ShViewTab() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-ShManageTab::ShManageTab(const QString &title, QWidget *parent)
-	:ShRibbonTab(title, parent) {
+ShManageTab::ShManageTab(const QString &title, ShChain *chain, QWidget *parent)
+	:ShRibbonTab(title, chain, parent) {
 
 }
 

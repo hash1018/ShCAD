@@ -3,6 +3,7 @@
 #define _SHRIBBONMENU_H
 
 #include "ShRibbon.h"
+#include "Chain of Responsibility\ShChain.h"
 
 class ShHomeTab;
 class ShInsertTab;
@@ -24,7 +25,7 @@ private:
 	QAction *menuAction;
 
 public:
-	ShRibbonMenu(int height, QWidget *parent = nullptr);
+	ShRibbonMenu(int height, ShChain *chain, QWidget *parent = nullptr);
 	~ShRibbonMenu();
 
 	inline QAction* getMenuAction() const { return this->menuAction; }
@@ -43,7 +44,7 @@ public:
 class ShInsertTab : public ShRibbonTab {
 
 public:
-	ShInsertTab(const QString &title, QWidget *parent = nullptr);
+	ShInsertTab(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShInsertTab();
 
 };
@@ -51,7 +52,7 @@ public:
 class ShAnnotateTab : public ShRibbonTab {
 
 public:
-	ShAnnotateTab(const QString &title, QWidget *parent = nullptr);
+	ShAnnotateTab(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShAnnotateTab();
 
 };
@@ -59,7 +60,7 @@ public:
 class ShParametricTab : public ShRibbonTab {
 
 public:
-	ShParametricTab(const QString &title, QWidget *parent = nullptr);
+	ShParametricTab(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShParametricTab();
 
 };
@@ -67,7 +68,7 @@ public:
 class ShViewTab : public ShRibbonTab {
 
 public:
-	ShViewTab(const QString &title, QWidget *parent = nullptr);
+	ShViewTab(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShViewTab();
 
 };
@@ -75,7 +76,7 @@ public:
 class ShManageTab : public ShRibbonTab {
 
 public:
-	ShManageTab(const QString &title, QWidget *parent = nullptr);
+	ShManageTab(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShManageTab();
 
 };

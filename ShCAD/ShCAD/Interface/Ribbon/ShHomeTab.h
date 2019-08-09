@@ -27,7 +27,7 @@ private:
 	ShLayerPanel *layerPanel;
 
 public:
-	ShHomeTab(const QString &title, QWidget *parent = nullptr);
+	ShHomeTab(ShChain *chain, const QString &title, QWidget *parent = nullptr);
 	~ShHomeTab();
 
 };
@@ -43,7 +43,7 @@ private:
 	ShRibbonPolyLineButton *polyButton;
 
 public:
-	ShDrawPanel(QWidget *parent, const QString &title, int width);
+	ShDrawPanel(ShChain *chain, QWidget *parent, const QString &title, int width);
 	~ShDrawPanel();
 
 protected:
@@ -73,7 +73,7 @@ private:
 	ShButtonWithText *trimButton;
 
 public:
-	ShModifyPanel(QWidget *parent, const QString &title, int width);
+	ShModifyPanel(ShChain *chain, QWidget *parent, const QString &title, int width);
 	~ShModifyPanel();
 
 protected:
@@ -103,7 +103,7 @@ private:
 	ShColorComboBox *colorCombo;
 
 public:
-	ShPropertyPanel(QWidget *parent, const QString &title, int width);
+	ShPropertyPanel(ShChain *chain, QWidget *parent, const QString &title, int width);
 	~ShPropertyPanel();
 
 protected:
@@ -120,7 +120,7 @@ class ShLayerPanel : public ShPanelInRibbonTab {
 
 
 public:
-	ShLayerPanel(QWidget *parent, const QString &title, int width);
+	ShLayerPanel(ShChain *chain, QWidget *parent, const QString &title, int width);
 	~ShLayerPanel();
 
 

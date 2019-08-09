@@ -28,19 +28,20 @@
 #define _SHRIBBON_H
 
 #include <qtoolbar.h>
+#include "Chain of Responsibility\ShChain.h"
 
 class QTabWidget;
 class ShRibbonTab;
 class ShPanelInRibbonTab;
-class ShRibbon : public QToolBar {
+class ShRibbon : public QToolBar, public ShChain  {
 
 protected:
 	QTabWidget *tab;
 
 public:
-	ShRibbon(QWidget *parent = nullptr);
-	ShRibbon(const QSize& size, QWidget *parent = nullptr);
-	ShRibbon(int height, QWidget *parent = nullptr);
+	ShRibbon(ShChain *chain, QWidget *parent = nullptr);
+	ShRibbon(ShChain *chain, const QSize& size, QWidget *parent = nullptr);
+	ShRibbon(ShChain *chain, int height, QWidget *parent = nullptr);
 	~ShRibbon();
 
 	ShRibbonTab* addTab(const QString &title);
@@ -49,11 +50,11 @@ public:
 };
 
 
-class ShRibbonTab : public QToolBar {
+class ShRibbonTab : public QToolBar, public ShChain {
 
 public:
-	ShRibbonTab(QWidget *parent = nullptr);
-	ShRibbonTab(const QString& title, QWidget *parent = nullptr);
+	ShRibbonTab(ShChain *chain, QWidget *parent = nullptr);
+	ShRibbonTab(const QString& title, ShChain *chain, QWidget *parent = nullptr);
 	~ShRibbonTab();
 
 public:
@@ -66,7 +67,7 @@ public:
 
 };
 
-class ShPanelInRibbonTab : public QWidget {
+class ShPanelInRibbonTab : public QWidget, public ShChain {
 
 public:
 	enum PanelTitleArea {
@@ -82,8 +83,8 @@ protected:
 
 
 public:
-	ShPanelInRibbonTab(QWidget *parent, const QString& title);
-	ShPanelInRibbonTab(QWidget *parent, const QString &title, int width);
+	ShPanelInRibbonTab(ShChain *chain, QWidget *parent, const QString& title);
+	ShPanelInRibbonTab(ShChain *chain, QWidget *parent, const QString &title, int width);
 	~ShPanelInRibbonTab();
 
 

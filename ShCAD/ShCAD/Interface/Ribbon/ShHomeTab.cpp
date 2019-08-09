@@ -4,22 +4,23 @@
 #include "Interface\Item\ShIcon.h"
 #include "Interface\Ribbon\Button\ShRibbonButton.h"
 #include "Manager\ShLanguageManager.h"
-#include "Manager\ShCADWidgetManager.h"
 #include "Interface\Item\ShColorComboBox.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "Chain of Responsibility\ShRequest.h"
 
-ShHomeTab::ShHomeTab(const QString &title, QWidget *parent)
-	:ShRibbonTab(title, parent) {
+ShHomeTab::ShHomeTab(ShChain *chain, const QString &title, QWidget *parent)
+	:ShRibbonTab(title, chain, parent) {
 
-	this->drawPanel = new ShDrawPanel(this, shGetLanValue_ui("Home/Draw"), 250);
+	this->drawPanel = new ShDrawPanel(this, this, shGetLanValue_ui("Home/Draw"), 250);
 	this->addPanel(this->drawPanel);
 
-	this->modifyPanel = new ShModifyPanel(this, shGetLanValue_ui("Home/Modify"), 250);
+	this->modifyPanel = new ShModifyPanel(this, this, shGetLanValue_ui("Home/Modify"), 250);
 	this->addPanel(this->modifyPanel);
 
-	this->propertyPanel = new ShPropertyPanel(this, shGetLanValue_ui("Home/Property"), 250);
+	this->propertyPanel = new ShPropertyPanel(this, this, shGetLanValue_ui("Home/Property"), 250);
 	this->addPanel(this->propertyPanel);
 
-	this->layerPanel = new ShLayerPanel(this, shGetLanValue_ui("Home/Layer"), 250);
+	this->layerPanel = new ShLayerPanel(this, this, shGetLanValue_ui("Home/Layer"), 250);
 	this->addPanel(this->layerPanel);
 }
 
@@ -31,8 +32,8 @@ ShHomeTab::~ShHomeTab() {
 
 /////////////////////////////////////////////////////////////////////////
 
-ShDrawPanel::ShDrawPanel(QWidget *parent, const QString &title, int width)
-	:ShPanelInRibbonTab(parent, title, width) {
+ShDrawPanel::ShDrawPanel(ShChain *chain, QWidget *parent, const QString &title, int width)
+	:ShPanelInRibbonTab(chain, parent, title, width) {
 
 	this->lineButton = new ShButtonWithText(this->layoutWidget);
 	this->lineButton->setIcon(ShIcon(":/Image/Draw/Line"));
@@ -66,26 +67,19 @@ void ShDrawPanel::resizeEvent(QResizeEvent *event) {
 
 }
 
-#include "Interface\ShCADWidget.h"
-#include "ActionHandler\Private\ShChangeActionStrategy.h"
 void ShDrawPanel::lineButtonClicked() {
 
-	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
-
-	if (manager->getActivatedWidget() == nullptr)
-		return;
-
 	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawLine);
-
-	manager->getActivatedWidget()->changeAction(strategy);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ShModifyPanel::ShModifyPanel(QWidget *parent, const QString &title, int width)
-	:ShPanelInRibbonTab(parent, title, width) {
+ShModifyPanel::ShModifyPanel(ShChain *chain, QWidget *parent, const QString &title, int width)
+	:ShPanelInRibbonTab(chain, parent, title, width) {
 
 	this->moveButton = new ShButtonWithText(this->layoutWidget);
 	this->moveButton->setIcon(ShIcon(":/Image/Modify/Move.png"));
@@ -210,8 +204,8 @@ void ShModifyPanel::trimButtonClicked() {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ShPropertyPanel::ShPropertyPanel(QWidget *parent, const QString &title, int width)
-	:ShPanelInRibbonTab(parent, title, width) {
+ShPropertyPanel::ShPropertyPanel(ShChain *chain, QWidget *parent, const QString &title, int width)
+	:ShPanelInRibbonTab(chain, parent, title, width) {
 
 	this->colorCombo = new ShColorComboBox(this);
 	connect(this->colorCombo, &ShColorComboBox::colorChanged, this, &ShPropertyPanel::colorChanged);
@@ -242,8 +236,8 @@ void ShPropertyPanel::colorChanged(const ShColor &color) {
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 
-ShLayerPanel::ShLayerPanel(QWidget *parent, const QString &title, int width)
-	:ShPanelInRibbonTab(parent, title, width) {
+ShLayerPanel::ShLayerPanel(ShChain *chain, QWidget *parent, const QString &title, int width)
+	:ShPanelInRibbonTab(chain, parent, title, width) {
 
 
 
