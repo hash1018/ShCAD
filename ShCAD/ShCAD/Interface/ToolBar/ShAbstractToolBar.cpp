@@ -3,7 +3,7 @@
 #include "ShAbstractToolBar.h"
 
 ShAbstractToolBar::ShAbstractToolBar(const QString &title, ShChain *chain, QWidget *parent)
-	:QToolBar(title, parent), ShChain(chain), menuActionChecked(false) {
+	:QToolBar(title, parent), ShChain(chain), menuActionChecked(true) {
 
 	this->menuAction = new QAction(title);
 	this->menuAction->setCheckable(true);

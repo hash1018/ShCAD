@@ -2,6 +2,8 @@
 
 #include "ShDrawToolBar.h"
 #include "Interface\Item\ShIcon.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "Chain of Responsibility\ShRequest.h"
 
 ShDrawToolBar::ShDrawToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
@@ -34,7 +36,9 @@ ShDrawToolBar::~ShDrawToolBar() {
 
 void ShDrawToolBar::lineActionClicked() {
 
-
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawLine);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShDrawToolBar::polyLineActionClicked() {

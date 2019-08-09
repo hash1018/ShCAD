@@ -5,6 +5,7 @@
 #include <qdebug.h>
 #include "Manager\ShLanguageManager.h"
 #include "Chain of Responsibility\ShRequest.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
 
 ShAbstractMenu::ShAbstractMenu(const QString &title, ShChain *chain, QWidget *parent)
 	:QMenu(title, parent), ShChain(chain) {
@@ -110,6 +111,8 @@ ShDrawMenu::ShDrawMenu(const QString &title, ShChain *chain, QWidget *parent)
 	this->addSeparator();
 
 	this->createArcMenu();
+	
+	connect(this->lineAction, &QAction::triggered, this, &ShDrawMenu::lineActionClicked);
 }
 
 ShDrawMenu::~ShDrawMenu() {
@@ -196,6 +199,13 @@ void ShDrawMenu::createArcMenu() {
 	this->arcCenterStartLengthAction = new QAction(ShIcon(":/Image/Draw/Arc/Center-Start-Length.png"), 
 		shGetLanValue_ui("Draw/Arc,Center,Start,Length"), this->arcMenu);
 	this->arcMenu->addAction(this->arcCenterStartLengthAction);
+}
+
+void ShDrawMenu::lineActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawLine);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 /////////////////////////////////////////////////////////////////////////

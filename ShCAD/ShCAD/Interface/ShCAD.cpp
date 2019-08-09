@@ -52,7 +52,7 @@ void ShCAD::initWidgets() {
 	this->mdiArea->hide();
 	this->mdiArea->setContextMenuPolicy(Qt::ContextMenuPolicy::PreventContextMenu);
 
-	this->commandDock = new ShCommandDock(this);
+	this->commandDock = new ShCommandDock(this, this);
 	this->commandDock->installEventFilter(this);
 	this->commandDock->hide();
 
@@ -66,6 +66,7 @@ void ShCAD::initWidgets() {
 	this->statusBar->hide();
 	
 	this->toolBarContainer = new ShToolBarContainer(this, this);
+	
 }
 
 void ShCAD::registerWidgets() {
@@ -173,6 +174,14 @@ void ShCAD::request(ShRequest *request) {
 			return;
 		ShRequestChangeActionHandler *request2 = dynamic_cast<ShRequestChangeActionHandler*>(request);
 		ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(*(request2->getStrategy()));
+	}
+	else if (request->getType() == ShRequest::RequestSendNotifyEvent) {
+	
+		if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+			return;
+
+		ShRequestSendNotifyEvent *request2 = dynamic_cast<ShRequestSendNotifyEvent*>(request);
+		ShCADWidgetManager::getInstance()->getActivatedWidget()->update(request2->getNotifyEvent());
 	}
 
 }

@@ -36,14 +36,3 @@ void ShChangeManager::notify(ShCADWidget *widget, ShNotifyEvent *event) {
 	this->commandDock->update(event);
 
 }
-
-void ShChangeManager::notify(ShCommandDock *commandDock, ShNotifyEvent *event) {
-
-	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
-
-	if (manager->getActivatedWidget() == nullptr)
-		return;
-
-	manager->getActivatedWidget()->update(event);
-
-}

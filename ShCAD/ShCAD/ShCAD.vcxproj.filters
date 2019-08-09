@@ -439,6 +439,9 @@
     <ClCompile Include="Chain of Responsibility\ShRequest.cpp">
       <Filter>Chain of Responsibility</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\Dock\ShAbstractDock.cpp">
+      <Filter>Interface\Dock</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -721,6 +724,9 @@
     </ClInclude>
     <ClInclude Include="Chain of Responsibility\ShRequest.h">
       <Filter>Chain of Responsibility</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Dock\ShAbstractDock.h">
+      <Filter>Interface\Dock</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

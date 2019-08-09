@@ -6,7 +6,7 @@
 #include <qwidget.h>
 #include <qtextedit.h>
 #include <qlineedit.h>
-#include <qdockwidget.h>
+#include "ShAbstractDock.h"
 
 class ShNotifyEvent;
 
@@ -32,9 +32,10 @@ private:
 	~ShCommandEdit();
 
 	void keyPressEvent(QKeyEvent *event);
+	
 };
 
-class ShCommandContainer : public QWidget {
+class ShCommandContainer : public QWidget, public ShChain {
 	friend class ShCommandDock;
 
 private:
@@ -52,7 +53,7 @@ protected:
 
 
 
-class ShCommandDock : public QDockWidget {
+class ShCommandDock : public ShAbstractDock {
 
 private:
 	ShCommandContainer *container;
@@ -61,13 +62,12 @@ private:
 	QAction *menuAction;
 
 public:
-	ShCommandDock(QWidget *parent = nullptr);
+	ShCommandDock(ShChain *chain, QWidget *parent = nullptr);
 	~ShCommandDock();
 
 	void activate();
 	void deactivate();
 	void update(ShNotifyEvent *event);
-	void notify(ShNotifyEvent *event);
 
 	void setCalledKeyPressedEventByNotify(bool on);
 	void keyPressEvent(QKeyEvent *event);

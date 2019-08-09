@@ -4,8 +4,8 @@
 #include <qaction.h>
 #include "Manager\ShLanguageManager.h"
 #include "Event\ShNotifyEvent.h"
-#include "Manager\ShChangeManager.h"
 #include "Event\ShCommandDockEventFilter.h"
+#include "Chain of Responsibility\ShRequest.h"
 
 ShCommandList::ShCommandList(QWidget *parent)
 	:QTextEdit(parent) {
@@ -55,13 +55,14 @@ void ShCommandEdit::keyPressEvent(QKeyEvent *event) {
 	
 	}
 	else {
+
 		ShKeyPressedEvent notifyEvent(event);
-		dynamic_cast<ShCommandDock*>(this->parent()->parent())->notify(&notifyEvent);
+		ShRequestSendNotifyEvent request(&notifyEvent);
+		dynamic_cast<ShCommandDock*>(this->parent()->parent())->request(&request);
 	
 	}
 
 }
-
 
 /////////////////////////////////////////////////////
 
@@ -96,8 +97,8 @@ QSize ShCommandContainer::sizeHint() const {
 
 /////////////////////////////////////////////////////
 
-ShCommandDock::ShCommandDock(QWidget *parent)
-	:QDockWidget(parent), menuActionChecked(true) {
+ShCommandDock::ShCommandDock(ShChain *chain, QWidget *parent)
+	:ShAbstractDock(chain, parent), menuActionChecked(true) {
 
 	this->setAllowedAreas(Qt::DockWidgetArea::BottomDockWidgetArea);
 	this->setWindowTitle(shGetLanValue_ui("Command/Command"));
@@ -161,13 +162,6 @@ void ShCommandDock::update(ShNotifyEvent *event) {
 	ShCommandDockEventFilter filter(this, event);
 	filter.update();
 
-}
-
-void ShCommandDock::notify(ShNotifyEvent *event) {
-
-	ShChangeManager *manager = ShChangeManager::getInstance();
-
-	manager->notify(this, event);
 }
 
 void ShCommandDock::setCalledKeyPressedEventByNotify(bool on) {

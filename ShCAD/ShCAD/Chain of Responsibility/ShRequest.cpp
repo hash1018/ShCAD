@@ -31,3 +31,14 @@ ShRequestChangeActionHandler::ShRequestChangeActionHandler(ShChangeActionStrateg
 ShRequestChangeActionHandler::~ShRequestChangeActionHandler() {
 
 }
+
+///////////////////////////////
+
+ShRequestSendNotifyEvent::ShRequestSendNotifyEvent(ShNotifyEvent *notifyEvent)
+	:ShRequest(ShRequest::RequestSendNotifyEvent), notifyEvent(notifyEvent) {
+
+}
+
+ShRequestSendNotifyEvent::~ShRequestSendNotifyEvent() {
+
+}
