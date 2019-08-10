@@ -8,6 +8,7 @@
 #include "ShPropertyToolBar.h"
 #include "ShModifyToolBar.h"
 #include "ShObjectSnapToolBar.h"
+#include "ShQuickAccessToolBar.h"
 #include "Manager\ShLanguageManager.h"
 #include <qsettings.h>
 
@@ -38,6 +39,9 @@ ShToolBarContainer::~ShToolBarContainer() {
 }
 
 void ShToolBarContainer::createToolBars() {
+
+	this->quickAccessToolBar = new ShQuickAccessToolBar(shGetLanValue_ui("Quick Access/Quick Access"), this->parent, this->parent);
+	this->list.append(this->quickAccessToolBar);
 
 	this->drawToolBar = new ShDrawToolBar(shGetLanValue_ui("Draw/Draw"), this->parent, this->parent);
 	this->list.append(this->drawToolBar);
@@ -85,6 +89,7 @@ void ShToolBarContainer::readSettings() {
 
 	settings.beginGroup("ToolBars");
 
+	this->quickAccessToolBar->setMenuActionChecked(settings.value("isQuickAccessShown").toBool());
 	this->drawToolBar->setMenuActionChecked(settings.value("isDrawShown").toBool());
 	this->propertyToolBar->setMenuActionChecked(settings.value("isPropertyShown").toBool());
 	this->modifyToolBar->setMenuActionChecked(settings.value("isModifyShown").toBool());
@@ -99,7 +104,8 @@ void ShToolBarContainer::writeSettings() {
 	QSettings settings("ShCAD", "ShCAD Apps");
 
 	settings.beginGroup("ToolBars");
-	
+
+	settings.setValue("isQuickAccessShown", this->quickAccessToolBar->isMenuActionChecked());
 	settings.setValue("isDrawShown", this->drawToolBar->isMenuActionChecked());
 	settings.setValue("isPropertyShown", this->propertyToolBar->isMenuActionChecked());
 	settings.setValue("isModifyShown", this->modifyToolBar->isMenuActionChecked());

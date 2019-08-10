@@ -11,7 +11,8 @@ public:
 	~ShDrawToolBar();
 
 private:
-	private slots:
+
+	private slots :
 	void lineActionClicked();
 	void polyLineActionClicked();
 	void circleActionClicked();

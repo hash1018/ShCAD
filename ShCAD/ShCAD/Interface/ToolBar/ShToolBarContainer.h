@@ -15,6 +15,7 @@ class ShModifyToolBar;
 class ShLayerToolBar;
 class ShObjectSnapToolBar;
 class ShAbstractToolBar;
+class ShQuickAccessToolBar;
 class ShToolBarContainer : public ShChain {
 
 private:
@@ -25,6 +26,7 @@ private:
 
 private:
 
+	ShQuickAccessToolBar *quickAccessToolBar;
 	ShDrawToolBar *drawToolBar;
 	ShPropertyToolBar *propertyToolBar;
 	ShModifyToolBar *modifyToolBar;

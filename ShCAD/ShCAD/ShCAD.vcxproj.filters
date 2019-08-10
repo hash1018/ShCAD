@@ -478,6 +478,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ShLineStyleComboBox.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShQuickAccessToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -790,6 +793,9 @@
     </ClInclude>
     <ClInclude Include="Utility\ShLineStyleConverter.h">
       <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShQuickAccessToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
