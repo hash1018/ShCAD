@@ -77,7 +77,7 @@ void ShRibbonMenu::update(ShNotifyEvent *event) {
 
 void ShRibbonMenu::readSettings() {
 
-	QSettings settings("SeungHo Ha", "ShCAD");
+	QSettings settings("ShCAD", "ShCAD Apps");
 
 	settings.beginGroup("Ribbon");
 
@@ -99,7 +99,7 @@ void ShRibbonMenu::readSettings() {
 
 void ShRibbonMenu::writeSettings() {
 
-	QSettings settings("SeungHo Ha", "ShCAD");
+	QSettings settings("ShCAD", "ShCAD Apps");
 
 	settings.beginGroup("Ribbon");
 

@@ -193,7 +193,7 @@ void ShCAD::createContextMenu() {
 
 void ShCAD::readSettings() {
 
-	QSettings settings("SeungHo Ha", "ShCAD");
+	QSettings settings("ShCAD", "ShCAD Apps");
 
 	settings.beginGroup("MainWindow");
 	
@@ -213,7 +213,7 @@ void ShCAD::readSettings() {
 
 void ShCAD::writeSettings() {
 
-	QSettings settings("SeungHo Ha", "ShCAD");
+	QSettings settings("ShCAD", "ShCAD Apps");
 
 	settings.beginGroup("MainWindow");
 

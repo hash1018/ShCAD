@@ -81,7 +81,7 @@ void ShToolBarContainer::update(ShNotifyEvent *event) {
 
 void ShToolBarContainer::readSettings() {
 
-	QSettings settings("SeungHo Ha", "ShCAD");
+	QSettings settings("ShCAD", "ShCAD Apps");
 
 	settings.beginGroup("ToolBars");
 
@@ -96,7 +96,7 @@ void ShToolBarContainer::readSettings() {
 
 void ShToolBarContainer::writeSettings() {
 
-	QSettings settings("SeungHo Ha", "ShCAD");
+	QSettings settings("ShCAD", "ShCAD Apps");
 
 	settings.beginGroup("ToolBars");
 	
