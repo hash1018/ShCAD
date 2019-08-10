@@ -91,3 +91,15 @@ ShCurrentColorChangedEvent::ShCurrentColorChangedEvent(const ShColor &color)
 ShCurrentColorChangedEvent::~ShCurrentColorChangedEvent() {
 
 }
+
+////////////////////////////////////////////////////////////////////////
+
+ShCurrentLineStyleChangedEvent::ShCurrentLineStyleChangedEvent(const ShLineStyle &lineStyle)
+	:ShNotifyEvent(Type::CurrentLineStyleChanged), lineStyle(lineStyle) {
+
+}
+
+ShCurrentLineStyleChangedEvent::~ShCurrentLineStyleChangedEvent() {
+
+}
+

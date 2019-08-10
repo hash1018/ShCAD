@@ -9,7 +9,7 @@ ShLineStyleComboBox::ShLineStyleComboBox(QWidget *parent)
 
 	this->updateLineStyleCombo();
 
-	connect(this, SIGNAL(currentIndexChanged(int)), this, SLOT(LineStyleComboIndexChanged(int)));
+	connect(this, SIGNAL(currentIndexChanged(int)), this, SLOT(lineStyleComboIndexChanged(int)));
 }
 
 ShLineStyleComboBox::~ShLineStyleComboBox() {
@@ -70,7 +70,6 @@ void ShLineStyleComboBox::lineStyleComboIndexChanged(int index) {
 		lineStyle = this->layerLineStyle;
 	else
 		lineStyle = list->getLineStyle(this->lineStyleComboIndex - 2);
-
 
 	emit lineStyleChanged(lineStyle);
 }

@@ -6,6 +6,8 @@
 #include "Interface\Item\ShColorComboBox.h"
 #include "Interface\ToolBar\ShPropertyToolBar.h"
 #include "Interface\ShCADWidget.h"
+#include "Interface\Item\ShLineStyleComboBox.h"
+#include "Data\ShLineStyleList.h"
 
 
 ShPropertyToolBarEventFilter::ShPropertyToolBarEventFilter(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event)
@@ -15,6 +17,8 @@ ShPropertyToolBarEventFilter::ShPropertyToolBarEventFilter(ShPropertyToolBar *pr
 		this->strategy = new ShPropertyToolBarCurrentColorChangedEventFilterStrategy(propertyToolBar, event);
 	else if (event->getType() == ShNotifyEvent::ActivatedWidgetChanged)
 		this->strategy = new ShPropertyToolBarActivatedWidgetChangedEventFilterStrategy(propertyToolBar, event);
+	else if (event->getType() == ShNotifyEvent::CurrentLineStyleChanged)
+		this->strategy = new ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy(propertyToolBar, event);
 }
 
 ShPropertyToolBarEventFilter::~ShPropertyToolBarEventFilter() {
@@ -96,26 +100,49 @@ void ShPropertyToolBarActivatedWidgetChangedEventFilterStrategy::update() {
 
 	ShColorComboBox *colorCombo = this->propertyToolBar->getColorCombo();
 
+	//colorCombo->setBlockColor()
+	//colorCombo->setLayerColor(view->getLayerTable()->getCurrentLayer()->getPropertyData().getColor());
 
-	//colorCombo->SetBlockColor()
-	//colorCombo->SetLayerColor(view->GetLayerTable()->GetCurrentLayer()->GetPropertyData().GetColor());
+	ShCurrentColorChangedEvent event2(widget->getPropertyData().getColor());
+	ShPropertyToolBarCurrentColorChangedEventFilterStrategy strategy2(this->propertyToolBar, &event2);
+	strategy2.update();
 
-	ShColor color = widget->getPropertyData().getColor();
+	ShCurrentLineStyleChangedEvent event3(widget->getPropertyData().getLineStyle());
+	ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy strategy3(this->propertyToolBar, &event3);
+	strategy3.update();
+}
 
+///////////////////////////////////////////////////////////////////////////////
+
+
+ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy::ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event)
+	:ShPropertyToolBarEventFilterStrategy(propertyToolBar, event) {
+
+}
+
+ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy::~ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy() {
+
+}
+
+void ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy::update() {
+
+	ShLineStyle lineStyle = dynamic_cast<ShCurrentLineStyleChangedEvent*>(this->event)->getLineStyle();
 	int index = 0;
 
-	if (color.getType() == ShColor::Type::ByBlock) {
+	if (lineStyle.getType() == ShLineStyle::Type::ByBlock) {
+		this->propertyToolBar->getLineStyleCombo()->setBlockLineStyle(lineStyle);
 		index = 0;
 	}
-	else if (color.getType() == ShColor::Type::ByLayer) {
+	else if (lineStyle.getType() == ShLineStyle::Type::ByLayer) {
+		this->propertyToolBar->getLineStyleCombo()->setLayerLineStyle(lineStyle);
 		index = 1;
 	}
 	else {
-		ShColorList *list = ShColorList::getInstance();
-		index = list->search(color);
+		ShLineStyleList *list = ShLineStyleList::getInstance();
+		index = list->search(lineStyle);
 		index += 2;
 	}
 
-	this->propertyToolBar->getColorCombo()->updateColorCombo();
-	this->propertyToolBar->getColorCombo()->setColorComboCurrentIndex(index);
+	this->propertyToolBar->getLineStyleCombo()->updateLineStyleCombo();
+	this->propertyToolBar->getLineStyleCombo()->setLineStyleComboCurrentIndex(index);
 }

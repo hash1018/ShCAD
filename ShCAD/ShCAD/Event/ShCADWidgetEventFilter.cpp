@@ -13,6 +13,8 @@ ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEven
 		this->strategy = new ShCADWidgetKeyPressedEventFilterStrategy(widget, event);
 	else if (event->getType() == ShNotifyEvent::CurrentColorChanged)
 		this->strategy = new ShCADWidgetCurrentColorChangedEventFilterStrategy(widget, event);
+	else if (event->getType() == ShNotifyEvent::CurrentLineStyleChanged)
+		this->strategy = new ShCADWidgetCurrentLineStyleChangedEventFilterStrategy(widget, event);
 }
 
 ShCADWidgetEventFilter::~ShCADWidgetEventFilter() {
@@ -84,4 +86,31 @@ void ShCADWidgetCurrentColorChangedEventFilterStrategy::update() {
 	ShChangeColorTransaction *transaction = new ShChangeColorTransaction(this->widget, prev.getColor(), event->getColor());
 	ShGlobal::pushNewTransaction(this->widget, transaction);
 	
+}
+
+///////////////////////////////////////////////////////////////////////
+
+ShCADWidgetCurrentLineStyleChangedEventFilterStrategy::ShCADWidgetCurrentLineStyleChangedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event)
+	:ShCADWidgetEventFilterStrategy(widget, event) {
+
+}
+
+ShCADWidgetCurrentLineStyleChangedEventFilterStrategy::~ShCADWidgetCurrentLineStyleChangedEventFilterStrategy() {
+
+}
+
+void ShCADWidgetCurrentLineStyleChangedEventFilterStrategy::update() {
+
+	ShCurrentLineStyleChangedEvent *event = dynamic_cast<ShCurrentLineStyleChangedEvent*>(this->event);
+
+	ShPropertyData prev = this->widget->getPropertyData();
+	ShPropertyData current = prev;
+	current.setLineStyle(event->getLineStyle());
+	this->widget->setPropertyData(current);
+
+	ShCurrentLineStyleChangedEvent notifyEvent(event->getLineStyle());
+	this->widget->notify(&notifyEvent);
+
+
+
 }

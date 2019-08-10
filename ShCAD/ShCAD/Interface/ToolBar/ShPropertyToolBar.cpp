@@ -46,4 +46,7 @@ void ShPropertyToolBar::colorChanged(const ShColor &color) {
 
 void ShPropertyToolBar::lineStyleChanged(const ShLineStyle &lineStyle) {
 
+	ShCurrentLineStyleChangedEvent notifyEvent(lineStyle);
+	ShRequestSendNotifyEvent request(&notifyEvent);
+	this->request(&request);
 }

@@ -58,4 +58,16 @@ public:
 
 };
 
+///////////////////////////////////////////////////////////
+
+class ShPropertyPanelCurrentLineStyleChangedEventFilterStrategy : public ShPropertyPanelEventFilterStrategy {
+
+public:
+	ShPropertyPanelCurrentLineStyleChangedEventFilterStrategy(ShPropertyPanel *propertyPanel, ShNotifyEvent *event);
+	~ShPropertyPanelCurrentLineStyleChangedEventFilterStrategy();
+
+	void update();
+
+};
+
 #endif //_SHHOMETABEVENTFILTER_H

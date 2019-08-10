@@ -59,4 +59,16 @@ public:
 
 };
 
+////////////////////////////////////////////////////
+
+class ShCADWidgetCurrentLineStyleChangedEventFilterStrategy : public ShCADWidgetEventFilterStrategy {
+
+public:
+	ShCADWidgetCurrentLineStyleChangedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event);
+	~ShCADWidgetCurrentLineStyleChangedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHCADWIDGETEVENTFILTER_H

@@ -8,6 +8,7 @@
 class QKeyEvent;
 class ShCADWidget;
 class ShColor;
+class ShLineStyle;
 
 
 
@@ -158,6 +159,20 @@ public:
 
 private:
 	const ShColor &color;
+};
+
+////////////////////////////////////////////////////////////////////////////
+
+class ShCurrentLineStyleChangedEvent : public ShNotifyEvent {
+
+public:
+	ShCurrentLineStyleChangedEvent(const ShLineStyle &lineStyle);
+	~ShCurrentLineStyleChangedEvent();
+
+	inline const ShLineStyle& getLineStyle() const { return this->lineStyle; }
+
+private:
+	const ShLineStyle &lineStyle;
 };
 
 #endif //_SHNOTIFYEVENT_H

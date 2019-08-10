@@ -141,6 +141,7 @@ void ShCAD::request(ShRequest *request) {
 
 		if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
 			return;
+
 		ShRequestChangeActionHandler *request2 = dynamic_cast<ShRequestChangeActionHandler*>(request);
 		ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(*(request2->getStrategy()));
 	}

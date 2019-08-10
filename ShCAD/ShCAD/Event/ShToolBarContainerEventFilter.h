@@ -58,4 +58,16 @@ public:
 
 };
 
+///////////////////////////////////////////////////////////
+
+class ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy : public ShPropertyToolBarEventFilterStrategy {
+
+public:
+	ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event);
+	~ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy();
+
+	void update();
+
+};
+
 #endif //_SHTOOLBARCONTAINEREVENTFILTER_H
