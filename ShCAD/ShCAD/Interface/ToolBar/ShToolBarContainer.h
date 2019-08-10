@@ -42,6 +42,9 @@ public:
 
 	inline QMenu* getToolBarMenu() const { return this->toolBarMenu; }
 
+	void readSettings();
+	void writeSettings();
+
 private:
 	void createToolBars();
 };

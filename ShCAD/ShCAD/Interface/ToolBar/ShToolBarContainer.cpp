@@ -9,6 +9,8 @@
 #include "ShModifyToolBar.h"
 #include "ShObjectSnapToolBar.h"
 #include "Manager\ShLanguageManager.h"
+#include <qsettings.h>
+
 
 ShToolBarContainer::ShToolBarContainer(ShCAD *parent, ShChain *chain)
 	:parent(parent), ShChain(chain) {
@@ -21,7 +23,7 @@ ShToolBarContainer::ShToolBarContainer(ShCAD *parent, ShChain *chain)
 	for (itr = this->list.begin(); itr != this->list.end(); ++itr) {
 
 		this->parent->addToolBar(Qt::ToolBarArea::TopToolBarArea, (*itr));
-		this->toolBarMenu->addAction((*itr)->GetMenuAction());
+		this->toolBarMenu->addAction((*itr)->getMenuAction());
 		(*itr)->hide();
 	}
 
@@ -75,4 +77,34 @@ void ShToolBarContainer::update(ShNotifyEvent *event) {
 
 	this->propertyToolBar->update(event);
 	this->layerToolBar->update(event);
+}
+
+void ShToolBarContainer::readSettings() {
+
+	QSettings settings("SeungHo Ha", "ShCAD");
+
+	settings.beginGroup("ToolBars");
+
+	this->drawToolBar->setMenuActionChecked(settings.value("isDrawShown").toBool());
+	this->propertyToolBar->setMenuActionChecked(settings.value("isPropertyShown").toBool());
+	this->modifyToolBar->setMenuActionChecked(settings.value("isModifyShown").toBool());
+	this->layerToolBar->setMenuActionChecked(settings.value("isLayerShown").toBool());
+	this->objectSnapToolBar->setMenuActionChecked(settings.value("isObjectSnapShown").toBool());
+	
+	settings.endGroup();
+}
+
+void ShToolBarContainer::writeSettings() {
+
+	QSettings settings("SeungHo Ha", "ShCAD");
+
+	settings.beginGroup("ToolBars");
+	
+	settings.setValue("isDrawShown", this->drawToolBar->isMenuActionChecked());
+	settings.setValue("isPropertyShown", this->propertyToolBar->isMenuActionChecked());
+	settings.setValue("isModifyShown", this->modifyToolBar->isMenuActionChecked());
+	settings.setValue("isLayerShown", this->layerToolBar->isMenuActionChecked());
+	settings.setValue("isObjectSnapShown", this->objectSnapToolBar->isMenuActionChecked());
+
+	settings.endGroup();
 }

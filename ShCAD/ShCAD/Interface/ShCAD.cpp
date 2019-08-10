@@ -49,14 +49,14 @@ void ShCAD::initWidgets() {
 	this->menuBar = new ShMenuBar(this, this);
 	this->setMenuBar(this->menuBar);
 
+	this->commandDock = new ShCommandDock(this, this);
+	this->commandDock->installEventFilter(this);
+	this->commandDock->hide();
+
 	this->mdiArea = new QMdiArea;
 	this->mdiArea->setDocumentMode(true);
 	this->mdiArea->hide();
 	this->mdiArea->setContextMenuPolicy(Qt::ContextMenuPolicy::PreventContextMenu);
-
-	this->commandDock = new ShCommandDock(this, this);
-	this->commandDock->installEventFilter(this);
-	this->commandDock->hide();
 
 	this->ribbonMenu = new ShRibbonMenu(150, this, this);
 	this->addToolBar(Qt::ToolBarArea::TopToolBarArea, this->ribbonMenu);
@@ -68,6 +68,8 @@ void ShCAD::initWidgets() {
 	this->statusBar->hide();
 	
 	this->toolBarContainer = new ShToolBarContainer(this, this);
+
+	
 	
 }
 
@@ -85,11 +87,11 @@ void ShCAD::activateWidgets() {
 
 	this->menuBar->activateMenu();
 
-	this->setCentralWidget(this->mdiArea);
-	this->mdiArea->show();
-
 	this->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea, this->commandDock);
 	this->commandDock->activate();
+
+	this->setCentralWidget(this->mdiArea);
+	this->mdiArea->show();
 
 	this->ribbonMenu->activate();
 
@@ -199,9 +201,10 @@ void ShCAD::readSettings() {
 
 	if (settings.value("maximized", this->isMaximized()).toBool() == true)
 		this->showMaximized();
-	
 
 	settings.endGroup();
+
+	this->toolBarContainer->readSettings();
 }
 
 void ShCAD::writeSettings() {
@@ -219,8 +222,9 @@ void ShCAD::writeSettings() {
 		settings.setValue("size", this->size());
 	}
 	
-
 	settings.endGroup();
+
+	this->toolBarContainer->writeSettings();
 }
 
 void ShCAD::subActivateWindowChanged(QMdiSubWindow*) {

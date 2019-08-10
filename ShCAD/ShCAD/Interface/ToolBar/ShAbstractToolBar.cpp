@@ -3,7 +3,7 @@
 #include "ShAbstractToolBar.h"
 
 ShAbstractToolBar::ShAbstractToolBar(const QString &title, ShChain *chain, QWidget *parent)
-	:QToolBar(title, parent), ShChain(chain), menuActionChecked(true) {
+	:QToolBar(title, parent), ShChain(chain), menuActionChecked(false) {
 
 	this->menuAction = new QAction(title);
 	this->menuAction->setCheckable(true);
@@ -45,4 +45,10 @@ void ShAbstractToolBar::deactivate() {
 
 	if (this->menuActionChecked == true)
 		this->hide();
+}
+
+void ShAbstractToolBar::setMenuActionChecked(bool checked) {
+
+	this->menuActionChecked = checked;
+	this->menuAction->setChecked(checked);
 }
