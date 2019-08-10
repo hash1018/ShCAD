@@ -81,11 +81,19 @@ void ShRibbonMenu::readSettings() {
 
 	settings.beginGroup("Ribbon");
 
-	bool checked = settings.value("isRibbonShown").toBool();
+	if (settings.contains("isRibbonShown") == true) {
 
-	this->menuActionChecked = checked;
-	this->menuAction->setChecked(checked);
-	
+		bool checked = settings.value("isRibbonShown").toBool();
+
+		this->menuActionChecked = checked;
+		this->menuAction->setChecked(checked);
+	}
+	else {
+
+		this->menuActionChecked = true;
+		this->menuAction->setChecked(true);
+	}
+
 	settings.endGroup();
 }
 
