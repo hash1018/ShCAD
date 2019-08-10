@@ -46,5 +46,7 @@
         <file>Image/Snap/SnapModeOnOff.png</file>
         <file>Image/Snap/Tangent point.png</file>
         <file>Image/Snap/Temporary track point.png</file>
+        <file>Image/Undo.png</file>
+        <file>Image/Redo.png</file>
     </qresource>
 </RCC>

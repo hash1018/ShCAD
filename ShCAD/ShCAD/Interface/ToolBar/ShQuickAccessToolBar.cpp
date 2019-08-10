@@ -18,9 +18,9 @@ ShQuickAccessToolBar::ShQuickAccessToolBar(const QString &title, ShChain *chain,
 
 	this->addSeparator();
 
-	this->undoButton = new QPushButton("undo", this);
+	this->undoButton = new QPushButton(ShIcon(":/Image/Undo.png"), "", this);
 	this->addWidget(this->undoButton);
-	this->redoButton = new QPushButton("redo", this);
+	this->redoButton = new QPushButton(ShIcon(":/Image/Redo.png"), "", this);
 	this->addWidget(this->redoButton);
 
 }
