@@ -13,8 +13,8 @@
 #include "StatusBar\ShStatusBar.h"
 #include "ToolBar\ShToolBarContainer.h"
 #include "Manager\ShChangeManager.h"
-
 #include "Chain of Responsibility\ShRequest.h"
+#include <qsettings.h>
 
 
 ShCAD::ShCAD(QWidget *parent)
@@ -24,6 +24,8 @@ ShCAD::ShCAD(QWidget *parent)
 	this->registerObservers();
 	this->createCADWidget();
 	this->createContextMenu();
+
+	this->readSettings();
 
 	this->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showContexMenu(const QPoint &)));
@@ -127,12 +129,26 @@ void ShCAD::createCADWidget() {
 	ShCADWidgetManager::getInstance()->add(cadWidget);
 }
 
-void ShCAD::createContextMenu() {
+void ShCAD::request(ShRequest *request) {
 
-	this->contextMenu = new QMenu("ContextMenu", this);
-	this->contextMenu->addAction(this->ribbonMenu->getMenuAction());
-	this->contextMenu->addAction(this->commandDock->getMenuAction());
-	this->contextMenu->addMenu(this->toolBarContainer->getToolBarMenu());
+	if (request->getType() == ShRequest::RequestType::RequestCreateNewCADWidget)
+		this->createCADWidget();
+	else if (request->getType() == ShRequest::RequestChangeActionHandler) {
+
+		if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+			return;
+		ShRequestChangeActionHandler *request2 = dynamic_cast<ShRequestChangeActionHandler*>(request);
+		ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(*(request2->getStrategy()));
+	}
+	else if (request->getType() == ShRequest::RequestSendNotifyEvent) {
+
+		if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+			return;
+
+		ShRequestSendNotifyEvent *request2 = dynamic_cast<ShRequestSendNotifyEvent*>(request);
+		ShCADWidgetManager::getInstance()->getActivatedWidget()->update(request2->getNotifyEvent());
+	}
+
 }
 
 bool ShCAD::eventFilter(QObject *obj, QEvent *event) {
@@ -154,6 +170,59 @@ bool ShCAD::eventFilter(QObject *obj, QEvent *event) {
 	return QWidget::eventFilter(obj, event);
 }
 
+void ShCAD::closeEvent(QCloseEvent *event) {
+
+	this->writeSettings();
+
+	QMainWindow::closeEvent(event);
+
+}
+
+void ShCAD::createContextMenu() {
+
+	this->contextMenu = new QMenu("ContextMenu", this);
+	this->contextMenu->addAction(this->ribbonMenu->getMenuAction());
+	this->contextMenu->addAction(this->commandDock->getMenuAction());
+	this->contextMenu->addMenu(this->toolBarContainer->getToolBarMenu());
+}
+
+void ShCAD::readSettings() {
+
+	QSettings settings("SeungHo Ha", "ShCAD");
+
+	settings.beginGroup("MainWindow");
+	
+	this->restoreGeometry(settings.value("geometry", this->saveGeometry()).toByteArray());
+	this->restoreState(settings.value("state", this->saveState()).toByteArray());
+	this->move(settings.value("pos", this->pos()).toPoint());
+	this->resize(settings.value("size", this->size()).toSize());
+
+	if (settings.value("maximized", this->isMaximized()).toBool() == true)
+		this->showMaximized();
+	
+
+	settings.endGroup();
+}
+
+void ShCAD::writeSettings() {
+
+	QSettings settings("SeungHo Ha", "ShCAD");
+
+	settings.beginGroup("MainWindow");
+
+	settings.setValue("geometry", this->saveGeometry());
+	settings.setValue("state", this->saveState());
+	settings.setValue("maximized", this->isMaximized());
+	
+	if (this->isMaximized() == false) {
+		settings.setValue("pos", this->pos());
+		settings.setValue("size", this->size());
+	}
+	
+
+	settings.endGroup();
+}
+
 void ShCAD::subActivateWindowChanged(QMdiSubWindow*) {
 
 	if (this->mdiArea->subWindowList().size() == 0)
@@ -166,24 +235,3 @@ void ShCAD::showContexMenu(const QPoint &pos) {
 		this->contextMenu->exec(mapToGlobal(pos));
 }
 
-void ShCAD::request(ShRequest *request) {
-
-	if (request->getType() == ShRequest::RequestType::RequestCreateNewCADWidget)
-		this->createCADWidget();
-	else if (request->getType() == ShRequest::RequestChangeActionHandler) {
-	
-		if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
-			return;
-		ShRequestChangeActionHandler *request2 = dynamic_cast<ShRequestChangeActionHandler*>(request);
-		ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(*(request2->getStrategy()));
-	}
-	else if (request->getType() == ShRequest::RequestSendNotifyEvent) {
-	
-		if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
-			return;
-
-		ShRequestSendNotifyEvent *request2 = dynamic_cast<ShRequestSendNotifyEvent*>(request);
-		ShCADWidgetManager::getInstance()->getActivatedWidget()->update(request2->getNotifyEvent());
-	}
-
-}

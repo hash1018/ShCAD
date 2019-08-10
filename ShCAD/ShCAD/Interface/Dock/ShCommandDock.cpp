@@ -74,7 +74,6 @@ ShCommandContainer::ShCommandContainer(QWidget *parent)
 	this->list = new ShCommandList(this);
 	
 	this->setMinimumHeight(40);
-	
 
 }
 
@@ -90,6 +89,11 @@ void ShCommandContainer::resizeEvent(QResizeEvent *event) {
 
 	this->list->setGeometry(0, 0, event->size().width(), event->size().height() - 25);
 	this->edit->setGeometry(0, event->size().height() - 25, event->size().width(), 25);
+}
+
+QSize ShCommandContainer::sizeHint() const {
+
+	return QSize(0, 300);
 }
 
 

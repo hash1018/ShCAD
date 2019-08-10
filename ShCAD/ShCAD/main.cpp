@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 		splash.show();
 		
 		ShCAD shCAD;
-		shCAD.showMaximized();
+		shCAD.show();
 
 		splash.finish(&shCAD);
 		

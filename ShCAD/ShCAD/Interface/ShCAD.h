@@ -38,11 +38,14 @@ public:
 
 	virtual void request(ShRequest *request);
 
-private:
-	void createContextMenu();
-
 protected:
 	bool eventFilter(QObject *obj, QEvent *event);
+	void closeEvent(QCloseEvent *event);
+
+private:
+	void createContextMenu();
+	void readSettings();
+	void writeSettings();
 
 	private slots:
 	void subActivateWindowChanged(QMdiSubWindow*);
