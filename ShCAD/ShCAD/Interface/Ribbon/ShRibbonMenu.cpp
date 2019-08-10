@@ -2,11 +2,13 @@
 #include "ShRibbonMenu.h"
 #include "ShHomeTab.h"
 #include "Manager\ShLanguageManager.h"
+#include <qsettings.h>
 
 ShRibbonMenu::ShRibbonMenu(int height, ShChain *chain, QWidget *parent)
 	:ShRibbon(chain, height, parent), menuActionChecked(true) {
 
 	this->setWindowTitle(shGetLanValue_ui("Ribbon/RibbonMenu"));
+	this->setObjectName("RibbonMenu");
 
 	this->homeTab = new ShHomeTab(this, shGetLanValue_ui("Home/Home"), this);
 	this->addTab(this->homeTab);
@@ -28,7 +30,7 @@ ShRibbonMenu::ShRibbonMenu(int height, ShChain *chain, QWidget *parent)
 
 	this->menuAction = new QAction(shGetLanValue_ui("Ribbon/RibbonMenu"));
 	this->menuAction->setCheckable(true);
-	this->menuAction->setChecked(true);
+	this->menuAction->setChecked(this->menuActionChecked);
 
 	connect(this->menuAction, &QAction::triggered, this, &ShRibbonMenu::menuActionClicked);
 
@@ -65,13 +67,37 @@ void ShRibbonMenu::activate() {
 
 void ShRibbonMenu::deactivate() {
 
-	if (this->menuActionChecked == true)
-		this->hide();
+	this->hide();
 }
 
 void ShRibbonMenu::update(ShNotifyEvent *event) {
 
 	this->homeTab->update(event);
+}
+
+void ShRibbonMenu::readSettings() {
+
+	QSettings settings("SeungHo Ha", "ShCAD");
+
+	settings.beginGroup("Ribbon");
+
+	bool checked = settings.value("isRibbonShown").toBool();
+
+	this->menuActionChecked = checked;
+	this->menuAction->setChecked(checked);
+	
+	settings.endGroup();
+}
+
+void ShRibbonMenu::writeSettings() {
+
+	QSettings settings("SeungHo Ha", "ShCAD");
+
+	settings.beginGroup("Ribbon");
+
+	settings.setValue("isRibbonShown", this->menuActionChecked);
+
+	settings.endGroup();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

@@ -20,12 +20,16 @@
 ShCAD::ShCAD(QWidget *parent)
 	: QMainWindow(parent){
 	
+	this->setMinimumSize(600, 600);
+
 	this->initWidgets();
 	this->registerObservers();
-	this->createCADWidget();
+	this->readSettings();
+	this->deactivateWidgets();
+
 	this->createContextMenu();
 
-	this->readSettings();
+	
 
 	this->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showContexMenu(const QPoint &)));
@@ -69,8 +73,6 @@ void ShCAD::initWidgets() {
 	
 	this->toolBarContainer = new ShToolBarContainer(this, this);
 
-	
-	
 }
 
 void ShCAD::registerObservers() {
@@ -174,7 +176,8 @@ bool ShCAD::eventFilter(QObject *obj, QEvent *event) {
 
 void ShCAD::closeEvent(QCloseEvent *event) {
 
-	this->writeSettings();
+	if (this->mdiArea->subWindowList().size() > 0)
+		this->writeSettings();
 
 	QMainWindow::closeEvent(event);
 
@@ -205,6 +208,7 @@ void ShCAD::readSettings() {
 	settings.endGroup();
 
 	this->toolBarContainer->readSettings();
+	this->ribbonMenu->readSettings();
 }
 
 void ShCAD::writeSettings() {
@@ -225,12 +229,15 @@ void ShCAD::writeSettings() {
 	settings.endGroup();
 
 	this->toolBarContainer->writeSettings();
+	this->ribbonMenu->writeSettings();
 }
 
 void ShCAD::subActivateWindowChanged(QMdiSubWindow*) {
 
-	if (this->mdiArea->subWindowList().size() == 0)
+	if (this->mdiArea->subWindowList().size() == 0) {
+		this->writeSettings();
 		this->deactivateWidgets();
+	}
 }
 
 void ShCAD::showContexMenu(const QPoint &pos) {

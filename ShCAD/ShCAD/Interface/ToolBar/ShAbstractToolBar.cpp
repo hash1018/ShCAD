@@ -43,8 +43,7 @@ void ShAbstractToolBar::activate() {
 
 void ShAbstractToolBar::deactivate() {
 
-	if (this->menuActionChecked == true)
-		this->hide();
+	this->hide();
 }
 
 void ShAbstractToolBar::setMenuActionChecked(bool checked) {

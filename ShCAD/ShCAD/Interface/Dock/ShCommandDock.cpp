@@ -74,6 +74,7 @@ ShCommandContainer::ShCommandContainer(QWidget *parent)
 	this->list = new ShCommandList(this);
 	
 	this->setMinimumHeight(40);
+	this->setMaximumHeight(300);
 
 }
 
@@ -93,7 +94,7 @@ void ShCommandContainer::resizeEvent(QResizeEvent *event) {
 
 QSize ShCommandContainer::sizeHint() const {
 
-	return QSize(0, 300);
+	return QSize(0, 150);
 }
 
 
@@ -104,6 +105,7 @@ ShCommandDock::ShCommandDock(ShChain *chain, QWidget *parent)
 
 	this->setAllowedAreas(Qt::DockWidgetArea::BottomDockWidgetArea);
 	this->setWindowTitle(shGetLanValue_ui("Command/Command"));
+	this->setObjectName("CommandDock");
 
 	this->container = new ShCommandContainer(this);
 	this->setWidget(this->container);
@@ -155,8 +157,7 @@ void ShCommandDock::activate() {
 
 void ShCommandDock::deactivate() {
 
-	if (this->menuActionChecked == true)
-		this->hide();
+	this->hide();
 }
 
 void ShCommandDock::update(ShNotifyEvent *event) {

@@ -10,6 +10,7 @@
 ShPropertyToolBar::ShPropertyToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
 
+	this->setObjectName("PropertyToolBar");
 	this->colorCombo = new ShColorComboBox(this);
 	this->colorCombo->setMinimumWidth(150);
 	this->addWidget(this->colorCombo);

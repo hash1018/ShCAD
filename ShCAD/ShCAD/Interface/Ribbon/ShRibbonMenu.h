@@ -37,6 +37,9 @@ public:
 
 	void update(ShNotifyEvent *event);
 
+	void readSettings();
+	void writeSettings();
+
 	private slots:
 	void menuActionClicked();
 

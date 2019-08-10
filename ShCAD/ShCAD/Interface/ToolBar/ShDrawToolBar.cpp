@@ -8,6 +8,7 @@
 ShDrawToolBar::ShDrawToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
 
+	this->setObjectName("DrawToolBar");
 	this->setIconSize(QSize(20, 20));
 
 	QAction *action = this->addAction(ShIcon(":/Image/Draw/Line.png"), "Line");
