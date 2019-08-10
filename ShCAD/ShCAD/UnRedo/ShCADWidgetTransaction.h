@@ -4,6 +4,7 @@
 
 #include "ShTransaction.h"
 #include "Data\ShColor.h"
+#include "Data\ShLineStyle.h"
 
 class ShCADWidget;
 
@@ -22,6 +23,25 @@ public:
 
 protected:
 	~ShChangeColorTransaction();
+};
+
+////////////////////////////////////////////////////////
+
+class ShChangeLineStyleTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	ShLineStyle prev;
+	ShLineStyle current;
+
+public:
+	ShChangeLineStyleTransaction(ShCADWidget *widget, const ShLineStyle &prev, const ShLineStyle &current);
+
+	virtual void redo();
+	virtual void undo();
+
+protected:
+	~ShChangeLineStyleTransaction();
 };
 
 #endif //_SHCADWIDGETTRANSACTION_H

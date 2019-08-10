@@ -111,6 +111,7 @@ void ShCADWidgetCurrentLineStyleChangedEventFilterStrategy::update() {
 	ShCurrentLineStyleChangedEvent notifyEvent(event->getLineStyle());
 	this->widget->notify(&notifyEvent);
 
-
+	ShChangeLineStyleTransaction *transaction = new ShChangeLineStyleTransaction(this->widget, prev.getLineStyle(), event->getLineStyle());
+	ShGlobal::pushNewTransaction(this->widget, transaction);
 
 }

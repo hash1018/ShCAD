@@ -33,3 +33,36 @@ void ShChangeColorTransaction::undo() {
 	ShCurrentColorChangedEvent notifyEvent(this->prev);
 	this->widget->notify(&notifyEvent);
 }
+
+///////////////////////////////////////////////////////////////////////
+
+ShChangeLineStyleTransaction::ShChangeLineStyleTransaction(ShCADWidget *widget, const ShLineStyle &prev, const ShLineStyle &current)
+	:ShTransaction("LineStyle control"), widget(widget), prev(prev), current(current) {
+
+}
+
+ShChangeLineStyleTransaction::~ShChangeLineStyleTransaction() {
+
+}
+
+void ShChangeLineStyleTransaction::redo() {
+
+	ShPropertyData prev = this->widget->getPropertyData();
+	ShPropertyData current = prev;
+	current.setLineStyle(this->current);
+	this->widget->setPropertyData(current);
+
+	ShCurrentLineStyleChangedEvent notifyEvent(this->current);
+	this->widget->notify(&notifyEvent);
+}
+
+void ShChangeLineStyleTransaction::undo() {
+
+	ShPropertyData prev = this->widget->getPropertyData();
+	ShPropertyData current = prev;
+	current.setLineStyle(this->prev);
+	this->widget->setPropertyData(current);
+
+	ShCurrentLineStyleChangedEvent notifyEvent(this->prev);
+	this->widget->notify(&notifyEvent);
+}

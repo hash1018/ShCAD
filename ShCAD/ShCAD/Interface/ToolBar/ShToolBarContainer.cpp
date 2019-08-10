@@ -79,6 +79,7 @@ void ShToolBarContainer::deactivate() {
 
 void ShToolBarContainer::update(ShNotifyEvent *event) {
 
+	this->quickAccessToolBar->update(event);
 	this->propertyToolBar->update(event);
 	this->layerToolBar->update(event);
 }
