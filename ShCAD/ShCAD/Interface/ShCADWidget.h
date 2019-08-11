@@ -8,7 +8,6 @@
 #include "Interface\Private\ShAxis.h"
 #include "Base\ShVariable.h"
 #include "Data\ShScrollPosition.h"
-//#include "UnRedo\ShTransactionStack.h"
 #include "Data\ShDrawBuffer.h"
 #include "Data\ShCommandLog.h"
 #include "Entity\Leaf\ShRubberBand.h"
@@ -83,9 +82,9 @@ public:
 	void setPropertyData(const ShPropertyData &data) { this->propertyData = data; }
 
 public:
-	inline ShPoint3d getCoordinate() const { return this->coordinate; }
-	inline ShScrollPosition getScrollPosition() const { return this->scroll; }
-	inline double getZoomRate() const { return this->zoomRate; }
+	inline const ShPoint3d& getCoordinate() const { return this->coordinate; }
+	inline const ShScrollPosition& getScrollPosition() const { return this->scroll; }
+	inline const double& getZoomRate() const { return this->zoomRate; }
 	inline ShAxis& getAxis() const { return const_cast<ShAxis&>(this->axis); }
 	inline ShDrawBuffer& getDrawBuffer() const { return const_cast<ShDrawBuffer&>(this->drawBuffer); }
 	inline const QImage& getCapturedImage() const { return this->capturedImage; }
