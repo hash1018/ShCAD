@@ -11,6 +11,7 @@
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "Event\ShCADWidgetEventFilter.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "UnRedo\ShTransactionStack.h"
 
 
 

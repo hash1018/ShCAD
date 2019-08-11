@@ -103,3 +103,13 @@ ShCurrentLineStyleChangedEvent::~ShCurrentLineStyleChangedEvent() {
 
 }
 
+////////////////////////////////////////////////////////////////////////
+
+ShTransactionStackSizeChangedEvent::ShTransactionStackSizeChangedEvent(const int &undoSize, const int &redoSize)
+	:ShNotifyEvent(Type::TransactionStackSizeChanged), undoSize(undoSize), redoSize(redoSize) {
+
+}
+
+ShTransactionStackSizeChangedEvent::~ShTransactionStackSizeChangedEvent() {
+
+}

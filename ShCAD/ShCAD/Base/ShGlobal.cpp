@@ -37,6 +37,9 @@ void ShGlobal::undo(ShCADWidget *widget) {
 
 	ShUpdateTextToCommandListEvent notifyEvent2(second, ShUpdateTextToCommandListEvent::OnlyText);
 	widget->notify(&notifyEvent2);
+
+	ShTransactionStackSizeChangedEvent notifyEvent3(widget->getUndoStack()->getSize(), widget->getRedoStack()->getSize());
+	widget->notify(&notifyEvent3);
 }
 
 void ShGlobal::redo(ShCADWidget *widget) {
@@ -61,6 +64,9 @@ void ShGlobal::redo(ShCADWidget *widget) {
 
 	ShUpdateTextToCommandListEvent notifyEvent2(second, ShUpdateTextToCommandListEvent::OnlyText);
 	widget->notify(&notifyEvent2);
+
+	ShTransactionStackSizeChangedEvent notifyEvent3(widget->getUndoStack()->getSize(), widget->getRedoStack()->getSize());
+	widget->notify(&notifyEvent3);
 }
 
 void ShGlobal::selectAll(ShCADWidget *widget) {
@@ -76,4 +82,7 @@ void ShGlobal::pushNewTransaction(ShCADWidget *widget, ShTransaction *transactio
 	widget->getUndoStack()->push(transaction);
 	if (!widget->getRedoStack()->isEmpty())
 		widget->getRedoStack()->deleteAll();
+
+	ShTransactionStackSizeChangedEvent notifyEvent(widget->getUndoStack()->getSize(), widget->getRedoStack()->getSize());
+	widget->notify(&notifyEvent);
 }

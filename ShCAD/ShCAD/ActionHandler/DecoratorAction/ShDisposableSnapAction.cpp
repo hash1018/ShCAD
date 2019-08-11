@@ -5,6 +5,8 @@
 #include "ActionHandler\Private\ShDecorateActionStrategy.h"
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
 #include "Entity\Private\ShLineBothPerpendicularVisitor.h"
+#include "Event\ShNotifyEvent.h"
+#include "Manager\ShLanguageManager.h"
 
 ShDisposableSnapAction::ShDisposableSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child)
 	:ShDecoratorAction(widget, actionHandler, child), strategy(nullptr) {
@@ -38,6 +40,16 @@ void ShDisposableSnapAction::finishDisposableSnap() {
 	this->widget->changeAction(strategy);
 }
 
+void ShDisposableSnapAction::sendFailMessage() {
+
+	ShUpdateTextToCommandListEvent event("");
+	this->widget->notify(&event);
+
+	ShUpdateTextToCommandListEvent event2(shGetLanValue_command("Command/No snap point found"), ShUpdateTextToCommandListEvent::UpdateType::OnlyText);
+	this->widget->notify(&event2);
+
+	this->actionHandler->updateCommandEditHeadTitle();
+}
 
 /////////////////////////////////////////////////////////////////
 
@@ -60,6 +72,7 @@ void ShDisposableSnapAction_General::mouseLeftPressEvent(ShActionData &data) {
 	
 		if (this->strategy->search(data.point) == false) {
 		
+			this->sendFailMessage();
 			this->finishDisposableSnap();
 			return;
 		}
@@ -125,6 +138,7 @@ void ShDisposableSnapAction_Perpendicular::mouseLeftPressEvent(ShActionData &dat
 		
 		if (strategy->search(data.point, draft.getSnapBasePoint().x, draft.getSnapBasePoint().y) == false) {
 
+			this->sendFailMessage();
 			this->finishDisposableSnap();
 			return;
 		}
@@ -195,6 +209,7 @@ void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::mouseLeftPr
 
 		if (this->strategy->search(data.point) == false) {
 
+			this->sendFailMessage();
 			this->finishDisposableSnap();
 			return;
 		}
@@ -267,6 +282,7 @@ void ShDisposableSnapAction_DrawLineActionPerPer::mouseLeftPressEvent(ShActionDa
 
 		if (this->strategy->search(data.point) == false) {
 
+			this->sendFailMessage();
 			this->finishDisposableSnap();
 			return;
 		}
@@ -288,13 +304,19 @@ void ShDisposableSnapAction_DrawLineActionPerPer::mouseLeftPressEvent(ShActionDa
 	if (isValid == true) {
 		data.point = point;
 		ShDisposableSnapAction::mouseLeftPressEvent(data);
-		this->finishDisposableSnap();
 	}
 	else {
 		//Fail.
-	
+		ShUpdateTextToCommandListEvent event("");
+		this->widget->notify(&event);
+
+		ShUpdateTextToCommandListEvent event2(shGetLanValue_command("Command/Line specification not valid"), ShUpdateTextToCommandListEvent::UpdateType::OnlyText);
+		this->widget->notify(&event2);
+
+		this->actionHandler->updateCommandEditHeadTitle();
 	}
-	
+
+	this->finishDisposableSnap();
 }
 
 void ShDisposableSnapAction_DrawLineActionPerPer::mouseMoveEvent(ShActionData &data) {

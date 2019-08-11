@@ -21,6 +21,7 @@ public:
 
 protected:
 	void finishDisposableSnap();
+	void sendFailMessage();
 
 };
 

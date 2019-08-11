@@ -89,6 +89,8 @@ public:
 	void update();
 };
 
+////////////////////////////////////////////////////
+
 class ShQuickAccessToolBarEventFilterStrategy {
 
 protected:
@@ -102,6 +104,8 @@ public:
 	virtual void update() = 0;
 };
 
+/////////////////////////////////////////////////////
+
 class ShQuickAccessToolBarActivatedWidgetChangedEventFilterStrategy : public ShQuickAccessToolBarEventFilterStrategy {
 
 public:
@@ -110,6 +114,18 @@ public:
 
 	void update();
 };
+
+/////////////////////////////////////////////////////
+
+class ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy : public ShQuickAccessToolBarEventFilterStrategy {
+
+public:
+	ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy(ShQuickAccessToolBar *quickAccessToolBar, ShNotifyEvent *event);
+	~ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy();
+
+	void update();
+};
+
 
 
 #endif //_SHTOOLBARCONTAINEREVENTFILTER_H

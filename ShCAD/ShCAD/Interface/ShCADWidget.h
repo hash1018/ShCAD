@@ -8,7 +8,7 @@
 #include "Interface\Private\ShAxis.h"
 #include "Base\ShVariable.h"
 #include "Data\ShScrollPosition.h"
-#include "UnRedo\ShTransactionStack.h"
+//#include "UnRedo\ShTransactionStack.h"
 #include "Data\ShDrawBuffer.h"
 #include "Data\ShCommandLog.h"
 #include "Entity\Leaf\ShRubberBand.h"
@@ -22,6 +22,7 @@ class ShActionHandler;
 class ShTemporaryAction;
 class ShActionHandlerProxy;
 class ShChangeActionStrategy;
+class ShTransactionStack;
 
 class ShCADWidget : public QOpenGLWidget {
 	

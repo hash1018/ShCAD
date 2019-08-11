@@ -9,6 +9,7 @@
 #include "Interface\Item\ShLineStyleComboBox.h"
 #include "Data\ShLineStyleList.h"
 #include "Interface\ToolBar\ShQuickAccessToolBar.h"
+#include "UnRedo\ShTransactionStack.h"
 
 ShPropertyToolBarEventFilter::ShPropertyToolBarEventFilter(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -19,6 +20,7 @@ ShPropertyToolBarEventFilter::ShPropertyToolBarEventFilter(ShPropertyToolBar *pr
 		this->strategy = new ShPropertyToolBarActivatedWidgetChangedEventFilterStrategy(propertyToolBar, event);
 	else if (event->getType() == ShNotifyEvent::CurrentLineStyleChanged)
 		this->strategy = new ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy(propertyToolBar, event);
+
 }
 
 ShPropertyToolBarEventFilter::~ShPropertyToolBarEventFilter() {
@@ -157,6 +159,8 @@ ShQuickAccessToolBarEventFilter::ShQuickAccessToolBarEventFilter(ShQuickAccessTo
 
 	if (event->getType() == ShNotifyEvent::ActivatedWidgetChanged)
 		this->strategy = new ShQuickAccessToolBarActivatedWidgetChangedEventFilterStrategy(quickAccessToolBar, event);
+	else if (event->getType() == ShNotifyEvent::TransactionStackSizeChanged)
+		this->strategy = new ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy(quickAccessToolBar, event);
 }
 
 ShQuickAccessToolBarEventFilter::~ShQuickAccessToolBarEventFilter() {
@@ -208,4 +212,30 @@ void ShQuickAccessToolBarActivatedWidgetChangedEventFilterStrategy::update() {
 		this->quickAccessToolBar->setRedoButtonEnabled(false);
 	else
 		this->quickAccessToolBar->setRedoButtonEnabled(true);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy::ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy(ShQuickAccessToolBar *quickAccessToolBar, ShNotifyEvent *event)
+	:ShQuickAccessToolBarEventFilterStrategy(quickAccessToolBar, event) {
+
+}
+
+ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy::~ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy() {
+
+}
+
+void ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy::update() {
+
+	ShTransactionStackSizeChangedEvent *event = dynamic_cast<ShTransactionStackSizeChangedEvent*>(this->event);
+
+	if (event->getUndoSize() == 0)
+		this->quickAccessToolBar->setUndoButtonEnabled(false);
+	else
+		this->quickAccessToolBar->setUndoButtonEnabled(true);
+	
+	if (event->getRedoSize() == 0)
+		this->quickAccessToolBar->setRedoButtonEnabled(false);
+	else
+		this->quickAccessToolBar->setRedoButtonEnabled(true);
+
 }

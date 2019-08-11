@@ -6,6 +6,7 @@
 #include "ActionHandler\ShActionHandler.h"
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "ObjectSnap\ShObjectSnapCommandFactory.h"
+#include "Manager\ShLanguageManager.h"
 
 ShDecorateActionStrategy::ShDecorateActionStrategy() {
 
@@ -83,7 +84,7 @@ void ShDecorateDisposableSnapActionStrategy::change() {
 
 	if (draft.getAvailableSnap() == false) {
 
-		ShUpdateTextToCommandListEvent notifyEvent(str + "Unknown command.",
+		ShUpdateTextToCommandListEvent notifyEvent(str + shGetLanValue_command("Command/Unknown command") + ".",
 			ShUpdateTextToCommandListEvent::UpdateType::EditTextWithText);
 		this->widget->notify(&notifyEvent);
 
@@ -97,7 +98,7 @@ void ShDecorateDisposableSnapActionStrategy::change() {
 			ShUpdateTextToCommandListEvent::UpdateType::EditTextWithText);
 		this->widget->notify(&event);
 
-		ShUpdateTextToCommandListEvent event2("Invalid point.",
+		ShUpdateTextToCommandListEvent event2(shGetLanValue_command("Invalid point") + ".",
 			ShUpdateTextToCommandListEvent::UpdateType::OnlyText);
 		this->widget->notify(&event2);
 

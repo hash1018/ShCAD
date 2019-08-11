@@ -30,6 +30,7 @@ public:
 		CurrentColorChanged,
 		CurrentLineStyleChanged,
 		CurrentLayerChanged,
+		TransactionStackSizeChanged,
 	};
 
 	ShNotifyEvent(Type type);
@@ -173,6 +174,21 @@ public:
 
 private:
 	const ShLineStyle &lineStyle;
+};
+
+class ShTransactionStackSizeChangedEvent : public ShNotifyEvent {
+
+public:
+	ShTransactionStackSizeChangedEvent(const int &undoSize, const int &redoSize);
+	~ShTransactionStackSizeChangedEvent();
+
+	inline int getUndoSize() const { return this->undoSize; }
+	inline int getRedoSize() const { return this->redoSize; }
+
+private:
+	int undoSize;
+	int redoSize;
+
 };
 
 #endif //_SHNOTIFYEVENT_H
