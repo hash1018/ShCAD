@@ -24,7 +24,8 @@ public:
 
 	private slots :
 	void newActionClicked();
-
+	void undoButtonClicked();
+	void redoButtonClicked();
 };
 
 #endif //_SHQUICKACCESSTOOLBAR_H

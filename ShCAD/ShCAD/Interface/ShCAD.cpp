@@ -12,9 +12,10 @@
 #include "Ribbon\ShRibbonMenu.h"
 #include "StatusBar\ShStatusBar.h"
 #include "ToolBar\ShToolBarContainer.h"
-#include "Manager\ShChangeManager.h"
-#include "Chain of Responsibility\ShRequest.h"
 #include <qsettings.h>
+#include "Chain of Responsibility\ShCADRequestFactory.h"
+#include "Chain of Responsibility\ShCADRequestStrategy.h"
+#include "Manager\ShChangeManager.h"
 
 
 ShCAD::ShCAD(QWidget *parent)
@@ -135,23 +136,11 @@ void ShCAD::createCADWidget() {
 
 void ShCAD::request(ShRequest *request) {
 
-	if (request->getType() == ShRequest::RequestType::RequestCreateNewCADWidget)
-		this->createCADWidget();
-	else if (request->getType() == ShRequest::RequestChangeActionHandler) {
+	ShCADRequestStrategy *strategy = ShCADRequestFactory::create(this, request);
 
-		if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
-			return;
-
-		ShRequestChangeActionHandler *request2 = dynamic_cast<ShRequestChangeActionHandler*>(request);
-		ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(*(request2->getStrategy()));
-	}
-	else if (request->getType() == ShRequest::RequestSendNotifyEvent) {
-
-		if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
-			return;
-
-		ShRequestSendNotifyEvent *request2 = dynamic_cast<ShRequestSendNotifyEvent*>(request);
-		ShCADWidgetManager::getInstance()->getActivatedWidget()->update(request2->getNotifyEvent());
+	if (strategy != nullptr) {
+		strategy->response();
+		delete strategy;
 	}
 
 }

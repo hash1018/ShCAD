@@ -34,7 +34,7 @@ ShEmptyDrawingFileMenu::~ShEmptyDrawingFileMenu() {
 
 void ShEmptyDrawingFileMenu::newActionClicked() {
 	
-	ShCreateNewCADWidgetRequest request;
+	ShRequestCreateNewCADWidget request;
 	this->request(&request);
 }
 
@@ -64,7 +64,7 @@ ShFileMenu::~ShFileMenu() {
 
 void ShFileMenu::newActionClicked() {
 	
-	ShCreateNewCADWidgetRequest request;
+	ShRequestCreateNewCADWidget request;
 	this->request(&request);
 }
 

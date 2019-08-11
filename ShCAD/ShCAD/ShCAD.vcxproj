@@ -158,6 +158,8 @@
     <ClCompile Include="Base\ShDraftSetting.cpp" />
     <ClCompile Include="Base\ShGlobal.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
+    <ClCompile Include="Chain of Responsibility\ShCADRequestFactory.cpp" />
+    <ClCompile Include="Chain of Responsibility\ShCADRequestStrategy.cpp" />
     <ClCompile Include="Chain of Responsibility\ShChain.cpp" />
     <ClCompile Include="Chain of Responsibility\ShRequest.cpp" />
     <ClCompile Include="Data\ShDraftData.cpp" />
@@ -392,6 +394,8 @@
     <ClInclude Include="Base\ShGlobal.h" />
     <ClInclude Include="Base\ShMath.h" />
     <ClInclude Include="Base\ShVariable.h" />
+    <ClInclude Include="Chain of Responsibility\ShCADRequestFactory.h" />
+    <ClInclude Include="Chain of Responsibility\ShCADRequestStrategy.h" />
     <ClInclude Include="Chain of Responsibility\ShChain.h" />
     <ClInclude Include="Chain of Responsibility\ShRequest.h" />
     <ClInclude Include="Data\ShDraftData.h" />

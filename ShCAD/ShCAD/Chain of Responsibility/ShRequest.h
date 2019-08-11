@@ -12,6 +12,8 @@ public:
 		RequestCreateNewCADWidget,
 		RequestChangeActionHandler,
 		RequestSendNotifyEvent,
+		RequestUndo,
+		RequestRedo,
 
 	};
 
@@ -26,11 +28,11 @@ public:
 
 };
 
-class ShCreateNewCADWidgetRequest : public ShRequest {
+class ShRequestCreateNewCADWidget : public ShRequest {
 
 public:
-	ShCreateNewCADWidgetRequest();
-	~ShCreateNewCADWidgetRequest();
+	ShRequestCreateNewCADWidget();
+	~ShRequestCreateNewCADWidget();
 
 };
 
@@ -56,6 +58,22 @@ public:
 	~ShRequestSendNotifyEvent();
 
 	inline ShNotifyEvent* getNotifyEvent() const { return this->notifyEvent; }
+};
+
+class ShRequestUndo : public ShRequest {
+
+public:
+	ShRequestUndo();
+	~ShRequestUndo();
+
+};
+
+class ShRequestRedo : public ShRequest {
+
+public:
+	ShRequestRedo();
+	~ShRequestRedo();
+
 };
 
 #endif //_SHREQUEST_H

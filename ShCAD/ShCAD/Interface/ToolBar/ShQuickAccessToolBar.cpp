@@ -14,8 +14,7 @@ ShQuickAccessToolBar::ShQuickAccessToolBar(const QString &title, ShChain *chain,
 	this->setIconSize(QSize(20, 20));
 
 	QAction *action = this->addAction(ShIcon(":/Image/File/New.png"), shGetLanValue_ui("File/New"));
-	connect(action, &QAction::triggered, this, &ShQuickAccessToolBar::newActionClicked);
-
+	
 	this->addSeparator();
 
 	this->undoButton = new QPushButton(ShIcon(":/Image/Undo.png"), "", this);
@@ -23,6 +22,10 @@ ShQuickAccessToolBar::ShQuickAccessToolBar(const QString &title, ShChain *chain,
 	this->redoButton = new QPushButton(ShIcon(":/Image/Redo.png"), "", this);
 	this->addWidget(this->redoButton);
 
+
+	connect(action, &QAction::triggered, this, &ShQuickAccessToolBar::newActionClicked);
+	connect(this->undoButton, &QPushButton::pressed, this, &ShQuickAccessToolBar::undoButtonClicked);
+	connect(this->redoButton, &QPushButton::pressed, this, &ShQuickAccessToolBar::redoButtonClicked);
 }
 
 ShQuickAccessToolBar::~ShQuickAccessToolBar() {
@@ -47,6 +50,18 @@ void ShQuickAccessToolBar::setRedoButtonEnabled(bool enabled) {
 
 void ShQuickAccessToolBar::newActionClicked() {
 
-	ShCreateNewCADWidgetRequest request;
+	ShRequestCreateNewCADWidget request;
+	this->request(&request);
+}
+
+void ShQuickAccessToolBar::undoButtonClicked() {
+
+	ShRequestUndo request;
+	this->request(&request);
+}
+
+void ShQuickAccessToolBar::redoButtonClicked() {
+
+	ShRequestRedo request;
 	this->request(&request);
 }

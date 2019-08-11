@@ -12,12 +12,12 @@ ShRequest::~ShRequest() {
 
 ////////////////////////////////
 
-ShCreateNewCADWidgetRequest::ShCreateNewCADWidgetRequest()
+ShRequestCreateNewCADWidget::ShRequestCreateNewCADWidget()
 	:ShRequest(ShRequest::RequestCreateNewCADWidget) {
 
 }
 
-ShCreateNewCADWidgetRequest::~ShCreateNewCADWidgetRequest() {
+ShRequestCreateNewCADWidget::~ShRequestCreateNewCADWidget() {
 
 }
 
@@ -42,3 +42,26 @@ ShRequestSendNotifyEvent::ShRequestSendNotifyEvent(ShNotifyEvent *notifyEvent)
 ShRequestSendNotifyEvent::~ShRequestSendNotifyEvent() {
 
 }
+
+///////////////////////////////
+
+ShRequestUndo::ShRequestUndo()
+	:ShRequest(ShRequest::RequestUndo) {
+
+}
+
+ShRequestUndo::~ShRequestUndo() {
+
+}
+
+///////////////////////////////
+
+ShRequestRedo::ShRequestRedo()
+	:ShRequest(ShRequest::RequestRedo) {
+
+}
+
+ShRequestRedo::~ShRequestRedo() {
+
+}
+

@@ -481,6 +481,12 @@
     <ClCompile Include="Interface\ToolBar\ShQuickAccessToolBar.cpp">
       <Filter>Interface\ToolBar</Filter>
     </ClCompile>
+    <ClCompile Include="Chain of Responsibility\ShCADRequestFactory.cpp">
+      <Filter>Chain of Responsibility</Filter>
+    </ClCompile>
+    <ClCompile Include="Chain of Responsibility\ShCADRequestStrategy.cpp">
+      <Filter>Chain of Responsibility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -796,6 +802,12 @@
     </ClInclude>
     <ClInclude Include="Interface\ToolBar\ShQuickAccessToolBar.h">
       <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Chain of Responsibility\ShCADRequestFactory.h">
+      <Filter>Chain of Responsibility</Filter>
+    </ClInclude>
+    <ClInclude Include="Chain of Responsibility\ShCADRequestStrategy.h">
+      <Filter>Chain of Responsibility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
