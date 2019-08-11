@@ -215,9 +215,12 @@ void ShModifyPanel::trimButtonClicked() {
 ShPropertyPanel::ShPropertyPanel(ShChain *chain, QWidget *parent, const QString &title, int width)
 	:ShPanelInRibbonTab(chain, parent, title, width) {
 
+	this->colorButton = new ShButton(this);
+	this->colorButton->setIcon(ShIcon(":/Image/SelectColor.png"));
 	this->colorCombo = new ShColorComboBox(this);
 	this->lineStyleCombo = new ShLineStyleComboBox(this);
 
+	connect(this->colorButton, &ShButton::pressed, this, &ShPropertyPanel::colorButtonClicked);
 	connect(this->colorCombo, &ShColorComboBox::colorChanged, this, &ShPropertyPanel::colorChanged);
 	connect(this->lineStyleCombo, &ShLineStyleComboBox::lineStyleChanged, this, &ShPropertyPanel::lineStyleChanged);
 
@@ -235,6 +238,7 @@ void ShPropertyPanel::resizeEvent(QResizeEvent *event) {
 
 	int height = this->layoutWidget->height();
 
+	this->colorButton->setGeometry(0, 0, height / 3 - 2, height / 3 - 2);
 	this->colorCombo->setGeometry(height / 3 + 2, 3, 150, height / 3 - 8);
 	this->lineStyleCombo->setGeometry(height / 3 + 2, height / 3, 150, height / 3 - 8);
 }
@@ -243,6 +247,11 @@ void ShPropertyPanel::update(ShNotifyEvent *event) {
 
 	ShPropertyPanelEventFilter filter(this, event);
 	filter.update();
+}
+
+void ShPropertyPanel::colorButtonClicked() {
+
+	this->colorCombo->openColorPickDialog();
 }
 
 void ShPropertyPanel::colorChanged(const ShColor &color) {

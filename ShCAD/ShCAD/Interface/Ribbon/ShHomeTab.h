@@ -104,6 +104,7 @@ class ShPropertyPanel : public ShPanelInRibbonTab {
 	Q_OBJECT
 
 private:
+	ShButton *colorButton;
 	ShColorComboBox *colorCombo;
 	ShLineStyleComboBox *lineStyleCombo;
 
@@ -120,6 +121,7 @@ protected:
 	void resizeEvent(QResizeEvent* event);
 
 	private slots:
+	void colorButtonClicked();
 	void colorChanged(const ShColor &color);
 	void lineStyleChanged(const ShLineStyle &lineStyle);
 };
