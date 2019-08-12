@@ -5,6 +5,8 @@
 class ShPropertyPanel;
 class ShNotifyEvent;
 class ShPropertyPanelEventFilterStrategy;
+class ShLayerPanel;
+class ShLayerPanelEventFilterStrategy;
 
 class ShPropertyPanelEventFilter {
 
@@ -68,6 +70,49 @@ public:
 
 	void update();
 
+};
+
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+class ShLayerPanelEventFilter {
+
+private:
+	ShLayerPanelEventFilterStrategy *strategy;
+
+public:
+	ShLayerPanelEventFilter(ShLayerPanel *layerPanel, ShNotifyEvent *event);
+	~ShLayerPanelEventFilter();
+
+	void update();
+};
+
+//////////////////////////////////////////////
+
+class ShLayerPanelEventFilterStrategy {
+
+protected:
+	ShLayerPanel *layerPanel;
+	ShNotifyEvent *event;
+
+public:
+	ShLayerPanelEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event);
+	~ShLayerPanelEventFilterStrategy();
+
+	virtual void update() = 0;
+};
+
+//////////////////////////////////////////////
+
+class ShLayerPanelActivatedWidgetChangedEventFilterStrategy : public ShLayerPanelEventFilterStrategy {
+
+public:
+	ShLayerPanelActivatedWidgetChangedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event);
+	~ShLayerPanelActivatedWidgetChangedEventFilterStrategy();
+
+	virtual void update();
 };
 
 #endif //_SHHOMETABEVENTFILTER_H

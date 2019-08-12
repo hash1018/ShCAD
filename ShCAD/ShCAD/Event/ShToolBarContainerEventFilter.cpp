@@ -10,6 +10,9 @@
 #include "Data\ShLineStyleList.h"
 #include "Interface\ToolBar\ShQuickAccessToolBar.h"
 #include "UnRedo\ShTransactionStack.h"
+#include "Interface\Item\ShLayerComboBox.h"
+#include "Interface\ToolBar\ShLayerToolBar.h"
+#include "Base\ShLayerTable.h"
 
 ShPropertyToolBarEventFilter::ShPropertyToolBarEventFilter(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -238,4 +241,60 @@ void ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy::update() {
 	else
 		this->quickAccessToolBar->setRedoButtonEnabled(true);
 
+}
+
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+ShLayerToolBarEventFilter::ShLayerToolBarEventFilter(ShLayerToolBar *layerToolBar, ShNotifyEvent *event)
+	:strategy(nullptr) {
+
+	if (event->getType() == ShNotifyEvent::ActivatedWidgetChanged)
+		this->strategy = new ShLayerToolBarActivatedWidgetChangedEventFilterStrategy(layerToolBar, event);
+
+
+}
+
+ShLayerToolBarEventFilter::~ShLayerToolBarEventFilter() {
+
+	if (this->strategy != nullptr)
+		delete this->strategy;
+}
+
+void ShLayerToolBarEventFilter::update() {
+
+	if (this->strategy != nullptr)
+		this->strategy->update();
+}
+
+///////////////////////////////////////////////////////
+
+
+ShLayerToolBarEventFilterStrategy::ShLayerToolBarEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event)
+	:layerToolBar(layerToolBar), event(event) {
+
+}
+
+ShLayerToolBarEventFilterStrategy::~ShLayerToolBarEventFilterStrategy() {
+
+}
+
+///////////////////////////////////////////////////////
+
+ShLayerToolBarActivatedWidgetChangedEventFilterStrategy::ShLayerToolBarActivatedWidgetChangedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event)
+	:ShLayerToolBarEventFilterStrategy(layerToolBar, event) {
+
+}
+
+ShLayerToolBarActivatedWidgetChangedEventFilterStrategy::~ShLayerToolBarActivatedWidgetChangedEventFilterStrategy() {
+
+}
+
+void ShLayerToolBarActivatedWidgetChangedEventFilterStrategy::update() {
+
+	this->layerToolBar->getLayerCombo()->setLayerTable(dynamic_cast<ShActivatedWidgetChangedEvent*>(this->event)->getNewWidget()->getLayerTable());
+	this->layerToolBar->getLayerCombo()->updateLayerCombo();
+	this->layerToolBar->getLayerCombo()->setLayerComboCurrentIndex(dynamic_cast<ShActivatedWidgetChangedEvent*>(this->event)->getNewWidget()->getLayerTable()->getCurrentLayerIndex());
 }

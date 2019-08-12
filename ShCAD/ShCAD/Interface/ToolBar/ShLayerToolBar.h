@@ -5,15 +5,28 @@
 #include "ShAbstractToolBar.h"
 
 class ShNotifyEvent;
+class ShLayerComboBox;
+class ShColor;
+class ShLayer;
 
 class ShLayerToolBar : public ShAbstractToolBar {
 	Q_OBJECT
+
+private:
+	ShLayerComboBox *layerCombo;
 
 public:
 	ShLayerToolBar(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShLayerToolBar();
 
 	void update(ShNotifyEvent *event);
+
+	inline ShLayerComboBox* getLayerCombo() const { return this->layerCombo; }
+
+	private slots:
+	void currentLayerChanged(ShLayer *layer);
+	void layerTurnChanged(ShLayer *layer, bool turnOn);
+	void layerColorChanged(ShLayer *layer, const ShColor &color);
 };
 
 #endif //_SHLAYERTOOLBAR_H

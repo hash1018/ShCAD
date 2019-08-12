@@ -7,6 +7,8 @@ class ShNotifyEvent;
 class ShPropertyToolBarEventFilterStrategy;
 class ShQuickAccessToolBar;
 class ShQuickAccessToolBarEventFilterStrategy;
+class ShLayerToolBar;
+class ShLayerToolBarEventFilterStrategy;
 
 class ShPropertyToolBarEventFilter {
 
@@ -124,6 +126,49 @@ public:
 	~ShQuickAccessToolBarTransactionSizeChangedEventFilterStrategy();
 
 	void update();
+};
+
+
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+
+class ShLayerToolBarEventFilter {
+
+private:
+	ShLayerToolBarEventFilterStrategy *strategy;
+
+public:
+	ShLayerToolBarEventFilter(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
+	~ShLayerToolBarEventFilter();
+
+	void update();
+};
+
+//////////////////////////////////////////////
+
+class ShLayerToolBarEventFilterStrategy {
+
+protected:
+	ShLayerToolBar *layerToolBar;
+	ShNotifyEvent *event;
+
+public:
+	ShLayerToolBarEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
+	~ShLayerToolBarEventFilterStrategy();
+
+	virtual void update() = 0;
+};
+
+//////////////////////////////////////////////
+
+class ShLayerToolBarActivatedWidgetChangedEventFilterStrategy : public ShLayerToolBarEventFilterStrategy {
+
+public:
+	ShLayerToolBarActivatedWidgetChangedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
+	~ShLayerToolBarActivatedWidgetChangedEventFilterStrategy();
+
+	virtual void update();
 };
 
 

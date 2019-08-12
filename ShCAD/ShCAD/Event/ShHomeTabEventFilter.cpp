@@ -7,6 +7,8 @@
 #include "Interface\ShCADWidget.h"
 #include "Interface\Item\ShLineStyleComboBox.h"
 #include "Data\ShLineStyleList.h"
+#include "Interface\Item\ShLayerComboBox.h"
+#include "Base\ShLayerTable.h"
 
 
 ShPropertyPanelEventFilter::ShPropertyPanelEventFilter(ShPropertyPanel *propertyPanel, ShNotifyEvent *event)
@@ -143,4 +145,60 @@ void ShPropertyPanelCurrentLineStyleChangedEventFilterStrategy::update() {
 
 	this->propertyPanel->getLineStyleCombo()->updateLineStyleCombo();
 	this->propertyPanel->getLineStyleCombo()->setLineStyleComboCurrentIndex(index);
+}
+
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+ShLayerPanelEventFilter::ShLayerPanelEventFilter(ShLayerPanel *layerPanel, ShNotifyEvent *event)
+	:strategy(nullptr) {
+
+	if (event->getType() == ShNotifyEvent::ActivatedWidgetChanged)
+		this->strategy = new ShLayerPanelActivatedWidgetChangedEventFilterStrategy(layerPanel, event);
+	
+
+}
+
+ShLayerPanelEventFilter::~ShLayerPanelEventFilter() {
+
+	if (this->strategy != nullptr)
+		delete this->strategy;
+}
+
+void ShLayerPanelEventFilter::update() {
+
+	if (this->strategy != nullptr)
+		this->strategy->update();
+}
+
+///////////////////////////////////////////////////////
+
+
+ShLayerPanelEventFilterStrategy::ShLayerPanelEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event)
+	:layerPanel(layerPanel), event(event) {
+
+}
+
+ShLayerPanelEventFilterStrategy::~ShLayerPanelEventFilterStrategy() {
+
+}
+
+///////////////////////////////////////////////////////
+
+ShLayerPanelActivatedWidgetChangedEventFilterStrategy::ShLayerPanelActivatedWidgetChangedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event)
+	:ShLayerPanelEventFilterStrategy(layerPanel, event) {
+
+}
+
+ShLayerPanelActivatedWidgetChangedEventFilterStrategy::~ShLayerPanelActivatedWidgetChangedEventFilterStrategy() {
+
+}
+
+void ShLayerPanelActivatedWidgetChangedEventFilterStrategy::update() {
+
+	this->layerPanel->getLayerCombo()->setLayerTable(dynamic_cast<ShActivatedWidgetChangedEvent*>(this->event)->getNewWidget()->getLayerTable());
+	this->layerPanel->getLayerCombo()->updateLayerCombo();
+	this->layerPanel->getLayerCombo()->setLayerComboCurrentIndex(dynamic_cast<ShActivatedWidgetChangedEvent*>(this->event)->getNewWidget()->getLayerTable()->getCurrentLayerIndex());
 }

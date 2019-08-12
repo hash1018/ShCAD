@@ -129,7 +129,7 @@ void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 
 	QRect rect = opt.rect.adjusted(4, 4, -20, -2);
 
-	if (this->layerTable == 0)
+	if (this->layerTable == nullptr)
 		return;
 
 	if (this->layerComboIndex == -1)

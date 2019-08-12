@@ -300,7 +300,8 @@ void ShLayerPanel::resizeEvent(QResizeEvent *event) {
 
 void ShLayerPanel::update(ShNotifyEvent *event) {
 
-
+	ShLayerPanelEventFilter filter(this, event);
+	filter.update();
 }
 
 void ShLayerPanel::currentLayerChanged(ShLayer *layer) {
