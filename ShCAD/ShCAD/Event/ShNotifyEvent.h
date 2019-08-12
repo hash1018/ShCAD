@@ -9,6 +9,7 @@ class QKeyEvent;
 class ShCADWidget;
 class ShColor;
 class ShLineStyle;
+class ShLayer;
 
 
 
@@ -29,8 +30,8 @@ public:
 		UpdateCommandHeadTitle,
 		CurrentColorChanged,
 		CurrentLineStyleChanged,
-		CurrentLayerChanged,
 		TransactionStackSizeChanged,
+		CurrentLayerChanged,
 	};
 
 	ShNotifyEvent(Type type);
@@ -176,6 +177,8 @@ private:
 	const ShLineStyle &lineStyle;
 };
 
+/////////////////////////////////////////////////////////////////////////////
+
 class ShTransactionStackSizeChangedEvent : public ShNotifyEvent {
 
 public:
@@ -190,5 +193,20 @@ private:
 	int redoSize;
 
 };
+
+//////////////////////////////////////////////////////////////////////////////
+
+class ShCurrentLayerChangedEvent : public ShNotifyEvent {
+
+public:
+	ShCurrentLayerChangedEvent(ShLayer *currentLayer);
+	~ShCurrentLayerChangedEvent();
+
+	inline ShLayer* getCurrentLayer() const { return this->currentLayer; }
+
+private:
+	ShLayer *currentLayer;
+};
+
 
 #endif //_SHNOTIFYEVENT_H

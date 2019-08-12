@@ -5,6 +5,8 @@
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "UnRedo\ShCADWidgetTransaction.h"
 #include "Base\ShGlobal.h"
+#include "Base\ShLayer.h"
+#include "Base\ShLayerTable.h"
 
 ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -15,6 +17,8 @@ ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEven
 		this->strategy = new ShCADWidgetCurrentColorChangedEventFilterStrategy(widget, event);
 	else if (event->getType() == ShNotifyEvent::CurrentLineStyleChanged)
 		this->strategy = new ShCADWidgetCurrentLineStyleChangedEventFilterStrategy(widget, event);
+	else if (event->getType() == ShNotifyEvent::CurrentLayerChanged)
+		this->strategy = new ShCADWidgetCurrentLayerChangedEventFilterStrategy(widget, event);
 }
 
 ShCADWidgetEventFilter::~ShCADWidgetEventFilter() {
@@ -114,4 +118,43 @@ void ShCADWidgetCurrentLineStyleChangedEventFilterStrategy::update() {
 	ShChangeLineStyleTransaction *transaction = new ShChangeLineStyleTransaction(this->widget, prev.getLineStyle(), event->getLineStyle());
 	ShGlobal::pushNewTransaction(this->widget, transaction);
 
+}
+
+///////////////////////////////////////////////////////////////////
+
+ShCADWidgetCurrentLayerChangedEventFilterStrategy::ShCADWidgetCurrentLayerChangedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event)
+	:ShCADWidgetEventFilterStrategy(widget, event) {
+
+}
+
+ShCADWidgetCurrentLayerChangedEventFilterStrategy::~ShCADWidgetCurrentLayerChangedEventFilterStrategy() {
+
+}
+
+void ShCADWidgetCurrentLayerChangedEventFilterStrategy::update() {
+
+	ShCurrentLayerChangedEvent *event = dynamic_cast<ShCurrentLayerChangedEvent*>(this->event);
+
+
+	ShLayer *prev = this->widget->getLayerTable()->getCurrentLayer();
+
+	if (prev == event->getCurrentLayer())
+		return;
+
+	this->widget->getLayerTable()->setCurrentLayer(event->getCurrentLayer());
+
+	ShPropertyData propertyData = this->widget->getPropertyData();
+
+	if (propertyData.getColor().getType() == ShColor::Type::ByLayer)
+		propertyData.setColor(event->getCurrentLayer()->getPropertyData().getColor());
+	
+	if (propertyData.getLineStyle().getType() == ShLineStyle::Type::ByLayer)
+		propertyData.setLineStyle(event->getCurrentLayer()->getPropertyData().getLineStyle());
+
+	this->widget->setPropertyData(propertyData);
+
+	this->widget->notify(this->event);
+	
+
+	//TODO unredo
 }

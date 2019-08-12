@@ -2,6 +2,8 @@
 #include "ShLayerToolBar.h"
 #include "Interface\Item\ShLayerComboBox.h"
 #include "Event\ShToolBarContainerEventFilter.h"
+#include "Event\ShNotifyEvent.h"
+#include "Chain of Responsibility\ShRequest.h"
 
 ShLayerToolBar::ShLayerToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
@@ -28,6 +30,9 @@ void ShLayerToolBar::update(ShNotifyEvent *event) {
 
 void ShLayerToolBar::currentLayerChanged(ShLayer *layer) {
 
+	ShCurrentLayerChangedEvent event(layer);
+	ShRequestSendNotifyEvent request(&event);
+	this->request(&request);
 }
 
 void ShLayerToolBar::layerTurnChanged(ShLayer *layer, bool turnOn) {

@@ -113,3 +113,14 @@ ShTransactionStackSizeChangedEvent::ShTransactionStackSizeChangedEvent(const int
 ShTransactionStackSizeChangedEvent::~ShTransactionStackSizeChangedEvent() {
 
 }
+
+////////////////////////////////////////////////////////////////////////
+
+ShCurrentLayerChangedEvent::ShCurrentLayerChangedEvent(ShLayer *currentLayer)
+	:ShNotifyEvent(Type::CurrentLayerChanged), currentLayer(currentLayer) {
+
+}
+
+ShCurrentLayerChangedEvent::~ShCurrentLayerChangedEvent() {
+
+}

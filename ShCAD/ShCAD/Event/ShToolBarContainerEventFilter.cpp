@@ -23,6 +23,8 @@ ShPropertyToolBarEventFilter::ShPropertyToolBarEventFilter(ShPropertyToolBar *pr
 		this->strategy = new ShPropertyToolBarActivatedWidgetChangedEventFilterStrategy(propertyToolBar, event);
 	else if (event->getType() == ShNotifyEvent::CurrentLineStyleChanged)
 		this->strategy = new ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy(propertyToolBar, event);
+	else if (event->getType() == ShNotifyEvent::CurrentLayerChanged)
+		this->strategy = new ShPropertyToolBarCurrentLayerChangedEventFilterStrategy(propertyToolBar, event);
 
 }
 
@@ -104,13 +106,16 @@ void ShPropertyToolBarActivatedWidgetChangedEventFilterStrategy::update() {
 	ShCADWidget *widget = event->getNewWidget();
 
 	ShColorComboBox *colorCombo = this->propertyToolBar->getColorCombo();
-
-	//colorCombo->setBlockColor()
-	//colorCombo->setLayerColor(view->getLayerTable()->getCurrentLayer()->getPropertyData().getColor());
+	colorCombo->setLayerColor(widget->getLayerTable()->getCurrentLayer()->getPropertyData().getColor());
 
 	ShCurrentColorChangedEvent event2(widget->getPropertyData().getColor());
 	ShPropertyToolBarCurrentColorChangedEventFilterStrategy strategy2(this->propertyToolBar, &event2);
 	strategy2.update();
+
+
+
+	ShLineStyleComboBox *lineStyleCombo = this->propertyToolBar->getLineStyleCombo();
+	lineStyleCombo->setLayerLineStyle(widget->getLayerTable()->getCurrentLayer()->getPropertyData().getLineStyle());
 
 	ShCurrentLineStyleChangedEvent event3(widget->getPropertyData().getLineStyle());
 	ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy strategy3(this->propertyToolBar, &event3);
@@ -150,6 +155,27 @@ void ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy::update() {
 
 	this->propertyToolBar->getLineStyleCombo()->updateLineStyleCombo();
 	this->propertyToolBar->getLineStyleCombo()->setLineStyleComboCurrentIndex(index);
+}
+
+/////////////////////////////////////////////////////
+
+ShPropertyToolBarCurrentLayerChangedEventFilterStrategy::ShPropertyToolBarCurrentLayerChangedEventFilterStrategy(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event)
+	:ShPropertyToolBarEventFilterStrategy(propertyToolBar, event) {
+
+}
+
+ShPropertyToolBarCurrentLayerChangedEventFilterStrategy::~ShPropertyToolBarCurrentLayerChangedEventFilterStrategy() {
+
+}
+
+void ShPropertyToolBarCurrentLayerChangedEventFilterStrategy::update() {
+
+	ShCurrentLayerChangedEvent *event = dynamic_cast<ShCurrentLayerChangedEvent*>(this->event);
+
+	this->propertyToolBar->getColorCombo()->setLayerColor(event->getCurrentLayer()->getPropertyData().getColor());
+	this->propertyToolBar->getColorCombo()->updateColorCombo();
+	this->propertyToolBar->getColorCombo()->setColorComboCurrentIndex(this->propertyToolBar->getColorCombo()->getColorComboIndex());
+
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -253,6 +279,8 @@ ShLayerToolBarEventFilter::ShLayerToolBarEventFilter(ShLayerToolBar *layerToolBa
 
 	if (event->getType() == ShNotifyEvent::ActivatedWidgetChanged)
 		this->strategy = new ShLayerToolBarActivatedWidgetChangedEventFilterStrategy(layerToolBar, event);
+	else if (event->getType() == ShNotifyEvent::CurrentLayerChanged)
+		this->strategy = new ShLayerToolBarCurrentLayerChangedEventFilterStrategy(layerToolBar, event);
 
 
 }
@@ -294,7 +322,26 @@ ShLayerToolBarActivatedWidgetChangedEventFilterStrategy::~ShLayerToolBarActivate
 
 void ShLayerToolBarActivatedWidgetChangedEventFilterStrategy::update() {
 
-	this->layerToolBar->getLayerCombo()->setLayerTable(dynamic_cast<ShActivatedWidgetChangedEvent*>(this->event)->getNewWidget()->getLayerTable());
+	ShActivatedWidgetChangedEvent *event = dynamic_cast<ShActivatedWidgetChangedEvent*>(this->event);
+
+	this->layerToolBar->getLayerCombo()->setLayerTable(event->getNewWidget()->getLayerTable());
 	this->layerToolBar->getLayerCombo()->updateLayerCombo();
-	this->layerToolBar->getLayerCombo()->setLayerComboCurrentIndex(dynamic_cast<ShActivatedWidgetChangedEvent*>(this->event)->getNewWidget()->getLayerTable()->getCurrentLayerIndex());
+	this->layerToolBar->getLayerCombo()->setLayerComboCurrentIndex(event->getNewWidget()->getLayerTable()->getCurrentLayerIndex());
+}
+
+//////////////////////////////////////////////////////////
+
+
+ShLayerToolBarCurrentLayerChangedEventFilterStrategy::ShLayerToolBarCurrentLayerChangedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event)
+	:ShLayerToolBarEventFilterStrategy(layerToolBar, event) {
+
+}
+
+ShLayerToolBarCurrentLayerChangedEventFilterStrategy::~ShLayerToolBarCurrentLayerChangedEventFilterStrategy() {
+
+}
+
+void ShLayerToolBarCurrentLayerChangedEventFilterStrategy::update() {
+
+	this->layerToolBar->getLayerCombo()->setLayerComboCurrentIndex(dynamic_cast<ShCurrentLayerChangedEvent*>(this->event)->getCurrentLayer());
 }

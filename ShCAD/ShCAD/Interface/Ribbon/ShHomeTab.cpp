@@ -306,6 +306,9 @@ void ShLayerPanel::update(ShNotifyEvent *event) {
 
 void ShLayerPanel::currentLayerChanged(ShLayer *layer) {
 
+	ShCurrentLayerChangedEvent event(layer);
+	ShRequestSendNotifyEvent request(&event);
+	this->request(&request);
 }
 
 void ShLayerPanel::layerTurnChanged(ShLayer *layer, bool turnOn) {

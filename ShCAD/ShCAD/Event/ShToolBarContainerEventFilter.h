@@ -74,6 +74,18 @@ public:
 
 };
 
+///////////////////////////////////////////////////////////
+
+class ShPropertyToolBarCurrentLayerChangedEventFilterStrategy : public ShPropertyToolBarEventFilterStrategy {
+
+public:
+	ShPropertyToolBarCurrentLayerChangedEventFilterStrategy(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event);
+	~ShPropertyToolBarCurrentLayerChangedEventFilterStrategy();
+
+	void update();
+
+};
+
 
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -171,6 +183,16 @@ public:
 	virtual void update();
 };
 
+/////////////////////////////////////////////
 
+class ShLayerToolBarCurrentLayerChangedEventFilterStrategy : public ShLayerToolBarEventFilterStrategy {
+
+public:
+	ShLayerToolBarCurrentLayerChangedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
+	~ShLayerToolBarCurrentLayerChangedEventFilterStrategy();
+
+	virtual void update();
+
+};
 
 #endif //_SHTOOLBARCONTAINEREVENTFILTER_H
