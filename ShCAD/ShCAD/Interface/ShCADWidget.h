@@ -22,6 +22,7 @@ class ShTemporaryAction;
 class ShActionHandlerProxy;
 class ShChangeActionStrategy;
 class ShTransactionStack;
+class ShLayerTable;
 
 class ShCADWidget : public QOpenGLWidget {
 	
@@ -41,6 +42,7 @@ private:
 	ShPreview preview;
 	ShDraftData draftData;
 	ShPropertyData propertyData;
+	ShLayerTable *layerTable;
 	
 
 public:
@@ -97,6 +99,7 @@ public:
 	inline ShPreview& getPreview() const { return const_cast<ShPreview&>(this->preview); }
 	inline ShDraftData& getDraftData() const { return const_cast<ShDraftData&>(this->draftData); }
 	inline const ShPropertyData& getPropertyData() const { return this->propertyData; }
+	inline ShLayerTable* getLayerTable() const { return this->layerTable; }
 
 };
 

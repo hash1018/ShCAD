@@ -19,6 +19,8 @@ class ShColor;
 class ShColorComboBox;
 class ShLineStyle;
 class ShLineStyleComboBox;
+class ShLayerComboBox;
+class ShLayer;
 
 class ShHomeTab : public ShRibbonTab {
 
@@ -131,6 +133,8 @@ protected:
 class ShLayerPanel : public ShPanelInRibbonTab {
 	Q_OBJECT
 
+private:
+	ShLayerComboBox *layerCombo;
 
 public:
 	ShLayerPanel(ShChain *chain, QWidget *parent, const QString &title, int width);
@@ -138,9 +142,15 @@ public:
 
 	void update(ShNotifyEvent *event);
 
+	inline ShLayerComboBox* getLayerCombo() const { return this->layerCombo; }
+
 protected:
 	void resizeEvent(QResizeEvent *event);
 
+	private slots:
+	void currentLayerChanged(ShLayer *layer);
+	void layerTurnChanged(ShLayer *layer, bool turnOn);
+	void layerColorChanged(ShLayer *layer, const ShColor &color);
 };
 
 #endif //_SHHOMETAB_H

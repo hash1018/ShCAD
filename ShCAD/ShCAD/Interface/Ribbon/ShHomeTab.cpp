@@ -10,6 +10,7 @@
 #include "Event\ShHomeTabEventFilter.h"
 #include "Event\ShNotifyEvent.h"
 #include "Interface\Item\ShLineStyleComboBox.h"
+#include "Interface\Item\ShLayerComboBox.h"
 
 ShHomeTab::ShHomeTab(ShChain *chain, const QString &title, QWidget *parent)
 	:ShRibbonTab(title, chain, parent) {
@@ -276,7 +277,11 @@ void ShPropertyPanel::lineStyleChanged(const ShLineStyle &lineStyle) {
 ShLayerPanel::ShLayerPanel(ShChain *chain, QWidget *parent, const QString &title, int width)
 	:ShPanelInRibbonTab(chain, parent, title, width) {
 
+	this->layerCombo = new ShLayerComboBox(this);
 
+	connect(this->layerCombo, &ShLayerComboBox::currentLayerChanged, this, &ShLayerPanel::currentLayerChanged);
+	connect(this->layerCombo, &ShLayerComboBox::layerColorChanged, this, &ShLayerPanel::layerColorChanged);
+	connect(this->layerCombo, &ShLayerComboBox::layerTurnChanged, this, &ShLayerPanel::layerTurnChanged);
 
 }
 
@@ -288,9 +293,24 @@ void ShLayerPanel::resizeEvent(QResizeEvent *event) {
 
 	ShPanelInRibbonTab::resizeEvent(event);
 
+	int height = this->layoutWidget->height();
+
+	this->layerCombo->setGeometry(height / 3 + 2, height / 3, 150, height / 3 - 8);
 }
 
 void ShLayerPanel::update(ShNotifyEvent *event) {
 
+
+}
+
+void ShLayerPanel::currentLayerChanged(ShLayer *layer) {
+
+}
+
+void ShLayerPanel::layerTurnChanged(ShLayer *layer, bool turnOn) {
+
+}
+
+void ShLayerPanel::layerColorChanged(ShLayer *layer, const ShColor &color) {
 
 }

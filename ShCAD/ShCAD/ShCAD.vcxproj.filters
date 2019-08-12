@@ -487,6 +487,21 @@
     <ClCompile Include="Chain of Responsibility\ShCADRequestStrategy.cpp">
       <Filter>Chain of Responsibility</Filter>
     </ClCompile>
+    <ClCompile Include="Base\ShLayer.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ShLayerTable.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShLayerComboBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShLayerComboBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Item\ShLayerComboBox.cpp">
+      <Filter>Interface\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -520,6 +535,9 @@
       <Filter>Interface\Item</Filter>
     </CustomBuild>
     <CustomBuild Include="Interface\Item\ShLineStyleComboBox.h">
+      <Filter>Interface\Item</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Item\ShLayerComboBox.h">
       <Filter>Interface\Item</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -808,6 +826,12 @@
     </ClInclude>
     <ClInclude Include="Chain of Responsibility\ShCADRequestStrategy.h">
       <Filter>Chain of Responsibility</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShLayer.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShLayerTable.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

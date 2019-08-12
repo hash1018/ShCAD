@@ -12,6 +12,7 @@
 #include "Event\ShCADWidgetEventFilter.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "UnRedo\ShTransactionStack.h"
+#include "Base\ShLayerTable.h"
 
 
 
@@ -28,6 +29,7 @@ ShCADWidget::ShCADWidget(QWidget *parent)
 	this->undoStack = new ShTransactionStack;
 	this->redoStack = new ShTransactionStack;
 
+	this->layerTable = new ShLayerTable;
 }
 
 ShCADWidget::~ShCADWidget() {
@@ -40,6 +42,9 @@ ShCADWidget::~ShCADWidget() {
 	
 	if (this->redoStack != nullptr)
 		delete this->redoStack;
+
+	if (this->layerTable != nullptr)
+		delete this->layerTable;
 
 	this->rubberBand.clear();
 
