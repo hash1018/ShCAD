@@ -502,6 +502,9 @@
     <ClCompile Include="Interface\Item\ShLayerComboBox.cpp">
       <Filter>Interface\Item</Filter>
     </ClCompile>
+    <ClCompile Include="UnRedo\ShLayerTransaction.cpp">
+      <Filter>UnRedo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -832,6 +835,9 @@
     </ClInclude>
     <ClInclude Include="Base\ShLayerTable.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="UnRedo\ShLayerTransaction.h">
+      <Filter>UnRedo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

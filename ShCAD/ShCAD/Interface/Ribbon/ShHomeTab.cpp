@@ -317,4 +317,7 @@ void ShLayerPanel::layerTurnChanged(ShLayer *layer, bool turnOn) {
 
 void ShLayerPanel::layerColorChanged(ShLayer *layer, const ShColor &color) {
 
+	ShLayerDataChangedEvent event(layer, color);
+	ShRequestSendNotifyEvent request(&event);
+	this->request(&request);
 }

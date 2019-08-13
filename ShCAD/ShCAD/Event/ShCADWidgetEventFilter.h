@@ -83,4 +83,14 @@ public:
 
 };
 
+class ShCADWidgetLayerDataChangedEventFilterStrategy : public ShCADWidgetEventFilterStrategy {
+
+public:
+	ShCADWidgetLayerDataChangedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event);
+	~ShCADWidgetLayerDataChangedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHCADWIDGETEVENTFILTER_H

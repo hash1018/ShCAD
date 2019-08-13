@@ -124,3 +124,14 @@ ShCurrentLayerChangedEvent::ShCurrentLayerChangedEvent(ShLayer *currentLayer)
 ShCurrentLayerChangedEvent::~ShCurrentLayerChangedEvent() {
 
 }
+
+////////////////////////////////////////////////////////////////////////
+
+ShLayerDataChangedEvent::ShLayerDataChangedEvent(ShLayer *layer, const ShColor &color, bool current)
+	:ShNotifyEvent(Type::LayerDataChanged), layer(layer), current(current), color(&color), changedType(ChangedType::Color) {
+
+}
+
+ShLayerDataChangedEvent::~ShLayerDataChangedEvent() {
+
+}

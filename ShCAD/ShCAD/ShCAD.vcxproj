@@ -336,6 +336,7 @@
     <ClCompile Include="ObjectSnap\ShSearchSnapPointStrategyFactory.cpp" />
     <ClCompile Include="UnRedo\ShCADWidgetTransaction.cpp" />
     <ClCompile Include="UnRedo\ShEntityTransaction.cpp" />
+    <ClCompile Include="UnRedo\ShLayerTransaction.cpp" />
     <ClCompile Include="UnRedo\ShPanTransaction.cpp" />
     <ClCompile Include="UnRedo\ShTransaction.cpp" />
     <ClCompile Include="UnRedo\ShTransactionStack.cpp" />
@@ -480,6 +481,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
     </CustomBuild>
     <ClInclude Include="Interface\ToolBar\ShQuickAccessToolBar.h" />
+    <ClInclude Include="UnRedo\ShLayerTransaction.h" />
     <ClInclude Include="Utility\ShColorConverter.h" />
     <ClInclude Include="Utility\ShLineStyleConverter.h" />
     <CustomBuild Include="Interface\Dialog\ShStartupDialog.h">

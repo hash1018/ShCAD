@@ -22,6 +22,9 @@ ShPropertyPanelEventFilter::ShPropertyPanelEventFilter(ShPropertyPanel *property
 		this->strategy = new ShPropertyPanelCurrentLineStyleChangedEventFilterStrategy(propertyPanel, event);
 	else if (event->getType() == ShNotifyEvent::CurrentLayerChanged)
 		this->strategy = new ShPropertyPanelCurrentLayerChangedEventFilterStrategy(propertyPanel, event);
+	else if (event->getType() == ShNotifyEvent::LayerDataChanged)
+		this->strategy = new ShPropertyPanelLayerDataChangedEventFilterStrategy(propertyPanel, event);
+
 }
 
 ShPropertyPanelEventFilter::~ShPropertyPanelEventFilter() {
@@ -176,6 +179,34 @@ void ShPropertyPanelCurrentLayerChangedEventFilterStrategy::update() {
 
 }
 
+/////////////////////////////////////////////////////////
+
+ShPropertyPanelLayerDataChangedEventFilterStrategy::ShPropertyPanelLayerDataChangedEventFilterStrategy(ShPropertyPanel *propertyPanel, ShNotifyEvent *event)
+	:ShPropertyPanelEventFilterStrategy(propertyPanel, event) {
+
+}
+
+ShPropertyPanelLayerDataChangedEventFilterStrategy::~ShPropertyPanelLayerDataChangedEventFilterStrategy() {
+
+}
+
+
+void ShPropertyPanelLayerDataChangedEventFilterStrategy::update() {
+
+	ShLayerDataChangedEvent *event = dynamic_cast<ShLayerDataChangedEvent*>(this->event);
+
+	if (event->isCurrent() == false)
+		return;
+
+	if (event->getChangedType() == ShLayerDataChangedEvent::ChangedType::Color) {
+
+		this->propertyPanel->getColorCombo()->setLayerColor(*event->getColor());
+		this->propertyPanel->getColorCombo()->updateColorCombo();
+		this->propertyPanel->getColorCombo()->setColorComboCurrentIndex(this->propertyPanel->getColorCombo()->getColorComboIndex());
+	}
+
+}
+
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
@@ -187,6 +218,8 @@ ShLayerPanelEventFilter::ShLayerPanelEventFilter(ShLayerPanel *layerPanel, ShNot
 		this->strategy = new ShLayerPanelActivatedWidgetChangedEventFilterStrategy(layerPanel, event);
 	else if (event->getType() == ShNotifyEvent::CurrentLayerChanged)
 		this->strategy = new ShLayerPanelCurrentLayerChangedEventFilterStrategy(layerPanel, event);
+	else if (event->getType() == ShNotifyEvent::LayerDataChanged)
+		this->strategy = new ShLayerPanelLayerDataChangedEventFilterStrategy(layerPanel, event);
 	
 
 }
@@ -249,4 +282,20 @@ ShLayerPanelCurrentLayerChangedEventFilterStrategy::~ShLayerPanelCurrentLayerCha
 void ShLayerPanelCurrentLayerChangedEventFilterStrategy::update() {
 
 	this->layerPanel->getLayerCombo()->setLayerComboCurrentIndex(dynamic_cast<ShCurrentLayerChangedEvent*>(this->event)->getCurrentLayer());
+}
+
+/////////////////////////////////////////////////////////////
+
+ShLayerPanelLayerDataChangedEventFilterStrategy::ShLayerPanelLayerDataChangedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event)
+	:ShLayerPanelEventFilterStrategy(layerPanel, event) {
+
+}
+
+ShLayerPanelLayerDataChangedEventFilterStrategy::~ShLayerPanelLayerDataChangedEventFilterStrategy() {
+
+}
+
+void ShLayerPanelLayerDataChangedEventFilterStrategy::update() {
+
+	this->layerPanel->getLayerCombo()->updateLayerCombo();
 }

@@ -32,6 +32,7 @@ public:
 		CurrentLineStyleChanged,
 		TransactionStackSizeChanged,
 		CurrentLayerChanged,
+		LayerDataChanged,
 	};
 
 	ShNotifyEvent(Type type);
@@ -208,5 +209,31 @@ private:
 	ShLayer *currentLayer;
 };
 
+class ShLayerDataChangedEvent : public ShNotifyEvent {
+
+public:
+	enum ChangedType {
+		Color,
+	};
+
+public:
+	ShLayerDataChangedEvent(ShLayer *layer, const ShColor &color, bool current = false);
+	~ShLayerDataChangedEvent();
+
+public:
+	inline ShLayer* getLayer() const { return this->layer; }
+	inline bool isCurrent() const { return this->current; }
+	inline const ShColor* getColor() const { return this->color; }
+	inline ChangedType getChangedType() const { return this->changedType;}
+
+
+private:
+	ChangedType changedType;
+	ShLayer *layer;
+	bool current;
+	const ShColor *color;
+	
+
+};
 
 #endif //_SHNOTIFYEVENT_H

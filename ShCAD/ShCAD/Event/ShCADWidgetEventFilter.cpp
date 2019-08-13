@@ -7,6 +7,7 @@
 #include "Base\ShGlobal.h"
 #include "Base\ShLayer.h"
 #include "Base\ShLayerTable.h"
+#include "UnRedo\ShLayerTransaction.h"
 
 ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -19,6 +20,8 @@ ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEven
 		this->strategy = new ShCADWidgetCurrentLineStyleChangedEventFilterStrategy(widget, event);
 	else if (event->getType() == ShNotifyEvent::CurrentLayerChanged)
 		this->strategy = new ShCADWidgetCurrentLayerChangedEventFilterStrategy(widget, event);
+	else if (event->getType() == ShNotifyEvent::LayerDataChanged)
+		this->strategy = new ShCADWidgetLayerDataChangedEventFilterStrategy(widget, event);
 }
 
 ShCADWidgetEventFilter::~ShCADWidgetEventFilter() {
@@ -156,5 +159,51 @@ void ShCADWidgetCurrentLayerChangedEventFilterStrategy::update() {
 	this->widget->notify(this->event);
 	
 
-	//TODO unredo
+	ShGlobal::pushNewTransaction(this->widget, new ShChangeCurrentLayerTransaction(this->widget, prev, event->getCurrentLayer()));
+
+}
+
+////////////////////////////////////////////////////////////////////
+
+ShCADWidgetLayerDataChangedEventFilterStrategy::ShCADWidgetLayerDataChangedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event)
+	:ShCADWidgetEventFilterStrategy(widget, event) {
+
+}
+
+ShCADWidgetLayerDataChangedEventFilterStrategy::~ShCADWidgetLayerDataChangedEventFilterStrategy() {
+
+}
+
+void ShCADWidgetLayerDataChangedEventFilterStrategy::update() {
+
+	ShLayerDataChangedEvent *event = dynamic_cast<ShLayerDataChangedEvent*>(this->event);
+
+	ShPropertyData prev = event->getLayer()->getPropertyData();
+	ShPropertyData current = prev;
+
+	if (event->getChangedType() == ShLayerDataChangedEvent::ChangedType::Color) {
+		current.setColor(*event->getColor());
+		event->getLayer()->setPropertyData(current);
+
+		if (event->getLayer() == this->widget->getLayerTable()->getCurrentLayer()) {
+
+			if (this->widget->getPropertyData().getColor().getType() == ShColor::Type::ByLayer) {
+			
+				ShPropertyData temp = this->widget->getPropertyData();
+				temp.setColor(*event->getColor());
+				this->widget->setPropertyData(temp);
+			}
+		
+			ShLayerDataChangedEvent notifyEvent(event->getLayer(), *event->getColor(), true);
+			this->widget->notify(&notifyEvent);
+				
+		}
+		else {
+		
+			ShLayerDataChangedEvent notifyEvent(event->getLayer(), *event->getColor());
+			this->widget->notify(&notifyEvent);
+		}
+	}
+	
+
 }
