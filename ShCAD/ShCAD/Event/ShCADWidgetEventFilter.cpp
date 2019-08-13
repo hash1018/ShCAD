@@ -203,6 +203,11 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::update() {
 			ShLayerDataChangedEvent notifyEvent(event->getLayer(), *event->getColor());
 			this->widget->notify(&notifyEvent);
 		}
+
+		ShChangeLayerDataTransaction *transaction = new ShChangeLayerDataTransaction(this->widget, event->getLayer(),
+			prev, current, ShChangeLayerDataTransaction::ChangedType::Color);
+		ShGlobal::pushNewTransaction(this->widget, transaction);
+
 	}
 	
 

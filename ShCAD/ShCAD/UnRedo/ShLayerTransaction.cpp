@@ -45,3 +45,73 @@ void ShChangeCurrentLayerTransaction::undo() {
 	ShCurrentLayerChangedEvent event(this->prev);
 	this->widget->notify(&event);
 }
+
+
+//////////////////////////////////////////////////////////////////////
+
+ShChangeLayerDataTransaction::ShChangeLayerDataTransaction(ShCADWidget *widget, ShLayer *layer, const ShPropertyData &prev, const ShPropertyData &current, ChangedType changedType)
+	:ShTransaction("Layer control"), widget(widget), layer(layer), prev(prev), current(current), changedType(changedType) {
+
+}
+
+ShChangeLayerDataTransaction::~ShChangeLayerDataTransaction() {
+
+}
+
+void ShChangeLayerDataTransaction::redo() {
+
+	this->layer->setPropertyData(this->current);
+
+	if (this->layer == this->widget->getLayerTable()->getCurrentLayer()) {
+	
+		if (this->changedType == ChangedType::Color) {
+		
+			ShLayerDataChangedEvent event(this->layer, this->current.getColor(), true);
+			this->widget->notify(&event);
+		}
+		else {
+		
+			
+		}
+	}
+	else {
+	
+		if (this->changedType == ChangedType::Color) {
+		
+			ShLayerDataChangedEvent event(this->layer, this->current.getColor());
+			this->widget->notify(&event);
+		}
+		else {
+		
+		}
+	}
+}
+
+void ShChangeLayerDataTransaction::undo() {
+
+	this->layer->setPropertyData(this->prev);
+
+	if (this->layer == this->widget->getLayerTable()->getCurrentLayer()) {
+
+		if (this->changedType == ChangedType::Color) {
+
+			ShLayerDataChangedEvent event(this->layer, this->prev.getColor(), true);
+			this->widget->notify(&event);
+		}
+		else {
+
+
+		}
+	}
+	else {
+
+		if (this->changedType == ChangedType::Color) {
+
+			ShLayerDataChangedEvent event(this->layer, this->prev.getColor());
+			this->widget->notify(&event);
+		}
+		else {
+
+		}
+	}
+}
