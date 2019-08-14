@@ -52,6 +52,9 @@ public:
 protected:
 	~ShChangeLayerDataTransaction();
 
+private:
+	void changeLayerColor(const ShPropertyData &aboutToChange);
+	void changeLayerLineStyle(const ShPropertyData &aboutToChange);
 };
 
 #endif //_SHLAYERTRANSACTION_H

@@ -91,6 +91,10 @@ public:
 
 	virtual void update();
 
+private:
+	void changeLayerColor();
+	void changeLayerLineStyle();
+
 };
 
 #endif //_SHCADWIDGETEVENTFILTER_H

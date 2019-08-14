@@ -64,88 +64,64 @@ ShChangeLayerDataTransaction::~ShChangeLayerDataTransaction() {
 
 void ShChangeLayerDataTransaction::redo() {
 
-	this->layer->setPropertyData(this->current);
+	if (this->changedType == ChangedType::Color)
+		this->changeLayerColor(this->current);
+	else if (this->changedType == ChangedType::LineStyle)
+		this->changeLayerLineStyle(this->current);
 
-	if (this->layer == this->widget->getLayerTable()->getCurrentLayer()) {
-	
-		if (this->changedType == ChangedType::Color) {
-		
-			if (this->widget->getPropertyData().getColor().getType() == ShColor::ByLayer) {
-				ShPropertyData temp = this->widget->getPropertyData();
-				temp.setColor(this->current.getColor());
-				this->widget->setPropertyData(temp);
-			}
-
-			ShLayerDataChangedEvent event(this->layer, this->current.getColor(), true);
-			this->widget->notify(&event);
-		}
-		else if (this->changedType == ChangedType::LineStyle) {
-			
-			if (this->widget->getPropertyData().getLineStyle().getType() == ShLineStyle::ByLayer) {
-				ShPropertyData temp = this->widget->getPropertyData();
-				temp.setLineStyle(this->current.getLineStyle());
-				this->widget->setPropertyData(temp);
-			}
-
-			ShLayerDataChangedEvent event(this->layer, this->current.getLineStyle(), true);
-			this->widget->notify(&event);
-		}
-	}
-	else {
-	
-		if (this->changedType == ChangedType::Color) {
-		
-			ShLayerDataChangedEvent event(this->layer, this->current.getColor());
-			this->widget->notify(&event);
-		}
-		else if (this->changedType == ChangedType::LineStyle) {
-	
-			ShLayerDataChangedEvent event(this->layer, this->current.getLineStyle());
-			this->widget->notify(&event);
-		}
-	}
 }
 
 void ShChangeLayerDataTransaction::undo() {
+	
+	if (this->changedType == ChangedType::Color)
+		this->changeLayerColor(this->prev);
+	else if (this->changedType == ChangedType::LineStyle)
+		this->changeLayerLineStyle(this->prev);
+	
+}
 
-	this->layer->setPropertyData(this->prev);
+
+void ShChangeLayerDataTransaction::changeLayerColor(const ShPropertyData &aboutToChange) {
+
+	this->layer->setPropertyData(aboutToChange);
 
 	if (this->layer == this->widget->getLayerTable()->getCurrentLayer()) {
-
-		if (this->changedType == ChangedType::Color) {
-
-			if (this->widget->getPropertyData().getColor().getType() == ShColor::ByLayer) {
-				ShPropertyData temp = this->widget->getPropertyData();
-				temp.setColor(this->prev.getColor());
-				this->widget->setPropertyData(temp);
-			}
-
-			ShLayerDataChangedEvent event(this->layer, this->prev.getColor(), true);
-			this->widget->notify(&event);
+	
+		if (this->widget->getPropertyData().getColor().getType() == ShColor::ByLayer) {
+			ShPropertyData temp = this->widget->getPropertyData();
+			temp.setColor(aboutToChange.getColor());
+			this->widget->setPropertyData(temp);
 		}
-		else if (this->changedType == ChangedType::LineStyle) {
 
-			if (this->widget->getPropertyData().getLineStyle().getType() == ShLineStyle::ByLayer) {
-				ShPropertyData temp = this->widget->getPropertyData();
-				temp.setLineStyle(this->prev.getLineStyle());
-				this->widget->setPropertyData(temp);
-			}
-			
-			ShLayerDataChangedEvent event(this->layer, this->prev.getLineStyle(), true);
-			this->widget->notify(&event);
-		}
+		ShLayerDataChangedEvent event(this->layer, aboutToChange.getColor(), true);
+		this->widget->notify(&event);
 	}
 	else {
 
-		if (this->changedType == ChangedType::Color) {
+		ShLayerDataChangedEvent event(this->layer, aboutToChange.getColor());
+		this->widget->notify(&event);
+	}
 
-			ShLayerDataChangedEvent event(this->layer, this->prev.getColor());
-			this->widget->notify(&event);
-		}
-		else if (this->changedType == ChangedType::LineStyle) {
+}
 
-			ShLayerDataChangedEvent event(this->layer, this->prev.getLineStyle());
-			this->widget->notify(&event);
+void ShChangeLayerDataTransaction::changeLayerLineStyle(const ShPropertyData &aboutToChange) {
+
+	this->layer->setPropertyData(aboutToChange);
+
+	if (this->layer == this->widget->getLayerTable()->getCurrentLayer()) {
+	
+		if (this->widget->getPropertyData().getLineStyle().getType() == ShLineStyle::ByLayer) {
+			ShPropertyData temp = this->widget->getPropertyData();
+			temp.setLineStyle(aboutToChange.getLineStyle());
+			this->widget->setPropertyData(temp);
 		}
+
+		ShLayerDataChangedEvent event(this->layer, aboutToChange.getLineStyle(), true);
+		this->widget->notify(&event);
+	}
+	else {
+	
+		ShLayerDataChangedEvent event(this->layer, aboutToChange.getLineStyle());
+		this->widget->notify(&event);
 	}
 }
