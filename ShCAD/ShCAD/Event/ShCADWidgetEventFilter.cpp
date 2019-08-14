@@ -250,3 +250,5 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::changeLayerLineStyle() {
 		prev, current, ShChangeLayerDataTransaction::ChangedType::LineStyle);
 	ShGlobal::pushNewTransaction(this->widget, transaction);
 }
+
+/////////////////////////////////////////////////////////////////////////////////
