@@ -505,6 +505,15 @@
     <ClCompile Include="UnRedo\ShLayerTransaction.cpp">
       <Filter>UnRedo</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShLayerDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShLayerDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Dialog\ShLayerDialog.cpp">
+      <Filter>Interface\Dialog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -542,6 +551,9 @@
     </CustomBuild>
     <CustomBuild Include="Interface\Item\ShLayerComboBox.h">
       <Filter>Interface\Item</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Dialog\ShLayerDialog.h">
+      <Filter>Interface\Dialog</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

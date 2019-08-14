@@ -33,6 +33,7 @@ class ShChangeLayerDataTransaction : public ShTransaction {
 public:
 	enum ChangedType {
 		Color,
+		LineStyle,
 	};
 
 private:

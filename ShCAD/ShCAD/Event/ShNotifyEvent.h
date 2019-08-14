@@ -214,16 +214,19 @@ class ShLayerDataChangedEvent : public ShNotifyEvent {
 public:
 	enum ChangedType {
 		Color,
+		LineStyle,
 	};
 
 public:
 	ShLayerDataChangedEvent(ShLayer *layer, const ShColor &color, bool current = false);
+	ShLayerDataChangedEvent(ShLayer *layer, const ShLineStyle &lineStyle, bool current = false);
 	~ShLayerDataChangedEvent();
 
 public:
 	inline ShLayer* getLayer() const { return this->layer; }
 	inline bool isCurrent() const { return this->current; }
 	inline const ShColor* getColor() const { return this->color; }
+	inline const ShLineStyle* getLineStyle() const { return this->lineStyle; }
 	inline ChangedType getChangedType() const { return this->changedType;}
 
 
@@ -232,6 +235,7 @@ private:
 	ShLayer *layer;
 	bool current;
 	const ShColor *color;
+	const ShLineStyle *lineStyle;
 	
 
 };

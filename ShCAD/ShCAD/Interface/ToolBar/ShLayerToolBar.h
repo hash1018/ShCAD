@@ -8,13 +8,15 @@ class ShNotifyEvent;
 class ShLayerComboBox;
 class ShColor;
 class ShLayer;
+class QPushButton;
 
 class ShLayerToolBar : public ShAbstractToolBar {
 	Q_OBJECT
 
 private:
+	QPushButton *layerButton;
 	ShLayerComboBox *layerCombo;
-
+	
 public:
 	ShLayerToolBar(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShLayerToolBar();
@@ -27,6 +29,7 @@ public:
 	void currentLayerChanged(ShLayer *layer);
 	void layerTurnChanged(ShLayer *layer, bool turnOn);
 	void layerColorChanged(ShLayer *layer, const ShColor &color);
+	void layerButtonClicked();
 };
 
 #endif //_SHLAYERTOOLBAR_H

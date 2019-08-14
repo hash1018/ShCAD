@@ -177,6 +177,9 @@ void ShPropertyPanelCurrentLayerChangedEventFilterStrategy::update() {
 	this->propertyPanel->getColorCombo()->updateColorCombo();
 	this->propertyPanel->getColorCombo()->setColorComboCurrentIndex(this->propertyPanel->getColorCombo()->getColorComboIndex());
 
+	this->propertyPanel->getLineStyleCombo()->setLayerLineStyle(event->getCurrentLayer()->getPropertyData().getLineStyle());
+	this->propertyPanel->getLineStyleCombo()->updateLineStyleCombo();
+	this->propertyPanel->getLineStyleCombo()->setLineStyleComboCurrentIndex(this->propertyPanel->getLineStyleCombo()->getLineStyleComboIndex());
 }
 
 /////////////////////////////////////////////////////////
@@ -203,6 +206,12 @@ void ShPropertyPanelLayerDataChangedEventFilterStrategy::update() {
 		this->propertyPanel->getColorCombo()->setLayerColor(*event->getColor());
 		this->propertyPanel->getColorCombo()->updateColorCombo();
 		this->propertyPanel->getColorCombo()->setColorComboCurrentIndex(this->propertyPanel->getColorCombo()->getColorComboIndex());
+	}
+	else if (event->getChangedType() == ShLayerDataChangedEvent::ChangedType::LineStyle) {
+	
+		this->propertyPanel->getLineStyleCombo()->setLayerLineStyle(*event->getLineStyle());
+		this->propertyPanel->getLineStyleCombo()->updateLineStyleCombo();
+		this->propertyPanel->getLineStyleCombo()->setLineStyleComboCurrentIndex(this->propertyPanel->getLineStyleCombo()->getLineStyleComboIndex());
 	}
 
 }

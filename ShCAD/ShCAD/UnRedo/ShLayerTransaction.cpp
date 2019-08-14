@@ -58,6 +58,7 @@ ShChangeLayerDataTransaction::~ShChangeLayerDataTransaction() {
 
 }
 
+#include <qdebug.h>
 void ShChangeLayerDataTransaction::redo() {
 
 	this->layer->setPropertyData(this->current);
@@ -69,9 +70,10 @@ void ShChangeLayerDataTransaction::redo() {
 			ShLayerDataChangedEvent event(this->layer, this->current.getColor(), true);
 			this->widget->notify(&event);
 		}
-		else {
-		
+		else if (this->changedType == ChangedType::LineStyle) {
 			
+			ShLayerDataChangedEvent event(this->layer, this->current.getLineStyle(), true);
+			this->widget->notify(&event);
 		}
 	}
 	else {
@@ -81,8 +83,10 @@ void ShChangeLayerDataTransaction::redo() {
 			ShLayerDataChangedEvent event(this->layer, this->current.getColor());
 			this->widget->notify(&event);
 		}
-		else {
-		
+		else if (this->changedType == ChangedType::LineStyle) {
+	
+			ShLayerDataChangedEvent event(this->layer, this->current.getLineStyle());
+			this->widget->notify(&event);
 		}
 	}
 }
@@ -98,9 +102,10 @@ void ShChangeLayerDataTransaction::undo() {
 			ShLayerDataChangedEvent event(this->layer, this->prev.getColor(), true);
 			this->widget->notify(&event);
 		}
-		else {
-
-
+		else if (this->changedType == ChangedType::LineStyle) {
+			
+			ShLayerDataChangedEvent event(this->layer, this->prev.getLineStyle(), true);
+			this->widget->notify(&event);
 		}
 	}
 	else {
@@ -110,8 +115,10 @@ void ShChangeLayerDataTransaction::undo() {
 			ShLayerDataChangedEvent event(this->layer, this->prev.getColor());
 			this->widget->notify(&event);
 		}
-		else {
+		else if (this->changedType == ChangedType::LineStyle) {
 
+			ShLayerDataChangedEvent event(this->layer, this->prev.getLineStyle());
+			this->widget->notify(&event);
 		}
 	}
 }

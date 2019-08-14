@@ -174,6 +174,7 @@ ShCADWidgetLayerDataChangedEventFilterStrategy::~ShCADWidgetLayerDataChangedEven
 
 }
 
+
 void ShCADWidgetLayerDataChangedEventFilterStrategy::update() {
 
 	ShLayerDataChangedEvent *event = dynamic_cast<ShLayerDataChangedEvent*>(this->event);
@@ -182,6 +183,7 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::update() {
 	ShPropertyData current = prev;
 
 	if (event->getChangedType() == ShLayerDataChangedEvent::ChangedType::Color) {
+
 		current.setColor(*event->getColor());
 		event->getLayer()->setPropertyData(current);
 
@@ -208,6 +210,32 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::update() {
 			prev, current, ShChangeLayerDataTransaction::ChangedType::Color);
 		ShGlobal::pushNewTransaction(this->widget, transaction);
 
+	}
+	else if (event->getChangedType() == ShLayerDataChangedEvent::ChangedType::LineStyle) {
+		
+		current.setLineStyle(*event->getLineStyle());
+		event->getLayer()->setPropertyData(current);
+
+		if (event->getLayer() == this->widget->getLayerTable()->getCurrentLayer()) {
+		
+			if (this->widget->getPropertyData().getLineStyle().getType() == ShLineStyle::Type::ByLayer) {
+			
+				ShPropertyData temp = this->widget->getPropertyData();
+				temp.setLineStyle(*event->getLineStyle());
+				this->widget->setPropertyData(temp);
+			}
+
+			ShLayerDataChangedEvent notifyEvent(event->getLayer(), *event->getLineStyle(), true);
+			this->widget->notify(&notifyEvent);
+		}
+		else {
+			ShLayerDataChangedEvent notifyEvent(event->getLayer(), *event->getLineStyle());
+			this->widget->notify(&notifyEvent);
+		}
+
+		ShChangeLayerDataTransaction *transaction = new ShChangeLayerDataTransaction(this->widget, event->getLayer(),
+			prev, current, ShChangeLayerDataTransaction::ChangedType::LineStyle);
+		ShGlobal::pushNewTransaction(this->widget, transaction);
 	}
 	
 

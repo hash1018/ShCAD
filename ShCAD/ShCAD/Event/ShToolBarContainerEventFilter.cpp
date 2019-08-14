@@ -178,6 +178,10 @@ void ShPropertyToolBarCurrentLayerChangedEventFilterStrategy::update() {
 	this->propertyToolBar->getColorCombo()->updateColorCombo();
 	this->propertyToolBar->getColorCombo()->setColorComboCurrentIndex(this->propertyToolBar->getColorCombo()->getColorComboIndex());
 
+	this->propertyToolBar->getLineStyleCombo()->setLayerLineStyle(event->getCurrentLayer()->getPropertyData().getLineStyle());
+	this->propertyToolBar->getLineStyleCombo()->updateLineStyleCombo();
+	this->propertyToolBar->getLineStyleCombo()->setLineStyleComboCurrentIndex(this->propertyToolBar->getLineStyleCombo()->getLineStyleComboIndex());
+
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -204,6 +208,12 @@ void ShPropertyToolBarLayerDataChangedEventFilterStrategy::update() {
 		this->propertyToolBar->getColorCombo()->setLayerColor(*event->getColor());
 		this->propertyToolBar->getColorCombo()->updateColorCombo();
 		this->propertyToolBar->getColorCombo()->setColorComboCurrentIndex(this->propertyToolBar->getColorCombo()->getColorComboIndex());
+	}
+	else if (event->getChangedType() == ShLayerDataChangedEvent::ChangedType::LineStyle) {
+
+		this->propertyToolBar->getLineStyleCombo()->setLayerLineStyle(*event->getLineStyle());
+		this->propertyToolBar->getLineStyleCombo()->updateLineStyleCombo();
+		this->propertyToolBar->getLineStyleCombo()->setLineStyleComboCurrentIndex(this->propertyToolBar->getLineStyleCombo()->getLineStyleComboIndex());
 	}
 
 }
