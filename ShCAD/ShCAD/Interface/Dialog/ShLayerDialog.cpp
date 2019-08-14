@@ -200,7 +200,6 @@ void ShLayerDialog::layerNameChanged(QTableWidgetItem *item) {
 
 	
 }
-#include <qdebug.h>
 
 void ShLayerDialog::lineStyleComboIndexChanged(int index) {
 	
@@ -210,9 +209,10 @@ void ShLayerDialog::lineStyleComboIndexChanged(int index) {
 
 		ShLineStyleList *list = ShLineStyleList::getInstance();
 		ShLineStyle lineStyle = list->getLineStyle(index);
+		lineStyle.setType(ShLineStyle::ByLayer);
 
 		int row = combo->property("row").toInt();
-		qDebug() << "layerDialog" << lineStyle.getPattern();
+		
 		ShLayerDataChangedEvent event(this->layerTable->getLayer(row), lineStyle);
 		ShRequestSendNotifyEvent request(&event);
 		this->request(&request);

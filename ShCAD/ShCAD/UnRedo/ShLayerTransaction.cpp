@@ -26,6 +26,8 @@ void ShChangeCurrentLayerTransaction::redo() {
 	if (propertyData.getLineStyle().getType() == ShLineStyle::Type::ByLayer)
 		propertyData.setLineStyle(this->current->getPropertyData().getLineStyle());
 
+	this->widget->setPropertyData(propertyData);
+
 	ShCurrentLayerChangedEvent event(this->current);
 	this->widget->notify(&event);
 }
@@ -41,6 +43,8 @@ void ShChangeCurrentLayerTransaction::undo() {
 
 	if (propertyData.getLineStyle().getType() == ShLineStyle::Type::ByLayer)
 		propertyData.setLineStyle(this->prev->getPropertyData().getLineStyle());
+
+	this->widget->setPropertyData(propertyData);
 
 	ShCurrentLayerChangedEvent event(this->prev);
 	this->widget->notify(&event);
@@ -58,7 +62,6 @@ ShChangeLayerDataTransaction::~ShChangeLayerDataTransaction() {
 
 }
 
-#include <qdebug.h>
 void ShChangeLayerDataTransaction::redo() {
 
 	this->layer->setPropertyData(this->current);
@@ -67,11 +70,23 @@ void ShChangeLayerDataTransaction::redo() {
 	
 		if (this->changedType == ChangedType::Color) {
 		
+			if (this->widget->getPropertyData().getColor().getType() == ShColor::ByLayer) {
+				ShPropertyData temp = this->widget->getPropertyData();
+				temp.setColor(this->current.getColor());
+				this->widget->setPropertyData(temp);
+			}
+
 			ShLayerDataChangedEvent event(this->layer, this->current.getColor(), true);
 			this->widget->notify(&event);
 		}
 		else if (this->changedType == ChangedType::LineStyle) {
 			
+			if (this->widget->getPropertyData().getLineStyle().getType() == ShLineStyle::ByLayer) {
+				ShPropertyData temp = this->widget->getPropertyData();
+				temp.setLineStyle(this->current.getLineStyle());
+				this->widget->setPropertyData(temp);
+			}
+
 			ShLayerDataChangedEvent event(this->layer, this->current.getLineStyle(), true);
 			this->widget->notify(&event);
 		}
@@ -99,10 +114,22 @@ void ShChangeLayerDataTransaction::undo() {
 
 		if (this->changedType == ChangedType::Color) {
 
+			if (this->widget->getPropertyData().getColor().getType() == ShColor::ByLayer) {
+				ShPropertyData temp = this->widget->getPropertyData();
+				temp.setColor(this->prev.getColor());
+				this->widget->setPropertyData(temp);
+			}
+
 			ShLayerDataChangedEvent event(this->layer, this->prev.getColor(), true);
 			this->widget->notify(&event);
 		}
 		else if (this->changedType == ChangedType::LineStyle) {
+
+			if (this->widget->getPropertyData().getLineStyle().getType() == ShLineStyle::ByLayer) {
+				ShPropertyData temp = this->widget->getPropertyData();
+				temp.setLineStyle(this->prev.getLineStyle());
+				this->widget->setPropertyData(temp);
+			}
 			
 			ShLayerDataChangedEvent event(this->layer, this->prev.getLineStyle(), true);
 			this->widget->notify(&event);

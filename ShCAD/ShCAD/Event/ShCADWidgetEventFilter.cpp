@@ -138,7 +138,6 @@ void ShCADWidgetCurrentLayerChangedEventFilterStrategy::update() {
 
 	ShCurrentLayerChangedEvent *event = dynamic_cast<ShCurrentLayerChangedEvent*>(this->event);
 
-
 	ShLayer *prev = this->widget->getLayerTable()->getCurrentLayer();
 
 	if (prev == event->getCurrentLayer())
