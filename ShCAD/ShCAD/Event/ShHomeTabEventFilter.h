@@ -163,4 +163,27 @@ public:
 
 };
 
+////////////////////////////////////////////////
+
+class ShLayerPanelLayerCreatedEventFilterStrategy : public ShLayerPanelEventFilterStrategy {
+
+public:
+	ShLayerPanelLayerCreatedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event);
+	~ShLayerPanelLayerCreatedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
+///////////////////////////////////////////////
+
+class ShLayerPanelLayerDeletedEventFilterStrategy : public ShLayerPanelEventFilterStrategy {
+
+public:
+	ShLayerPanelLayerDeletedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event);
+	~ShLayerPanelLayerDeletedEventFilterStrategy();
+
+	virtual void update();
+
+};
 #endif //_SHHOMETABEVENTFILTER_H

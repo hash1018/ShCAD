@@ -22,6 +22,11 @@ ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEven
 		this->strategy = new ShCADWidgetCurrentLayerChangedEventFilterStrategy(widget, event);
 	else if (event->getType() == ShNotifyEvent::LayerDataChanged)
 		this->strategy = new ShCADWidgetLayerDataChangedEventFilterStrategy(widget, event);
+	else if (event->getType() == ShNotifyEvent::LayerCreated)
+		this->strategy = new ShCADWidgetLayerCreatedEventFilterStrategy(widget, event);
+	else if (event->getType() == ShNotifyEvent::LayerDeleted)
+		this->strategy = new ShCADWidgetLayerDeletedEventFilterStrategy(widget, event);
+
 }
 
 ShCADWidgetEventFilter::~ShCADWidgetEventFilter() {
@@ -269,3 +274,47 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::changeLayerName() {
 }
 
 /////////////////////////////////////////////////////////////////////////////////
+
+ShCADWidgetLayerCreatedEventFilterStrategy::ShCADWidgetLayerCreatedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event)
+	:ShCADWidgetEventFilterStrategy(widget, event) {
+
+}
+
+ShCADWidgetLayerCreatedEventFilterStrategy::~ShCADWidgetLayerCreatedEventFilterStrategy() {
+
+}
+
+void ShCADWidgetLayerCreatedEventFilterStrategy::update() {
+
+	ShLayerCreatedEvent *event = dynamic_cast<ShLayerCreatedEvent*>(this->event);
+
+	this->widget->getLayerTable()->add(event->getCreatedLayer());
+
+	this->widget->notify(event);
+
+	ShCreateLayerTransaction *transaction = new ShCreateLayerTransaction(this->widget, event->getCreatedLayer());
+	ShGlobal::pushNewTransaction(this->widget, transaction);
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+ShCADWidgetLayerDeletedEventFilterStrategy::ShCADWidgetLayerDeletedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event)
+	:ShCADWidgetEventFilterStrategy(widget, event) {
+
+}
+
+ShCADWidgetLayerDeletedEventFilterStrategy::~ShCADWidgetLayerDeletedEventFilterStrategy() {
+
+}
+
+void ShCADWidgetLayerDeletedEventFilterStrategy::update() {
+
+	ShLayerDeletedEvent *event = dynamic_cast<ShLayerDeletedEvent*>(this->event);
+
+	this->widget->getLayerTable()->remove(event->getDeletedLayer());
+
+	this->widget->notify(event);
+
+	ShDeleteLayerTransaction *transaction = new ShDeleteLayerTransaction(this->widget, event->getDeletedLayer());
+	ShGlobal::pushNewTransaction(this->widget, transaction);
+}

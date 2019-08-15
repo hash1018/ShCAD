@@ -229,6 +229,10 @@ ShLayerPanelEventFilter::ShLayerPanelEventFilter(ShLayerPanel *layerPanel, ShNot
 		this->strategy = new ShLayerPanelCurrentLayerChangedEventFilterStrategy(layerPanel, event);
 	else if (event->getType() == ShNotifyEvent::LayerDataChanged)
 		this->strategy = new ShLayerPanelLayerDataChangedEventFilterStrategy(layerPanel, event);
+	else if (event->getType() == ShNotifyEvent::LayerCreated)
+		this->strategy = new ShLayerPanelLayerCreatedEventFilterStrategy(layerPanel, event);
+	else if (event->getType() == ShNotifyEvent::LayerDeleted)
+		this->strategy = new ShLayerPanelLayerDeletedEventFilterStrategy(layerPanel, event);
 	
 
 }
@@ -305,6 +309,38 @@ ShLayerPanelLayerDataChangedEventFilterStrategy::~ShLayerPanelLayerDataChangedEv
 }
 
 void ShLayerPanelLayerDataChangedEventFilterStrategy::update() {
+
+	this->layerPanel->getLayerCombo()->updateLayerCombo();
+}
+
+////////////////////////////////////////////////////////////////
+
+ShLayerPanelLayerCreatedEventFilterStrategy::ShLayerPanelLayerCreatedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event)
+	:ShLayerPanelEventFilterStrategy(layerPanel, event) {
+
+}
+
+ShLayerPanelLayerCreatedEventFilterStrategy::~ShLayerPanelLayerCreatedEventFilterStrategy() {
+
+}
+
+void ShLayerPanelLayerCreatedEventFilterStrategy::update() {
+
+	this->layerPanel->getLayerCombo()->updateLayerCombo();
+}
+
+/////////////////////////////////////////////////////////////////
+
+ShLayerPanelLayerDeletedEventFilterStrategy::ShLayerPanelLayerDeletedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event)
+	:ShLayerPanelEventFilterStrategy(layerPanel, event) {
+
+}
+
+ShLayerPanelLayerDeletedEventFilterStrategy::~ShLayerPanelLayerDeletedEventFilterStrategy() {
+
+}
+
+void ShLayerPanelLayerDeletedEventFilterStrategy::update() {
 
 	this->layerPanel->getLayerCombo()->updateLayerCombo();
 }

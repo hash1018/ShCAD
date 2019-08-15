@@ -33,6 +33,8 @@ public:
 		TransactionStackSizeChanged,
 		CurrentLayerChanged,
 		LayerDataChanged,
+		LayerCreated,
+		LayerDeleted,
 	};
 
 	ShNotifyEvent(Type type);
@@ -209,6 +211,8 @@ private:
 	ShLayer *currentLayer;
 };
 
+///////////////////////////////////////////////////////////////////////////////
+
 class ShLayerDataChangedEvent : public ShNotifyEvent {
 
 public:
@@ -241,6 +245,35 @@ private:
 	const ShLineStyle *lineStyle;
 	const QString *name;
 	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+class ShLayerCreatedEvent : public ShNotifyEvent {
+
+public:
+	ShLayerCreatedEvent(ShLayer *createdLayer);
+	~ShLayerCreatedEvent();
+
+	inline ShLayer* getCreatedLayer() const { return this->createdLayer; }
+
+private:
+	ShLayer *createdLayer;
+
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+class ShLayerDeletedEvent : public ShNotifyEvent {
+
+public:
+	ShLayerDeletedEvent(ShLayer *deletedLayer);
+	~ShLayerDeletedEvent();
+
+	inline ShLayer* getDeletedLayer() const { return this->deletedLayer; }
+
+private:
+	ShLayer *deletedLayer;
 
 };
 

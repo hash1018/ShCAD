@@ -219,4 +219,28 @@ public:
 
 };
 
+//////////////////////////////////////////////
+
+class ShLayerToolBarLayerCreatedEventFilterStrategy : public ShLayerToolBarEventFilterStrategy {
+
+public:
+	ShLayerToolBarLayerCreatedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
+	~ShLayerToolBarLayerCreatedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
+///////////////////////////////////////////////
+
+class ShLayerToolBarLayerDeletedEventFilterStrategy : public ShLayerToolBarEventFilterStrategy {
+
+public:
+	ShLayerToolBarLayerDeletedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
+	~ShLayerToolBarLayerDeletedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHTOOLBARCONTAINEREVENTFILTER_H

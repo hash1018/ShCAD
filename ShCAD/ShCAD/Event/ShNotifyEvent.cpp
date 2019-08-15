@@ -148,3 +148,25 @@ ShLayerDataChangedEvent::ShLayerDataChangedEvent(ShLayer *layer, const QString &
 ShLayerDataChangedEvent::~ShLayerDataChangedEvent() {
 
 }
+
+/////////////////////////////////////////////////////////////////////////
+
+ShLayerCreatedEvent::ShLayerCreatedEvent(ShLayer *createdLayer)
+	:ShNotifyEvent(Type::LayerCreated), createdLayer(createdLayer) {
+
+}
+
+ShLayerCreatedEvent::~ShLayerCreatedEvent() {
+
+}
+
+/////////////////////////////////////////////////////////////////////////
+
+ShLayerDeletedEvent::ShLayerDeletedEvent(ShLayer *deletedLayer)
+	:ShNotifyEvent(Type::LayerDeleted), deletedLayer(deletedLayer) {
+
+}
+
+ShLayerDeletedEvent::~ShLayerDeletedEvent() {
+
+}

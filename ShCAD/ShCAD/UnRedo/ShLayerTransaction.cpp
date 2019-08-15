@@ -143,3 +143,66 @@ void ShChangeLayerDataTransaction::changeLayerName(const QString &aboutToChange)
 	this->widget->notify(&event);
 	
 }
+
+////////////////////////////////////////////////////////////////////
+
+ShCreateLayerTransaction::ShCreateLayerTransaction(ShCADWidget *widget, ShLayer *layer)
+	:ShTransaction("Layer control"), widget(widget), layer(layer), mustDeleteLayer(false) {
+
+}
+
+ShCreateLayerTransaction::~ShCreateLayerTransaction() {
+
+	if (this->mustDeleteLayer == true)
+		delete this->layer;
+}
+
+void ShCreateLayerTransaction::redo() {
+
+	this->widget->getLayerTable()->add(this->layer);
+	this->mustDeleteLayer = false;
+
+	ShLayerCreatedEvent event(this->layer);
+	this->widget->notify(&event);
+}
+
+void ShCreateLayerTransaction::undo() {
+
+	this->widget->getLayerTable()->remove(this->layer);
+	this->mustDeleteLayer = true;
+
+	ShLayerDeletedEvent event(this->layer);
+	this->widget->notify(&event);
+
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+ShDeleteLayerTransaction::ShDeleteLayerTransaction(ShCADWidget *widget, ShLayer *layer)
+	:ShTransaction("Layer control"), widget(widget), layer(layer), mustDeleteLayer(true) {
+
+}
+
+ShDeleteLayerTransaction::~ShDeleteLayerTransaction() {
+
+	if (this->mustDeleteLayer == true)
+		delete this->layer;
+}
+
+void ShDeleteLayerTransaction::redo() {
+
+	this->widget->getLayerTable()->remove(this->layer);
+	this->mustDeleteLayer = true;
+
+	ShLayerDeletedEvent event(this->layer);
+	this->widget->notify(&event);
+}
+
+void ShDeleteLayerTransaction::undo() {
+
+	this->widget->getLayerTable()->add(this->layer);
+	this->mustDeleteLayer = false;
+
+	ShLayerCreatedEvent event(this->layer);
+	this->widget->notify(&event);
+}

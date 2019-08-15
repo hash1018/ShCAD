@@ -1,6 +1,6 @@
 
-#ifndef _ShMENU_H
-#define _ShMENU_H
+#ifndef _SHMENU_H
+#define _SHMENU_H
 
 #include <qmenu.h>
 #include "Chain of Responsibility\ShChain.h"
@@ -107,4 +107,4 @@ public:
 
 };
 
-#endif _MENU_H
+#endif //_MENU_H

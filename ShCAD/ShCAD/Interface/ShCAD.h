@@ -1,5 +1,5 @@
-#ifndef SHCAD_H
-#define SHCAD_H
+#ifndef _SHCAD_H
+#define _SHCAD_H
 
 #include <QtWidgets/QMainWindow>
 #include "Chain of Responsibility\ShChain.h"
@@ -52,4 +52,4 @@ private:
 	void showContexMenu(const QPoint &pos);
 };
 
-#endif // SHCAD_H
+#endif // _SHCAD_H

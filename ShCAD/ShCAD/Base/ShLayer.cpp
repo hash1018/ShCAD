@@ -8,7 +8,7 @@ ShLayer::ShLayer(const QString &name, const ShPropertyData &propertyData, bool t
 }
 
 ShLayer::ShLayer(const ShLayer &other)
-	: name(other.name), propertyData(other.propertyData), turnOn(turnOn) {
+	: name(other.name), propertyData(other.propertyData), turnOn(other.turnOn) {
 
 }
 

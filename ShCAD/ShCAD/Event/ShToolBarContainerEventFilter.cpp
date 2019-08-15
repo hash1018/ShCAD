@@ -323,6 +323,10 @@ ShLayerToolBarEventFilter::ShLayerToolBarEventFilter(ShLayerToolBar *layerToolBa
 		this->strategy = new ShLayerToolBarCurrentLayerChangedEventFilterStrategy(layerToolBar, event);
 	else if (event->getType() == ShNotifyEvent::LayerDataChanged)
 		this->strategy = new ShLayerToolBarLayerDataChangedEventFilterStrategy(layerToolBar, event);
+	else if (event->getType() == ShNotifyEvent::LayerCreated)
+		this->strategy = new ShLayerToolBarLayerCreatedEventFilterStrategy(layerToolBar, event);
+	else if (event->getType() == ShNotifyEvent::LayerDeleted)
+		this->strategy = new ShLayerToolBarLayerDeletedEventFilterStrategy(layerToolBar, event);
 
 
 }
@@ -400,6 +404,38 @@ ShLayerToolBarLayerDataChangedEventFilterStrategy::~ShLayerToolBarLayerDataChang
 }
 
 void ShLayerToolBarLayerDataChangedEventFilterStrategy::update() {
+
+	this->layerToolBar->getLayerCombo()->updateLayerCombo();
+}
+
+/////////////////////////////////////////////////////////////
+
+ShLayerToolBarLayerCreatedEventFilterStrategy::ShLayerToolBarLayerCreatedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event)
+	:ShLayerToolBarEventFilterStrategy(layerToolBar, event) {
+
+}
+
+ShLayerToolBarLayerCreatedEventFilterStrategy::~ShLayerToolBarLayerCreatedEventFilterStrategy() {
+
+}
+
+void ShLayerToolBarLayerCreatedEventFilterStrategy::update() {
+
+	this->layerToolBar->getLayerCombo()->updateLayerCombo();
+}
+
+/////////////////////////////////////////////////////////////////
+
+ShLayerToolBarLayerDeletedEventFilterStrategy::ShLayerToolBarLayerDeletedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event)
+	:ShLayerToolBarEventFilterStrategy(layerToolBar, event) {
+
+}
+
+ShLayerToolBarLayerDeletedEventFilterStrategy::~ShLayerToolBarLayerDeletedEventFilterStrategy() {
+
+}
+
+void ShLayerToolBarLayerDeletedEventFilterStrategy::update() {
 
 	this->layerToolBar->getLayerCombo()->updateLayerCombo();
 }

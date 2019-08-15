@@ -259,8 +259,47 @@ void ShLayerDialog::lineStyleComboIndexChanged(int index) {
 
 void ShLayerDialog::createLayerButtonClicked() {
 
+	ShLayer *last = this->layerTable->getLayer(this->layerTable->getSize() - 1);
+
+	ShLayer *layer = new ShLayer(*last);
+
+	ShLayerCreatedEvent event(layer);
+	ShRequestSendNotifyEvent request(&event);
+	this->request(&request);
+	this->updateLayerTable();
 }
 
 void ShLayerDialog::deleteLayerButtonClicked() {
 
+	int index = this->table->currentRow();
+
+	QMessageBox box;
+	
+	if (index == 0) {
+	
+		box.setText(shGetLanValue_command("Command/This layer cannot be deleted"));
+		box.exec();
+		return;
+	}
+
+	if (index == this->layerTable->getCurrentLayerIndex()) {
+	
+		box.setText(shGetLanValue_command("Command/Current layer cannot be deleted"));
+		box.exec();
+		return;
+	}
+
+	if (this->layerTable->getLayer(index)->getSize() > 0) {
+	
+		box.setText(shGetLanValue_command("Command/This layer still has entities on it"));
+		box.exec();
+		return;
+	}
+
+	ShLayer *layer = this->layerTable->getLayer(index);
+	
+	ShLayerDeletedEvent event(layer);
+	ShRequestSendNotifyEvent request(&event);
+	this->request(&request);
+	this->updateLayerTable();
 }

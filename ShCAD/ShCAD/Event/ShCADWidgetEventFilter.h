@@ -83,6 +83,8 @@ public:
 
 };
 
+/////////////////////////////////////////////////////
+
 class ShCADWidgetLayerDataChangedEventFilterStrategy : public ShCADWidgetEventFilterStrategy {
 
 public:
@@ -95,6 +97,29 @@ private:
 	void changeLayerColor();
 	void changeLayerLineStyle();
 	void changeLayerName();
+
+};
+
+////////////////////////////////////////////////////////
+
+class ShCADWidgetLayerCreatedEventFilterStrategy : public ShCADWidgetEventFilterStrategy {
+
+public:
+	ShCADWidgetLayerCreatedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event);
+	~ShCADWidgetLayerCreatedEventFilterStrategy();
+
+	virtual void update();
+};
+
+/////////////////////////////////////////////////////////
+
+class ShCADWidgetLayerDeletedEventFilterStrategy : public ShCADWidgetEventFilterStrategy {
+
+public:
+	ShCADWidgetLayerDeletedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event);
+	~ShCADWidgetLayerDeletedEventFilterStrategy();
+
+	virtual void update();
 
 };
 

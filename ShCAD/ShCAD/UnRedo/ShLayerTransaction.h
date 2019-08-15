@@ -62,4 +62,44 @@ private:
 	void changeLayerName(const QString &aboutToChange);
 };
 
+///////////////////////////////////////////////////////////////////////
+
+class ShCreateLayerTransaction : public ShTransaction {
+
+private:
+	ShLayer *layer;
+	ShCADWidget *widget;
+	bool mustDeleteLayer;
+
+public:
+	ShCreateLayerTransaction(ShCADWidget *widget, ShLayer *layer);
+	
+	virtual void redo();
+	virtual void undo();
+
+protected:
+	~ShCreateLayerTransaction();
+
+};
+
+//////////////////////////////////////////////////////////////////////////
+
+class ShDeleteLayerTransaction : public ShTransaction {
+
+private:
+	ShLayer *layer;
+	ShCADWidget *widget;
+	bool mustDeleteLayer;
+
+public:
+	ShDeleteLayerTransaction(ShCADWidget *widget, ShLayer *layer);
+
+	virtual void redo();
+	virtual void undo();
+
+protected:
+	~ShDeleteLayerTransaction();
+
+};
+
 #endif //_SHLAYERTRANSACTION_H
