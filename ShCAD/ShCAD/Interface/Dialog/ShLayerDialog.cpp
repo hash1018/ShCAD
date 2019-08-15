@@ -14,20 +14,21 @@
 #include "Utility\ShLineStyleConverter.h"
 #include "Chain of Responsibility\ShRequest.h"
 #include "Event\ShNotifyEvent.h"
+#include "Manager\ShLanguageManager.h"
 
 ShLayerDialog::ShLayerDialog(const ShLayerTable *layerTable, ShChain *chain, QWidget *parent)
 	:QDialog(parent), ShChain(chain), layerTable(layerTable), isItemChangedByUser(true) {
 
-	this->setFixedSize(500, 400);
-	this->setWindowTitle("Layer Setting");
+	this->setFixedSize(800, 400);
+	this->setWindowTitle(shGetLanValue_ui("Layer/Layer Setting"));
 	
 	this->table = new QTableWidget(this);
 	this->table->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
 	this->table->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 	this->table->setIconSize(QSize(20, 20));
 
-	this->createLayerButton = new QPushButton("Create", this);
-	this->deleteLayerButton = new QPushButton("Delete", this);
+	this->createLayerButton = new QPushButton(shGetLanValue_ui("Layer/Create"), this);
+	this->deleteLayerButton = new QPushButton(shGetLanValue_ui("Layer/Delete"), this);
 
 	this->updateLayerTable();
 
@@ -47,7 +48,7 @@ void ShLayerDialog::resizeEvent(QResizeEvent *event) {
 
 	QDialog::resizeEvent(event);
 
-	this->table->setGeometry(20, 100, 460, 200);
+	this->table->setGeometry(20, 100, 760, 200);
 
 	this->createLayerButton->setGeometry(20, 40, 100, 25);
 	this->deleteLayerButton->setGeometry(130, 40, 100, 25);
@@ -63,11 +64,12 @@ void ShLayerDialog::updateLayerTable() {
 	this->table->setColumnCount(5);
 	this->table->setRowCount(this->layerTable->getSize());
 
-	this->table->setHorizontalHeaderItem(0, new QTableWidgetItem("State"));
-	this->table->setHorizontalHeaderItem(1, new QTableWidgetItem("Name"));
-	this->table->setHorizontalHeaderItem(2, new QTableWidgetItem("On/Off"));
-	this->table->setHorizontalHeaderItem(3, new QTableWidgetItem("Color"));
-	this->table->setHorizontalHeaderItem(4, new QTableWidgetItem("LineStyle"));
+	this->table->setHorizontalHeaderItem(0, new QTableWidgetItem(shGetLanValue_ui("Layer/State")));
+	this->table->setHorizontalHeaderItem(1, new QTableWidgetItem(shGetLanValue_ui("Layer/Name")));
+	this->table->setHorizontalHeaderItem(2, new QTableWidgetItem(shGetLanValue_ui("Layer/On/Off")));
+	this->table->setHorizontalHeaderItem(3, new QTableWidgetItem(shGetLanValue_ui("Layer/Color")));
+	this->table->setHorizontalHeaderItem(4, new QTableWidgetItem(shGetLanValue_ui("Layer/LineStyle")));
+	
 
 	for (int i = 0; i < this->layerTable->getSize(); i++) {
 
@@ -166,6 +168,7 @@ void ShLayerDialog::updateLineStyleColumn(int row) {
 	connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(lineStyleComboIndexChanged(int)));
 
 	this->table->setCellWidget(row, 4, combo);
+	this->table->setColumnWidth(4, 200);
 }
 
 void ShLayerDialog::cellClicked(int row, int column) {
@@ -198,6 +201,40 @@ void ShLayerDialog::cellDoubleClicked(int row, int column) {
 
 void ShLayerDialog::layerNameChanged(QTableWidgetItem *item) {
 
+	if (this->isItemChangedByUser == false)
+		return;
+
+	if (item->column() != 1)
+		return;
+
+	int i = 0;
+	bool isSameName = false;
+	QString name = item->text();
+
+	while (i < this->layerTable->getSize() && isSameName != true) {
+	
+		if (this->layerTable->getLayer(i)->getName() == name)
+			if (i != item->row())
+				isSameName = true;
+
+		i++;
+	}
+
+	if (isSameName == true) {
+
+		QMessageBox box;
+		box.setText(shGetLanValue_command("Command/Name Already Exists"));
+		box.exec();
+
+		this->updateLayerTable();
+	}
+	else {
+	
+		ShLayerDataChangedEvent event(this->layerTable->getLayer(item->row()), name);
+		ShRequestSendNotifyEvent request(&event);
+		this->request(&request);
+		this->updateLayerTable();
+	}
 	
 }
 

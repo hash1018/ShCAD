@@ -54,7 +54,12 @@ void ShChangeCurrentLayerTransaction::undo() {
 //////////////////////////////////////////////////////////////////////
 
 ShChangeLayerDataTransaction::ShChangeLayerDataTransaction(ShCADWidget *widget, ShLayer *layer, const ShPropertyData &prev, const ShPropertyData &current, ChangedType changedType)
-	:ShTransaction("Layer control"), widget(widget), layer(layer), prev(prev), current(current), changedType(changedType) {
+	: ShTransaction("Layer control"), widget(widget), layer(layer), prev(prev), current(current), changedType(changedType) {
+
+}
+
+ShChangeLayerDataTransaction::ShChangeLayerDataTransaction(ShCADWidget *widget, ShLayer *layer, const QString &prev, const QString &current)
+	: ShTransaction("Layer control"), widget(widget), layer(layer), prevName(prev), currentName(current), changedType(ChangedType::Name) {
 
 }
 
@@ -68,6 +73,8 @@ void ShChangeLayerDataTransaction::redo() {
 		this->changeLayerColor(this->current);
 	else if (this->changedType == ChangedType::LineStyle)
 		this->changeLayerLineStyle(this->current);
+	else if (this->changedType == ChangedType::Name)
+		this->changeLayerName(this->currentName);
 
 }
 
@@ -77,6 +84,8 @@ void ShChangeLayerDataTransaction::undo() {
 		this->changeLayerColor(this->prev);
 	else if (this->changedType == ChangedType::LineStyle)
 		this->changeLayerLineStyle(this->prev);
+	else if (this->changedType == ChangedType::Name)
+		this->changeLayerName(this->prevName);
 	
 }
 
@@ -124,4 +133,13 @@ void ShChangeLayerDataTransaction::changeLayerLineStyle(const ShPropertyData &ab
 		ShLayerDataChangedEvent event(this->layer, aboutToChange.getLineStyle());
 		this->widget->notify(&event);
 	}
+}
+
+void ShChangeLayerDataTransaction::changeLayerName(const QString &aboutToChange) {
+
+	this->layer->setName(aboutToChange);
+
+	ShLayerDataChangedEvent event(this->layer, aboutToChange);
+	this->widget->notify(&event);
+	
 }

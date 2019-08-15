@@ -215,11 +215,13 @@ public:
 	enum ChangedType {
 		Color,
 		LineStyle,
+		Name,
 	};
 
 public:
 	ShLayerDataChangedEvent(ShLayer *layer, const ShColor &color, bool current = false);
 	ShLayerDataChangedEvent(ShLayer *layer, const ShLineStyle &lineStyle, bool current = false);
+	ShLayerDataChangedEvent(ShLayer *layer, const QString &name, bool current = false);
 	~ShLayerDataChangedEvent();
 
 public:
@@ -227,6 +229,7 @@ public:
 	inline bool isCurrent() const { return this->current; }
 	inline const ShColor* getColor() const { return this->color; }
 	inline const ShLineStyle* getLineStyle() const { return this->lineStyle; }
+	inline const QString* getName() const { return this->name; }
 	inline ChangedType getChangedType() const { return this->changedType;}
 
 
@@ -236,6 +239,7 @@ private:
 	bool current;
 	const ShColor *color;
 	const ShLineStyle *lineStyle;
+	const QString *name;
 	
 
 };

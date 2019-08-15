@@ -94,6 +94,7 @@ public:
 private:
 	void changeLayerColor();
 	void changeLayerLineStyle();
+	void changeLayerName();
 
 };
 

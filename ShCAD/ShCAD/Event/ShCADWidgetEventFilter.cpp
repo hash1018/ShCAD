@@ -182,6 +182,8 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::update() {
 		this->changeLayerColor();
 	else if (event->getChangedType() == ShLayerDataChangedEvent::ChangedType::LineStyle)
 		this->changeLayerLineStyle();
+	else if (event->getChangedType() == ShLayerDataChangedEvent::ChangedType::Name)
+		this->changeLayerName();
 		
 }
 
@@ -248,6 +250,21 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::changeLayerLineStyle() {
 
 	ShChangeLayerDataTransaction *transaction = new ShChangeLayerDataTransaction(this->widget, event->getLayer(),
 		prev, current, ShChangeLayerDataTransaction::ChangedType::LineStyle);
+	ShGlobal::pushNewTransaction(this->widget, transaction);
+}
+
+void ShCADWidgetLayerDataChangedEventFilterStrategy::changeLayerName() {
+
+	ShLayerDataChangedEvent *event = dynamic_cast<ShLayerDataChangedEvent*>(this->event);
+
+	QString prev = event->getLayer()->getName();
+
+	event->getLayer()->setName(*event->getName());
+
+	this->widget->notify(event);
+
+	ShChangeLayerDataTransaction *transaction = new ShChangeLayerDataTransaction(this->widget, event->getLayer(),
+		prev, *event->getName());
 	ShGlobal::pushNewTransaction(this->widget, transaction);
 }
 

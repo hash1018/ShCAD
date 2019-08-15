@@ -128,12 +128,20 @@ ShCurrentLayerChangedEvent::~ShCurrentLayerChangedEvent() {
 ////////////////////////////////////////////////////////////////////////
 
 ShLayerDataChangedEvent::ShLayerDataChangedEvent(ShLayer *layer, const ShColor &color, bool current)
-	:ShNotifyEvent(Type::LayerDataChanged), layer(layer), current(current), color(&color), lineStyle(nullptr), changedType(ChangedType::Color) {
+	:ShNotifyEvent(Type::LayerDataChanged), layer(layer), current(current), color(&color), lineStyle(nullptr), name(nullptr),
+	changedType(ChangedType::Color) {
 
 }
 
 ShLayerDataChangedEvent::ShLayerDataChangedEvent(ShLayer *layer, const ShLineStyle &lineStyle, bool current)
-	: ShNotifyEvent(Type::LayerDataChanged), layer(layer), current(current), color(nullptr), lineStyle(&lineStyle), changedType(ChangedType::LineStyle) {
+	: ShNotifyEvent(Type::LayerDataChanged), layer(layer), current(current), color(nullptr), lineStyle(&lineStyle), name(nullptr),
+	changedType(ChangedType::LineStyle) {
+
+}
+
+ShLayerDataChangedEvent::ShLayerDataChangedEvent(ShLayer *layer, const QString &name, bool current)
+	: ShNotifyEvent(Type::LayerDataChanged), layer(layer), current(current), color(nullptr), lineStyle(nullptr), name(&name), 
+	changedType(ChangedType::Name) {
 
 }
 

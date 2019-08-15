@@ -34,6 +34,7 @@ public:
 	enum ChangedType {
 		Color,
 		LineStyle,
+		Name,
 	};
 
 private:
@@ -42,9 +43,12 @@ private:
 	ShPropertyData prev;
 	ShPropertyData current;
 	ChangedType changedType;
+	QString prevName;
+	QString currentName;
 
 public:
 	ShChangeLayerDataTransaction(ShCADWidget *widget, ShLayer *layer, const ShPropertyData &prev, const ShPropertyData &current, ChangedType changedType);
+	ShChangeLayerDataTransaction(ShCADWidget *widget, ShLayer *layer, const QString &prev, const QString &current);
 	
 	virtual void redo();
 	virtual void undo();
@@ -55,6 +59,7 @@ protected:
 private:
 	void changeLayerColor(const ShPropertyData &aboutToChange);
 	void changeLayerLineStyle(const ShPropertyData &aboutToChange);
+	void changeLayerName(const QString &aboutToChange);
 };
 
 #endif //_SHLAYERTRANSACTION_H
