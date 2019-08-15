@@ -50,6 +50,9 @@ private:
 	private slots:
 	void subActivateWindowChanged(QMdiSubWindow*);
 	void showContexMenu(const QPoint &pos);
+
+public:
+	inline QMdiArea* getMdiArea() const { return this->mdiArea; }
 };
 
 #endif // _SHCAD_H

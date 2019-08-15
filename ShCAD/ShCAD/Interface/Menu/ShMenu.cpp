@@ -248,3 +248,55 @@ ShModifyMenu::ShModifyMenu(const QString &title, ShChain *chain, QWidget *parent
 ShModifyMenu::~ShModifyMenu() {
 
 }
+
+////////////////////////////////////////////////////////////////
+
+ShWindowMenu::ShWindowMenu(const QString &title, ShChain *chain, QWidget *parent)
+	:ShAbstractMenu(title, chain, parent) {
+
+	this->tabbedViewAction = new QAction(shGetLanValue_ui("Window/TabbedView"), this);
+	this->addAction(this->tabbedViewAction);
+
+	this->subWindowViewAction = new QAction(shGetLanValue_ui("Window/SubWindowView"), this);
+	this->addAction(this->subWindowViewAction);
+
+	this->cascadeAction = new QAction(shGetLanValue_ui("Window/Cascade"), this);
+	this->addAction(this->cascadeAction);
+
+	this->tileAction = new QAction(shGetLanValue_ui("Window/Tile"), this);
+	this->addAction(this->tileAction);
+
+	connect(this->tabbedViewAction, &QAction::triggered, this, &ShWindowMenu::tabbedViewActionClicked);
+	connect(this->subWindowViewAction, &QAction::triggered, this, &ShWindowMenu::subWindowViewActionClicked);
+	connect(this->cascadeAction, &QAction::triggered, this, &ShWindowMenu::cascadeActionClicked);
+	connect(this->tileAction, &QAction::triggered, this, &ShWindowMenu::tileActionClicked);
+
+}
+
+ShWindowMenu::~ShWindowMenu() {
+
+}
+
+void ShWindowMenu::tabbedViewActionClicked() {
+
+	ShRequestChangeViewMode request(ShRequestChangeViewMode::ViewMode::TabbedView);
+	this->request(&request);
+}
+
+void ShWindowMenu::subWindowViewActionClicked() {
+
+	ShRequestChangeViewMode request(ShRequestChangeViewMode::ViewMode::SubWindowView);
+	this->request(&request);
+}
+
+void ShWindowMenu::cascadeActionClicked() {
+
+	ShRequestChangeViewMode request(ShRequestChangeViewMode::ViewMode::Cascade);
+	this->request(&request);
+}
+
+void ShWindowMenu::tileActionClicked() {
+
+	ShRequestChangeViewMode request(ShRequestChangeViewMode::ViewMode::Tile);
+	this->request(&request);
+}

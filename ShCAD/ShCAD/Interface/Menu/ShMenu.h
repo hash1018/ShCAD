@@ -107,4 +107,25 @@ public:
 
 };
 
-#endif //_MENU_H
+
+class ShWindowMenu : public ShAbstractMenu {
+
+private:
+	QAction *tabbedViewAction;
+	QAction *subWindowViewAction;
+	QAction *cascadeAction;
+	QAction *tileAction;
+
+public:
+	ShWindowMenu(const QString &title, ShChain *chain, QWidget *parent = nullptr);
+	~ShWindowMenu();
+
+	private slots:
+	void tabbedViewActionClicked();
+	void subWindowViewActionClicked();
+	void cascadeActionClicked();
+	void tileActionClicked();
+
+};
+
+#endif //_SHMENU_H

@@ -60,6 +60,8 @@ void ShCAD::initWidgets() {
 
 	this->mdiArea = new QMdiArea;
 	this->mdiArea->setDocumentMode(true);
+	this->mdiArea->setTabsClosable(true);
+	this->mdiArea->setTabsMovable(true);
 	this->mdiArea->hide();
 	this->mdiArea->setContextMenuPolicy(Qt::ContextMenuPolicy::PreventContextMenu);
 
@@ -191,6 +193,7 @@ void ShCAD::readSettings() {
 	this->restoreState(settings.value("state", this->saveState()).toByteArray());
 	this->move(settings.value("pos", this->pos()).toPoint());
 	this->resize(settings.value("size", this->size()).toSize());
+	this->mdiArea->setViewMode(QMdiArea::ViewMode(settings.value("viewMode").toInt()));
 
 	if (settings.value("maximized", this->isMaximized()).toBool() == true)
 		this->showMaximized();
@@ -210,6 +213,7 @@ void ShCAD::writeSettings() {
 	settings.setValue("geometry", this->saveGeometry());
 	settings.setValue("state", this->saveState());
 	settings.setValue("maximized", this->isMaximized());
+	settings.setValue("viewMode", this->mdiArea->viewMode());
 	
 	if (this->isMaximized() == false) {
 		settings.setValue("pos", this->pos());

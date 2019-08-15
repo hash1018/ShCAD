@@ -25,6 +25,8 @@ ShCADRequestStrategy* ShCADRequestFactory::create(ShCAD *shCAD, ShRequest *reque
 		strategy = new ShCADRequestUndoStrategy(shCAD, request);
 	else if (request->getType() == ShRequest::RequestRedo)
 		strategy = new ShCADRequestRedoStrategy(shCAD, request);
+	else if (request->getType() == ShRequest::RequestChangeViewMode)
+		strategy = new ShCADRequestChangeViewModeStrategy(shCAD, request);
 		
 
 	return strategy;

@@ -14,6 +14,7 @@ public:
 		RequestSendNotifyEvent,
 		RequestUndo,
 		RequestRedo,
+		RequestChangeViewMode,
 
 	};
 
@@ -73,6 +74,28 @@ class ShRequestRedo : public ShRequest {
 public:
 	ShRequestRedo();
 	~ShRequestRedo();
+
+};
+
+class ShRequestChangeViewMode : public ShRequest {
+
+public:
+	enum ViewMode {
+		SubWindowView,
+		TabbedView,
+		Cascade,
+		Tile,
+		
+	};
+
+private:
+	ViewMode viewMode;
+
+public:
+	ShRequestChangeViewMode(ViewMode viewMode);
+	~ShRequestChangeViewMode();
+
+	inline ViewMode getViewMode() const { return this->viewMode; }
 
 };
 

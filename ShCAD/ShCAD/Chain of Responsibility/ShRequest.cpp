@@ -65,3 +65,13 @@ ShRequestRedo::~ShRequestRedo() {
 
 }
 
+///////////////////////////////
+
+ShRequestChangeViewMode::ShRequestChangeViewMode(ViewMode viewMode)
+	:ShRequest(ShRequest::RequestChangeViewMode), viewMode(viewMode) {
+
+}
+
+ShRequestChangeViewMode::~ShRequestChangeViewMode() {
+
+}

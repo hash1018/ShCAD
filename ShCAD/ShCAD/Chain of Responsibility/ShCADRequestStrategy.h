@@ -15,6 +15,7 @@ public:
 	virtual ~ShCADRequestStrategy() = 0;
 
 	virtual void response() = 0;
+
 };
 
 class ShCADRequestCreateNewWidgetStrategy : public ShCADRequestStrategy {
@@ -61,6 +62,16 @@ public:
 	~ShCADRequestRedoStrategy();
 
 	virtual void response();
+};
+
+class ShCADRequestChangeViewModeStrategy : public ShCADRequestStrategy {
+
+public:
+	ShCADRequestChangeViewModeStrategy(ShCAD *shCAD, ShRequest *request);
+	~ShCADRequestChangeViewModeStrategy();
+
+	virtual void response();
+
 };
 
 
