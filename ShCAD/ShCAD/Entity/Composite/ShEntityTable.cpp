@@ -1,7 +1,11 @@
 
 #include "ShEntityTable.h"
+#include "Base\ShLayer.h"
+#include "Base\ShLayerTable.h"
+#include "Entity\Private\ShSearchEntityStrategy.h"
 
-ShEntityTable::ShEntityTable() {
+ShEntityTable::ShEntityTable(ShLayerTable *layerTable)
+	:layerTable(layerTable) {
 
 }
 
@@ -38,7 +42,13 @@ bool ShEntityTable::add(ShEntity *entity) {
 
 	this->justAddedEntityList.clear();
 
-	this->justAddedEntityList.append(entity);
+	entity->getLayer()->add(entity);
+
+	if (entity->getLayer()->isTurnOn() == true) {
+
+		this->layerTable->turnOnList.append(entity);
+		this->justAddedEntityList.append(entity);
+	}
 
 	return ShComposite::add(entity);
 
@@ -56,7 +66,13 @@ bool ShEntityTable::add(const QLinkedList<ShEntity*> &list) {
 		itr != const_cast<QLinkedList<ShEntity*>&>(list).end();
 		++itr) {
 	
-		this->justAddedEntityList.append((*itr));
+		(*itr)->getLayer()->add((*itr));
+
+		if ((*itr)->getLayer()->isTurnOn() == true) {
+
+			this->layerTable->turnOnList.append((*itr));
+			this->justAddedEntityList.append((*itr));
+		}
 	}
 
 	return ShComposite::add(list);
@@ -64,5 +80,36 @@ bool ShEntityTable::add(const QLinkedList<ShEntity*> &list) {
 
 bool ShEntityTable::remove(ShEntity *entity) {
 
+	entity->getLayer()->remove(entity);
+
+	if (entity->getLayer()->isTurnOn() == true)
+		this->layerTable->turnOnList.removeOne(entity);
+
 	return ShComposite::remove(entity);
+}
+
+void ShEntityTable::search(ShSearchEntityStrategy &strategy) {
+
+	strategy.setList(this->layerTable->turnOnList);
+	strategy.search();
+}
+
+QLinkedList<ShEntity*>::iterator ShEntityTable::justTurnOnLayerBegin() {
+
+	return this->layerTable->getJustTurnOnLayer()->begin();
+}
+
+QLinkedList<ShEntity*>::iterator ShEntityTable::justTurnOnLayerEnd() {
+
+	return this->layerTable->getJustTurnOnLayer()->end();
+}
+
+QLinkedList<ShEntity*>::iterator ShEntityTable::turnOnLayerBegin() {
+
+	return this->layerTable->turnOnListBegin();
+}
+
+QLinkedList<ShEntity*>::iterator ShEntityTable::turnOnLayerEnd() {
+
+	return this->layerTable->turnOnListEnd();
 }

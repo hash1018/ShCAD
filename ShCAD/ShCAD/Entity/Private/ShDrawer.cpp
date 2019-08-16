@@ -201,7 +201,10 @@ void ShDrawerUnSelectedEntity::visit(ShLine *line) {
 	GLColor color(propertyData.getColor().getRed() / 255., propertyData.getColor().getGreen() / 255.,
 		propertyData.getColor().getBlue() / 255.);
 
+	glLineStipple(1, propertyData.getLineStyle().getPattern());
+	glEnable(GL_LINE_STIPPLE);
 	f.drawLine(start, end, color);
+	glDisable(GL_LINE_STIPPLE);
 	
 }
 

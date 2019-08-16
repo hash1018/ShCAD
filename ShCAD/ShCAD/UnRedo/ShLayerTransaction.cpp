@@ -63,6 +63,11 @@ ShChangeLayerDataTransaction::ShChangeLayerDataTransaction(ShCADWidget *widget, 
 
 }
 
+ShChangeLayerDataTransaction::ShChangeLayerDataTransaction(ShCADWidget *widget, ShLayer *layer, bool prevTurn, bool currentTurn)
+	: ShTransaction("Layer control"), widget(widget), layer(layer), prevTurn(prevTurn), currentTurn(currentTurn), changedType(ChangedType::Turn) {
+
+}
+
 ShChangeLayerDataTransaction::~ShChangeLayerDataTransaction() {
 
 }
@@ -75,6 +80,8 @@ void ShChangeLayerDataTransaction::redo() {
 		this->changeLayerLineStyle(this->current);
 	else if (this->changedType == ChangedType::Name)
 		this->changeLayerName(this->currentName);
+	else if (this->changedType == ChangedType::Turn)
+		this->changeLayerTurn(this->currentTurn);
 
 }
 
@@ -86,6 +93,8 @@ void ShChangeLayerDataTransaction::undo() {
 		this->changeLayerLineStyle(this->prev);
 	else if (this->changedType == ChangedType::Name)
 		this->changeLayerName(this->prevName);
+	else if (this->changedType == ChangedType::Turn)
+		this->changeLayerTurn(this->prevTurn);
 	
 }
 
@@ -111,6 +120,8 @@ void ShChangeLayerDataTransaction::changeLayerColor(const ShPropertyData &aboutT
 		this->widget->notify(&event);
 	}
 
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
 }
 
 void ShChangeLayerDataTransaction::changeLayerLineStyle(const ShPropertyData &aboutToChange) {
@@ -133,6 +144,9 @@ void ShChangeLayerDataTransaction::changeLayerLineStyle(const ShPropertyData &ab
 		ShLayerDataChangedEvent event(this->layer, aboutToChange.getLineStyle());
 		this->widget->notify(&event);
 	}
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
 }
 
 void ShChangeLayerDataTransaction::changeLayerName(const QString &aboutToChange) {
@@ -142,6 +156,32 @@ void ShChangeLayerDataTransaction::changeLayerName(const QString &aboutToChange)
 	ShLayerDataChangedEvent event(this->layer, aboutToChange);
 	this->widget->notify(&event);
 	
+}
+
+void ShChangeLayerDataTransaction::changeLayerTurn(const bool &aboutToChange) {
+
+	if (aboutToChange == true) {
+	
+		this->layer->turnOnOff(true);
+
+		this->widget->getLayerTable()->updateTurnOnLayerList();
+		this->widget->getLayerTable()->setJustTurnOnLayer(this->layer);
+
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer));
+		this->widget->captureImage();
+	}
+	else {
+	
+		this->layer->turnOnOff(false);
+		this->widget->getLayerTable()->updateTurnOnLayerList();
+
+		this->widget->update(DrawType::DrawAll);
+		this->widget->captureImage();
+	}
+
+	ShLayerDataChangedEvent event(this->layer, aboutToChange);
+	this->widget->notify(&event);
+
 }
 
 ////////////////////////////////////////////////////////////////////

@@ -39,5 +39,20 @@ void ShLayerTable::remove(ShLayer *layer) {
 
 void ShLayerTable::updateTurnOnLayerList() {
 
+	while (!this->turnOnList.isEmpty())
+		this->turnOnList.removeFirst();
 
+	for (int i = 0; i < this->layerList.size(); i++) {
+
+		ShLayer *layer = this->layerList.at(i);
+
+		if (layer->isTurnOn() == true) {
+
+			QLinkedList<ShEntity*>::iterator itr;
+
+			for (itr = layer->begin(); itr != layer->end(); ++itr)
+				this->turnOnList.append((*itr));
+
+		}
+	}
 }

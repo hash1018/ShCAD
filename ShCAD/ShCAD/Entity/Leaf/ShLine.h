@@ -11,7 +11,7 @@ protected:
 
 public:
 	ShLine();
-	ShLine(const ShPropertyData &propertyData, const ShLineData &data);
+	ShLine(const ShPropertyData &propertyData, const ShLineData &data, ShLayer *layer);
 	ShLine(const ShLineData &data);
 	ShLine(const ShPoint3d &start, const ShPoint3d &end);
 	ShLine(const ShLine &other);

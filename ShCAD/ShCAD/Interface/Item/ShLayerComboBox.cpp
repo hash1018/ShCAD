@@ -164,9 +164,7 @@ void ShLayerComboBox::paintEvent(QPaintEvent *event) {
 bool ShLayerComboBox::eventFilter(QObject *obj, QEvent *event) {
 
 
-	if (event->type() == QEvent::Type::MouseButtonDblClick ||
-		event->type() == QEvent::Type::MouseButtonPress ||
-		event->type() == QEvent::Type::MouseButtonRelease) {
+	if (event->type() == QEvent::Type::MouseButtonRelease) {
 
 		QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent*>(event);
 
@@ -210,6 +208,11 @@ bool ShLayerComboBox::eventFilter(QObject *obj, QEvent *event) {
 		}
 
 
+		return true;
+	}
+	else if (event->type() == QEvent::Type::MouseButtonDblClick ||
+		event->type() == QEvent::Type::MouseButtonPress) {
+	
 		return true;
 	}
 

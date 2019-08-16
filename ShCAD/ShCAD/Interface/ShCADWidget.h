@@ -23,6 +23,7 @@ class ShActionHandlerProxy;
 class ShChangeActionStrategy;
 class ShTransactionStack;
 class ShLayerTable;
+class ShLayer;
 
 class ShCADWidget : public QOpenGLWidget {
 	
@@ -38,7 +39,7 @@ private:
 	ShTransactionStack *redoStack;
 	ShCommandLog commandLog;
 	ShRubberBand rubberBand;
-	ShEntityTable entityTable;
+	ShEntityTable *entityTable;
 	ShPreview preview;
 	ShDraftData draftData;
 	ShPropertyData propertyData;
@@ -95,11 +96,12 @@ public:
 	inline ShTransactionStack* getUndoStack() const { return this->undoStack; }
 	inline ShCommandLog& getCommandLog() const { return const_cast<ShCommandLog&>(this->commandLog); }
 	inline ShRubberBand& getRubberBand() const { return const_cast<ShRubberBand&>(this->rubberBand); }
-	inline ShEntityTable& getEntityTable() const { return const_cast<ShEntityTable&>(this->entityTable); }
+	inline ShEntityTable& getEntityTable() const { return const_cast<ShEntityTable&>(*this->entityTable); }
 	inline ShPreview& getPreview() const { return const_cast<ShPreview&>(this->preview); }
 	inline ShDraftData& getDraftData() const { return const_cast<ShDraftData&>(this->draftData); }
 	inline const ShPropertyData& getPropertyData() const { return this->propertyData; }
 	inline ShLayerTable* getLayerTable() const { return this->layerTable; }
+	ShLayer* getCurrentLayer() const;
 
 };
 

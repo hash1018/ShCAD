@@ -35,6 +35,7 @@ public:
 		Color,
 		LineStyle,
 		Name,
+		Turn,
 	};
 
 private:
@@ -45,10 +46,13 @@ private:
 	ChangedType changedType;
 	QString prevName;
 	QString currentName;
+	bool prevTurn;
+	bool currentTurn;
 
 public:
 	ShChangeLayerDataTransaction(ShCADWidget *widget, ShLayer *layer, const ShPropertyData &prev, const ShPropertyData &current, ChangedType changedType);
 	ShChangeLayerDataTransaction(ShCADWidget *widget, ShLayer *layer, const QString &prev, const QString &current);
+	ShChangeLayerDataTransaction(ShCADWidget *widget, ShLayer *layer, bool prevTurn, bool currentTurn);
 	
 	virtual void redo();
 	virtual void undo();
@@ -60,6 +64,7 @@ private:
 	void changeLayerColor(const ShPropertyData &aboutToChange);
 	void changeLayerLineStyle(const ShPropertyData &aboutToChange);
 	void changeLayerName(const QString &aboutToChange);
+	void changeLayerTurn(const bool &aboutToChange);
 };
 
 ///////////////////////////////////////////////////////////////////////

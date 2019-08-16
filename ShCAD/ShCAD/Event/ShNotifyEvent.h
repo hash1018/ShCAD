@@ -220,12 +220,14 @@ public:
 		Color,
 		LineStyle,
 		Name,
+		Turn,
 	};
 
 public:
 	ShLayerDataChangedEvent(ShLayer *layer, const ShColor &color, bool current = false);
 	ShLayerDataChangedEvent(ShLayer *layer, const ShLineStyle &lineStyle, bool current = false);
 	ShLayerDataChangedEvent(ShLayer *layer, const QString &name, bool current = false);
+	ShLayerDataChangedEvent(ShLayer *layer, bool turn, bool current = false);
 	~ShLayerDataChangedEvent();
 
 public:
@@ -235,6 +237,7 @@ public:
 	inline const ShLineStyle* getLineStyle() const { return this->lineStyle; }
 	inline const QString* getName() const { return this->name; }
 	inline ChangedType getChangedType() const { return this->changedType;}
+	inline bool getTurn() const { return this->turn; }
 
 
 private:
@@ -244,6 +247,7 @@ private:
 	const ShColor *color;
 	const ShLineStyle *lineStyle;
 	const QString *name;
+	bool turn;
 	
 };
 

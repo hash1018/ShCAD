@@ -7,8 +7,8 @@ ShLine::ShLine() {
 
 }
 
-ShLine::ShLine(const ShPropertyData &propertyData, const ShLineData &data)
-	:ShLeaf(propertyData), data(data) {
+ShLine::ShLine(const ShPropertyData &propertyData, const ShLineData &data, ShLayer *layer)
+	:ShLeaf(propertyData, layer), data(data) {
 
 }
 

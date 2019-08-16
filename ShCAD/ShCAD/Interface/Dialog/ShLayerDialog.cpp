@@ -197,6 +197,21 @@ void ShLayerDialog::cellDoubleClicked(int row, int column) {
 		this->request(&request);
 		this->updateLayerTable();
 	}
+	else if (column == 2) {
+		
+		bool turn;
+
+		if (this->layerTable->getLayer(row)->isTurnOn() == true)
+			turn = false;
+		else
+			turn = true;
+
+		ShLayerDataChangedEvent event(this->layerTable->getLayer(row), turn);
+		ShRequestSendNotifyEvent request(&event);
+		this->request(&request);
+		this->updateLayerTable();
+	
+	}
 }
 
 void ShLayerDialog::layerNameChanged(QTableWidgetItem *item) {

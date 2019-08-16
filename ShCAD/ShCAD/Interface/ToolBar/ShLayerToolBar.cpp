@@ -47,6 +47,9 @@ void ShLayerToolBar::currentLayerChanged(ShLayer *layer) {
 
 void ShLayerToolBar::layerTurnChanged(ShLayer *layer, bool turnOn) {
 
+	ShLayerDataChangedEvent event(layer, turnOn);
+	ShRequestSendNotifyEvent request(&event);
+	this->request(&request);
 }
 
 void ShLayerToolBar::layerColorChanged(ShLayer *layer, const ShColor &color) {

@@ -30,6 +30,8 @@ ShCADWidget::ShCADWidget(QWidget *parent)
 	this->redoStack = new ShTransactionStack;
 
 	this->layerTable = new ShLayerTable;
+
+	this->entityTable = new ShEntityTable(this->layerTable);
 }
 
 ShCADWidget::~ShCADWidget() {
@@ -254,3 +256,7 @@ ShPoint3d ShCADWidget::getMousePoint() {
 	return mouse;
 }
 
+ShLayer* ShCADWidget::getCurrentLayer() const {
+
+	return this->layerTable->getCurrentLayer();
+}

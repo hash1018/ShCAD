@@ -189,6 +189,8 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::update() {
 		this->changeLayerLineStyle();
 	else if (event->getChangedType() == ShLayerDataChangedEvent::ChangedType::Name)
 		this->changeLayerName();
+	else if (event->getChangedType() == ShLayerDataChangedEvent::ChangedType::Turn)
+		this->changeLayerTurn();
 		
 }
 
@@ -220,6 +222,9 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::changeLayerColor() {
 		ShLayerDataChangedEvent notifyEvent(event->getLayer(), *event->getColor());
 		this->widget->notify(&notifyEvent);
 	}
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
 
 	ShChangeLayerDataTransaction *transaction = new ShChangeLayerDataTransaction(this->widget, event->getLayer(),
 		prev, current, ShChangeLayerDataTransaction::ChangedType::Color);
@@ -253,6 +258,9 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::changeLayerLineStyle() {
 		this->widget->notify(&notifyEvent);
 	}
 
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+
 	ShChangeLayerDataTransaction *transaction = new ShChangeLayerDataTransaction(this->widget, event->getLayer(),
 		prev, current, ShChangeLayerDataTransaction::ChangedType::LineStyle);
 	ShGlobal::pushNewTransaction(this->widget, transaction);
@@ -271,6 +279,40 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::changeLayerName() {
 	ShChangeLayerDataTransaction *transaction = new ShChangeLayerDataTransaction(this->widget, event->getLayer(),
 		prev, *event->getName());
 	ShGlobal::pushNewTransaction(this->widget, transaction);
+}
+
+void ShCADWidgetLayerDataChangedEventFilterStrategy::changeLayerTurn() {
+
+	ShLayerDataChangedEvent *event = dynamic_cast<ShLayerDataChangedEvent*>(this->event);
+
+	bool prev = event->getLayer()->isTurnOn();
+	
+
+	if (event->getTurn() == true) {
+		
+		event->getLayer()->turnOnOff(true);
+
+		this->widget->getLayerTable()->updateTurnOnLayerList();
+		this->widget->getLayerTable()->setJustTurnOnLayer(event->getLayer());
+
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawJustTurnOnLayer));
+		this->widget->captureImage();
+	}
+	else {
+	
+		event->getLayer()->turnOnOff(false);
+		this->widget->getLayerTable()->updateTurnOnLayerList();
+
+		this->widget->update(DrawType::DrawAll);
+		this->widget->captureImage();
+	}
+
+	this->widget->notify(event);
+
+	ShChangeLayerDataTransaction *transaction = new ShChangeLayerDataTransaction(this->widget, event->getLayer(),
+		prev, event->getTurn());
+	ShGlobal::pushNewTransaction(this->widget, transaction);
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////

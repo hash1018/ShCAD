@@ -5,8 +5,8 @@ ShLeaf::ShLeaf() {
 
 }
 
-ShLeaf::ShLeaf(const ShPropertyData &propertyData)
-	:ShEntity(propertyData) {
+ShLeaf::ShLeaf(const ShPropertyData &propertyData, ShLayer *layer)
+	:ShEntity(propertyData, layer) {
 
 }
 

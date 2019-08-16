@@ -8,16 +8,20 @@
 
 //Composite Pattern, Visitor Pattern, Prototype Pattern
 
+class ShLayer;
 class ShVisitor;
+
+
 class ShEntity {
 
 protected:
 	ShPropertyData propertyData;
 	bool selected;
+	ShLayer *layer;
 
 public:
 	ShEntity();
-	ShEntity(const ShPropertyData &propertyData);
+	ShEntity(const ShPropertyData &propertyData, ShLayer *layer);
 	ShEntity(const ShEntity &other);
 	virtual ~ShEntity() = 0;
 	ShEntity& operator=(const ShEntity &other);
@@ -33,6 +37,7 @@ public:
 
 	inline const ShPropertyData& getPropertyData() const { return this->propertyData; }
 	inline bool isSelected() const { return this->selected; }
+	inline ShLayer* getLayer() const { return this->layer; }
 
 };
 

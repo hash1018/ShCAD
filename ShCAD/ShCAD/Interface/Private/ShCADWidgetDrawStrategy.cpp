@@ -45,21 +45,11 @@ ShDrawAllStrategy::~ShDrawAllStrategy() {
 
 void ShDrawAllStrategy::draw() {
 
-	/*
-	ShDrawer drawer(this->view, DrawType::DrawAll);
-
-	this->view->axis.Draw(this->painter, this->view);
-
-	QLinkedList<ShEntity*>::iterator itr;
-	for (itr = this->view->entityTable.TurnOnLayerBegin(); itr != this->view->entityTable.TurnOnLayerEnd(); ++itr)
-	(*itr)->Accept(&drawer);
-	*/
-	
 	ShDrawerUnSelectedEntity drawer(this->widget);
 
 	QLinkedList<ShEntity*>::iterator itr;
-	for (itr = this->widget->getEntityTable().begin();
-		itr != this->widget->getEntityTable().end();
+	for (itr = this->widget->getEntityTable().turnOnLayerBegin();
+		itr != this->widget->getEntityTable().turnOnLayerEnd();
 		++itr) {
 	
 		(*itr)->accept(&drawer);
@@ -116,22 +106,6 @@ ShDrawPreviewEntitiesStrategy::	~ShDrawPreviewEntitiesStrategy() {
 
 void ShDrawPreviewEntitiesStrategy::draw() {
 
-	/*
-	ShDrawer drawer(this->view, DrawType::DrawPreviewEntities);
-
-	if (this->view->rubberBand != NULL) {
-	this->view->rubberBand->Accept(&drawer);
-	}
-
-	QLinkedList<ShEntity*>::iterator itr;
-
-
-
-	for (itr = this->view->preview.Begin(); itr != this->view->preview.End(); ++itr)
-	(*itr)->Accept(&drawer);
-
-	*/
-
 	ShDrawerUnSelectedEntity drawer(this->widget);
 	drawer.visit(&(this->widget->getRubberBand()));
 
@@ -162,20 +136,6 @@ ShDrawAddedEntitiesStrategy::~ShDrawAddedEntitiesStrategy() {
 }
 
 void ShDrawAddedEntitiesStrategy::draw() {
-
-	/*
-	ShDrawer drawer(this->view, DrawType::DrawAddedEntities);
-
-	QLinkedList<ShEntity*>::iterator itr;
-
-	for (itr = this->view->entityTable.JustAddedEntitiesBegin();
-	itr != this->view->entityTable.JustAddedEntitiesEnd();
-	++itr) {
-
-	if ((*itr)->GetLayer()->IsTurnOn() == true)
-	(*itr)->Accept(&drawer);
-	}
-	*/
 
 	ShDrawerUnSelectedEntity drawer(this->widget);
 
@@ -246,19 +206,18 @@ ShDrawJustTurnOnLayerStrategy::~ShDrawJustTurnOnLayerStrategy() {
 
 void ShDrawJustTurnOnLayerStrategy::draw() {
 
-	/*
-	ShDrawer drawer(this->view, DrawType::DrawJustTurnOnLayer);
-
+	ShDrawerUnSelectedEntity drawer(this->widget);
+	
 	QLinkedList<ShEntity*>::iterator itr;
 
-	for (itr = this->view->entityTable.GetLayerTable()->GetJustTurnOnLayer()->Begin();
-	itr != this->view->entityTable.GetLayerTable()->GetJustTurnOnLayer()->End();
+	for (itr = this->widget->getEntityTable().justTurnOnLayerBegin();
+	itr != this->widget->getEntityTable().justTurnOnLayerEnd();
 	++itr) {
 
-	(*itr)->Accept(&drawer);
+	(*itr)->accept(&drawer);
 
 	}
-	*/
+	
 	if (this->strategy != nullptr)
 		this->strategy->draw();
 }
