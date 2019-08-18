@@ -22,6 +22,8 @@ public:
 	virtual QString getHeadTitle();
 	
 	void changeSubAction(ShSubDefaultAction *subDefaultAction);
+
+private:
 	void escPressed();
 
 };

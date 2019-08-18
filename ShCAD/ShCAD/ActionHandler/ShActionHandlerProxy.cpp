@@ -27,13 +27,6 @@ ShActionHandlerProxy::~ShActionHandlerProxy() {
 
 void ShActionHandlerProxy::mouseLeftPressEvent(QMouseEvent *event) {
 
-	//ShActionData data;
-	//this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
-	//data.nextPoint = data.point;
-	//data.mouseEvent = event;
-
-	//this->currentAction->mouseLeftPressEvent(data);
-
 	ShDecoratorActionData data;
 	data.point = this->widget->getMousePoint();
 	data.nextPoint = data.point;
@@ -43,13 +36,6 @@ void ShActionHandlerProxy::mouseLeftPressEvent(QMouseEvent *event) {
 
 void ShActionHandlerProxy::mouseMidPressEvent(QMouseEvent *event) {
 
-	//ShActionData data;
-	//this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
-	//data.nextPoint = data.point;
-	//data.mouseEvent = event;
-
-	//this->currentAction->mouseMidPressEvent(data);
-
 	ShDecoratorActionData data;
 	data.point = this->widget->getMousePoint();
 	data.nextPoint = data.point;
@@ -58,13 +44,6 @@ void ShActionHandlerProxy::mouseMidPressEvent(QMouseEvent *event) {
 }
 
 void ShActionHandlerProxy::mouseRightPressEvent(QMouseEvent *event) {
-
-	//ShActionData data;
-	//this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
-	//data.nextPoint = data.point;
-	//data.mouseEvent = event;
-
-	//this->currentAction->mouseRightPressEvent(data);
 
 	ShDecoratorActionData data;
 	data.point = this->widget->getMousePoint();
@@ -78,13 +57,6 @@ void ShActionHandlerProxy::mouseMoveEvent(QMouseEvent *event) {
 	this->widget->getDrawBuffer().saveToBuffer = true;
 	this->widget->getDrawBuffer().buffer = DrawType::DrawNone;
 
-
-
-	//ShActionData data;
-	//this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
-	//data.mouseEvent = event;
-
-	//this->currentAction->mouseMoveEvent(data);
 
 	ShDecoratorActionData data;
 	data.point = this->widget->getMousePoint();
@@ -102,12 +74,6 @@ void ShActionHandlerProxy::mouseMoveEvent(QMouseEvent *event) {
 
 void ShActionHandlerProxy::mouseReleaseEvent(QMouseEvent *event) {
 
-	//ShActionData data;
-	//this->widget->convertDeviceToEntity(event->x(), event->y(), data.point.x, data.point.y);
-	//data.mouseEvent = event;
-
-	//this->currentAction->mouseReleaseEvent(data);
-
 	ShDecoratorActionData data;
 	data.point = this->widget->getMousePoint();
 	data.mouseEvent = event;
@@ -115,12 +81,7 @@ void ShActionHandlerProxy::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 void ShActionHandlerProxy::keyPressEvent(QKeyEvent *event) {
-
-	//ShActionData data;
-	//data.keyEvent = event;
-
-	//this->currentAction->keyPressEvent(data);
-
+	
 	ShDecoratorActionData data;
 	data.keyEvent = event;
 	this->decoratorAction->keyPressEvent(data);
@@ -145,7 +106,6 @@ ActionType ShActionHandlerProxy::getType() {
 
 void ShActionHandlerProxy::draw(QPainter *painter) {
 
-	//this->currentAction->draw(painter);
 	this->decoratorAction->draw(painter);
 }
 

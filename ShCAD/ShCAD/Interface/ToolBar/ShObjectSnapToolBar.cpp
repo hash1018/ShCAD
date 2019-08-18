@@ -8,7 +8,7 @@
 
 ShObjectSnapToolBar::ShObjectSnapToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
-
+	
 	this->setObjectName("ObjectSnapToolBar");
 	this->setIconSize(QSize(20, 20));
 

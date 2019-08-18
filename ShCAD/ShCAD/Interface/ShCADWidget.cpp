@@ -22,7 +22,7 @@ ShCADWidget::ShCADWidget(QWidget *parent)
 	this->actionHandlerProxy = new ShActionHandlerProxy(this);
 	this->setCursor(this->actionHandlerProxy->getCursorShape());
 
-	this->setFocusPolicy(Qt::FocusPolicy::ClickFocus);
+	this->setFocusPolicy(Qt::FocusPolicy::WheelFocus);
 	
 	this->axis.setCenter(ShPoint3d(100, 500));
 
@@ -70,7 +70,7 @@ void ShCADWidget::resizeGL(int width, int height) {
 }
 
 void ShCADWidget::paintGL() {
-	qDebug() << "paintGL";
+	
 	QPainter painter(this);
 
 	ShCADWidgetDrawStrategy strategy(this, &painter, this->drawBuffer.drawType);
@@ -115,7 +115,7 @@ void ShCADWidget::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 void ShCADWidget::keyPressEvent(QKeyEvent *event) {
-
+	
 	this->actionHandlerProxy->keyPressEvent(event);
 }
 
@@ -224,7 +224,7 @@ void ShCADWidget::convertEntityToDevice(const double &x, const double &y, int &d
 }
 
 void ShCADWidget::captureImage() {
-	qDebug() << "captureImage";
+	
 	this->capturedImage = this->grabFramebuffer();
 }
 

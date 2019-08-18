@@ -21,8 +21,9 @@ ShDisposableSnapAction::~ShDisposableSnapAction() {
 		delete this->strategy;
 }
 
-void ShDisposableSnapAction::keyPressEvent(ShActionData &data) {
 
+void ShDisposableSnapAction::keyPressEvent(ShActionData &data) {
+	
 	ShDecoratorAction::keyPressEvent(data);
 }
 
