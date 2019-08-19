@@ -2,6 +2,8 @@
 
 #include "ShModifyToolBar.h"
 #include "Interface\Item\ShIcon.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "Chain of Responsibility\ShRequest.h"
 
 ShModifyToolBar::ShModifyToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
@@ -63,7 +65,9 @@ void ShModifyToolBar::mirrorActionClicked() {
 
 void ShModifyToolBar::moveActionClicked() {
 
-
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMove);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyToolBar::rotateActionClicked() {

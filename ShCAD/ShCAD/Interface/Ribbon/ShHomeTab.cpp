@@ -167,7 +167,9 @@ void ShModifyPanel::resizeEvent(QResizeEvent *event) {
 
 void ShModifyPanel::moveButtonClicked() {
 
-	
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMove);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyPanel::copyButtonClicked() {

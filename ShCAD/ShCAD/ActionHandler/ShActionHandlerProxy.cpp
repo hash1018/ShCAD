@@ -91,7 +91,8 @@ void ShActionHandlerProxy::setCurrentAction(ShActionHandler *actionHandler) {
 
 	this->currentAction = actionHandler;
 
-	this->changeDecoratorAction();
+	//this->changeDecoratorAction();
+	this->decoratorAction->setActionHandler(actionHandler);
 }
 
 QCursor ShActionHandlerProxy::getCursorShape() {

@@ -28,7 +28,12 @@ public:
 
 	virtual void invalidate(ShPoint3d point);
 
+	virtual void setActionHandler(ShActionHandler *actionHandler);
+
+public:
 	void setParent(ShDecoratorAction *parent) { this->parent = parent; }
+
+public:
 	inline ShDecoratorAction* getParent() const { return this->parent; }
 	inline ShDecoratorAction* getChild() const { return this->child; }
 };

@@ -49,9 +49,9 @@ QString ShDrawLineAction::getHeadTitle() {
 	QString text;
 
 	if (this->status == Status::PickedNothing)
-		text = "Line >> " + shGetLanValue_command("Command/Specify first point");
+		text = "Line >> " + shGetLanValue_command("Command/Specify first point") + ": ";
 	else
-		text = "Line >> " + shGetLanValue_command("Command/Specify next point");
+		text = "Line >> " + shGetLanValue_command("Command/Specify next point") + ": ";
 
 	return text;
 }

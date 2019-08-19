@@ -105,6 +105,8 @@ public:
 	ShModifyMenu(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShModifyMenu();
 
+	private slots:
+	void moveActionClicked();
 };
 
 

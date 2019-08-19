@@ -96,3 +96,12 @@ void ShDecoratorAction::invalidate(ShPoint3d point) {
 	else
 		this->actionHandler->invalidate(point);
 }
+
+void ShDecoratorAction::setActionHandler(ShActionHandler *actionHandler) {
+
+	if (this->child != nullptr)
+		this->child->setActionHandler(actionHandler);
+
+
+	this->actionHandler = actionHandler;
+}

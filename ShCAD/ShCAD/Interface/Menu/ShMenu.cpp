@@ -243,10 +243,19 @@ ShModifyMenu::ShModifyMenu(const QString &title, ShChain *chain, QWidget *parent
 
 	this->extendAction = new QAction(ShIcon(":/Image/Modify/Extend.png"), shGetLanValue_ui("Modify/Extend"), this);
 	this->addAction(this->extendAction);
+
+	connect(this->moveAction, &QAction::triggered, this, &ShModifyMenu::moveActionClicked);
 }
 
 ShModifyMenu::~ShModifyMenu() {
 
+}
+
+void ShModifyMenu::moveActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMove);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 ////////////////////////////////////////////////////////////////

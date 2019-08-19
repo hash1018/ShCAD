@@ -113,6 +113,9 @@
     <Filter Include="Utility">
       <UniqueIdentifier>{b33898d1-74b4-459e-9c07-0623bf00b41f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionHandler\ModifyAction">
+      <UniqueIdentifier>{91b2e2a9-c3fa-4f76-9f31-7b212b62ba2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -514,6 +517,12 @@
     <ClCompile Include="Interface\Dialog\ShLayerDialog.cpp">
       <Filter>Interface\Dialog</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -850,6 +859,12 @@
     </ClInclude>
     <ClInclude Include="UnRedo\ShLayerTransaction.h">
       <Filter>UnRedo</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

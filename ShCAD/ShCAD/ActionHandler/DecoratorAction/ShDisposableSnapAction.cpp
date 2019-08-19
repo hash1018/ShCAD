@@ -7,6 +7,7 @@
 #include "Entity\Private\ShLineBothPerpendicularVisitor.h"
 #include "Event\ShNotifyEvent.h"
 #include "Manager\ShLanguageManager.h"
+#include <QKeyEvent>
 
 ShDisposableSnapAction::ShDisposableSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child)
 	:ShDecoratorAction(widget, actionHandler, child), strategy(nullptr) {
@@ -25,6 +26,10 @@ ShDisposableSnapAction::~ShDisposableSnapAction() {
 void ShDisposableSnapAction::keyPressEvent(ShActionData &data) {
 	
 	ShDecoratorAction::keyPressEvent(data);
+
+	if (data.keyEvent->key() == Qt::Key::Key_Escape) {
+		this->finishDisposableSnap();
+	}
 }
 
 void ShDisposableSnapAction::draw(QPainter *painter) {

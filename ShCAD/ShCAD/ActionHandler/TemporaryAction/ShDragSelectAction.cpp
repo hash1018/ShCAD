@@ -62,7 +62,7 @@ QCursor ShDragSelectAction::getCursorShape() {
 
 QString ShDragSelectAction::getHeadTitle() {
 
-	return shGetLanValue_command("Command/Specify opposite corner");
+	return shGetLanValue_command("Command/Specify opposite corner") + ": ";
 }
 
 void ShDragSelectAction::draw(QPainter *painter) {
