@@ -1,6 +1,6 @@
 #include "Interface\ShCAD.h"
 #include <QtWidgets/QApplication>
-//#include <vld.h>
+#include <vld.h>
 #include "Interface\Dialog\ShStartupDialog.h"
 #include <qsplashscreen.h>
 

@@ -6,6 +6,7 @@
 #include <qdebug.h>
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "Entity\Private\ShDrawer.h"
+#include "Entity\Composite\ShSelectedEntities.h"
 
 ShCADWidgetDrawStrategy::ShCADWidgetDrawStrategy(ShCADWidget *widget, QPainter *painter)
 	:widget(widget), painter(painter), strategy(nullptr) {
@@ -45,14 +46,18 @@ ShDrawAllStrategy::~ShDrawAllStrategy() {
 
 void ShDrawAllStrategy::draw() {
 
-	ShDrawerUnSelectedEntity drawer(this->widget);
+	ShDrawerUnSelectedEntity unselected(this->widget);
+	ShDrawerSelectedEntityVertex selected(this->widget);
 
 	QLinkedList<ShEntity*>::iterator itr;
 	for (itr = this->widget->getEntityTable().turnOnLayerBegin();
 		itr != this->widget->getEntityTable().turnOnLayerEnd();
 		++itr) {
 	
-		(*itr)->accept(&drawer);
+		if ((*itr)->isSelected() == false)
+			(*itr)->accept(&unselected);
+		else
+			(*itr)->accept(&selected);
 	}
 
 	this->widget->getAxis().draw(this->painter, this->widget);
@@ -170,19 +175,19 @@ ShDrawSelectedEntitiesStrategy::~ShDrawSelectedEntitiesStrategy() {
 
 void ShDrawSelectedEntitiesStrategy::draw() {
 
-	/*
-	ShDrawer drawer(this->view, DrawType::DrawSelectedEntities);
+	
+	ShDrawerSelectedEntityVertex selected(this->widget);
 
 	QLinkedList<ShEntity*>::iterator itr;
 
-	for (itr = this->view->selectedEntityManager.GetJustSelectedBegin();
-	itr != this->view->selectedEntityManager.GetJustSelectedEnd();
-	++itr) {
+	for (itr = this->widget->getSelectedEntities()->getJustSelectedBegin();
+		itr != this->widget->getSelectedEntities()->getJustSelectedEnd();
+		++itr) {
 
-	(*itr)->Accept(&drawer);
+		(*itr)->accept(&selected);
 	}
 
-	*/
+	
 
 	if (this->strategy != nullptr)
 		this->strategy->draw();
@@ -206,7 +211,8 @@ ShDrawJustTurnOnLayerStrategy::~ShDrawJustTurnOnLayerStrategy() {
 
 void ShDrawJustTurnOnLayerStrategy::draw() {
 
-	ShDrawerUnSelectedEntity drawer(this->widget);
+	ShDrawerUnSelectedEntity unSelected(this->widget);
+	ShDrawerSelectedEntityVertex selected(this->widget);
 	
 	QLinkedList<ShEntity*>::iterator itr;
 
@@ -214,7 +220,10 @@ void ShDrawJustTurnOnLayerStrategy::draw() {
 	itr != this->widget->getEntityTable().justTurnOnLayerEnd();
 	++itr) {
 
-	(*itr)->accept(&drawer);
+		if ((*itr)->isSelected() == false)
+			(*itr)->accept(&unSelected);
+		else
+			(*itr)->accept(&selected);
 
 	}
 	

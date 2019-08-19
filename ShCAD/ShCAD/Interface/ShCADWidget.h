@@ -24,6 +24,7 @@ class ShChangeActionStrategy;
 class ShTransactionStack;
 class ShLayerTable;
 class ShLayer;
+class ShSelectedEntities;
 
 class ShCADWidget : public QOpenGLWidget {
 	
@@ -44,7 +45,7 @@ private:
 	ShDraftData draftData;
 	ShPropertyData propertyData;
 	ShLayerTable *layerTable;
-	
+	ShSelectedEntities *selectedEntities;
 
 public:
 	ShCADWidget(QWidget *parent = nullptr);
@@ -102,6 +103,7 @@ public:
 	inline const ShPropertyData& getPropertyData() const { return this->propertyData; }
 	inline ShLayerTable* getLayerTable() const { return this->layerTable; }
 	ShLayer* getCurrentLayer() const;
+	inline ShSelectedEntities* getSelectedEntities() const { return this->selectedEntities; }
 
 };
 

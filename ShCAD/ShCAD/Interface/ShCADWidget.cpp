@@ -13,6 +13,7 @@
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "UnRedo\ShTransactionStack.h"
 #include "Base\ShLayerTable.h"
+#include "Entity\Composite\ShSelectedEntities.h"
 
 
 
@@ -32,6 +33,8 @@ ShCADWidget::ShCADWidget(QWidget *parent)
 	this->layerTable = new ShLayerTable;
 
 	this->entityTable = new ShEntityTable(this->layerTable);
+
+	this->selectedEntities = new ShSelectedEntities;
 }
 
 ShCADWidget::~ShCADWidget() {
@@ -47,6 +50,12 @@ ShCADWidget::~ShCADWidget() {
 
 	if (this->layerTable != nullptr)
 		delete this->layerTable;
+
+	if (this->entityTable != nullptr)
+		delete this->entityTable;
+
+	if (this->selectedEntities != nullptr)
+		delete this->selectedEntities;
 
 	this->rubberBand.clear();
 
@@ -100,12 +109,11 @@ void ShCADWidget::mouseMoveEvent(QMouseEvent *event) {
 	if (this->hasFocus() == false)
 		this->setFocus();
 
-	this->actionHandlerProxy->mouseMoveEvent(event);
-
-	ShPoint3d point;
-	this->convertDeviceToEntity(event->x(), event->y(), point.x, point.y);
-	ShMousePositionChangedEvent notifyEvent(point);
+	this->convertDeviceToEntity(event->x(), event->y(), this->coordinate.x, this->coordinate.y);
+	ShMousePositionChangedEvent notifyEvent(this->coordinate);
 	this->notify(&notifyEvent);
+
+	this->actionHandlerProxy->mouseMoveEvent(event);
 
 }
 

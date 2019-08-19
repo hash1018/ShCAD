@@ -227,3 +227,85 @@ void ShDrawerUnSelectedEntity::visit(ShRubberBand *rubberBand) {
 	}
 
 }
+
+///////////////////////////////////////////////////////////////
+
+ShDrawerSelectedEntityVertex::ShDrawerSelectedEntityVertex(ShCADWidget *widget)
+	:ShDrawer(widget) {
+
+}
+
+ShDrawerSelectedEntityVertex::~ShDrawerSelectedEntityVertex() {
+
+}
+
+void ShDrawerSelectedEntityVertex::visit(ShLine *line) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShLineData data = line->getData();
+
+	GLPoint start, end;
+
+	f.convertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
+	f.convertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
+
+	f.drawLine(start, end, GLColor(0, 0, 0));
+
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+
+	f.drawLine(start, end, GLColor(153.f / 255, 153.f / 155, 1.f));
+	glDisable(GL_LINE_STIPPLE);
+
+	int startX, startY, midX, midY, endX, endY;
+	f.convertEntityToDevice(data.start.x, data.start.y, startX, startY);
+	f.convertEntityToDevice(data.end.x, data.end.y, endX, endY);
+	f.convertEntityToDevice(line->getMid().x, line->getMid().y, midX, midY);
+
+	GLPoint topLeft, bottomRight;
+	f.convertDeviceToOpenGL(startX - 3, startY - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(startX + 3, startY + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertDeviceToOpenGL(midX - 3, midY - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(midX + 3, midY + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertDeviceToOpenGL(endX - 3, endY - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(endX + 3, endY + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+}
+
+
+
+
+ShDrawerSelectedEntity::ShDrawerSelectedEntity(ShCADWidget *widget)
+	:ShDrawer(widget) {
+
+}
+
+ShDrawerSelectedEntity::~ShDrawerSelectedEntity() {
+
+}
+
+void ShDrawerSelectedEntity::visit(ShLine *line) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShLineData data = line->getData();
+
+	GLPoint start, end;
+
+	f.convertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
+	f.convertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
+
+	f.drawLine(start, end, GLColor(0, 0, 0));
+
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+
+	f.drawLine(start, end, GLColor(153.f / 255, 153.f / 155, 1.f));
+	glDisable(GL_LINE_STIPPLE);
+
+}

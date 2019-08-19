@@ -523,6 +523,12 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Private\ShMover.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Composite\ShSelectedEntities.cpp">
+      <Filter>Entity\Composite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -865,6 +871,12 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShMover.h">
+      <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Composite\ShSelectedEntities.h">
+      <Filter>Entity\Composite</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

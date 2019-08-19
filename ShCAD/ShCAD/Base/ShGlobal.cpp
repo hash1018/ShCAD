@@ -6,6 +6,7 @@
 #include "Event\ShNotifyEvent.h"
 #include <qstring.h>
 #include "Manager\ShLanguageManager.h"
+#include "Entity\Composite\ShSelectedEntities.h"
 
 ShGlobal::ShGlobal() {
 
@@ -16,6 +17,13 @@ ShGlobal::~ShGlobal() {
 }
 
 void ShGlobal::undo(ShCADWidget *widget) {
+
+	if (widget->getSelectedEntities()->getSize() > 0) {
+		widget->getSelectedEntities()->unSelectAll();
+		widget->update(DrawType::DrawAll);
+		widget->captureImage();
+		return;
+	}
 
 	QString first = shGetLanValue_command("Command/<Undo>");
 	QString second;
@@ -43,6 +51,13 @@ void ShGlobal::undo(ShCADWidget *widget) {
 }
 
 void ShGlobal::redo(ShCADWidget *widget) {
+
+	if (widget->getSelectedEntities()->getSize() > 0) {
+		widget->getSelectedEntities()->unSelectAll();
+		widget->update(DrawType::DrawAll);
+		widget->captureImage();
+		return;
+	}
 
 	QString first = shGetLanValue_command("Command/<Redo>");
 	QString second;

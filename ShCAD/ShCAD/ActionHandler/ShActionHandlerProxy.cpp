@@ -18,6 +18,7 @@ ShActionHandlerProxy::ShActionHandlerProxy(ShCADWidget *widget)
 
 ShActionHandlerProxy::~ShActionHandlerProxy() {
 
+
 	if (this->currentAction != nullptr)
 		delete this->currentAction;
 

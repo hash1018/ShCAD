@@ -8,6 +8,8 @@
 #include "KeyHandler\ShKeyHandler.h"
 #include "KeyHandler\ShCustomKey.h"
 #include "Event\ShNotifyEvent.h"
+#include "Entity\Private\ShSearchEntityStrategy.h"
+#include "Entity\Composite\ShSelectedEntities.h"
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 	:ShActionHandler(widget) {
@@ -59,6 +61,13 @@ void ShDefaultAction::changeSubAction(ShSubDefaultAction *subDefaultAction) {
 
 void ShDefaultAction::escPressed() {
 
+	if (this->widget->getSelectedEntities()->getSize() > 0) {
+		this->widget->getSelectedEntities()->unSelectAll();
+		this->widget->update(DrawType::DrawAll);
+		this->widget->captureImage();
+	
+	}
+
 	this->changeSubAction(new ShSubDefaultAction_Default(this, this->widget));
 	ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
 	this->widget->notify(&notifyEvent);
@@ -92,18 +101,44 @@ ShSubDefaultAction_Default::~ShSubDefaultAction_Default() {
 
 void ShSubDefaultAction_Default::mouseLeftPressEvent(ShActionData &data) {
 
-	if (data.mouseEvent->modifiers() == Qt::ShiftModifier) {
+	ShEntity *entity = nullptr;
+	ShPoint3d mouse = this->widget->getMousePoint();
+	ShSearchEntityUniqueStrategy strategy(&entity, mouse.x, mouse.y, this->widget->getZoomRate());
+	this->widget->getEntityTable().search(strategy);
 	
-		ShChangeTemporaryStrategy strategy(new ShDragSelectAction(this->widget, data.point.x, data.point.y,
-			ShDragSelectAction::Mode::UnSelectMode), this->defaultAction);
-		this->widget->changeAction(strategy);
+	if (entity == nullptr) {
+		if (data.mouseEvent->modifiers() == Qt::ShiftModifier) {
+
+			ShChangeTemporaryStrategy strategy(new ShDragSelectAction(this->widget, data.point.x, data.point.y,
+				ShDragSelectAction::Mode::UnSelectMode), this->defaultAction);
+			this->widget->changeAction(strategy);
+		}
+
+		else {
+			ShChangeTemporaryStrategy strategy(new ShDragSelectAction(this->widget, data.point.x, data.point.y), this->defaultAction);
+			this->widget->changeAction(strategy);
+		}
 	}
-		
 	else {
-		ShChangeTemporaryStrategy strategy(new ShDragSelectAction(this->widget, data.point.x, data.point.y), this->defaultAction);
-		this->widget->changeAction(strategy);
-	}
+	
+		if (data.mouseEvent->modifiers() == Qt::ShiftModifier) {
+			
+			if (this->widget->getSelectedEntities()->remove(entity) == true) {
+			
+				this->widget->update(DrawType::DrawAll);
+				this->widget->captureImage();
+			}
 		
+		}
+		else {
+		
+			if (this->widget->getSelectedEntities()->add(entity) == true) {
+			
+				this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
+				this->widget->captureImage();
+			}
+		}
+	}
 }
 
 void ShSubDefaultAction_Default::mouseMoveEvent(ShActionData &data) {

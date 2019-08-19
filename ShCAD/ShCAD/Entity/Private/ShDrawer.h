@@ -79,4 +79,23 @@ public:
 
 };
 
+class ShDrawerSelectedEntityVertex : public ShDrawer {
+
+public:
+	ShDrawerSelectedEntityVertex(ShCADWidget *widget);
+	~ShDrawerSelectedEntityVertex();
+
+	virtual void visit(ShLine *line);
+
+};
+
+class ShDrawerSelectedEntity : public ShDrawer {
+
+public:
+	ShDrawerSelectedEntity(ShCADWidget *widget);
+	~ShDrawerSelectedEntity();
+
+	virtual void visit(ShLine *line);
+};
+
 #endif //_SHDRAWER_H

@@ -8,6 +8,7 @@
 #include "Manager\ShLanguageManager.h"
 #include "ActionHandler\Private\ShActionTypeConverter.h"
 #include "ActionHandler\TemporaryAction\ShPanAction.h"
+#include "Entity\Composite\ShSelectedEntities.h"
 
 ShChangeActionStrategy::ShChangeActionStrategy()
 	:widget(nullptr) {
@@ -67,6 +68,11 @@ void ShChangeDefaultAfterCancelingCurrentStrategy::change() {
 	this->widget->getRubberBand().clear();
 	this->widget->getPreview().clear();
 
+	if (this->widget->getSelectedEntities()->getSize() > 0) {
+		this->widget->getSelectedEntities()->unSelectAll();
+		drawType = (DrawType)(drawType | DrawType::DrawAll);
+	}
+
 	if ((drawType & DrawType::DrawAll) == DrawType::DrawAll) {
 		this->widget->update(DrawType::DrawAll);
 		this->widget->captureImage();
@@ -115,6 +121,11 @@ void ShChangeActionFromDefaultStrategy::change() {
 
 	this->widget->getRubberBand().clear();
 	this->widget->getPreview().clear();
+
+	if (this->widget->getSelectedEntities()->getSize() > 0) {
+		this->widget->getSelectedEntities()->unSelectAll();
+		drawType = (DrawType)(drawType | DrawType::DrawAll);
+	}
 
 	if ((drawType & DrawType::DrawAll) == DrawType::DrawAll) {
 		this->widget->update(DrawType::DrawAll);
