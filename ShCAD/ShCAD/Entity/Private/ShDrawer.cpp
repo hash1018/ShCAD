@@ -2,6 +2,36 @@
 #include "ShDrawer.h"
 #include "Interface\ShCADWidget.h"
 #include "Base\ShMath.h"
+#include <qdebug.h>
+ShDrawerSelectedEntityFactory::ShDrawerSelectedEntityFactory() {
+
+}
+
+ShDrawerSelectedEntityFactory::~ShDrawerSelectedEntityFactory() {
+
+}
+
+ShDrawerSelectedEntity* ShDrawerSelectedEntityFactory::create(ShCADWidget *widget,ActionType actionType) {
+	qDebug() << "create" << actionType;
+
+	if (actionType == ActionType::ActionModifyMove ||
+		actionType == ActionType::ActionModifyCopy ||
+		actionType == ActionType::ActionModifyRotate ||
+		actionType == ActionType::ActionModifyMirror ||
+		actionType == ActionType::ActionModifyExtend ||
+		actionType == ActionType::ActionModifyStretch ||
+		actionType == ActionType::ActionModifyTrim) {
+
+		return new ShDrawerSelectedEntityNoVertex(widget);
+	}
+
+	return new ShDrawerSelectedEntityVertex(widget);
+}
+
+
+
+///////////////////////////////////////
+
 
 GLPoint::GLPoint()
 	:x(0), y(0) {
@@ -230,8 +260,18 @@ void ShDrawerUnSelectedEntity::visit(ShRubberBand *rubberBand) {
 
 ///////////////////////////////////////////////////////////////
 
-ShDrawerSelectedEntityVertex::ShDrawerSelectedEntityVertex(ShCADWidget *widget)
+ShDrawerSelectedEntity::ShDrawerSelectedEntity(ShCADWidget *widget)
 	:ShDrawer(widget) {
+
+}
+
+ShDrawerSelectedEntity::~ShDrawerSelectedEntity() {
+
+}
+///////////////////////////////////////////////////////////////
+
+ShDrawerSelectedEntityVertex::ShDrawerSelectedEntityVertex(ShCADWidget *widget)
+	:ShDrawerSelectedEntity(widget) {
 
 }
 
@@ -280,16 +320,16 @@ void ShDrawerSelectedEntityVertex::visit(ShLine *line) {
 
 
 
-ShDrawerSelectedEntity::ShDrawerSelectedEntity(ShCADWidget *widget)
-	:ShDrawer(widget) {
+ShDrawerSelectedEntityNoVertex::ShDrawerSelectedEntityNoVertex(ShCADWidget *widget)
+	:ShDrawerSelectedEntity(widget) {
 
 }
 
-ShDrawerSelectedEntity::~ShDrawerSelectedEntity() {
+ShDrawerSelectedEntityNoVertex::~ShDrawerSelectedEntityNoVertex() {
 
 }
 
-void ShDrawerSelectedEntity::visit(ShLine *line) {
+void ShDrawerSelectedEntityNoVertex::visit(ShLine *line) {
 
 	ShDrawerFunctions f(this->widget);
 
@@ -299,6 +339,8 @@ void ShDrawerSelectedEntity::visit(ShLine *line) {
 
 	f.convertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
 	f.convertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
+
+	f.drawLine(start, end, GLColor(0, 0, 0));
 
 	glLineStipple(1, 0xF1F1);
 	glEnable(GL_LINE_STIPPLE);

@@ -9,22 +9,11 @@
 #include "Entity\Private\ShFinder.h"
 
 
-ShSelectionData::ShSelectionData()
-	:selectionMode(false), searchedCount(0), alreadySelectedCount(0), removedCount(0) {
-
-}
-
-ShSelectionData::~ShSelectionData() {
-
-
-}
-
-
 //////////////////////////////////////////////////////
 
 
 ShDragSelectAction::ShDragSelectAction(ShCADWidget *widget, double firstX, double firstY, Mode mode)
-	:ShTemporaryAction(widget), firstX(firstX), firstY(firstY), mode(mode), selectionData(nullptr) {
+	:ShTemporaryAction(widget), firstX(firstX), firstY(firstY), mode(mode) {
 
 	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
 		allowKey(KeyType::Enter).
@@ -42,23 +31,6 @@ void ShDragSelectAction::mouseLeftPressEvent(ShActionData &data) {
 
 	QLinkedList<ShEntity*> searchedList;
 	this->searchEntities(ShPoint3d(this->firstX, this->firstY), ShPoint3d(this->secondX, this->secondY), searchedList);
-
-	if (this->selectionData != nullptr) {
-	
-		this->selectionData->searchedCount = searchedList.count();
-	
-		if (this->mode == Mode::SelectMode) {
-		
-			this->selectionData->selectionMode = true;
-			this->selectionData->alreadySelectedCount = this->getAlreadySelectedCount(searchedList);
-			
-		}
-		else if (this->mode == Mode::UnSelectMode) {
-		
-			this->selectionData->selectionMode = false;
-			this->selectionData->removedCount = this->getAlreadySelectedCount(searchedList);
-		}
-	}
 
 	if (this->mode == Mode::SelectMode) {
 
@@ -220,4 +192,26 @@ int ShDragSelectAction::getAlreadySelectedCount(const QLinkedList<ShEntity*> &se
 	}
 
 	return count;
+}
+
+
+//////////////////////////////////////////////////////////////////
+
+ShModifyDragSelectAction::ShModifyDragSelectAction(ShCADWidget *widget, double firstX, double firstY, Mode mode)
+	:ShDragSelectAction(widget, firstX, firstY, mode) {
+
+}
+
+ShModifyDragSelectAction::~ShModifyDragSelectAction() {
+
+}
+
+void ShModifyDragSelectAction::mouseLeftPressEvent(ShActionData &data) {
+
+	ShDragSelectAction::mouseLeftPressEvent(data);
+}
+
+QString ShModifyDragSelectAction::getHeadTitle() {
+
+	return this->previousAction->getHeadTitle() + ShDragSelectAction::getHeadTitle();
 }

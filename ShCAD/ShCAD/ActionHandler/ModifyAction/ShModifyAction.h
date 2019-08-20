@@ -11,6 +11,9 @@ public:
 	virtual ~ShModifyAction() = 0;
 
 protected:
+	virtual void triggerSelectingEntities(QMouseEvent *event);
+
+private:
 	virtual void selectFoundEntity(ShEntity *foundEntity, Qt::KeyboardModifiers modifier);
 
 };

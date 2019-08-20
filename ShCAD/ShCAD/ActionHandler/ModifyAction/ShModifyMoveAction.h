@@ -13,7 +13,7 @@ public:
 		PickedBasePoint,
 	};
 
-private:
+protected:
 	Status status;
 	ShPoint3d base;
 	ShPoint3d previous;

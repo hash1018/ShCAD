@@ -38,6 +38,9 @@ public:
 	virtual void draw(QPainter *painter);
 
 	virtual ActionType getType() = 0;
+	//*template method pattern.
+	virtual ActionType getTypeIgnoringTemp();
+
 	virtual QCursor getCursorShape();
 	virtual QString getHeadTitle() = 0;
 

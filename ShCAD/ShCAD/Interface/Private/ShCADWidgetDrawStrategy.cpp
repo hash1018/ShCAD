@@ -47,7 +47,8 @@ ShDrawAllStrategy::~ShDrawAllStrategy() {
 void ShDrawAllStrategy::draw() {
 
 	ShDrawerUnSelectedEntity unselected(this->widget);
-	ShDrawerSelectedEntityVertex selected(this->widget);
+	ShDrawerSelectedEntity *selected = ShDrawerSelectedEntityFactory::create(this->widget, 
+		this->widget->getActionHandlerProxy()->getTypeIgonoringTemp());
 
 	QLinkedList<ShEntity*>::iterator itr;
 	for (itr = this->widget->getEntityTable().turnOnLayerBegin();
@@ -57,8 +58,12 @@ void ShDrawAllStrategy::draw() {
 		if ((*itr)->isSelected() == false)
 			(*itr)->accept(&unselected);
 		else
-			(*itr)->accept(&selected);
+			(*itr)->accept(selected);
 	}
+
+	if (selected != nullptr)
+		delete selected;
+
 
 	this->widget->getAxis().draw(this->painter, this->widget);
 
@@ -175,8 +180,8 @@ ShDrawSelectedEntitiesStrategy::~ShDrawSelectedEntitiesStrategy() {
 
 void ShDrawSelectedEntitiesStrategy::draw() {
 
-	
-	ShDrawerSelectedEntityVertex selected(this->widget);
+	ShDrawerSelectedEntity *selected = ShDrawerSelectedEntityFactory::create(this->widget, 
+		this->widget->getActionHandlerProxy()->getTypeIgonoringTemp());
 
 	QLinkedList<ShEntity*>::iterator itr;
 
@@ -184,10 +189,11 @@ void ShDrawSelectedEntitiesStrategy::draw() {
 		itr != this->widget->getSelectedEntities()->getJustSelectedEnd();
 		++itr) {
 
-		(*itr)->accept(&selected);
+		(*itr)->accept(selected);
 	}
 
-	
+	if (selected != nullptr)
+		delete selected;
 
 	if (this->strategy != nullptr)
 		this->strategy->draw();
@@ -212,7 +218,8 @@ ShDrawJustTurnOnLayerStrategy::~ShDrawJustTurnOnLayerStrategy() {
 void ShDrawJustTurnOnLayerStrategy::draw() {
 
 	ShDrawerUnSelectedEntity unSelected(this->widget);
-	ShDrawerSelectedEntityVertex selected(this->widget);
+	ShDrawerSelectedEntity *selected = ShDrawerSelectedEntityFactory::create(this->widget, 
+		this->widget->getActionHandlerProxy()->getTypeIgonoringTemp());
 	
 	QLinkedList<ShEntity*>::iterator itr;
 
@@ -223,9 +230,12 @@ void ShDrawJustTurnOnLayerStrategy::draw() {
 		if ((*itr)->isSelected() == false)
 			(*itr)->accept(&unSelected);
 		else
-			(*itr)->accept(&selected);
+			(*itr)->accept(selected);
 
 	}
+
+	if (selected != nullptr)
+		delete selected;
 	
 	if (this->strategy != nullptr)
 		this->strategy->draw();

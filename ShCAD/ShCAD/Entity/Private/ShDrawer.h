@@ -5,8 +5,20 @@
 #include "ShVisitor.h"
 #include <qopenglfunctions.h>
 #include "Data\ShPoint.h"
+#include "Base\ShVariable.h"
 
 class ShCADWidget;
+class ShDrawerSelectedEntity;
+
+class ShDrawerSelectedEntityFactory {
+
+public:
+	ShDrawerSelectedEntityFactory();
+	~ShDrawerSelectedEntityFactory();
+
+	static ShDrawerSelectedEntity* create(ShCADWidget *widget, ActionType actionType);
+
+};
 
 
 typedef struct GLPoint {
@@ -67,6 +79,8 @@ public:
 
 };
 
+//////////////////////////////////////////////
+
 class ShDrawerUnSelectedEntity : public ShDrawer {
 
 public:
@@ -79,7 +93,19 @@ public:
 
 };
 
-class ShDrawerSelectedEntityVertex : public ShDrawer {
+//////////////////////////////////////////////
+
+class ShDrawerSelectedEntity : public ShDrawer {
+
+public:
+	ShDrawerSelectedEntity(ShCADWidget *widget);
+	virtual ~ShDrawerSelectedEntity() = 0;
+
+};
+
+//////////////////////////////////////////////
+
+class ShDrawerSelectedEntityVertex : public ShDrawerSelectedEntity {
 
 public:
 	ShDrawerSelectedEntityVertex(ShCADWidget *widget);
@@ -89,11 +115,14 @@ public:
 
 };
 
-class ShDrawerSelectedEntity : public ShDrawer {
+///////////////////////////////////////////////
+
+
+class ShDrawerSelectedEntityNoVertex : public ShDrawerSelectedEntity {
 
 public:
-	ShDrawerSelectedEntity(ShCADWidget *widget);
-	~ShDrawerSelectedEntity();
+	ShDrawerSelectedEntityNoVertex(ShCADWidget *widget);
+	~ShDrawerSelectedEntityNoVertex();
 
 	virtual void visit(ShLine *line);
 };

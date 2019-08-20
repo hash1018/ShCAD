@@ -1,18 +1,11 @@
 
 #include "ShModifyMoveAction.h"
-#include "KeyHandler\ShKeyHandler.h"
 #include <qpainter.h>
 #include "Manager\ShLanguageManager.h"
 
 ShModifyMoveAction::ShModifyMoveAction(ShCADWidget *widget)
 	:ShModifyAction(widget), status(Status::SelectingEntities) {
 
-	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
-		allowKey(KeyType::Enter).
-		allowKey(KeyType::Return).
-		allowKey(KeyType::EscCancelCurrent).
-		allowInput().
-		build();
 
 }
 
@@ -23,7 +16,7 @@ ShModifyMoveAction::~ShModifyMoveAction() {
 void ShModifyMoveAction::mouseLeftPressEvent(ShActionData &data) {
 
 	if (this->status == Status::SelectingEntities) {
-	
+		this->triggerSelectingEntities(data.mouseEvent);
 	}
 	else if (this->status == Status::FinishedSelectingEntities) {
 	

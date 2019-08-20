@@ -46,6 +46,10 @@ void ShActionHandler::draw(QPainter *painter) {
 
 }
 
+ActionType ShActionHandler::getTypeIgnoringTemp() {
+
+	return this->getType();
+}
 
 QCursor ShActionHandler::getCursorShape() {
 

@@ -38,6 +38,7 @@ public:
 
 	QCursor getCursorShape();
 	ActionType getType();
+	ActionType getTypeIgonoringTemp();
 
 	void draw(QPainter *painter);
 

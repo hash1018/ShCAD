@@ -106,6 +106,11 @@ ActionType ShActionHandlerProxy::getType() {
 	return this->currentAction->getType();
 }
 
+ActionType ShActionHandlerProxy::getTypeIgonoringTemp() {
+
+	return this->currentAction->getTypeIgnoringTemp();
+}
+
 void ShActionHandlerProxy::draw(QPainter *painter) {
 
 	this->decoratorAction->draw(painter);

@@ -27,3 +27,7 @@ void ShTemporaryAction::returnToPrevious() {
 	this->widget->changeAction(strategy);
 }
 
+ActionType ShTemporaryAction::getTypeIgnoringTemp() {
+
+	return this->previousAction->getTypeIgnoringTemp();
+}

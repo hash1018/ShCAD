@@ -16,6 +16,8 @@ public:
 	void setPreviousAction(ShActionHandler *previousAction);
 	inline ShActionHandler *getPreviousAction() const { return this->previousAction; }
 
+	virtual ActionType getTypeIgnoringTemp();
+
 protected:
 	void returnToPrevious();
 
