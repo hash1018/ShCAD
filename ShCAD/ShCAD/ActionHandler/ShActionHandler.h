@@ -48,6 +48,8 @@ public:
 
 	virtual void invalidate(ShPoint3d point);
 
+	//*this called when temporaryAction Finished.
+	virtual void temporaryActionFinished();
 };
 
 #endif //_SHACTIONHANDLER_H

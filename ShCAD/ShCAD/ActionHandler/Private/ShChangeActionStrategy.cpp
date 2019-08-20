@@ -272,6 +272,9 @@ void ShReturnToPreviousFromTemporaryStrategy::change() {
 	this->temporaryAction->setPreviousAction(nullptr);
 	delete this->temporaryAction;
 
+
+	previous->temporaryActionFinished();
+
 	this->widget->getActionHandlerProxy()->setCurrentAction(previous);
 	this->widget->setCursor(previous->getCursorShape());
 	shReplaceCommandHeadTitle(this->widget, previous->getHeadTitle());

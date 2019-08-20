@@ -5,9 +5,26 @@
 #include "Manager\ShLanguageManager.h"
 #include "KeyHandler\ShKeyHandler.h"
 #include "Event\ShNotifyEvent.h"
+#include "Entity\Composite\ShSelectedEntities.h"
+#include "Entity\Private\ShFinder.h"
+
+
+ShSelectionData::ShSelectionData()
+	:selectionMode(false), searchedCount(0), alreadySelectedCount(0), removedCount(0) {
+
+}
+
+ShSelectionData::~ShSelectionData() {
+
+
+}
+
+
+//////////////////////////////////////////////////////
+
 
 ShDragSelectAction::ShDragSelectAction(ShCADWidget *widget, double firstX, double firstY, Mode mode)
-	:ShTemporaryAction(widget), firstX(firstX), firstY(firstY), mode(mode) {
+	:ShTemporaryAction(widget), firstX(firstX), firstY(firstY), mode(mode), selectionData(nullptr) {
 
 	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
 		allowKey(KeyType::Enter).
@@ -23,13 +40,37 @@ ShDragSelectAction::~ShDragSelectAction() {
 
 void ShDragSelectAction::mouseLeftPressEvent(ShActionData &data) {
 
+	QLinkedList<ShEntity*> searchedList;
+	this->searchEntities(ShPoint3d(this->firstX, this->firstY), ShPoint3d(this->secondX, this->secondY), searchedList);
+
+	if (this->selectionData != nullptr) {
+	
+		this->selectionData->searchedCount = searchedList.count();
+	
+		if (this->mode == Mode::SelectMode) {
+		
+			this->selectionData->selectionMode = true;
+			this->selectionData->alreadySelectedCount = this->getAlreadySelectedCount(searchedList);
+			
+		}
+		else if (this->mode == Mode::UnSelectMode) {
+		
+			this->selectionData->selectionMode = false;
+			this->selectionData->removedCount = this->getAlreadySelectedCount(searchedList);
+		}
+	}
+
 	if (this->mode == Mode::SelectMode) {
+
+		this->widget->getSelectedEntities()->add(searchedList);
 
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
 		this->widget->captureImage();
 
 	}
 	else if (this->mode == Mode::UnSelectMode) {
+
+		this->widget->getSelectedEntities()->remove(searchedList);
 
 		this->widget->update(DrawType::DrawAll);
 		this->widget->captureImage();
@@ -136,4 +177,47 @@ void ShDragSelectAction::getDragRectPoint(const ShPoint3d &first, const ShPoint3
 		bottomRight.x = second.x;
 		bottomRight.y = first.y;
 	}
+}
+
+void ShDragSelectAction::searchEntities(const ShPoint3d &first, const ShPoint3d &second, QLinkedList<ShEntity*> &searchedList) {
+
+	ShPoint3d topLeft, bottomRight;
+	SelectMethod selectMethod;
+	this->getDragRectPoint(first, second, topLeft, bottomRight, selectMethod);
+
+	ShRectFinder::FindMethod findMethod;
+	if (selectMethod == SelectMethod::AllPart)
+		findMethod = ShRectFinder::AllPartLiesInsideRect;
+	else
+		findMethod = ShRectFinder::OnePartLiesInsideRect;
+
+	ShEntity *entity = nullptr;
+	ShRectFinder visitor(topLeft, bottomRight, &entity, findMethod);
+
+	auto itr = this->widget->getEntityTable().turnOnLayerBegin();
+
+	for (itr; itr != this->widget->getEntityTable().turnOnLayerEnd(); ++itr) {
+	
+		entity = nullptr;
+		(*itr)->accept(&visitor);
+
+		if (entity != nullptr)
+			searchedList.append((*itr));
+	}
+
+}
+
+int ShDragSelectAction::getAlreadySelectedCount(const QLinkedList<ShEntity*> &searchedList) {
+
+	int count = 0;
+
+	auto itr = const_cast<QLinkedList<ShEntity*>&>(searchedList).begin();
+	
+	for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(searchedList).end(); ++itr) {
+
+		if ((*itr)->isSelected() == true)
+			count++;
+	}
+
+	return count;
 }

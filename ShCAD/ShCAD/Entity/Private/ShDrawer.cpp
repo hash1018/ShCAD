@@ -300,8 +300,6 @@ void ShDrawerSelectedEntity::visit(ShLine *line) {
 	f.convertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
 	f.convertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
-	f.drawLine(start, end, GLColor(0, 0, 0));
-
 	glLineStipple(1, 0xF1F1);
 	glEnable(GL_LINE_STIPPLE);
 

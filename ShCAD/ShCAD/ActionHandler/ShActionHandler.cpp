@@ -77,3 +77,8 @@ ShAvailableDraft ShActionHandler::getAvailableDraft() {
 void ShActionHandler::invalidate(ShPoint3d point) {
 
 }
+
+void ShActionHandler::temporaryActionFinished() {
+
+
+}

@@ -3,6 +3,8 @@
 #define _SHFINDER_H
 
 #include "ShVisitor.h"
+#include "Data\ShPoint.h"
+
 class ShEntity;
 
 class ShFinder : public ShVisitor {
@@ -20,5 +22,30 @@ public:
 	virtual void visit(ShLine *line);
 
 };
+
+//////////////////////////////////////////
+
+class ShRectFinder : public ShVisitor {
+
+public:
+	enum FindMethod {
+		OnePartLiesInsideRect,
+		AllPartLiesInsideRect,
+	};
+
+private:
+	ShPoint3d topLeft;
+	ShPoint3d bottomRight;
+	ShEntity* *foundEntity;
+	FindMethod findMethod;
+
+public:
+	ShRectFinder(const ShPoint3d &topLeft, const ShPoint3d &bottomRight, ShEntity* *foundEntity, FindMethod findMethod);
+	~ShRectFinder();
+
+	virtual void visit(ShLine *line);
+
+};
+
 
 #endif //_SHFINDER_H
