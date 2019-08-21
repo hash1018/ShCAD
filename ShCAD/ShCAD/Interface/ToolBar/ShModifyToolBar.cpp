@@ -65,7 +65,7 @@ void ShModifyToolBar::mirrorActionClicked() {
 
 void ShModifyToolBar::moveActionClicked() {
 
-	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMove);
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMove);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

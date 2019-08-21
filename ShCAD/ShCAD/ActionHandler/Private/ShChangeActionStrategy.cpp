@@ -9,6 +9,7 @@
 #include "ActionHandler\Private\ShActionTypeConverter.h"
 #include "ActionHandler\TemporaryAction\ShPanAction.h"
 #include "Entity\Composite\ShSelectedEntities.h"
+#include "ActionHandler\ModifyAction\ShModifyAction.h"
 
 ShChangeActionStrategy::ShChangeActionStrategy()
 	:widget(nullptr) {
@@ -340,4 +341,63 @@ void ShReturnToPreviousAfterCancelingTemporaryStrategy::change() {
 	this->widget->getActionHandlerProxy()->setCurrentAction(previous);
 	this->widget->setCursor(previous->getCursorShape());
 	shReplaceCommandHeadTitle(this->widget, previous->getHeadTitle());
+}
+
+
+//////////////////////////////////////////////////////////////////
+
+ShChangeModifyAfterCancelingCurrentStrategy::ShChangeModifyAfterCancelingCurrentStrategy(ActionType typeToChange)
+	:typeToChange(typeToChange) {
+
+}
+
+ShChangeModifyAfterCancelingCurrentStrategy::~ShChangeModifyAfterCancelingCurrentStrategy() {
+
+}
+
+void ShChangeModifyAfterCancelingCurrentStrategy::change() {
+
+	if (this->widget == nullptr)
+		Q_ASSERT("ShChangeModifyAfterCancelingCurrentStrategy::change() >> widget is null ptr");
+
+	if (this->widget->getActionHandlerProxy()->getType() != ActionType::ActionDefault) {
+	
+		ShChangeActionAfterCancelingCurrentStrategy strategy(this->typeToChange);
+		this->widget->changeAction(strategy);
+	}
+	else {
+
+		if (this->widget->getSelectedEntities()->getSize() == 0) {
+		
+			ShChangeActionFromDefaultStrategy strategy(this->typeToChange);
+			this->widget->changeAction(strategy);
+		}
+		else {
+
+			ShActionHandler *newAction = ShActionHandlerFactory::create(this->typeToChange, this->widget);
+
+			if (this->widget->getActionHandlerProxy()->getCurrentAction() == nullptr)
+				Q_ASSERT("ShChangeModifyAfterCancelingCurrentStrategy::change() >> currentAction is null ptr");
+
+			if (this->typeToChange != ActionType::ActionDefault) {
+
+				QString text = ShActionTypeConverter::convert(this->typeToChange);
+				shAddEditTextAndNewHeadTitleWithText(this->widget, text);
+			}
+
+			delete this->widget->getActionHandlerProxy()->getCurrentAction();
+
+			this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
+
+			if (!dynamic_cast<ShModifyAction*>(newAction))
+				Q_ASSERT("ShChangeModifyAfterCancelingCurrentStrategy::change() >> newAction is not modifyAction");
+
+
+			dynamic_cast<ShModifyAction*>(newAction)->finishSelectingEntities();
+
+			this->widget->update(DrawType::DrawAll);
+			this->widget->captureImage();
+		}
+	}
+
 }

@@ -54,6 +54,8 @@ protected:
 
 };
 
+////////////////////////////////////////////////////////
+
 class ShChangeActionFromDefaultStrategy : public ShChangeActionStrategy {
 	friend class ShChangeActionAfterCancelingCurrentStrategy;
 
@@ -164,7 +166,21 @@ protected:
 
 };
 
+//////////////////////////////////////////////////////////
 
+class ShChangeModifyAfterCancelingCurrentStrategy : public ShChangeActionStrategy {
+
+private:
+	ActionType typeToChange;
+
+public:
+	ShChangeModifyAfterCancelingCurrentStrategy(ActionType typeToChange);
+	~ShChangeModifyAfterCancelingCurrentStrategy();
+
+protected:
+	virtual void change();
+
+};
 
 
 #endif //_SHCHANGEACTIONSTRATEGY_H
