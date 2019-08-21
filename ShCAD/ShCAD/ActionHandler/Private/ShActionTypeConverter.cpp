@@ -24,6 +24,8 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 		text = "_Move"; break;
 	case ActionType::ActionModifyCopy:
 		text = "_Copy"; break;
+	case ActionType::ActionModifyRotate:
+		text = "_Rotate"; break;
 
 	default:
 		text = ""; break;

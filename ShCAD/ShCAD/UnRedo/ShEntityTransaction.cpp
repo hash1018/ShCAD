@@ -3,6 +3,7 @@
 #include "Entity\ShEntity.h"
 #include "Interface\ShCADWidget.h"
 #include "Entity\Private\ShMover.h"
+#include "Entity\Private\ShRotater.h"
 
 ShAddEntityTransaction::ShAddEntityTransaction(ShCADWidget *widget, const QString &transactionName)
 	:ShTransaction("Group " + transactionName), widget(widget), mustDeleteEntity(false) {
@@ -89,6 +90,43 @@ void ShMoveEntityTransaction::undo() {
 	for (itr; itr != this->list.end(); ++itr)
 		(*itr)->accept(&mover);
 	
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+//////////////////////////////////////////////////////////////////////
+
+ShRotateEntityTransaction::ShRotateEntityTransaction(ShCADWidget *widget, const QLinkedList<ShEntity*> &list, const ShPoint3d &center, double angle)
+	:ShTransaction("Group Rotate"), widget(widget), list(list), center(center), angle(angle) {
+
+}
+
+ShRotateEntityTransaction::~ShRotateEntityTransaction() {
+
+}
+
+void ShRotateEntityTransaction::redo() {
+
+	ShRotater rotater(this->center, this->angle);
+
+	auto itr = this->list.begin();
+
+	for (itr; itr != this->list.end(); ++itr)
+		(*itr)->accept(&rotater);
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShRotateEntityTransaction::undo() {
+
+	ShRotater rotater(this->center, -this->angle);
+
+	auto itr = this->list.begin();
+
+	for (itr; itr != this->list.end(); ++itr)
+		(*itr)->accept(&rotater);
+
 	this->widget->update(DrawType::DrawAll);
 	this->widget->captureImage();
 }

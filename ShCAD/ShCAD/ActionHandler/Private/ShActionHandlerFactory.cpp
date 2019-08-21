@@ -4,7 +4,7 @@
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
 #include "ActionHandler\ModifyAction\ShModifyMoveAction.h"
 #include "ActionHandler\ModifyAction\ShModifyCopyAction.h"
-
+#include "ActionHandler\ModifyAction\ShModifyRotateAction.h"
 
 ShActionHandlerFactory::ShActionHandlerFactory() {
 
@@ -25,6 +25,8 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 		return new ShModifyMoveAction(widget);
 	else if (actionType == ActionType::ActionModifyCopy)
 		return new ShModifyCopyAction(widget);
+	else if (actionType == ActionType::ActionModifyRotate)
+		return new ShModifyRotateAction(widget);
 
 	return new ShDefaultAction(widget);
 }

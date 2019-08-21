@@ -4,6 +4,7 @@
 
 #include "ShTransaction.h"
 #include <qlinkedlist.h>
+#include "Data\ShPoint.h"
 
 class ShCADWidget;
 class ShEntity;
@@ -41,6 +42,22 @@ public:
 	virtual void redo();
 	virtual void undo();
 
+};
+
+class ShRotateEntityTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShEntity*> list;
+	ShPoint3d center;
+	double angle;
+
+public:
+	ShRotateEntityTransaction(ShCADWidget *widget, const QLinkedList<ShEntity*> &list, const ShPoint3d &center, double angle);
+	~ShRotateEntityTransaction();
+
+	virtual void redo();
+	virtual void undo();
 
 };
 

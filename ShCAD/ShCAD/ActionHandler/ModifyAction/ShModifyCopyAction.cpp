@@ -110,7 +110,7 @@ void ShModifyCopyAction::mouseMoveEvent(ShActionData &data) {
 
 ActionType ShModifyCopyAction::getType() {
 
-	return ActionType::ActionModifyMove;
+	return ActionType::ActionModifyCopy;
 }
 
 QString ShModifyCopyAction::getHeadTitle() {

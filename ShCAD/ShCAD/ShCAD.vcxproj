@@ -146,6 +146,7 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionData.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionHandlerFactory.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionTypeConverter.cpp" />
@@ -192,6 +193,7 @@
     <ClCompile Include="Entity\Private\ShFootOfPerpendicularVisitor.cpp" />
     <ClCompile Include="Entity\Private\ShLineBothPerpendicularVisitor.cpp" />
     <ClCompile Include="Entity\Private\ShMover.cpp" />
+    <ClCompile Include="Entity\Private\ShRotater.cpp" />
     <ClCompile Include="Entity\Private\ShSearchEntityStrategy.cpp" />
     <ClCompile Include="Entity\Private\ShSnapPointFinder.cpp" />
     <ClCompile Include="Entity\Private\ShVisitor.cpp" />
@@ -407,6 +409,7 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h" />
     <ClInclude Include="ActionHandler\Private\ShActionData.h" />
     <ClInclude Include="ActionHandler\Private\ShActionHandlerFactory.h" />
     <ClInclude Include="ActionHandler\Private\ShActionTypeConverter.h" />
@@ -454,6 +457,7 @@
     <ClInclude Include="Entity\Private\ShFootOfPerpendicularVisitor.h" />
     <ClInclude Include="Entity\Private\ShLineBothPerpendicularVisitor.h" />
     <ClInclude Include="Entity\Private\ShMover.h" />
+    <ClInclude Include="Entity\Private\ShRotater.h" />
     <ClInclude Include="Entity\Private\ShSearchEntityStrategy.h" />
     <ClInclude Include="Entity\Private\ShSnapPointFinder.h" />
     <ClInclude Include="Entity\Private\ShVisitor.h" />
