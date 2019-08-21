@@ -7,9 +7,10 @@
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Event\ShNotifyEvent.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include <qpainter.h>
 
 ShModifyAction::ShModifyAction(ShCADWidget *widget)
-	:ShActionHandler(widget){
+	:ShActionHandler(widget), status(Status::SelectingEntities) {
 
 	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
 		allowKey(KeyType::Enter).
@@ -21,6 +22,50 @@ ShModifyAction::ShModifyAction(ShCADWidget *widget)
 
 ShModifyAction::~ShModifyAction() {
 
+}
+
+QCursor ShModifyAction::getCursorShape() {
+
+	QCursor cursor;
+
+	if (this->status == Status::SelectingEntities) {
+		QPixmap pix(32, 32);
+		pix.fill(Qt::transparent); // Otherwise you get a black background :(
+		QPainter painter(&pix);
+		painter.setPen(QColor(255, 255, 255));
+		painter.drawRect(13, 13, 6, 6);
+
+		cursor = QCursor(pix);
+	}
+
+	else if (this->status == Status::PickingBasePoint ||
+		this->status == Status::PickingSecondPoint) {
+		cursor = QCursor(Qt::CursorShape::CrossCursor);
+	}
+
+	return cursor;
+}
+
+ShAvailableDraft ShModifyAction::getAvailableDraft() {
+
+	ShAvailableDraft draft;
+
+	if (this->status == Status::PickingBasePoint) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->widget->getMousePoint());
+		draft.setSnapBasePoint(this->widget->getMousePoint());
+	}
+	else if (this->status == Status::PickingSecondPoint) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->widget->getRubberBand().getStart());
+		draft.setSnapBasePoint(this->widget->getRubberBand().getStart());
+	}
+
+	return draft;
 }
 
 void ShModifyAction::selectFoundEntity(ShEntity *foundEntity, Qt::KeyboardModifiers modifier) {

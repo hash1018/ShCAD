@@ -167,6 +167,37 @@ ShChangeDefaultAfterFinishingCurrentStrategy::~ShChangeDefaultAfterFinishingCurr
 
 void ShChangeDefaultAfterFinishingCurrentStrategy::change() {
 
+	if (this->widget == nullptr)
+		Q_ASSERT("ShChangeDefaultAfterFinishingCurrentStrategy::change() >> widget is null ptr");
+
+	DrawType drawType = DrawType::DrawCaptureImage;
+
+	this->widget->getRubberBand().clear();
+	this->widget->getPreview().clear();
+
+	if (this->widget->getSelectedEntities()->getSize() > 0) {
+		this->widget->getSelectedEntities()->unSelectAll();
+		drawType = (DrawType)(drawType | DrawType::DrawAll);
+	}
+
+	if ((drawType & DrawType::DrawAll) == DrawType::DrawAll) {
+		this->widget->update(DrawType::DrawAll);
+		this->widget->captureImage();
+	}
+	else if ((drawType & DrawType::DrawCaptureImage) == DrawType::DrawCaptureImage)
+		this->widget->update(DrawType::DrawCaptureImage);
+
+	ShActionHandler *newAction = ShActionHandlerFactory::create(ActionType::ActionDefault, this->widget);
+
+	delete this->widget->getActionHandlerProxy()->getCurrentAction();
+
+	this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
+	this->widget->setCursor(newAction->getCursorShape());
+	
+	ShUpdateTextToCommandListEvent event("");
+	this->widget->notify(&event);
+
+	shReplaceCommandHeadTitle(this->widget, newAction->getHeadTitle());
 }
 
 ///////////////////////////////////////////////////////////////

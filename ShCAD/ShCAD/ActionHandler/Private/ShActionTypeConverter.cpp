@@ -18,10 +18,11 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 	{
 	case ActionType::ActionDefault:
 		text = ""; break;
-
 	case ActionType::ActionDrawLine:
 		text = "_Line"; break;
-		
+	case ActionType::ActionModifyMove:
+		text = "_Move"; break;
+
 	default:
 		text = ""; break;
 	}

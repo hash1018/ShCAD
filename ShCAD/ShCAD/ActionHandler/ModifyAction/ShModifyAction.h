@@ -7,8 +7,25 @@
 class ShModifyAction : public ShActionHandler {
 
 public:
+	enum Status {
+		SelectingEntities,
+		PickingBasePoint,
+		PickingSecondPoint,
+	};
+
+protected:
+	Status status;
+	ShPoint3d base;
+	ShPoint3d previous;
+
+public:
 	ShModifyAction(ShCADWidget *widget);
 	virtual ~ShModifyAction() = 0;
+
+	virtual QCursor getCursorShape();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void finishSelectingEntities() = 0;
 
 protected:
 	virtual void triggerSelectingEntities(QMouseEvent *event);

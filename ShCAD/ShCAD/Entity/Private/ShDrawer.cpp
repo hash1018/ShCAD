@@ -250,9 +250,12 @@ void ShDrawerUnSelectedEntity::visit(ShRubberBand *rubberBand) {
 		f.convertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
 		f.convertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
-		GLColor color(255., 255., 255.);
+		GLColor color(1.0, 153 / 255.0, 51 / 255.0);
 
+		glLineStipple(1, 0x07FF);
+		glEnable(GL_LINE_STIPPLE);
 		f.drawLine(start, end, color);
+		glDisable(GL_LINE_STIPPLE);
 		
 	}
 

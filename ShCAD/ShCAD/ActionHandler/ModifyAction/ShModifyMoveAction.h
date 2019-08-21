@@ -7,18 +7,6 @@
 class ShModifyMoveAction : public ShModifyAction {
 
 public:
-	enum Status {
-		SelectingEntities,
-		FinishedSelectingEntities,
-		PickedBasePoint,
-	};
-
-protected:
-	Status status;
-	ShPoint3d base;
-	ShPoint3d previous;
-
-public:
 	ShModifyMoveAction(ShCADWidget *widget);
 	~ShModifyMoveAction();
 
@@ -28,11 +16,11 @@ public:
 
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
-	virtual ShAvailableDraft getAvailableDraft();
+	
 
 	virtual void invalidate(ShPoint3d point);
 
-	virtual QCursor getCursorShape();
+	virtual void finishSelectingEntities();
 
 };
 
