@@ -113,7 +113,7 @@ QString ShModifyRotateAction::getHeadTitle() {
 		text = "Rotate >> " + shGetLanValue_command("Command/Specify base point") + ": ";
 	}
 	else if (this->status == Status::PickingSecondPoint) {
-		text = "Rotate >> " + shGetLanValue_command("Command/Specify second point") + ": ";
+		text = "Rotate >> " + shGetLanValue_command("Command/Specify rotation angle") + ": ";
 	}
 
 	return text;
