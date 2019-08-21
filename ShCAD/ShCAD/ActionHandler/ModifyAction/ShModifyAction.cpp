@@ -40,6 +40,7 @@ QCursor ShModifyAction::getCursorShape() {
 
 	else if (this->status == Status::PickingBasePoint ||
 		this->status == Status::PickingSecondPoint) {
+
 		cursor = QCursor(Qt::CursorShape::CrossCursor);
 	}
 

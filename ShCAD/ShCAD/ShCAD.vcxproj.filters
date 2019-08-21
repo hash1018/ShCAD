@@ -529,6 +529,9 @@
     <ClCompile Include="Entity\Composite\ShSelectedEntities.cpp">
       <Filter>Entity\Composite</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -877,6 +880,9 @@
     </ClInclude>
     <ClInclude Include="Entity\Composite\ShSelectedEntities.h">
       <Filter>Entity\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

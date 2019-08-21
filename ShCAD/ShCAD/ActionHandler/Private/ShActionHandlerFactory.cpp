@@ -3,6 +3,7 @@
 #include "ActionHandler\ShDefaultAction.h"
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
 #include "ActionHandler\ModifyAction\ShModifyMoveAction.h"
+#include "ActionHandler\ModifyAction\ShModifyCopyAction.h"
 
 
 ShActionHandlerFactory::ShActionHandlerFactory() {
@@ -22,7 +23,8 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 
 	else if (actionType == ActionType::ActionModifyMove)
 		return new ShModifyMoveAction(widget);
-
+	else if (actionType == ActionType::ActionModifyCopy)
+		return new ShModifyCopyAction(widget);
 
 	return new ShDefaultAction(widget);
 }

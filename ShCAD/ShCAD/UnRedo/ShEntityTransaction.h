@@ -22,6 +22,25 @@ public:
 	virtual void undo();
 
 	void add(ShEntity *entity);
+	void add(const QLinkedList<ShEntity*> &list);
+
+};
+
+class ShMoveEntityTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShEntity*> list;
+	double disX;
+	double disY;
+
+public:
+	ShMoveEntityTransaction(ShCADWidget *widget, const QLinkedList<ShEntity*> &list, double disX, double disY);
+	~ShMoveEntityTransaction();
+
+	virtual void redo();
+	virtual void undo();
+
 
 };
 

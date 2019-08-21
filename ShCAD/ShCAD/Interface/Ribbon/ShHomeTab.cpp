@@ -174,7 +174,9 @@ void ShModifyPanel::moveButtonClicked() {
 
 void ShModifyPanel::copyButtonClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyCopy);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyPanel::stretchButtonClicked() {
@@ -184,12 +186,16 @@ void ShModifyPanel::stretchButtonClicked() {
 
 void ShModifyPanel::rotateButtonClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyRotate);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyPanel::mirrorButtonClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMirror);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyPanel::scaleButtonClicked() {

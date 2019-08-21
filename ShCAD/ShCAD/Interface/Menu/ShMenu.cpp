@@ -245,6 +245,10 @@ ShModifyMenu::ShModifyMenu(const QString &title, ShChain *chain, QWidget *parent
 	this->addAction(this->extendAction);
 
 	connect(this->moveAction, &QAction::triggered, this, &ShModifyMenu::moveActionClicked);
+	connect(this->copyAction, &QAction::triggered, this, &ShModifyMenu::copyActionClicked);
+	connect(this->mirrorAction, &QAction::triggered, this, &ShModifyMenu::mirrorActionClicked);
+	connect(this->rotateAction, &QAction::triggered, this, &ShModifyMenu::rotateActionClicked);
+
 }
 
 ShModifyMenu::~ShModifyMenu() {
@@ -254,6 +258,27 @@ ShModifyMenu::~ShModifyMenu() {
 void ShModifyMenu::moveActionClicked() {
 
 	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMove);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShModifyMenu::copyActionClicked() {
+
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyCopy);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShModifyMenu::mirrorActionClicked() {
+
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMirror);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShModifyMenu::rotateActionClicked() {
+
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyRotate);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

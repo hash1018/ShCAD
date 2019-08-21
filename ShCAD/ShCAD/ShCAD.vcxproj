@@ -144,6 +144,7 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionData.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionHandlerFactory.cpp" />
@@ -404,6 +405,7 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
     <ClInclude Include="ActionHandler\Private\ShActionData.h" />
     <ClInclude Include="ActionHandler\Private\ShActionHandlerFactory.h" />

@@ -55,12 +55,16 @@ void ShModifyToolBar::eraseActionClicked() {
 
 void ShModifyToolBar::copyActionClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyCopy);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyToolBar::mirrorActionClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMirror);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyToolBar::moveActionClicked() {
@@ -72,7 +76,9 @@ void ShModifyToolBar::moveActionClicked() {
 
 void ShModifyToolBar::rotateActionClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyRotate);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyToolBar::scaleActionClicked() {

@@ -107,6 +107,9 @@ public:
 
 	private slots:
 	void moveActionClicked();
+	void copyActionClicked();
+	void mirrorActionClicked();
+	void rotateActionClicked();
 };
 
 
