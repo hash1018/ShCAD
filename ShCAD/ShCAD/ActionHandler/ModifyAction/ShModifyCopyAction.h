@@ -23,12 +23,15 @@ public:
 	virtual QString getHeadTitle();
 
 
-	virtual void invalidate(ShPoint3d point);
+	virtual void invalidate(ShPoint3d &point);
 
 	virtual void finishSelectingEntities();
 
 private:
 	void addCopiedEntities(const QLinkedList<ShEntity*> &list);
+
+protected:
+	virtual void trigger(const ShPoint3d &point);
 };
 
 #endif //_SHMODIFYCOPYACTION_H

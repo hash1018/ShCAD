@@ -36,7 +36,7 @@ public:
 	virtual QString getHeadTitle();
 	virtual ShAvailableDraft getAvailableDraft();
 
-	virtual void invalidate(ShPoint3d point);
+	virtual void invalidate(ShPoint3d &point);
 
 	void temp();
 
@@ -65,13 +65,14 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data) = 0;
 	virtual void mouseMoveEvent(ShActionData &data) = 0;
 
-	virtual void takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint) = 0;
-	virtual void invalidate(ShPoint3d point) = 0;
+	virtual void trigger(const ShPoint3d &point) = 0;
+	virtual void invalidate(const ShPoint3d &point) = 0;
 
 protected:
 	ShDrawLineAction::Status& getStatus();
 	void addEntity(ShEntity *newEntity, const QString &type);
-	void updateCommandEditHeadTitle();
+	void triggerSucceeded();
+
 
 };
 
@@ -86,8 +87,8 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
-	virtual void takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint);
-	virtual void invalidate(ShPoint3d point);
+	virtual void trigger(const ShPoint3d &point);
+	virtual void invalidate(const ShPoint3d &point);
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -104,8 +105,8 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
-	virtual void takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint);
-	virtual void invalidate(ShPoint3d point);
+	virtual void trigger(const ShPoint3d &point);
+	virtual void invalidate(const ShPoint3d &point);
 
 
 	inline ShEntity* getPerpendicularBase() const { return this->perpendicularBase; }

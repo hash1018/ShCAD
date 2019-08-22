@@ -5,7 +5,6 @@
 #include "Manager\ShLanguageManager.h"
 #include "KeyHandler\ShKeyHandler.h"
 #include "KeyHandler\ShCustomKey.h"
-#include "Event\ShNotifyEvent.h"
 #include "Entity\Private\ShFootOfPerpendicularVisitor.h"
 
 ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
@@ -83,7 +82,7 @@ ShAvailableDraft ShDrawLineAction::getAvailableDraft() {
 	return draft;
 }
 
-void ShDrawLineAction::invalidate(ShPoint3d point) {
+void ShDrawLineAction::invalidate(ShPoint3d &point) {
 	
 	this->subDrawLineAction->invalidate(point);
 }
@@ -134,9 +133,9 @@ void ShSubDrawLineAction::addEntity(ShEntity *newEntity, const QString &type) {
 	this->drawLineAction->addEntity(newEntity, type);
 }
 
-void ShSubDrawLineAction::updateCommandEditHeadTitle() {
+void ShSubDrawLineAction::triggerSucceeded() {
 
-	this->drawLineAction->updateCommandEditHeadTitle();
+	this->drawLineAction->triggerSucceeded();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -153,32 +152,23 @@ ShSubDrawLineAction_Default::~ShSubDrawLineAction_Default() {
 
 void ShSubDrawLineAction_Default::mouseLeftPressEvent(ShActionData &data) {
 
-	this->takeNextStep(data.point, data.nextPoint);
+	this->trigger(data.point);
 }
 
 void ShSubDrawLineAction_Default::mouseMoveEvent(ShActionData &data) {
 
-	if (this->getStatus() == ShDrawLineAction::PickedStart) {
-
-		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
-		prevLine->setEnd(data.point);
-		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
-	}
+	this->invalidate(data.point);
 }
 
-void ShSubDrawLineAction_Default::takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint) {
+void ShSubDrawLineAction_Default::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawLineAction::PickedNothing) {
 
 		this->getStatus() = ShDrawLineAction::PickedStart;
 
-		this->widget->getPreview().add(new ShLine(this->widget->getPropertyData(), ShLineData(point, nextPoint), this->widget->getCurrentLayer()));
-		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+		this->widget->getPreview().add(new ShLine(this->widget->getPropertyData(), ShLineData(point, point), this->widget->getCurrentLayer()));
 
-		ShUpdateTextToCommandListEvent notifyEvent("");
-		this->widget->notify(&notifyEvent);
-
-		this->updateCommandEditHeadTitle();
+		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawLineAction::PickedStart) {
 
@@ -190,18 +180,15 @@ void ShSubDrawLineAction_Default::takeNextStep(const ShPoint3d &point, const ShP
 
 		this->addEntity(preview->clone(), "Line");
 
-		data = ShLineData(point, nextPoint);
+		data = ShLineData(point, point);
 		preview->setData(data);
 
-		ShUpdateTextToCommandListEvent notifyEvent("");
-		this->widget->notify(&notifyEvent);
-
-		this->updateCommandEditHeadTitle();
-
+		this->triggerSucceeded();
 	}
+
 }
 
-void ShSubDrawLineAction_Default::invalidate(ShPoint3d point) {
+void ShSubDrawLineAction_Default::invalidate(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawLineAction::PickedStart) {
 
@@ -224,31 +211,18 @@ ShSubDrawLineAction_Perpendicular::~ShSubDrawLineAction_Perpendicular() {
 
 void ShSubDrawLineAction_Perpendicular::mouseLeftPressEvent(ShActionData &data) {
 
-	this->takeNextStep(data.point, data.nextPoint);
+	this->trigger(data.point);
 }
 
 void ShSubDrawLineAction_Perpendicular::mouseMoveEvent(ShActionData &data) {
 
-	if (this->getStatus() == ShDrawLineAction::PickedStart) {
-	
-		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
-
-		ShPoint3d perpendicular;
-		
-		ShFootOfPerpendicularVisitor visitor(perpendicular.x, perpendicular.y, data.point);
-		this->perpendicularBase->accept(&visitor);
-
-		prevLine->setStart(perpendicular);
-		prevLine->setEnd(data.point);
-
-		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
-	}
+	this->invalidate(data.point);
 }
 
-void ShSubDrawLineAction_Perpendicular::takeNextStep(const ShPoint3d &point, const ShPoint3d &nextPoint) {
+void ShSubDrawLineAction_Perpendicular::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawLineAction::PickedStart) {
-	
+
 		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
 
 		ShPoint3d perpendicular;
@@ -262,18 +236,15 @@ void ShSubDrawLineAction_Perpendicular::takeNextStep(const ShPoint3d &point, con
 		this->addEntity(prevLine->clone(), "Line");
 
 		prevLine->setStart(point);
-		prevLine->setEnd(nextPoint);
+		prevLine->setEnd(point);
 
-		ShUpdateTextToCommandListEvent notifyEvent("");
-		this->widget->notify(&notifyEvent);
-
-		this->updateCommandEditHeadTitle();
+		this->triggerSucceeded();
 
 		this->drawLineAction->changeSubAction(ShDrawLineAction::SubAction::Default);
 	}
 }
 
-void ShSubDrawLineAction_Perpendicular::invalidate(ShPoint3d point) {
+void ShSubDrawLineAction_Perpendicular::invalidate(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawLineAction::PickedStart) {
 

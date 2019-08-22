@@ -13,7 +13,7 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
-	virtual void invalidate(ShPoint3d point);
+	virtual void invalidate(ShPoint3d &point);
 
 protected:
 	void getOrthogonalPoint(double x, double y, double mouseX, double mouseY, double &orthX, double &orthY);

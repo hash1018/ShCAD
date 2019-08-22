@@ -49,10 +49,16 @@ public:
 
 	virtual ShAvailableDraft getAvailableDraft();
 
-	virtual void invalidate(ShPoint3d point);
+	virtual void invalidate(ShPoint3d &point);
 
 	//*this called when temporaryAction Finished.
 	virtual void temporaryActionFinished();
+
+protected:
+	virtual void triggerSucceeded();
+	virtual void triggerFailed();
+	virtual void trigger(const ShPoint3d &point);
+
 };
 
 #endif //_SHACTIONHANDLER_H

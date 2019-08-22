@@ -107,7 +107,7 @@ void ShDisposableSnapAction_General::mouseMoveEvent(ShActionData &data) {
 	ShDisposableSnapAction::mouseMoveEvent(data);
 }
 
-void ShDisposableSnapAction_General::invalidate(ShPoint3d point) {
+void ShDisposableSnapAction_General::invalidate(ShPoint3d &point) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
@@ -176,7 +176,7 @@ void ShDisposableSnapAction_Perpendicular::mouseMoveEvent(ShActionData &data) {
 	ShDisposableSnapAction::mouseMoveEvent(data);
 }
 
-void ShDisposableSnapAction_Perpendicular::invalidate(ShPoint3d point) {
+void ShDisposableSnapAction_Perpendicular::invalidate(ShPoint3d &point) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
@@ -253,7 +253,7 @@ void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::mouseMoveEv
 	ShDisposableSnapAction::mouseMoveEvent(data);
 }
 
-void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::invalidate(ShPoint3d point) {
+void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::invalidate(ShPoint3d &point) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
@@ -339,7 +339,7 @@ void ShDisposableSnapAction_DrawLineActionPerPer::mouseMoveEvent(ShActionData &d
 	ShDisposableSnapAction::mouseMoveEvent(data);
 }
 
-void ShDisposableSnapAction_DrawLineActionPerPer::invalidate(ShPoint3d point) {
+void ShDisposableSnapAction_DrawLineActionPerPer::invalidate(ShPoint3d &point) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 

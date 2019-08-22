@@ -24,63 +24,9 @@ void ShModifyMoveAction::mouseLeftPressEvent(ShActionData &data) {
 
 		this->triggerSelectingEntities(data.mouseEvent);
 	}
-	else if (this->status == Status::PickingBasePoint) {
+	else {
 	
-		this->status = PickingSecondPoint;
-		this->base = data.point;
-
-		this->widget->getRubberBand().create(ShLineData(this->base, data.nextPoint));
-
-		auto itr = this->widget->getSelectedEntities()->begin();
-
-		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
-		
-			this->widget->getPreview().add((*itr)->clone());
-		}
-
-		double disX = data.nextPoint.x - data.point.x;
-		double disY = data.nextPoint.y - data.point.y;
-
-		ShMover mover(disX, disY);
-
-		for (itr = this->widget->getPreview().begin();
-			itr != this->widget->getPreview().end();
-			++itr) {
-		
-			(*itr)->accept(&mover);
-		}
-
-		this->previous = data.nextPoint;
-
-		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
-
-		ShUpdateTextToCommandListEvent event("");
-		this->widget->notify(&event);
-
-		this->updateCommandEditHeadTitle();
-		
-	}
-	else if (this->status == Status::PickingSecondPoint) {
-	
-		double disX = data.point.x - this->base.x;
-		double disY = data.point.y - this->base.y;
-
-		ShMover mover(disX, disY);
-
-		QLinkedList<ShEntity*> list;
-		auto itr = this->widget->getSelectedEntities()->begin();
-		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
-		
-			(*itr)->accept(&mover);
-			list.append((*itr));
-		}
-
-		ShMoveEntityTransaction *transaction = new ShMoveEntityTransaction(this->widget, list, disX, disY);
-		ShGlobal::pushNewTransaction(this->widget, transaction);
-
-		ShChangeDefaultAfterFinishingCurrentStrategy strategy;
-		this->widget->changeAction(strategy);
-
+		this->trigger(data.point);
 	}
 }
 
@@ -122,9 +68,52 @@ QString ShModifyMoveAction::getHeadTitle() {
 	return text;
 }
 
+void ShModifyMoveAction::trigger(const ShPoint3d &point) {
 
+	if (this->status == Status::PickingBasePoint) {
 
-void ShModifyMoveAction::invalidate(ShPoint3d point) {
+		this->status = PickingSecondPoint;
+		this->base = point;
+
+		this->widget->getRubberBand().create(ShLineData(this->base, this->base));
+
+		auto itr = this->widget->getSelectedEntities()->begin();
+
+		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
+
+			this->widget->getPreview().add((*itr)->clone());
+		}
+
+		this->previous = this->base;
+
+		this->triggerSucceeded();
+
+	}
+	else if (this->status == Status::PickingSecondPoint) {
+
+		double disX = point.x - this->base.x;
+		double disY = point.y - this->base.y;
+
+		ShMover mover(disX, disY);
+
+		QLinkedList<ShEntity*> list;
+		auto itr = this->widget->getSelectedEntities()->begin();
+		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
+
+			(*itr)->accept(&mover);
+			list.append((*itr));
+		}
+
+		ShMoveEntityTransaction *transaction = new ShMoveEntityTransaction(this->widget, list, disX, disY);
+		ShGlobal::pushNewTransaction(this->widget, transaction);
+
+		ShChangeDefaultAfterFinishingCurrentStrategy strategy;
+		this->widget->changeAction(strategy);
+
+	}
+}
+
+void ShModifyMoveAction::invalidate(ShPoint3d &point) {
 
 	if (this->status == Status::PickingSecondPoint) {
 	

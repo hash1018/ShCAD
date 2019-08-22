@@ -29,5 +29,5 @@ void ShDrawAction::addEntity(ShEntity *newEntity, const QString &type) {
 
 	this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
 	this->widget->captureImage();
-	this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	//this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 }

@@ -11,7 +11,6 @@ class ShActionData {
 
 public:
 	ShPoint3d point;
-	ShPoint3d nextPoint;
 	QMouseEvent *mouseEvent;
 	QKeyEvent *keyEvent;
 

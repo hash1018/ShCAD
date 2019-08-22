@@ -28,12 +28,7 @@ void ShOrthogonalAction::mouseLeftPressEvent(ShActionData &data) {
 			this->getOrthogonalPoint(basePoint.x, basePoint.y, mouse.x, mouse.y, orth.x, orth.y);
 			data.point = orth;
 		}
-		else {
 		
-			basePoint = data.point;
-			this->getOrthogonalPoint(basePoint.x, basePoint.y, mouse.x, mouse.y, orth.x, orth.y);
-			data.nextPoint = orth;
-		}
 	}
 
 	ShDecoratorAction::mouseLeftPressEvent(data);
@@ -56,7 +51,7 @@ void ShOrthogonalAction::mouseMoveEvent(ShActionData &data) {
 	ShDecoratorAction::mouseMoveEvent(data);
 }
 
-void ShOrthogonalAction::invalidate(ShPoint3d point) {
+void ShOrthogonalAction::invalidate(ShPoint3d &point) {
 
 	ShAvailableDraft availableDraft = this->actionHandler->getAvailableDraft();
 

@@ -25,60 +25,11 @@ void ShModifyRotateAction::mouseLeftPressEvent(ShActionData &data) {
 
 		this->triggerSelectingEntities(data.mouseEvent);
 	}
-	else if (this->status == Status::PickingBasePoint) {
-
-		this->status = PickingSecondPoint;
-		this->base = data.point;
-
-		this->widget->getRubberBand().create(ShLineData(this->base, data.nextPoint));
-
-		auto itr = this->widget->getSelectedEntities()->begin();
-
-		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
-
-			this->widget->getPreview().add((*itr)->clone());
-		}
-
-		double angle = math::getAbsAngle(this->base.x, this->base.y, data.nextPoint.x, data.nextPoint.y);
-
-		ShRotater rotater(this->base, angle);
-
-		for (itr = this->widget->getPreview().begin(); itr != this->widget->getPreview().end(); ++itr) {
-
-			(*itr)->accept(&rotater);
-		}
-
-		this->prevAngle = angle;
-
-		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
-
-		ShUpdateTextToCommandListEvent event("");
-		this->widget->notify(&event);
-
-		this->updateCommandEditHeadTitle();
-
+	else {
+	
+		this->trigger(data.point);
 	}
-	else if (this->status == Status::PickingSecondPoint) {
-
-		double angle = math::getAbsAngle(this->base.x, this->base.y, data.point.x, data.point.y);
-
-		ShRotater rotater(this->base, angle);
-
-		QLinkedList<ShEntity*> list;
-		auto itr = this->widget->getSelectedEntities()->begin();
-		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
-
-			(*itr)->accept(&rotater);
-			list.append((*itr));
-		}
-
-		ShRotateEntityTransaction *transaction = new ShRotateEntityTransaction(this->widget, list, this->base, angle);
-		ShGlobal::pushNewTransaction(this->widget, transaction);
-
-		ShChangeDefaultAfterFinishingCurrentStrategy strategy;
-		this->widget->changeAction(strategy);
-
-	}
+	
 }
 
 void ShModifyRotateAction::mouseRightPressEvent(ShActionData &data) {
@@ -119,9 +70,52 @@ QString ShModifyRotateAction::getHeadTitle() {
 	return text;
 }
 
+void ShModifyRotateAction::trigger(const ShPoint3d &point) {
+
+	if (this->status == Status::PickingBasePoint) {
+
+		this->status = PickingSecondPoint;
+		this->base = point;
+
+		this->widget->getRubberBand().create(ShLineData(this->base, this->base));
+
+		auto itr = this->widget->getSelectedEntities()->begin();
+
+		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
+
+			this->widget->getPreview().add((*itr)->clone());
+		}
 
 
-void ShModifyRotateAction::invalidate(ShPoint3d point) {
+		this->prevAngle = 0.0;
+
+		this->triggerSucceeded();
+
+	}
+	else if (this->status == Status::PickingSecondPoint) {
+
+		double angle = math::getAbsAngle(this->base.x, this->base.y, point.x, point.y);
+
+		ShRotater rotater(this->base, angle);
+
+		QLinkedList<ShEntity*> list;
+		auto itr = this->widget->getSelectedEntities()->begin();
+		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
+
+			(*itr)->accept(&rotater);
+			list.append((*itr));
+		}
+
+		ShRotateEntityTransaction *transaction = new ShRotateEntityTransaction(this->widget, list, this->base, angle);
+		ShGlobal::pushNewTransaction(this->widget, transaction);
+
+		ShChangeDefaultAfterFinishingCurrentStrategy strategy;
+		this->widget->changeAction(strategy);
+
+	}
+}
+
+void ShModifyRotateAction::invalidate(ShPoint3d &point) {
 
 	if (this->status == Status::PickingSecondPoint) {
 

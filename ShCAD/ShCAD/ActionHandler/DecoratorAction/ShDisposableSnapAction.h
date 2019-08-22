@@ -36,7 +36,7 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
-	virtual void invalidate(ShPoint3d point);
+	virtual void invalidate(ShPoint3d &point);
 
 };
 
@@ -51,7 +51,7 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
-	virtual void invalidate(ShPoint3d point);
+	virtual void invalidate(ShPoint3d &point);
 
 };
 
@@ -67,7 +67,7 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
-	virtual void invalidate(ShPoint3d point);
+	virtual void invalidate(ShPoint3d &point);
 
 };
 
@@ -86,7 +86,7 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
-	virtual void invalidate(ShPoint3d point);
+	virtual void invalidate(ShPoint3d &point);
 
 };
 

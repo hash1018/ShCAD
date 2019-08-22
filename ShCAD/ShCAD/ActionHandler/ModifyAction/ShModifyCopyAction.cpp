@@ -24,72 +24,11 @@ void ShModifyCopyAction::mouseLeftPressEvent(ShActionData &data) {
 
 		this->triggerSelectingEntities(data.mouseEvent);
 	}
-	else if (this->status == Status::PickingBasePoint) {
-
-		this->status = PickingSecondPoint;
-		this->base = data.point;
-
-		this->widget->getRubberBand().create(ShLineData(this->base, data.nextPoint));
-
-		auto itr = this->widget->getSelectedEntities()->begin();
-
-		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
-
-			this->widget->getPreview().add((*itr)->clone());
-		}
-
-		double disX = data.nextPoint.x - data.point.x;
-		double disY = data.nextPoint.y - data.point.y;
-
-		ShMover mover(disX, disY);
-
-		for (itr = this->widget->getPreview().begin();
-			itr != this->widget->getPreview().end();
-			++itr) {
-
-			(*itr)->accept(&mover);
-		}
-
-		this->previous = data.nextPoint;
-
-		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
-
-		ShUpdateTextToCommandListEvent event("");
-		this->widget->notify(&event);
-
-		this->updateCommandEditHeadTitle();
-
+	else {
+	
+		this->trigger(data.point);
 	}
-	else if (this->status == Status::PickingSecondPoint) {
-
-		double disX = data.point.x - this->previous.x;
-		double disY = data.point.y - this->previous.y;
-
-		ShMover mover(disX, disY);
-
-		QLinkedList<ShEntity*> list;
-		ShEntity *copiedEntity;
-
-		auto itr = this->widget->getPreview().begin();
-		for (itr; itr != this->widget->getPreview().end(); ++itr) {
-
-			(*itr)->accept(&mover);
-			copiedEntity = (*itr)->clone();
-			list.append(copiedEntity);
-		}
-
-		ShMover mover2(-disX, -disY);
-		for (itr = this->widget->getPreview().begin(); itr != this->widget->getPreview().end(); ++itr)
-			(*itr)->accept(&mover2);
-
-
-		this->addCopiedEntities(list);
-
-		ShUpdateTextToCommandListEvent event("");
-		this->widget->notify(&event);
-
-		this->updateCommandEditHeadTitle();
-	}
+	
 }
 
 void ShModifyCopyAction::mouseRightPressEvent(ShActionData &data) {
@@ -97,7 +36,10 @@ void ShModifyCopyAction::mouseRightPressEvent(ShActionData &data) {
 	if (this->status == Status::SelectingEntities) {
 		this->finishSelectingEntities();
 	}
-
+	else {
+	
+		this->trigger(data.point);
+	}
 }
 
 void ShModifyCopyAction::mouseMoveEvent(ShActionData &data) {
@@ -130,9 +72,58 @@ QString ShModifyCopyAction::getHeadTitle() {
 	return text;
 }
 
+void ShModifyCopyAction::trigger(const ShPoint3d &point) {
+
+	if (this->status == Status::PickingBasePoint) {
+
+		this->status = PickingSecondPoint;
+		this->base = point;
+
+		this->widget->getRubberBand().create(ShLineData(this->base, this->base));
+
+		auto itr = this->widget->getSelectedEntities()->begin();
+
+		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
+
+			this->widget->getPreview().add((*itr)->clone());
+		}
 
 
-void ShModifyCopyAction::invalidate(ShPoint3d point) {
+		this->previous = this->base;
+
+		this->triggerSucceeded();
+
+	}
+	else if (this->status == Status::PickingSecondPoint) {
+
+		double disX = point.x - this->previous.x;
+		double disY = point.y - this->previous.y;
+
+		ShMover mover(disX, disY);
+
+		QLinkedList<ShEntity*> list;
+		ShEntity *copiedEntity;
+
+		auto itr = this->widget->getPreview().begin();
+		for (itr; itr != this->widget->getPreview().end(); ++itr) {
+
+			(*itr)->accept(&mover);
+			copiedEntity = (*itr)->clone();
+			list.append(copiedEntity);
+		}
+
+		ShMover mover2(-disX, -disY);
+		for (itr = this->widget->getPreview().begin(); itr != this->widget->getPreview().end(); ++itr)
+			(*itr)->accept(&mover2);
+
+
+		this->addCopiedEntities(list);
+
+		this->triggerSucceeded();
+	}
+}
+
+void ShModifyCopyAction::invalidate(ShPoint3d &point) {
 
 	if (this->status == Status::PickingSecondPoint) {
 
@@ -190,5 +181,4 @@ void ShModifyCopyAction::addCopiedEntities(const QLinkedList<ShEntity*> &list) {
 
 	this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
 	this->widget->captureImage();
-	this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 }

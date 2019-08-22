@@ -78,11 +78,27 @@ ShAvailableDraft ShActionHandler::getAvailableDraft() {
 	return ShAvailableDraft();
 }
 
-void ShActionHandler::invalidate(ShPoint3d point) {
+void ShActionHandler::invalidate(ShPoint3d &point) {
 
 }
 
 void ShActionHandler::temporaryActionFinished() {
 
+
+}
+
+void ShActionHandler::triggerSucceeded() {
+
+	ShUpdateTextToCommandListEvent notifyEvent("");
+	this->widget->notify(&notifyEvent);
+
+	this->updateCommandEditHeadTitle();
+}
+
+void ShActionHandler::triggerFailed() {
+
+}
+
+void ShActionHandler::trigger(const ShPoint3d &point) {
 
 }

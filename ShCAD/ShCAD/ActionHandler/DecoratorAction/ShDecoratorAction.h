@@ -26,7 +26,7 @@ public:
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
 
-	virtual void invalidate(ShPoint3d point);
+	virtual void invalidate(ShPoint3d &point);
 
 	virtual void setActionHandler(ShActionHandler *actionHandler);
 

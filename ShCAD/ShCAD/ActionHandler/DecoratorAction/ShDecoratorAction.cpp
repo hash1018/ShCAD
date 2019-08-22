@@ -89,7 +89,7 @@ QString ShDecoratorAction::getHeadTitle() {
 }
 
 
-void ShDecoratorAction::invalidate(ShPoint3d point) {
+void ShDecoratorAction::invalidate(ShPoint3d &point) {
 
 	if (this->child != nullptr)
 		this->child->invalidate(point);
