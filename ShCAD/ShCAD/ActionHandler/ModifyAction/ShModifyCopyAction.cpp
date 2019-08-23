@@ -3,7 +3,6 @@
 #include "Manager\ShLanguageManager.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Event\ShNotifyEvent.h"
-#include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Entity\Private\ShMover.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
@@ -163,8 +162,7 @@ void ShModifyCopyAction::finishSelectingEntities() {
 	}
 	else {
 
-		ShChangeDefaultAfterCancelingCurrentStrategy strategy;
-		this->widget->changeAction(strategy);
+		this->actionCanceled();
 	}
 
 }

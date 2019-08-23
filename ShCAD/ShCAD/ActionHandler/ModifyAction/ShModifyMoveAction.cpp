@@ -3,7 +3,6 @@
 #include "Manager\ShLanguageManager.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Event\ShNotifyEvent.h"
-#include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Entity\Private\ShMover.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
@@ -107,9 +106,8 @@ void ShModifyMoveAction::trigger(const ShPoint3d &point) {
 		ShMoveEntityTransaction *transaction = new ShMoveEntityTransaction(this->widget, list, disX, disY);
 		ShGlobal::pushNewTransaction(this->widget, transaction);
 
-		ShChangeDefaultAfterFinishingCurrentStrategy strategy;
-		this->widget->changeAction(strategy);
-
+		this->actionFinished();
+		
 	}
 }
 
@@ -153,8 +151,7 @@ void ShModifyMoveAction::finishSelectingEntities() {
 	}
 	else {
 	
-		ShChangeDefaultAfterCancelingCurrentStrategy strategy;
-		this->widget->changeAction(strategy);
+		this->actionCanceled();
 	}
 
 }

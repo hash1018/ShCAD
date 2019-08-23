@@ -53,9 +53,7 @@ void ShPanAction::mouseReleaseEvent(ShActionData &data) {
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
 
-	ShReturnToPreviousFromPanStrategy strategy(this);
-	this->widget->changeAction(strategy);
-
+	this->actionFinished();
 }
 
 ActionType ShPanAction::getType() {
@@ -71,4 +69,14 @@ QCursor ShPanAction::getCursorShape() {
 QString ShPanAction::getHeadTitle() {
 
 	return "";
+}
+
+void ShPanAction::actionFinished() {
+
+	ShReturnToPreviousFromPanStrategy strategy(this);
+	this->widget->changeAction(strategy);
+}
+
+void ShPanAction::actionCanceled() {
+
 }

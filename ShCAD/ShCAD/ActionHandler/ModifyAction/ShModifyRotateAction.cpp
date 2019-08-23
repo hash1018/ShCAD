@@ -3,7 +3,6 @@
 #include "Manager\ShLanguageManager.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Event\ShNotifyEvent.h"
-#include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
 #include "Entity\Private\ShRotater.h"
@@ -109,8 +108,7 @@ void ShModifyRotateAction::trigger(const ShPoint3d &point) {
 		ShRotateEntityTransaction *transaction = new ShRotateEntityTransaction(this->widget, list, this->base, angle);
 		ShGlobal::pushNewTransaction(this->widget, transaction);
 
-		ShChangeDefaultAfterFinishingCurrentStrategy strategy;
-		this->widget->changeAction(strategy);
+		this->actionFinished();
 
 	}
 }
@@ -154,8 +152,7 @@ void ShModifyRotateAction::finishSelectingEntities() {
 	}
 	else {
 
-		ShChangeDefaultAfterCancelingCurrentStrategy strategy;
-		this->widget->changeAction(strategy);
+		this->actionCanceled();
 	}
 
 }

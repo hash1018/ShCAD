@@ -58,6 +58,8 @@ protected:
 	virtual void triggerSucceeded();
 	virtual void triggerFailed();
 	virtual void trigger(const ShPoint3d &point);
+	virtual void actionCanceled();
+	virtual void actionFinished();
 
 };
 

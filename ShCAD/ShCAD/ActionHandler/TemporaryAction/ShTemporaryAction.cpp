@@ -31,3 +31,15 @@ ActionType ShTemporaryAction::getTypeIgnoringTemp() {
 
 	return this->previousAction->getTypeIgnoringTemp();
 }
+
+void ShTemporaryAction::actionCanceled() {
+
+	ShReturnToPreviousAfterCancelingTemporaryStrategy strategy(this);
+	this->widget->changeAction(strategy);
+}
+
+void ShTemporaryAction::actionFinished() {
+
+	ShReturnToPreviousFromTemporaryStrategy strategy(this);
+	this->widget->changeAction(strategy);
+}

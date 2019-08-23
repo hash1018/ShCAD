@@ -22,6 +22,10 @@ public:
 
 	virtual QCursor getCursorShape();
 	virtual QString getHeadTitle();
+
+protected:
+	virtual void actionFinished();
+	virtual void actionCanceled();
 };
 
 #endif //_SHPANACTION_H

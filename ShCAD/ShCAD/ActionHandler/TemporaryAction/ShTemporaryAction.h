@@ -20,6 +20,8 @@ public:
 
 protected:
 	void returnToPrevious();
+	virtual void actionCanceled();
+	virtual void actionFinished();
 
 };
 

@@ -3,6 +3,7 @@
 #include <qpainter.h>
 #include "KeyHandler\ShKeyHandler.h"
 #include "Event\ShNotifyEvent.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
 
 ShActionHandler::ShActionHandler(ShCADWidget *widget)
 	:widget(widget), keyHandler(nullptr) {
@@ -101,4 +102,16 @@ void ShActionHandler::triggerFailed() {
 
 void ShActionHandler::trigger(const ShPoint3d &point) {
 
+}
+
+void ShActionHandler::actionCanceled() {
+
+	ShChangeDefaultAfterCancelingCurrentStrategy strategy;
+	this->widget->changeAction(strategy);
+}
+
+void ShActionHandler::actionFinished() {
+
+	ShChangeDefaultAfterFinishingCurrentStrategy strategy;
+	this->widget->changeAction(strategy);
 }
