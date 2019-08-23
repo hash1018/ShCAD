@@ -78,4 +78,20 @@ public:
 
 };
 
+class ShRemoveEntityTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShEntity*> list;
+	bool mustDeleteEntity;
+
+public:
+	ShRemoveEntityTransaction(ShCADWidget *widget, const QLinkedList<ShEntity*> &list);
+	~ShRemoveEntityTransaction();
+
+	virtual void redo();
+	virtual void undo();
+
+};
+
 #endif //_SHENTITYTRANSACTION_H

@@ -50,7 +50,9 @@ ShModifyToolBar::~ShModifyToolBar() {
 
 void ShModifyToolBar::eraseActionClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyErase);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyToolBar::copyActionClicked() {

@@ -28,6 +28,8 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 		text = "_Rotate"; break;
 	case ActionType::ActionModifyMirror:
 		text = "_Mirror"; break;
+	case ActionType::ActionModifyErase:
+		text = "_Erase"; break;
 
 	default:
 		text = ""; break;

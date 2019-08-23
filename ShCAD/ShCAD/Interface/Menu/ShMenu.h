@@ -110,6 +110,7 @@ public:
 	void copyActionClicked();
 	void mirrorActionClicked();
 	void rotateActionClicked();
+	void eraseActionClicked();
 };
 
 

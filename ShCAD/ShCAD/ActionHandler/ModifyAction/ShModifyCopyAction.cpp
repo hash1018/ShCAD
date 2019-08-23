@@ -35,10 +35,7 @@ void ShModifyCopyAction::mouseRightPressEvent(ShActionData &data) {
 	if (this->status == Status::SelectingEntities) {
 		this->finishSelectingEntities();
 	}
-	else {
 	
-		this->trigger(data.point);
-	}
 }
 
 void ShModifyCopyAction::mouseMoveEvent(ShActionData &data) {

@@ -174,3 +174,42 @@ void ShMirrorEntityTransaction::undo() {
 	this->widget->update(DrawType::DrawAll);
 	this->widget->captureImage();
 }
+
+///////////////////////////////////////////////////////////
+
+ShRemoveEntityTransaction::ShRemoveEntityTransaction(ShCADWidget *widget, const QLinkedList<ShEntity*> &list)
+	:ShTransaction("Group Remove"), widget(widget), list(list), mustDeleteEntity(true) {
+
+}
+
+ShRemoveEntityTransaction::~ShRemoveEntityTransaction() {
+
+	if (this->mustDeleteEntity == true) {
+
+		while (!this->list.isEmpty())
+			delete this->list.takeFirst();
+	}
+}
+
+void ShRemoveEntityTransaction::redo() {
+
+	QLinkedList<ShEntity*>::iterator itr;
+
+	for (itr = this->list.begin(); itr != this->list.end(); ++itr)
+		this->widget->getEntityTable().remove((*itr));
+
+
+	this->mustDeleteEntity = true;
+
+	this->widget->update();
+	this->widget->captureImage();
+}
+
+void ShRemoveEntityTransaction::undo() {
+
+	this->widget->getEntityTable().add(this->list);
+	this->mustDeleteEntity = false;
+
+	this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
+	this->widget->captureImage();
+}

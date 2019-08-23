@@ -20,7 +20,9 @@ ShDrawerSelectedEntity* ShDrawerSelectedEntityFactory::create(ShCADWidget *widge
 		actionType == ActionType::ActionModifyMirror ||
 		actionType == ActionType::ActionModifyExtend ||
 		actionType == ActionType::ActionModifyStretch ||
-		actionType == ActionType::ActionModifyTrim) {
+		actionType == ActionType::ActionModifyTrim ||
+		actionType == ActionType::ActionModifyErase ||
+		actionType == ActionType::ActionModifyScale) {
 
 		return new ShDrawerSelectedEntityNoVertex(widget);
 	}

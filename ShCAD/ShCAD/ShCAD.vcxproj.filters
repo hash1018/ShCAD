@@ -544,6 +544,9 @@
     <ClCompile Include="Entity\Private\ShMirror.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyEraseAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -907,6 +910,9 @@
     </ClInclude>
     <ClInclude Include="Entity\Private\ShMirror.h">
       <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyEraseAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
