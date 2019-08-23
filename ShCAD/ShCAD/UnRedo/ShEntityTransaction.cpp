@@ -161,7 +161,7 @@ void ShMirrorEntityTransaction::redo() {
 
 void ShMirrorEntityTransaction::undo() {
 
-	ShMirror mirror(this->center, -this->angle);
+	ShMirror mirror(this->center, this->angle);
 
 	auto itr = this->list.begin();
 	for (itr; itr != this->list.end(); ++itr) {
