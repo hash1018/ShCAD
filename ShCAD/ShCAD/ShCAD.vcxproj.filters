@@ -538,6 +538,12 @@
     <ClCompile Include="Entity\Private\ShRotater.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyMirrorAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\ShMirror.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -894,6 +900,12 @@
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Private\ShRotater.h">
+      <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyMirrorAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShMirror.h">
       <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>

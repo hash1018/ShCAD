@@ -26,6 +26,8 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 		text = "_Copy"; break;
 	case ActionType::ActionModifyRotate:
 		text = "_Rotate"; break;
+	case ActionType::ActionModifyMirror:
+		text = "_Mirror"; break;
 
 	default:
 		text = ""; break;

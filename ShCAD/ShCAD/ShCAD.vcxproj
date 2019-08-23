@@ -145,6 +145,7 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyMirrorAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionData.cpp" />
@@ -192,6 +193,7 @@
     <ClCompile Include="Entity\Private\ShFinder.cpp" />
     <ClCompile Include="Entity\Private\ShFootOfPerpendicularVisitor.cpp" />
     <ClCompile Include="Entity\Private\ShLineBothPerpendicularVisitor.cpp" />
+    <ClCompile Include="Entity\Private\ShMirror.cpp" />
     <ClCompile Include="Entity\Private\ShMover.cpp" />
     <ClCompile Include="Entity\Private\ShRotater.cpp" />
     <ClCompile Include="Entity\Private\ShSearchEntityStrategy.cpp" />
@@ -408,6 +410,7 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyMirrorAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h" />
     <ClInclude Include="ActionHandler\Private\ShActionData.h" />
@@ -456,6 +459,7 @@
     <ClInclude Include="Entity\Private\ShFinder.h" />
     <ClInclude Include="Entity\Private\ShFootOfPerpendicularVisitor.h" />
     <ClInclude Include="Entity\Private\ShLineBothPerpendicularVisitor.h" />
+    <ClInclude Include="Entity\Private\ShMirror.h" />
     <ClInclude Include="Entity\Private\ShMover.h" />
     <ClInclude Include="Entity\Private\ShRotater.h" />
     <ClInclude Include="Entity\Private\ShSearchEntityStrategy.h" />

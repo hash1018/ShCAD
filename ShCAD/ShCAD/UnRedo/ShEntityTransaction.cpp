@@ -4,6 +4,7 @@
 #include "Interface\ShCADWidget.h"
 #include "Entity\Private\ShMover.h"
 #include "Entity\Private\ShRotater.h"
+#include "Entity\Private\ShMirror.h"
 
 ShAddEntityTransaction::ShAddEntityTransaction(ShCADWidget *widget, const QString &transactionName)
 	:ShTransaction("Group " + transactionName), widget(widget), mustDeleteEntity(false) {
@@ -126,6 +127,49 @@ void ShRotateEntityTransaction::undo() {
 
 	for (itr; itr != this->list.end(); ++itr)
 		(*itr)->accept(&rotater);
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+//////////////////////////////////////////////////////////////////////
+
+ShMirrorEntityTransaction::ShMirrorEntityTransaction(ShCADWidget *widget, const QLinkedList<ShEntity*> &list, const ShPoint3d &center, double angle)
+	:ShTransaction("Group Mirror"), widget(widget), list(list), center(center), angle(angle) {
+
+}
+
+ShMirrorEntityTransaction::~ShMirrorEntityTransaction() {
+
+}
+
+void ShMirrorEntityTransaction::redo() {
+
+	ShMirror mirror(this->center, this->angle);
+
+	auto itr = this->list.begin();
+	for (itr; itr != this->list.end(); ++itr) {
+	
+		mirror.setOriginal((*itr));
+		(*itr)->accept(&mirror);
+		
+	}
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShMirrorEntityTransaction::undo() {
+
+	ShMirror mirror(this->center, -this->angle);
+
+	auto itr = this->list.begin();
+	for (itr; itr != this->list.end(); ++itr) {
+
+		mirror.setOriginal((*itr));
+		(*itr)->accept(&mirror);
+		
+	}
 
 	this->widget->update(DrawType::DrawAll);
 	this->widget->captureImage();

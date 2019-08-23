@@ -61,4 +61,21 @@ public:
 
 };
 
+class ShMirrorEntityTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShEntity*> list;
+	ShPoint3d center;
+	double angle;
+
+public:
+	ShMirrorEntityTransaction(ShCADWidget *widget, const QLinkedList<ShEntity*> &list, const ShPoint3d &center, double angle);
+	~ShMirrorEntityTransaction();
+
+	virtual void redo();
+	virtual void undo();
+
+};
+
 #endif //_SHENTITYTRANSACTION_H
