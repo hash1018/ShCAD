@@ -7,11 +7,11 @@
 class ShKey;
 
 class ShKeyFlyWeight {
-
+	friend class ShKeyFactory;
 private:
 	QList<ShKey*> pool;
 
-public:
+private:
 	ShKeyFlyWeight();
 	~ShKeyFlyWeight();
 

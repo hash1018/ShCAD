@@ -5,6 +5,7 @@
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "ActionHandler\TemporaryAction\ShTemporaryAction.h"
 #include "Base\ShGlobal.h"
+#include "Manager\ShCommandLogManager.h"
 
 ShKey::ShKey(KeyType keyType, const Qt::Key &key, const Qt::KeyboardModifiers &modifier)
 	:keyType(keyType), key(key), modifier(modifier) {
@@ -77,10 +78,7 @@ ShEnterKey::~ShEnterKey() {
 
 void ShEnterKey::pressed(ShCADWidget *widget, ShActionHandler *actionHandler) {
 
-	QMessageBox box;
-	box.setText("EnterKey::enter");
-	box.exec();
-	
+	actionHandler->interpret(shCommandLogManager->getEditText());
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -96,9 +94,7 @@ ShReturnKey::~ShReturnKey() {
 
 void ShReturnKey::pressed(ShCADWidget *widget, ShActionHandler *actionHandler) {
 
-	QMessageBox box;
-	box.setText("ReturnKey::enter");
-	box.exec();
+	actionHandler->interpret(shCommandLogManager->getEditText());
 }
 
 ///////////////////////////////////////////////////////////////////////

@@ -38,7 +38,10 @@ public:
 
 	virtual void invalidate(ShPoint3d &point);
 
-	void temp();
+	virtual ShPoint3d getLastPickedPoint();
+
+protected:
+	virtual void trigger(const ShPoint3d &point);
 
 public:
 	inline Status getStatus() const { return this->status; }

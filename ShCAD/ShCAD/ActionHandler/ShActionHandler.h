@@ -18,12 +18,17 @@ class QKeyEvent;
 class QPainter;
 class ShActionData;
 class ShKeyHandler;
+class ShAvailableCommands;
 
 class ShActionHandler {
+
+	friend class ShCommand;
+
 
 protected:
 	ShCADWidget *widget;
 	ShKeyHandler *keyHandler;
+	ShAvailableCommands *availableCommands;
 
 public:
 	ShActionHandler(ShCADWidget *widget);
@@ -55,6 +60,12 @@ public:
 
 	//*this called when temporaryAction Finished.
 	virtual void temporaryActionFinished();
+
+	virtual ShPoint3d getLastPickedPoint();
+
+public:
+	//*when enter key pressed, interpret current command text then do specific action.
+	void interpret(const QString &command);
 
 protected:
 	virtual void triggerSucceeded();

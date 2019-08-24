@@ -170,6 +170,9 @@
     <ClCompile Include="Chain of Responsibility\ShCADRequestStrategy.cpp" />
     <ClCompile Include="Chain of Responsibility\ShChain.cpp" />
     <ClCompile Include="Chain of Responsibility\ShRequest.cpp" />
+    <ClCompile Include="Command\ShAvailableCommands.cpp" />
+    <ClCompile Include="Command\ShCommand.cpp" />
+    <ClCompile Include="Command\ShCommandFlyWeight.cpp" />
     <ClCompile Include="Data\ShDraftData.cpp" />
     <ClCompile Include="Data\ShAvailableDraft.cpp" />
     <ClCompile Include="Data\ShColor.cpp" />
@@ -438,6 +441,10 @@
     <ClInclude Include="Chain of Responsibility\ShCADRequestStrategy.h" />
     <ClInclude Include="Chain of Responsibility\ShChain.h" />
     <ClInclude Include="Chain of Responsibility\ShRequest.h" />
+    <ClInclude Include="Command\ShAvailableCommands.h" />
+    <ClInclude Include="Command\ShCommand.h" />
+    <ClInclude Include="Command\ShCommandFlyWeight.h" />
+    <ClInclude Include="Command\ShCommandType.h" />
     <ClInclude Include="Data\ShDraftData.h" />
     <ClInclude Include="Data\ShAvailableDraft.h" />
     <ClInclude Include="Data\ShColor.h" />

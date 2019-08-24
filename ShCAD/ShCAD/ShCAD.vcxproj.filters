@@ -116,6 +116,9 @@
     <Filter Include="ActionHandler\ModifyAction">
       <UniqueIdentifier>{91b2e2a9-c3fa-4f76-9f31-7b212b62ba2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command">
+      <UniqueIdentifier>{bf954b10-e745-418d-9890-df1c76e9bd1a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -550,6 +553,15 @@
     <ClCompile Include="Manager\ShCommandLogManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Command\ShAvailableCommands.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\ShCommand.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\ShCommandFlyWeight.cpp">
+      <Filter>Command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -919,6 +931,18 @@
     </ClInclude>
     <ClInclude Include="Manager\ShCommandLogManager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\ShAvailableCommands.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\ShCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\ShCommandType.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\ShCommandFlyWeight.h">
+      <Filter>Command</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

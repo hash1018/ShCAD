@@ -84,6 +84,7 @@ void ShActionHandlerProxy::keyPressEvent(QKeyEvent *event) {
 	ShDecoratorActionData data;
 	data.keyEvent = event;
 	this->decoratorAction->keyPressEvent(data);
+	this->decoratorAction->invalidate(this->widget->getMousePoint());
 }
 
 void ShActionHandlerProxy::setCurrentAction(ShActionHandler *actionHandler) {

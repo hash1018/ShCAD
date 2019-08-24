@@ -4,9 +4,10 @@
 #include "KeyHandler\ShKeyHandler.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Manager\ShCommandLogManager.h"
+#include "Command\ShAvailableCommands.h"
 
 ShActionHandler::ShActionHandler(ShCADWidget *widget)
-	:widget(widget), keyHandler(nullptr) {
+	:widget(widget), keyHandler(nullptr), availableCommands(nullptr) {
 
 }
 
@@ -14,6 +15,9 @@ ShActionHandler::~ShActionHandler() {
 
 	if (this->keyHandler != nullptr)
 		delete this->keyHandler;
+
+	if (this->availableCommands != nullptr)
+		delete this->availableCommands;
 }
 
 void ShActionHandler::mouseLeftPressEvent(ShActionData &data) {
@@ -85,6 +89,17 @@ void ShActionHandler::invalidate(ShPoint3d &point) {
 void ShActionHandler::temporaryActionFinished() {
 
 
+}
+
+void ShActionHandler::interpret(const QString &command) {
+
+	if (this->availableCommands != nullptr)
+		this->availableCommands->interpret(command);
+}
+
+ShPoint3d ShActionHandler::getLastPickedPoint() {
+
+	return ShPoint3d();
 }
 
 void ShActionHandler::triggerSucceeded() {

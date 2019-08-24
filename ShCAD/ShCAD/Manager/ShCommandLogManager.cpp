@@ -49,3 +49,8 @@ void ShCommandLogManager::appendListEditTextAndNewLineWith(const QString &text) 
 	this->commandDock->appendTextToList(this->commandDock->getHeadTitle() + text);
 	this->commandDock->clearEditText();
 }
+
+QString ShCommandLogManager::getEditText() {
+
+	return this->commandDock->getEditText();
+}

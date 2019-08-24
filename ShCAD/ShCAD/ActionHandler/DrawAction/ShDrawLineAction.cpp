@@ -5,6 +5,7 @@
 #include "KeyHandler\ShKeyHandler.h"
 #include "KeyHandler\ShCustomKey.h"
 #include "Entity\Private\ShFootOfPerpendicularVisitor.h"
+#include "Command\ShAvailableCommands.h"
 
 ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
 	:ShDrawAction(widget), status(PickedNothing), subAction(Default) {
@@ -14,8 +15,13 @@ ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
 		allowKey(KeyType::Return).
 		allowKey(KeyType::EscCancelCurrent).
 		allowInput().
-		allowCustom(new ShCustomKey<ShDrawLineAction>(Qt::Key::Key_I, Qt::KeyboardModifier::ControlModifier, this, &ShDrawLineAction::temp)).
 		build();
+
+	this->availableCommands = ShAvailableCommands::ShBuilder(this->widget, this).
+		addAvailableCommand(CommandType::Empty_Cancel).
+		addAvailableCommand(CommandType::AbsoluteCoordinate).
+		build();
+
 
 	this->subDrawLineAction = new ShSubDrawLineAction_Default(this, this->widget);
 }
@@ -86,6 +92,28 @@ void ShDrawLineAction::invalidate(ShPoint3d &point) {
 	this->subDrawLineAction->invalidate(point);
 }
 
+ShPoint3d ShDrawLineAction::getLastPickedPoint() {
+
+	ShPoint3d lastPickedPoint;
+
+	if (this->status == Status::PickedNothing) {
+
+		lastPickedPoint = ShActionHandler::getLastPickedPoint();
+	}
+	else {
+
+		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
+		lastPickedPoint = prevLine->getStart();
+	}
+
+	return lastPickedPoint;
+}
+
+void ShDrawLineAction::trigger(const ShPoint3d &point) {
+
+	this->subDrawLineAction->trigger(point);
+}
+
 void ShDrawLineAction::changeSubAction(SubAction subAction) {
 
 	if (this->subDrawLineAction != nullptr)
@@ -99,16 +127,6 @@ void ShDrawLineAction::changeSubAction(SubAction subAction) {
 		this->subDrawLineAction = new ShSubDrawLineAction_Perpendicular(this, this->widget);
 
 }
-
-
-#include <qmessagebox.h>
-void ShDrawLineAction::temp() {
-
-	QMessageBox box;
-	box.setText("Tem");
-	box.exec();
-}
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
