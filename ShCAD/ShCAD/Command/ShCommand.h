@@ -58,4 +58,33 @@ private:
 	void convertCoordinate(const QString &command, double &x, double &y);
 };
 
+class ShRelativeCoordinateCommand : public ShCommand {
+
+public:
+	ShRelativeCoordinateCommand();
+	~ShRelativeCoordinateCommand();
+
+public:
+	virtual void interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command);
+	virtual bool isMatched(const QString &command);
+
+private:
+	void convertCoordinate(const QString &command, double &x, double &y);
+
+};
+
+//////////////////////////////////////////////////////
+
+class ShDistanceCommand : public ShCommand {
+
+public:
+	ShDistanceCommand();
+	~ShDistanceCommand();
+
+public:
+	virtual void interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command);
+	virtual bool isMatched(const QString &command);
+
+};
+
 #endif //_SHCOMMAND_H

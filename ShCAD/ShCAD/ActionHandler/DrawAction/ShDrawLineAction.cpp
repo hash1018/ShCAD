@@ -20,6 +20,8 @@ ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
 	this->availableCommands = ShAvailableCommands::ShBuilder(this->widget, this).
 		addAvailableCommand(CommandType::Empty_Cancel).
 		addAvailableCommand(CommandType::AbsoluteCoordinate).
+		addAvailableCommand(CommandType::RelativeCoordinate).
+		addAvailableCommand(CommandType::Distance).
 		build();
 
 

@@ -2,6 +2,9 @@
 #ifndef _SHAVAILABLECOMMANDS_H
 #define _SHAVAILABLECOMMANDS_H
 
+
+//FlyWeight Pattern, Strategy Pattern, FactoryMethod Pattern, Singleton Pattern.
+
 #include <qlist.h>
 #include "ShCommandType.h"
 

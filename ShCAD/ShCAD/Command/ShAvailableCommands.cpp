@@ -2,6 +2,8 @@
 #include "ShAvailableCommands.h"
 #include "ShCommand.h"
 #include "ShCommandFlyWeight.h"
+#include "Manager\ShCommandLogManager.h"
+#include "Manager\ShLanguageManager.h"
 
 ShAvailableCommands::ShBuilder::ShBuilder(ShCADWidget *widget, ShActionHandler *actionHandler)
 	:widget(widget), actionHandler(actionHandler) {
@@ -59,6 +61,6 @@ void ShAvailableCommands::interpret(const QString &command) {
 		return;
 	}
 
-	//log message unknown command.
-
+	shCommandLogManager->appendListEditTextWith("");
+	shCommandLogManager->appendList(shGetLanValue_command("Command/Unknown command"));
 }
