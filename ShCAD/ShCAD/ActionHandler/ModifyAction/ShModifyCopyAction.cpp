@@ -1,11 +1,10 @@
 
 #include "ShModifyCopyAction.h"
-#include "Manager\ShLanguageManager.h"
 #include "Entity\Composite\ShSelectedEntities.h"
-#include "Event\ShNotifyEvent.h"
 #include "Entity\Private\ShMover.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
+
 
 ShModifyCopyAction::ShModifyCopyAction(ShCADWidget *widget)
 	:ShModifyAction(widget), transaction(nullptr) {
@@ -149,9 +148,7 @@ void ShModifyCopyAction::finishSelectingEntities() {
 
 		this->status = Status::PickingBasePoint;
 
-		ShUpdateTextToCommandListEvent event("");
-		this->widget->notify(&event);
-
+		shCommandLogManager->appendListEditTextWith("");
 		this->updateCommandEditHeadTitle();
 
 		this->widget->setCursor(this->getCursorShape());

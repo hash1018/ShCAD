@@ -5,9 +5,8 @@
 #include "ActionHandler\Private\ShDecorateActionStrategy.h"
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
 #include "Entity\Private\ShLineBothPerpendicularVisitor.h"
-#include "Event\ShNotifyEvent.h"
-#include "Manager\ShLanguageManager.h"
 #include <QKeyEvent>
+
 
 ShDisposableSnapAction::ShDisposableSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child)
 	:ShDecoratorAction(widget, actionHandler, child), strategy(nullptr) {
@@ -48,12 +47,8 @@ void ShDisposableSnapAction::finishDisposableSnap() {
 
 void ShDisposableSnapAction::sendFailMessage() {
 
-	ShUpdateTextToCommandListEvent event("");
-	this->widget->notify(&event);
-
-	ShUpdateTextToCommandListEvent event2(shGetLanValue_command("Command/No snap point found"), ShUpdateTextToCommandListEvent::UpdateType::OnlyText);
-	this->widget->notify(&event2);
-
+	shCommandLogManager->appendListEditTextWith("");
+	shCommandLogManager->appendList(shGetLanValue_command("Command/No snap point found"));
 	this->actionHandler->updateCommandEditHeadTitle();
 }
 
@@ -313,12 +308,9 @@ void ShDisposableSnapAction_DrawLineActionPerPer::mouseLeftPressEvent(ShActionDa
 	}
 	else {
 		//Fail.
-		ShUpdateTextToCommandListEvent event("");
-		this->widget->notify(&event);
 
-		ShUpdateTextToCommandListEvent event2(shGetLanValue_command("Command/Line specification not valid"), ShUpdateTextToCommandListEvent::UpdateType::OnlyText);
-		this->widget->notify(&event2);
-
+		shCommandLogManager->appendListEditTextWith("");
+		shCommandLogManager->appendList(shGetLanValue_command("Command/Line specification not valid"));
 		this->actionHandler->updateCommandEditHeadTitle();
 	}
 

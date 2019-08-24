@@ -57,29 +57,6 @@ ShActivatedWidgetChangedEvent::~ShActivatedWidgetChangedEvent() {
 
 }
 
-///////////////////////////////////////////////////////////////////////
-
-
-ShUpdateTextToCommandListEvent::ShUpdateTextToCommandListEvent(const QString &text, ShUpdateTextToCommandListEvent::UpdateType type)
-	:ShNotifyEvent(Type::UpdateTextToCommandList), text(text), updateType(type) {
-
-}
-
-ShUpdateTextToCommandListEvent::~ShUpdateTextToCommandListEvent() {
-
-}
-
-/////////////////////////////////////////////////////////////////////
-
-ShUpdateCommandHeadTitleEvent::ShUpdateCommandHeadTitleEvent(const QString &headTitle, UpdateType type)
-	:ShNotifyEvent(Type::UpdateCommandHeadTitle), headTitle(headTitle), updateType(type) {
-
-}
-
-ShUpdateCommandHeadTitleEvent::~ShUpdateCommandHeadTitleEvent() {
-
-}
-
 
 ///////////////////////////////////////////////////////////////////////
 

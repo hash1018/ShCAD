@@ -4,12 +4,11 @@
 #include <QMouseEvent>
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
-#include "Manager\ShLanguageManager.h"
 #include "KeyHandler\ShKeyHandler.h"
 #include "KeyHandler\ShCustomKey.h"
-#include "Event\ShNotifyEvent.h"
 #include "Entity\Private\ShSearchEntityStrategy.h"
 #include "Entity\Composite\ShSelectedEntities.h"
+
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 	:ShActionHandler(widget) {
@@ -69,8 +68,8 @@ void ShDefaultAction::escPressed() {
 	}
 
 	this->changeSubAction(new ShSubDefaultAction_Default(this, this->widget));
-	ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
-	this->widget->notify(&notifyEvent);
+	
+	shCommandLogManager->appendListEditTextWith((shGetLanValue_command("Command/<Cancel>")));
 
 }
 

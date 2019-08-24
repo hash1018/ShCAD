@@ -1,12 +1,11 @@
 
 #include "ShModifyRotateAction.h"
-#include "Manager\ShLanguageManager.h"
 #include "Entity\Composite\ShSelectedEntities.h"
-#include "Event\ShNotifyEvent.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
 #include "Entity\Private\ShRotater.h"
 #include "Base\ShMath.h"
+
 
 ShModifyRotateAction::ShModifyRotateAction(ShCADWidget *widget)
 	:ShModifyAction(widget) {
@@ -142,9 +141,7 @@ void ShModifyRotateAction::finishSelectingEntities() {
 
 		this->status = Status::PickingBasePoint;
 
-		ShUpdateTextToCommandListEvent event("");
-		this->widget->notify(&event);
-
+		shCommandLogManager->appendListEditTextWith("");
 		this->updateCommandEditHeadTitle();
 
 		this->widget->setCursor(this->getCursorShape());

@@ -547,6 +547,9 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyEraseAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
+    <ClCompile Include="Manager\ShCommandLogManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -913,6 +916,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyEraseAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\ShCommandLogManager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

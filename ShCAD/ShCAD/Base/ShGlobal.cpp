@@ -7,6 +7,7 @@
 #include <qstring.h>
 #include "Manager\ShLanguageManager.h"
 #include "Entity\Composite\ShSelectedEntities.h"
+#include "Manager\ShCommandLogManager.h"
 
 ShGlobal::ShGlobal() {
 
@@ -40,11 +41,8 @@ void ShGlobal::undo(ShCADWidget *widget) {
 	else
 		second = shGetLanValue_command("Command/No remaining Undo Command");
 
-	ShUpdateTextToCommandListEvent notifyEvent(first, ShUpdateTextToCommandListEvent::EditTextAndNewLineHeadTitleWithText);
-	widget->notify(&notifyEvent);
-
-	ShUpdateTextToCommandListEvent notifyEvent2(second, ShUpdateTextToCommandListEvent::OnlyText);
-	widget->notify(&notifyEvent2);
+	shCommandLogManager->appendListEditTextAndNewLineWith(first);
+	shCommandLogManager->appendList(second);
 
 	ShTransactionStackSizeChangedEvent notifyEvent3(widget->getUndoStack()->getSize(), widget->getRedoStack()->getSize());
 	widget->notify(&notifyEvent3);
@@ -74,11 +72,10 @@ void ShGlobal::redo(ShCADWidget *widget) {
 	else 
 		second = shGetLanValue_command("Command/No remaining Redo Command");
 	
-	ShUpdateTextToCommandListEvent notifyEvent(first, ShUpdateTextToCommandListEvent::EditTextAndNewLineHeadTitleWithText);
-	widget->notify(&notifyEvent);
 
-	ShUpdateTextToCommandListEvent notifyEvent2(second, ShUpdateTextToCommandListEvent::OnlyText);
-	widget->notify(&notifyEvent2);
+	shCommandLogManager->appendListEditTextAndNewLineWith(first);
+	shCommandLogManager->appendList(second);
+
 
 	ShTransactionStackSizeChangedEvent notifyEvent3(widget->getUndoStack()->getSize(), widget->getRedoStack()->getSize());
 	widget->notify(&notifyEvent3);

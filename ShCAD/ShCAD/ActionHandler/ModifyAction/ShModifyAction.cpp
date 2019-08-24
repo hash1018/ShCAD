@@ -5,9 +5,9 @@
 #include <QMouseEvent>
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "Entity\Composite\ShSelectedEntities.h"
-#include "Event\ShNotifyEvent.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include <qpainter.h>
+
 
 ShModifyAction::ShModifyAction(ShCADWidget *widget)
 	:ShActionHandler(widget), status(Status::SelectingEntities) {
@@ -78,8 +78,7 @@ void ShModifyAction::selectFoundEntity(ShEntity *foundEntity, Qt::KeyboardModifi
 			this->widget->getSelectedEntities()->remove(foundEntity);
 			int size = this->widget->getSelectedEntities()->getSize();
 
-			ShUpdateTextToCommandListEvent event("1 found, 1 removed, " + QString::number(size) + " total");
-			this->widget->notify(&event);
+			shCommandLogManager->appendListEditTextWith("1 found, 1 removed, " + QString::number(size) + " total");
 
 			this->widget->update(DrawType::DrawAll);
 			this->widget->captureImage();
@@ -88,8 +87,8 @@ void ShModifyAction::selectFoundEntity(ShEntity *foundEntity, Qt::KeyboardModifi
 		
 			int size = this->widget->getSelectedEntities()->getSize();
 
-			ShUpdateTextToCommandListEvent event("1 found, " + QString::number(size) + " total");
-			this->widget->notify(&event);
+			shCommandLogManager->appendListEditTextWith("1 found, " + QString::number(size) + " total");
+			
 		}
 	}
 	else {
@@ -98,16 +97,15 @@ void ShModifyAction::selectFoundEntity(ShEntity *foundEntity, Qt::KeyboardModifi
 		
 			int size = this->widget->getSelectedEntities()->getSize();
 
-			ShUpdateTextToCommandListEvent event("1 found (1 duplicate), " + QString::number(size) + " total");
-			this->widget->notify(&event);
+			shCommandLogManager->appendListEditTextWith("1 found (1 duplicate), " + QString::number(size) + " total");
+
 		}
 		else {
 		
 			this->widget->getSelectedEntities()->add(foundEntity);
 			int size = this->widget->getSelectedEntities()->getSize();
 
-			ShUpdateTextToCommandListEvent event("1 found, " + QString::number(size) + " total");
-			this->widget->notify(&event);
+			shCommandLogManager->appendListEditTextWith("1 found, " + QString::number(size) + " total");
 
 			this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
 			this->widget->captureImage();

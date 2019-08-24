@@ -45,15 +45,6 @@ public:
 
 };
 
-class ShCommandDockUpdateTextToCommandListEventFilterStrategy : public ShCommandDockEventFilterStrategy {
-
-public:
-	ShCommandDockUpdateTextToCommandListEventFilterStrategy(ShCommandDock *commandDock, ShNotifyEvent *event);
-	~ShCommandDockUpdateTextToCommandListEventFilterStrategy();
-
-	virtual void update();
-
-};
 
 class ShCommandDockActivatedWidgetChangedEventFilterStrategy : public ShCommandDockEventFilterStrategy {
 
@@ -64,14 +55,5 @@ public:
 	virtual void update();
 };
 
-class ShCommandDockUpdateCommandHeadTitleEventFilterStrategy : public ShCommandDockEventFilterStrategy {
-
-public:
-	ShCommandDockUpdateCommandHeadTitleEventFilterStrategy(ShCommandDock *commandDock, ShNotifyEvent *event);
-	~ShCommandDockUpdateCommandHeadTitleEventFilterStrategy();
-
-	virtual void update();
-
-};
 
 #endif //_SHCOMMANDDOCKEVENTFILTER_H

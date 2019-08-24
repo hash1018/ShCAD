@@ -12,11 +12,6 @@ class ShLineStyle;
 class ShLayer;
 
 
-
-#define shReplaceCommandHeadTitle(widget,headTitle) ShUpdateCommandHeadTitleEvent evt(headTitle); widget->notify(&evt)
-#define shAddEditTextAndNewHeadTitleWithText(widget,text) ShUpdateTextToCommandListEvent evt(text, ShUpdateTextToCommandListEvent::EditTextAndNewLineHeadTitleWithText);widget->notify(&evt)
-
-
 class ShNotifyEvent {
 
 public:
@@ -26,8 +21,6 @@ public:
 		MousePositionChanged,
 		KeyPressed,
 		ActivatedWidgetChanged,
-		UpdateTextToCommandList,
-		UpdateCommandHeadTitle,
 		CurrentColorChanged,
 		CurrentLineStyleChanged,
 		TransactionStackSizeChanged,
@@ -106,51 +99,6 @@ private:
 	ShCADWidget *previousWidget;
 };
 
-//////////////////////////////////////////////////////////////////////
-
-class ShUpdateTextToCommandListEvent : public ShNotifyEvent {
-
-public:
-	enum UpdateType {
-		EditTextWithText,
-		EditTextAndNewLineHeadTitleWithText,
-		OnlyText,
-	};
-
-public:
-	ShUpdateTextToCommandListEvent(const QString &text, ShUpdateTextToCommandListEvent::UpdateType type = UpdateType::EditTextWithText);
-	~ShUpdateTextToCommandListEvent();
-
-	inline QString getText() const { return this->text; }
-	inline UpdateType getUpdateType() const { return this->updateType; }
-
-private:
-	QString text;
-	UpdateType updateType;
-
-};
-
-/////////////////////////////////////////////////////////////////////////
-
-class ShUpdateCommandHeadTitleEvent : public ShNotifyEvent {
-
-public:
-	enum UpdateType {
-		AddHeadTitleToCurrent,
-		ReplaceHeadTitle,
-	};
-
-public:
-	ShUpdateCommandHeadTitleEvent(const QString &headTitle, UpdateType type = ReplaceHeadTitle);
-	~ShUpdateCommandHeadTitleEvent();
-
-	inline QString getHeadTitle() const { return this->headTitle; }
-	inline UpdateType getUpdateType() const { return this->updateType; }
-
-private:
-	QString headTitle;
-	UpdateType updateType;
-};
 
 ///////////////////////////////////////////////////////////////////////////
 

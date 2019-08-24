@@ -6,6 +6,7 @@
 #include "Event\ShNotifyEvent.h"
 #include "Event\ShCommandDockEventFilter.h"
 #include "Chain of Responsibility\ShRequest.h"
+#include "Manager\ShCommandLogManager.h"
 
 ShCommandList::ShCommandList(QWidget *parent)
 	:QTextEdit(parent) {
@@ -102,6 +103,8 @@ QSize ShCommandContainer::sizeHint() const {
 
 ShCommandDock::ShCommandDock(ShChain *chain, QWidget *parent)
 	:ShAbstractDock(chain, parent), menuActionChecked(true) {
+
+	ShCommandLogManager::getInstance()->registerInterface(this);
 
 	this->setAllowedAreas(Qt::DockWidgetArea::BottomDockWidgetArea);
 	this->setWindowTitle(shGetLanValue_ui("Command/Command"));

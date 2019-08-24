@@ -9,12 +9,8 @@ ShCommandDockEventFilter::ShCommandDockEventFilter(ShCommandDock *commandDock, S
 
 	if (event->getType() == ShNotifyEvent::KeyPressed)
 		this->strategy = new ShCommandDockKeyPressedEventFilterStrategy(commandDock, event);
-	else if (event->getType() == ShNotifyEvent::UpdateTextToCommandList)
-		this->strategy = new ShCommandDockUpdateTextToCommandListEventFilterStrategy(commandDock, event);
 	else if (event->getType() == ShNotifyEvent::ActivatedWidgetChanged)
 		this->strategy = new ShCommandDockActivatedWidgetChangedEventFilterStrategy(commandDock, event);
-	else if (event->getType() == ShNotifyEvent::UpdateCommandHeadTitle)
-		this->strategy = new ShCommandDockUpdateCommandHeadTitleEventFilterStrategy(commandDock, event);
 
 }
 
@@ -59,45 +55,7 @@ void ShCommandDockKeyPressedEventFilterStrategy::update() {
 	this->commandDock->setCalledKeyPressedEventByNotify(false);
 }
 
-///////////////////////////////////////////////////////////////////
-
-
-ShCommandDockUpdateTextToCommandListEventFilterStrategy::ShCommandDockUpdateTextToCommandListEventFilterStrategy(ShCommandDock *commandDock, ShNotifyEvent *event)
-	:ShCommandDockEventFilterStrategy(commandDock, event) {
-
-}
-
-ShCommandDockUpdateTextToCommandListEventFilterStrategy::~ShCommandDockUpdateTextToCommandListEventFilterStrategy() {
-
-}
-
-void ShCommandDockUpdateTextToCommandListEventFilterStrategy::update() {
-
-	ShUpdateTextToCommandListEvent *event = dynamic_cast<ShUpdateTextToCommandListEvent*>(this->event);
-	
-	if (event->getUpdateType() == ShUpdateTextToCommandListEvent::UpdateType::EditTextWithText) {
-
-		QString currentText = this->commandDock->getHeadTitle() + this->commandDock->getEditText() + event->getText();
-		this->commandDock->appendTextToList(currentText);
-		this->commandDock->clearEditText();
-
-	}
-	else if (event->getUpdateType() == ShUpdateTextToCommandListEvent::UpdateType::EditTextAndNewLineHeadTitleWithText) {
-
-		QString currentText = this->commandDock->getHeadTitle() + this->commandDock->getEditText();
-		this->commandDock->appendTextToList(currentText);
-		this->commandDock->appendTextToList(this->commandDock->getHeadTitle() + event->getText());
-		this->commandDock->clearEditText();
-	}
-	else if (event->getUpdateType() == ShUpdateTextToCommandListEvent::UpdateType::OnlyText) {
-
-		this->commandDock->appendTextToList(event->getText());
-	}
-
-}
-
 //////////////////////////////////////////////////////////////////////////////
-
 
 ShCommandDockActivatedWidgetChangedEventFilterStrategy::ShCommandDockActivatedWidgetChangedEventFilterStrategy(ShCommandDock *commandDock, ShNotifyEvent *event)
 	:ShCommandDockEventFilterStrategy(commandDock, event) {
@@ -129,28 +87,3 @@ void ShCommandDockActivatedWidgetChangedEventFilterStrategy::update() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
-
-ShCommandDockUpdateCommandHeadTitleEventFilterStrategy::ShCommandDockUpdateCommandHeadTitleEventFilterStrategy(ShCommandDock *commandDock, ShNotifyEvent *event)
-	:ShCommandDockEventFilterStrategy(commandDock, event) {
-
-}
-
-ShCommandDockUpdateCommandHeadTitleEventFilterStrategy::~ShCommandDockUpdateCommandHeadTitleEventFilterStrategy() {
-
-}
-
-
-void ShCommandDockUpdateCommandHeadTitleEventFilterStrategy::update() {
-
-	ShUpdateCommandHeadTitleEvent *event = dynamic_cast<ShUpdateCommandHeadTitleEvent*>(this->event);
-
-	ShUpdateCommandHeadTitleEvent::UpdateType updateType = event->getUpdateType();
-
-	if (updateType == ShUpdateCommandHeadTitleEvent::UpdateType::ReplaceHeadTitle)
-		this->commandDock->setHeadTitle(event->getHeadTitle());
-	else if (updateType == ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent)
-		this->commandDock->setHeadTitle(this->commandDock->getHeadTitle() + event->getHeadTitle());
-
-	this->commandDock->setEditText("");
-}

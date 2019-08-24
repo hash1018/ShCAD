@@ -8,6 +8,8 @@
 #include <qcursor.h>
 #include "Private\ShActionData.h"
 #include "Data\ShAvailableDraft.h"
+#include "Manager\ShLanguageManager.h"
+#include "Manager\ShCommandLogManager.h"
 
 //State Pattern.
 

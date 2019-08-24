@@ -2,11 +2,10 @@
 #include "ShDecorateActionStrategy.h"
 #include <qdebug.h>
 #include "Interface\ShCADWidget.h"
-#include "Event\ShNotifyEvent.h"
 #include "ActionHandler\ShActionHandler.h"
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "ObjectSnap\ShObjectSnapCommandFactory.h"
-#include "Manager\ShLanguageManager.h"
+
 
 ShDecorateActionStrategy::ShDecorateActionStrategy() {
 
@@ -35,16 +34,17 @@ void ShDecorateOrthogonalActionStrategy::change() {
 	if (this->widget->getDraftData().getOrthMode() == false) {
 
 		if (this->widget->getActionHandlerProxy()->getType() != ActionType::ActionDefault) {
-			ShUpdateCommandHeadTitleEvent notifyEvent("<Ortho on> ", ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent);
-			this->widget->notify(&notifyEvent);
+			
+			shCommandLogManager->appendHeadTitle("<Ortho on> ");
 		}
 
 		this->widget->getDraftData().setOrthMode(true);
 	}
 	else {
 		if (this->widget->getActionHandlerProxy()->getType() != ActionType::ActionDefault) {
-			ShUpdateCommandHeadTitleEvent notifyEvent("<Ortho off> ", ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent);
-			this->widget->notify(&notifyEvent);
+			
+			shCommandLogManager->appendHeadTitle("<Ortho off> ");
+
 		}
 
 		this->widget->getDraftData().setOrthMode(false);
@@ -84,9 +84,7 @@ void ShDecorateDisposableSnapActionStrategy::change() {
 
 	if (draft.getAvailableSnap() == false) {
 
-		ShUpdateTextToCommandListEvent notifyEvent(str + shGetLanValue_command("Command/Unknown command") + ".",
-			ShUpdateTextToCommandListEvent::UpdateType::EditTextWithText);
-		this->widget->notify(&notifyEvent);
+		shCommandLogManager->appendListEditTextWith(str + shGetLanValue_command("Command/Unknown command") + ".");
 
 		return;
 	}
@@ -94,24 +92,16 @@ void ShDecorateDisposableSnapActionStrategy::change() {
 	if (this->widget->getDraftData().getDisposableSnap() != ObjectSnap::ObjectSnapNothing) {
 
 		this->widget->getDraftData().setDisposableSnap(ObjectSnap::ObjectSnapNothing);
-		ShUpdateTextToCommandListEvent event(str,
-			ShUpdateTextToCommandListEvent::UpdateType::EditTextWithText);
-		this->widget->notify(&event);
-
-		ShUpdateTextToCommandListEvent event2(shGetLanValue_command("Invalid point") + ".",
-			ShUpdateTextToCommandListEvent::UpdateType::OnlyText);
-		this->widget->notify(&event2);
-
-		ShUpdateCommandHeadTitleEvent event3(this->widget->getActionHandlerProxy()->getCurrentAction()->getHeadTitle());
-		this->widget->notify(&event3);
+		
+		shCommandLogManager->appendListEditTextWith(str);
+		shCommandLogManager->appendList(shGetLanValue_command("Command/Invalid point") + ".");
+		shCommandLogManager->replaceHeadTitle(this->widget->getActionHandlerProxy()->getCurrentAction()->getHeadTitle());
 	}
 	else {
 
 		this->widget->getDraftData().setDisposableSnap(objectSnap);
 
-		ShUpdateCommandHeadTitleEvent event(str,
-			ShUpdateCommandHeadTitleEvent::UpdateType::AddHeadTitleToCurrent);
-		this->widget->notify(&event);
+		shCommandLogManager->appendHeadTitle(str);
 	}
 
 	this->widget->getActionHandlerProxy()->changeDecoratorAction();

@@ -2,8 +2,8 @@
 #include "ShActionHandler.h"
 #include <qpainter.h>
 #include "KeyHandler\ShKeyHandler.h"
-#include "Event\ShNotifyEvent.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "Manager\ShCommandLogManager.h"
 
 ShActionHandler::ShActionHandler(ShCADWidget *widget)
 	:widget(widget), keyHandler(nullptr) {
@@ -70,8 +70,7 @@ QCursor ShActionHandler::getCursorShape() {
 //*Template method pattern.
 void ShActionHandler::updateCommandEditHeadTitle() {
 
-	ShUpdateCommandHeadTitleEvent notifyEvent(this->getHeadTitle());
-	this->widget->notify(&notifyEvent);
+	shCommandLogManager->replaceHeadTitle(this->getHeadTitle());
 }
 
 ShAvailableDraft ShActionHandler::getAvailableDraft() {
@@ -90,9 +89,7 @@ void ShActionHandler::temporaryActionFinished() {
 
 void ShActionHandler::triggerSucceeded() {
 
-	ShUpdateTextToCommandListEvent notifyEvent("");
-	this->widget->notify(&notifyEvent);
-
+	shCommandLogManager->appendListEditTextWith("");
 	this->updateCommandEditHeadTitle();
 }
 

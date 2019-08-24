@@ -3,7 +3,6 @@
 #include <QMouseEvent>
 #include "UnRedo\ShPanTransaction.h"
 #include "Base\ShGlobal.h"
-#include "Manager\ShLanguageManager.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 
 ShPanAction::ShPanAction(ShCADWidget *widget)

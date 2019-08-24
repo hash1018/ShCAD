@@ -2,11 +2,10 @@
 #include "ShDragSelectAction.h"
 #include <qpainter.h>
 #include <QKeyEvent>
-#include "Manager\ShLanguageManager.h"
 #include "KeyHandler\ShKeyHandler.h"
-#include "Event\ShNotifyEvent.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Entity\Private\ShFinder.h"
+
 
 
 //////////////////////////////////////////////////////
@@ -48,8 +47,7 @@ void ShDragSelectAction::mouseLeftPressEvent(ShActionData &data) {
 		this->widget->captureImage();
 	}
 
-	ShUpdateTextToCommandListEvent notifyEvent("");
-	this->widget->notify(&notifyEvent);
+	shCommandLogManager->appendListEditTextWith("");
 
 	this->returnToPrevious();
 }

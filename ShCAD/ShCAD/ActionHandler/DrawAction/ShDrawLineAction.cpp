@@ -2,7 +2,6 @@
 
 #include "ShDrawLineAction.h"
 #include <QMouseEvent>
-#include "Manager\ShLanguageManager.h"
 #include "KeyHandler\ShKeyHandler.h"
 #include "KeyHandler\ShCustomKey.h"
 #include "Entity\Private\ShFootOfPerpendicularVisitor.h"

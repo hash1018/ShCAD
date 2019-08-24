@@ -347,6 +347,7 @@
     <ClCompile Include="KeyHandler\ShKeyFlyWeight.cpp" />
     <ClCompile Include="KeyHandler\ShKeyHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Manager\ShCommandLogManager.cpp" />
     <ClCompile Include="Manager\ShLanguageManager.cpp" />
     <ClCompile Include="Manager\ShCADWidgetManager.cpp" />
     <ClCompile Include="Manager\ShChangeManager.cpp" />
@@ -528,6 +529,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
     </CustomBuild>
     <ClInclude Include="Interface\ToolBar\ShQuickAccessToolBar.h" />
+    <ClInclude Include="Manager\ShCommandLogManager.h" />
     <ClInclude Include="UnRedo\ShLayerTransaction.h" />
     <ClInclude Include="Utility\ShColorConverter.h" />
     <ClInclude Include="Utility\ShLineStyleConverter.h" />

@@ -1,6 +1,5 @@
 
 #include "ShModifyEraseAction.h"
-#include "Manager\ShLanguageManager.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"

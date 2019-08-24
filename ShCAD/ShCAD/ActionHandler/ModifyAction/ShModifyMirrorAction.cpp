@@ -1,12 +1,11 @@
 
 #include "ShModifyMirrorAction.h"
-#include "Manager\ShLanguageManager.h"
 #include "Entity\Composite\ShSelectedEntities.h"
-#include "Event\ShNotifyEvent.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
 #include "Base\ShMath.h"
 #include "Entity\Private\ShMirror.h"
+
 
 ShModifyMirrorAction::ShModifyMirrorAction(ShCADWidget *widget)
 	:ShModifyAction(widget) {
@@ -141,11 +140,7 @@ void ShModifyMirrorAction::finishSelectingEntities() {
 
 		this->status = Status::PickingBasePoint;
 
-		ShUpdateTextToCommandListEvent event("");
-		this->widget->notify(&event);
-
-		this->updateCommandEditHeadTitle();
-
+		shCommandLogManager->appendListEditTextWith("");
 		this->widget->setCursor(this->getCursorShape());
 
 	}

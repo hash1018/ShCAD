@@ -4,12 +4,12 @@
 #include "ActionHandler\TemporaryAction\ShTemporaryAction.h"
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "ActionHandler\Private\ShActionHandlerFactory.h"
-#include "Event\ShNotifyEvent.h"
 #include "Manager\ShLanguageManager.h"
 #include "ActionHandler\Private\ShActionTypeConverter.h"
 #include "ActionHandler\TemporaryAction\ShPanAction.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "ActionHandler\ModifyAction\ShModifyAction.h"
+#include "Manager\ShCommandLogManager.h"
 
 ShChangeActionStrategy::ShChangeActionStrategy()
 	:widget(nullptr) {
@@ -86,8 +86,7 @@ void ShChangeDefaultAfterCancelingCurrentStrategy::change() {
 	
 	if (this->widget->getActionHandlerProxy()->getType() != ActionType::ActionDefault) {
 
-		ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
-		this->widget->notify(&notifyEvent);
+		shCommandLogManager->appendListEditTextWith(shGetLanValue_command("Command/<Cancel>"));
 
 		ShActionHandler *newAction = ShActionHandlerFactory::create(ActionType::ActionDefault, this->widget);
 
@@ -95,7 +94,8 @@ void ShChangeDefaultAfterCancelingCurrentStrategy::change() {
 
 		this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
 		this->widget->setCursor(newAction->getCursorShape());
-		shReplaceCommandHeadTitle(this->widget, newAction->getHeadTitle());
+		
+		shCommandLogManager->replaceHeadTitle(newAction->getHeadTitle());
 	}
 	
 }
@@ -144,14 +144,15 @@ void ShChangeActionFromDefaultStrategy::change() {
 	if (this->typeToChange != ActionType::ActionDefault) {
 
 		QString text = ShActionTypeConverter::convert(this->typeToChange);
-		shAddEditTextAndNewHeadTitleWithText(this->widget, text);
+		shCommandLogManager->appendListEditTextAndNewLineWith(text);
 	}
 
 	delete this->widget->getActionHandlerProxy()->getCurrentAction();
 
 	this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
 	this->widget->setCursor(newAction->getCursorShape());
-	shReplaceCommandHeadTitle(this->widget, newAction->getHeadTitle());
+
+	shCommandLogManager->replaceHeadTitle(newAction->getHeadTitle());
 
 }
 
@@ -195,10 +196,8 @@ void ShChangeDefaultAfterFinishingCurrentStrategy::change() {
 	this->widget->getActionHandlerProxy()->setCurrentAction(newAction);
 	this->widget->setCursor(newAction->getCursorShape());
 	
-	ShUpdateTextToCommandListEvent event("");
-	this->widget->notify(&event);
-
-	shReplaceCommandHeadTitle(this->widget, newAction->getHeadTitle());
+	shCommandLogManager->appendListEditTextWith("");
+	shCommandLogManager->replaceHeadTitle(newAction->getHeadTitle());
 }
 
 ///////////////////////////////////////////////////////////////
@@ -222,7 +221,8 @@ void ShChangeTemporaryStrategy::change() {
 
 	this->widget->getActionHandlerProxy()->setCurrentAction(this->temporaryAction);
 	this->widget->setCursor(this->temporaryAction->getCursorShape());
-	shReplaceCommandHeadTitle(this->widget, this->temporaryAction->getHeadTitle());
+	
+	shCommandLogManager->replaceHeadTitle(this->temporaryAction->getHeadTitle());
 
 }
 
@@ -309,7 +309,8 @@ void ShReturnToPreviousFromTemporaryStrategy::change() {
 
 	this->widget->getActionHandlerProxy()->setCurrentAction(previous);
 	this->widget->setCursor(previous->getCursorShape());
-	shReplaceCommandHeadTitle(this->widget, previous->getHeadTitle());
+
+	shCommandLogManager->replaceHeadTitle(previous->getHeadTitle());
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -330,8 +331,7 @@ void ShReturnToPreviousAfterCancelingTemporaryStrategy::change() {
 
 	this->widget->update(DrawType::DrawCaptureImage);
 
-	ShUpdateTextToCommandListEvent notifyEvent(shGetLanValue_command("Command/<Cancel>"));
-	this->widget->notify(&notifyEvent);
+	shCommandLogManager->appendListEditTextWith(shGetLanValue_command("Command/<Cancel>"));
 
 	ShActionHandler *previous = this->temporaryAction->getPreviousAction();
 
@@ -340,7 +340,8 @@ void ShReturnToPreviousAfterCancelingTemporaryStrategy::change() {
 
 	this->widget->getActionHandlerProxy()->setCurrentAction(previous);
 	this->widget->setCursor(previous->getCursorShape());
-	shReplaceCommandHeadTitle(this->widget, previous->getHeadTitle());
+	
+	shCommandLogManager->replaceHeadTitle(previous->getHeadTitle());
 }
 
 
@@ -382,7 +383,8 @@ void ShChangeModifyAfterCancelingCurrentStrategy::change() {
 			if (this->typeToChange != ActionType::ActionDefault) {
 
 				QString text = ShActionTypeConverter::convert(this->typeToChange);
-				shAddEditTextAndNewHeadTitleWithText(this->widget, text);
+			
+				shCommandLogManager->appendListEditTextAndNewLineWith(text);
 			}
 
 			delete this->widget->getActionHandlerProxy()->getCurrentAction();
