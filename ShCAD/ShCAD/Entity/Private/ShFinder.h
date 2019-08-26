@@ -20,6 +20,7 @@ public:
 	~ShFinder();
 
 	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
 
 };
 
@@ -44,6 +45,7 @@ public:
 	~ShRectFinder();
 
 	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
 
 };
 

@@ -20,6 +20,7 @@ public:
 	~ShFootOfPerpendicularVisitor();
 
 	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
 
 };
 

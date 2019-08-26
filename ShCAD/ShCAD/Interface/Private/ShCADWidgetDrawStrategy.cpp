@@ -180,6 +180,8 @@ ShDrawSelectedEntitiesStrategy::~ShDrawSelectedEntitiesStrategy() {
 
 void ShDrawSelectedEntitiesStrategy::draw() {
 
+	ShDrawerEraseBackGround drawer(this->widget);
+
 	ShDrawerSelectedEntity *selected = ShDrawerSelectedEntityFactory::create(this->widget, 
 		this->widget->getActionHandlerProxy()->getTypeIgonoringTemp());
 
@@ -189,6 +191,7 @@ void ShDrawSelectedEntitiesStrategy::draw() {
 		itr != this->widget->getSelectedEntities()->getJustSelectedEnd();
 		++itr) {
 
+		(*itr)->accept(&drawer);
 		(*itr)->accept(selected);
 	}
 

@@ -129,4 +129,17 @@ public:
 	virtual void visit(ShCircle *circle);
 };
 
+///////////////////////////////////////////////
+
+class ShDrawerEraseBackGround : public ShDrawer {
+
+public:
+	ShDrawerEraseBackGround(ShCADWidget *widget);
+	~ShDrawerEraseBackGround();
+
+	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
+
+};
+
 #endif //_SHDRAWER_H

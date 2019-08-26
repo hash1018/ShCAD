@@ -15,6 +15,7 @@ public:
 	~ShMover();
 
 	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
 
 };
 

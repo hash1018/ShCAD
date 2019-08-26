@@ -19,6 +19,7 @@ public:
 	~ShMirror();
 
 	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
 
 public:
 	void setOriginal(ShEntity *original) { this->original = original; }

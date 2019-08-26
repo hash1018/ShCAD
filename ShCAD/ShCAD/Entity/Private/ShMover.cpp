@@ -1,6 +1,7 @@
 
 #include "ShMover.h"
 #include "Entity\Leaf\ShLine.h"
+#include "Entity\Leaf\ShCircle.h"
 
 ShMover::ShMover(double disX, double disY)
 	:disX(disX), disY(disY) {
@@ -23,4 +24,14 @@ void ShMover::visit(ShLine *line) {
 
 	line->setStart(start);
 	line->setEnd(end);
+}
+
+void ShMover::visit(ShCircle *circle) {
+
+	ShPoint3d center = circle->getCenter();
+
+	center.x += this->disX;
+	center.y += this->disY;
+
+	circle->setCenter(center);
 }

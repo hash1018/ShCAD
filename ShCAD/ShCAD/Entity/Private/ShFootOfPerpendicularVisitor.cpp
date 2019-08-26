@@ -2,6 +2,7 @@
 #include "ShFootOfPerpendicularVisitor.h"
 #include "Base\ShMath.h"
 #include "Entity\Leaf\ShLine.h"
+#include "Entity\Leaf\ShCircle.h"
 
 ShFootOfPerpendicularVisitor::ShFootOfPerpendicularVisitor(double &perpendicularX, double &perpendicularY,
 	const ShPoint3d& point)
@@ -36,4 +37,13 @@ void ShFootOfPerpendicularVisitor::visit(ShLine *line) {
 
 		return;
 	}
+}
+
+void ShFootOfPerpendicularVisitor::visit(ShCircle *circle) {
+
+	ShCircleData data = circle->getData();
+
+	double angle = math::getAbsAngle(data.center.x, data.center.y, this->point.x, this->point.y);
+	math::rotate(angle, data.center.x, data.center.y, data.center.x + data.radius, data.center.y,
+		this->perpendicularX, this->perpendicularY);
 }

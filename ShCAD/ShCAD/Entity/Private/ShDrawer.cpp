@@ -315,7 +315,6 @@ void ShDrawerSelectedEntityVertex::visit(ShLine *line) {
 	f.convertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
 	f.convertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
-	f.drawLine(start, end, GLColor(0, 0, 0));
 
 	glLineStipple(1, 0xF1F1);
 	glEnable(GL_LINE_STIPPLE);
@@ -405,7 +404,6 @@ void ShDrawerSelectedEntityNoVertex::visit(ShLine *line) {
 	f.convertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
 	f.convertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
 
-	f.drawLine(start, end, GLColor(0, 0, 0));
 
 	glLineStipple(1, 0xF1F1);
 	glEnable(GL_LINE_STIPPLE);
@@ -426,4 +424,38 @@ void ShDrawerSelectedEntityNoVertex::visit(ShCircle *circle) {
 
 	f.drawCircle(data.center, data.radius, GLColor(153.f / 255, 153.f / 155, 1.f));
 	glDisable(GL_LINE_STIPPLE);
+}
+
+
+//////////////////////////////////////////////////////////////////////
+
+ShDrawerEraseBackGround::ShDrawerEraseBackGround(ShCADWidget *widget)
+	:ShDrawer(widget) {
+
+}
+
+ShDrawerEraseBackGround::~ShDrawerEraseBackGround() {
+
+}
+
+
+void ShDrawerEraseBackGround::visit(ShLine *line) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShLineData data = line->getData();
+
+	GLPoint start, end;
+
+	f.convertEntityToOpenGL(data.start.x, data.start.y, start.x, start.y);
+	f.convertEntityToOpenGL(data.end.x, data.end.y, end.x, end.y);
+
+	f.drawLine(start, end, GLColor(0, 0, 0));
+}
+
+void ShDrawerEraseBackGround::visit(ShCircle *circle) {
+
+	ShDrawerFunctions f(this->widget);
+
+	f.drawCircle(circle->getCenter(), circle->getRadius(), GLColor(0, 0, 0));
 }

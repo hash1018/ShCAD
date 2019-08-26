@@ -2,6 +2,7 @@
 #include "ShMirror.h"
 #include "Entity\Leaf\ShLine.h"
 #include "Base\ShMath.h"
+#include "Entity\Leaf\ShCircle.h"
 
 ShMirror::ShMirror(const ShPoint3d &center, double angle)
 	:center(center), angle(angle), original(nullptr) {
@@ -29,4 +30,20 @@ void ShMirror::visit(ShLine *line) {
 		data.end.x, data.end.y, data.end.x, data.end.y);
 
 	line->setData(data);
+}
+
+void ShMirror::visit(ShCircle *circle) {
+
+	if (this->original == 0 || !dynamic_cast<ShCircle*>(this->original))
+		return;
+
+	ShCircle *original = dynamic_cast<ShCircle*>(this->original);
+	ShCircleData data = original->getData();
+
+	double angleCenter = math::getAbsAngle(this->center.x, this->center.y, data.center.x, data.center.y);
+
+	math::rotate((this->angle - angleCenter) * 2, this->center.x, this->center.y,
+		data.center.x, data.center.y, data.center.x, data.center.y);
+
+	circle->setData(data);
 }

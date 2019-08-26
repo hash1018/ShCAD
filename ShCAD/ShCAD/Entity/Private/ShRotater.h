@@ -16,6 +16,7 @@ public:
 	~ShRotater();
 
 	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
 
 };
 
