@@ -86,6 +86,7 @@ private:
 
 	private slots:
 	void lineActionClicked();
+	void circleCenterRadiusActionClicked();
 };
 
 class ShModifyMenu : public ShAbstractMenu {

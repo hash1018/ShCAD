@@ -49,7 +49,9 @@ void ShDrawToolBar::polyLineActionClicked() {
 
 void ShDrawToolBar::circleActionClicked() {
 
-
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawCircleCenterRadius);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShDrawToolBar::arcActionClicked() {

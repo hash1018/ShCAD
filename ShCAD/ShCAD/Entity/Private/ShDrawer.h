@@ -89,6 +89,7 @@ public:
 
 	virtual void visit(ShLine *line);
 	virtual void visit(ShRubberBand *rubberBand);
+	virtual void visit(ShCircle *circle);
 
 
 };
@@ -112,7 +113,7 @@ public:
 	~ShDrawerSelectedEntityVertex();
 
 	virtual void visit(ShLine *line);
-
+	virtual void visit(ShCircle *circle);
 };
 
 ///////////////////////////////////////////////
@@ -125,6 +126,7 @@ public:
 	~ShDrawerSelectedEntityNoVertex();
 
 	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
 };
 
 #endif //_SHDRAWER_H

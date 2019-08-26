@@ -45,3 +45,32 @@ ShLineData& ShLineData::operator=(const ShLineData &other) {
 
 	return *this;
 }
+
+/////////////////////////////////////////////////////////////////
+
+ShCircleData::ShCircleData()
+	:radius(0) {
+
+}
+
+ShCircleData::ShCircleData(const ShPoint3d &center, double radius)
+	: center(center), radius(radius) {
+
+}
+
+ShCircleData::ShCircleData(const ShCircleData &other)
+	: center(other.center), radius(other.radius) {
+
+}
+
+ShCircleData::~ShCircleData() {
+
+}
+
+ShCircleData& ShCircleData::operator=(const ShCircleData &other) {
+
+	this->center = other.center;
+	this->radius = other.radius;
+
+	return *this;
+}

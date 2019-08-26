@@ -32,5 +32,20 @@ public:
 
 };
 
+class ShCircleData : public ShEntityData {
+
+public:
+	ShPoint3d center;
+	double radius;
+
+public:
+	ShCircleData();
+	ShCircleData(const ShPoint3d &center, double radius);
+	ShCircleData(const ShCircleData &other);
+	~ShCircleData();
+
+	ShCircleData& operator=(const ShCircleData &other);
+
+};
 
 #endif //_SHENTITYDATA_H

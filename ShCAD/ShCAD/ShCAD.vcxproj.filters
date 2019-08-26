@@ -562,6 +562,12 @@
     <ClCompile Include="Command\ShCommandFlyWeight.cpp">
       <Filter>Command</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Leaf\ShCircle.cpp">
+      <Filter>Entity\Leaf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -943,6 +949,12 @@
     </ClInclude>
     <ClInclude Include="Command\ShCommandFlyWeight.h">
       <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Leaf\ShCircle.h">
+      <Filter>Entity\Leaf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

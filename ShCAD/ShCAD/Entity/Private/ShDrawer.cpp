@@ -3,6 +3,9 @@
 #include "Interface\ShCADWidget.h"
 #include "Base\ShMath.h"
 #include <qdebug.h>
+#include "Entity\Leaf\ShCircle.h"
+
+
 ShDrawerSelectedEntityFactory::ShDrawerSelectedEntityFactory() {
 
 }
@@ -263,6 +266,23 @@ void ShDrawerUnSelectedEntity::visit(ShRubberBand *rubberBand) {
 
 }
 
+void ShDrawerUnSelectedEntity::visit(ShCircle *circle) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShCircleData data = circle->getData();
+	ShPropertyData propertyData = circle->getPropertyData();
+
+	GLColor color(propertyData.getColor().getRed() / 255., propertyData.getColor().getGreen() / 255.,
+		propertyData.getColor().getBlue() / 255.);
+
+	glLineStipple(1, propertyData.getLineStyle().getPattern());
+	glEnable(GL_LINE_STIPPLE);
+	f.drawCircle(data.center, data.radius, color);
+	glDisable(GL_LINE_STIPPLE);
+}
+
+
 ///////////////////////////////////////////////////////////////
 
 ShDrawerSelectedEntity::ShDrawerSelectedEntity(ShCADWidget *widget)
@@ -322,8 +342,48 @@ void ShDrawerSelectedEntityVertex::visit(ShLine *line) {
 	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
 }
 
+void ShDrawerSelectedEntityVertex::visit(ShCircle *circle) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShCircleData data = circle->getData();
+	
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+
+	f.drawCircle(data.center, data.radius, GLColor(153.f / 255, 153.f / 155, 1.f));
+	glDisable(GL_LINE_STIPPLE);
+
+	int centerX, centerY, centerPlusRadiusX, centerPlusRadiusY;
+	f.convertEntityToDevice(data.center.x, data.center.y, centerX, centerY);
+	f.convertEntityToDevice(data.center.x + data.radius, data.center.y, centerPlusRadiusX, centerPlusRadiusY);
+
+	int deviceRadius = (int)math::getDistance(centerX, centerY, centerPlusRadiusX, centerPlusRadiusY);
+
+	GLPoint topLeft, bottomRight;
+	f.convertDeviceToOpenGL(centerX - 3, centerY - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(centerX + 3, centerY + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertDeviceToOpenGL(centerX + deviceRadius - 3, centerY - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(centerX + deviceRadius + 3, centerY + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertDeviceToOpenGL(centerX - deviceRadius - 3, centerY - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(centerX - deviceRadius + 3, centerY + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertDeviceToOpenGL(centerX - 3, centerY + deviceRadius - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(centerX + 3, centerY + deviceRadius + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertDeviceToOpenGL(centerX - 3, centerY - deviceRadius - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(centerX + 3, centerY - deviceRadius + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+}
 
 
+//////////////////////////////////////////////////////////////////////////////////////////
 
 ShDrawerSelectedEntityNoVertex::ShDrawerSelectedEntityNoVertex(ShCADWidget *widget)
 	:ShDrawerSelectedEntity(widget) {
@@ -353,4 +413,17 @@ void ShDrawerSelectedEntityNoVertex::visit(ShLine *line) {
 	f.drawLine(start, end, GLColor(153.f / 255, 153.f / 155, 1.f));
 	glDisable(GL_LINE_STIPPLE);
 
+}
+
+void ShDrawerSelectedEntityNoVertex::visit(ShCircle *circle) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShCircleData data = circle->getData();
+	
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+
+	f.drawCircle(data.center, data.radius, GLColor(153.f / 255, 153.f / 155, 1.f));
+	glDisable(GL_LINE_STIPPLE);
 }

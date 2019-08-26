@@ -1,5 +1,9 @@
 
 #include "ShRibbonButtonStrategy.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "Manager\ShCADWidgetManager.h"
+#include "Interface\ShCADWidget.h"
+
 
 ShRibbonButtonStrategy::ShRibbonButtonStrategy() {
 
@@ -24,7 +28,11 @@ ShRibbonCircleButtonCenterRadiusStrategy::~ShRibbonCircleButtonCenterRadiusStrat
 
 void ShRibbonCircleButtonCenterRadiusStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawCircleCenterRadius);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonCircleButtonCenterRadiusStrategy::getIcon() {

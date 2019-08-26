@@ -144,6 +144,8 @@ void ShDrawMenu::createCircleMenu() {
 		shGetLanValue_ui("Draw/Circle,ThreePoints"), this->circleMenu);
 	this->circleMenu->addAction(this->circleThreePointAction);
 
+	connect(this->circleCenterRadiusAction, &QAction::triggered, this, &ShDrawMenu::circleCenterRadiusActionClicked);
+
 }
 
 void ShDrawMenu::createArcMenu() {
@@ -204,6 +206,13 @@ void ShDrawMenu::createArcMenu() {
 void ShDrawMenu::lineActionClicked() {
 
 	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawLine);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::circleCenterRadiusActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawCircleCenterRadius);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

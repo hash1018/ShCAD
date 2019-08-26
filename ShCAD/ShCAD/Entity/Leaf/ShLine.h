@@ -21,18 +21,17 @@ public:
 	virtual ShLine* clone();
 	virtual void accept(ShVisitor *visitor);
 
-
+public:
 	virtual void setData(const ShLineData &data) { this->data = data; }
 	void setStart(const ShPoint3d &start) { this->data.start = start; }
 	virtual void setEnd(const ShPoint3d &end) { this->data.end = end; }
 
-	virtual ShLineData getData() const { return this->data; }
-	virtual ShPoint3d getStart() const { return this->data.start; }
-	virtual ShPoint3d getEnd() const { return this->data.end; }
+public:
+	virtual const ShLineData& getData() const { return this->data; }
+	virtual const ShPoint3d& getStart() const { return this->data.start; }
+	virtual const ShPoint3d& getEnd() const { return this->data.end; }
 
 	virtual ShPoint3d getMid();
-
-
 };
 
 #endif //_SHLINE_H
