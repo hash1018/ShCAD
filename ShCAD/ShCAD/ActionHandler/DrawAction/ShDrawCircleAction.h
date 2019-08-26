@@ -52,6 +52,10 @@ private:
 	void changeSubAction(SubAction subAction);
 };
 
+
+////////////////////////////////////////////////////////////////////////////
+
+
 class ShSubDrawCircleAction {
 
 protected:
@@ -80,11 +84,15 @@ protected:
 	void actionFinished();
 };
 
+
+///////////////////////////////////////////////////////////////////////////////
+
+
 class ShSubDrawCircleAction_CenterRadius : public ShSubDrawCircleAction {
 
 public:
 	ShSubDrawCircleAction_CenterRadius(ShDrawCircleAction *drawCircleAction, ShCADWidget *widget);
-	virtual ~ShSubDrawCircleAction_CenterRadius();
+	~ShSubDrawCircleAction_CenterRadius();
 
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
@@ -98,6 +106,29 @@ public:
 	virtual void trigger(const ShPoint3d &point);
 
 };
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+class ShSubDrawCircleAction_CenterDiameter : public ShSubDrawCircleAction {
+
+public:
+	ShSubDrawCircleAction_CenterDiameter(ShDrawCircleAction *drawCircleAction, ShCADWidget *widget);
+	~ShSubDrawCircleAction_CenterDiameter();
+
+	virtual void mouseLeftPressEvent(ShActionData &data);
+	virtual void mouseMoveEvent(ShActionData &data);
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+};
+
 
 
 #endif //_SHDRAWCIRCLEACTION_H

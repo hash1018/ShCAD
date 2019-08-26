@@ -63,7 +63,11 @@ ShRibbonCircleButtonCenterDiameterStrategy::~ShRibbonCircleButtonCenterDiameterS
 
 void ShRibbonCircleButtonCenterDiameterStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawCircleCenterDiameter);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonCircleButtonCenterDiameterStrategy::getIcon() {
