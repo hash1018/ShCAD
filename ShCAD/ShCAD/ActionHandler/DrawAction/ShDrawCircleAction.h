@@ -130,5 +130,30 @@ public:
 };
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+class ShSubDrawCircleAction_TwoPoint : public ShSubDrawCircleAction {
+
+public:
+	ShSubDrawCircleAction_TwoPoint(ShDrawCircleAction *drawCircleAction, ShCADWidget *widget);
+	~ShSubDrawCircleAction_TwoPoint();
+
+	virtual void mouseLeftPressEvent(ShActionData &data);
+	virtual void mouseMoveEvent(ShActionData &data);
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+private:
+	ShPoint3d getCenter(const ShPoint3d &first, const ShPoint3d &second);
+};
+
+
 
 #endif //_SHDRAWCIRCLEACTION_H

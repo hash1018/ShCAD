@@ -97,7 +97,11 @@ ShRibbonCircleButtonTwoPointStrategy::~ShRibbonCircleButtonTwoPointStrategy() {
 
 void ShRibbonCircleButtonTwoPointStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawCircleTwoPoint);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonCircleButtonTwoPointStrategy::getIcon() {
