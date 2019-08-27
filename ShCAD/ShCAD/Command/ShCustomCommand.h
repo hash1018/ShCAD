@@ -74,7 +74,7 @@ void ShOnlyNumberCommand<T>::interpret(ShCADWidget *widget, ShActionHandler *act
 	if (this->isMatched(command) == false)
 		return;
 
-	int number = command.toDouble();
+	double number = command.toDouble();
 
 	(this->receiver->*method)(&number);
 }

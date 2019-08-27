@@ -22,12 +22,9 @@ void ShCommand::trigger(const ShPoint3d &point,ShActionHandler *actionHandler) {
 
 bool ShCommand::isNumber(const QString &string) {
 
-	QString temp;
-	temp = string.section('.', 2, 2);
-
-	if (temp.length() != 0)
+	if (string.count('.') > 1)
 		return false;
-
+	
 	int i = 0;
 	int count = string.length();
 

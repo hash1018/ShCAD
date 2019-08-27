@@ -39,7 +39,7 @@ ShDrawCircleAction::~ShDrawCircleAction() {
 void ShDrawCircleAction::temp(void* number) {
 
 	QMessageBox box;
-	box.setText(QString::number(*(static_cast<int*>(number))));
+	box.setText(QString::number(*(static_cast<double*>(number))));
 	box.exec();
 }
 
