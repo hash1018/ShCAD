@@ -147,6 +147,7 @@ void ShDrawMenu::createCircleMenu() {
 	connect(this->circleCenterRadiusAction, &QAction::triggered, this, &ShDrawMenu::circleCenterRadiusActionClicked);
 	connect(this->circleCenterDiameterAction, &QAction::triggered, this, &ShDrawMenu::circleCenterDiameterActionClicked);
 	connect(this->circleTwoPointAction, &QAction::triggered, this, &ShDrawMenu::circleTwoPointActionClicked);
+	connect(this->circleThreePointAction, &QAction::triggered, this, &ShDrawMenu::circleThreePointActionClicked);
 
 }
 
@@ -233,6 +234,12 @@ void ShDrawMenu::circleTwoPointActionClicked() {
 	this->request(&request);
 }
 
+void ShDrawMenu::circleThreePointActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawCircleThreePoint);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
 
 /////////////////////////////////////////////////////////////////////////
 

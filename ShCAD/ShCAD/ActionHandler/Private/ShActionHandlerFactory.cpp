@@ -29,6 +29,8 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 		return new ShDrawCircleAction(widget, ShDrawCircleAction::SubAction::CenterDiameter);
 	else if (actionType == ActionType::ActionDrawCircleTwoPoint)
 		return new ShDrawCircleAction(widget, ShDrawCircleAction::SubAction::TwoPoint);
+	else if (actionType == ActionType::ActionDrawCircleThreePoint)
+		return new ShDrawCircleAction(widget, ShDrawCircleAction::SubAction::ThreePoint);
 
 	else if (actionType == ActionType::ActionModifyMove)
 		return new ShModifyMoveAction(widget);

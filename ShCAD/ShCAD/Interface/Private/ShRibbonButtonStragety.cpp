@@ -133,7 +133,11 @@ ShRibbonCircleButtonThreePointStrategy::~ShRibbonCircleButtonThreePointStrategy(
 
 void ShRibbonCircleButtonThreePointStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawCircleThreePoint);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonCircleButtonThreePointStrategy::getIcon() {

@@ -33,6 +33,8 @@ void ShRubberBand::setData(const ShLineData &data) {
 
 	if (this->line == nullptr)
 		this->line = new ShLine(data);
+
+	this->line->setData(data);
 }
 
 void ShRubberBand::setEnd(const ShPoint3d &end) {

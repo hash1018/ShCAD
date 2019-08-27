@@ -89,6 +89,7 @@ private:
 	void circleCenterRadiusActionClicked();
 	void circleCenterDiameterActionClicked();
 	void circleTwoPointActionClicked();
+	void circleThreePointActionClicked();
 };
 
 class ShModifyMenu : public ShAbstractMenu {
