@@ -4,6 +4,7 @@
 #include "Base\ShMath.h"
 #include <qdebug.h>
 #include "Entity\Leaf\ShCircle.h"
+#include "Entity\Leaf\ShArc.h"
 
 
 ShDrawerSelectedEntityFactory::ShDrawerSelectedEntityFactory() {
@@ -282,6 +283,31 @@ void ShDrawerUnSelectedEntity::visit(ShCircle *circle) {
 	glDisable(GL_LINE_STIPPLE);
 }
 
+void ShDrawerUnSelectedEntity::visit(ShArc *arc) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShArcData data = arc->getData();
+	ShPropertyData propertyData = arc->getPropertyData();
+
+	GLColor color(propertyData.getColor().getRed() / 255., propertyData.getColor().getGreen() / 255.,
+		propertyData.getColor().getBlue() / 255.);
+
+	glLineStipple(1, propertyData.getLineStyle().getPattern());
+	glEnable(GL_LINE_STIPPLE);
+
+	if (math::compare(data.startAngle, data.endAngle) == 1) {
+		f.drawArc(data.center, data.radius, data.startAngle, 360, color);
+		f.drawArc(data.center, data.radius, 0, data.endAngle, color);
+	}
+	else {
+	
+		f.drawArc(data.center, data.radius, data.startAngle, data.endAngle, color);
+	}
+
+	glDisable(GL_LINE_STIPPLE);
+}
+
 
 ///////////////////////////////////////////////////////////////
 
@@ -382,6 +408,51 @@ void ShDrawerSelectedEntityVertex::visit(ShCircle *circle) {
 }
 
 
+void ShDrawerSelectedEntityVertex::visit(ShArc *arc) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShArcData data = arc->getData();
+	
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+
+	if (math::compare(data.startAngle, data.endAngle) == 1) {
+		f.drawArc(data.center, data.radius, data.startAngle, 360, GLColor(153.f / 255, 153.f / 155, 1.f));
+		f.drawArc(data.center, data.radius, 0, data.endAngle, GLColor(153.f / 255, 153.f / 155, 1.f));
+	}
+	else {
+	
+		f.drawArc(data.center, data.radius, data.startAngle, data.endAngle, GLColor(153.f / 255, 153.f / 155, 1.f));
+	}
+
+	glDisable(GL_LINE_STIPPLE);
+
+	int x, y;
+	GLPoint topLeft, bottomRight;
+
+	f.convertEntityToDevice(data.center.x, data.center.y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertEntityToDevice(arc->getStart().x, arc->getStart().y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertEntityToDevice(arc->getEnd().x, arc->getEnd().y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertEntityToDevice(arc->getMid().x, arc->getMid().y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 ShDrawerSelectedEntityNoVertex::ShDrawerSelectedEntityNoVertex(ShCADWidget *widget)
@@ -426,6 +497,26 @@ void ShDrawerSelectedEntityNoVertex::visit(ShCircle *circle) {
 	glDisable(GL_LINE_STIPPLE);
 }
 
+void ShDrawerSelectedEntityNoVertex::visit(ShArc *arc) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShArcData data = arc->getData();
+
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+
+	if (math::compare(data.startAngle, data.endAngle) == 1) {
+		f.drawArc(data.center, data.radius, data.startAngle, 360, GLColor(153.f / 255, 153.f / 155, 1.f));
+		f.drawArc(data.center, data.radius, 0, data.endAngle, GLColor(153.f / 255, 153.f / 155, 1.f));
+	}
+	else {
+
+		f.drawArc(data.center, data.radius, data.startAngle, data.endAngle, GLColor(153.f / 255, 153.f / 155, 1.f));
+	}
+
+	glDisable(GL_LINE_STIPPLE);
+}
 
 //////////////////////////////////////////////////////////////////////
 
@@ -458,4 +549,20 @@ void ShDrawerEraseBackGround::visit(ShCircle *circle) {
 	ShDrawerFunctions f(this->widget);
 
 	f.drawCircle(circle->getCenter(), circle->getRadius(), GLColor(0, 0, 0));
+}
+
+void ShDrawerEraseBackGround::visit(ShArc *arc) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShArcData data = arc->getData();
+
+	if (math::compare(data.startAngle, data.endAngle) == 1) {
+		f.drawArc(data.center, data.radius, data.startAngle, 360, GLColor(0, 0, 0));
+		f.drawArc(data.center, data.radius, 0, data.endAngle, GLColor(0, 0, 0));
+	}
+	else {
+
+		f.drawArc(data.center, data.radius, data.startAngle, data.endAngle, GLColor(0, 0, 0));
+	}
 }

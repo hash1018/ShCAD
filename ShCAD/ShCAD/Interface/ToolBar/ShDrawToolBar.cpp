@@ -56,5 +56,7 @@ void ShDrawToolBar::circleActionClicked() {
 
 void ShDrawToolBar::arcActionClicked() {
 
-
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcThreePoint);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }

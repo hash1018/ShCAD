@@ -21,6 +21,7 @@ public:
 
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
 
 };
 
@@ -46,6 +47,7 @@ public:
 
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
 
 };
 

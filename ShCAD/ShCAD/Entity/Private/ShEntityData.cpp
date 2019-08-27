@@ -74,3 +74,34 @@ ShCircleData& ShCircleData::operator=(const ShCircleData &other) {
 
 	return *this;
 }
+
+//////////////////////////////////////////////////////////////////
+
+ShArcData::ShArcData()
+	:radius(0), startAngle(0), endAngle(0) {
+
+}
+
+ShArcData::ShArcData(const ShPoint3d &center, double radius, double startAngle, double endAngle)
+	: center(center), radius(radius), startAngle(startAngle), endAngle(endAngle) {
+
+}
+
+ShArcData::ShArcData(const ShArcData &other)
+	: center(other.center), radius(other.radius), startAngle(other.startAngle), endAngle(other.endAngle) {
+
+}
+
+ShArcData::~ShArcData() {
+
+}
+
+ShArcData& ShArcData::operator=(const ShArcData &other) {
+
+	this->center = other.center;
+	this->radius = other.radius;
+	this->startAngle = other.startAngle;
+	this->endAngle = other.endAngle;
+
+	return *this;
+}

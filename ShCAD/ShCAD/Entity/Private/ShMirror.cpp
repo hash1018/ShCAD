@@ -3,6 +3,7 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Base\ShMath.h"
 #include "Entity\Leaf\ShCircle.h"
+#include "Entity\Leaf\ShArc.h"
 
 ShMirror::ShMirror(const ShPoint3d &center, double angle)
 	:center(center), angle(angle), original(nullptr) {
@@ -46,4 +47,30 @@ void ShMirror::visit(ShCircle *circle) {
 		data.center.x, data.center.y, data.center.x, data.center.y);
 
 	circle->setData(data);
+}
+
+void ShMirror::visit(ShArc *arc) {
+
+	if (this->original == 0 || !dynamic_cast<ShArc*>(this->original))
+		return;
+
+	ShArc *original = dynamic_cast<ShArc*>(this->original);
+	ShArcData data = original->getData();
+
+	ShPoint3d start = original->getStart();
+	ShPoint3d end = original->getEnd();
+
+	double angleCenter = math::getAbsAngle(this->center.x, this->center.y, data.center.x, data.center.y);
+	double angleStart = math::getAbsAngle(this->center.x, this->center.y, start.x, start.y);
+	double angleEnd = math::getAbsAngle(this->center.x, this->center.y, end.x, end.y);
+
+
+	math::rotate((this->angle - angleCenter) * 2, this->center.x, this->center.y, data.center.x, data.center.y, data.center.x, data.center.y);
+	math::rotate((this->angle - angleStart) * 2, this->center.x, this->center.y, start.x, start.y, start.x, start.y);
+	math::rotate((this->angle - angleEnd) * 2, this->center.x, this->center.y, end.x, end.y, end.x, end.y);
+
+	data.startAngle = math::getAbsAngle(data.center.x, data.center.y, end.x, end.y);
+	data.endAngle = math::getAbsAngle(data.center.x, data.center.y, start.x, start.y);
+
+	arc->setData(data);
 }

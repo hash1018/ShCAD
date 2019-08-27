@@ -5,6 +5,7 @@
 class ShLine;
 class ShRubberBand;
 class ShCircle;
+class ShArc;
 
 class ShVisitor {
 
@@ -15,6 +16,7 @@ public:
 	virtual void visit(ShLine *line) = 0;
 	virtual void visit(ShRubberBand *rubberBand) {}
 	virtual void visit(ShCircle *circle) {}
+	virtual void visit(ShArc *arc) {}
 
 };
 

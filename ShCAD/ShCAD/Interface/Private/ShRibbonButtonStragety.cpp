@@ -167,7 +167,11 @@ ShRibbonArcButtonThreePointStrategy::~ShRibbonArcButtonThreePointStrategy() {
 
 void ShRibbonArcButtonThreePointStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcThreePoint);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonArcButtonThreePointStrategy::getIcon() {

@@ -3,6 +3,7 @@
 #include "ActionHandler\ShDefaultAction.h"
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
 #include "ActionHandler\DrawAction\ShDrawCircleAction.h"
+#include "ActionHandler\DrawAction\ShDrawArcAction.h"
 #include "ActionHandler\ModifyAction\ShModifyMoveAction.h"
 #include "ActionHandler\ModifyAction\ShModifyCopyAction.h"
 #include "ActionHandler\ModifyAction\ShModifyRotateAction.h"
@@ -31,6 +32,10 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 		return new ShDrawCircleAction(widget, ShDrawCircleAction::SubAction::TwoPoint);
 	else if (actionType == ActionType::ActionDrawCircleThreePoint)
 		return new ShDrawCircleAction(widget, ShDrawCircleAction::SubAction::ThreePoint);
+
+	else if (actionType == ActionType::ActionDrawArcThreePoint)
+		return new ShDrawArcAction(widget, ShDrawArcAction::SubAction::ThreePoint);
+
 
 	else if (actionType == ActionType::ActionModifyMove)
 		return new ShModifyMoveAction(widget);

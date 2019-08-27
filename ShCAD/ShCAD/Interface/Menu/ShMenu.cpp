@@ -204,6 +204,8 @@ void ShDrawMenu::createArcMenu() {
 	this->arcCenterStartLengthAction = new QAction(ShIcon(":/Image/Draw/Arc/Center-Start-Length.png"), 
 		shGetLanValue_ui("Draw/Arc,Center,Start,Length"), this->arcMenu);
 	this->arcMenu->addAction(this->arcCenterStartLengthAction);
+
+	connect(this->arcThreePointAction, &QAction::triggered, this, &ShDrawMenu::arcThreePointActionClicked);
 }
 
 void ShDrawMenu::lineActionClicked() {
@@ -237,6 +239,13 @@ void ShDrawMenu::circleTwoPointActionClicked() {
 void ShDrawMenu::circleThreePointActionClicked() {
 
 	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawCircleThreePoint);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::arcThreePointActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcThreePoint);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

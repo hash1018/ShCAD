@@ -21,13 +21,15 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 	case ActionType::ActionDrawLine:
 		text = "_Line"; break;
 	case ActionType::ActionDrawCircleCenterRadius:
-		text = "_circle"; break;
+		text = "_Circle"; break;
 	case ActionType::ActionDrawCircleCenterDiameter:
-		text = "_circle"; break;
+		text = "_Circle"; break;
 	case ActionType::ActionDrawCircleTwoPoint:
-		text = "_circle"; break;
+		text = "_Circle"; break;
 	case ActionType::ActionDrawCircleThreePoint:
-		text = "_circle"; break;
+		text = "_Circle"; break;
+	case ActionType::ActionDrawArcThreePoint:
+		text = "_Arc"; break;
 
 
 	case ActionType::ActionModifyMove:

@@ -48,4 +48,21 @@ public:
 
 };
 
+class ShArcData : public ShEntityData {
+
+public:
+	ShPoint3d center;
+	double radius;
+	double startAngle;
+	double endAngle;
+
+public:
+	ShArcData();
+	ShArcData(const ShPoint3d &center, double radius, double startAngle, double endAngle);
+	ShArcData(const ShArcData &other);
+	~ShArcData();
+
+	ShArcData& operator=(const ShArcData &other);
+};
+
 #endif //_SHENTITYDATA_H
