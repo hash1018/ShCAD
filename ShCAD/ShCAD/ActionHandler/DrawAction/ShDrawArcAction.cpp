@@ -2,10 +2,26 @@
 #include "ShDrawArcAction.h"
 #include "Base\ShMath.h"
 #include "Entity\Leaf\ShArc.h"
-
+#include "KeyHandler\ShKeyHandler.h"
+#include "Command\ShAvailableCommands.h"
 
 ShDrawArcAction::ShDrawArcAction(ShCADWidget *widget, SubAction subAction)
 	:ShDrawAction(widget), status(PickedNothing), subAction(subAction), subDrawArcAction(nullptr) {
+
+	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
+		allowInput().
+		allowKey(KeyType::EscCancelCurrent).
+		allowKey(KeyType::Enter).
+		allowKey(KeyType::Return).
+		build();
+
+
+	this->availableCommands = ShAvailableCommands::ShBuilder(this->widget, this).
+		addAvailableCommand(CommandType::AbsoluteCoordinate).
+		addAvailableCommand(CommandType::Empty_Cancel).
+		addAvailableCommand(CommandType::RelativeCoordinate).
+		addAvailableCommand(CommandType::PolarCoordinate).
+		build();
 
 	this->changeSubAction(subAction);
 }
