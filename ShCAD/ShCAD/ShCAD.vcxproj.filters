@@ -956,5 +956,8 @@
     <ClInclude Include="Entity\Leaf\ShCircle.h">
       <Filter>Entity\Leaf</Filter>
     </ClInclude>
+    <ClInclude Include="Command\ShCustomCommand.h">
+      <Filter>Command</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

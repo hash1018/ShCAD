@@ -11,6 +11,7 @@
 class ShCommand;
 class ShCADWidget;
 class ShActionHandler;
+class ShAbstractCustomCommand;
 
 class ShAvailableCommands {
 
@@ -34,7 +35,7 @@ public:
 		ShBuilder(ShCADWidget *widget, ShActionHandler *actionHandler);
 		~ShBuilder();
 		ShAvailableCommands::ShBuilder& addAvailableCommand(CommandType type);
-
+		ShAvailableCommands::ShBuilder& addAvailableCommand(ShAbstractCustomCommand *command);
 		ShAvailableCommands* build();
 	};
 

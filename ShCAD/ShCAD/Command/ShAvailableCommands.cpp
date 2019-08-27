@@ -4,6 +4,7 @@
 #include "ShCommandFlyWeight.h"
 #include "Manager\ShCommandLogManager.h"
 #include "Manager\ShLanguageManager.h"
+#include "Command\ShCustomCommand.h"
 
 ShAvailableCommands::ShBuilder::ShBuilder(ShCADWidget *widget, ShActionHandler *actionHandler)
 	:widget(widget), actionHandler(actionHandler) {
@@ -12,15 +13,26 @@ ShAvailableCommands::ShBuilder::ShBuilder(ShCADWidget *widget, ShActionHandler *
 
 ShAvailableCommands::ShBuilder::~ShBuilder() {
 
+	
 }
 
 ShAvailableCommands::ShBuilder& ShAvailableCommands::ShBuilder::addAvailableCommand(CommandType type) {
+
+	if (type == CustomCommand)
+		return *this;
 
 	ShCommandFactory *factory = ShCommandFactory::getInstance();
 	ShCommand *command = factory->get(type);
 
 	this->list.append(command);
 	
+	return *this;
+}
+
+ShAvailableCommands::ShBuilder& ShAvailableCommands::ShBuilder::addAvailableCommand(ShAbstractCustomCommand *command) {
+
+	this->list.append(command);
+
 	return *this;
 }
 
@@ -40,7 +52,11 @@ ShAvailableCommands::ShAvailableCommands(const ShAvailableCommands::ShBuilder &b
 
 ShAvailableCommands::~ShAvailableCommands() {
 
+	for (int i = 0; i < this->list.size(); i++) {
 
+		if (dynamic_cast<ShAbstractCustomCommand*>(this->list.at(i)))
+			delete this->list.at(i);
+	}
 }
 
 void ShAvailableCommands::interpret(const QString &command) {

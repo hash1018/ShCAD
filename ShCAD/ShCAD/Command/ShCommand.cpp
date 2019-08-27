@@ -238,3 +238,71 @@ bool ShDistanceCommand::isMatched(const QString &command) {
 
 	return true;
 }
+
+
+////////////////////////////////////////////////////////////////////////
+
+ShPolarCoordinateCommand::ShPolarCoordinateCommand()
+	:ShCommand(CommandType::PolarCoordinate) {
+
+}
+
+ShPolarCoordinateCommand::~ShPolarCoordinateCommand() {
+
+}
+
+void ShPolarCoordinateCommand::interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command) {
+
+	if (this->isMatched(command) == false)
+		return;
+
+	double angle, length;
+	this->convertCoordinate(command, angle, length);
+
+	ShPoint3d point = actionHandler->getLastPickedPoint();
+
+	math::rotate(angle, point.x, point.y, point.x + length, point.y, point.x, point.y);
+	this->trigger(point, actionHandler);
+}
+
+bool ShPolarCoordinateCommand::isMatched(const QString &command) {
+
+	if (command.count('<') != 1)
+		return false;
+
+	QString length, angle, temp;
+
+	length = command.section('<', 0, 0); 
+	angle = command.section('<', 1, 1);
+	temp = command.section('<', 2, 2);
+
+	if (length.length() == 0)
+		return false;
+	if (angle.length() == 0)
+		return false;
+	if (temp.length() != 0)
+		return false;
+
+	temp = length.section('@', 0, 0);
+	if (temp.length() != 0)
+		return false;
+
+	temp = length.section('@', 1, 1);
+	if (temp.length() == 0)
+		return false;
+
+	if (this->isNumber(temp) == false)
+		return false;
+	if (this->isNumber(angle) == false)
+		return false;
+
+	return true;
+}
+
+void ShPolarCoordinateCommand::convertCoordinate(const QString &command, double &angle, double &length) {
+
+	angle = command.section('<', 1, 1).toDouble();
+	length = command.section('<', 0, 0).section('@', 1, 1).toDouble();
+}
+
+/////////////////////////////////////////////////////////////////////////

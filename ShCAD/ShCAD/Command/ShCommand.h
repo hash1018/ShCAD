@@ -87,4 +87,22 @@ public:
 
 };
 
+class ShPolarCoordinateCommand : public ShCommand {
+
+public:
+	ShPolarCoordinateCommand();
+	~ShPolarCoordinateCommand();
+
+public:
+	virtual void interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command);
+	virtual bool isMatched(const QString &command);
+
+private:
+	void convertCoordinate(const QString &command, double &angle, double &length);
+
+};
+
+///////////////////////////////////////////////////////
+
+
 #endif //_SHCOMMAND_H

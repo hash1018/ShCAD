@@ -2,9 +2,29 @@
 #include "ShDrawCircleAction.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Base\ShMath.h"
+#include "KeyHandler\ShKeyHandler.h"
+#include "Command\ShAvailableCommands.h"
+#include "Command\ShCustomCommand.h"
 
 ShDrawCircleAction::ShDrawCircleAction(ShCADWidget *widget, SubAction subAction)
 	:ShDrawAction(widget), status(PickedNothing), subAction(subAction), subDrawCircleAction(nullptr) {
+
+	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
+		allowInput().
+		allowKey(KeyType::EscCancelCurrent).
+		allowKey(KeyType::Enter).
+		allowKey(KeyType::Return).
+		build();
+
+
+	this->availableCommands = ShAvailableCommands::ShBuilder(this->widget, this).
+		addAvailableCommand(CommandType::AbsoluteCoordinate).
+		addAvailableCommand(CommandType::Empty_Cancel).
+		addAvailableCommand(CommandType::RelativeCoordinate).
+		addAvailableCommand(CommandType::PolarCoordinate).
+		addAvailableCommand(new ShOnlyNumberCommand<ShDrawCircleAction>(this, &ShDrawCircleAction::temp)).
+		build();
+
 
 	this->changeSubAction(subAction);
 }
@@ -13,6 +33,14 @@ ShDrawCircleAction::~ShDrawCircleAction() {
 
 	if (this->subDrawCircleAction != nullptr)
 		delete this->subDrawCircleAction;
+}
+
+#include <qmessagebox.h>
+void ShDrawCircleAction::temp(void* number) {
+
+	QMessageBox box;
+	box.setText(QString::number(*(static_cast<int*>(number))));
+	box.exec();
 }
 
 void ShDrawCircleAction::mouseLeftPressEvent(ShActionData &data) {

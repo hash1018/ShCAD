@@ -22,6 +22,7 @@ ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
 		addAvailableCommand(CommandType::AbsoluteCoordinate).
 		addAvailableCommand(CommandType::RelativeCoordinate).
 		addAvailableCommand(CommandType::Distance).
+		addAvailableCommand(CommandType::PolarCoordinate).
 		build();
 
 

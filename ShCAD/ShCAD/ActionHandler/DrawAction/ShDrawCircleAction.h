@@ -50,6 +50,8 @@ protected:
 
 private:
 	void changeSubAction(SubAction subAction);
+
+	void temp(void*);
 };
 
 

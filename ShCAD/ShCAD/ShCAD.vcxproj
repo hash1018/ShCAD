@@ -448,6 +448,7 @@
     <ClInclude Include="Command\ShCommand.h" />
     <ClInclude Include="Command\ShCommandFlyWeight.h" />
     <ClInclude Include="Command\ShCommandType.h" />
+    <ClInclude Include="Command\ShCustomCommand.h" />
     <ClInclude Include="Data\ShDraftData.h" />
     <ClInclude Include="Data\ShAvailableDraft.h" />
     <ClInclude Include="Data\ShColor.h" />
