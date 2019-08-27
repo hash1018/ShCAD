@@ -51,7 +51,7 @@ protected:
 private:
 	void changeSubAction(SubAction subAction);
 
-	void temp(void*);
+	void temp(void *);
 };
 
 
