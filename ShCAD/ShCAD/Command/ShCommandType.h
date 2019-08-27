@@ -8,7 +8,6 @@ enum CommandType {
 	Empty_PreviousAction,
 	AbsoluteCoordinate,
 	RelativeCoordinate,
-	Distance,
 	PolarCoordinate,
 	CustomCommand,
 };

@@ -75,18 +75,6 @@ private:
 
 //////////////////////////////////////////////////////
 
-class ShDistanceCommand : public ShCommand {
-
-public:
-	ShDistanceCommand();
-	~ShDistanceCommand();
-
-public:
-	virtual void interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command);
-	virtual bool isMatched(const QString &command);
-
-};
-
 class ShPolarCoordinateCommand : public ShCommand {
 
 public:

@@ -50,6 +50,9 @@ public:
 	void changeSubAction(SubAction subAction);
 	ShSubDrawLineAction* getSubDrawLineAction() const { return this->subDrawLineAction; }
 
+
+private:
+	void inputNumber(void*);
 };
 
 ////////////////////////////////////////////////////////////////////

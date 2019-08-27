@@ -6,6 +6,8 @@
 #include "KeyHandler\ShCustomKey.h"
 #include "Entity\Private\ShFootOfPerpendicularVisitor.h"
 #include "Command\ShAvailableCommands.h"
+#include "Command\ShCustomCommand.h"
+#include "Base\ShMath.h"
 
 ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
 	:ShDrawAction(widget), status(PickedNothing), subAction(Default) {
@@ -21,8 +23,8 @@ ShDrawLineAction::ShDrawLineAction(ShCADWidget *widget)
 		addAvailableCommand(CommandType::Empty_Cancel).
 		addAvailableCommand(CommandType::AbsoluteCoordinate).
 		addAvailableCommand(CommandType::RelativeCoordinate).
-		addAvailableCommand(CommandType::Distance).
 		addAvailableCommand(CommandType::PolarCoordinate).
+		addAvailableCommand(new ShOnlyNumberCommand<ShDrawLineAction>(this, &ShDrawLineAction::inputNumber)).
 		build();
 
 
@@ -131,6 +133,28 @@ void ShDrawLineAction::changeSubAction(SubAction subAction) {
 
 }
 
+void ShDrawLineAction::inputNumber(void *number) {
+
+	double length = *static_cast<double*>(number);
+	ShPoint3d point;
+	ShPoint3d lastPickedPoint = this->getLastPickedPoint();
+
+	if (this->status == Status::PickedNothing) {
+	
+		ShPoint3d mouse = this->widget->getMousePoint();
+		double angle = math::getAbsAngle(lastPickedPoint.x, lastPickedPoint.y, mouse.x, mouse.y);
+		math::rotate(angle, lastPickedPoint.x, lastPickedPoint.y, lastPickedPoint.x + length, lastPickedPoint.y, point.x, point.y);
+		
+	}
+	else if (status == Status::PickedStart) {
+	
+		ShPoint3d end = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()))->getEnd();
+		double angle = math::getAbsAngle(lastPickedPoint.x, lastPickedPoint.y, end.x, end.y);
+		math::rotate(angle, lastPickedPoint.x, lastPickedPoint.y, lastPickedPoint.x + length, lastPickedPoint.y, point.x, point.y);
+	}
+
+	this->trigger(point);
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 

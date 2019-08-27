@@ -2,7 +2,6 @@
 #include "ShCommand.h"
 #include "ActionHandler\ShActionHandler.h"
 #include <qstring.h>
-#include "Interface\ShCADWidget.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Base\ShMath.h"
 
@@ -202,39 +201,6 @@ void ShRelativeCoordinateCommand::convertCoordinate(const QString &command, doub
 }
 
 //////////////////////////////////////////////////////////////////////
-
-ShDistanceCommand::ShDistanceCommand()
-	:ShCommand(CommandType::Distance) {
-
-}
-
-ShDistanceCommand::~ShDistanceCommand() {
-
-}
-
-void ShDistanceCommand::interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command) {
-
-	if (this->isMatched(command) == false)
-		return;
-
-	ShPoint3d mouse = widget->getMousePoint();
-	ShPoint3d lastPickedPoint = actionHandler->getLastPickedPoint();
-
-	double angle = math::getAbsAngle(lastPickedPoint.x, lastPickedPoint.y, mouse.x, mouse.y);
-
-	ShPoint3d point;
-	math::rotate(angle, lastPickedPoint.x, lastPickedPoint.y, lastPickedPoint.x + command.toDouble(), lastPickedPoint.y, point.x, point.y);
-
-	this->trigger(point, actionHandler);
-}
-
-bool ShDistanceCommand::isMatched(const QString &command) {
-
-	if (this->isNumber(command) == false)
-		return false;
-
-	return true;
-}
 
 
 ////////////////////////////////////////////////////////////////////////
