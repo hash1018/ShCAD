@@ -277,6 +277,10 @@ public:
 
 class ShSubDrawArcAction_CenterStartEnd : public ShSubDrawArcAction {
 
+private:
+	ShPoint3d center;
+	ShPoint3d start;
+
 public:
 	ShSubDrawArcAction_CenterStartEnd(ShDrawArcAction *drawArcAction, ShCADWidget *widget);
 	~ShSubDrawArcAction_CenterStartEnd();

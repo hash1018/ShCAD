@@ -349,14 +349,52 @@ QString ShSubDrawArcAction_StartCenterEnd::getHeadTitle() {
 
 ShAvailableDraft ShSubDrawArcAction_StartCenterEnd::getAvailableDraft() {
 
+	ShAvailableDraft draft;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		ShPoint3d mouse = this->widget->getMousePoint();
+		draft.setOrthogonalBasePoint(mouse);
+		draft.setSnapBasePoint(mouse);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->start);
+		draft.setSnapBasePoint(this->start);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+	
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->center);
+		draft.setSnapBasePoint(this->center);
+	}
+
+	return draft;
 }
 
 void ShSubDrawArcAction_StartCenterEnd::invalidate(ShPoint3d &point) {
 
+	
 }
 
 ShPoint3d ShSubDrawArcAction_StartCenterEnd::getLastPickedPoint() {
 
+	ShPoint3d lastPickedPoint;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		lastPickedPoint = this->start;
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		lastPickedPoint = this->center;
+	}
+
+	return lastPickedPoint;
 }
 
 void ShSubDrawArcAction_StartCenterEnd::trigger(const ShPoint3d &point) {
@@ -398,6 +436,31 @@ QString ShSubDrawArcAction_StartCenterAngle::getHeadTitle() {
 
 ShAvailableDraft ShSubDrawArcAction_StartCenterAngle::getAvailableDraft() {
 
+	ShAvailableDraft draft;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		ShPoint3d mouse = this->widget->getMousePoint();
+		draft.setOrthogonalBasePoint(mouse);
+		draft.setSnapBasePoint(mouse);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->start);
+		draft.setSnapBasePoint(this->start);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->center);
+		draft.setSnapBasePoint(this->center);
+	}
+
+	return draft;
 }
 
 void ShSubDrawArcAction_StartCenterAngle::invalidate(ShPoint3d &point) {
@@ -406,6 +469,18 @@ void ShSubDrawArcAction_StartCenterAngle::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartCenterAngle::getLastPickedPoint() {
 
+	ShPoint3d lastPickedPoint;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		lastPickedPoint = this->start;
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		lastPickedPoint = this->center;
+	}
+
+	return lastPickedPoint;
 }
 
 void ShSubDrawArcAction_StartCenterAngle::trigger(const ShPoint3d &point) {
@@ -446,6 +521,31 @@ QString ShSubDrawArcAction_StartCenterLength::getHeadTitle() {
 
 ShAvailableDraft ShSubDrawArcAction_StartCenterLength::getAvailableDraft() {
 
+	ShAvailableDraft draft;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		ShPoint3d mouse = this->widget->getMousePoint();
+		draft.setOrthogonalBasePoint(mouse);
+		draft.setSnapBasePoint(mouse);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->start);
+		draft.setSnapBasePoint(this->start);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->center);
+		draft.setSnapBasePoint(this->center);
+	}
+
+	return draft;
 }
 
 void ShSubDrawArcAction_StartCenterLength::invalidate(ShPoint3d &point) {
@@ -454,6 +554,18 @@ void ShSubDrawArcAction_StartCenterLength::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartCenterLength::getLastPickedPoint() {
 
+	ShPoint3d lastPickedPoint;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		lastPickedPoint = this->start;
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		lastPickedPoint = this->center;
+	}
+
+	return lastPickedPoint;
 }
 
 void ShSubDrawArcAction_StartCenterLength::trigger(const ShPoint3d &point) {
@@ -497,6 +609,31 @@ QString ShSubDrawArcAction_StartEndAngle::getHeadTitle() {
 
 ShAvailableDraft ShSubDrawArcAction_StartEndAngle::getAvailableDraft() {
 
+	ShAvailableDraft draft;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		ShPoint3d mouse = this->widget->getMousePoint();
+		draft.setOrthogonalBasePoint(mouse);
+		draft.setSnapBasePoint(mouse);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->start);
+		draft.setSnapBasePoint(this->start);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->end);
+		draft.setSnapBasePoint(this->end);
+	}
+
+	return draft;
 }
 
 void ShSubDrawArcAction_StartEndAngle::invalidate(ShPoint3d &point) {
@@ -505,6 +642,18 @@ void ShSubDrawArcAction_StartEndAngle::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartEndAngle::getLastPickedPoint() {
 
+	ShPoint3d lastPickedPoint;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		lastPickedPoint = this->start;
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
+
+		lastPickedPoint = this->end;
+	}
+
+	return lastPickedPoint;
 }
 
 void ShSubDrawArcAction_StartEndAngle::trigger(const ShPoint3d &point) {
@@ -545,6 +694,31 @@ QString ShSubDrawArcAction_StartEndDirection::getHeadTitle() {
 
 ShAvailableDraft ShSubDrawArcAction_StartEndDirection::getAvailableDraft() {
 
+	ShAvailableDraft draft;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		ShPoint3d mouse = this->widget->getMousePoint();
+		draft.setOrthogonalBasePoint(mouse);
+		draft.setSnapBasePoint(mouse);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->start);
+		draft.setSnapBasePoint(this->start);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->end);
+		draft.setSnapBasePoint(this->end);
+	}
+
+	return draft;
 }
 
 void ShSubDrawArcAction_StartEndDirection::invalidate(ShPoint3d &point) {
@@ -553,6 +727,18 @@ void ShSubDrawArcAction_StartEndDirection::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartEndDirection::getLastPickedPoint() {
 
+	ShPoint3d lastPickedPoint;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		lastPickedPoint = this->start;
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
+
+		lastPickedPoint = this->end;
+	}
+
+	return lastPickedPoint;
 }
 
 void ShSubDrawArcAction_StartEndDirection::trigger(const ShPoint3d &point) {
@@ -594,6 +780,31 @@ QString ShSubDrawArcAction_StartEndRadius::getHeadTitle() {
 
 ShAvailableDraft ShSubDrawArcAction_StartEndRadius::getAvailableDraft() {
 
+	ShAvailableDraft draft;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		ShPoint3d mouse = this->widget->getMousePoint();
+		draft.setOrthogonalBasePoint(mouse);
+		draft.setSnapBasePoint(mouse);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->start);
+		draft.setSnapBasePoint(this->start);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->end);
+		draft.setSnapBasePoint(this->end);
+	}
+
+	return draft;
 }
 
 void ShSubDrawArcAction_StartEndRadius::invalidate(ShPoint3d &point) {
@@ -602,6 +813,18 @@ void ShSubDrawArcAction_StartEndRadius::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartEndRadius::getLastPickedPoint() {
 
+	ShPoint3d lastPickedPoint;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		lastPickedPoint = this->start;
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
+
+		lastPickedPoint = this->end;
+	}
+
+	return lastPickedPoint;
 }
 
 void ShSubDrawArcAction_StartEndRadius::trigger(const ShPoint3d &point) {
@@ -646,6 +869,31 @@ QString ShSubDrawArcAction_CenterStartEnd::getHeadTitle() {
 
 ShAvailableDraft ShSubDrawArcAction_CenterStartEnd::getAvailableDraft() {
 
+	ShAvailableDraft draft;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		ShPoint3d mouse = this->widget->getMousePoint();
+		draft.setOrthogonalBasePoint(mouse);
+		draft.setSnapBasePoint(mouse);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->center);
+		draft.setSnapBasePoint(this->center);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->start);
+		draft.setSnapBasePoint(this->start);
+	}
+
+	return draft;
 }
 
 void ShSubDrawArcAction_CenterStartEnd::invalidate(ShPoint3d &point) {
@@ -654,6 +902,18 @@ void ShSubDrawArcAction_CenterStartEnd::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_CenterStartEnd::getLastPickedPoint() {
 
+	ShPoint3d lastPickedPoint;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		lastPickedPoint = this->center;
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		lastPickedPoint = this->start;
+	}
+
+	return lastPickedPoint;
 }
 
 void ShSubDrawArcAction_CenterStartEnd::trigger(const ShPoint3d &point) {
@@ -696,6 +956,31 @@ QString ShSubDrawArcAction_CenterStartAngle::getHeadTitle() {
 
 ShAvailableDraft ShSubDrawArcAction_CenterStartAngle::getAvailableDraft() {
 
+	ShAvailableDraft draft;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		ShPoint3d mouse = this->widget->getMousePoint();
+		draft.setOrthogonalBasePoint(mouse);
+		draft.setSnapBasePoint(mouse);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->center);
+		draft.setSnapBasePoint(this->center);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->start);
+		draft.setSnapBasePoint(this->start);
+	}
+
+	return draft;
 }
 
 void ShSubDrawArcAction_CenterStartAngle::invalidate(ShPoint3d &point) {
@@ -704,6 +989,18 @@ void ShSubDrawArcAction_CenterStartAngle::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_CenterStartAngle::getLastPickedPoint() {
 
+	ShPoint3d lastPickedPoint;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		lastPickedPoint = this->center;
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		lastPickedPoint = this->start;
+	}
+
+	return lastPickedPoint;
 }
 
 void ShSubDrawArcAction_CenterStartAngle::trigger(const ShPoint3d &point) {
@@ -746,6 +1043,31 @@ QString ShSubDrawArcAction_CenterStartLength::getHeadTitle() {
 
 ShAvailableDraft ShSubDrawArcAction_CenterStartLength::getAvailableDraft() {
 
+	ShAvailableDraft draft;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		ShPoint3d mouse = this->widget->getMousePoint();
+		draft.setOrthogonalBasePoint(mouse);
+		draft.setSnapBasePoint(mouse);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->center);
+		draft.setSnapBasePoint(this->center);
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->start);
+		draft.setSnapBasePoint(this->start);
+	}
+
+	return draft;
 }
 
 void ShSubDrawArcAction_CenterStartLength::invalidate(ShPoint3d &point) {
@@ -754,6 +1076,18 @@ void ShSubDrawArcAction_CenterStartLength::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_CenterStartLength::getLastPickedPoint() {
 
+	ShPoint3d lastPickedPoint;
+
+	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		lastPickedPoint = this->center;
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		lastPickedPoint = this->start;
+	}
+
+	return lastPickedPoint;
 }
 
 void ShSubDrawArcAction_CenterStartLength::trigger(const ShPoint3d &point) {
