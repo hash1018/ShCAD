@@ -124,4 +124,217 @@ private:
 	bool getArcDataWithThreePoint(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &third, ShArcData &data);
 };
 
+
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+class ShSubDrawArcAction_StartCenterEnd : public ShSubDrawArcAction {
+
+private:
+	ShPoint3d start;
+	ShPoint3d center;
+
+public:
+	ShSubDrawArcAction_StartCenterEnd(ShDrawArcAction *drawArcAction, ShCADWidget *widget);
+	~ShSubDrawArcAction_StartCenterEnd();
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+};
+
+
+////////////////////////////////////////////////////////////////////////////
+
+class ShSubDrawArcAction_StartCenterAngle : public ShSubDrawArcAction {
+
+private:
+	ShPoint3d start;
+	ShPoint3d center;
+
+public:
+	ShSubDrawArcAction_StartCenterAngle(ShDrawArcAction *drawArcAction, ShCADWidget *widget);
+	~ShSubDrawArcAction_StartCenterAngle();
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+};
+
+/////////////////////////////////////////////////////////////////////////////
+
+
+class ShSubDrawArcAction_StartCenterLength : public ShSubDrawArcAction {
+
+private:
+	ShPoint3d start;
+	ShPoint3d center;
+
+public:
+	ShSubDrawArcAction_StartCenterLength(ShDrawArcAction *drawArcAction, ShCADWidget *widget);
+	~ShSubDrawArcAction_StartCenterLength();
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+};
+
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+class ShSubDrawArcAction_StartEndAngle : public ShSubDrawArcAction {
+
+private:
+	ShPoint3d start;
+	ShPoint3d end;
+
+public:
+	ShSubDrawArcAction_StartEndAngle(ShDrawArcAction *drawArcAction, ShCADWidget *widget);
+	~ShSubDrawArcAction_StartEndAngle();
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+};
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+class ShSubDrawArcAction_StartEndDirection : public ShSubDrawArcAction {
+
+private:
+	ShPoint3d start;
+	ShPoint3d end;
+
+public:
+	ShSubDrawArcAction_StartEndDirection(ShDrawArcAction *drawArcAction, ShCADWidget *widget);
+	~ShSubDrawArcAction_StartEndDirection();
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+};
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+class ShSubDrawArcAction_StartEndRadius : public ShSubDrawArcAction {
+
+private:
+	ShPoint3d start;
+	ShPoint3d end;
+
+public:
+	ShSubDrawArcAction_StartEndRadius(ShDrawArcAction *drawArcAction, ShCADWidget *widget);
+	~ShSubDrawArcAction_StartEndRadius();
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+};
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+class ShSubDrawArcAction_CenterStartEnd : public ShSubDrawArcAction {
+
+public:
+	ShSubDrawArcAction_CenterStartEnd(ShDrawArcAction *drawArcAction, ShCADWidget *widget);
+	~ShSubDrawArcAction_CenterStartEnd();
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+};
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+class ShSubDrawArcAction_CenterStartAngle : public ShSubDrawArcAction {
+
+private:
+	ShPoint3d center;
+	ShPoint3d start;
+
+public:
+	ShSubDrawArcAction_CenterStartAngle(ShDrawArcAction *drawArcAction, ShCADWidget *widget);
+	~ShSubDrawArcAction_CenterStartAngle();
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+};
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class ShSubDrawArcAction_CenterStartLength : public ShSubDrawArcAction {
+
+private:
+	ShPoint3d center;
+	ShPoint3d start;
+
+public:
+	ShSubDrawArcAction_CenterStartLength(ShDrawArcAction *drawArcAction, ShCADWidget *widget);
+	~ShSubDrawArcAction_CenterStartLength();
+
+	virtual ActionType getType();
+	virtual QString getHeadTitle();
+	virtual ShAvailableDraft getAvailableDraft();
+
+	virtual void invalidate(ShPoint3d &point);
+	virtual ShPoint3d getLastPickedPoint();
+	virtual void trigger(const ShPoint3d &point);
+
+};
+
 #endif //_SHDRAWARCACTION_H

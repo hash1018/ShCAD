@@ -202,6 +202,11 @@ ShRibbonArcButtonStartCenterEndStrategy::~ShRibbonArcButtonStartCenterEndStrateg
 
 void ShRibbonArcButtonStartCenterEndStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartCenterEnd);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonArcButtonStartCenterEndStrategy::getIcon() {
@@ -232,7 +237,11 @@ ShRibbonArcButtonStartCenterAngleStrategy::~ShRibbonArcButtonStartCenterAngleStr
 
 void ShRibbonArcButtonStartCenterAngleStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartCenterAngle);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonArcButtonStartCenterAngleStrategy::getIcon() {
@@ -264,7 +273,11 @@ ShRibbonArcButtonStartCenterLengthStrategy::~ShRibbonArcButtonStartCenterLengthS
 
 void ShRibbonArcButtonStartCenterLengthStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartCenterLength);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonArcButtonStartCenterLengthStrategy::getIcon() {
@@ -296,7 +309,11 @@ ShRibbonArcButtonStartEndAngleStrategy::~ShRibbonArcButtonStartEndAngleStrategy(
 
 void ShRibbonArcButtonStartEndAngleStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartEndAngle);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonArcButtonStartEndAngleStrategy::getIcon() {
@@ -327,7 +344,11 @@ ShRibbonArcButtonStartEndDirectionStrategy::~ShRibbonArcButtonStartEndDirectionS
 
 void ShRibbonArcButtonStartEndDirectionStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartEndDirection);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonArcButtonStartEndDirectionStrategy::getIcon() {
@@ -360,6 +381,11 @@ ShRibbonArcButtonStartEndRadiusStrategy::~ShRibbonArcButtonStartEndRadiusStrateg
 
 void ShRibbonArcButtonStartEndRadiusStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartEndRadius);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonArcButtonStartEndRadiusStrategy::getIcon() {
@@ -390,6 +416,11 @@ ShRibbonArcButtonCenterStartEndStrategy::~ShRibbonArcButtonCenterStartEndStrateg
 
 void ShRibbonArcButtonCenterStartEndStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcCenterStartEnd);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonArcButtonCenterStartEndStrategy::getIcon() {
@@ -422,7 +453,11 @@ ShRibbonArcButtonCenterStartAngleStrategy::~ShRibbonArcButtonCenterStartAngleStr
 
 void ShRibbonArcButtonCenterStartAngleStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcCenterStartAngle);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonArcButtonCenterStartAngleStrategy::getIcon() {
@@ -453,7 +488,11 @@ ShRibbonArcButtonCenterStartLengthStrategy::~ShRibbonArcButtonCenterStartLengthS
 
 void ShRibbonArcButtonCenterStartLengthStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcCenterStartLength);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonArcButtonCenterStartLengthStrategy::getIcon() {
@@ -539,7 +578,7 @@ ShRibbonPolyLineButtonStrategy::ShRibbonPolyLineButtonStrategy() {
 
 }
 
-ShRibbonPolyLineButtonStrategy::	~ShRibbonPolyLineButtonStrategy() {
+ShRibbonPolyLineButtonStrategy::~ShRibbonPolyLineButtonStrategy() {
 
 }
 

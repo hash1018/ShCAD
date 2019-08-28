@@ -28,8 +28,36 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 		text = "_Circle"; break;
 	case ActionType::ActionDrawCircleThreePoint:
 		text = "_Circle"; break;
+
+
 	case ActionType::ActionDrawArcThreePoint:
 		text = "_Arc"; break;
+
+
+
+	case ActionType::ActionDrawArcStartCenterEnd:
+		text = "_Arc"; break;
+	case ActionType::ActionDrawArcStartCenterAngle:
+		text = "_Arc"; break;
+	case ActionType::ActionDrawArcStartCenterLength:
+		text = "_Arc"; break;
+
+
+	case ActionType::ActionDrawArcStartEndAngle:
+		text = "_Arc"; break;
+	case ActionType::ActionDrawArcStartEndDirection:
+		text = "_Arc"; break;
+	case ActionType::ActionDrawArcStartEndRadius:
+		text = "_Arc"; break;
+
+
+	case ActionType::ActionDrawArcCenterStartEnd:
+		text = "_Arc"; break;
+	case ActionType::ActionDrawArcCenterStartAngle:
+		text = "_Arc"; break;
+	case ActionType::ActionDrawArcCenterStartLength:
+		text = "_Arc"; break;
+
 
 
 	case ActionType::ActionModifyMove:

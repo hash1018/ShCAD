@@ -81,6 +81,28 @@ void ShDrawArcAction::changeSubAction(SubAction subAction) {
 
 	if (subAction == SubAction::ThreePoint)
 		this->subDrawArcAction = new ShSubDrawArcAction_ThreePoint(this, this->widget);
+
+	else if (subAction == SubAction::StartCenterEnd)
+		this->subDrawArcAction = new ShSubDrawArcAction_StartCenterEnd(this, this->widget);
+	else if (subAction == SubAction::StartCenterAngle)
+		this->subDrawArcAction = new ShSubDrawArcAction_StartCenterAngle(this, this->widget);
+	else if (subAction == SubAction::StartCenterLength)
+		this->subDrawArcAction = new ShSubDrawArcAction_StartCenterLength(this, this->widget);
+
+	else if (subAction == SubAction::StartEndAngle)
+		this->subDrawArcAction = new ShSubDrawArcAction_StartEndAngle(this, this->widget);
+	else if (subAction == SubAction::StartEndDirection)
+		this->subDrawArcAction = new ShSubDrawArcAction_StartEndDirection(this, this->widget);
+	else if (subAction == SubAction::StartEndRadius)
+		this->subDrawArcAction = new ShSubDrawArcAction_StartEndRadius(this, this->widget);
+
+	else if (subAction == SubAction::CenterStartEnd)
+		this->subDrawArcAction = new ShSubDrawArcAction_CenterStartEnd(this, this->widget);
+	else if (subAction == SubAction::CenterStartAngle)
+		this->subDrawArcAction = new ShSubDrawArcAction_CenterStartAngle(this, this->widget);
+	else if (subAction == SubAction::CenterStartLength)
+		this->subDrawArcAction = new ShSubDrawArcAction_CenterStartLength(this, this->widget);
+	
 	
 }
 
@@ -289,4 +311,452 @@ bool ShSubDrawArcAction_ThreePoint::getArcDataWithThreePoint(const ShPoint3d &fi
 	}
 
 	return true;
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+ShSubDrawArcAction_StartCenterEnd::ShSubDrawArcAction_StartCenterEnd(ShDrawArcAction *drawArcAction, ShCADWidget *widget)
+	:ShSubDrawArcAction(drawArcAction, widget) {
+
+}
+
+ShSubDrawArcAction_StartCenterEnd::~ShSubDrawArcAction_StartCenterEnd() {
+
+}
+
+ActionType ShSubDrawArcAction_StartCenterEnd::getType() {
+
+	return ActionType::ActionDrawArcStartCenterEnd;
+}
+
+QString ShSubDrawArcAction_StartCenterEnd::getHeadTitle() {
+
+	ShDrawArcAction::Status status = this->getStatus();
+	QString text;
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify start point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify center point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedCenter)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify end point of arc") + ": ";
+
+	return text;
+}
+
+ShAvailableDraft ShSubDrawArcAction_StartCenterEnd::getAvailableDraft() {
+
+}
+
+void ShSubDrawArcAction_StartCenterEnd::invalidate(ShPoint3d &point) {
+
+}
+
+ShPoint3d ShSubDrawArcAction_StartCenterEnd::getLastPickedPoint() {
+
+}
+
+void ShSubDrawArcAction_StartCenterEnd::trigger(const ShPoint3d &point) {
+
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+
+ShSubDrawArcAction_StartCenterAngle::ShSubDrawArcAction_StartCenterAngle(ShDrawArcAction *drawArcAction, ShCADWidget *widget)
+	:ShSubDrawArcAction(drawArcAction, widget) {
+
+}
+
+ShSubDrawArcAction_StartCenterAngle::~ShSubDrawArcAction_StartCenterAngle() {
+
+}
+
+ActionType ShSubDrawArcAction_StartCenterAngle::getType() {
+
+	return ActionType::ActionDrawArcStartCenterAngle;
+}
+
+QString ShSubDrawArcAction_StartCenterAngle::getHeadTitle() {
+
+	ShDrawArcAction::Status status = this->getStatus();
+	QString text;
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify start point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify center point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedCenter)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify included angle") + ": ";
+
+	return text;
+}
+
+ShAvailableDraft ShSubDrawArcAction_StartCenterAngle::getAvailableDraft() {
+
+}
+
+void ShSubDrawArcAction_StartCenterAngle::invalidate(ShPoint3d &point) {
+
+}
+
+ShPoint3d ShSubDrawArcAction_StartCenterAngle::getLastPickedPoint() {
+
+}
+
+void ShSubDrawArcAction_StartCenterAngle::trigger(const ShPoint3d &point) {
+
+
+}
+
+///////////////////////////////////////////////////////////////
+
+ShSubDrawArcAction_StartCenterLength::ShSubDrawArcAction_StartCenterLength(ShDrawArcAction *drawArcAction, ShCADWidget *widget)
+	:ShSubDrawArcAction(drawArcAction, widget) {
+
+}
+
+ShSubDrawArcAction_StartCenterLength::~ShSubDrawArcAction_StartCenterLength() {
+
+}
+
+ActionType ShSubDrawArcAction_StartCenterLength::getType() {
+
+	return ActionType::ActionDrawArcStartCenterLength;
+}
+
+QString ShSubDrawArcAction_StartCenterLength::getHeadTitle() {
+
+	ShDrawArcAction::Status status = this->getStatus();
+	QString text;
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify start point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify center point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedCenter)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify length of chord") + ": ";
+
+	return text;
+}
+
+ShAvailableDraft ShSubDrawArcAction_StartCenterLength::getAvailableDraft() {
+
+}
+
+void ShSubDrawArcAction_StartCenterLength::invalidate(ShPoint3d &point) {
+
+}
+
+ShPoint3d ShSubDrawArcAction_StartCenterLength::getLastPickedPoint() {
+
+}
+
+void ShSubDrawArcAction_StartCenterLength::trigger(const ShPoint3d &point) {
+
+
+}
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+ShSubDrawArcAction_StartEndAngle::ShSubDrawArcAction_StartEndAngle(ShDrawArcAction *drawArcAction, ShCADWidget *widget)
+	:ShSubDrawArcAction(drawArcAction, widget) {
+
+}
+
+ShSubDrawArcAction_StartEndAngle::~ShSubDrawArcAction_StartEndAngle() {
+
+}
+
+ActionType ShSubDrawArcAction_StartEndAngle::getType() {
+
+	return ActionType::ActionDrawArcStartEndAngle;
+}
+
+QString ShSubDrawArcAction_StartEndAngle::getHeadTitle() {
+
+	ShDrawArcAction::Status status = this->getStatus();
+	QString text;
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify start point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify end point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedEnd)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify included angle") + ": ";
+
+	return text;
+}
+
+ShAvailableDraft ShSubDrawArcAction_StartEndAngle::getAvailableDraft() {
+
+}
+
+void ShSubDrawArcAction_StartEndAngle::invalidate(ShPoint3d &point) {
+
+}
+
+ShPoint3d ShSubDrawArcAction_StartEndAngle::getLastPickedPoint() {
+
+}
+
+void ShSubDrawArcAction_StartEndAngle::trigger(const ShPoint3d &point) {
+
+
+}
+
+//////////////////////////////////////////////////////////////////
+
+ShSubDrawArcAction_StartEndDirection::ShSubDrawArcAction_StartEndDirection(ShDrawArcAction *drawArcAction, ShCADWidget *widget)
+	:ShSubDrawArcAction(drawArcAction, widget) {
+
+}
+
+ShSubDrawArcAction_StartEndDirection::~ShSubDrawArcAction_StartEndDirection() {
+
+}
+
+ActionType ShSubDrawArcAction_StartEndDirection::getType() {
+
+	return ActionType::ActionDrawArcStartEndDirection;
+}
+
+QString ShSubDrawArcAction_StartEndDirection::getHeadTitle() {
+
+	ShDrawArcAction::Status status = this->getStatus();
+	QString text;
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify start point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify end point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedEnd)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify tangent direction for the start point of arc") + ": ";
+
+	return text;
+}
+
+ShAvailableDraft ShSubDrawArcAction_StartEndDirection::getAvailableDraft() {
+
+}
+
+void ShSubDrawArcAction_StartEndDirection::invalidate(ShPoint3d &point) {
+
+}
+
+ShPoint3d ShSubDrawArcAction_StartEndDirection::getLastPickedPoint() {
+
+}
+
+void ShSubDrawArcAction_StartEndDirection::trigger(const ShPoint3d &point) {
+
+
+}
+
+
+/////////////////////////////////////////////////////////////////
+
+ShSubDrawArcAction_StartEndRadius::ShSubDrawArcAction_StartEndRadius(ShDrawArcAction *drawArcAction, ShCADWidget *widget)
+	:ShSubDrawArcAction(drawArcAction, widget) {
+
+}
+
+ShSubDrawArcAction_StartEndRadius::~ShSubDrawArcAction_StartEndRadius() {
+
+}
+
+ActionType ShSubDrawArcAction_StartEndRadius::getType() {
+
+	return ActionType::ActionDrawArcStartEndRadius;
+}
+
+QString ShSubDrawArcAction_StartEndRadius::getHeadTitle() {
+
+	ShDrawArcAction::Status status = this->getStatus();
+	QString text;
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify start point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify end point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedEnd)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify radius of arc") + ": ";
+
+	return text;
+}
+
+ShAvailableDraft ShSubDrawArcAction_StartEndRadius::getAvailableDraft() {
+
+}
+
+void ShSubDrawArcAction_StartEndRadius::invalidate(ShPoint3d &point) {
+
+}
+
+ShPoint3d ShSubDrawArcAction_StartEndRadius::getLastPickedPoint() {
+
+}
+
+void ShSubDrawArcAction_StartEndRadius::trigger(const ShPoint3d &point) {
+
+
+}
+
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+
+ShSubDrawArcAction_CenterStartEnd::ShSubDrawArcAction_CenterStartEnd(ShDrawArcAction *drawArcAction, ShCADWidget *widget)
+	:ShSubDrawArcAction(drawArcAction, widget) {
+
+}
+
+ShSubDrawArcAction_CenterStartEnd::~ShSubDrawArcAction_CenterStartEnd() {
+
+}
+
+ActionType ShSubDrawArcAction_CenterStartEnd::getType() {
+
+	return ActionType::ActionDrawArcCenterStartEnd;
+}
+
+QString ShSubDrawArcAction_CenterStartEnd::getHeadTitle() {
+
+	ShDrawArcAction::Status status = this->getStatus();
+	QString text;
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify center point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedCenter)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify start point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify end of arc") + ": ";
+
+	return text;
+}
+
+ShAvailableDraft ShSubDrawArcAction_CenterStartEnd::getAvailableDraft() {
+
+}
+
+void ShSubDrawArcAction_CenterStartEnd::invalidate(ShPoint3d &point) {
+
+}
+
+ShPoint3d ShSubDrawArcAction_CenterStartEnd::getLastPickedPoint() {
+
+}
+
+void ShSubDrawArcAction_CenterStartEnd::trigger(const ShPoint3d &point) {
+
+
+}
+
+
+///////////////////////////////////////////////////////////
+
+
+ShSubDrawArcAction_CenterStartAngle::ShSubDrawArcAction_CenterStartAngle(ShDrawArcAction *drawArcAction, ShCADWidget *widget)
+	:ShSubDrawArcAction(drawArcAction, widget) {
+
+}
+
+ShSubDrawArcAction_CenterStartAngle::~ShSubDrawArcAction_CenterStartAngle() {
+
+}
+
+ActionType ShSubDrawArcAction_CenterStartAngle::getType() {
+
+	return ActionType::ActionDrawArcCenterStartAngle;
+}
+
+QString ShSubDrawArcAction_CenterStartAngle::getHeadTitle() {
+
+	ShDrawArcAction::Status status = this->getStatus();
+	QString text;
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify center point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedCenter)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify start point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify included angle") + ": ";
+
+	return text;
+}
+
+ShAvailableDraft ShSubDrawArcAction_CenterStartAngle::getAvailableDraft() {
+
+}
+
+void ShSubDrawArcAction_CenterStartAngle::invalidate(ShPoint3d &point) {
+
+}
+
+ShPoint3d ShSubDrawArcAction_CenterStartAngle::getLastPickedPoint() {
+
+}
+
+void ShSubDrawArcAction_CenterStartAngle::trigger(const ShPoint3d &point) {
+
+
+}
+
+
+///////////////////////////////////////////////////////////////////
+
+
+ShSubDrawArcAction_CenterStartLength::ShSubDrawArcAction_CenterStartLength(ShDrawArcAction *drawArcAction, ShCADWidget *widget)
+	:ShSubDrawArcAction(drawArcAction, widget) {
+
+}
+
+ShSubDrawArcAction_CenterStartLength::~ShSubDrawArcAction_CenterStartLength() {
+
+}
+
+ActionType ShSubDrawArcAction_CenterStartLength::getType() {
+
+	return ActionType::ActionDrawArcCenterStartLength;
+}
+
+QString ShSubDrawArcAction_CenterStartLength::getHeadTitle() {
+
+	ShDrawArcAction::Status status = this->getStatus();
+	QString text;
+
+	if (status == ShDrawArcAction::Status::PickedNothing)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify center point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedCenter)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify start point of arc") + ": ";
+	else if (status == ShDrawArcAction::Status::PickedStart)
+		text = "Arc >> " + shGetLanValue_command("Command/Specify length of chord") + ": ";
+
+	return text;
+}
+
+ShAvailableDraft ShSubDrawArcAction_CenterStartLength::getAvailableDraft() {
+
+}
+
+void ShSubDrawArcAction_CenterStartLength::invalidate(ShPoint3d &point) {
+
+}
+
+ShPoint3d ShSubDrawArcAction_CenterStartLength::getLastPickedPoint() {
+
+}
+
+void ShSubDrawArcAction_CenterStartLength::trigger(const ShPoint3d &point) {
+
+
 }

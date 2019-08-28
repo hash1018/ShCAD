@@ -206,6 +206,18 @@ void ShDrawMenu::createArcMenu() {
 	this->arcMenu->addAction(this->arcCenterStartLengthAction);
 
 	connect(this->arcThreePointAction, &QAction::triggered, this, &ShDrawMenu::arcThreePointActionClicked);
+
+	connect(this->arcStartCenterEndAction, &QAction::triggered, this, &ShDrawMenu::arcStartCenterEndActionClicked);
+	connect(this->arcStartCenterAngleAction, &QAction::triggered, this, &ShDrawMenu::arcStartCenterAngleActionClicked);
+	connect(this->arcStartCenterLengthAction, &QAction::triggered, this, &ShDrawMenu::arcStartCenterLengthActionClicked);
+
+	connect(this->arcStartEndAngleAction, &QAction::triggered, this, &ShDrawMenu::arcStartEndAngleActionClicked);
+	connect(this->arcStartEndDirectionAction, &QAction::triggered, this, &ShDrawMenu::arcStartEndDirectionActionClicked);
+	connect(this->arcStartEndRadiusAction, &QAction::triggered, this, &ShDrawMenu::arcStartEndRadiusActionClicked);
+
+	connect(this->arcCenterStartEndAction, &QAction::triggered, this, &ShDrawMenu::arcCenterStartEndActionClicked);
+	connect(this->arcCenterStartAngleAction, &QAction::triggered, this, &ShDrawMenu::arcCenterStartAngleActionClicked);
+	connect(this->arcCenterStartLengthAction, &QAction::triggered, this, &ShDrawMenu::arcCenterStartLengthActionClicked);
 }
 
 void ShDrawMenu::lineActionClicked() {
@@ -246,6 +258,69 @@ void ShDrawMenu::circleThreePointActionClicked() {
 void ShDrawMenu::arcThreePointActionClicked() {
 
 	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcThreePoint);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::arcStartCenterEndActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartCenterEnd);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::arcStartCenterAngleActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartCenterAngle);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::arcStartCenterLengthActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartCenterLength);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::arcStartEndAngleActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartEndAngle);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::arcStartEndDirectionActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartEndDirection);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::arcStartEndRadiusActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcStartEndRadius);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::arcCenterStartEndActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcCenterStartEnd);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::arcCenterStartAngleActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcCenterStartAngle);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawMenu::arcCenterStartLengthActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcCenterStartLength);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

@@ -92,6 +92,18 @@ private:
 	void circleThreePointActionClicked();
 
 	void arcThreePointActionClicked();
+
+	void arcStartCenterEndActionClicked();
+	void arcStartCenterAngleActionClicked();
+	void arcStartCenterLengthActionClicked();
+
+	void arcStartEndAngleActionClicked();
+	void arcStartEndDirectionActionClicked();
+	void arcStartEndRadiusActionClicked();
+
+	void arcCenterStartEndActionClicked();
+	void arcCenterStartAngleActionClicked();
+	void arcCenterStartLengthActionClicked();
 };
 
 class ShModifyMenu : public ShAbstractMenu {
