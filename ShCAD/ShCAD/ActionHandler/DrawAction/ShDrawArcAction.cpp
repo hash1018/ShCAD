@@ -378,7 +378,22 @@ ShAvailableDraft ShSubDrawArcAction_StartCenterEnd::getAvailableDraft() {
 
 void ShSubDrawArcAction_StartCenterEnd::invalidate(ShPoint3d &point) {
 
-	
+	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		this->widget->getRubberBand().setEnd(point);
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		this->widget->getRubberBand().setEnd(point);
+
+		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+		ShPoint3d center = prevArc->getCenter();
+		double endAngle = math::getAbsAngle(center.x, center.y, point.x, point.y);
+		prevArc->setEndAngle(endAngle);
+
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
 }
 
 ShPoint3d ShSubDrawArcAction_StartCenterEnd::getLastPickedPoint() {
@@ -399,7 +414,43 @@ ShPoint3d ShSubDrawArcAction_StartCenterEnd::getLastPickedPoint() {
 
 void ShSubDrawArcAction_StartCenterEnd::trigger(const ShPoint3d &point) {
 
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
 
+		this->getStatus() = ShDrawArcAction::Status::PickedStart;
+		this->start = point;
+		this->widget->getRubberBand().create(ShLineData(point, point));
+		this->triggerSucceeded();
+	}
+	else if (this->getStatus() == ShDrawArcAction::PickedStart) {
+
+		ShArcData data;
+		data.center = point;
+		data.radius = math::getDistance(point.x, point.y, this->start.x, this->start.y);
+		data.startAngle = math::getAbsAngle(point.x, point.y, this->start.x, this->start.y);
+		data.endAngle = data.startAngle;
+
+
+		this->getStatus() = ShDrawArcAction::Status::PickedCenter;
+
+		this->center = point;
+		this->widget->getRubberBand().setData(ShLineData(point, point));
+
+		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
+
+		this->triggerSucceeded();
+
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+
+		double endAngle = math::getAbsAngle(this->center.x, this->center.y, point.x, point.y);
+
+		prevArc->setEndAngle(endAngle);
+
+		this->addEntity(prevArc->clone(), "Arc");
+		this->actionFinished();
+	}
 }
 
 
