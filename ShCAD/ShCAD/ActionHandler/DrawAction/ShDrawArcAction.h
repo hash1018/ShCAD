@@ -55,7 +55,7 @@ public:
 
 	virtual void invalidate(ShPoint3d &point);
 
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 
 protected:
 	virtual void trigger(const ShPoint3d &point);
@@ -87,7 +87,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft() = 0;
 
 	virtual void invalidate(ShPoint3d &point) = 0;
-	virtual ShPoint3d getLastPickedPoint() = 0;
+	virtual ShPoint3d getLastBasePoint() = 0;
 	virtual void trigger(const ShPoint3d &point) = 0;
 
 protected:
@@ -117,7 +117,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d &point);
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 	virtual void trigger(const ShPoint3d &point);
 
 private:
@@ -149,7 +149,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d &point);
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 	virtual void trigger(const ShPoint3d &point);
 
 };
@@ -172,7 +172,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d &point);
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 	virtual void trigger(const ShPoint3d &point);
 
 };
@@ -195,7 +195,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d &point);
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 	virtual void trigger(const ShPoint3d &point);
 
 private:
@@ -222,7 +222,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d &point);
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 	virtual void trigger(const ShPoint3d &point);
 
 private:
@@ -247,7 +247,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d &point);
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 	virtual void trigger(const ShPoint3d &point);
 
 private:
@@ -272,7 +272,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d &point);
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 	virtual void trigger(const ShPoint3d &point);
 
 private:
@@ -298,7 +298,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d &point);
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 	virtual void trigger(const ShPoint3d &point);
 
 };
@@ -321,7 +321,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d &point);
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 	virtual void trigger(const ShPoint3d &point);
 
 };
@@ -344,7 +344,7 @@ public:
 	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void invalidate(ShPoint3d &point);
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 	virtual void trigger(const ShPoint3d &point);
 
 private:

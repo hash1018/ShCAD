@@ -148,7 +148,7 @@ void ShRelativeCoordinateCommand::interpret(ShCADWidget *widget, ShActionHandler
 	ShPoint3d point;
 	this->convertCoordinate(command, point.x, point.y);
 
-	ShPoint3d lastPickedPoint = actionHandler->getLastPickedPoint();
+	ShPoint3d lastPickedPoint = actionHandler->getLastBasePoint();
 
 	point.x += lastPickedPoint.x;
 	point.y += lastPickedPoint.y;
@@ -222,7 +222,7 @@ void ShPolarCoordinateCommand::interpret(ShCADWidget *widget, ShActionHandler *a
 	double angle, length;
 	this->convertCoordinate(command, angle, length);
 
-	ShPoint3d point = actionHandler->getLastPickedPoint();
+	ShPoint3d point = actionHandler->getLastBasePoint();
 
 	math::rotate(angle, point.x, point.y, point.x + length, point.y, point.x, point.y);
 	this->trigger(point, actionHandler);

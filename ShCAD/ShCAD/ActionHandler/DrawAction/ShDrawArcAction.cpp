@@ -63,9 +63,9 @@ void ShDrawArcAction::invalidate(ShPoint3d &point) {
 	this->subDrawArcAction->invalidate(point);
 }
 
-ShPoint3d ShDrawArcAction::getLastPickedPoint() {
+ShPoint3d ShDrawArcAction::getLastBasePoint() {
 
-	return this->subDrawArcAction->getLastPickedPoint();
+	return this->subDrawArcAction->getLastBasePoint();
 }
 
 
@@ -229,7 +229,7 @@ void ShSubDrawArcAction_ThreePoint::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_ThreePoint::getLastPickedPoint() {
+ShPoint3d ShSubDrawArcAction_ThreePoint::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -396,7 +396,7 @@ void ShSubDrawArcAction_StartCenterEnd::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartCenterEnd::getLastPickedPoint() {
+ShPoint3d ShSubDrawArcAction_StartCenterEnd::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -536,7 +536,7 @@ void ShSubDrawArcAction_StartCenterAngle::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartCenterAngle::getLastPickedPoint() {
+ShPoint3d ShSubDrawArcAction_StartCenterAngle::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -676,7 +676,7 @@ void ShSubDrawArcAction_StartCenterLength::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartCenterLength::getLastPickedPoint() {
+ShPoint3d ShSubDrawArcAction_StartCenterLength::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -832,7 +832,7 @@ void ShSubDrawArcAction_StartEndAngle::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartEndAngle::getLastPickedPoint() {
+ShPoint3d ShSubDrawArcAction_StartEndAngle::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -995,7 +995,7 @@ void ShSubDrawArcAction_StartEndDirection::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartEndDirection::getLastPickedPoint() {
+ShPoint3d ShSubDrawArcAction_StartEndDirection::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -1175,7 +1175,7 @@ void ShSubDrawArcAction_StartEndRadius::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartEndRadius::getLastPickedPoint() {
+ShPoint3d ShSubDrawArcAction_StartEndRadius::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -1347,7 +1347,7 @@ void ShSubDrawArcAction_CenterStartEnd::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_CenterStartEnd::getLastPickedPoint() {
+ShPoint3d ShSubDrawArcAction_CenterStartEnd::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -1486,7 +1486,7 @@ void ShSubDrawArcAction_CenterStartAngle::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_CenterStartAngle::getLastPickedPoint() {
+ShPoint3d ShSubDrawArcAction_CenterStartAngle::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -1627,7 +1627,7 @@ void ShSubDrawArcAction_CenterStartLength::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_CenterStartLength::getLastPickedPoint() {
+ShPoint3d ShSubDrawArcAction_CenterStartLength::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 

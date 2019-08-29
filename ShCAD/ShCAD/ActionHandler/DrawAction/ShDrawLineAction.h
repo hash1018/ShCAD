@@ -38,7 +38,7 @@ public:
 
 	virtual void invalidate(ShPoint3d &point);
 
-	virtual ShPoint3d getLastPickedPoint();
+	virtual ShPoint3d getLastBasePoint();
 
 protected:
 	virtual void trigger(const ShPoint3d &point);

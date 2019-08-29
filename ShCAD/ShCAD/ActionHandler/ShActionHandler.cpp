@@ -97,7 +97,7 @@ void ShActionHandler::interpret(const QString &command) {
 		this->availableCommands->interpret(command);
 }
 
-ShPoint3d ShActionHandler::getLastPickedPoint() {
+ShPoint3d ShActionHandler::getLastBasePoint() {
 
 	return ShPoint3d();
 }

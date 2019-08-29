@@ -73,9 +73,9 @@ void ShDrawCircleAction::invalidate(ShPoint3d &point) {
 	this->subDrawCircleAction->invalidate(point);
 }
 
-ShPoint3d ShDrawCircleAction::getLastPickedPoint() {
+ShPoint3d ShDrawCircleAction::getLastBasePoint() {
 
-	return this->subDrawCircleAction->getLastPickedPoint();
+	return this->subDrawCircleAction->getLastBasePoint();
 }
 
 
@@ -215,7 +215,7 @@ void ShSubDrawCircleAction_CenterRadius::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawCircleAction_CenterRadius::getLastPickedPoint() {
+ShPoint3d ShSubDrawCircleAction_CenterRadius::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -333,7 +333,7 @@ void ShSubDrawCircleAction_CenterDiameter::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawCircleAction_CenterDiameter::getLastPickedPoint() {
+ShPoint3d ShSubDrawCircleAction_CenterDiameter::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -451,7 +451,7 @@ void ShSubDrawCircleAction_TwoPoint::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawCircleAction_TwoPoint::getLastPickedPoint() {
+ShPoint3d ShSubDrawCircleAction_TwoPoint::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
@@ -592,7 +592,7 @@ void ShSubDrawCircleAction_ThreePoint::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawCircleAction_ThreePoint::getLastPickedPoint() {
+ShPoint3d ShSubDrawCircleAction_ThreePoint::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 

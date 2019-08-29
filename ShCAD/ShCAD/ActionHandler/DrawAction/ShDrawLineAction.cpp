@@ -97,13 +97,13 @@ void ShDrawLineAction::invalidate(ShPoint3d &point) {
 	this->subDrawLineAction->invalidate(point);
 }
 
-ShPoint3d ShDrawLineAction::getLastPickedPoint() {
+ShPoint3d ShDrawLineAction::getLastBasePoint() {
 
 	ShPoint3d lastPickedPoint;
 
 	if (this->status == Status::PickedNothing) {
 
-		lastPickedPoint = ShActionHandler::getLastPickedPoint();
+		lastPickedPoint = ShActionHandler::getLastBasePoint();
 	}
 	else {
 
@@ -137,7 +137,7 @@ void ShDrawLineAction::inputNumber(void *number) {
 
 	double length = *static_cast<double*>(number);
 	ShPoint3d point;
-	ShPoint3d lastPickedPoint = this->getLastPickedPoint();
+	ShPoint3d lastPickedPoint = this->getLastBasePoint();
 
 	if (this->status == Status::PickedNothing) {
 	
