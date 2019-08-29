@@ -231,18 +231,18 @@ void ShSubDrawArcAction_ThreePoint::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_ThreePoint::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedFirstPoint) {
 
-		lastPickedPoint = this->first;
+		lastBasePoint = this->first;
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedSecondPoint) {
 
-		lastPickedPoint = this->second;
+		lastBasePoint = this->second;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawArcAction_ThreePoint::trigger(const ShPoint3d &point) {
@@ -398,18 +398,18 @@ void ShSubDrawArcAction_StartCenterEnd::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartCenterEnd::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->start;
+		lastBasePoint = this->start;
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
 
-		lastPickedPoint = this->center;
+		lastBasePoint = this->center;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawArcAction_StartCenterEnd::trigger(const ShPoint3d &point) {
@@ -538,18 +538,18 @@ void ShSubDrawArcAction_StartCenterAngle::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartCenterAngle::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->start;
+		lastBasePoint = this->start;
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
 
-		lastPickedPoint = this->center;
+		lastBasePoint = this->center;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawArcAction_StartCenterAngle::trigger(const ShPoint3d &point) {
@@ -678,18 +678,18 @@ void ShSubDrawArcAction_StartCenterLength::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartCenterLength::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->start;
+		lastBasePoint = this->start;
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
 		//special case
-		lastPickedPoint = this->start;
+		lastBasePoint = this->start;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawArcAction_StartCenterLength::trigger(const ShPoint3d &point) {
@@ -834,18 +834,18 @@ void ShSubDrawArcAction_StartEndAngle::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartEndAngle::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->start;
+		lastBasePoint = this->start;
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
 		//special case
-		lastPickedPoint = this->start;
+		lastBasePoint = this->start;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawArcAction_StartEndAngle::trigger(const ShPoint3d &point) {
@@ -997,18 +997,18 @@ void ShSubDrawArcAction_StartEndDirection::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartEndDirection::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->start;
+		lastBasePoint = this->start;
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
 		//special case
-		lastPickedPoint = this->start;
+		lastBasePoint = this->start;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawArcAction_StartEndDirection::trigger(const ShPoint3d &point) {
@@ -1177,18 +1177,18 @@ void ShSubDrawArcAction_StartEndRadius::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_StartEndRadius::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->start;
+		lastBasePoint = this->start;
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
 
-		lastPickedPoint = this->end;
+		lastBasePoint = this->end;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawArcAction_StartEndRadius::trigger(const ShPoint3d &point) {
@@ -1349,18 +1349,18 @@ void ShSubDrawArcAction_CenterStartEnd::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_CenterStartEnd::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
 
-		lastPickedPoint = this->center;
+		lastBasePoint = this->center;
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->center;
+		lastBasePoint = this->center;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawArcAction_CenterStartEnd::trigger(const ShPoint3d &point) {
@@ -1488,18 +1488,18 @@ void ShSubDrawArcAction_CenterStartAngle::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_CenterStartAngle::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
 
-		lastPickedPoint = this->center;
+		lastBasePoint = this->center;
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->center;
+		lastBasePoint = this->center;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawArcAction_CenterStartAngle::trigger(const ShPoint3d &point) {
@@ -1629,18 +1629,18 @@ void ShSubDrawArcAction_CenterStartLength::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawArcAction_CenterStartLength::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
 
-		lastPickedPoint = this->center;
+		lastBasePoint = this->center;
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->start;
+		lastBasePoint = this->start;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawArcAction_CenterStartLength::trigger(const ShPoint3d &point) {

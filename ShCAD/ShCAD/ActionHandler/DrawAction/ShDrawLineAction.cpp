@@ -99,19 +99,19 @@ void ShDrawLineAction::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShDrawLineAction::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->status == Status::PickedNothing) {
 
-		lastPickedPoint = ShActionHandler::getLastBasePoint();
+		lastBasePoint = ShActionHandler::getLastBasePoint();
 	}
 	else {
 
 		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
-		lastPickedPoint = prevLine->getStart();
+		lastBasePoint = prevLine->getStart();
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShDrawLineAction::trigger(const ShPoint3d &point) {
@@ -137,20 +137,20 @@ void ShDrawLineAction::inputNumber(void *number) {
 
 	double length = *static_cast<double*>(number);
 	ShPoint3d point;
-	ShPoint3d lastPickedPoint = this->getLastBasePoint();
+	ShPoint3d lastBasePoint = this->getLastBasePoint();
 
 	if (this->status == Status::PickedNothing) {
 	
 		ShPoint3d mouse = this->widget->getMousePoint();
-		double angle = math::getAbsAngle(lastPickedPoint.x, lastPickedPoint.y, mouse.x, mouse.y);
-		math::rotate(angle, lastPickedPoint.x, lastPickedPoint.y, lastPickedPoint.x + length, lastPickedPoint.y, point.x, point.y);
+		double angle = math::getAbsAngle(lastBasePoint.x, lastBasePoint.y, mouse.x, mouse.y);
+		math::rotate(angle, lastBasePoint.x, lastBasePoint.y, lastBasePoint.x + length, lastBasePoint.y, point.x, point.y);
 		
 	}
 	else if (status == Status::PickedStart) {
 	
 		ShPoint3d end = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()))->getEnd();
-		double angle = math::getAbsAngle(lastPickedPoint.x, lastPickedPoint.y, end.x, end.y);
-		math::rotate(angle, lastPickedPoint.x, lastPickedPoint.y, lastPickedPoint.x + length, lastPickedPoint.y, point.x, point.y);
+		double angle = math::getAbsAngle(lastBasePoint.x, lastBasePoint.y, end.x, end.y);
+		math::rotate(angle, lastBasePoint.x, lastBasePoint.y, lastBasePoint.x + length, lastBasePoint.y, point.x, point.y);
 	}
 
 	this->trigger(point);

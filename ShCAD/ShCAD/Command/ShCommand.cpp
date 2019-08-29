@@ -148,10 +148,10 @@ void ShRelativeCoordinateCommand::interpret(ShCADWidget *widget, ShActionHandler
 	ShPoint3d point;
 	this->convertCoordinate(command, point.x, point.y);
 
-	ShPoint3d lastPickedPoint = actionHandler->getLastBasePoint();
+	ShPoint3d lastBasePoint = actionHandler->getLastBasePoint();
 
-	point.x += lastPickedPoint.x;
-	point.y += lastPickedPoint.y;
+	point.x += lastBasePoint.x;
+	point.y += lastBasePoint.y;
 
 	this->trigger(point, actionHandler);
 }

@@ -222,16 +222,16 @@ void ShSubDrawCircleAction_CenterRadius::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawCircleAction_CenterRadius::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawCircleAction::Status::PickedCenter) {
 	
 		ShCircle *prevCircle = dynamic_cast<ShCircle*>((*this->widget->getPreview().begin()));
-		lastPickedPoint = prevCircle->getCenter();
+		lastBasePoint = prevCircle->getCenter();
 		
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 	
 void ShSubDrawCircleAction_CenterRadius::trigger(const ShPoint3d &point) {
@@ -345,16 +345,16 @@ void ShSubDrawCircleAction_CenterDiameter::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawCircleAction_CenterDiameter::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawCircleAction::Status::PickedCenter) {
 
 		ShCircle *prevCircle = dynamic_cast<ShCircle*>((*this->widget->getPreview().begin()));
-		lastPickedPoint = prevCircle->getCenter();
+		lastBasePoint = prevCircle->getCenter();
 
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawCircleAction_CenterDiameter::trigger(const ShPoint3d &point) {
@@ -469,15 +469,15 @@ void ShSubDrawCircleAction_TwoPoint::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawCircleAction_TwoPoint::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawCircleAction::Status::PickedFirstPoint) {
 
-		lastPickedPoint = this->widget->getRubberBand().getStart();
+		lastBasePoint = this->widget->getRubberBand().getStart();
 
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawCircleAction_TwoPoint::trigger(const ShPoint3d &point) {
@@ -617,18 +617,18 @@ void ShSubDrawCircleAction_ThreePoint::invalidate(ShPoint3d &point) {
 
 ShPoint3d ShSubDrawCircleAction_ThreePoint::getLastBasePoint() {
 
-	ShPoint3d lastPickedPoint;
+	ShPoint3d lastBasePoint;
 
 	if (this->getStatus() == ShDrawCircleAction::Status::PickedFirstPoint) {
 	
-		lastPickedPoint = this->first;
+		lastBasePoint = this->first;
 	}
 	else if (this->getStatus() == ShDrawCircleAction::Status::PickedSecondPoint) {
 	
-		lastPickedPoint = this->second;
+		lastBasePoint = this->second;
 	}
 
-	return lastPickedPoint;
+	return lastBasePoint;
 }
 
 void ShSubDrawCircleAction_ThreePoint::trigger(const ShPoint3d &point) {
