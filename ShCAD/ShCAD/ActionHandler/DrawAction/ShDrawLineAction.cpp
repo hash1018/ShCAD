@@ -182,6 +182,11 @@ void ShSubDrawLineAction::triggerSucceeded() {
 	this->drawLineAction->triggerSucceeded();
 }
 
+void ShSubDrawLineAction::triggerFailed(ShActionTriggerFailureReason reason) {
+
+	this->drawLineAction->triggerFailed(reason);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -217,6 +222,14 @@ void ShSubDrawLineAction_Default::trigger(const ShPoint3d &point) {
 	else if (this->getStatus() == ShDrawLineAction::PickedStart) {
 
 		ShLine *preview = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
+
+		if (math::compare(preview->getStart().x, point.x) == 0 &&
+			math::compare(preview->getStart().y, point.y) == 0) {
+
+			this->triggerFailed(ValueMustBeGreaterThanZero);
+			return;
+		}
+
 		ShLineData data = preview->getData();
 		data.end = point;
 
@@ -273,6 +286,13 @@ void ShSubDrawLineAction_Perpendicular::trigger(const ShPoint3d &point) {
 
 		ShFootOfPerpendicularVisitor visitor(perpendicular.x, perpendicular.y, point);
 		this->perpendicularBase->accept(&visitor);
+
+		if (math::compare(perpendicular.x, point.x) == 0 &&
+			math::compare(perpendicular.y, point.y) == 0) {
+		
+			this->triggerFailed(ValueMustBeGreaterThanZero);
+			return;
+		}
 
 		prevLine->setStart(perpendicular);
 		prevLine->setEnd(point);

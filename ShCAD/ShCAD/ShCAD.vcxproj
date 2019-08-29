@@ -427,6 +427,7 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h" />
     <ClInclude Include="ActionHandler\Private\ShActionData.h" />
     <ClInclude Include="ActionHandler\Private\ShActionHandlerFactory.h" />
+    <ClInclude Include="ActionHandler\Private\ShActionTriggerFailureReason.h" />
     <ClInclude Include="ActionHandler\Private\ShActionTypeConverter.h" />
     <ClInclude Include="ActionHandler\Private\ShChangeActionStrategy.h" />
     <ClInclude Include="ActionHandler\Private\ShDecorateActionStrategy.h" />

@@ -78,6 +78,7 @@ protected:
 	ShDrawLineAction::Status& getStatus();
 	void addEntity(ShEntity *newEntity, const QString &type);
 	void triggerSucceeded();
+	void triggerFailed(ShActionTriggerFailureReason reason);
 
 
 };

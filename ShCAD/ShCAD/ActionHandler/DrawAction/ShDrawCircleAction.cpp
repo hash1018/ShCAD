@@ -141,6 +141,11 @@ void ShSubDrawCircleAction::actionFinished() {
 	this->drawCircleAction->actionFinished();
 }
 
+void ShSubDrawCircleAction::triggerFailed(ShActionTriggerFailureReason reason) {
+
+	this->drawCircleAction->triggerFailed(reason);
+}
+
 //////////////////////////////////////////////////////////////////////
 
 
@@ -246,6 +251,11 @@ void ShSubDrawCircleAction_CenterRadius::trigger(const ShPoint3d &point) {
 		ShCircleData data = prevCircle->getData();
 
 		data.radius = math::getDistance(data.center.x, data.center.y, point.x, point.y);
+		
+		if (math::compare(data.radius, 0) == 0 || math::compare(data.radius, 0) == -1) {
+			this->triggerFailed(ShActionTriggerFailureReason::ValueMustBeGreaterThanZero);
+			return;
+		}
 
 		prevCircle->setData(data);
 
@@ -365,6 +375,12 @@ void ShSubDrawCircleAction_CenterDiameter::trigger(const ShPoint3d &point) {
 
 		data.radius = math::getDistance(data.center.x, data.center.y, point.x, point.y) / 2.0;
 
+		if (math::compare(data.radius, 0) == 0 || math::compare(data.radius, 0) == -1) {
+
+			this->triggerFailed(ValueMustBeGreaterThanZero);
+			return;
+		}
+
 		prevCircle->setData(data);
 
 		this->addEntity(prevCircle->clone(), "Circle");
@@ -480,6 +496,13 @@ void ShSubDrawCircleAction_TwoPoint::trigger(const ShPoint3d &point) {
 	else if (this->getStatus() == ShDrawCircleAction::PickedFirstPoint) {
 
 		ShPoint3d first = this->widget->getRubberBand().getStart();
+
+		if (math::compare(first.x, point.x) == 0 &&
+			math::compare(first.y, point.y) == 0) {
+
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
 
 		ShCircle *prevCircle = dynamic_cast<ShCircle*>((*this->widget->getPreview().begin()));
 		ShCircleData data = prevCircle->getData();
@@ -637,9 +660,7 @@ void ShSubDrawCircleAction_ThreePoint::trigger(const ShPoint3d &point) {
 	
 		ShCircleData data;
 		if (math::getCenterWithThreePoint(this->first, this->second, point, data.center) == false) {
-		
-
-			//Fail.
+			this->triggerFailed(InvalidPoint);
 			return;
 		}
 		else {

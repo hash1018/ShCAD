@@ -108,8 +108,20 @@ void ShActionHandler::triggerSucceeded() {
 	this->updateCommandEditHeadTitle();
 }
 
-void ShActionHandler::triggerFailed() {
+void ShActionHandler::triggerFailed(ShActionTriggerFailureReason reason) {
 
+	if (reason == ShActionTriggerFailureReason::ValueMustBeGreaterThanZero) {
+	
+		shCommandLogManager->appendListEditTextWith("");
+		shCommandLogManager->appendList(shGetLanValue_command("Command/Value must be greater than zero") + ".");
+		this->updateCommandEditHeadTitle();
+	}
+	else if (reason == ShActionTriggerFailureReason::InvalidPoint) {
+	
+		shCommandLogManager->appendListEditTextWith("");
+		shCommandLogManager->appendList(shGetLanValue_command("Command/Invalid point") + ".");
+		this->updateCommandEditHeadTitle();
+	}
 }
 
 void ShActionHandler::trigger(const ShPoint3d &point) {

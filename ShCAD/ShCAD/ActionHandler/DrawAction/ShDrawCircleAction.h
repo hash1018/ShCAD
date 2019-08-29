@@ -84,6 +84,7 @@ protected:
 	void addEntity(ShEntity *newEntity, const QString &type);
 	void triggerSucceeded();
 	void actionFinished();
+	void triggerFailed(ShActionTriggerFailureReason reason);
 };
 
 

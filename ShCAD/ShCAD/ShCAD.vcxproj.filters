@@ -971,5 +971,8 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawArcAction.h">
       <Filter>ActionHandler\DrawAction</Filter>
     </ClInclude>
+    <ClInclude Include="ActionHandler\Private\ShActionTriggerFailureReason.h">
+      <Filter>ActionHandler\Private</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

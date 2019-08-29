@@ -10,6 +10,7 @@
 #include "Data\ShAvailableDraft.h"
 #include "Manager\ShLanguageManager.h"
 #include "Manager\ShCommandLogManager.h"
+#include "Private\ShActionTriggerFailureReason.h"
 
 //State Pattern.
 
@@ -69,7 +70,7 @@ public:
 
 protected:
 	virtual void triggerSucceeded();
-	virtual void triggerFailed();
+	virtual void triggerFailed(ShActionTriggerFailureReason reason);
 	virtual void trigger(const ShPoint3d &point);
 	virtual void actionCanceled();
 	virtual void actionFinished();
