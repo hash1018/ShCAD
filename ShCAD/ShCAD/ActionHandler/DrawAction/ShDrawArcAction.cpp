@@ -1156,6 +1156,23 @@ ShAvailableDraft ShSubDrawArcAction_StartEndRadius::getAvailableDraft() {
 
 void ShSubDrawArcAction_StartEndRadius::invalidate(ShPoint3d &point) {
 
+	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		this->widget->getRubberBand().setEnd(point);
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
+
+		this->widget->getRubberBand().setEnd(point);
+
+		ShArcData data;
+		this->getArcDataWithStartEndAnother(this->start, this->end, point, data);
+
+		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+		prevArc->setData(data);
+
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
 }
 
 ShPoint3d ShSubDrawArcAction_StartEndRadius::getLastPickedPoint() {
@@ -1176,7 +1193,74 @@ ShPoint3d ShSubDrawArcAction_StartEndRadius::getLastPickedPoint() {
 
 void ShSubDrawArcAction_StartEndRadius::trigger(const ShPoint3d &point) {
 
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
 
+		this->getStatus() = ShDrawArcAction::Status::PickedStart;
+		this->start = point;
+		this->widget->getRubberBand().create(ShLineData(point, point));
+		this->triggerSucceeded();
+	}
+	else if (this->getStatus() == ShDrawArcAction::PickedStart) {
+
+		double dis = math::getDistance(this->start.x, this->start.y, point.x, point.y);
+
+		if (math::compare(dis, 0) == 0) {
+
+			//Fail.
+			return;
+		}
+
+		this->getStatus() = ShDrawArcAction::Status::PickedEnd;
+
+		this->end = point;
+		this->widget->getRubberBand().setData(ShLineData(this->end, this->end));
+
+		ShArcData data;
+		this->getArcDataWithStartEndAnother(this->start, this->end, point, data);
+
+		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
+
+		this->triggerSucceeded();
+
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
+
+		ShArcData data;
+		this->getArcDataWithStartEndAnother(this->start, this->end, point, data);
+
+		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+		prevArc->setData(data);
+
+		this->addEntity(prevArc->clone(), "Arc");
+		this->actionFinished();
+	}
+}
+
+bool ShSubDrawArcAction_StartEndRadius::getArcDataWithStartEndAnother(const ShPoint3d &start, const ShPoint3d &end, const ShPoint3d &another, ShArcData &data) {
+
+	double radius = math::getDistance(end.x, end.y, another.x, another.y);
+
+	double angleStartToEnd = math::getAbsAngle(start.x, start.y, end.x, end.y);
+	double disStartToEnd = math::getDistance(start.x, start.y, end.x, end.y);
+
+	double baseSide = disStartToEnd / 2;
+	double height = sqrt((radius*radius) - (baseSide*baseSide));
+
+	if (math::compare(radius, baseSide) == 1) {
+
+		math::rotate(angleStartToEnd, start.x, start.y, start.x + baseSide, start.y + height, data.center.x, data.center.y);
+		data.radius = radius;
+	}
+	else {
+
+		math::rotate(angleStartToEnd, start.x, start.y, start.x + baseSide, start.y, data.center.x, data.center.y);
+		data.radius = baseSide;
+	}
+
+	data.startAngle = math::getAbsAngle(data.center.x, data.center.y, start.x, start.y);
+	data.endAngle = math::getAbsAngle(data.center.x, data.center.y, end.x, end.y);
+
+	return true;
 }
 
 
@@ -1236,8 +1320,8 @@ ShAvailableDraft ShSubDrawArcAction_CenterStartEnd::getAvailableDraft() {
 
 		draft.setAvailableOrthogonal(true);
 		draft.setAvailableSnap(true);
-		draft.setOrthogonalBasePoint(this->start);
-		draft.setSnapBasePoint(this->start);
+		draft.setOrthogonalBasePoint(this->center);
+		draft.setSnapBasePoint(this->center);
 	}
 
 	return draft;
@@ -1245,6 +1329,22 @@ ShAvailableDraft ShSubDrawArcAction_CenterStartEnd::getAvailableDraft() {
 
 void ShSubDrawArcAction_CenterStartEnd::invalidate(ShPoint3d &point) {
 
+	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		this->widget->getRubberBand().setEnd(point);
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		this->widget->getRubberBand().setEnd(point);
+
+		double endAngle = math::getAbsAngle(this->center.x, this->center.y, point.x, point.y);
+
+		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+		prevArc->setEndAngle(endAngle);
+
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
 }
 
 ShPoint3d ShSubDrawArcAction_CenterStartEnd::getLastPickedPoint() {
@@ -1257,7 +1357,7 @@ ShPoint3d ShSubDrawArcAction_CenterStartEnd::getLastPickedPoint() {
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->start;
+		lastPickedPoint = this->center;
 	}
 
 	return lastPickedPoint;
@@ -1265,7 +1365,41 @@ ShPoint3d ShSubDrawArcAction_CenterStartEnd::getLastPickedPoint() {
 
 void ShSubDrawArcAction_CenterStartEnd::trigger(const ShPoint3d &point) {
 
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
 
+		this->getStatus() = ShDrawArcAction::Status::PickedCenter;
+		this->center = point;
+		this->widget->getRubberBand().create(ShLineData(point, point));
+		this->triggerSucceeded();
+	}
+	else if (this->getStatus() == ShDrawArcAction::PickedCenter) {
+
+		ShArcData data;
+		data.center = this->center;
+		data.radius = math::getDistance(this->center.x, this->center.y, point.x, point.y);
+		data.startAngle = math::getAbsAngle(this->center.x, this->center.y, point.x, point.y);
+		data.endAngle = data.startAngle;
+
+		this->getStatus() = ShDrawArcAction::Status::PickedStart;
+
+		this->start = point;
+		this->widget->getRubberBand().setEnd(point);
+
+		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
+
+		this->triggerSucceeded();
+
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		double endAngle = math::getAbsAngle(this->center.x, this->center.y, point.x, point.y);
+		
+		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+		prevArc->setEndAngle(endAngle);
+
+		this->addEntity(prevArc->clone(), "Arc");
+		this->actionFinished();
+	}
 }
 
 
@@ -1323,8 +1457,8 @@ ShAvailableDraft ShSubDrawArcAction_CenterStartAngle::getAvailableDraft() {
 
 		draft.setAvailableOrthogonal(true);
 		draft.setAvailableSnap(true);
-		draft.setOrthogonalBasePoint(this->start);
-		draft.setSnapBasePoint(this->start);
+		draft.setOrthogonalBasePoint(this->center);
+		draft.setSnapBasePoint(this->center);
 	}
 
 	return draft;
@@ -1332,6 +1466,24 @@ ShAvailableDraft ShSubDrawArcAction_CenterStartAngle::getAvailableDraft() {
 
 void ShSubDrawArcAction_CenterStartAngle::invalidate(ShPoint3d &point) {
 
+	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		this->widget->getRubberBand().setEnd(point);
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		this->widget->getRubberBand().setEnd(point);
+
+		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+		
+		double angleCenterToPoint = math::getAbsAngle(this->center.x, this->center.y, point.x, point.y);
+		double endAngle = math::addAngle(prevArc->getStartAngle(), angleCenterToPoint);
+
+		prevArc->setEndAngle(endAngle);
+
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
 }
 
 ShPoint3d ShSubDrawArcAction_CenterStartAngle::getLastPickedPoint() {
@@ -1344,7 +1496,7 @@ ShPoint3d ShSubDrawArcAction_CenterStartAngle::getLastPickedPoint() {
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
-		lastPickedPoint = this->start;
+		lastPickedPoint = this->center;
 	}
 
 	return lastPickedPoint;
@@ -1352,7 +1504,44 @@ ShPoint3d ShSubDrawArcAction_CenterStartAngle::getLastPickedPoint() {
 
 void ShSubDrawArcAction_CenterStartAngle::trigger(const ShPoint3d &point) {
 
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
 
+		this->getStatus() = ShDrawArcAction::Status::PickedCenter;
+		this->center = point;
+		this->widget->getRubberBand().create(ShLineData(point, point));
+		this->triggerSucceeded();
+	}
+	else if (this->getStatus() == ShDrawArcAction::PickedCenter) {
+
+		ShArcData data;
+		data.center = this->center;
+		data.radius = math::getDistance(this->center.x, this->center.y, point.x, point.y);
+		data.startAngle = math::getAbsAngle(this->center.x, this->center.y, point.x, point.y);
+		data.endAngle = data.startAngle;
+
+		this->getStatus() = ShDrawArcAction::Status::PickedStart;
+
+		this->start = point;
+		this->widget->getRubberBand().setEnd(point);
+
+		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
+
+		this->triggerSucceeded();
+
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+		ShArcData data = prevArc->getData();
+
+		double angleCenterToPoint = math::getAbsAngle(this->center.x, this->center.y, point.x, point.y);
+		data.endAngle = math::addAngle(data.startAngle, angleCenterToPoint);
+
+		prevArc->setData(data);
+
+		this->addEntity(prevArc->clone(), "Arc");
+		this->actionFinished();
+	}
 }
 
 
@@ -1419,6 +1608,23 @@ ShAvailableDraft ShSubDrawArcAction_CenterStartLength::getAvailableDraft() {
 
 void ShSubDrawArcAction_CenterStartLength::invalidate(ShPoint3d &point) {
 
+	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		this->widget->getRubberBand().setEnd(point);
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		this->widget->getRubberBand().setEnd(point);
+
+		ShArcData data;
+		this->getArcDataWithCenterStartLength(this->center, this->start, math::getDistance(this->start.x, this->start.y, point.x, point.y), data);
+
+		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+		prevArc->setData(data);
+
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+	}
 }
 
 ShPoint3d ShSubDrawArcAction_CenterStartLength::getLastPickedPoint() {
@@ -1439,5 +1645,58 @@ ShPoint3d ShSubDrawArcAction_CenterStartLength::getLastPickedPoint() {
 
 void ShSubDrawArcAction_CenterStartLength::trigger(const ShPoint3d &point) {
 
+	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
 
+		this->getStatus() = ShDrawArcAction::Status::PickedCenter;
+		this->center = point;
+		this->widget->getRubberBand().create(ShLineData(point, point));
+		this->triggerSucceeded();
+	}
+	else if (this->getStatus() == ShDrawArcAction::PickedCenter) {
+
+		this->getStatus() = ShDrawArcAction::Status::PickedStart;
+
+		this->start = point;
+
+		ShArcData data;
+		this->getArcDataWithCenterStartLength(this->center, this->start, math::getDistance(this->start.x, this->start.y, point.x, point.y), data);
+		
+		this->widget->getRubberBand().setData(ShLineData(this->start, this->start));
+
+		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
+
+		this->triggerSucceeded();
+
+	}
+	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
+
+		ShArcData data;
+		this->getArcDataWithCenterStartLength(this->center, this->start, math::getDistance(this->start.x, this->start.y, point.x, point.y), data);
+
+		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+		prevArc->setData(data);
+
+		this->addEntity(prevArc->clone(), "Arc");
+		this->actionFinished();
+	}
+}
+
+bool ShSubDrawArcAction_CenterStartLength::getArcDataWithCenterStartLength(const ShPoint3d &center, const ShPoint3d &start, double length, ShArcData &data) {
+
+	double radius = math::getDistance(center.x, center.y, start.x, start.y);
+	double height = length / 2;
+	double angle = asin(height / radius) * 180 / 3.1415926535897;
+
+
+	data.radius = radius;
+	data.center = center;
+	data.startAngle = math::getAbsAngle(center.x, center.y, start.x, start.y);
+
+	if (math::compare(radius, length) == 1 || math::compare(radius, length) == 0) {
+		data.endAngle = math::addAngle(data.startAngle, angle * 2);
+		return true;
+	}
+
+	data.endAngle = data.startAngle;
+	return false;
 }
