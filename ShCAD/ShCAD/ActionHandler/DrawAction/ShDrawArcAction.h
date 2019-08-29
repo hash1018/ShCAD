@@ -198,6 +198,8 @@ public:
 	virtual ShPoint3d getLastPickedPoint();
 	virtual void trigger(const ShPoint3d &point);
 
+private:
+	bool getArcDataWithStartCenterLength(const ShPoint3d &start, const ShPoint3d &center, double length, ShArcData &data);
 };
 
 
@@ -223,6 +225,8 @@ public:
 	virtual ShPoint3d getLastPickedPoint();
 	virtual void trigger(const ShPoint3d &point);
 
+private:
+	bool getArcDataWithStartEndAnother(const ShPoint3d &start, const ShPoint3d &end, const ShPoint3d &another, ShArcData &data);
 };
 
 
@@ -246,6 +250,8 @@ public:
 	virtual ShPoint3d getLastPickedPoint();
 	virtual void trigger(const ShPoint3d &point);
 
+private:
+	ShArcData getArcDataWithTwoPointTangentLine(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &lineStart, const ShPoint3d &lineEnd);
 };
 
 

@@ -498,6 +498,8 @@ double math::addAngle(double angle, double angle2) {
 
 	if (addedAngle >= 360.0)
 		addedAngle -= 360;
+	else if (addedAngle < 0)
+		addedAngle += 360;
 
 	return addedAngle;
 }
