@@ -3,6 +3,7 @@
 #include "Base\ShMath.h"
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
+#include "Entity\Leaf\ShArc.h"
 
 ShFootOfPerpendicularVisitor::ShFootOfPerpendicularVisitor(double &perpendicularX, double &perpendicularY,
 	const ShPoint3d& point)
@@ -46,4 +47,32 @@ void ShFootOfPerpendicularVisitor::visit(ShCircle *circle) {
 	double angle = math::getAbsAngle(data.center.x, data.center.y, this->point.x, this->point.y);
 	math::rotate(angle, data.center.x, data.center.y, data.center.x + data.radius, data.center.y,
 		this->perpendicularX, this->perpendicularY);
+}
+
+void ShFootOfPerpendicularVisitor::visit(ShArc *arc) {
+
+	ShArcData data = arc->getData();
+
+	double angle = math::getAbsAngle(data.center.x, data.center.y, this->point.x, this->point.y);
+
+	if (math::checkAngleLiesOnAngleBetween(arc->getStartAngle(),
+		arc->getEndAngle(), angle) == true) {
+
+		math::rotate(angle, data.center.x, data.center.y, data.center.x + data.radius, data.center.y,
+			this->perpendicularX, this->perpendicularY);
+	}
+	else {
+
+		if (math::checkAngleLiesOnAngleBetween(math::addAngle(arc->getStartAngle(), 180),
+			math::addAngle(arc->getEndAngle(), 180), angle) == true) {
+
+			math::rotate(angle + 180, data.center.x, data.center.y, data.center.x + data.radius, data.center.y,
+				this->perpendicularX, this->perpendicularY);
+		}
+		else {
+			this->perpendicularX = arc->getEnd().x;
+			this->perpendicularY = arc->getEnd().y;
+		}
+
+	}
 }

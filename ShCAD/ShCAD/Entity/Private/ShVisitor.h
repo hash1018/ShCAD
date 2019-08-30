@@ -2,6 +2,8 @@
 #ifndef _SHVISITOR_H
 #define _SHVISITOR_H
 
+// Visitor Pattern
+
 class ShLine;
 class ShRubberBand;
 class ShCircle;
