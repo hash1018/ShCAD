@@ -148,6 +148,10 @@ void ShSubDrawArcAction::actionFinished() {
 	this->drawArcAction->actionFinished();
 }
 
+void ShSubDrawArcAction::triggerFailed(ShActionTriggerFailureReason reason) {
+
+	this->drawArcAction->triggerFailed(reason);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -275,7 +279,7 @@ void ShSubDrawArcAction_ThreePoint::trigger(const ShPoint3d &point) {
 		ShArcData data;
 		if (this->getArcDataWithThreePoint(this->first,this->second,point,data) == false) {
 
-			//Fail.
+			this->triggerFailed(ShActionTriggerFailureReason::InvalidPoint);
 			return;
 		}
 		
@@ -423,6 +427,13 @@ void ShSubDrawArcAction_StartCenterEnd::trigger(const ShPoint3d &point) {
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedStart) {
 
+		if (math::compare(point.x, this->start.x) == 0 &&
+			math::compare(point.y, this->start.y) == 0) {
+		
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
+
 		ShArcData data;
 		data.center = point;
 		data.radius = math::getDistance(point.x, point.y, this->start.x, this->start.y);
@@ -441,6 +452,13 @@ void ShSubDrawArcAction_StartCenterEnd::trigger(const ShPoint3d &point) {
 
 	}
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
+
+		if (math::compare(point.x, this->start.x) == 0 &&
+			math::compare(point.y, this->start.y) == 0) {
+
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
 
 		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
 
@@ -563,6 +581,13 @@ void ShSubDrawArcAction_StartCenterAngle::trigger(const ShPoint3d &point) {
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedStart) {
 
+		if (math::compare(point.x, this->start.x) == 0 &&
+			math::compare(point.y, this->start.y) == 0) {
+
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
+
 		ShArcData data;
 		data.center = point;
 		data.radius = math::getDistance(point.x, point.y, this->start.x, this->start.y);
@@ -587,6 +612,11 @@ void ShSubDrawArcAction_StartCenterAngle::trigger(const ShPoint3d &point) {
 
 		double angleCenterToPoint = math::getAbsAngle(this->center.x, this->center.y, point.x, point.y);
 		data.endAngle = math::addAngle(data.startAngle, angleCenterToPoint);
+
+		if (math::compare(data.startAngle, data.endAngle) == 0) {
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
 
 		prevArc->setData(data);
 
@@ -719,7 +749,13 @@ void ShSubDrawArcAction_StartCenterLength::trigger(const ShPoint3d &point) {
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
 
 		ShArcData data;
-		this->getArcDataWithStartCenterLength(this->start, this->center, math::getDistance(this->start.x, this->start.y, point.x, point.y), data);
+		
+		if (this->getArcDataWithStartCenterLength(this->start, this->center,
+			math::getDistance(this->start.x, this->start.y, point.x, point.y), data) == false) {
+		
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
 
 		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
 		prevArc->setData(data);
@@ -863,7 +899,7 @@ void ShSubDrawArcAction_StartEndAngle::trigger(const ShPoint3d &point) {
 		
 		if (math::compare(dis, 0) == 0) {
 		
-			//Fail.
+			this->triggerFailed(InvalidPoint);
 			return;
 		}
 
@@ -1025,8 +1061,8 @@ void ShSubDrawArcAction_StartEndDirection::trigger(const ShPoint3d &point) {
 		double dis = math::getDistance(this->start.x, this->start.y, point.x, point.y);
 
 		if (math::compare(dis, 0) == 0) {
-
-			//Fail.
+			
+			this->triggerFailed(InvalidPoint);
 			return;
 		}
 
@@ -1206,7 +1242,7 @@ void ShSubDrawArcAction_StartEndRadius::trigger(const ShPoint3d &point) {
 
 		if (math::compare(dis, 0) == 0) {
 
-			//Fail.
+			this->triggerFailed(InvalidPoint);
 			return;
 		}
 
@@ -1374,6 +1410,13 @@ void ShSubDrawArcAction_CenterStartEnd::trigger(const ShPoint3d &point) {
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedCenter) {
 
+		if (math::compare(point.x, this->center.x) == 0 &&
+			math::compare(point.y, this->center.y) == 0) {
+
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
+
 		ShArcData data;
 		data.center = this->center;
 		data.radius = math::getDistance(this->center.x, this->center.y, point.x, point.y);
@@ -1395,6 +1438,13 @@ void ShSubDrawArcAction_CenterStartEnd::trigger(const ShPoint3d &point) {
 		double endAngle = math::getAbsAngle(this->center.x, this->center.y, point.x, point.y);
 		
 		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
+
+		if (math::compare(prevArc->getStartAngle(), endAngle) == 0) {
+		
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
+
 		prevArc->setEndAngle(endAngle);
 
 		this->addEntity(prevArc->clone(), "Arc");
@@ -1513,6 +1563,13 @@ void ShSubDrawArcAction_CenterStartAngle::trigger(const ShPoint3d &point) {
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedCenter) {
 
+		if (math::compare(point.x, this->center.x) == 0 &&
+			math::compare(point.y, this->center.y) == 0) {
+
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
+
 		ShArcData data;
 		data.center = this->center;
 		data.radius = math::getDistance(this->center.x, this->center.y, point.x, point.y);
@@ -1536,6 +1593,12 @@ void ShSubDrawArcAction_CenterStartAngle::trigger(const ShPoint3d &point) {
 
 		double angleCenterToPoint = math::getAbsAngle(this->center.x, this->center.y, point.x, point.y);
 		data.endAngle = math::addAngle(data.startAngle, angleCenterToPoint);
+
+		if (math::compare(data.startAngle, data.endAngle) == 0) {
+		
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
 
 		prevArc->setData(data);
 
@@ -1654,6 +1717,13 @@ void ShSubDrawArcAction_CenterStartLength::trigger(const ShPoint3d &point) {
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedCenter) {
 
+		if (math::compare(point.x, this->center.x) == 0 &&
+			math::compare(point.y, this->center.y) == 0) {
+
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
+
 		this->getStatus() = ShDrawArcAction::Status::PickedStart;
 
 		this->start = point;
@@ -1671,7 +1741,12 @@ void ShSubDrawArcAction_CenterStartLength::trigger(const ShPoint3d &point) {
 	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
 
 		ShArcData data;
-		this->getArcDataWithCenterStartLength(this->center, this->start, math::getDistance(this->start.x, this->start.y, point.x, point.y), data);
+		if (this->getArcDataWithCenterStartLength(this->center, this->start,
+			math::getDistance(this->start.x, this->start.y, point.x, point.y), data) == false) {
+		
+			this->triggerFailed(InvalidPoint);
+			return;
+		}
 
 		ShArc *prevArc = dynamic_cast<ShArc*>((*this->widget->getPreview().begin()));
 		prevArc->setData(data);
