@@ -82,19 +82,19 @@ class ShLineExtensionPointFinder : public ShExtensionPointFinder {
 	friend class ShExtender;
 
 private:
-	const ShLine *const lineToExtend;
+	ShLine *lineToExtend;
 	ShEntityPartToExtend entityPartToExtend;
 
 private:
-	ShLineExtensionPointFinder(QLinkedList<ShPoint3d> &extensionPointList, const ShLine *const lineToExtend, ShEntityPartToExtend entityPartToExtend);
+	ShLineExtensionPointFinder(QLinkedList<ShPoint3d> &extensionPointList, ShLine *lineToExtend, ShEntityPartToExtend entityPartToExtend);
 	~ShLineExtensionPointFinder();
 
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
 
-	bool checkPossibleToExtend(const ShLine *const lineToExtend, ShEntityPartToExtend entityPartToExtend, const ShPoint3d &extensionPoint);
-	bool checkPossibleToExtend(const ShLine *const lineToExtend, ShEntityPartToExtend entityPartToExtend,
+	bool checkPossibleToExtend(ShLine *lineToExtend, ShEntityPartToExtend entityPartToExtend, const ShPoint3d &extensionPoint);
+	bool checkPossibleToExtend(ShLine *lineToExtend, ShEntityPartToExtend entityPartToExtend,
 		const ShPoint3d &extensionPoint, const ShPoint3d &extensionPoint2, ShPoint3d &finalExtensionPoint);
 };
 
@@ -106,19 +106,19 @@ class ShArcExtensionPointFinder : public ShExtensionPointFinder {
 	friend class ShExtender;
 
 private:
-	const ShArc *const arcToExtend;
+	ShArc *arcToExtend;
 	ShEntityPartToExtend entityPartToExtend;
 
 private:
-	ShArcExtensionPointFinder(QLinkedList<ShPoint3d> &extensionPointList, const ShArc *const arcToExtend, ShEntityPartToExtend entityPartToExtend);
+	ShArcExtensionPointFinder(QLinkedList<ShPoint3d> &extensionPointList, ShArc *arcToExtend, ShEntityPartToExtend entityPartToExtend);
 	~ShArcExtensionPointFinder();
 
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
 
-	bool checkPossibleToExtend(const ShArc *const arcToExtend, ShEntityPartToExtend entityPartToExtend, const ShPoint3d &extensionPoint);
-	bool checkPossibleToExtend(const ShArc *const arcToExtend, ShEntityPartToExtend entityPartToExtend,
+	bool checkPossibleToExtend(ShArc *arcToExtend, ShEntityPartToExtend entityPartToExtend, const ShPoint3d &extensionPoint);
+	bool checkPossibleToExtend(ShArc *arcToExtend, ShEntityPartToExtend entityPartToExtend,
 		const ShPoint3d &extensionPoint, const ShPoint3d &extensionPoint2, ShPoint3d &finalExtensionPoint);
 
 };
