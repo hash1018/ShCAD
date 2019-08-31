@@ -9,6 +9,7 @@
 #include "ActionHandler\ModifyAction\ShModifyRotateAction.h"
 #include "ActionHandler\ModifyAction\ShModifyMirrorAction.h"
 #include "ActionHandler\ModifyAction\ShModifyEraseAction.h"
+#include "ActionHandler\ModifyAction\ShModifyExtendAction.h"
 
 ShActionHandlerFactory::ShActionHandlerFactory() {
 
@@ -68,6 +69,8 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 		return new ShModifyMirrorAction(widget);
 	else if (actionType == ActionType::ActionModifyErase)
 		return new ShModifyEraseAction(widget);
+	else if (actionType == ActionType::ActionModifyExtend)
+		return new ShModifyExtendAction(widget);
 
 	return new ShDefaultAction(widget);
 }

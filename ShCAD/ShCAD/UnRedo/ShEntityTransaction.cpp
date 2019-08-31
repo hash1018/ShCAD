@@ -213,3 +213,57 @@ void ShRemoveEntityTransaction::undo() {
 	this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawAddedEntities));
 	this->widget->captureImage();
 }
+
+
+////////////////////////////////////////////////////////////////
+
+
+ShExtendEntityTransaction::ShExtendEntityTransaction(ShCADWidget *widget)
+	:ShTransaction("Group Remove"), widget(widget), mustDeleteOriginal(true), mustDeleteExtended(false) {
+
+}
+
+ShExtendEntityTransaction::~ShExtendEntityTransaction() {
+
+	if (this->mustDeleteOriginal == true) {
+	
+		while (!this->originalList.isEmpty())
+			delete this->originalList.takeFirst();
+	}
+
+	if (this->mustDeleteExtended == true) {
+
+		while (!this->extendedList.isEmpty())
+			delete this->extendedList.takeFirst();
+	}
+}
+
+void ShExtendEntityTransaction::redo() {
+
+	this->widget->getEntityTable().add(this->extendedList);
+	
+	auto itr = this->originalList.begin();
+	for (itr; itr != this->originalList.end(); ++itr)
+		this->widget->getEntityTable().remove((*itr));
+
+	this->mustDeleteOriginal = true;
+	this->mustDeleteExtended = false;
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShExtendEntityTransaction::undo() {
+
+	this->widget->getEntityTable().add(this->originalList);
+
+	auto itr = this->extendedList.begin();
+	for (itr; itr != this->extendedList.end(); ++itr)
+		this->widget->getEntityTable().remove((*itr));
+
+	this->mustDeleteOriginal = false;
+	this->mustDeleteExtended = true;
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}

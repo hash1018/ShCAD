@@ -122,6 +122,12 @@ void ShActionHandler::triggerFailed(ShActionTriggerFailureReason reason) {
 		shCommandLogManager->appendList(shGetLanValue_command("Command/Invalid point") + ".");
 		this->updateCommandEditHeadTitle();
 	}
+	else if (reason == ShActionTriggerFailureReason::NoEdgeInThatDirection) {
+	
+		shCommandLogManager->appendListEditTextWith("");
+		shCommandLogManager->appendList(shGetLanValue_command("Command/No edge in that direction") + ".");
+		this->updateCommandEditHeadTitle();
+	}
 }
 
 void ShActionHandler::trigger(const ShPoint3d &point) {

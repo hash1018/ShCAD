@@ -574,6 +574,12 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawArcAction.cpp">
       <Filter>ActionHandler\DrawAction</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyExtendAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\ShExtender.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -973,6 +979,12 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\Private\ShActionTriggerFailureReason.h">
       <Filter>ActionHandler\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyExtendAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShExtender.h">
+      <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

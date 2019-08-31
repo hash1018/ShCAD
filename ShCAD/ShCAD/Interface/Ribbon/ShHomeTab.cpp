@@ -212,7 +212,9 @@ void ShModifyPanel::eraseButtonClicked() {
 
 void ShModifyPanel::extendButtonClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyExtend);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyPanel::trimButtonClicked() {

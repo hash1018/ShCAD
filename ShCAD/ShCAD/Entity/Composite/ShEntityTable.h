@@ -23,6 +23,7 @@ public:
 	virtual bool add(ShEntity *entity);
 	virtual bool add(const QLinkedList<ShEntity*> &list);
 	virtual bool remove(ShEntity *entity);
+	virtual bool deleteEntity(ShEntity *entity);
 
 	virtual void search(ShSearchEntityStrategy &strategy);
 

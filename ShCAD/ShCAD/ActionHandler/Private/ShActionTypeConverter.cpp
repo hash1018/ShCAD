@@ -70,6 +70,8 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 		text = "_Mirror"; break;
 	case ActionType::ActionModifyErase:
 		text = "_Erase"; break;
+	case ActionType::ActionModifyExtend:
+		text = "_Extend"; break;
 
 	default:
 		text = ""; break;

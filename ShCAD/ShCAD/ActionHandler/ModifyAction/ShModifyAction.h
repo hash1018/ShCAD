@@ -11,6 +11,7 @@ public:
 		SelectingEntities,
 		PickingBasePoint,
 		PickingSecondPoint,
+		SelectingEntityToModify,
 	};
 
 protected:

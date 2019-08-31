@@ -94,4 +94,31 @@ public:
 
 };
 
+
+class ShExtendEntityTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShEntity*> originalList;
+	QLinkedList<ShEntity*> extendedList;
+	bool mustDeleteOriginal;
+	bool mustDeleteExtended;
+
+public:
+	ShExtendEntityTransaction(ShCADWidget *widget);
+	~ShExtendEntityTransaction();
+
+	virtual void redo();
+	virtual void undo();
+
+public:
+	void addOriginalList(ShEntity *entity) { this->originalList.append(entity); }
+	void addExtendedList(ShEntity *entity) { this->extendedList.append(entity); }
+	void removeExtendedList(ShEntity *entity) { this->extendedList.removeOne(entity); }
+
+
+public:
+	inline bool containsInExtendedList(ShEntity *entity) const { return this->extendedList.contains(entity); }
+};
+
 #endif //_SHENTITYTRANSACTION_H

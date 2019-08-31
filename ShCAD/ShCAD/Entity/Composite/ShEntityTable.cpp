@@ -88,6 +88,16 @@ bool ShEntityTable::remove(ShEntity *entity) {
 	return ShComposite::remove(entity);
 }
 
+bool ShEntityTable::deleteEntity(ShEntity *entity) {
+
+	entity->getLayer()->remove(entity);
+
+	if (entity->getLayer()->isTurnOn() == true)
+		this->layerTable->turnOnList.removeOne(entity);
+
+	return ShComposite::deleteEntity(entity);
+}
+
 void ShEntityTable::search(ShSearchEntityStrategy &strategy) {
 
 	strategy.setList(this->layerTable->turnOnList);

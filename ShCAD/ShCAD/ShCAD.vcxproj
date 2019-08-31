@@ -148,6 +148,7 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyEraseAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyExtendAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMirrorAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
     <ClCompile Include="Entity\Private\ShDrawer.cpp" />
     <ClCompile Include="Entity\Private\ShEntityData.cpp" />
+    <ClCompile Include="Entity\Private\ShExtender.cpp" />
     <ClCompile Include="Entity\Private\ShFinder.cpp" />
     <ClCompile Include="Entity\Private\ShFootOfPerpendicularVisitor.cpp" />
     <ClCompile Include="Entity\Private\ShLineBothPerpendicularVisitor.cpp" />
@@ -422,6 +424,7 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyEraseAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyExtendAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMirrorAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h" />
@@ -476,6 +479,7 @@
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />
     <ClInclude Include="Entity\Private\ShDrawer.h" />
     <ClInclude Include="Entity\Private\ShEntityData.h" />
+    <ClInclude Include="Entity\Private\ShExtender.h" />
     <ClInclude Include="Entity\Private\ShFinder.h" />
     <ClInclude Include="Entity\Private\ShFootOfPerpendicularVisitor.h" />
     <ClInclude Include="Entity\Private\ShLineBothPerpendicularVisitor.h" />

@@ -95,7 +95,9 @@ void ShModifyToolBar::stretchActionClicked() {
 
 void ShModifyToolBar::extendActionClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyExtend);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyToolBar::trimActionClicked() {

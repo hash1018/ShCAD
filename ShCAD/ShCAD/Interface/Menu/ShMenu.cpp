@@ -366,6 +366,7 @@ ShModifyMenu::ShModifyMenu(const QString &title, ShChain *chain, QWidget *parent
 	connect(this->mirrorAction, &QAction::triggered, this, &ShModifyMenu::mirrorActionClicked);
 	connect(this->rotateAction, &QAction::triggered, this, &ShModifyMenu::rotateActionClicked);
 	connect(this->eraseAction, &QAction::triggered, this, &ShModifyMenu::eraseActionClicked);
+	connect(this->extendAction, &QAction::triggered, this, &ShModifyMenu::extendActionClicked);
 
 }
 
@@ -404,6 +405,13 @@ void ShModifyMenu::rotateActionClicked() {
 void ShModifyMenu::eraseActionClicked() {
 
 	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyErase);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShModifyMenu::extendActionClicked() {
+
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyExtend);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

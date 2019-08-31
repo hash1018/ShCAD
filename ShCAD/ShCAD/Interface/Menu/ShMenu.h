@@ -129,6 +129,7 @@ public:
 	void mirrorActionClicked();
 	void rotateActionClicked();
 	void eraseActionClicked();
+	void extendActionClicked();
 };
 
 

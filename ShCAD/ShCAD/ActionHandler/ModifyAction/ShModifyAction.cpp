@@ -28,7 +28,8 @@ QCursor ShModifyAction::getCursorShape() {
 
 	QCursor cursor;
 
-	if (this->status == Status::SelectingEntities) {
+	if (this->status == Status::SelectingEntities ||
+		this->status == Status::SelectingEntityToModify) {
 		QPixmap pix(32, 32);
 		pix.fill(Qt::transparent); // Otherwise you get a black background :(
 		QPainter painter(&pix);
@@ -43,6 +44,7 @@ QCursor ShModifyAction::getCursorShape() {
 
 		cursor = QCursor(Qt::CursorShape::CrossCursor);
 	}
+	
 
 	return cursor;
 }
