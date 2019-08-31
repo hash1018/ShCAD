@@ -52,6 +52,7 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	
 	virtual QString getHeadTitle();
+
 };
 
 

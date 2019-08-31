@@ -21,6 +21,7 @@ public:
 
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
 
 };
 
@@ -41,6 +42,7 @@ private:
 
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
 
 };
 
@@ -61,7 +63,30 @@ private:
 
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
 	
+};
+
+
+//////////////////////////////////////////////////////////////////
+
+class ShFirstArcPerpendicularVisitor : public ShVisitor {
+
+	friend class ShLineBothPerpendicularVisitor;
+
+private:
+	ShPoint3d &perpendicular;
+	ShArc *firstArc;
+	bool &isValid;
+
+private:
+	ShFirstArcPerpendicularVisitor(ShArc *firstArc, ShPoint3d &perpendicular, bool &isValid);
+	~ShFirstArcPerpendicularVisitor();
+
+	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
+
 };
 
 #endif //_SHLINEBOTHPERPENDICULARVISITOR_H

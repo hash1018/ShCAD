@@ -206,10 +206,53 @@ ShModifyDragSelectAction::~ShModifyDragSelectAction() {
 
 void ShModifyDragSelectAction::mouseLeftPressEvent(ShActionData &data) {
 
-	ShDragSelectAction::mouseLeftPressEvent(data);
+	QLinkedList<ShEntity*> searchedList;
+	this->searchEntities(ShPoint3d(this->firstX, this->firstY), ShPoint3d(this->secondX, this->secondY), searchedList);
+
+	int searchedCount = searchedList.count();
+
+	if (this->mode == Mode::SelectMode) {
+
+		int duplicateCount = this->getAlreadySelectedCount(searchedList);
+
+		this->widget->getSelectedEntities()->add(searchedList);
+		int totalCount = this->widget->getSelectedEntities()->getSize();
+
+		if (duplicateCount == 0)
+			shCommandLogManager->appendListEditTextWith(QString::number(searchedCount) + " found, " +
+				QString::number(totalCount) + " total");
+		else
+			shCommandLogManager->appendListEditTextWith(QString::number(searchedCount) + " found (" +
+				QString::number(duplicateCount) + " duplicate), " + QString::number(totalCount) + " total");
+
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
+		this->widget->captureImage();
+
+	}
+	else if (this->mode == Mode::UnSelectMode) {
+
+		int removedCount = this->getAlreadySelectedCount(searchedList);
+
+		this->widget->getSelectedEntities()->remove(searchedList);
+		int totalCount = this->widget->getSelectedEntities()->getSize();
+
+		if (removedCount == 0)
+			shCommandLogManager->appendListEditTextWith(QString::number(searchedCount) + " found, " +
+				QString::number(totalCount) + " total");
+		else
+			shCommandLogManager->appendListEditTextWith(QString::number(searchedCount) + " found, " +
+				QString::number(removedCount) + " removed, " + QString::number(totalCount) + " total");
+
+
+		this->widget->update(DrawType::DrawAll);
+		this->widget->captureImage();
+	}
+
+	this->returnToPrevious();
 }
 
 QString ShModifyDragSelectAction::getHeadTitle() {
 
 	return this->previousAction->getHeadTitle() + ShDragSelectAction::getHeadTitle();
 }
+
