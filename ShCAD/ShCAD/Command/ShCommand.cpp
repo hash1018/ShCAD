@@ -269,3 +269,34 @@ void ShPolarCoordinateCommand::convertCoordinate(const QString &command, double 
 }
 
 /////////////////////////////////////////////////////////////////////////
+
+
+ShDistanceFromBaseCommand::ShDistanceFromBaseCommand()
+	:ShCommand(CommandType::DistanceFromBase) {
+
+}
+
+ShDistanceFromBaseCommand::~ShDistanceFromBaseCommand() {
+
+}
+
+void ShDistanceFromBaseCommand::interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command) {
+
+	if (this->isNumber(command) == false)
+		return;
+
+	ShPoint3d lastBasePoint = actionHandler->getLastBasePoint();
+	ShPoint3d aboutToPickPoint = actionHandler->getCurrentAboutToPickPoint();
+
+	double distance = command.toDouble();
+	ShPoint3d point;
+	double angle = math::getAbsAngle(lastBasePoint.x, lastBasePoint.y, aboutToPickPoint.x, aboutToPickPoint.y);
+	math::rotate(angle, lastBasePoint.x, lastBasePoint.y, lastBasePoint.x + distance, lastBasePoint.y, point.x, point.y);
+
+	this->trigger(point, actionHandler);
+}
+
+bool ShDistanceFromBaseCommand::isMatched(const QString &command) {
+
+	return this->isNumber(command);
+}

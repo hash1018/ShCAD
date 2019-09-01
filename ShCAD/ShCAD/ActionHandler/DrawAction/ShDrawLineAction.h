@@ -39,6 +39,7 @@ public:
 	virtual void invalidate(ShPoint3d &point);
 
 	virtual ShPoint3d getLastBasePoint();
+	virtual ShPoint3d getCurrentAboutToPickPoint();
 
 protected:
 	virtual void trigger(const ShPoint3d &point);
@@ -50,9 +51,6 @@ public:
 	void changeSubAction(SubAction subAction);
 	ShSubDrawLineAction* getSubDrawLineAction() const { return this->subDrawLineAction; }
 
-
-private:
-	void inputNumber(void*);
 };
 
 ////////////////////////////////////////////////////////////////////

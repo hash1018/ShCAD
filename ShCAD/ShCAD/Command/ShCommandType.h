@@ -10,6 +10,7 @@ enum CommandType {
 	RelativeCoordinate,
 	PolarCoordinate,
 	CustomCommand,
+	DistanceFromBase,
 };
 
 #endif //_SHCOMMANDTYPE_H

@@ -44,14 +44,13 @@ public:
 	virtual void invalidate(ShPoint3d &point);
 
 	virtual ShPoint3d getLastBasePoint();
+	virtual ShPoint3d getCurrentAboutToPickPoint();
 
 protected:
 	virtual void trigger(const ShPoint3d &point);
 
 private:
 	void changeSubAction(SubAction subAction);
-
-	void temp(void *);
 };
 
 
@@ -77,6 +76,7 @@ public:
 
 	virtual void invalidate(ShPoint3d &point) = 0;
 	virtual ShPoint3d getLastBasePoint() = 0;
+	virtual ShPoint3d getCurrentAboutToPickPoint() = 0;
 	virtual void trigger(const ShPoint3d &point) = 0;
 
 protected:
@@ -103,6 +103,7 @@ public:
 
 	virtual void invalidate(ShPoint3d &point);
 	virtual ShPoint3d getLastBasePoint();
+	virtual ShPoint3d getCurrentAboutToPickPoint();
 	virtual void trigger(const ShPoint3d &point);
 
 };
@@ -122,6 +123,7 @@ public:
 
 	virtual void invalidate(ShPoint3d &point);
 	virtual ShPoint3d getLastBasePoint();
+	virtual ShPoint3d getCurrentAboutToPickPoint();
 	virtual void trigger(const ShPoint3d &point);
 
 };
@@ -142,10 +144,12 @@ public:
 
 	virtual void invalidate(ShPoint3d &point);
 	virtual ShPoint3d getLastBasePoint();
+	virtual ShPoint3d getCurrentAboutToPickPoint();
 	virtual void trigger(const ShPoint3d &point);
 
 private:
 	ShPoint3d getCenter(const ShPoint3d &first, const ShPoint3d &second);
+	
 };
 
 
@@ -168,6 +172,7 @@ public:
 
 	virtual void invalidate(ShPoint3d &point);
 	virtual ShPoint3d getLastBasePoint();
+	virtual ShPoint3d getCurrentAboutToPickPoint();
 	virtual void trigger(const ShPoint3d &point);
 
 };

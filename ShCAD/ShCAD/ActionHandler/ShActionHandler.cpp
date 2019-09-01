@@ -102,6 +102,11 @@ ShPoint3d ShActionHandler::getLastBasePoint() {
 	return ShPoint3d();
 }
 
+ShPoint3d ShActionHandler::getCurrentAboutToPickPoint() {
+
+	return this->widget->getMousePoint();
+}
+
 void ShActionHandler::triggerSucceeded() {
 
 	shCommandLogManager->appendListEditTextWith("");

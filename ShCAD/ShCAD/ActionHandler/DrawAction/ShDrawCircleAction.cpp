@@ -16,15 +16,13 @@ ShDrawCircleAction::ShDrawCircleAction(ShCADWidget *widget, SubAction subAction)
 		allowKey(KeyType::Return).
 		build();
 
-
 	this->availableCommands = ShAvailableCommands::ShBuilder(this->widget, this).
 		addAvailableCommand(CommandType::AbsoluteCoordinate).
 		addAvailableCommand(CommandType::Empty_Cancel).
 		addAvailableCommand(CommandType::RelativeCoordinate).
 		addAvailableCommand(CommandType::PolarCoordinate).
-		addAvailableCommand(new ShOnlyNumberCommand<ShDrawCircleAction>(this, &ShDrawCircleAction::temp)).
+		addAvailableCommand(CommandType::DistanceFromBase).
 		build();
-
 
 	this->changeSubAction(subAction);
 }
@@ -35,13 +33,6 @@ ShDrawCircleAction::~ShDrawCircleAction() {
 		delete this->subDrawCircleAction;
 }
 
-#include <qmessagebox.h>
-void ShDrawCircleAction::temp(void *number) {
-
-	QMessageBox box;
-	box.setText(QString::number(*(static_cast<double*>(number))));
-	box.exec();
-}
 
 void ShDrawCircleAction::mouseLeftPressEvent(ShActionData &data) {
 
@@ -78,11 +69,16 @@ ShPoint3d ShDrawCircleAction::getLastBasePoint() {
 	return this->subDrawCircleAction->getLastBasePoint();
 }
 
+ShPoint3d ShDrawCircleAction::getCurrentAboutToPickPoint() {
+
+	return this->subDrawCircleAction->getCurrentAboutToPickPoint();
+}
 
 void ShDrawCircleAction::trigger(const ShPoint3d &point) {
 
 	this->subDrawCircleAction->trigger(point);
 }
+
 
 void ShDrawCircleAction::changeSubAction(SubAction subAction) {
 
@@ -145,6 +141,7 @@ void ShSubDrawCircleAction::triggerFailed(ShActionTriggerFailureReason reason) {
 
 	this->drawCircleAction->triggerFailed(reason);
 }
+
 
 //////////////////////////////////////////////////////////////////////
 
@@ -233,6 +230,18 @@ ShPoint3d ShSubDrawCircleAction_CenterRadius::getLastBasePoint() {
 
 	return lastBasePoint;
 }
+
+ShPoint3d ShSubDrawCircleAction_CenterRadius::getCurrentAboutToPickPoint() {
+
+	ShPoint3d currentAboutToPickPoint;
+
+	if (this->getStatus() == ShDrawCircleAction::PickedNothing)
+		currentAboutToPickPoint = this->widget->getMousePoint();
+	else if (this->getStatus() == ShDrawCircleAction::PickedCenter)
+		currentAboutToPickPoint = this->widget->getRubberBand().getEnd();
+
+	return currentAboutToPickPoint;
+}
 	
 void ShSubDrawCircleAction_CenterRadius::trigger(const ShPoint3d &point) {
 
@@ -263,8 +272,6 @@ void ShSubDrawCircleAction_CenterRadius::trigger(const ShPoint3d &point) {
 		this->actionFinished();
 	}
 }
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -357,6 +364,18 @@ ShPoint3d ShSubDrawCircleAction_CenterDiameter::getLastBasePoint() {
 	return lastBasePoint;
 }
 
+ShPoint3d ShSubDrawCircleAction_CenterDiameter::getCurrentAboutToPickPoint() {
+
+	ShPoint3d currentAboutToPickPoint;
+
+	if (this->getStatus() == ShDrawCircleAction::PickedNothing)
+		currentAboutToPickPoint = this->widget->getMousePoint();
+	else if (this->getStatus() == ShDrawCircleAction::PickedCenter)
+		currentAboutToPickPoint = this->widget->getRubberBand().getEnd();
+
+	return currentAboutToPickPoint;
+}
+
 void ShSubDrawCircleAction_CenterDiameter::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawCircleAction::Status::PickedNothing) {
@@ -388,8 +407,6 @@ void ShSubDrawCircleAction_CenterDiameter::trigger(const ShPoint3d &point) {
 	}
 }
 
-
-
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -397,6 +414,7 @@ void ShSubDrawCircleAction_CenterDiameter::trigger(const ShPoint3d &point) {
 ShSubDrawCircleAction_TwoPoint::ShSubDrawCircleAction_TwoPoint(ShDrawCircleAction *drawCircleAction, ShCADWidget *widget)
 	:ShSubDrawCircleAction(drawCircleAction, widget) {
 
+	
 }
 
 ShSubDrawCircleAction_TwoPoint::~ShSubDrawCircleAction_TwoPoint() {
@@ -480,6 +498,19 @@ ShPoint3d ShSubDrawCircleAction_TwoPoint::getLastBasePoint() {
 	return lastBasePoint;
 }
 
+
+ShPoint3d ShSubDrawCircleAction_TwoPoint::getCurrentAboutToPickPoint() {
+
+	ShPoint3d aboutToPickPoint;
+
+	if (this->getStatus() == ShDrawCircleAction::Status::PickedNothing)
+		aboutToPickPoint = this->widget->getMousePoint();
+	else if (this->getStatus() == ShDrawCircleAction::Status::PickedFirstPoint)
+		aboutToPickPoint = this->widget->getRubberBand().getEnd();
+
+	return aboutToPickPoint;
+}
+
 void ShSubDrawCircleAction_TwoPoint::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawCircleAction::Status::PickedNothing) {
@@ -529,13 +560,13 @@ ShPoint3d ShSubDrawCircleAction_TwoPoint::getCenter(const ShPoint3d &first, cons
 }
 
 
-
 /////////////////////////////////////////////////////////////////////////////////
 
 
 ShSubDrawCircleAction_ThreePoint::ShSubDrawCircleAction_ThreePoint(ShDrawCircleAction *drawCircleAction, ShCADWidget *widget)
 	:ShSubDrawCircleAction(drawCircleAction, widget) {
 
+	
 }
 
 ShSubDrawCircleAction_ThreePoint::~ShSubDrawCircleAction_ThreePoint() {
@@ -629,6 +660,20 @@ ShPoint3d ShSubDrawCircleAction_ThreePoint::getLastBasePoint() {
 	}
 
 	return lastBasePoint;
+}
+
+ShPoint3d ShSubDrawCircleAction_ThreePoint::getCurrentAboutToPickPoint() {
+
+	ShPoint3d aboutToPickPoint;
+
+	if (this->getStatus() == ShDrawCircleAction::Status::PickedNothing)
+		aboutToPickPoint = this->widget->getMousePoint();
+
+	else if (this->getStatus() == ShDrawCircleAction::Status::PickedFirstPoint ||
+		this->getStatus() == ShDrawCircleAction::Status::PickedSecondPoint)
+		aboutToPickPoint = this->widget->getRubberBand().getEnd();
+
+	return aboutToPickPoint;
 }
 
 void ShSubDrawCircleAction_ThreePoint::trigger(const ShPoint3d &point) {

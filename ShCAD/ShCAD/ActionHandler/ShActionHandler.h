@@ -63,6 +63,7 @@ public:
 	virtual void temporaryActionFinished();
 
 	virtual ShPoint3d getLastBasePoint();
+	virtual ShPoint3d getCurrentAboutToPickPoint();
 
 public:
 	//*when enter key pressed, interpret current command text then do specific action.

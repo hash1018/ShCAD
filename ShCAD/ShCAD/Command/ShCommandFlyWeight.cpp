@@ -68,6 +68,8 @@ ShCommand* ShCommandFactory::create(CommandType type) {
 		return new ShRelativeCoordinateCommand;
 	else if (type == CommandType::PolarCoordinate)
 		return new ShPolarCoordinateCommand;
+	else if (type == CommandType::DistanceFromBase)
+		return new ShDistanceFromBaseCommand;
 
 	return new ShEmptyCancelCommand;
 }
