@@ -26,6 +26,9 @@ public:
 	virtual QCursor getCursorShape();
 	virtual ShAvailableDraft getAvailableDraft();
 
+	virtual ShPoint3d getLastBasePoint();
+	virtual ShPoint3d getCurrentAboutToPickPoint();
+
 	virtual void finishSelectingEntities() = 0;
 
 protected:

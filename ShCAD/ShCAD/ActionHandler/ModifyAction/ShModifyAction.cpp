@@ -71,6 +71,29 @@ ShAvailableDraft ShModifyAction::getAvailableDraft() {
 	return draft;
 }
 
+ShPoint3d ShModifyAction::getLastBasePoint() {
+
+	ShPoint3d lastBasePoint;
+
+	if (this->status == Status::PickingSecondPoint) {
+	
+		lastBasePoint = this->base;
+	}
+
+	return lastBasePoint;
+}
+ShPoint3d ShModifyAction::getCurrentAboutToPickPoint() {
+
+	ShPoint3d aboutToPickPoint;
+
+	if (this->status == Status::PickingBasePoint)
+		aboutToPickPoint = this->widget->getMousePoint();
+	else if (this->status == Status::PickingSecondPoint)
+		aboutToPickPoint = this->widget->getRubberBand().getEnd();
+	
+	return aboutToPickPoint;
+}
+
 void ShModifyAction::selectFoundEntity(ShEntity *foundEntity, Qt::KeyboardModifiers modifier) {
 
 	if (modifier == Qt::Modifier::SHIFT) {

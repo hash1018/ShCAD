@@ -5,7 +5,7 @@
 #include "Base\ShGlobal.h"
 #include "Base\ShMath.h"
 #include "Entity\Private\ShMirror.h"
-
+#include "Command\ShAvailableCommands.h"
 
 ShModifyMirrorAction::ShModifyMirrorAction(ShCADWidget *widget)
 	:ShModifyAction(widget) {
@@ -56,13 +56,13 @@ QString ShModifyMirrorAction::getHeadTitle() {
 	QString text;
 
 	if (this->status == Status::SelectingEntities) {
-		text = "Rotate >> " + shGetLanValue_command("Command/Select objects") + ": ";
+		text = "Mirror >> " + shGetLanValue_command("Command/Select objects") + ": ";
 	}
 	else if (this->status == Status::PickingBasePoint) {
-		text = "Rotate >> " + shGetLanValue_command("Command/Specify base point") + ": ";
+		text = "Mirror >> " + shGetLanValue_command("Command/Specify base point") + ": ";
 	}
 	else if (this->status == Status::PickingSecondPoint) {
-		text = "Rotate >> " + shGetLanValue_command("Command/Specify rotation angle") + ": ";
+		text = "Mirror >> " + shGetLanValue_command("Command/Specify rotation angle") + ": ";
 	}
 
 	return text;
@@ -83,6 +83,9 @@ void ShModifyMirrorAction::trigger(const ShPoint3d &point) {
 
 			this->widget->getPreview().add((*itr)->clone());
 		}
+
+		this->availableCommands->remove(CommandType::DistanceFromBase);
+		this->availableCommands->add(CommandType::AngleFromBase);
 
 		this->triggerSucceeded();
 
@@ -141,7 +144,17 @@ void ShModifyMirrorAction::finishSelectingEntities() {
 		this->status = Status::PickingBasePoint;
 
 		shCommandLogManager->appendListEditTextWith("");
+		this->updateCommandEditHeadTitle();
+
 		this->widget->setCursor(this->getCursorShape());
+
+		this->availableCommands = ShAvailableCommands::ShBuilder(this->widget, this).
+			addAvailableCommand(CommandType::AbsoluteCoordinate).
+			addAvailableCommand(CommandType::Empty_Cancel).
+			addAvailableCommand(CommandType::RelativeCoordinate).
+			addAvailableCommand(CommandType::PolarCoordinate).
+			addAvailableCommand(CommandType::DistanceFromBase).
+			build();
 
 	}
 	else {

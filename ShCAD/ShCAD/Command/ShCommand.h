@@ -104,4 +104,15 @@ public:
 
 };
 
+class ShAngleFromBaseCommand : public ShCommand {
+
+public:
+	ShAngleFromBaseCommand();
+	~ShAngleFromBaseCommand();
+
+public:
+	virtual void interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command);
+	virtual bool isMatched(const QString &command);
+
+};
 #endif //_SHCOMMAND_H

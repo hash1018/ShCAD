@@ -11,6 +11,7 @@ enum CommandType {
 	PolarCoordinate,
 	CustomCommand,
 	DistanceFromBase,
+	AngleFromBase,
 };
 
 #endif //_SHCOMMANDTYPE_H

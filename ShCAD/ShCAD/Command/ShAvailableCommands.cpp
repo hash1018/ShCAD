@@ -80,3 +80,34 @@ void ShAvailableCommands::interpret(const QString &command) {
 	shCommandLogManager->appendListEditTextWith("");
 	shCommandLogManager->appendList(shGetLanValue_command("Command/Unknown command"));
 }
+
+void ShAvailableCommands::remove(CommandType type) {
+
+	if (type == CustomCommand)
+		return;
+
+	for (int i = 0; i < this->list.size(); i++) {
+	
+		if (this->list.at(i)->getType() == type) {
+			this->list.removeOne(this->list.at(i));
+			return;
+		}
+	}
+}
+
+void ShAvailableCommands::add(CommandType type) {
+
+	if (type == CustomCommand)
+		return;
+
+	ShCommandFactory *factory = ShCommandFactory::getInstance();
+	ShCommand *command = factory->get(type);
+
+	this->list.append(command);
+
+}
+
+void ShAvailableCommands::add(ShAbstractCustomCommand *command) {
+
+	this->list.append(command);
+}

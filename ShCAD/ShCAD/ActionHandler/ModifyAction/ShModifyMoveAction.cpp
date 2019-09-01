@@ -4,6 +4,7 @@
 #include "Entity\Private\ShMover.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
+#include "Command\ShAvailableCommands.h"
 
 
 ShModifyMoveAction::ShModifyMoveAction(ShCADWidget *widget)
@@ -144,6 +145,14 @@ void ShModifyMoveAction::finishSelectingEntities() {
 		this->updateCommandEditHeadTitle();
 
 		this->widget->setCursor(this->getCursorShape());
+
+		this->availableCommands = ShAvailableCommands::ShBuilder(this->widget, this).
+			addAvailableCommand(CommandType::AbsoluteCoordinate).
+			addAvailableCommand(CommandType::Empty_Cancel).
+			addAvailableCommand(CommandType::RelativeCoordinate).
+			addAvailableCommand(CommandType::PolarCoordinate).
+			addAvailableCommand(CommandType::DistanceFromBase).
+			build();
 
 	}
 	else {

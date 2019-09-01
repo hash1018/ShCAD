@@ -45,6 +45,10 @@ public:
 
 	void interpret(const QString &command);
 
+	void remove(CommandType type);
+	void add(CommandType type);
+	void add(ShAbstractCustomCommand *command);
+
 };
 
 #endif //_SHAVAILABLECOMMANDS_H

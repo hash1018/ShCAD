@@ -5,6 +5,7 @@
 #include "Base\ShGlobal.h"
 #include "Entity\Private\ShRotater.h"
 #include "Base\ShMath.h"
+#include "Command\ShAvailableCommands.h"
 
 
 ShModifyRotateAction::ShModifyRotateAction(ShCADWidget *widget)
@@ -87,6 +88,9 @@ void ShModifyRotateAction::trigger(const ShPoint3d &point) {
 
 		this->prevAngle = 0.0;
 
+		this->availableCommands->remove(CommandType::DistanceFromBase);
+		this->availableCommands->add(CommandType::AngleFromBase);
+
 		this->triggerSucceeded();
 
 	}
@@ -145,6 +149,14 @@ void ShModifyRotateAction::finishSelectingEntities() {
 		this->updateCommandEditHeadTitle();
 
 		this->widget->setCursor(this->getCursorShape());
+
+		this->availableCommands = ShAvailableCommands::ShBuilder(this->widget, this).
+			addAvailableCommand(CommandType::AbsoluteCoordinate).
+			addAvailableCommand(CommandType::Empty_Cancel).
+			addAvailableCommand(CommandType::RelativeCoordinate).
+			addAvailableCommand(CommandType::PolarCoordinate).
+			addAvailableCommand(CommandType::DistanceFromBase).
+			build();
 
 	}
 	else {

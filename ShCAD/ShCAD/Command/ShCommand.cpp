@@ -300,3 +300,35 @@ bool ShDistanceFromBaseCommand::isMatched(const QString &command) {
 
 	return this->isNumber(command);
 }
+
+
+////////////////////////////////////////////////////////////////////////
+
+ShAngleFromBaseCommand::ShAngleFromBaseCommand()
+	:ShCommand(CommandType::AngleFromBase) {
+
+}
+
+ShAngleFromBaseCommand::~ShAngleFromBaseCommand() {
+
+}
+
+void ShAngleFromBaseCommand::interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command) {
+
+	if (this->isNumber(command) == false)
+		return;
+
+	ShPoint3d lastBasePoint = actionHandler->getLastBasePoint();
+
+	double angle = command.toDouble();
+
+	ShPoint3d point;
+	math::rotate(angle, lastBasePoint.x, lastBasePoint.y, lastBasePoint.x + 10, lastBasePoint.y, point.x, point.y);
+
+	this->trigger(point, actionHandler);
+}
+
+bool ShAngleFromBaseCommand::isMatched(const QString &command) {
+
+	return this->isNumber(command);
+}
