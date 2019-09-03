@@ -56,6 +56,7 @@ private:
 private:
 	bool checkIntersectLiesOnStartEnd(const ShPoint3d &intersect, const ShPoint3d &start, const ShPoint3d &end);
 	void appendTrimPointToList(const ShPoint3d &trimPoint);
+	void appendTrimPointToList(const ShPoint3d &trimPoint, const ShPoint3d &trimPoint2);
 
 };
 
