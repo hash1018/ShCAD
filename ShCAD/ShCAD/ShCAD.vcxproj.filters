@@ -580,6 +580,12 @@
     <ClCompile Include="Entity\Private\ShExtender.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyTrimAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\ShTrimer.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -984,6 +990,12 @@
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Private\ShExtender.h">
+      <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyTrimAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShTrimer.h">
       <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>

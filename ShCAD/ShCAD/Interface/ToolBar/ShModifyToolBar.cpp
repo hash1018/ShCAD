@@ -102,5 +102,7 @@ void ShModifyToolBar::extendActionClicked() {
 
 void ShModifyToolBar::trimActionClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyTrim);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }

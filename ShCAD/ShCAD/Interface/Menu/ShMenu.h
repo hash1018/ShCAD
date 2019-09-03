@@ -130,6 +130,7 @@ public:
 	void rotateActionClicked();
 	void eraseActionClicked();
 	void extendActionClicked();
+	void trimActionClicked();
 };
 
 

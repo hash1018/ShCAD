@@ -219,7 +219,7 @@ void ShRemoveEntityTransaction::undo() {
 
 
 ShExtendEntityTransaction::ShExtendEntityTransaction(ShCADWidget *widget)
-	:ShTransaction("Group Remove"), widget(widget), mustDeleteOriginal(true), mustDeleteExtended(false) {
+	:ShTransaction("Group Extend"), widget(widget), mustDeleteOriginal(true), mustDeleteExtended(false) {
 
 }
 
@@ -263,6 +263,59 @@ void ShExtendEntityTransaction::undo() {
 
 	this->mustDeleteOriginal = false;
 	this->mustDeleteExtended = true;
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+
+/////////////////////////////////////////////////////////////////////
+
+ShTrimEntityTransaction::ShTrimEntityTransaction(ShCADWidget *widget)
+	:ShTransaction("Group Trim"), widget(widget), mustDeleteOriginal(true), mustDeleteTrimed(false) {
+
+}
+
+ShTrimEntityTransaction::~ShTrimEntityTransaction() {
+
+	if (this->mustDeleteOriginal == true) {
+
+		while (!this->originalList.isEmpty())
+			delete this->originalList.takeFirst();
+	}
+
+	if (this->mustDeleteTrimed == true) {
+
+		while (!this->trimedList.isEmpty())
+			delete this->trimedList.takeFirst();
+	}
+}
+
+void ShTrimEntityTransaction::redo() {
+
+	this->widget->getEntityTable().add(this->trimedList);
+
+	auto itr = this->originalList.begin();
+	for (itr; itr != this->originalList.end(); ++itr)
+		this->widget->getEntityTable().remove((*itr));
+
+	this->mustDeleteOriginal = true;
+	this->mustDeleteTrimed = false;
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShTrimEntityTransaction::undo() {
+
+	this->widget->getEntityTable().add(this->originalList);
+
+	auto itr = this->trimedList.begin();
+	for (itr; itr != this->trimedList.end(); ++itr)
+		this->widget->getEntityTable().remove((*itr));
+
+	this->mustDeleteOriginal = false;
+	this->mustDeleteTrimed = true;
 
 	this->widget->update(DrawType::DrawAll);
 	this->widget->captureImage();

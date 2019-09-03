@@ -121,4 +121,32 @@ public:
 	inline bool containsInExtendedList(ShEntity *entity) const { return this->extendedList.contains(entity); }
 };
 
+
+class ShTrimEntityTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShEntity*> originalList;
+	QLinkedList<ShEntity*> trimedList;
+	bool mustDeleteOriginal;
+	bool mustDeleteTrimed;
+
+public:
+	ShTrimEntityTransaction(ShCADWidget *widget);
+	~ShTrimEntityTransaction();
+
+	virtual void redo();
+	virtual void undo();
+
+public:
+	void addOriginalList(ShEntity *entity) { this->originalList.append(entity); }
+	void addTrimedList(ShEntity *entity) { this->trimedList.append(entity); }
+	void removeTrimedList(ShEntity *entity) { this->trimedList.removeOne(entity); }
+
+
+public:
+	inline bool containsInTrimedList(ShEntity *entity) const { return this->trimedList.contains(entity); }
+
+};
+
 #endif //_SHENTITYTRANSACTION_H

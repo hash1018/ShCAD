@@ -152,6 +152,7 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMirrorAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyTrimAction.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionData.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionHandlerFactory.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionTypeConverter.cpp" />
@@ -208,6 +209,7 @@
     <ClCompile Include="Entity\Private\ShRotater.cpp" />
     <ClCompile Include="Entity\Private\ShSearchEntityStrategy.cpp" />
     <ClCompile Include="Entity\Private\ShSnapPointFinder.cpp" />
+    <ClCompile Include="Entity\Private\ShTrimer.cpp" />
     <ClCompile Include="Entity\Private\ShVisitor.cpp" />
     <ClCompile Include="Entity\ShEntity.cpp" />
     <ClCompile Include="Event\ShCADWidgetEventFilter.cpp" />
@@ -428,6 +430,7 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMirrorAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyTrimAction.h" />
     <ClInclude Include="ActionHandler\Private\ShActionData.h" />
     <ClInclude Include="ActionHandler\Private\ShActionHandlerFactory.h" />
     <ClInclude Include="ActionHandler\Private\ShActionTriggerFailureReason.h" />
@@ -488,6 +491,7 @@
     <ClInclude Include="Entity\Private\ShRotater.h" />
     <ClInclude Include="Entity\Private\ShSearchEntityStrategy.h" />
     <ClInclude Include="Entity\Private\ShSnapPointFinder.h" />
+    <ClInclude Include="Entity\Private\ShTrimer.h" />
     <ClInclude Include="Entity\Private\ShVisitor.h" />
     <ClInclude Include="Entity\ShEntity.h" />
     <ClInclude Include="Event\ShCADWidgetEventFilter.h" />

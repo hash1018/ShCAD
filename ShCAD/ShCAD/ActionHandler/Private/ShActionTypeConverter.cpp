@@ -72,6 +72,8 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 		text = "_Erase"; break;
 	case ActionType::ActionModifyExtend:
 		text = "_Extend"; break;
+	case ActionType::ActionModifyTrim:
+		text = "_Trim"; break;
 
 	default:
 		text = ""; break;
