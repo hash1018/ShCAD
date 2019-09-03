@@ -650,10 +650,125 @@ void ShArcTrimPointFinder::visit(ShLine *line) {
 
 void ShArcTrimPointFinder::visit(ShCircle *circle) {
 
+	ShPoint3d intersect, intersect2;
+
+	if (math::checkTwoCirclesIntersect(this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+		circle->getCenter(), circle->getRadius(), intersect, intersect2) == false)
+		return;
+
+	bool insideIntersect = math::checkPointLiesOnArcBoundary(intersect, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+		this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001);
+	bool insideIntersect2 = math::checkPointLiesOnArcBoundary(intersect2, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+		this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001);
+
+	if (insideIntersect == false && insideIntersect2 == false)
+		return;
+
+	if (insideIntersect == true && insideIntersect2 == false) {
+
+		if (this->checkIntersectLiesOnStartEnd(intersect, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+			this->appendTrimPointToList(intersect);
+	}
+	else if (insideIntersect == false && insideIntersect2 == true) {
+
+		if (this->checkIntersectLiesOnStartEnd(intersect2, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+			this->appendTrimPointToList(intersect2);
+	}
+	else if (insideIntersect == true && insideIntersect2 == true) {
+
+		bool sameIntersect, sameIntersect2;
+		sameIntersect = this->checkIntersectLiesOnStartEnd(intersect, this->arcToTrim->getStart(), this->arcToTrim->getEnd());
+		sameIntersect2 = this->checkIntersectLiesOnStartEnd(intersect2, this->arcToTrim->getStart(), this->arcToTrim->getEnd());
+
+		if (sameIntersect == true && sameIntersect2 == true)
+			return;
+
+		if (sameIntersect == false && sameIntersect2 == true) {
+			this->appendTrimPointToList(intersect);
+		}
+		else if (sameIntersect == true && sameIntersect2 == false) {
+			this->appendTrimPointToList(intersect2);
+		}
+		else if (sameIntersect == false && sameIntersect2 == false) {
+			this->appendTrimPointToList(intersect, intersect2);
+		}
+	}
 }
 
 void ShArcTrimPointFinder::visit(ShArc *arc) {
 
+	ShPoint3d intersect, intersect2;
+
+	if (math::checkTwoCirclesIntersect(this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+		arc->getCenter(), arc->getRadius(), intersect, intersect2) == false)
+		return;
+
+	bool insideIntersect = math::checkPointLiesOnArcBoundary(intersect, arc->getCenter(), arc->getRadius(),
+		arc->getStartAngle(), arc->getEndAngle(), 0.001);
+	bool insideIntersect2 = math::checkPointLiesOnArcBoundary(intersect2, arc->getCenter(), arc->getRadius(),
+		arc->getStartAngle(), arc->getEndAngle(), 0.001);
+
+	if (insideIntersect == false && insideIntersect2 == false)
+		return;
+
+	if (insideIntersect == true && insideIntersect2 == false) {
+	
+		if (math::checkPointLiesOnArcBoundary(intersect, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+			this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001) == true) {
+
+			if (this->checkIntersectLiesOnStartEnd(intersect, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+				this->appendTrimPointToList(intersect);
+		}
+	}
+	else if (insideIntersect == false && insideIntersect == true) {
+	
+		if (math::checkPointLiesOnArcBoundary(intersect2, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+			this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001) == true) {
+
+			if (this->checkIntersectLiesOnStartEnd(intersect2, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+				this->appendTrimPointToList(intersect2);
+		}
+	}
+	else if (insideIntersect == true && insideIntersect2 == true) {
+	
+		insideIntersect = math::checkPointLiesOnArcBoundary(intersect, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+			this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001);
+		insideIntersect2 = math::checkPointLiesOnArcBoundary(intersect2, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+			this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001);
+
+		if (insideIntersect == false && insideIntersect2 == false)
+			return;
+
+		if (insideIntersect == true && insideIntersect2 == false) {
+
+			if (this->checkIntersectLiesOnStartEnd(intersect, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+				this->appendTrimPointToList(intersect);
+		}
+		else if (insideIntersect == false && insideIntersect2 == true) {
+
+			if (this->checkIntersectLiesOnStartEnd(intersect2, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+				this->appendTrimPointToList(intersect2);
+		}
+		else if (insideIntersect == true && insideIntersect2 == true) {
+
+			bool sameIntersect, sameIntersect2;
+			sameIntersect = this->checkIntersectLiesOnStartEnd(intersect, this->arcToTrim->getStart(), this->arcToTrim->getEnd());
+			sameIntersect2 = this->checkIntersectLiesOnStartEnd(intersect2, this->arcToTrim->getStart(), this->arcToTrim->getEnd());
+
+			if (sameIntersect == true && sameIntersect2 == true)
+				return;
+
+			if (sameIntersect == false && sameIntersect2 == true) {
+				this->appendTrimPointToList(intersect);
+			}
+			else if (sameIntersect == true && sameIntersect2 == false) {
+				this->appendTrimPointToList(intersect2);
+			}
+			else if (sameIntersect == false && sameIntersect2 == false) {
+				this->appendTrimPointToList(intersect, intersect2);
+			}
+		}
+	}
 }
 
 bool ShArcTrimPointFinder::checkIntersectLiesOnStartEnd(const ShPoint3d &intersect, const ShPoint3d &start, const ShPoint3d &end) {
@@ -698,12 +813,43 @@ void ShArcTrimPointFinder::appendTrimPointToList(const ShPoint3d &trimPoint, con
 	double difference = math::getAngleDifference(angleCenterToClick, angleCenterToTrimPoint);
 	double difference2 = math::getAngleDifference(angleCenterToClick, angleCenterToTrimPoint2);
 
+	//this means in the antiClockWise, the intersect2 reaches first. 
 	if (math::compare(difference, difference2) == 1) {
-		this->antiClockWiseTrimPointList.append(trimPoint2);
-		this->clockWiseTrimPointList.append(trimPoint);
+
+		//click point is between intersect and intersect2.
+		if (math::checkAngleLiesOnAngleBetween(angleCenterToTrimPoint, this->arcToTrim->getEndAngle(),
+			angleCenterToTrimPoint2) == true) {
+			this->clockWiseTrimPointList.append(trimPoint);
+			this->antiClockWiseTrimPointList.append(trimPoint2);
+		}
+		else if (math::checkAngleLiesOnAngleBetween(this->arcToTrim->getStartAngle(), angleCenterToTrimPoint2,
+			angleCenterToClick) == true) {
+
+			this->appendTrimPointToList(trimPoint2);
+		}
+		else if (math::checkAngleLiesOnAngleBetween(angleCenterToTrimPoint, this->arcToTrim->getEndAngle(),
+			angleCenterToClick) == true) {
+
+			this->appendTrimPointToList(trimPoint);
+		}
 	}
+	//this means in the antiClockWise, the intersect reaches first.
 	else {
-		this->antiClockWiseTrimPointList.append(trimPoint);
-		this->clockWiseTrimPointList.append(trimPoint2);
+
+		if (math::checkAngleLiesOnAngleBetween(angleCenterToTrimPoint2, this->arcToTrim->getEndAngle(),
+			angleCenterToTrimPoint) == true) {
+			clockWiseTrimPointList.append(trimPoint2);
+			antiClockWiseTrimPointList.append(trimPoint);
+		}
+		else if (math::checkAngleLiesOnAngleBetween(this->arcToTrim->getStartAngle(), angleCenterToTrimPoint,
+			angleCenterToClick) == true) {
+
+			this->appendTrimPointToList(trimPoint);
+		}
+		else if (math::checkAngleLiesOnAngleBetween(angleCenterToTrimPoint2, this->arcToTrim->getEndAngle(),
+			angleCenterToClick) == true) {
+
+			this->appendTrimPointToList(trimPoint2);
+		}
 	}
 }
