@@ -133,6 +133,12 @@ void ShActionHandler::triggerFailed(ShActionTriggerFailureReason reason) {
 		shCommandLogManager->appendList(shGetLanValue_command("Command/No edge in that direction") + ".");
 		this->updateCommandEditHeadTitle();
 	}
+	else if (reason == ShActionTriggerFailureReason::NoIntersectWithCuttingEdge) {
+	
+		shCommandLogManager->appendListEditTextWith("");
+		shCommandLogManager->appendList(shGetLanValue_command("Command/Does not intersect with the cutting edge") + ".");
+		this->updateCommandEditHeadTitle();
+	}
 }
 
 void ShActionHandler::trigger(const ShPoint3d &point) {

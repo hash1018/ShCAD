@@ -7,6 +7,7 @@ enum ShActionTriggerFailureReason {
 	ValueMustBeGreaterThanZero,
 	InvalidPoint,
 	NoEdgeInThatDirection,
+	NoIntersectWithCuttingEdge,
 
 
 

@@ -116,7 +116,7 @@ void ShModifyTrimAction::trigger(const ShPoint3d &point) {
 		}
 		else {
 
-			this->triggerFailed(NoEdgeInThatDirection);
+			this->triggerFailed(NoIntersectWithCuttingEdge);
 		}
 
 	}
