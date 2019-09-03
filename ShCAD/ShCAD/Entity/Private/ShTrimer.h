@@ -34,14 +34,15 @@ private:
 
 ///////////////////////////////////////////////////////////////
 
+
 class ShLineTrimPointFinder : public ShVisitor {
 
 	friend class ShTrimer;
 
 private:
+	ShLine *lineToTrim;
 	QLinkedList<ShPoint3d> &betweenStartAndClickTrimPointList;
 	QLinkedList<ShPoint3d> &betweenEndAndClickTrimPointList;
-	ShLine *lineToTrim;
 	ShPoint3d clickPoint;
 
 private:
@@ -59,5 +60,33 @@ private:
 	void appendTrimPointToList(const ShPoint3d &trimPoint, const ShPoint3d &trimPoint2);
 
 };
+
+
+////////////////////////////////////////////////////////////////
+
+class ShCircleTrimPointFinder : public ShVisitor {
+
+	friend class ShTrimer;
+
+private:
+	ShCircle *circleToTrim;
+	QLinkedList<ShPoint3d> &clockWiseTrimPointList;
+	QLinkedList<ShPoint3d> &antiClockWiseTrimPointList;
+	ShPoint3d clickPoint;
+
+private:
+	ShCircleTrimPointFinder(ShCircle *circleToTrim, const ShPoint3d &clickPoint, QLinkedList<ShPoint3d> &clockWiseTrimPointList,
+		QLinkedList<ShPoint3d> &antiClockWiseTrimPointList);
+	~ShCircleTrimPointFinder();
+
+	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
+
+private:
+	void appendTrimPointToList(const ShPoint3d &trimPoint);
+	void appendTrimPointToList(const ShPoint3d &trimPoint, const ShPoint3d &trimPoint2);
+};
+
 
 #endif //_SHTRIMER_H
