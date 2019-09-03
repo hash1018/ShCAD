@@ -123,7 +123,58 @@ void ShTrimer::visit(ShCircle *circle) {
 
 void ShTrimer::visit(ShArc *arc) {
 
+	QLinkedList<ShPoint3d> clockWiseTrimPointList;
+	QLinkedList<ShPoint3d> antiClockWiseTrimPointList;
 
+	ShArcTrimPointFinder visitor(arc, this->clickPoint, clockWiseTrimPointList, antiClockWiseTrimPointList);
+
+	auto itr = this->baseEntities.begin();
+	for (itr; itr != this->baseEntities.end(); ++itr) {
+
+		(*itr)->accept(&visitor);
+	}
+
+	if (clockWiseTrimPointList.count() == 0 && antiClockWiseTrimPointList.count() == 0)
+		return;
+
+	if (clockWiseTrimPointList.count() != 0 && antiClockWiseTrimPointList.count() == 0) {
+	
+		ShPoint3d trimPoint = this->getClosestByAngle(this->clickPoint, arc->getCenter(), clockWiseTrimPointList, false);
+		double angle = math::getAbsAngle(arc->getCenter().x, arc->getCenter().y, trimPoint.x, trimPoint.y);
+
+		ShArc *trimedArc = arc->clone();
+		trimedArc->setEndAngle(angle);
+		this->trimedEntities.append(trimedArc);
+		this->valid = true;
+	}
+	else if (clockWiseTrimPointList.count() == 0 && antiClockWiseTrimPointList.count() != 0) {
+	
+		ShPoint3d trimPoint = this->getClosestByAngle(this->clickPoint, arc->getCenter(), antiClockWiseTrimPointList);
+		double angle = math::getAbsAngle(arc->getCenter().x, arc->getCenter().y, trimPoint.x, trimPoint.y);
+
+		ShArc *trimedArc = arc->clone();
+		trimedArc->setStartAngle(angle);
+		this->trimedEntities.append(trimedArc);
+		this->valid = true;
+	}
+	else if (clockWiseTrimPointList.count() != 0 && antiClockWiseTrimPointList.count() != 0) {
+	
+		ShPoint3d trimPoint = this->getClosestByAngle(this->clickPoint, arc->getCenter(), clockWiseTrimPointList, false);
+		ShPoint3d trimPoint2 = this->getClosestByAngle(this->clickPoint, arc->getCenter(), antiClockWiseTrimPointList);
+
+		double angle = math::getAbsAngle(arc->getCenter().x, arc->getCenter().y, trimPoint.x, trimPoint.y);
+		double angle2 = math::getAbsAngle(arc->getCenter().x, arc->getCenter().y, trimPoint2.x, trimPoint2.y);
+
+		ShArc *trimedArc = arc->clone();
+		ShArc *trimedArc2 = arc->clone();
+
+		trimedArc->setEndAngle(angle);
+		trimedArc2->setStartAngle(angle2);
+
+		this->trimedEntities.append(trimedArc);
+		this->trimedEntities.append(trimedArc2);
+		this->valid = true;
+	}
 }
 
 ShPoint3d ShTrimer::getClosestByDistance(const ShPoint3d &clickPoint, const QLinkedList<ShPoint3d> &trimPointList) {
@@ -497,6 +548,155 @@ void ShCircleTrimPointFinder::appendTrimPointToList(const ShPoint3d &trimPoint, 
 
 	double difference = math::getAngleDifference(angleCenterToClick, angleCenterToIntersect);
 	double difference2 = math::getAngleDifference(angleCenterToClick, angleCenterToIntersect2);
+
+	if (math::compare(difference, difference2) == 1) {
+		this->antiClockWiseTrimPointList.append(trimPoint2);
+		this->clockWiseTrimPointList.append(trimPoint);
+	}
+	else {
+		this->antiClockWiseTrimPointList.append(trimPoint);
+		this->clockWiseTrimPointList.append(trimPoint2);
+	}
+}
+
+
+/////////////////////////////////////////////////////////////////////////
+
+
+ShArcTrimPointFinder::ShArcTrimPointFinder(ShArc *arcToTrim, const ShPoint3d &clickPoint, QLinkedList<ShPoint3d> &clockWiseTrimPointList,
+	QLinkedList<ShPoint3d> &antiClockWiseTrimPointList)
+	:arcToTrim(arcToTrim), clickPoint(clickPoint), clockWiseTrimPointList(clockWiseTrimPointList),
+	antiClockWiseTrimPointList(antiClockWiseTrimPointList) {
+
+}
+
+ShArcTrimPointFinder::~ShArcTrimPointFinder() {
+
+}
+
+void ShArcTrimPointFinder::visit(ShLine *line) {
+
+	ShPoint3d intersect, intersect2;
+
+	if (math::checkCircleLineIntersect(this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+		line->getStart(), line->getEnd(), intersect, intersect2) == false)
+		return;
+
+	bool insideIntersect = math::checkPointLiesOnLine(intersect, line->getStart(), line->getEnd(), 0.001);
+	bool insideIntersect2 = math::checkPointLiesOnLine(intersect2, line->getStart(), line->getEnd(), 0.001);
+
+	if (insideIntersect == false && insideIntersect2 == false)
+		return;
+
+	if (insideIntersect == true && insideIntersect2 == false) {
+	
+		if (math::checkPointLiesOnArcBoundary(intersect, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+			this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001) == true) {
+		
+			if (this->checkIntersectLiesOnStartEnd(intersect, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+				this->appendTrimPointToList(intersect);
+		}
+	}
+	else if (insideIntersect == false && insideIntersect2 == true) {
+
+		if (math::checkPointLiesOnArcBoundary(intersect2, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+			this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001) == true) {
+
+			if (this->checkIntersectLiesOnStartEnd(intersect2, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+				this->appendTrimPointToList(intersect2);
+		}
+	}
+	else if (insideIntersect == true && insideIntersect2 == true) {
+	
+		insideIntersect = math::checkPointLiesOnArcBoundary(intersect, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+			this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001);
+		insideIntersect2 = math::checkPointLiesOnArcBoundary(intersect2, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+			this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001);
+
+		if (insideIntersect == false && insideIntersect2 == false)
+			return;
+
+		if (insideIntersect == true && insideIntersect2 == false) {
+		
+			if (this->checkIntersectLiesOnStartEnd(intersect, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+				this->appendTrimPointToList(intersect);
+		}
+		else if (insideIntersect == false && insideIntersect2 == true) {
+		
+			if (this->checkIntersectLiesOnStartEnd(intersect2, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+				this->appendTrimPointToList(intersect2);
+		}
+		else if (insideIntersect == true && insideIntersect2 == true) {
+		
+			bool sameIntersect, sameIntersect2;
+			sameIntersect = this->checkIntersectLiesOnStartEnd(intersect, this->arcToTrim->getStart(), this->arcToTrim->getEnd());
+			sameIntersect2 = this->checkIntersectLiesOnStartEnd(intersect2, this->arcToTrim->getStart(), this->arcToTrim->getEnd());
+
+			if (sameIntersect == true && sameIntersect2 == true)
+				return;
+
+			if (sameIntersect == false && sameIntersect2 == true) {
+				this->appendTrimPointToList(intersect);
+			}
+			else if (sameIntersect == true && sameIntersect2 == false) {
+				this->appendTrimPointToList(intersect2);
+			}
+			else if (sameIntersect == false && sameIntersect2 == false) {
+				this->appendTrimPointToList(intersect, intersect2);
+			}
+		}
+	}
+}
+
+void ShArcTrimPointFinder::visit(ShCircle *circle) {
+
+}
+
+void ShArcTrimPointFinder::visit(ShArc *arc) {
+
+}
+
+bool ShArcTrimPointFinder::checkIntersectLiesOnStartEnd(const ShPoint3d &intersect, const ShPoint3d &start, const ShPoint3d &end) {
+
+	if (math::compare(start.x, intersect.x) == 0 &&
+		math::compare(start.y, intersect.y) == 0)
+		return true;
+
+	if (math::compare(end.x, intersect.x) == 0 &&
+		math::compare(end.y, intersect.y) == 0)
+		return true;
+
+	return false;
+}
+
+void ShArcTrimPointFinder::appendTrimPointToList(const ShPoint3d &trimPoint) {
+
+	double angleCenterToClick = math::getAbsAngle(this->arcToTrim->getCenter().x, this->arcToTrim->getCenter().y,
+		this->clickPoint.x, this->clickPoint.y);
+	double angleCenterToTrimPoint = math::getAbsAngle(this->arcToTrim->getCenter().x, this->arcToTrim->getCenter().y,
+		trimPoint.x, trimPoint.y);
+
+	double difference = math::getAngleDifference(angleCenterToClick, angleCenterToTrimPoint);
+
+	if (math::compare(difference, 180) == 1) {
+		this->clockWiseTrimPointList.append(trimPoint);
+	}
+	else {
+		this->antiClockWiseTrimPointList.append(trimPoint);
+	}
+}
+
+void ShArcTrimPointFinder::appendTrimPointToList(const ShPoint3d &trimPoint, const ShPoint3d &trimPoint2) {
+
+	double angleCenterToClick = math::getAbsAngle(this->arcToTrim->getCenter().x, this->arcToTrim->getCenter().y,
+		this->clickPoint.x, this->clickPoint.y);
+	double angleCenterToTrimPoint = math::getAbsAngle(this->arcToTrim->getCenter().x, this->arcToTrim->getCenter().y,
+		trimPoint.x, trimPoint.y);
+	double angleCenterToTrimPoint2 = math::getAbsAngle(this->arcToTrim->getCenter().x, this->arcToTrim->getCenter().y,
+		trimPoint2.x, trimPoint2.y);
+
+	double difference = math::getAngleDifference(angleCenterToClick, angleCenterToTrimPoint);
+	double difference2 = math::getAngleDifference(angleCenterToClick, angleCenterToTrimPoint2);
 
 	if (math::compare(difference, difference2) == 1) {
 		this->antiClockWiseTrimPointList.append(trimPoint2);

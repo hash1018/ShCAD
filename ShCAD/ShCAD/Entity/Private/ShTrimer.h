@@ -89,4 +89,31 @@ private:
 };
 
 
+/////////////////////////////////////////////////////////////////
+
+class ShArcTrimPointFinder : public ShVisitor {
+
+	friend class ShTrimer;
+
+private:
+	ShArc *arcToTrim;
+	QLinkedList<ShPoint3d> &clockWiseTrimPointList;
+	QLinkedList<ShPoint3d> &antiClockWiseTrimPointList;
+	ShPoint3d clickPoint;
+
+private:
+	ShArcTrimPointFinder(ShArc *arcToTrim, const ShPoint3d &clickPoint, QLinkedList<ShPoint3d> &clockWiseTrimPointList,
+		QLinkedList<ShPoint3d> &antiClockWiseTrimPointList);
+	~ShArcTrimPointFinder();
+
+	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
+
+private:
+	bool checkIntersectLiesOnStartEnd(const ShPoint3d &intersect, const ShPoint3d &start, const ShPoint3d &end);
+	void appendTrimPointToList(const ShPoint3d &trimPoint);
+	void appendTrimPointToList(const ShPoint3d &trimPoint, const ShPoint3d &trimPoint2);
+};
+
 #endif //_SHTRIMER_H
