@@ -149,4 +149,22 @@ public:
 
 };
 
+class ShStretchEntityTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShEntity*> originalEntities;
+	QLinkedList<ShEntity*> stretchedEntities;
+	bool mustDeleteOriginal;
+	bool mustDeleteStretched;
+
+public:
+	ShStretchEntityTransaction(ShCADWidget *widget, const QLinkedList<ShEntity*> &originalEntities, const QLinkedList<ShEntity*> &stretchedEntities);
+	~ShStretchEntityTransaction();
+
+	virtual void redo();
+	virtual void undo();
+
+};
+
 #endif //_SHENTITYTRANSACTION_H

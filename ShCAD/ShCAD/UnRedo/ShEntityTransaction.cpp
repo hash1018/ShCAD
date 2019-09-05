@@ -320,3 +320,62 @@ void ShTrimEntityTransaction::undo() {
 	this->widget->update(DrawType::DrawAll);
 	this->widget->captureImage();
 }
+
+
+///////////////////////////////////////////////////////////////
+
+
+ShStretchEntityTransaction::ShStretchEntityTransaction(ShCADWidget *widget, const QLinkedList<ShEntity*> &originalEntities, const QLinkedList<ShEntity*> &stretchedEntities)
+	:ShTransaction("Group Stretch"), widget(widget), originalEntities(originalEntities), stretchedEntities(stretchedEntities),
+	mustDeleteOriginal(true), mustDeleteStretched(false) {
+
+}
+
+ShStretchEntityTransaction::~ShStretchEntityTransaction() {
+
+	if (this->mustDeleteOriginal == true)
+		while (!this->originalEntities.isEmpty())
+			delete this->originalEntities.takeFirst();
+
+	if (this->mustDeleteStretched == true)
+		while (!this->stretchedEntities.isEmpty())
+			delete this->stretchedEntities.takeFirst();
+}
+
+void ShStretchEntityTransaction::redo() {
+
+	auto itr = this->stretchedEntities.begin();
+	auto itr2 = this->originalEntities.begin();
+
+	for (itr; itr != this->stretchedEntities.end(); ++itr) {
+
+		this->widget->getEntityTable().remove((*itr2));
+		this->widget->getEntityTable().add((*itr));
+		++itr2;
+	}
+
+	this->mustDeleteOriginal = true;
+	this->mustDeleteStretched = false;
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShStretchEntityTransaction::undo() {
+
+	auto itr = this->stretchedEntities.begin();
+	auto itr2 = this->originalEntities.begin();
+
+	for (itr; itr != this->stretchedEntities.end(); ++itr) {
+
+		this->widget->getEntityTable().remove((*itr));
+		this->widget->getEntityTable().add((*itr2));
+		++itr2;
+	}
+
+	this->mustDeleteOriginal = false;
+	this->mustDeleteStretched = true;
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
