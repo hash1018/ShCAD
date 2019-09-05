@@ -5,7 +5,7 @@
 enum CommandType {
 
 	Empty_Cancel,
-	Empty_PreviousAction,
+	Empty_CancelBackToPrevious,
 	AbsoluteCoordinate,
 	RelativeCoordinate,
 	PolarCoordinate,

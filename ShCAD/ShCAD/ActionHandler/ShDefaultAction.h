@@ -58,12 +58,18 @@ public:
 
 class ShSubDefaultAction_MouseIsInShapeVertex : public ShSubDefaultAction {
 
+private:
+	ShPoint3d vertexPoint;
+
 public:
-	ShSubDefaultAction_MouseIsInShapeVertex(ShDefaultAction *defaultAction, ShCADWidget *widget);
+	ShSubDefaultAction_MouseIsInShapeVertex(ShDefaultAction *defaultAction, ShCADWidget *widget, const ShPoint3d &vertexPoint);
 	~ShSubDefaultAction_MouseIsInShapeVertex();
 
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
+
+private:
+	void drawVertex();
 };
 
 #endif //_SHDEFAULTACTION_H

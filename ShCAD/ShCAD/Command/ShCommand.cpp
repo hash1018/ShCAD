@@ -4,6 +4,7 @@
 #include <qstring.h>
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Base\ShMath.h"
+#include "ActionHandler\TemporaryAction\ShTemporaryAction.h"
 
 ShCommand::ShCommand(CommandType type)
 	:type(type) {
@@ -67,6 +68,37 @@ void ShEmptyCancelCommand::interpret(ShCADWidget *widget, ShActionHandler *actio
 }
 
 bool ShEmptyCancelCommand::isMatched(const QString &command) {
+
+	if (command.isEmpty() == true)
+		return true;
+
+	return false;
+}
+
+//////////////////////////////////////////////////////////////
+
+ShEmptyCancelBackToPreviousCommand::ShEmptyCancelBackToPreviousCommand::ShEmptyCancelBackToPreviousCommand()
+	:ShCommand(CommandType::Empty_CancelBackToPrevious) {
+
+}
+
+ShEmptyCancelBackToPreviousCommand::~ShEmptyCancelBackToPreviousCommand() {
+
+}
+
+void ShEmptyCancelBackToPreviousCommand::interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command) {
+
+	if (this->isMatched(command) == false)
+		return;
+
+	if (!dynamic_cast<ShTemporaryAction*>(actionHandler))
+		return;
+
+	ShReturnToPreviousAfterCancelingTemporaryStrategy strategy(dynamic_cast<ShTemporaryAction*>(actionHandler));
+	widget->changeAction(strategy);
+}
+
+bool ShEmptyCancelBackToPreviousCommand::isMatched(const QString &command) {
 
 	if (command.isEmpty() == true)
 		return true;

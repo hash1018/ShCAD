@@ -1,5 +1,6 @@
 
 #include "ShPoint.h"
+#include "Base\ShMath.h"
 
 ShPoint3d::ShPoint3d()
 	:x(0), y(0), z(0) {
@@ -35,4 +36,18 @@ bool ShPoint3d::operator==(const ShPoint3d& other) {
 		return true;
 
 	return false;
+}
+
+bool ShPoint3d::isEqual(const ShPoint3d &other, double epsilon) {
+
+	if (math::compare(this->x, other.x, epsilon) != 0)
+		return false;
+
+	if (math::compare(this->y, other.y, epsilon) != 0)
+		return false;
+
+	if (math::compare(this->z, other.z, epsilon) != 0)
+		return false;
+
+	return true;
 }

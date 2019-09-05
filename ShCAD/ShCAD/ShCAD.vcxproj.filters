@@ -586,6 +586,12 @@
     <ClCompile Include="Entity\Private\ShTrimer.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Private\ShStretchVisitor.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryStretchAction.cpp">
+      <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -997,6 +1003,12 @@
     </ClInclude>
     <ClInclude Include="Entity\Private\ShTrimer.h">
       <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShStretchVisitor.h">
+      <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryStretchAction.h">
+      <Filter>ActionHandler\TemporaryAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -44,6 +44,19 @@ public:
 
 //////////////////////////////////////////////////////
 
+class ShEmptyCancelBackToPreviousCommand : public ShCommand {
+
+public:
+	ShEmptyCancelBackToPreviousCommand();
+	~ShEmptyCancelBackToPreviousCommand();
+
+public:
+	virtual void interpret(ShCADWidget *widget, ShActionHandler *actionHandler, const QString &command);
+	virtual bool isMatched(const QString &command);
+};
+
+//////////////////////////////////////////////////////
+
 class ShAbsoluteCoordinateCommand : public ShCommand {
 
 public:

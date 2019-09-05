@@ -4,6 +4,7 @@
 
 #include "ShVisitor.h"
 #include "Data\ShPoint.h"
+#include "Base\ShVariable.h"
 
 class ShEntity;
 
@@ -51,5 +52,27 @@ public:
 
 };
 
+
+//////////////////////////////////////////
+
+class ShNearestVertexFinder : public ShVisitor {
+
+private:
+	double x;
+	double y;
+	double zoomRate;
+	VertexType &vertexType;
+	ShPoint3d &vertexPoint;
+	double tolerance;
+
+public:
+	ShNearestVertexFinder(double x, double y, double zoomRate, VertexType &vertexType, ShPoint3d &vertexPoint, double tolerance = 6.0);
+	~ShNearestVertexFinder();
+
+	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
+
+};
 
 #endif //_SHFINDER_H

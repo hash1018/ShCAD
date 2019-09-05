@@ -62,6 +62,8 @@ ShCommand* ShCommandFactory::create(CommandType type) {
 
 	if (type == CommandType::Empty_Cancel)
 		return new ShEmptyCancelCommand;
+	else if (type == CommandType::Empty_CancelBackToPrevious)
+		return new ShEmptyCancelBackToPreviousCommand;
 	else if (type == CommandType::AbsoluteCoordinate)
 		return new ShAbsoluteCoordinateCommand;
 	else if (type == CommandType::RelativeCoordinate)

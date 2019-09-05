@@ -83,7 +83,7 @@ enum DrawType {
 };
 
 
-enum VertexPoint {
+enum VertexType {
 	VertexNothing,
 	VertexStart,
 	VertexEnd,
@@ -111,19 +111,6 @@ enum ObjectSnap {
 
 };
 
-enum StretchPoint {
-	StretchNothing,
-	StretchMove,
-	StretchStart,
-	StretchEnd,
-	StretchMid,
-	StretchLeft,
-	StretchBottom,
-	StretchRight,
-	StretchTop,
-	StretchChild, //works for composite enttiy such as polyLine etc.
-
-};
 
 enum WhatToPlot {
 	PlotDisplay,

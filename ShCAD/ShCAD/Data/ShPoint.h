@@ -17,6 +17,7 @@ public:
 	ShPoint3d& operator=(const ShPoint3d &other);
 
 	bool operator==(const ShPoint3d &other);
+	bool isEqual(const ShPoint3d &other, double epsilon = 0.0001);
 
 
 };

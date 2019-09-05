@@ -8,6 +8,11 @@
 #include "KeyHandler\ShCustomKey.h"
 #include "Entity\Private\ShSearchEntityStrategy.h"
 #include "Entity\Composite\ShSelectedEntities.h"
+#include "Entity\Private\ShFinder.h"
+#include <qpainter.h>
+#include "Base\ShMath.h"
+#include "Entity\Private\ShStretchVisitor.h"
+#include "TemporaryAction\ShTemporaryStretchAction.h"
 
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
@@ -141,14 +146,42 @@ void ShSubDefaultAction_Default::mouseLeftPressEvent(ShActionData &data) {
 }
 
 void ShSubDefaultAction_Default::mouseMoveEvent(ShActionData &data) {
+	
+	ShPoint3d mouse = this->widget->getMousePoint();
+	VertexType vertexType = VertexType::VertexNothing;
+	ShPoint3d vertexPoint;
 
+	ShNearestVertexFinder visitor(mouse.x, mouse.y, this->widget->getZoomRate(), vertexType, vertexPoint);
+
+	auto itr = this->widget->getSelectedEntities()->begin();
+
+	while (itr != this->widget->getSelectedEntities()->end() && 
+		(vertexType == VertexType::VertexNothing || vertexType == VertexType::VertexOther)) {
+	
+		(*itr)->accept(&visitor);
+		++itr;
+	}
+
+	if (vertexType != VertexType::VertexNothing && vertexType != VertexType::VertexOther) {
+
+		int dx, dy;
+		this->widget->convertEntityToDevice(vertexPoint.x, vertexPoint.y, dx, dy);
+		QCursor::setPos(this->widget->mapToGlobal(QPoint(dx, dy)));
+
+		ShSubDefaultAction_MouseIsInShapeVertex *subAction =
+			new ShSubDefaultAction_MouseIsInShapeVertex(this->defaultAction, this->widget, vertexPoint);
+
+		this->defaultAction->changeSubAction(subAction);
+	}
 }
 
 
 
-ShSubDefaultAction_MouseIsInShapeVertex::ShSubDefaultAction_MouseIsInShapeVertex(ShDefaultAction *defaultAction, ShCADWidget *widget)
-	:ShSubDefaultAction(defaultAction, widget) {
+ShSubDefaultAction_MouseIsInShapeVertex::ShSubDefaultAction_MouseIsInShapeVertex(ShDefaultAction *defaultAction, ShCADWidget *widget,
+	const ShPoint3d &vertexPoint)
+	:ShSubDefaultAction(defaultAction, widget), vertexPoint(vertexPoint) {
 
+	this->drawVertex();
 }
 
 ShSubDefaultAction_MouseIsInShapeVertex::~ShSubDefaultAction_MouseIsInShapeVertex() {
@@ -157,8 +190,54 @@ ShSubDefaultAction_MouseIsInShapeVertex::~ShSubDefaultAction_MouseIsInShapeVerte
 
 void ShSubDefaultAction_MouseIsInShapeVertex::mouseLeftPressEvent(ShActionData &data) {
 
+	QLinkedList<ShEntity*> possibleStretchEntities;
+	QLinkedList<ShStretchData*> stretchDatas;
+	bool possible = false;
+	ShStretchData *stretchData = nullptr;
+
+	ShPossibleEntityToStretchFinder visitor(this->vertexPoint, possible, &stretchData);
+
+	auto itr = this->widget->getSelectedEntities()->begin();
+	
+	for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
+	
+		possible = false;
+		(*itr)->accept(&visitor);
+		if (possible == true) {
+			possibleStretchEntities.append(*itr);
+			stretchDatas.append(stretchData);
+		}
+	}
+
+	ShChangeTemporaryStrategy strategy(new ShTemporaryStretchAction(this->widget, this->vertexPoint,
+		possibleStretchEntities, stretchDatas), this->defaultAction);
+	
+	this->widget->changeAction(strategy);
+	this->defaultAction->changeSubAction(new ShSubDefaultAction_Default(this->defaultAction, this->widget));
+
+
+
 }
 
 void ShSubDefaultAction_MouseIsInShapeVertex::mouseMoveEvent(ShActionData &data) {
 
+	ShPoint3d topLeft, bottomRight;
+	int dx, dy;
+	this->widget->convertEntityToDevice(this->vertexPoint.x, this->vertexPoint.y, dx, dy);
+	this->widget->convertDeviceToEntity(dx - 3, dy - 3, topLeft.x, topLeft.y);
+	this->widget->convertDeviceToEntity(dx + 3, dy + 3, bottomRight.x, bottomRight.y);
+
+	if (math::checkPointLiesInsideRect(data.point, topLeft, bottomRight, 1) == false) {
+		this->widget->update(DrawType::DrawCaptureImage);
+		this->defaultAction->changeSubAction(new ShSubDefaultAction_Default(this->defaultAction, this->widget));
+	}
+}
+
+void ShSubDefaultAction_MouseIsInShapeVertex::drawVertex() {
+
+	int dx, dy;
+	this->widget->convertEntityToDevice(this->vertexPoint.x, this->vertexPoint.y, dx, dy);
+
+	QPainter painter(this->widget);
+	painter.fillRect(dx - 3, dy - 3, 6, 6, QColor(255, 000, 000));
 }
