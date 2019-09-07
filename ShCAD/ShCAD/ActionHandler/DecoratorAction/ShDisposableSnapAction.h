@@ -20,8 +20,7 @@ public:
 
 protected:
 	void finishDisposableSnap();
-	void sendFailMessage();
-	virtual bool search(const ShPoint3d &point) = 0;
+	virtual void sendFailMessage();
 
 };
 
@@ -104,6 +103,17 @@ protected:
 class ShDisposableSnapAction__Intersection : public ShDisposableSnapAction {
 
 public:
+	enum Status {
+		PickedNothing,
+		PickedBaseEntity,
+	};
+
+private:
+	ShEntity *firstBaseEntity;
+	bool foundOnlyOne;
+	Status status;
+
+public:
 	ShDisposableSnapAction__Intersection(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
 	~ShDisposableSnapAction__Intersection();
 
@@ -115,6 +125,7 @@ public:
 
 protected:
 	virtual bool search(const ShPoint3d &point);
+	virtual void sendFailMessage();
 };
 
 //////////////////////////////////////////////////////////////////
@@ -130,9 +141,6 @@ public:
 
 	virtual void draw(QPainter *painter);
 	virtual void invalidate(ShPoint3d &point);
-
-protected:
-	virtual bool search(const ShPoint3d &point);
 
 private:
 	bool search(const ShPoint3d &point, double perpendicularX, double perpendicularY);

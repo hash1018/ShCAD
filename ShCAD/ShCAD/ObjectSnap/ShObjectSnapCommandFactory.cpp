@@ -25,7 +25,7 @@ QString ShObjectSnapCommandFactory::create(ObjectSnap objectSnap) {
 	else if (objectSnap == ObjectSnap::ObjectSnapQuadrant)
 		str = "_quadrant ";
 	else if (objectSnap == ObjectSnap::ObjectSnapIntersection)
-		str = "_int ";
+		str = "_int of ";
 
 
 	return str;

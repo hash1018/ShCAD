@@ -200,6 +200,7 @@
     <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
+    <ClCompile Include="Entity\Private\ShClosestIntersectionPointFinder.cpp" />
     <ClCompile Include="Entity\Private\ShDrawer.cpp" />
     <ClCompile Include="Entity\Private\ShEntityData.cpp" />
     <ClCompile Include="Entity\Private\ShExtender.cpp" />
@@ -483,6 +484,7 @@
     <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />
+    <ClInclude Include="Entity\Private\ShClosestIntersectionPointFinder.h" />
     <ClInclude Include="Entity\Private\ShDrawer.h" />
     <ClInclude Include="Entity\Private\ShEntityData.h" />
     <ClInclude Include="Entity\Private\ShExtender.h" />

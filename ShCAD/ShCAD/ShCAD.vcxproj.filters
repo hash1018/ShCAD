@@ -589,6 +589,9 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyStretchAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Private\ShClosestIntersectionPointFinder.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1003,6 +1006,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyStretchAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShClosestIntersectionPointFinder.h">
+      <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

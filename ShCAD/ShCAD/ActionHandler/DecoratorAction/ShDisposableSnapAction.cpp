@@ -7,6 +7,8 @@
 #include "Entity\Private\ShSearchEntityStrategy.h"
 #include "Entity\Private\ShSnapPointFinder.h"
 #include <qpainter.h>
+#include "Entity\Private\ShFootOfPerpendicularVisitor.h"
+#include "Entity\Private\ShClosestIntersectionPointFinder.h"
 
 
 ShDisposableSnapAction::ShDisposableSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child)
@@ -42,73 +44,6 @@ void ShDisposableSnapAction::sendFailMessage() {
 	this->actionHandler->updateCommandEditHeadTitle();
 }
 
-/////////////////////////////////////////////////////////////////
-/*
-
-ShDisposableSnapAction_General::ShDisposableSnapAction_General(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child)
-	:ShDisposableSnapAction(widget, actionHandler, objectSnap, child) {
-
-}
-
-
-ShDisposableSnapAction_General::~ShDisposableSnapAction_General() {
-
-
-}
-
-void ShDisposableSnapAction_General::mouseLeftPressEvent(ShActionData &data) {
-
-	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
-
-	if (draft.getAvailableSnap() == true) {
-	
-		if (this->strategy->search(data.point) == false) {
-		
-			this->sendFailMessage();
-			this->finishDisposableSnap();
-			return;
-		}
-
-		data.point = this->strategy->getSnap();
-		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
-
-	}
-
-	ShDisposableSnapAction::mouseLeftPressEvent(data);
-
-	this->finishDisposableSnap();
-}
-
-void ShDisposableSnapAction_General::mouseMoveEvent(ShActionData &data) {
-
-	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
-
-	if (draft.getAvailableSnap() == true) {
-		if (this->strategy->search(data.point) == true)
-			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
-		else
-			this->widget->update((DrawType)DrawType::DrawCaptureImage);
-	}
-
-	ShDisposableSnapAction::mouseMoveEvent(data);
-}
-
-void ShDisposableSnapAction_General::invalidate(ShPoint3d &point) {
-
-	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
-
-	if (draft.getAvailableSnap() == true) {
-		if (this->strategy->search(point) == true)
-			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
-		else
-			this->widget->update((DrawType)DrawType::DrawCaptureImage);
-	}
-
-	ShDisposableSnapAction::invalidate(point);
-}
-
-
-*/
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -533,7 +468,7 @@ bool ShDisposableSnapAction_Quadrant::search(const ShPoint3d &point) {
 /////////////////////////////////////////////////////////////////////////
 
 ShDisposableSnapAction__Intersection::ShDisposableSnapAction__Intersection(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child)
-	:ShDisposableSnapAction(widget, actionHandler, child) {
+	:ShDisposableSnapAction(widget, actionHandler, child), firstBaseEntity(nullptr), foundOnlyOne(false), status(PickedNothing) {
 
 }
 
@@ -552,6 +487,19 @@ void ShDisposableSnapAction__Intersection::mouseLeftPressEvent(ShActionData &dat
 			this->sendFailMessage();
 			this->finishDisposableSnap();
 			return;
+		}
+		//Success
+		else {
+		
+			if (this->status == PickedNothing) {
+
+				if (this->foundOnlyOne == true) {
+
+					this->status = PickedBaseEntity;
+					shCommandLogManager->appendHeadTitle("and ");
+					return;
+				}
+			}
 		}
 
 		data.point = this->snap;
@@ -580,6 +528,34 @@ void ShDisposableSnapAction__Intersection::mouseMoveEvent(ShActionData &data) {
 
 void ShDisposableSnapAction__Intersection::draw(QPainter *painter) {
 
+	if (this->valid == true) {
+
+		if (painter->isActive() == false)
+			painter->begin(this->widget);
+
+		int dx, dy;
+		this->widget->convertEntityToDevice(this->snap.x, this->snap.y, dx, dy);
+
+		QPen oldPen = painter->pen();
+		QPen pen;
+		pen.setWidth(2);
+		pen.setColor(QColor(000, 204, 000));
+		painter->setPen(pen);
+
+		painter->drawLine(dx - 4, dy - 4, dx + 4, dy + 4);
+		painter->drawLine(dx + 4, dy - 4, dx - 4, dy + 4);
+
+		if (this->foundOnlyOne == true && this->status == PickedNothing) {
+
+			painter->drawLine(dx + 4, dy + 4, dx + 6, dy + 4);
+			painter->drawLine(dx + 10, dy + 4, dx + 14, dy + 4);
+			painter->drawLine(dx + 18, dy + 4, dx + 22, dy + 4);
+		}
+
+		painter->setPen(oldPen);
+	}
+
+	ShDecoratorAction::draw(painter);
 }
 
 void ShDisposableSnapAction__Intersection::invalidate(ShPoint3d &point) {
@@ -598,7 +574,53 @@ void ShDisposableSnapAction__Intersection::invalidate(ShPoint3d &point) {
 
 bool ShDisposableSnapAction__Intersection::search(const ShPoint3d &point) {
 
+	this->valid = false;
+	this->foundOnlyOne = false;
+
+	QLinkedList<ShEntity*> foundEntities;
+	ShSearchEntityDuplicateStrategy strategy(foundEntities, 10, point.x, point.y, this->widget->getZoomRate());
+	this->widget->getEntityTable().search(strategy);
+
+	if (foundEntities.count() == 0)
+		return false;
+
+	if (this->status == PickedNothing) {
+
+		if (foundEntities.count() == 1) {
+
+			ShFootOfPerpendicularVisitor visitor(this->snap.x, this->snap.y, point);
+			(*foundEntities.begin())->accept(&visitor);
+			this->valid = true;
+			this->foundOnlyOne = true;
+			this->firstBaseEntity = (*foundEntities.begin());
+		}
+		else if (foundEntities.count() >= 2) {
+
+
+		}
+	}
+	else if (this->status == PickedBaseEntity) {
+	
+		if (foundEntities.count() == 1) {
+		
+			ShClosestIntersectionPointFinder visitor(point, this->firstBaseEntity, this->snap, this->valid);
+			(*foundEntities.begin())->accept(&visitor);
+
+		}
+		else if (foundEntities.count() >= 2) {
+		
+		}
+	}
+	
 	return this->valid;
+}
+
+void ShDisposableSnapAction__Intersection::sendFailMessage() {
+
+	shCommandLogManager->appendListEditTextWith("");
+	shCommandLogManager->appendList(shGetLanValue_command("Command/No Intersection found for specified point"));
+	shCommandLogManager->appendList(shGetLanValue_command("Command/No snap point found"));
+	this->actionHandler->updateCommandEditHeadTitle();
 }
 
 
@@ -693,11 +715,6 @@ void ShDisposableSnapAction_Perpendicular::invalidate(ShPoint3d &point) {
 	}
 
 	ShDisposableSnapAction::invalidate(point);
-}
-
-bool ShDisposableSnapAction_Perpendicular::search(const ShPoint3d &point) {
-
-	return false;
 }
 
 bool ShDisposableSnapAction_Perpendicular::search(const ShPoint3d &point, double perpendicularX, double perpendicularY) {
