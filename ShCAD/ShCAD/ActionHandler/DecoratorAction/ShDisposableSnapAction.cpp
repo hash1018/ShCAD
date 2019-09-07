@@ -119,6 +119,72 @@ void ShDisposableSnapAction_General::invalidate(ShPoint3d &point) {
 ////////////////////////////////////////////////////////////////////////
 
 
+
+ShDisposableSnapAction__Intersection::ShDisposableSnapAction__Intersection(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child)
+	:ShDisposableSnapAction(widget, actionHandler, objectSnap, child) {
+
+}
+
+ShDisposableSnapAction__Intersection::~ShDisposableSnapAction__Intersection() {
+
+}
+
+void ShDisposableSnapAction__Intersection::mouseLeftPressEvent(ShActionData &data) {
+
+	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
+
+	if (draft.getAvailableSnap() == true) {
+
+		if (this->strategy->search(data.point) == false) {
+
+			this->sendFailMessage();
+			this->finishDisposableSnap();
+			return;
+		}
+
+		data.point = this->strategy->getSnap();
+		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
+
+	}
+
+	ShDisposableSnapAction::mouseLeftPressEvent(data);
+
+	this->finishDisposableSnap();
+}
+
+void ShDisposableSnapAction__Intersection::mouseMoveEvent(ShActionData &data) {
+
+	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
+
+	if (draft.getAvailableSnap() == true) {
+		if (this->strategy->search(data.point) == true)
+			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
+		else
+			this->widget->update((DrawType)DrawType::DrawCaptureImage);
+	}
+
+	ShDisposableSnapAction::mouseMoveEvent(data);
+}
+
+void ShDisposableSnapAction__Intersection::invalidate(ShPoint3d &point) {
+
+	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
+
+	if (draft.getAvailableSnap() == true) {
+		if (this->strategy->search(point) == true)
+			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
+		else
+			this->widget->update((DrawType)DrawType::DrawCaptureImage);
+	}
+
+	ShDisposableSnapAction::invalidate(point);
+}
+
+
+
+////////////////////////////////////////////////////////////////////////
+
+
 ShDisposableSnapAction_Perpendicular::ShDisposableSnapAction_Perpendicular(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child)
 	:ShDisposableSnapAction(widget, actionHandler, ObjectSnap::ObjectSnapPerpendicular, child) {
 

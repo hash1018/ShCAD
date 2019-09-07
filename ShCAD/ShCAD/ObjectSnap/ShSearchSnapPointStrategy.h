@@ -119,4 +119,21 @@ public:
 
 };
 
+
+/////////////////////////////////////////////////////////////
+
+class ShSearchSnapPointStrategy_Intersecion : public ShSearchSnapPointStrategy {
+
+private:
+	ShEntity *firstBaseEntity;
+
+public:
+	ShSearchSnapPointStrategy_Intersecion(ShCADWidget *widget);
+	~ShSearchSnapPointStrategy_Intersecion();
+
+	virtual bool search(const ShPoint3d &point);
+	virtual ObjectSnap getType();
+	virtual void draw(QPainter *painter);
+};
+
 #endif //_SHSEARCHSNAPPOINTSTRATEGY_H

@@ -22,6 +22,8 @@ ShSearchSnapPointStrategy* ShSearchSnapPointStrategyFactory::create(ObjectSnap o
 		return new ShSearchSnapPointStrategy_Center(widget);
 	else if (objectSnap == ObjectSnap::ObjectSnapQuadrant)
 		return new ShSearchSnapPointStrategy_Quadrant(widget);
+	else if (objectSnap == ObjectSnap::ObjectSnapIntersection)
+		return new ShSearchSnapPointStrategy_Intersecion(widget);
 
 
 	return new ShSearchSnapPointStrategy_Nothing(widget);

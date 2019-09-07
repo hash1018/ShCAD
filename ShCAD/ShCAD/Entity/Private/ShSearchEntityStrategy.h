@@ -51,5 +51,18 @@ public:
 
 };
 
+class ShSearchEntityDuplicateStrategy : public ShSearchEntityStrategy {
+
+protected:
+	QLinkedList<ShEntity*> &foundEntities;
+	int max;
+
+public:
+	ShSearchEntityDuplicateStrategy(QLinkedList<ShEntity*> &foundEntities, int max, double x, double y, double zoomRate);
+	~ShSearchEntityDuplicateStrategy();
+
+	virtual void search();
+
+};
 
 #endif //_SHSEARCHENTITYSTRATEGY_H

@@ -4,6 +4,7 @@
 #include <qpainter.h>
 #include "Entity\Private\ShSearchEntityStrategy.h"
 #include "Entity\Private\ShSnapPointFinder.h"
+#include "Entity\Private\ShFootOfPerpendicularVisitor.h"
 
 ShSearchSnapPointStrategy::ShSearchSnapPointStrategy(ShCADWidget *widget)
 	:widget(widget), isValid(false) {
@@ -364,3 +365,65 @@ void ShSearchSnapPointStrategy_Perpendicular::draw(QPainter *painter) {
 	painter->setPen(oldPen);
 }
 
+
+///////////////////////////////////////////////////////////////////////
+
+
+ShSearchSnapPointStrategy_Intersecion::ShSearchSnapPointStrategy_Intersecion(ShCADWidget *widget)
+	:ShSearchSnapPointStrategy(widget), firstBaseEntity(nullptr) {
+
+}
+
+ShSearchSnapPointStrategy_Intersecion::~ShSearchSnapPointStrategy_Intersecion() {
+
+}
+
+bool ShSearchSnapPointStrategy_Intersecion::search(const ShPoint3d &point) {
+
+	QLinkedList<ShEntity*> foundEntities;
+	ShSearchEntityDuplicateStrategy strategy(foundEntities, 10, point.x, point.y, this->widget->getZoomRate());
+	this->widget->getEntityTable().search(strategy);
+
+	if (foundEntities.count() == 0)
+		return false;
+
+	this->isValid = false;
+
+	if (foundEntities.count() == 1) {
+	
+		ShFootOfPerpendicularVisitor visitor(this->snap.x, this->snap.y, point);
+		(*foundEntities.begin())->accept(&visitor);
+		this->isValid = true;
+		
+	}
+
+	return this->isValid;
+}
+
+ObjectSnap ShSearchSnapPointStrategy_Intersecion::getType() {
+
+	return ObjectSnap::ObjectSnapIntersection;
+}
+
+void ShSearchSnapPointStrategy_Intersecion::draw(QPainter *painter) {
+
+	if (this->isValid == false)
+		return;
+
+	if (painter->isActive() == false)
+		painter->begin(this->widget);
+
+	int dx, dy;
+	this->widget->convertEntityToDevice(this->snap.x, this->snap.y, dx, dy);
+
+	QPen oldPen = painter->pen();
+	QPen pen;
+	pen.setWidth(2);
+	pen.setColor(QColor(000, 204, 000));
+	painter->setPen(pen);
+
+	painter->drawLine(dx - 4, dy - 4, dx + 4, dy + 4);
+	painter->drawLine(dx + 4, dy - 4, dx - 4, dy + 4);
+
+	painter->setPen(oldPen);
+}

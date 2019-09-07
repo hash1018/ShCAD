@@ -42,6 +42,20 @@ public:
 
 //////////////////////////////////////////////////////////////////
 
+class ShDisposableSnapAction__Intersection : public ShDisposableSnapAction {
+
+public:
+	ShDisposableSnapAction__Intersection(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child = nullptr);
+	~ShDisposableSnapAction__Intersection();
+
+	virtual void mouseLeftPressEvent(ShActionData &data);
+	virtual void mouseMoveEvent(ShActionData &data);
+
+	virtual void invalidate(ShPoint3d &point);
+};
+
+//////////////////////////////////////////////////////////////////
+
 class ShDisposableSnapAction_Perpendicular : public ShDisposableSnapAction {
 
 public:

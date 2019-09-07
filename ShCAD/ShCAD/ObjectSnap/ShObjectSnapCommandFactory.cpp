@@ -24,6 +24,8 @@ QString ShObjectSnapCommandFactory::create(ObjectSnap objectSnap) {
 		str = "_center ";
 	else if (objectSnap == ObjectSnap::ObjectSnapQuadrant)
 		str = "_quadrant ";
+	else if (objectSnap == ObjectSnap::ObjectSnapIntersection)
+		str = "_int ";
 
 
 	return str;
