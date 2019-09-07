@@ -70,4 +70,14 @@ public:
 	virtual void pressed(ShCADWidget *widget, ShActionHandler *actionHandler);
 };
 
+class ShCtrlAKey : public ShKey {
+	
+public:
+	ShCtrlAKey();
+	~ShCtrlAKey();
+
+	virtual void pressed(ShCADWidget *widget, ShActionHandler *actionHandler);
+
+};
+
 #endif //_SHKEY_H

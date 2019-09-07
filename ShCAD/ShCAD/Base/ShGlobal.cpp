@@ -83,6 +83,18 @@ void ShGlobal::redo(ShCADWidget *widget) {
 
 void ShGlobal::selectAll(ShCADWidget *widget) {
 
+	QLinkedList<ShEntity*> temp;
+	auto itr = widget->getEntityTable().turnOnLayerBegin();
+
+	for (itr; itr != widget->getEntityTable().turnOnLayerEnd(); ++itr)
+		temp.append(*itr);
+	
+	widget->getSelectedEntities()->add(temp);
+
+	widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
+	widget->captureImage();
+
+	shCommandLogManager->appendListEditTextAndNewLineWith(shGetLanValue_command("Command/<Select All>"));
 }
 
 void ShGlobal::deleteSelectedEntity(ShCADWidget *widget) {

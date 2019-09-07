@@ -24,6 +24,7 @@ ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
 		allowInput().
 		allowKey(KeyType::Control_Z).
 		allowKey(KeyType::Control_Y).
+		allowKey(KeyType::Control_A).
 		allowCustom(new ShCustomKey<ShDefaultAction>(Qt::Key::Key_Escape, Qt::KeyboardModifier::NoModifier, this, &ShDefaultAction::escPressed)).
 		build();
 }

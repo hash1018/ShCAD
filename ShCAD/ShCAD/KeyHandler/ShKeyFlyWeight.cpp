@@ -72,6 +72,8 @@ ShKey* ShKeyFactory::create(KeyType keyType) {
 		return new ShCtrlZKey;
 	else if (keyType == KeyType::Control_Y)
 		return new ShCtrlYKey;
+	else if (keyType == KeyType::Control_A)
+		return new ShCtrlAKey;
 
 	return new ShEnterKey;
 }

@@ -11,6 +11,7 @@ enum KeyType {
 	Custom,
 	Control_Z,
 	Control_Y,
+	Control_A,
 
 };
 

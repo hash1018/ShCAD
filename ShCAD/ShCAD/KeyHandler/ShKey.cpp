@@ -130,3 +130,20 @@ void ShCtrlYKey::pressed(ShCADWidget *widget, ShActionHandler *actionHandler) {
 
 	ShGlobal::redo(widget);
 }
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+ShCtrlAKey::ShCtrlAKey()
+	:ShKey(KeyType::Control_A, Qt::Key::Key_A, Qt::KeyboardModifier::ControlModifier) {
+
+}
+
+ShCtrlAKey::~ShCtrlAKey() {
+
+}
+
+void ShCtrlAKey::pressed(ShCADWidget *widget, ShActionHandler *actionHandler) {
+
+	ShGlobal::selectAll(widget);
+}

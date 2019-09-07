@@ -15,6 +15,7 @@ ShModifyAction::ShModifyAction(ShCADWidget *widget)
 	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
 		allowKey(KeyType::Enter).
 		allowKey(KeyType::Return).
+		allowKey(KeyType::Control_A).
 		allowKey(KeyType::EscCancelCurrent).
 		allowInput().
 		build();
