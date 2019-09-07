@@ -5,39 +5,98 @@
 
 #include "ShDecoratorAction.h"
 
-class ShSearchSnapPointStrategy;
-
 class ShDisposableSnapAction : public ShDecoratorAction {
 
 protected:
-	ShSearchSnapPointStrategy *strategy;
+	ShPoint3d snap;
+	bool valid;
 
 public:
-	ShDisposableSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child = nullptr);
+	ShDisposableSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
 	virtual ~ShDisposableSnapAction() = 0;
 
 	virtual void keyPressEvent(ShActionData &data);
-	virtual void draw(QPainter *painter);
+	virtual void draw(QPainter *painter) = 0;
 
 protected:
 	void finishDisposableSnap();
 	void sendFailMessage();
+	virtual bool search(const ShPoint3d &point) = 0;
 
 };
 
+
 //////////////////////////////////////////////////////////////////
 
-class ShDisposableSnapAction_General : public ShDisposableSnapAction {
+class ShDisposableSnapAction_End : public ShDisposableSnapAction {
 
 public:
-	ShDisposableSnapAction_General(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child = nullptr);
-	~ShDisposableSnapAction_General();
+	ShDisposableSnapAction_End(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
+	~ShDisposableSnapAction_End();
 
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
+	virtual void draw(QPainter *painter);
 	virtual void invalidate(ShPoint3d &point);
 
+protected:
+	virtual bool search(const ShPoint3d &point);
+};
+
+
+//////////////////////////////////////////////////////////////////
+
+class ShDisposableSnapAction_Mid : public ShDisposableSnapAction {
+
+public:
+	ShDisposableSnapAction_Mid(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
+	~ShDisposableSnapAction_Mid();
+
+	virtual void mouseLeftPressEvent(ShActionData &data);
+	virtual void mouseMoveEvent(ShActionData &data);
+
+	virtual void draw(QPainter *painter);
+	virtual void invalidate(ShPoint3d &point);
+
+protected:
+	virtual bool search(const ShPoint3d &point);
+};
+
+//////////////////////////////////////////////////////////////////
+
+class ShDisposableSnapAction_Center : public ShDisposableSnapAction {
+
+public:
+	ShDisposableSnapAction_Center(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
+	~ShDisposableSnapAction_Center();
+
+	virtual void mouseLeftPressEvent(ShActionData &data);
+	virtual void mouseMoveEvent(ShActionData &data);
+
+	virtual void draw(QPainter *painter);
+	virtual void invalidate(ShPoint3d &point);
+
+protected:
+	virtual bool search(const ShPoint3d &point);
+};
+
+//////////////////////////////////////////////////////////////////
+
+class ShDisposableSnapAction_Quadrant : public ShDisposableSnapAction {
+
+public:
+	ShDisposableSnapAction_Quadrant(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
+	~ShDisposableSnapAction_Quadrant();
+
+	virtual void mouseLeftPressEvent(ShActionData &data);
+	virtual void mouseMoveEvent(ShActionData &data);
+
+	virtual void draw(QPainter *painter);
+	virtual void invalidate(ShPoint3d &point);
+
+protected:
+	virtual bool search(const ShPoint3d &point);
 };
 
 //////////////////////////////////////////////////////////////////
@@ -45,13 +104,17 @@ public:
 class ShDisposableSnapAction__Intersection : public ShDisposableSnapAction {
 
 public:
-	ShDisposableSnapAction__Intersection(ShCADWidget *widget, ShActionHandler *actionHandler, ObjectSnap objectSnap, ShDecoratorAction *child = nullptr);
+	ShDisposableSnapAction__Intersection(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
 	~ShDisposableSnapAction__Intersection();
 
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
+	virtual void draw(QPainter *painter);
 	virtual void invalidate(ShPoint3d &point);
+
+protected:
+	virtual bool search(const ShPoint3d &point);
 };
 
 //////////////////////////////////////////////////////////////////
@@ -65,14 +128,22 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
+	virtual void draw(QPainter *painter);
 	virtual void invalidate(ShPoint3d &point);
 
+protected:
+	virtual bool search(const ShPoint3d &point);
+
+private:
+	bool search(const ShPoint3d &point, double perpendicularX, double perpendicularY);
 };
 
 ///////////////////////////////////////////////////////////////////
 
 class ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing : public ShDisposableSnapAction {
 
+private:
+	ShEntity *basePerpendicularEntity;
 public:
 	ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing(ShCADWidget *widget, ShActionHandler *actionHandler,
 		ShDecoratorAction *child = nullptr);
@@ -81,8 +152,11 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
+	virtual void draw(QPainter *painter);
 	virtual void invalidate(ShPoint3d &point);
 
+protected:
+	virtual bool search(const ShPoint3d &point);
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -92,6 +166,9 @@ public:
 //** line entity only can be added when both baseSnapPerpendicular entities are parallel.
 class ShDisposableSnapAction_DrawLineActionPerPer : public ShDisposableSnapAction {
 
+private:
+	ShEntity *basePerpendicularEntity;
+
 public:
 	ShDisposableSnapAction_DrawLineActionPerPer(ShCADWidget *widget, ShActionHandler *actionHandler,
 		ShDecoratorAction *child = nullptr);
@@ -100,8 +177,11 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
 
+	virtual void draw(QPainter *painter);
 	virtual void invalidate(ShPoint3d &point);
 
+protected:
+	virtual bool search(const ShPoint3d &point);
 };
 
 

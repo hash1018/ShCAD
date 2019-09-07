@@ -397,13 +397,7 @@
     <ClCompile Include="Entity\Private\ShSnapPointFinder.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectSnap\ShSearchSnapPointStrategy.cpp">
-      <Filter>ObjectSnap</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectSnap\ShObjectSnapCommandFactory.cpp">
-      <Filter>ObjectSnap</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectSnap\ShSearchSnapPointStrategyFactory.cpp">
       <Filter>ObjectSnap</Filter>
     </ClCompile>
     <ClCompile Include="ActionHandler\Private\ShDecorateActionStrategy.cpp">
@@ -854,13 +848,7 @@
     <ClInclude Include="Entity\Private\ShSnapPointFinder.h">
       <Filter>Entity\Private</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectSnap\ShSearchSnapPointStrategy.h">
-      <Filter>ObjectSnap</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectSnap\ShObjectSnapCommandFactory.h">
-      <Filter>ObjectSnap</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectSnap\ShSearchSnapPointStrategyFactory.h">
       <Filter>ObjectSnap</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\Private\ShDecorateActionStrategy.h">

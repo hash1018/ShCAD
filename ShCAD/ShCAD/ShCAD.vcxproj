@@ -366,8 +366,6 @@
     <ClCompile Include="Manager\ShCADWidgetManager.cpp" />
     <ClCompile Include="Manager\ShChangeManager.cpp" />
     <ClCompile Include="ObjectSnap\ShObjectSnapCommandFactory.cpp" />
-    <ClCompile Include="ObjectSnap\ShSearchSnapPointStrategy.cpp" />
-    <ClCompile Include="ObjectSnap\ShSearchSnapPointStrategyFactory.cpp" />
     <ClCompile Include="UnRedo\ShCADWidgetTransaction.cpp" />
     <ClCompile Include="UnRedo\ShEntityTransaction.cpp" />
     <ClCompile Include="UnRedo\ShLayerTransaction.cpp" />
@@ -618,8 +616,6 @@
     <ClInclude Include="Manager\ShLanguageManager.h" />
     <ClInclude Include="Manager\ShChangeManager.h" />
     <ClInclude Include="ObjectSnap\ShObjectSnapCommandFactory.h" />
-    <ClInclude Include="ObjectSnap\ShSearchSnapPointStrategy.h" />
-    <ClInclude Include="ObjectSnap\ShSearchSnapPointStrategyFactory.h" />
     <ClInclude Include="UnRedo\ShCADWidgetTransaction.h" />
     <ClInclude Include="UnRedo\ShEntityTransaction.h" />
     <ClInclude Include="UnRedo\ShTransaction.h" />
