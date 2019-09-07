@@ -23,6 +23,13 @@ ShDisposableSnapAction::~ShDisposableSnapAction() {
 
 void ShDisposableSnapAction::keyPressEvent(ShActionData &data) {
 	
+	if (data.keyEvent->key() == Qt::Key::Key_Return ||
+		data.keyEvent->key() == Qt::Key_Enter) {
+		this->sendFailMessage();
+		this->finishDisposableSnap();
+		return;
+	}
+
 	ShDecoratorAction::keyPressEvent(data);
 
 	if (data.keyEvent->key() == Qt::Key::Key_Escape) {
