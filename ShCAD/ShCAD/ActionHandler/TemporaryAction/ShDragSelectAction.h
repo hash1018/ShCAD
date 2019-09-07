@@ -3,6 +3,7 @@
 #define _SHDRAGSELECTACTION_H
 
 #include "ShTemporaryAction.h"
+class ShStretchData;
 
 class ShDragSelectAction : public ShTemporaryAction {
 
@@ -43,6 +44,8 @@ protected:
 	int getAlreadySelectedCount(const QLinkedList<ShEntity*> &searchedList);
 };
 
+////////////////////////////////////////////////////////////////
+
 class ShModifyDragSelectAction : public ShDragSelectAction {
 
 public:
@@ -55,7 +58,26 @@ public:
 
 };
 
+/////////////////////////////////////////////////////////////////
 
+class ShModifyStretchDragSelectAction : public ShModifyDragSelectAction {
+
+	friend class ShModifyStretchAction;
+
+private:
+	QLinkedList<ShEntity*> &possibleStretchEntities;
+	QLinkedList<ShStretchData*> &stretchDatas;
+
+protected:
+	ShModifyStretchDragSelectAction(ShCADWidget *widget, double firstX, double firstY,
+		QLinkedList<ShEntity*> &possibleStretchEntities, QLinkedList<ShStretchData*> &stretchDatas, Mode mode = SelectMode);
+	~ShModifyStretchDragSelectAction();
+	
+	virtual void mouseLeftPressEvent(ShActionData &data);
+
+	void addStretchData(const QLinkedList<ShEntity*> &searchedEntities);
+	void removeStretchData(const QLinkedList<ShEntity*> &searchedEntities);
+};
 
 
 #endif //_SHDRAGSELECTACTION_H

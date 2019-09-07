@@ -181,7 +181,9 @@ void ShModifyPanel::copyButtonClicked() {
 
 void ShModifyPanel::stretchButtonClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyStretch);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyPanel::rotateButtonClicked() {

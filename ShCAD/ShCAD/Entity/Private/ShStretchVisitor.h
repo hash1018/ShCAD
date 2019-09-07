@@ -21,6 +21,7 @@ enum StretchPoint {
 	StretchChild,
 };
 
+////////////////////////////////////////////////////
 
 class ShStretchData {
 
@@ -30,10 +31,14 @@ public:
 
 };
 
+////////////////////////////////////////////////////
+
 class ShStretchLeafData : public ShStretchData {
 
 	friend class ShStretchVisitor;
 	friend class ShPossibleEntityToStretchFinder;
+	friend class ShStretchDataForMoveCreator;
+	friend class ShStretchPointRectFinder;
 
 private:
 	StretchPoint stretchPoint;
@@ -44,6 +49,8 @@ protected:
 
 };
 
+
+//////////////////////////////////////////////////////
 
 class ShStretchVisitor : public ShVisitor {
 
@@ -66,6 +73,8 @@ public:
 	void setStretchData(ShStretchData *stretchData) { this->stretchData = stretchData; }
 };
 
+////////////////////////////////////////////////////////
+
 
 class ShPossibleEntityToStretchFinder : public ShVisitor {
 
@@ -77,6 +86,42 @@ private:
 public:
 	ShPossibleEntityToStretchFinder(const ShPoint3d &point, bool &possible, ShStretchData* *stretchData);
 	~ShPossibleEntityToStretchFinder();
+
+	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
+
+};
+
+/////////////////////////////////////////////////////////
+
+class ShStretchDataForMoveCreator : public ShVisitor {
+
+private:
+	ShStretchData* *stretchData;
+
+public:
+	ShStretchDataForMoveCreator(ShStretchData* *stretchData);
+	~ShStretchDataForMoveCreator();
+
+	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
+
+};
+
+//////////////////////////////////////////////////////////
+
+class ShStretchPointRectFinder : public ShVisitor {
+
+private:
+	ShPoint3d topLeft;
+	ShPoint3d bottomRight;
+	ShStretchData* *stretchData;
+
+public:
+	ShStretchPointRectFinder(const ShPoint3d &topLeft, const ShPoint3d &bottomRight, ShStretchData* *stretchData);
+	~ShStretchPointRectFinder();
 
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);

@@ -34,7 +34,7 @@ public:
 protected:
 	virtual void triggerSelectingEntities(QMouseEvent *event);
 
-private:
+protected:
 	virtual void selectFoundEntity(ShEntity *foundEntity, Qt::KeyboardModifiers modifier);
 
 };

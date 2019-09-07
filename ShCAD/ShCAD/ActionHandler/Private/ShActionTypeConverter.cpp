@@ -74,6 +74,8 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 		text = "_Extend"; break;
 	case ActionType::ActionModifyTrim:
 		text = "_Trim"; break;
+	case ActionType::ActionModifyStretch:
+		text = "_Stretch"; break;
 
 	default:
 		text = ""; break;

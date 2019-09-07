@@ -592,6 +592,9 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryStretchAction.cpp">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyStretchAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1009,6 +1012,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryStretchAction.h">
       <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyStretchAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

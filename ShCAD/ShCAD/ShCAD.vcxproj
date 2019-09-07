@@ -152,6 +152,7 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMirrorAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp" />
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyStretchAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyTrimAction.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionData.cpp" />
     <ClCompile Include="ActionHandler\Private\ShActionHandlerFactory.cpp" />
@@ -432,6 +433,7 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMirrorAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h" />
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyStretchAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyTrimAction.h" />
     <ClInclude Include="ActionHandler\Private\ShActionData.h" />
     <ClInclude Include="ActionHandler\Private\ShActionHandlerFactory.h" />

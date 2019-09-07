@@ -368,6 +368,7 @@ ShModifyMenu::ShModifyMenu(const QString &title, ShChain *chain, QWidget *parent
 	connect(this->eraseAction, &QAction::triggered, this, &ShModifyMenu::eraseActionClicked);
 	connect(this->extendAction, &QAction::triggered, this, &ShModifyMenu::extendActionClicked);
 	connect(this->trimAction, &QAction::triggered, this, &ShModifyMenu::trimActionClicked);
+	connect(this->stretchAction, &QAction::triggered, this, &ShModifyMenu::stretchActionClicked);
 
 }
 
@@ -420,6 +421,13 @@ void ShModifyMenu::extendActionClicked() {
 void ShModifyMenu::trimActionClicked() {
 
 	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyTrim);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShModifyMenu::stretchActionClicked() {
+
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyStretch);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

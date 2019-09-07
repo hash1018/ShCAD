@@ -5,6 +5,7 @@
 #include "KeyHandler\ShKeyHandler.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Entity\Private\ShFinder.h"
+#include "Entity\Private\ShStretchVisitor.h"
 
 
 
@@ -256,3 +257,151 @@ QString ShModifyDragSelectAction::getHeadTitle() {
 	return this->previousAction->getHeadTitle() + ShDragSelectAction::getHeadTitle();
 }
 
+
+/////////////////////////////////////////////////////////////////////////////
+
+ShModifyStretchDragSelectAction::ShModifyStretchDragSelectAction(ShCADWidget *widget, double firstX, double firstY,
+	QLinkedList<ShEntity*> &possibleStretchEntities, QLinkedList<ShStretchData*> &stretchDatas, Mode mode)
+	:ShModifyDragSelectAction(widget, firstX, firstY, mode), possibleStretchEntities(possibleStretchEntities),
+	stretchDatas(stretchDatas) {
+
+}
+
+ShModifyStretchDragSelectAction::~ShModifyStretchDragSelectAction() {
+
+}
+
+void ShModifyStretchDragSelectAction::mouseLeftPressEvent(ShActionData &data) {
+
+	QLinkedList<ShEntity*> searchedList;
+	this->searchEntities(ShPoint3d(this->firstX, this->firstY), ShPoint3d(this->secondX, this->secondY), searchedList);
+
+	int searchedCount = searchedList.count();
+
+	if (this->mode == Mode::SelectMode) {
+
+		this->addStretchData(searchedList);
+
+		int duplicateCount = this->getAlreadySelectedCount(searchedList);
+
+		this->widget->getSelectedEntities()->add(searchedList);
+		int totalCount = this->widget->getSelectedEntities()->getSize();
+
+		if (duplicateCount == 0)
+			shCommandLogManager->appendListEditTextWith(QString::number(searchedCount) + " found, " +
+				QString::number(totalCount) + " total");
+		else
+			shCommandLogManager->appendListEditTextWith(QString::number(searchedCount) + " found (" +
+				QString::number(duplicateCount) + " duplicate), " + QString::number(totalCount) + " total");
+
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawSelectedEntities));
+		this->widget->captureImage();
+
+	}
+	else if (this->mode == Mode::UnSelectMode) {
+
+		this->removeStretchData(searchedList);
+
+		int removedCount = this->getAlreadySelectedCount(searchedList);
+
+		this->widget->getSelectedEntities()->remove(searchedList);
+		int totalCount = this->widget->getSelectedEntities()->getSize();
+
+		if (removedCount == 0)
+			shCommandLogManager->appendListEditTextWith(QString::number(searchedCount) + " found, " +
+				QString::number(totalCount) + " total");
+		else
+			shCommandLogManager->appendListEditTextWith(QString::number(searchedCount) + " found, " +
+				QString::number(removedCount) + " removed, " + QString::number(totalCount) + " total");
+
+
+		this->widget->update(DrawType::DrawAll);
+		this->widget->captureImage();
+	}
+
+	this->returnToPrevious();
+}
+
+void ShModifyStretchDragSelectAction::addStretchData(const QLinkedList<ShEntity*> &searchedEntities) {
+
+	QLinkedList<ShEntity*> unSelectedEntities;
+
+	auto itr = const_cast<QLinkedList<ShEntity*>&>(searchedEntities).begin();
+
+	for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(searchedEntities).end(); ++itr) {
+	
+		if ((*itr)->isSelected() == false)
+			unSelectedEntities.append(*itr);
+	}
+
+	ShPoint3d topLeft, bottomRight;
+	SelectMethod selectMethod;
+	this->getDragRectPoint(ShPoint3d(this->firstX, this->firstY), ShPoint3d(this->secondX, this->secondY),
+		topLeft, bottomRight, selectMethod);
+
+
+
+	if (selectMethod == SelectMethod::AllPart) {
+	
+		ShStretchData *stretchData;
+		ShStretchDataForMoveCreator visitor(&stretchData);
+
+		itr = unSelectedEntities.begin();
+
+		for (itr; itr != unSelectedEntities.end(); ++itr) {
+		
+			(*itr)->accept(&visitor);
+			this->possibleStretchEntities.append(*itr);
+			this->stretchDatas.append(stretchData);
+		}
+	}
+	else {
+	
+		ShStretchData *stretchData;
+		ShStretchPointRectFinder visitor(topLeft, bottomRight, &stretchData);
+
+		itr = unSelectedEntities.begin();
+
+		for (itr; itr != unSelectedEntities.end(); ++itr) {
+		
+			(*itr)->accept(&visitor);
+			this->possibleStretchEntities.append(*itr);
+			this->stretchDatas.append(stretchData);
+		}
+	}
+
+}
+
+void ShModifyStretchDragSelectAction::removeStretchData(const QLinkedList<ShEntity*> &searchedEntities) {
+
+	QLinkedList<ShEntity*> selectedEntities;
+
+	auto itr = const_cast<QLinkedList<ShEntity*>&>(searchedEntities).begin();
+
+	for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(searchedEntities).end(); ++itr) {
+
+		if ((*itr)->isSelected() == true)
+			selectedEntities.append(*itr);
+	}
+
+	itr = selectedEntities.begin();
+
+	for (itr; itr != selectedEntities.end(); ++itr) {
+	
+		auto possibleStretchItr = this->possibleStretchEntities.begin();
+		auto dataItr = this->stretchDatas.begin();
+		
+		for (possibleStretchItr; possibleStretchItr != this->possibleStretchEntities.end(); ++possibleStretchItr) {
+		
+			if (*possibleStretchItr == *itr) {
+			
+				this->possibleStretchEntities.removeOne(*possibleStretchItr);
+				ShStretchData *stretchData = *dataItr;
+				this->stretchDatas.removeOne(*dataItr);
+				delete stretchData;
+				break;
+			}
+			++dataItr;
+		}
+	}
+}

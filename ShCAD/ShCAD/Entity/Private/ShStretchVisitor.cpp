@@ -289,3 +289,96 @@ void ShPossibleEntityToStretchFinder::visit(ShArc *arc) {
 		this->possible = true;
 	}
 }
+
+
+////////////////////////////////////////////////////////////////
+
+
+ShStretchDataForMoveCreator::ShStretchDataForMoveCreator(ShStretchData* *stretchData)
+	:stretchData(stretchData) {
+
+}
+
+ShStretchDataForMoveCreator::~ShStretchDataForMoveCreator() {
+
+}
+
+void ShStretchDataForMoveCreator::visit(ShLine *line) {
+
+	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+}
+
+void ShStretchDataForMoveCreator::visit(ShCircle *circle) {
+
+	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+}
+
+void ShStretchDataForMoveCreator::visit(ShArc *arc) {
+
+	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+}
+
+
+///////////////////////////////////////////////////////////////////
+
+
+ShStretchPointRectFinder::ShStretchPointRectFinder(const ShPoint3d &topLeft, const ShPoint3d &bottomRight, ShStretchData* *stretchData)
+	:topLeft(topLeft), bottomRight(bottomRight), stretchData(stretchData) {
+
+}
+
+ShStretchPointRectFinder::~ShStretchPointRectFinder() {
+
+}
+
+void ShStretchPointRectFinder::visit(ShLine *line) {
+
+	int insideCount = 0;
+	StretchPoint stretchPoint = StretchPoint::StretchNothing;
+
+	if (math::checkPointLiesInsideRect(line->getStart(), this->topLeft, this->bottomRight, 0) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchStart;
+	}
+
+	if (math::checkPointLiesInsideRect(line->getEnd(), this->topLeft, this->bottomRight, 0) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchEnd;
+	}
+
+	if (insideCount == 2)
+		stretchPoint = StretchPoint::StretchMove;
+
+	*this->stretchData = new ShStretchLeafData(stretchPoint);
+}
+
+void ShStretchPointRectFinder::visit(ShCircle *circle) {
+
+	StretchPoint stretchPoint = StretchPoint::StretchNothing;
+
+	if (math::checkPointLiesInsideRect(circle->getCenter(), this->topLeft, this->bottomRight, 0) == true)
+		stretchPoint = StretchPoint::StretchMove;
+
+	*this->stretchData = new ShStretchLeafData(stretchPoint);
+}
+
+void ShStretchPointRectFinder::visit(ShArc *arc) {
+
+	int insideCount = 0;
+	StretchPoint stretchPoint = StretchPoint::StretchNothing;
+
+	if (math::checkPointLiesInsideRect(arc->getStart(), this->topLeft, this->bottomRight, 0) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchStart;
+	}
+
+	if (math::checkPointLiesInsideRect(arc->getEnd(), this->topLeft, this->bottomRight, 0) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchEnd;
+	}
+
+	if (insideCount == 2)
+		stretchPoint = StretchPoint::StretchMove;
+
+	*this->stretchData = new ShStretchLeafData(stretchPoint);
+}

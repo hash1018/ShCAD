@@ -11,6 +11,7 @@
 #include "ActionHandler\ModifyAction\ShModifyEraseAction.h"
 #include "ActionHandler\ModifyAction\ShModifyExtendAction.h"
 #include "ActionHandler\ModifyAction\ShModifyTrimAction.h"
+#include "ActionHandler\ModifyAction\ShModifyStretchAction.h"
 
 ShActionHandlerFactory::ShActionHandlerFactory() {
 
@@ -74,6 +75,8 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 		return new ShModifyExtendAction(widget);
 	else if (actionType == ActionType::ActionModifyTrim)
 		return new ShModifyTrimAction(widget);
+	else if (actionType == ActionType::ActionModifyStretch)
+		return new ShModifyStretchAction(widget);
 
 	return new ShDefaultAction(widget);
 }

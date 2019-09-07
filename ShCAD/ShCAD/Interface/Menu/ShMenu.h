@@ -131,6 +131,7 @@ public:
 	void eraseActionClicked();
 	void extendActionClicked();
 	void trimActionClicked();
+	void stretchActionClicked();
 };
 
 

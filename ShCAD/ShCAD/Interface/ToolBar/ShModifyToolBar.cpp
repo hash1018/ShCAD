@@ -90,7 +90,9 @@ void ShModifyToolBar::scaleActionClicked() {
 
 void ShModifyToolBar::stretchActionClicked() {
 
-
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyStretch);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShModifyToolBar::extendActionClicked() {
