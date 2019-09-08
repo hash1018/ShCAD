@@ -32,6 +32,7 @@ public:
 
 public:
 	void setParent(ShDecoratorAction *parent) { this->parent = parent; }
+	void setChild(ShDecoratorAction *child) { this->child = child; }
 
 public:
 	inline ShDecoratorAction* getParent() const { return this->parent; }

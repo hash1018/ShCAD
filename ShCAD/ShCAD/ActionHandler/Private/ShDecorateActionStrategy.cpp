@@ -5,6 +5,7 @@
 #include "ActionHandler\ShActionHandler.h"
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "ObjectSnap\ShObjectSnapCommandFactory.h"
+#include "ActionHandler\Private\ShDecoratorActionFactory.h"
 
 
 ShDecorateActionStrategy::ShDecorateActionStrategy() {
@@ -39,6 +40,11 @@ void ShDecorateOrthogonalActionStrategy::change() {
 		}
 
 		this->widget->getDraftData().setOrthMode(true);
+
+		ShDecoratorAction *decoratorAction = this->widget->getActionHandlerProxy()->getDecoratorAction();
+		decoratorAction = ShDecoratorActionFactory::addOrthgonal(this->widget, decoratorAction, this->widget->getDraftData());
+		this->widget->getActionHandlerProxy()->setDecoratorAction(decoratorAction);
+
 	}
 	else {
 		if (this->widget->getActionHandlerProxy()->getType() != ActionType::ActionDefault) {
@@ -48,10 +54,13 @@ void ShDecorateOrthogonalActionStrategy::change() {
 		}
 
 		this->widget->getDraftData().setOrthMode(false);
+
+		ShDecoratorAction *decoratorAction = this->widget->getActionHandlerProxy()->getDecoratorAction();
+		decoratorAction = ShDecoratorActionFactory::removeOrthgonal(this->widget, decoratorAction, this->widget->getDraftData());
+		this->widget->getActionHandlerProxy()->setDecoratorAction(decoratorAction);
 	}
 
-	this->widget->getActionHandlerProxy()->changeDecoratorAction();
-
+	
 	this->widget->getActionHandlerProxy()->invalidate();
 
 }
@@ -74,7 +83,10 @@ void ShDecorateDisposableSnapActionStrategy::change() {
 
 	if (this->objectSnap == ObjectSnap::ObjectSnapNothing) {
 		this->widget->getDraftData().setDisposableSnap(ObjectSnap::ObjectSnapNothing);
-		this->widget->getActionHandlerProxy()->changeDecoratorAction();
+
+		ShDecoratorAction *decoratorAction = this->widget->getActionHandlerProxy()->getDecoratorAction();
+		decoratorAction = ShDecoratorActionFactory::removeDisposableSnap(this->widget, decoratorAction, this->widget->getDraftData());
+		this->widget->getActionHandlerProxy()->setDecoratorAction(decoratorAction);
 		return;
 	}
 
@@ -96,13 +108,20 @@ void ShDecorateDisposableSnapActionStrategy::change() {
 		shCommandLogManager->appendListEditTextWith(str);
 		shCommandLogManager->appendList(shGetLanValue_command("Command/Invalid point") + ".");
 		shCommandLogManager->replaceHeadTitle(this->widget->getActionHandlerProxy()->getCurrentAction()->getHeadTitle());
+
+		ShDecoratorAction *decoratorAction = this->widget->getActionHandlerProxy()->getDecoratorAction();
+		decoratorAction = ShDecoratorActionFactory::removeDisposableSnap(this->widget, decoratorAction, this->widget->getDraftData());
+		this->widget->getActionHandlerProxy()->setDecoratorAction(decoratorAction);
+
 	}
 	else {
 
 		this->widget->getDraftData().setDisposableSnap(objectSnap);
 
 		shCommandLogManager->appendHeadTitle(str);
-	}
 
-	this->widget->getActionHandlerProxy()->changeDecoratorAction();
+		ShDecoratorAction *decoratorAction = this->widget->getActionHandlerProxy()->getDecoratorAction();
+		decoratorAction = ShDecoratorActionFactory::addDisposableSnap(this->widget, decoratorAction, this->widget->getDraftData());
+		this->widget->getActionHandlerProxy()->setDecoratorAction(decoratorAction);
+	}
 }

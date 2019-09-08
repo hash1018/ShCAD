@@ -95,6 +95,13 @@ void ShActionHandlerProxy::setCurrentAction(ShActionHandler *actionHandler) {
 	this->decoratorAction->setActionHandler(actionHandler);
 }
 
+void ShActionHandlerProxy::setDecoratorAction(ShDecoratorAction *decoratorAction) {
+
+	this->decoratorAction = decoratorAction;
+
+	this->decoratorAction->setActionHandler(this->currentAction);
+}
+
 QCursor ShActionHandlerProxy::getCursorShape() {
 
 	return this->currentAction->getCursorShape();
@@ -115,6 +122,7 @@ void ShActionHandlerProxy::draw(QPainter *painter) {
 	this->decoratorAction->draw(painter);
 }
 
+/*
 void ShActionHandlerProxy::changeDecoratorAction() {
 
 	if (this->decoratorAction != nullptr)
@@ -122,6 +130,7 @@ void ShActionHandlerProxy::changeDecoratorAction() {
 
 	this->decoratorAction = ShDecoratorActionFactory::create(this->widget, this->currentAction, this->widget->getDraftData());
 }
+*/
 
 void ShActionHandlerProxy::invalidate() {
 	

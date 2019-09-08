@@ -33,6 +33,7 @@ public:
 	void keyPressEvent(QKeyEvent *event);
 
 	void setCurrentAction(ShActionHandler *actionHandler);
+	void setDecoratorAction(ShDecoratorAction *decoratorAction);
 
 	void invalidate();
 
@@ -43,8 +44,9 @@ public:
 	void draw(QPainter *painter);
 
 	inline ShActionHandler* getCurrentAction() const { return this->currentAction; }
+	inline ShDecoratorAction* getDecoratorAction() const { return this->decoratorAction; }
 
-	void changeDecoratorAction();
+	//void changeDecoratorAction();
 };
 
 
