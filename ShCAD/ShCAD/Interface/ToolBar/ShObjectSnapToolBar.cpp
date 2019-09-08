@@ -85,6 +85,9 @@ void ShObjectSnapToolBar::intersectionPointClicked() {
 
 void ShObjectSnapToolBar::apparentIntersectionPointClicked() {
 
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapAppraentIntersection);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShObjectSnapToolBar::extensionPointClicked() {

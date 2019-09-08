@@ -32,7 +32,7 @@ void ShActionHandlerProxy::mouseLeftPressEvent(QMouseEvent *event) {
 	data.point = this->widget->getMousePoint();
 	data.mouseEvent = event;
 	this->decoratorAction->mouseLeftPressEvent(data);
-	this->decoratorAction->invalidate(this->widget->getMousePoint());
+	this->invalidate();
 }
 
 void ShActionHandlerProxy::mouseMidPressEvent(QMouseEvent *event) {
@@ -84,7 +84,7 @@ void ShActionHandlerProxy::keyPressEvent(QKeyEvent *event) {
 	ShDecoratorActionData data;
 	data.keyEvent = event;
 	this->decoratorAction->keyPressEvent(data);
-	this->decoratorAction->invalidate(this->widget->getMousePoint());
+	this->invalidate();
 }
 
 void ShActionHandlerProxy::setCurrentAction(ShActionHandler *actionHandler) {

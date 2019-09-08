@@ -108,7 +108,7 @@ public:
 		PickedBaseEntity,
 	};
 
-private:
+protected:
 	ShEntity *firstBaseEntity;
 	bool foundOnlyOne;
 	Status status;
@@ -126,6 +126,18 @@ public:
 protected:
 	virtual bool search(const ShPoint3d &point);
 	virtual void sendFailMessage();
+};
+
+//////////////////////////////////////////////////////////////////
+
+class ShDisposableSnapAction_ApparentIntersection : public ShDisposableSnapAction__Intersection {
+
+public:
+	ShDisposableSnapAction_ApparentIntersection(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
+	~ShDisposableSnapAction_ApparentIntersection();
+
+	virtual void draw(QPainter *painter);
+
 };
 
 //////////////////////////////////////////////////////////////////

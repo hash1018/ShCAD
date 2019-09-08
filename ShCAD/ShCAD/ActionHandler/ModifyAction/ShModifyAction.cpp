@@ -7,6 +7,7 @@
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include <qpainter.h>
+#include "Base\ShCursorShape.h"
 
 
 ShModifyAction::ShModifyAction(ShCADWidget *widget)
@@ -31,19 +32,14 @@ QCursor ShModifyAction::getCursorShape() {
 
 	if (this->status == Status::SelectingEntities ||
 		this->status == Status::SelectingEntityToModify) {
-		QPixmap pix(32, 32);
-		pix.fill(Qt::transparent); // Otherwise you get a black background :(
-		QPainter painter(&pix);
-		painter.setPen(QColor(255, 255, 255));
-		painter.drawRect(13, 13, 6, 6);
-
-		cursor = QCursor(pix);
+		
+		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Selecting);
 	}
 
 	else if (this->status == Status::PickingBasePoint ||
 		this->status == Status::PickingSecondPoint) {
 
-		cursor = QCursor(Qt::CursorShape::CrossCursor);
+		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Drawing);
 	}
 	
 

@@ -5,6 +5,7 @@
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Manager\ShCommandLogManager.h"
 #include "Command\ShAvailableCommands.h"
+#include "Base\ShCursorShape.h"
 
 ShActionHandler::ShActionHandler(ShCADWidget *widget)
 	:widget(widget), keyHandler(nullptr), availableCommands(nullptr) {
@@ -58,17 +59,7 @@ ActionType ShActionHandler::getTypeIgnoringTemp() {
 
 QCursor ShActionHandler::getCursorShape() {
 
-	QPixmap pix(48, 48);
-	pix.fill(Qt::transparent);
-	QPainter painter(&pix);
-	painter.setPen(QColor(255, 255, 255));
-
-	painter.drawLine(24, 0, 24, 48);
-	painter.drawLine(0, 24, 48, 24);
-
-	painter.drawRect(21, 21, 6, 6);
-
-	return QCursor(pix);
+	return ShCursorShape::getCursor(ShCursorShape::CursorType::Default);
 }
 
 //*Template method pattern.

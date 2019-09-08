@@ -35,7 +35,7 @@ ShDecoratorAction* ShDecoratorActionFactory::create(ShCADWidget *widget, ShActio
 		decoratorAction = new ShDisposableSnapAction_Center(widget, actionHandler, decoratorAction);
 	else if (draftData.getDisposableSnap() == ObjectSnap::ObjectSnapQuadrant)
 		decoratorAction = new ShDisposableSnapAction_Quadrant(widget, actionHandler, decoratorAction);
-	
+
 	else if (draftData.getDisposableSnap() == ObjectSnap::ObjectSnapPerpendicular) {
 
 		if (dynamic_cast<ShDrawLineAction*>(actionHandler)) {
@@ -49,6 +49,8 @@ ShDecoratorAction* ShDecoratorActionFactory::create(ShCADWidget *widget, ShActio
 	}
 	else if (draftData.getDisposableSnap() == ObjectSnap::ObjectSnapIntersection)
 		decoratorAction = new ShDisposableSnapAction__Intersection(widget, actionHandler, decoratorAction);
+	else if (draftData.getDisposableSnap() == ObjectSnap::ObjectSnapAppraentIntersection)
+		decoratorAction = new ShDisposableSnapAction_ApparentIntersection(widget, actionHandler, decoratorAction);
 
 
 	return decoratorAction;

@@ -2,6 +2,7 @@
 #include "ShDrawAction.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
+#include "Base\ShCursorShape.h"
 
 ShDrawAction::ShDrawAction(ShCADWidget *widget)
 	:ShActionHandler(widget), addTransaction(nullptr) {
@@ -14,7 +15,7 @@ ShDrawAction::~ShDrawAction() {
 
 QCursor ShDrawAction::getCursorShape() {
 
-	return QCursor(Qt::CursorShape::CrossCursor);
+	return ShCursorShape::getCursor(ShCursorShape::CursorType::Drawing);
 }
 
 void ShDrawAction::addEntity(ShEntity *newEntity, const QString &type) {

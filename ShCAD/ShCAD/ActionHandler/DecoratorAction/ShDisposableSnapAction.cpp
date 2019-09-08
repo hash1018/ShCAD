@@ -25,6 +25,7 @@ void ShDisposableSnapAction::keyPressEvent(ShActionData &data) {
 	
 	if (data.keyEvent->key() == Qt::Key::Key_Return ||
 		data.keyEvent->key() == Qt::Key_Enter) {
+		this->widget->update(DrawType::DrawCaptureImage); //Erase drawn snap.
 		this->sendFailMessage();
 		this->finishDisposableSnap();
 		return;
@@ -585,7 +586,7 @@ bool ShDisposableSnapAction__Intersection::search(const ShPoint3d &point) {
 	this->foundOnlyOne = false;
 
 	QLinkedList<ShEntity*> foundEntities;
-	ShSearchEntityDuplicateStrategy strategy(foundEntities, 10, point.x, point.y, this->widget->getZoomRate());
+	ShSearchEntityDuplicateStrategy strategy(foundEntities, 2, point.x, point.y, this->widget->getZoomRate());
 	this->widget->getEntityTable().search(strategy);
 
 	if (foundEntities.count() == 0)
@@ -603,7 +604,10 @@ bool ShDisposableSnapAction__Intersection::search(const ShPoint3d &point) {
 		}
 		else if (foundEntities.count() >= 2) {
 
-
+			auto itr = foundEntities.begin();
+			ShClosestIntersectionPointFinder visitor(point, *itr, this->snap, this->valid);
+			++itr;
+			(*itr)->accept(&visitor);
 		}
 	}
 	else if (this->status == PickedBaseEntity) {
@@ -616,6 +620,10 @@ bool ShDisposableSnapAction__Intersection::search(const ShPoint3d &point) {
 		}
 		else if (foundEntities.count() >= 2) {
 		
+			auto itr = foundEntities.begin();
+			ShClosestIntersectionPointFinder visitor(point, *itr, this->snap, this->valid);
+			++itr;
+			(*itr)->accept(&visitor);
 		}
 	}
 	
@@ -628,6 +636,52 @@ void ShDisposableSnapAction__Intersection::sendFailMessage() {
 	shCommandLogManager->appendList(shGetLanValue_command("Command/No Intersection found for specified point"));
 	shCommandLogManager->appendList(shGetLanValue_command("Command/No snap point found"));
 	this->actionHandler->updateCommandEditHeadTitle();
+}
+
+
+////////////////////////////////////////////////////////////////////////
+
+ShDisposableSnapAction_ApparentIntersection::ShDisposableSnapAction_ApparentIntersection(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child)
+	:ShDisposableSnapAction__Intersection(widget, actionHandler, child) {
+
+}
+
+ShDisposableSnapAction_ApparentIntersection::~ShDisposableSnapAction_ApparentIntersection() {
+
+}
+
+void ShDisposableSnapAction_ApparentIntersection::draw(QPainter *painter) {
+
+	if (this->valid == true) {
+
+		if (painter->isActive() == false)
+			painter->begin(this->widget);
+
+		int dx, dy;
+		this->widget->convertEntityToDevice(this->snap.x, this->snap.y, dx, dy);
+
+		QPen oldPen = painter->pen();
+		QPen pen;
+		pen.setWidth(2);
+		pen.setColor(QColor(000, 204, 000));
+		painter->setPen(pen);
+
+		painter->drawLine(dx - 4, dy - 4, dx + 4, dy + 4);
+		painter->drawLine(dx + 4, dy - 4, dx - 4, dy + 4);
+
+		if (this->foundOnlyOne == true && this->status == PickedNothing) {
+
+			painter->drawRect(dx - 4, dy - 4, 8, 8);
+
+			painter->drawLine(dx + 4, dy + 4, dx + 6, dy + 4);
+			painter->drawLine(dx + 10, dy + 4, dx + 14, dy + 4);
+			painter->drawLine(dx + 18, dy + 4, dx + 22, dy + 4);
+		}
+
+		painter->setPen(oldPen);
+	}
+
+	ShDecoratorAction::draw(painter);
 }
 
 

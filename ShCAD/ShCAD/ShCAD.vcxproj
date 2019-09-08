@@ -167,6 +167,7 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShPanAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryAction.cpp" />
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryStretchAction.cpp" />
+    <ClCompile Include="Base\ShCursorShape.cpp" />
     <ClCompile Include="Base\ShDraftSetting.cpp" />
     <ClCompile Include="Base\ShGlobal.cpp" />
     <ClCompile Include="Base\ShLayer.cpp" />
@@ -448,6 +449,7 @@
     <ClInclude Include="ActionHandler\TemporaryAction\ShPanAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryAction.h" />
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryStretchAction.h" />
+    <ClInclude Include="Base\ShCursorShape.h" />
     <ClInclude Include="Base\ShDraftSetting.h" />
     <ClInclude Include="Base\ShGlobal.h" />
     <ClInclude Include="Base\ShLayer.h" />

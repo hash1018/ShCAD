@@ -6,6 +6,7 @@
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Entity\Private\ShFinder.h"
 #include "Entity\Private\ShStretchVisitor.h"
+#include "Base\ShCursorShape.h"
 
 
 
@@ -69,7 +70,7 @@ ActionType ShDragSelectAction::getType() {
 
 QCursor ShDragSelectAction::getCursorShape() {
 
-	return QCursor(Qt::CursorShape::DragCopyCursor);
+	return ShCursorShape::getCursor(ShCursorShape::CursorType::Nothing);
 }
 
 QString ShDragSelectAction::getHeadTitle() {

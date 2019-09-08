@@ -592,6 +592,9 @@
     <ClCompile Include="Entity\Private\ShClosestIntersectionPointFinder.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Base\ShCursorShape.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1009,6 +1012,9 @@
     </ClInclude>
     <ClInclude Include="Entity\Private\ShClosestIntersectionPointFinder.h">
       <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShCursorShape.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

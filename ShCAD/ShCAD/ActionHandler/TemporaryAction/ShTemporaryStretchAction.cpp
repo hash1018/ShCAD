@@ -7,6 +7,7 @@
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
+#include "Base\ShCursorShape.h"
 
 
 ShTemporaryStretchAction::ShTemporaryStretchAction(ShCADWidget *widget, const ShPoint3d &vertexPoint, const QLinkedList<ShEntity*> &possibleStretchEntities,
@@ -55,7 +56,7 @@ ActionType ShTemporaryStretchAction::getType() {
 
 QCursor ShTemporaryStretchAction::getCursorShape() {
 
-	return QCursor(Qt::CursorShape::CrossCursor);
+	return ShCursorShape::getCursor(ShCursorShape::CursorType::Drawing);
 }
 
 void ShTemporaryStretchAction::draw(QPainter *painter) {
