@@ -21,6 +21,7 @@ ShDrawArcAction::ShDrawArcAction(ShCADWidget *widget, SubAction subAction)
 		addAvailableCommand(CommandType::Empty_Cancel).
 		addAvailableCommand(CommandType::RelativeCoordinate).
 		addAvailableCommand(CommandType::PolarCoordinate).
+		addAvailableCommand(CommandType::DistanceFromBase).
 		build();
 
 	this->changeSubAction(subAction);
@@ -61,11 +62,6 @@ ShAvailableDraft ShDrawArcAction::getAvailableDraft() {
 void ShDrawArcAction::invalidate(ShPoint3d &point) {
 
 	this->subDrawArcAction->invalidate(point);
-}
-
-ShPoint3d ShDrawArcAction::getLastBasePoint() {
-
-	return this->subDrawArcAction->getLastBasePoint();
 }
 
 
@@ -153,6 +149,11 @@ void ShSubDrawArcAction::triggerFailed(ShActionTriggerFailureReason reason) {
 	this->drawArcAction->triggerFailed(reason);
 }
 
+void ShSubDrawArcAction::setLastBasePoint(const ShPoint3d &point) {
+
+	this->drawArcAction->setLastBasePoint(point);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -233,21 +234,6 @@ void ShSubDrawArcAction_ThreePoint::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_ThreePoint::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawArcAction::Status::PickedFirstPoint) {
-
-		lastBasePoint = this->first;
-	}
-	else if (this->getStatus() == ShDrawArcAction::Status::PickedSecondPoint) {
-
-		lastBasePoint = this->second;
-	}
-
-	return lastBasePoint;
-}
 
 void ShSubDrawArcAction_ThreePoint::trigger(const ShPoint3d &point) {
 
@@ -257,6 +243,8 @@ void ShSubDrawArcAction_ThreePoint::trigger(const ShPoint3d &point) {
 
 		this->first = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedFirstPoint) {
@@ -271,6 +259,7 @@ void ShSubDrawArcAction_ThreePoint::trigger(const ShPoint3d &point) {
 
 		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -287,6 +276,8 @@ void ShSubDrawArcAction_ThreePoint::trigger(const ShPoint3d &point) {
 		prevArc->setData(data);
 
 		this->addEntity(prevArc->clone(), "Arc");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -400,22 +391,6 @@ void ShSubDrawArcAction_StartCenterEnd::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartCenterEnd::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
-
-		lastBasePoint = this->start;
-	}
-	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
-
-		lastBasePoint = this->center;
-	}
-
-	return lastBasePoint;
-}
-
 void ShSubDrawArcAction_StartCenterEnd::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
@@ -423,6 +398,8 @@ void ShSubDrawArcAction_StartCenterEnd::trigger(const ShPoint3d &point) {
 		this->getStatus() = ShDrawArcAction::Status::PickedStart;
 		this->start = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedStart) {
@@ -448,6 +425,7 @@ void ShSubDrawArcAction_StartCenterEnd::trigger(const ShPoint3d &point) {
 
 		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -467,6 +445,8 @@ void ShSubDrawArcAction_StartCenterEnd::trigger(const ShPoint3d &point) {
 		prevArc->setEndAngle(endAngle);
 
 		this->addEntity(prevArc->clone(), "Arc");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -554,22 +534,6 @@ void ShSubDrawArcAction_StartCenterAngle::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartCenterAngle::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
-
-		lastBasePoint = this->start;
-	}
-	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
-
-		lastBasePoint = this->center;
-	}
-
-	return lastBasePoint;
-}
-
 void ShSubDrawArcAction_StartCenterAngle::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
@@ -577,6 +541,8 @@ void ShSubDrawArcAction_StartCenterAngle::trigger(const ShPoint3d &point) {
 		this->getStatus() = ShDrawArcAction::Status::PickedStart;
 		this->start = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedStart) {
@@ -602,6 +568,7 @@ void ShSubDrawArcAction_StartCenterAngle::trigger(const ShPoint3d &point) {
 
 		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -621,6 +588,8 @@ void ShSubDrawArcAction_StartCenterAngle::trigger(const ShPoint3d &point) {
 		prevArc->setData(data);
 
 		this->addEntity(prevArc->clone(), "Arc");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -706,22 +675,6 @@ void ShSubDrawArcAction_StartCenterLength::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartCenterLength::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
-
-		lastBasePoint = this->start;
-	}
-	else if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
-		//special case
-		lastBasePoint = this->start;
-	}
-
-	return lastBasePoint;
-}
-
 void ShSubDrawArcAction_StartCenterLength::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
@@ -729,6 +682,8 @@ void ShSubDrawArcAction_StartCenterLength::trigger(const ShPoint3d &point) {
 		this->getStatus() = ShDrawArcAction::Status::PickedStart;
 		this->start = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedStart) {
@@ -743,6 +698,7 @@ void ShSubDrawArcAction_StartCenterLength::trigger(const ShPoint3d &point) {
 
 		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(this->start);
 		this->triggerSucceeded();
 
 	}
@@ -761,6 +717,8 @@ void ShSubDrawArcAction_StartCenterLength::trigger(const ShPoint3d &point) {
 		prevArc->setData(data);
 
 		this->addEntity(prevArc->clone(), "Arc");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -868,22 +826,6 @@ void ShSubDrawArcAction_StartEndAngle::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartEndAngle::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
-
-		lastBasePoint = this->start;
-	}
-	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
-		//special case
-		lastBasePoint = this->start;
-	}
-
-	return lastBasePoint;
-}
-
 void ShSubDrawArcAction_StartEndAngle::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
@@ -891,6 +833,8 @@ void ShSubDrawArcAction_StartEndAngle::trigger(const ShPoint3d &point) {
 		this->getStatus() = ShDrawArcAction::Status::PickedStart;
 		this->start = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedStart) {
@@ -912,6 +856,7 @@ void ShSubDrawArcAction_StartEndAngle::trigger(const ShPoint3d &point) {
 		this->getArcDataWithStartEndAnother(this->start, this->end, point, data);
 		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(this->start);
 		this->triggerSucceeded();
 
 	}
@@ -924,6 +869,8 @@ void ShSubDrawArcAction_StartEndAngle::trigger(const ShPoint3d &point) {
 		prevArc->setData(data);
 
 		this->addEntity(prevArc->clone(), "Arc");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -1031,22 +978,6 @@ void ShSubDrawArcAction_StartEndDirection::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartEndDirection::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
-
-		lastBasePoint = this->start;
-	}
-	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
-		//special case
-		lastBasePoint = this->start;
-	}
-
-	return lastBasePoint;
-}
-
 void ShSubDrawArcAction_StartEndDirection::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawArcAction::Status::PickedNothing) {
@@ -1054,6 +985,8 @@ void ShSubDrawArcAction_StartEndDirection::trigger(const ShPoint3d &point) {
 		this->getStatus() = ShDrawArcAction::Status::PickedStart;
 		this->start = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedStart) {
@@ -1076,6 +1009,7 @@ void ShSubDrawArcAction_StartEndDirection::trigger(const ShPoint3d &point) {
 		
 		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(this->start);
 		this->triggerSucceeded();
 
 	}
@@ -1088,6 +1022,8 @@ void ShSubDrawArcAction_StartEndDirection::trigger(const ShPoint3d &point) {
 		prevArc->setData(data);
 
 		this->addEntity(prevArc->clone(), "Arc");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -1211,21 +1147,6 @@ void ShSubDrawArcAction_StartEndRadius::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_StartEndRadius::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
-
-		lastBasePoint = this->start;
-	}
-	else if (this->getStatus() == ShDrawArcAction::Status::PickedEnd) {
-
-		lastBasePoint = this->end;
-	}
-
-	return lastBasePoint;
-}
 
 void ShSubDrawArcAction_StartEndRadius::trigger(const ShPoint3d &point) {
 
@@ -1234,6 +1155,8 @@ void ShSubDrawArcAction_StartEndRadius::trigger(const ShPoint3d &point) {
 		this->getStatus() = ShDrawArcAction::Status::PickedStart;
 		this->start = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedStart) {
@@ -1256,6 +1179,7 @@ void ShSubDrawArcAction_StartEndRadius::trigger(const ShPoint3d &point) {
 
 		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -1268,6 +1192,8 @@ void ShSubDrawArcAction_StartEndRadius::trigger(const ShPoint3d &point) {
 		prevArc->setData(data);
 
 		this->addEntity(prevArc->clone(), "Arc");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -1383,21 +1309,6 @@ void ShSubDrawArcAction_CenterStartEnd::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_CenterStartEnd::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
-
-		lastBasePoint = this->center;
-	}
-	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
-
-		lastBasePoint = this->center;
-	}
-
-	return lastBasePoint;
-}
 
 void ShSubDrawArcAction_CenterStartEnd::trigger(const ShPoint3d &point) {
 
@@ -1406,6 +1317,8 @@ void ShSubDrawArcAction_CenterStartEnd::trigger(const ShPoint3d &point) {
 		this->getStatus() = ShDrawArcAction::Status::PickedCenter;
 		this->center = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedCenter) {
@@ -1430,6 +1343,7 @@ void ShSubDrawArcAction_CenterStartEnd::trigger(const ShPoint3d &point) {
 
 		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(this->center);
 		this->triggerSucceeded();
 
 	}
@@ -1448,6 +1362,8 @@ void ShSubDrawArcAction_CenterStartEnd::trigger(const ShPoint3d &point) {
 		prevArc->setEndAngle(endAngle);
 
 		this->addEntity(prevArc->clone(), "Arc");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -1536,21 +1452,6 @@ void ShSubDrawArcAction_CenterStartAngle::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_CenterStartAngle::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
-
-		lastBasePoint = this->center;
-	}
-	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
-
-		lastBasePoint = this->center;
-	}
-
-	return lastBasePoint;
-}
 
 void ShSubDrawArcAction_CenterStartAngle::trigger(const ShPoint3d &point) {
 
@@ -1559,6 +1460,8 @@ void ShSubDrawArcAction_CenterStartAngle::trigger(const ShPoint3d &point) {
 		this->getStatus() = ShDrawArcAction::Status::PickedCenter;
 		this->center = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedCenter) {
@@ -1583,6 +1486,7 @@ void ShSubDrawArcAction_CenterStartAngle::trigger(const ShPoint3d &point) {
 
 		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(this->center);
 		this->triggerSucceeded();
 
 	}
@@ -1603,6 +1507,8 @@ void ShSubDrawArcAction_CenterStartAngle::trigger(const ShPoint3d &point) {
 		prevArc->setData(data);
 
 		this->addEntity(prevArc->clone(), "Arc");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -1690,21 +1596,6 @@ void ShSubDrawArcAction_CenterStartLength::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawArcAction_CenterStartLength::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawArcAction::Status::PickedCenter) {
-
-		lastBasePoint = this->center;
-	}
-	else if (this->getStatus() == ShDrawArcAction::Status::PickedStart) {
-
-		lastBasePoint = this->start;
-	}
-
-	return lastBasePoint;
-}
 
 void ShSubDrawArcAction_CenterStartLength::trigger(const ShPoint3d &point) {
 
@@ -1713,6 +1604,8 @@ void ShSubDrawArcAction_CenterStartLength::trigger(const ShPoint3d &point) {
 		this->getStatus() = ShDrawArcAction::Status::PickedCenter;
 		this->center = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawArcAction::PickedCenter) {
@@ -1735,6 +1628,7 @@ void ShSubDrawArcAction_CenterStartLength::trigger(const ShPoint3d &point) {
 
 		this->widget->getPreview().add(new ShArc(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -1752,6 +1646,8 @@ void ShSubDrawArcAction_CenterStartLength::trigger(const ShPoint3d &point) {
 		prevArc->setData(data);
 
 		this->addEntity(prevArc->clone(), "Arc");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }

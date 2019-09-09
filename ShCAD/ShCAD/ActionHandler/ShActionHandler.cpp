@@ -6,6 +6,7 @@
 #include "Manager\ShCommandLogManager.h"
 #include "Command\ShAvailableCommands.h"
 #include "Base\ShCursorShape.h"
+#include "Base\ShLastBasePoint.h"
 
 ShActionHandler::ShActionHandler(ShCADWidget *widget)
 	:widget(widget), keyHandler(nullptr), availableCommands(nullptr) {
@@ -77,11 +78,6 @@ void ShActionHandler::invalidate(ShPoint3d &point) {
 
 }
 
-void ShActionHandler::temporaryActionFinished() {
-
-
-}
-
 void ShActionHandler::interpret(const QString &command) {
 
 	if (this->availableCommands != nullptr)
@@ -90,12 +86,19 @@ void ShActionHandler::interpret(const QString &command) {
 
 ShPoint3d ShActionHandler::getLastBasePoint() {
 
-	return ShPoint3d();
+	return shLastBasePoint->getPoint();
 }
 
 ShPoint3d ShActionHandler::getCurrentAboutToPickPoint() {
 
-	return this->widget->getMousePoint();
+	ShPoint3d point;
+
+	if (this->widget->getRubberBand().isExist() == true)
+		point = this->widget->getRubberBand().getEnd();
+	else
+		point = this->widget->getMousePoint();
+
+	return point;
 }
 
 void ShActionHandler::triggerSucceeded() {
@@ -146,4 +149,9 @@ void ShActionHandler::actionFinished() {
 
 	ShChangeDefaultAfterFinishingCurrentStrategy strategy;
 	this->widget->changeAction(strategy);
+}
+
+void ShActionHandler::setLastBasePoint(const ShPoint3d &point) {
+
+	shLastBasePoint->setPoint(point);
 }

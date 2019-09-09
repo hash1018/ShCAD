@@ -34,9 +34,6 @@ public:
 	virtual void invalidate(ShPoint3d &point);
 	virtual ShAvailableDraft getAvailableDraft();
 
-	virtual ShPoint3d getLastBasePoint();
-	virtual ShPoint3d getCurrentAboutToPickPoint();
-
 protected:
 	virtual void trigger(const ShPoint3d &point);
 

@@ -59,11 +59,8 @@ public:
 
 	virtual void invalidate(ShPoint3d &point);
 
-	//*this called when temporaryAction Finished.
-	virtual void temporaryActionFinished();
-
-	virtual ShPoint3d getLastBasePoint();
-	virtual ShPoint3d getCurrentAboutToPickPoint();
+	ShPoint3d getLastBasePoint();
+	ShPoint3d getCurrentAboutToPickPoint();
 
 public:
 	//*when enter key pressed, interpret current command text then do specific action.
@@ -75,6 +72,7 @@ protected:
 	virtual void trigger(const ShPoint3d &point);
 	virtual void actionCanceled();
 	virtual void actionFinished();
+	void setLastBasePoint(const ShPoint3d &point);
 
 };
 

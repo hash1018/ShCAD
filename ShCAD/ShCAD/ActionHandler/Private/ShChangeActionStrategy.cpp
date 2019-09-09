@@ -305,7 +305,7 @@ void ShReturnToPreviousFromTemporaryStrategy::change() {
 	delete this->temporaryAction;
 
 
-	previous->temporaryActionFinished();
+	//previous->temporaryActionFinished();
 
 	this->widget->getActionHandlerProxy()->setCurrentAction(previous);
 	this->widget->setCursor(previous->getCursorShape());

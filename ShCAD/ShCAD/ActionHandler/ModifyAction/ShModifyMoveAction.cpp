@@ -85,6 +85,7 @@ void ShModifyMoveAction::trigger(const ShPoint3d &point) {
 
 		this->previous = this->base;
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -106,6 +107,7 @@ void ShModifyMoveAction::trigger(const ShPoint3d &point) {
 		ShMoveEntityTransaction *transaction = new ShMoveEntityTransaction(this->widget, list, disX, disY);
 		ShGlobal::pushNewTransaction(this->widget, transaction);
 
+		this->setLastBasePoint(point);
 		this->actionFinished();
 		
 	}

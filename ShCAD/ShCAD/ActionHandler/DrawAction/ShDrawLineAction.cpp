@@ -97,35 +97,6 @@ void ShDrawLineAction::invalidate(ShPoint3d &point) {
 	this->subDrawLineAction->invalidate(point);
 }
 
-ShPoint3d ShDrawLineAction::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->status == Status::PickedNothing) {
-
-		lastBasePoint = ShActionHandler::getLastBasePoint();
-	}
-	else {
-
-		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
-		lastBasePoint = prevLine->getStart();
-	}
-
-	return lastBasePoint;
-}
-
-ShPoint3d ShDrawLineAction::getCurrentAboutToPickPoint() {
-
-	ShPoint3d aboutToPickPoint;
-
-	if (this->status == Status::PickedNothing)
-		aboutToPickPoint = ShActionHandler::getCurrentAboutToPickPoint();
-	else
-		aboutToPickPoint = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()))->getEnd();
-
-	return aboutToPickPoint;
-}
-
 void ShDrawLineAction::trigger(const ShPoint3d &point) {
 
 	this->subDrawLineAction->trigger(point);
@@ -177,6 +148,11 @@ void ShSubDrawLineAction::triggerFailed(ShActionTriggerFailureReason reason) {
 	this->drawLineAction->triggerFailed(reason);
 }
 
+void ShSubDrawLineAction::setLastBasePoint(const ShPoint3d &point) {
+
+	this->drawLineAction->setLastBasePoint(point);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -206,7 +182,9 @@ void ShSubDrawLineAction_Default::trigger(const ShPoint3d &point) {
 		this->getStatus() = ShDrawLineAction::PickedStart;
 
 		this->widget->getPreview().add(new ShLine(this->widget->getPropertyData(), ShLineData(point, point), this->widget->getCurrentLayer()));
+		this->widget->getRubberBand().create(ShLineData(point, point));
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawLineAction::PickedStart) {
@@ -230,6 +208,9 @@ void ShSubDrawLineAction_Default::trigger(const ShPoint3d &point) {
 		data = ShLineData(point, point);
 		preview->setData(data);
 
+		this->widget->getRubberBand().setData(data);
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 
@@ -241,6 +222,7 @@ void ShSubDrawLineAction_Default::invalidate(const ShPoint3d &point) {
 
 		ShLine *prevLine = dynamic_cast<ShLine*>((*this->widget->getPreview().begin()));
 		prevLine->setEnd(point);
+		this->widget->getRubberBand().setEnd(point);
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}
 }
@@ -292,6 +274,9 @@ void ShSubDrawLineAction_Perpendicular::trigger(const ShPoint3d &point) {
 		prevLine->setStart(point);
 		prevLine->setEnd(point);
 
+		this->widget->getRubberBand().setData(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 		this->drawLineAction->changeSubAction(ShDrawLineAction::SubAction::Default);
@@ -311,6 +296,8 @@ void ShSubDrawLineAction_Perpendicular::invalidate(const ShPoint3d &point) {
 
 		prevLine->setStart(perpendicular);
 		prevLine->setEnd(point);
+
+		this->widget->getRubberBand().setEnd(point);
 
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
 	}

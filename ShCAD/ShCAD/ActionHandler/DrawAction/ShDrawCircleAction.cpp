@@ -64,16 +64,6 @@ void ShDrawCircleAction::invalidate(ShPoint3d &point) {
 	this->subDrawCircleAction->invalidate(point);
 }
 
-ShPoint3d ShDrawCircleAction::getLastBasePoint() {
-
-	return this->subDrawCircleAction->getLastBasePoint();
-}
-
-ShPoint3d ShDrawCircleAction::getCurrentAboutToPickPoint() {
-
-	return this->subDrawCircleAction->getCurrentAboutToPickPoint();
-}
-
 void ShDrawCircleAction::trigger(const ShPoint3d &point) {
 
 	this->subDrawCircleAction->trigger(point);
@@ -140,6 +130,11 @@ void ShSubDrawCircleAction::actionFinished() {
 void ShSubDrawCircleAction::triggerFailed(ShActionTriggerFailureReason reason) {
 
 	this->drawCircleAction->triggerFailed(reason);
+}
+
+void ShSubDrawCircleAction::setLastBasePoint(const ShPoint3d &point) {
+
+	this->drawCircleAction->setLastBasePoint(point);
 }
 
 
@@ -217,32 +212,6 @@ void ShSubDrawCircleAction_CenterRadius::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawCircleAction_CenterRadius::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawCircleAction::Status::PickedCenter) {
-	
-		ShCircle *prevCircle = dynamic_cast<ShCircle*>((*this->widget->getPreview().begin()));
-		lastBasePoint = prevCircle->getCenter();
-		
-	}
-
-	return lastBasePoint;
-}
-
-ShPoint3d ShSubDrawCircleAction_CenterRadius::getCurrentAboutToPickPoint() {
-
-	ShPoint3d currentAboutToPickPoint;
-
-	if (this->getStatus() == ShDrawCircleAction::PickedNothing)
-		currentAboutToPickPoint = this->widget->getMousePoint();
-	else if (this->getStatus() == ShDrawCircleAction::PickedCenter)
-		currentAboutToPickPoint = this->widget->getRubberBand().getEnd();
-
-	return currentAboutToPickPoint;
-}
-	
 void ShSubDrawCircleAction_CenterRadius::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawCircleAction::Status::PickedNothing) {
@@ -252,6 +221,7 @@ void ShSubDrawCircleAction_CenterRadius::trigger(const ShPoint3d &point) {
 		this->widget->getPreview().add(new ShCircle(this->widget->getPropertyData(), ShCircleData(point, 0), this->widget->getCurrentLayer()));
 		this->widget->getRubberBand().create(ShLineData(point, point));
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawCircleAction::PickedCenter) {
@@ -269,6 +239,8 @@ void ShSubDrawCircleAction_CenterRadius::trigger(const ShPoint3d &point) {
 		prevCircle->setData(data);
 
 		this->addEntity(prevCircle->clone(), "Circle");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -350,32 +322,6 @@ void ShSubDrawCircleAction_CenterDiameter::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawCircleAction_CenterDiameter::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawCircleAction::Status::PickedCenter) {
-
-		ShCircle *prevCircle = dynamic_cast<ShCircle*>((*this->widget->getPreview().begin()));
-		lastBasePoint = prevCircle->getCenter();
-
-	}
-
-	return lastBasePoint;
-}
-
-ShPoint3d ShSubDrawCircleAction_CenterDiameter::getCurrentAboutToPickPoint() {
-
-	ShPoint3d currentAboutToPickPoint;
-
-	if (this->getStatus() == ShDrawCircleAction::PickedNothing)
-		currentAboutToPickPoint = this->widget->getMousePoint();
-	else if (this->getStatus() == ShDrawCircleAction::PickedCenter)
-		currentAboutToPickPoint = this->widget->getRubberBand().getEnd();
-
-	return currentAboutToPickPoint;
-}
-
 void ShSubDrawCircleAction_CenterDiameter::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawCircleAction::Status::PickedNothing) {
@@ -385,6 +331,7 @@ void ShSubDrawCircleAction_CenterDiameter::trigger(const ShPoint3d &point) {
 		this->widget->getPreview().add(new ShCircle(this->widget->getPropertyData(), ShCircleData(point, 0), this->widget->getCurrentLayer()));
 		this->widget->getRubberBand().create(ShLineData(point, point));
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawCircleAction::PickedCenter) {
@@ -403,6 +350,8 @@ void ShSubDrawCircleAction_CenterDiameter::trigger(const ShPoint3d &point) {
 		prevCircle->setData(data);
 
 		this->addEntity(prevCircle->clone(), "Circle");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -485,32 +434,6 @@ void ShSubDrawCircleAction_TwoPoint::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawCircleAction_TwoPoint::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawCircleAction::Status::PickedFirstPoint) {
-
-		lastBasePoint = this->widget->getRubberBand().getStart();
-
-	}
-
-	return lastBasePoint;
-}
-
-
-ShPoint3d ShSubDrawCircleAction_TwoPoint::getCurrentAboutToPickPoint() {
-
-	ShPoint3d aboutToPickPoint;
-
-	if (this->getStatus() == ShDrawCircleAction::Status::PickedNothing)
-		aboutToPickPoint = this->widget->getMousePoint();
-	else if (this->getStatus() == ShDrawCircleAction::Status::PickedFirstPoint)
-		aboutToPickPoint = this->widget->getRubberBand().getEnd();
-
-	return aboutToPickPoint;
-}
-
 void ShSubDrawCircleAction_TwoPoint::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawCircleAction::Status::PickedNothing) {
@@ -522,6 +445,7 @@ void ShSubDrawCircleAction_TwoPoint::trigger(const ShPoint3d &point) {
 		this->widget->getPreview().add(new ShCircle(this->widget->getPropertyData(), ShCircleData(center, 0), this->widget->getCurrentLayer()));
 		this->widget->getRubberBand().create(ShLineData(point, point));
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawCircleAction::PickedFirstPoint) {
@@ -544,6 +468,8 @@ void ShSubDrawCircleAction_TwoPoint::trigger(const ShPoint3d &point) {
 		prevCircle->setData(data);
 
 		this->addEntity(prevCircle->clone(), "Circle");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }
@@ -646,36 +572,6 @@ void ShSubDrawCircleAction_ThreePoint::invalidate(ShPoint3d &point) {
 	}
 }
 
-ShPoint3d ShSubDrawCircleAction_ThreePoint::getLastBasePoint() {
-
-	ShPoint3d lastBasePoint;
-
-	if (this->getStatus() == ShDrawCircleAction::Status::PickedFirstPoint) {
-	
-		lastBasePoint = this->first;
-	}
-	else if (this->getStatus() == ShDrawCircleAction::Status::PickedSecondPoint) {
-	
-		lastBasePoint = this->second;
-	}
-
-	return lastBasePoint;
-}
-
-ShPoint3d ShSubDrawCircleAction_ThreePoint::getCurrentAboutToPickPoint() {
-
-	ShPoint3d aboutToPickPoint;
-
-	if (this->getStatus() == ShDrawCircleAction::Status::PickedNothing)
-		aboutToPickPoint = this->widget->getMousePoint();
-
-	else if (this->getStatus() == ShDrawCircleAction::Status::PickedFirstPoint ||
-		this->getStatus() == ShDrawCircleAction::Status::PickedSecondPoint)
-		aboutToPickPoint = this->widget->getRubberBand().getEnd();
-
-	return aboutToPickPoint;
-}
-
 void ShSubDrawCircleAction_ThreePoint::trigger(const ShPoint3d &point) {
 
 	if (this->getStatus() == ShDrawCircleAction::Status::PickedNothing) {
@@ -684,6 +580,8 @@ void ShSubDrawCircleAction_ThreePoint::trigger(const ShPoint3d &point) {
 
 		this->first = point;
 		this->widget->getRubberBand().create(ShLineData(point, point));
+
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 	}
 	else if (this->getStatus() == ShDrawCircleAction::PickedFirstPoint) {
@@ -698,6 +596,7 @@ void ShSubDrawCircleAction_ThreePoint::trigger(const ShPoint3d &point) {
 
 		this->widget->getPreview().add(new ShCircle(this->widget->getPropertyData(), data, this->widget->getCurrentLayer()));
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -717,6 +616,8 @@ void ShSubDrawCircleAction_ThreePoint::trigger(const ShPoint3d &point) {
 		prevCircle->setData(data);
 
 		this->addEntity(prevCircle->clone(), "Circle");
+
+		this->setLastBasePoint(point);
 		this->actionFinished();
 	}
 }

@@ -87,6 +87,7 @@ void ShModifyMirrorAction::trigger(const ShPoint3d &point) {
 		this->availableCommands->remove(CommandType::DistanceFromBase);
 		this->availableCommands->add(CommandType::AngleFromBase);
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -108,6 +109,7 @@ void ShModifyMirrorAction::trigger(const ShPoint3d &point) {
 		ShMirrorEntityTransaction *transaction = new ShMirrorEntityTransaction(this->widget, list, this->base, angle);
 		ShGlobal::pushNewTransaction(this->widget, transaction);
 
+		this->setLastBasePoint(point);
 		this->actionFinished();
 
 	}

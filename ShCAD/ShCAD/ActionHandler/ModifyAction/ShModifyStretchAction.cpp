@@ -89,6 +89,7 @@ void ShModifyStretchAction::trigger(const ShPoint3d &point) {
 			this->widget->getPreview().add((*itr)->clone());
 		}
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -124,6 +125,7 @@ void ShModifyStretchAction::trigger(const ShPoint3d &point) {
 
 		ShGlobal::pushNewTransaction(this->widget, new ShStretchEntityTransaction(this->widget, this->possibleStretchEntities, stretchedEntities));
 
+		this->setLastBasePoint(point);
 		this->actionFinished();
 
 	}

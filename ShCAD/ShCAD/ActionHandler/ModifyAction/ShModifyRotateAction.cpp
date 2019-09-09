@@ -91,6 +91,7 @@ void ShModifyRotateAction::trigger(const ShPoint3d &point) {
 		this->availableCommands->remove(CommandType::DistanceFromBase);
 		this->availableCommands->add(CommandType::AngleFromBase);
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -111,6 +112,7 @@ void ShModifyRotateAction::trigger(const ShPoint3d &point) {
 		ShRotateEntityTransaction *transaction = new ShRotateEntityTransaction(this->widget, list, this->base, angle);
 		ShGlobal::pushNewTransaction(this->widget, transaction);
 
+		this->setLastBasePoint(point);
 		this->actionFinished();
 
 	}

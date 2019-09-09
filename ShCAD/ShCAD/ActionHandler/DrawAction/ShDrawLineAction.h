@@ -38,9 +38,6 @@ public:
 
 	virtual void invalidate(ShPoint3d &point);
 
-	virtual ShPoint3d getLastBasePoint();
-	virtual ShPoint3d getCurrentAboutToPickPoint();
-
 protected:
 	virtual void trigger(const ShPoint3d &point);
 
@@ -77,6 +74,7 @@ protected:
 	void addEntity(ShEntity *newEntity, const QString &type);
 	void triggerSucceeded();
 	void triggerFailed(ShActionTriggerFailureReason reason);
+	void setLastBasePoint(const ShPoint3d &point);
 
 
 };

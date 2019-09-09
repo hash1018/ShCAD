@@ -86,6 +86,7 @@ void ShModifyCopyAction::trigger(const ShPoint3d &point) {
 
 		this->previous = this->base;
 
+		this->setLastBasePoint(point);
 		this->triggerSucceeded();
 
 	}
@@ -114,6 +115,7 @@ void ShModifyCopyAction::trigger(const ShPoint3d &point) {
 
 		this->addCopiedEntities(list);
 
+		
 		this->triggerSucceeded();
 	}
 }

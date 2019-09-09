@@ -170,6 +170,7 @@
     <ClCompile Include="Base\ShCursorShape.cpp" />
     <ClCompile Include="Base\ShDraftSetting.cpp" />
     <ClCompile Include="Base\ShGlobal.cpp" />
+    <ClCompile Include="Base\ShLastBasePoint.cpp" />
     <ClCompile Include="Base\ShLayer.cpp" />
     <ClCompile Include="Base\ShLayerTable.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
@@ -452,6 +453,7 @@
     <ClInclude Include="Base\ShCursorShape.h" />
     <ClInclude Include="Base\ShDraftSetting.h" />
     <ClInclude Include="Base\ShGlobal.h" />
+    <ClInclude Include="Base\ShLastBasePoint.h" />
     <ClInclude Include="Base\ShLayer.h" />
     <ClInclude Include="Base\ShLayerTable.h" />
     <ClInclude Include="Base\ShMath.h" />

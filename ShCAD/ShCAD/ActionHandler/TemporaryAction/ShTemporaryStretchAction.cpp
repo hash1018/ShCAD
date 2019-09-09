@@ -125,16 +125,6 @@ ShAvailableDraft ShTemporaryStretchAction::getAvailableDraft() {
 	return draft;
 }
 
-ShPoint3d ShTemporaryStretchAction::getLastBasePoint() {
-
-	return this->vertexPoint;
-}
-
-ShPoint3d ShTemporaryStretchAction::getCurrentAboutToPickPoint() {
-
-	return this->widget->getRubberBand().getEnd();
-}
-
 void ShTemporaryStretchAction::trigger(const ShPoint3d &point) {
 
 	QLinkedList<ShEntity*> stretchedEntities;
@@ -170,5 +160,6 @@ void ShTemporaryStretchAction::trigger(const ShPoint3d &point) {
 	this->widget->update(DrawType::DrawAll);
 	this->widget->captureImage();
 
+	this->setLastBasePoint(point);
 	this->actionFinished();
 }

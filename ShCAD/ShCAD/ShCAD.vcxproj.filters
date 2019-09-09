@@ -595,6 +595,9 @@
     <ClCompile Include="Base\ShCursorShape.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="Base\ShLastBasePoint.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1014,6 +1017,9 @@
       <Filter>Entity\Private</Filter>
     </ClInclude>
     <ClInclude Include="Base\ShCursorShape.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShLastBasePoint.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
