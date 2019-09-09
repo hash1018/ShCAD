@@ -6,6 +6,7 @@
 #include "ActionHandler\DecoratorAction\ShDisposableSnapAction.h"
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
 #include <qdebug.h>
+#include "ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.h"
 
 ShDecoratorActionFactory::ShDecoratorActionFactory() {
 
@@ -32,7 +33,8 @@ ShDecoratorAction* ShDecoratorActionFactory::create(ShCADWidget *widget, ShActio
 }
 
 
-ShDecoratorAction* ShDecoratorActionFactory::addOrthgonal(ShCADWidget *widget, ShDecoratorAction *decoratorAction, const ShDraftData &draftData) {
+ShDecoratorAction* ShDecoratorActionFactory::addOrthgonal(ShCADWidget *widget, ShActionHandler *actionHandler,
+	ShDecoratorAction *decoratorAction, const ShDraftData &draftData) {
 
 	if (draftData.getOrthMode() == false)
 		Q_ASSERT("ShDecoratorActionFactory::addOrthgonal() orthMode is not available.");
@@ -41,14 +43,14 @@ ShDecoratorAction* ShDecoratorActionFactory::addOrthgonal(ShCADWidget *widget, S
 	
 		ShDecoratorAction *child = decoratorAction->getChild();
 		
-		ShOrthogonalAction *orthAction = new ShOrthogonalAction(widget, nullptr, child);
+		ShOrthogonalAction *orthAction = new ShOrthogonalAction(widget, actionHandler, child);
 		orthAction->setParent(decoratorAction);
 		decoratorAction->setChild(orthAction);
 
 	}
 	else {
 	
-		decoratorAction = new ShOrthogonalAction(widget, nullptr, decoratorAction);
+		decoratorAction = new ShOrthogonalAction(widget, actionHandler, decoratorAction);
 	}
 
 	return decoratorAction;
@@ -91,12 +93,13 @@ ShDecoratorAction* ShDecoratorActionFactory::removeOrthgonal(ShCADWidget *widget
 	return decoratorAction;
 }
 
-ShDecoratorAction* ShDecoratorActionFactory::addDisposableSnap(ShCADWidget *widget, ShDecoratorAction *decoratorAction, const ShDraftData &draftData) {
+ShDecoratorAction* ShDecoratorActionFactory::addDisposableSnap(ShCADWidget *widget, ShActionHandler *actionHandler,
+	ShDecoratorAction *decoratorAction, const ShDraftData &draftData) {
 
 	if (draftData.getDisposableSnap() == ObjectSnap::ObjectSnapNothing)
 		Q_ASSERT("ShDecoratorActionFactory::addDisposableSnap() DisposableSnap is not available.");
 
-	return ShDisposableSnapActionFactory::create(widget, nullptr, decoratorAction, draftData.getDisposableSnap());
+	return ShDisposableSnapActionFactory::create(widget, actionHandler, decoratorAction, draftData.getDisposableSnap());
 }
 
 ShDecoratorAction* ShDecoratorActionFactory::removeDisposableSnap(ShCADWidget *widget, ShDecoratorAction *decoratorAction, const ShDraftData &draftData) {

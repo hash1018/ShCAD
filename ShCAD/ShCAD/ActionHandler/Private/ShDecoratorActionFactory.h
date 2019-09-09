@@ -16,9 +16,15 @@ public:
 	~ShDecoratorActionFactory();
 
 	static ShDecoratorAction* create(ShCADWidget *widget, ShActionHandler *actionHandler, const ShDraftData &draftData);
-	static ShDecoratorAction* addOrthgonal(ShCADWidget *widget, ShDecoratorAction *decoratorAction, const ShDraftData &draftData);
+
+	static ShDecoratorAction* addOrthgonal(ShCADWidget *widget, ShActionHandler *actionHandler, 
+		ShDecoratorAction *decoratorAction, const ShDraftData &draftData);
+
 	static ShDecoratorAction* removeOrthgonal(ShCADWidget *widget, ShDecoratorAction *decoratorAction, const ShDraftData &draftData);
-	static ShDecoratorAction* addDisposableSnap(ShCADWidget *widget, ShDecoratorAction *decoratorAction, const ShDraftData &draftData);
+
+	static ShDecoratorAction* addDisposableSnap(ShCADWidget *widget, ShActionHandler *actionHandler, 
+		ShDecoratorAction *decoratorAction, const ShDraftData &draftData);
+
 	static ShDecoratorAction* removeDisposableSnap(ShCADWidget *widget, ShDecoratorAction *decoratorAction, const ShDraftData &draftData);
 
 };

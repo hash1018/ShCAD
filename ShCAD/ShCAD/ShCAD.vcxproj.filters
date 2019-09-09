@@ -119,6 +119,9 @@
     <Filter Include="Command">
       <UniqueIdentifier>{bf954b10-e745-418d-9890-df1c76e9bd1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionHandler\DecoratorAction\UnusualDecoratorAction">
+      <UniqueIdentifier>{979e18ca-1610-448f-a889-782ed7859d3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -598,6 +601,9 @@
     <ClCompile Include="Base\ShLastBasePoint.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.cpp">
+      <Filter>ActionHandler\DecoratorAction\UnusualDecoratorAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1021,6 +1027,9 @@
     </ClInclude>
     <ClInclude Include="Base\ShLastBasePoint.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.h">
+      <Filter>ActionHandler\DecoratorAction\UnusualDecoratorAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -42,7 +42,10 @@ void ShDecorateOrthogonalActionStrategy::change() {
 		this->widget->getDraftData().setOrthMode(true);
 
 		ShDecoratorAction *decoratorAction = this->widget->getActionHandlerProxy()->getDecoratorAction();
-		decoratorAction = ShDecoratorActionFactory::addOrthgonal(this->widget, decoratorAction, this->widget->getDraftData());
+		
+		decoratorAction = ShDecoratorActionFactory::addOrthgonal(this->widget,
+			this->widget->getActionHandlerProxy()->getCurrentAction(), decoratorAction, this->widget->getDraftData());
+
 		this->widget->getActionHandlerProxy()->setDecoratorAction(decoratorAction);
 
 	}
@@ -121,7 +124,10 @@ void ShDecorateDisposableSnapActionStrategy::change() {
 		shCommandLogManager->appendHeadTitle(str);
 
 		ShDecoratorAction *decoratorAction = this->widget->getActionHandlerProxy()->getDecoratorAction();
-		decoratorAction = ShDecoratorActionFactory::addDisposableSnap(this->widget, decoratorAction, this->widget->getDraftData());
+
+		decoratorAction = ShDecoratorActionFactory::addDisposableSnap(this->widget,
+			this->widget->getActionHandlerProxy()->getCurrentAction(), decoratorAction, this->widget->getDraftData());
+
 		this->widget->getActionHandlerProxy()->setDecoratorAction(decoratorAction);
 	}
 }

@@ -18,6 +18,7 @@ public:
 	virtual void accept(ShVisitor *visitor);
 
 	virtual void setData(const ShLineData &data);
+	virtual void setStart(const ShPoint3d &start);
 	virtual void setEnd(const ShPoint3d &end);
 	virtual ShLineData getData();
 	virtual ShPoint3d getStart();

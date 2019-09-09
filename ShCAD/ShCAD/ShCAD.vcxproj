@@ -141,6 +141,7 @@
     <ClCompile Include="ActionHandler\DecoratorAction\ShDecoratorDefaultAction.cpp" />
     <ClCompile Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.cpp" />
     <ClCompile Include="ActionHandler\DecoratorAction\ShOrthogonalAction.cpp" />
+    <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawArcAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp" />
@@ -423,6 +424,7 @@
     <ClInclude Include="ActionHandler\DecoratorAction\ShDecoratorDefaultAction.h" />
     <ClInclude Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.h" />
     <ClInclude Include="ActionHandler\DecoratorAction\ShOrthogonalAction.h" />
+    <ClInclude Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawArcAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h" />

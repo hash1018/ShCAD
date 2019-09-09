@@ -297,6 +297,7 @@ void ShSubDrawLineAction_Perpendicular::invalidate(const ShPoint3d &point) {
 		prevLine->setStart(perpendicular);
 		prevLine->setEnd(point);
 
+		this->widget->getRubberBand().setStart(perpendicular);
 		this->widget->getRubberBand().setEnd(point);
 
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
