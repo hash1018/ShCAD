@@ -49,7 +49,7 @@ void ShPanAction::mouseReleaseEvent(ShActionData &data) {
 	if (data.mouseEvent->button() & Qt::MouseButton::MiddleButton) {
 
 		this->widget->captureImage();
-		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities));
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawPreviewEntities | DrawType::DrawActionHandler));
 	}
 
 	this->actionFinished();

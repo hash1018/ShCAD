@@ -8,7 +8,7 @@
 #include "KeyHandler\ShCustomKey.h"
 #include "Entity\Private\ShSearchEntityStrategy.h"
 #include "Entity\Composite\ShSelectedEntities.h"
-#include "Entity\Private\ShFinder.h"
+#include "Entity\Private\ShVertexFinder.h"
 #include <qpainter.h>
 #include "Base\ShMath.h"
 #include "Entity\Private\ShStretchVisitor.h"

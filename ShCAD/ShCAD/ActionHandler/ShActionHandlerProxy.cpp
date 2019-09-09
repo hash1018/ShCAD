@@ -122,16 +122,6 @@ void ShActionHandlerProxy::draw(QPainter *painter) {
 	this->decoratorAction->draw(painter);
 }
 
-/*
-void ShActionHandlerProxy::changeDecoratorAction() {
-
-	if (this->decoratorAction != nullptr)
-		delete this->decoratorAction;
-
-	this->decoratorAction = ShDecoratorActionFactory::create(this->widget, this->currentAction, this->widget->getDraftData());
-}
-*/
-
 void ShActionHandlerProxy::invalidate() {
 	
 	this->widget->getDrawBuffer().saveToBuffer = true;

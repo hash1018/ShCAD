@@ -218,6 +218,7 @@
     <ClCompile Include="Entity\Private\ShSnapPointFinder.cpp" />
     <ClCompile Include="Entity\Private\ShStretchVisitor.cpp" />
     <ClCompile Include="Entity\Private\ShTrimer.cpp" />
+    <ClCompile Include="Entity\Private\ShVertexFinder.cpp" />
     <ClCompile Include="Entity\Private\ShVisitor.cpp" />
     <ClCompile Include="Entity\ShEntity.cpp" />
     <ClCompile Include="Event\ShCADWidgetEventFilter.cpp" />
@@ -426,7 +427,32 @@
     <ClInclude Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.h" />
     <ClInclude Include="ActionHandler\DecoratorAction\ShOrthogonalAction.h" />
     <ClInclude Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.h" />
-    <ClInclude Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.h" />
+    <CustomBuild Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+    </CustomBuild>
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawArcAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h" />
@@ -506,6 +532,7 @@
     <ClInclude Include="Entity\Private\ShSnapPointFinder.h" />
     <ClInclude Include="Entity\Private\ShStretchVisitor.h" />
     <ClInclude Include="Entity\Private\ShTrimer.h" />
+    <ClInclude Include="Entity\Private\ShVertexFinder.h" />
     <ClInclude Include="Entity\Private\ShVisitor.h" />
     <ClInclude Include="Entity\ShEntity.h" />
     <ClInclude Include="Event\ShCADWidgetEventFilter.h" />

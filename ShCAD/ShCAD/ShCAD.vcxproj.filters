@@ -607,6 +607,9 @@
     <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.cpp">
       <Filter>ActionHandler\DecoratorAction\UnusualDecoratorAction</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Private\ShVertexFinder.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -647,6 +650,9 @@
     </CustomBuild>
     <CustomBuild Include="Interface\Dialog\ShLayerDialog.h">
       <Filter>Interface\Dialog</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.h">
+      <Filter>ActionHandler\DecoratorAction\UnusualDecoratorAction</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -1034,8 +1040,8 @@
     <ClInclude Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.h">
       <Filter>ActionHandler\DecoratorAction\UnusualDecoratorAction</Filter>
     </ClInclude>
-    <ClInclude Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.h">
-      <Filter>ActionHandler\DecoratorAction\UnusualDecoratorAction</Filter>
+    <ClInclude Include="Entity\Private\ShVertexFinder.h">
+      <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

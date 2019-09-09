@@ -5,6 +5,7 @@
 
 #include "ActionHandler\DecoratorAction\ShDisposableSnapAction.h"
 #include <qlist.h>
+#include <qobject.h>
 
 class ShExtensionBaseData {
 
@@ -14,17 +15,46 @@ private:
 	QList<ShEntity*> baseEntities;
 	ShPoint3d point;
 
-private:
+public:
 	ShExtensionBaseData();
 	~ShExtensionBaseData();
 
 	ShExtensionBaseData& operator=(const ShExtensionBaseData &other);
 };
 
-class ShDisposableExtensionSnapAction : public ShDisposableSnapAction {
+class ShLastDeletePoint {
+
+	friend class ShDisposableExtensionSnapAction;
 
 private:
-	QList<ShExtensionBaseData> ShExtensionBaseDatas;
+	bool deleted;
+	ShPoint3d lastDeletePoint;
+
+private:
+	ShLastDeletePoint();
+	~ShLastDeletePoint();
+
+};
+
+class ShLastAddedPoint {
+
+	friend class ShDisposableExtensionSnapAction;
+
+private:
+	bool added;
+	ShPoint3d lastAddedPoint;
+
+private:
+	ShLastAddedPoint();
+	~ShLastAddedPoint();
+};
+
+class ShDisposableExtensionSnapAction : public ShDisposableSnapAction, public QObject {
+	
+private:
+	QList<ShExtensionBaseData> extensionBaseDatas;
+	ShLastDeletePoint lastDeletePoint;
+	ShLastAddedPoint lastAddedPoint;
 
 public:
 	ShDisposableExtensionSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
@@ -37,8 +67,11 @@ public:
 	virtual void invalidate(ShDecoratorActionData &data);
 
 protected:
-	virtual bool search(const ShPoint3d &point);
+	void updateExtensionBaseData(const ShPoint3d &point);
 
+	private slots:
+	void initializeLastDeletePoint();
+	void initializeLastAddedPoint();
 };
 
 #endif //_SHDISPOSABLEEXTENSIONSNAPACTION_H

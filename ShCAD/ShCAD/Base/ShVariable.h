@@ -84,16 +84,16 @@ enum DrawType {
 
 
 enum VertexType {
-	VertexNothing,
-	VertexStart,
-	VertexEnd,
-	VertexMid,
-	VertexOther,
-	VertexCenter,
-	VertexLeft,
-	VertexRight,
-	VertexTop,
-	VertexBottom,
+	VertexNothing= 0x0000000,
+	VertexStart= 0x0000001,
+	VertexEnd= 0x0000002,
+	VertexMid= 0x0000004,
+	VertexOther= 0x0000008,
+	VertexCenter= 0x0000010,
+	VertexLeft= 0x0000020,
+	VertexRight= 0x0000040,
+	VertexTop= 0x0000080,
+	VertexBottom= 0x0000100,
 
 };
 
