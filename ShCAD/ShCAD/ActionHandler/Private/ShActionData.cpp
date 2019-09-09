@@ -13,7 +13,7 @@ ShActionData::~ShActionData() {
 /////////////////////////////////////////
 
 ShDecoratorActionData::ShDecoratorActionData()
-	:snapAccepted(false) {
+	:snapAccepted(true), orthAccepted(true) {
 
 }
 

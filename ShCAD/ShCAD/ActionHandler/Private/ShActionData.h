@@ -25,6 +25,7 @@ class ShDecoratorActionData : public ShActionData {
 
 public:
 	bool snapAccepted;
+	bool orthAccepted;
 
 public:
 	ShDecoratorActionData();

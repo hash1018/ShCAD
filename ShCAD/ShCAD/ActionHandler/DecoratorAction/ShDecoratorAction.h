@@ -26,7 +26,7 @@ public:
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
 
-	virtual void invalidate(ShPoint3d &point);
+	virtual void invalidate(ShDecoratorActionData &data);
 
 	virtual void setActionHandler(ShActionHandler *actionHandler);
 
@@ -37,6 +37,9 @@ public:
 public:
 	inline ShDecoratorAction* getParent() const { return this->parent; }
 	inline ShDecoratorAction* getChild() const { return this->child; }
+
+private:
+	virtual void invalidate(ShPoint3d &point);
 };
 
 #endif //_SHDECORATORACTION_H

@@ -77,7 +77,7 @@ void ShDisposableSnapAction_End::mouseLeftPressEvent(ShActionData &data) {
 		}
 
 		data.point = this->snap;
-		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
+		dynamic_cast<ShDecoratorActionData&>(data).orthAccepted = false;
 
 	}
 
@@ -96,6 +96,7 @@ void ShDisposableSnapAction_End::mouseMoveEvent(ShActionData &data) {
 		else
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
+
 
 	ShDisposableSnapAction::mouseMoveEvent(data);
 }
@@ -124,18 +125,18 @@ void ShDisposableSnapAction_End::draw(QPainter *painter) {
 	ShDecoratorAction::draw(painter);
 }
 
-void ShDisposableSnapAction_End::invalidate(ShPoint3d &point) {
+void ShDisposableSnapAction_End::invalidate(ShDecoratorActionData &data) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
 	if (draft.getAvailableSnap() == true) {
-		if (this->search(point) == true)
+		if (this->search(data.point) == true)
 			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
 		else
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
 
-	ShDisposableSnapAction::invalidate(point);
+	ShDisposableSnapAction::invalidate(data);
 }
 
 bool ShDisposableSnapAction_End::search(const ShPoint3d &point) {
@@ -181,7 +182,7 @@ void ShDisposableSnapAction_Mid::mouseLeftPressEvent(ShActionData &data) {
 		}
 
 		data.point = this->snap;
-		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
+		dynamic_cast<ShDecoratorActionData&>(data).orthAccepted = false;
 
 	}
 
@@ -230,18 +231,18 @@ void ShDisposableSnapAction_Mid::draw(QPainter *painter) {
 	ShDecoratorAction::draw(painter);
 }
 
-void ShDisposableSnapAction_Mid::invalidate(ShPoint3d &point) {
+void ShDisposableSnapAction_Mid::invalidate(ShDecoratorActionData &data) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
 	if (draft.getAvailableSnap() == true) {
-		if (this->search(point) == true)
+		if (this->search(data.point) == true)
 			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
 		else
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
 
-	ShDisposableSnapAction::invalidate(point);
+	ShDisposableSnapAction::invalidate(data);
 }
 
 bool ShDisposableSnapAction_Mid::search(const ShPoint3d &point) {
@@ -286,7 +287,7 @@ void ShDisposableSnapAction_Center::mouseLeftPressEvent(ShActionData &data) {
 		}
 
 		data.point = this->snap;
-		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
+		dynamic_cast<ShDecoratorActionData&>(data).orthAccepted = false;
 
 	}
 
@@ -333,18 +334,18 @@ void ShDisposableSnapAction_Center::draw(QPainter *painter) {
 	ShDecoratorAction::draw(painter);
 }
 
-void ShDisposableSnapAction_Center::invalidate(ShPoint3d &point) {
+void ShDisposableSnapAction_Center::invalidate(ShDecoratorActionData &data) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
 	if (draft.getAvailableSnap() == true) {
-		if (this->search(point) == true)
+		if (this->search(data.point) == true)
 			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
 		else
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
 
-	ShDisposableSnapAction::invalidate(point);
+	ShDisposableSnapAction::invalidate(data);
 }
 
 bool ShDisposableSnapAction_Center::search(const ShPoint3d &point) {
@@ -390,7 +391,7 @@ void ShDisposableSnapAction_Quadrant::mouseLeftPressEvent(ShActionData &data) {
 		}
 
 		data.point = this->snap;
-		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
+		dynamic_cast<ShDecoratorActionData&>(data).orthAccepted = false;
 
 	}
 
@@ -440,18 +441,18 @@ void ShDisposableSnapAction_Quadrant::draw(QPainter *painter) {
 	ShDecoratorAction::draw(painter);
 }
 
-void ShDisposableSnapAction_Quadrant::invalidate(ShPoint3d &point) {
+void ShDisposableSnapAction_Quadrant::invalidate(ShDecoratorActionData &data) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
 	if (draft.getAvailableSnap() == true) {
-		if (this->search(point) == true)
+		if (this->search(data.point) == true)
 			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
 		else
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
 
-	ShDisposableSnapAction::invalidate(point);
+	ShDisposableSnapAction::invalidate(data);
 }
 
 bool ShDisposableSnapAction_Quadrant::search(const ShPoint3d &point) {
@@ -510,7 +511,7 @@ void ShDisposableSnapAction__Intersection::mouseLeftPressEvent(ShActionData &dat
 		}
 
 		data.point = this->snap;
-		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
+		dynamic_cast<ShDecoratorActionData&>(data).orthAccepted = false;
 
 	}
 
@@ -565,18 +566,18 @@ void ShDisposableSnapAction__Intersection::draw(QPainter *painter) {
 	ShDecoratorAction::draw(painter);
 }
 
-void ShDisposableSnapAction__Intersection::invalidate(ShPoint3d &point) {
+void ShDisposableSnapAction__Intersection::invalidate(ShDecoratorActionData &data) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
 	if (draft.getAvailableSnap() == true) {
-		if (this->search(point) == true)
+		if (this->search(data.point) == true)
 			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
 		else
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
 
-	ShDisposableSnapAction::invalidate(point);
+	ShDisposableSnapAction::invalidate(data);
 }
 
 bool ShDisposableSnapAction__Intersection::search(const ShPoint3d &point) {
@@ -711,7 +712,7 @@ void ShDisposableSnapAction_Perpendicular::mouseLeftPressEvent(ShActionData &dat
 		}
 
 		data.point = this->snap;
-		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
+		dynamic_cast<ShDecoratorActionData&>(data).orthAccepted = false;
 
 	}
 
@@ -762,19 +763,19 @@ void ShDisposableSnapAction_Perpendicular::draw(QPainter *painter) {
 	ShDecoratorAction::draw(painter);
 }
 
-void ShDisposableSnapAction_Perpendicular::invalidate(ShPoint3d &point) {
+void ShDisposableSnapAction_Perpendicular::invalidate(ShDecoratorActionData &data) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
 	if (draft.getAvailableSnap() == true) {
 
-		if (this->search(point, draft.getSnapBasePoint().x, draft.getSnapBasePoint().y) == true)
+		if (this->search(data.point, draft.getSnapBasePoint().x, draft.getSnapBasePoint().y) == true)
 			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
 		else
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
 
-	ShDisposableSnapAction::invalidate(point);
+	ShDisposableSnapAction::invalidate(data);
 }
 
 bool ShDisposableSnapAction_Perpendicular::search(const ShPoint3d &point, double perpendicularX, double perpendicularY) {

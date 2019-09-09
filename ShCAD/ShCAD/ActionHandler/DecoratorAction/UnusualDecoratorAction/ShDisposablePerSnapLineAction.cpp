@@ -30,7 +30,7 @@ void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::mouseLeftPr
 		}
 
 		data.point = this->snap;
-		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
+		dynamic_cast<ShDecoratorActionData&>(data).orthAccepted = false;
 
 	}
 
@@ -88,18 +88,18 @@ void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::draw(QPaint
 	ShDecoratorAction::draw(painter);
 }
 
-void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::invalidate(ShPoint3d &point) {
+void ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::invalidate(ShDecoratorActionData &data) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
 	if (draft.getAvailableSnap() == true) {
-		if (this->search(point) == true)
+		if (this->search(data.point) == true)
 			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
 		else
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
 
-	ShDisposableSnapAction::invalidate(point);
+	ShDisposableSnapAction::invalidate(data);
 }
 
 bool ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::search(const ShPoint3d &point) {
@@ -147,7 +147,7 @@ void ShDisposableSnapAction_DrawLineActionPerPer::mouseLeftPressEvent(ShActionDa
 			return;
 		}
 
-		dynamic_cast<ShDecoratorActionData&>(data).snapAccepted = true;
+		dynamic_cast<ShDecoratorActionData&>(data).orthAccepted = false;
 	}
 
 
@@ -216,18 +216,18 @@ void ShDisposableSnapAction_DrawLineActionPerPer::draw(QPainter *painter) {
 	ShDecoratorAction::draw(painter);
 }
 
-void ShDisposableSnapAction_DrawLineActionPerPer::invalidate(ShPoint3d &point) {
+void ShDisposableSnapAction_DrawLineActionPerPer::invalidate(ShDecoratorActionData &data) {
 
 	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
 
 	if (draft.getAvailableSnap() == true) {
-		if (this->search(point) == true)
+		if (this->search(data.point) == true)
 			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
 		else
 			this->widget->update((DrawType)DrawType::DrawCaptureImage);
 	}
 
-	ShDisposableSnapAction::invalidate(point);
+	ShDisposableSnapAction::invalidate(data);
 }
 
 

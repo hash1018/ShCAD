@@ -18,7 +18,7 @@ public:
 	virtual void mouseMoveEvent(ShActionData &data);
 
 	virtual void draw(QPainter *painter);
-	virtual void invalidate(ShPoint3d &point);
+	virtual void invalidate(ShDecoratorActionData &data);
 
 protected:
 	virtual bool search(const ShPoint3d &point);
@@ -43,7 +43,7 @@ public:
 	virtual void mouseMoveEvent(ShActionData &data);
 
 	virtual void draw(QPainter *painter);
-	virtual void invalidate(ShPoint3d &point);
+	virtual void invalidate(ShDecoratorActionData &data);
 
 protected:
 	virtual bool search(const ShPoint3d &point);

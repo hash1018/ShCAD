@@ -137,8 +137,10 @@ void ShActionHandlerProxy::invalidate() {
 	this->widget->getDrawBuffer().saveToBuffer = true;
 	this->widget->getDrawBuffer().buffer = DrawType::DrawNone;
 
+	ShDecoratorActionData data;
+	data.point = this->widget->getMousePoint();
 
-	this->decoratorAction->invalidate(this->widget->getMousePoint());
+	this->decoratorAction->invalidate(data);
 
 	this->widget->getDrawBuffer().saveToBuffer = false;
 
