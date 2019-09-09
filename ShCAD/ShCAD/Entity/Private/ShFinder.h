@@ -75,4 +75,5 @@ public:
 
 };
 
+
 #endif //_SHFINDER_H

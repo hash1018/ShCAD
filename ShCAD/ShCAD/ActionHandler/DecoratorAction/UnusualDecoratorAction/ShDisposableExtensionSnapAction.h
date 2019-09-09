@@ -3,10 +3,28 @@
 #ifndef _SHDISPOSABLEEXTENSIONSNAPACTION_H
 #define _SHDISPOSABLEEXTENSIONSNAPACTION_H
 
-
 #include "ActionHandler\DecoratorAction\ShDisposableSnapAction.h"
+#include <qlist.h>
+
+class ShExtensionBaseData {
+
+	friend class ShDisposableExtensionSnapAction;
+
+private:
+	QList<ShEntity*> baseEntities;
+	ShPoint3d point;
+
+private:
+	ShExtensionBaseData();
+	~ShExtensionBaseData();
+
+	ShExtensionBaseData& operator=(const ShExtensionBaseData &other);
+};
 
 class ShDisposableExtensionSnapAction : public ShDisposableSnapAction {
+
+private:
+	QList<ShExtensionBaseData> ShExtensionBaseDatas;
 
 public:
 	ShDisposableExtensionSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);

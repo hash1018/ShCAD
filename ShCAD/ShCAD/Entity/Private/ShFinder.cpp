@@ -368,3 +368,6 @@ void ShNearestVertexFinder::visit(ShArc *arc) {
 	else
 		this->vertexType = VertexType::VertexNothing;
 }
+
+
+/////////////////////////////////////////////////////////////////////////////
