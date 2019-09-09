@@ -28,7 +28,8 @@ QString ShObjectSnapCommandFactory::create(ObjectSnap objectSnap) {
 		str = "_int of ";
 	else if (objectSnap == ObjectSnap::ObjectSnapAppraentIntersection)
 		str = "_appint of ";
-
+	else if (objectSnap == ObjectSnap::ObjectSnapExtension)
+		str = "_ext of ";
 
 	return str;
 }

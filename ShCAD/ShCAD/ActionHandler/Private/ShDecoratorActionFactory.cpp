@@ -7,6 +7,7 @@
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
 #include <qdebug.h>
 #include "ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.h"
+#include "ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.h"
 
 ShDecoratorActionFactory::ShDecoratorActionFactory() {
 
@@ -198,6 +199,8 @@ ShDecoratorAction* ShDisposableSnapActionFactory::createDisposableSnap(ShCADWidg
 		decoratorAction = new ShDisposableSnapAction__Intersection(widget, actionHandler, child);
 	else if (objectSnap == ObjectSnap::ObjectSnapAppraentIntersection)
 		decoratorAction = new ShDisposableSnapAction_ApparentIntersection(widget, actionHandler, child);
+	else if (objectSnap == ObjectSnap::ObjectSnapExtension)
+		decoratorAction = new ShDisposableExtensionSnapAction(widget, actionHandler, child);
 
 	if (decoratorAction == nullptr)
 		Q_ASSERT("ShDisposableSnapActionFactory::createDisposableSnap() decoratorAction is nullptr.");
