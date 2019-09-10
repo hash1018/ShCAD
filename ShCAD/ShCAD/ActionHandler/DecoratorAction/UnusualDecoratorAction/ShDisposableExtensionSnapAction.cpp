@@ -4,6 +4,8 @@
 #include "Entity\Private\ShVertexFinder.h"
 #include <qpainter.h>
 #include <qtimer.h>
+#include "Entity\Private\ShFootOfPerpendicularVisitor.h"
+#include "Base\ShMath.h"
 
 
 ShExtensionBaseData::ShExtensionBaseData() {
@@ -47,6 +49,23 @@ ShLastAddedPoint::~ShLastAddedPoint() {
 
 //////////////////////////////////////////////////////////////////////
 
+ShExtensionBaseLine::ShExtensionBaseLine() {
+
+}
+
+ShExtensionBaseLine::~ShExtensionBaseLine() {
+
+}
+
+void ShExtensionBaseLine::clear() {
+
+	this->baseLineEntities.clear();
+	this->extensionFinalPoints.clear();
+	this->extensionStartPoints.clear();
+}
+
+//////////////////////////////////////////////////////////////////////
+
 
 ShDisposableExtensionSnapAction::ShDisposableExtensionSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child)
 	:ShDisposableSnapAction(widget, actionHandler, child) {
@@ -67,7 +86,9 @@ void ShDisposableExtensionSnapAction::mouseMoveEvent(ShActionData &data) {
 
 	if (draft.getAvailableSnap() == true) {
 
+
 		this->updateExtensionBaseData(data.point);
+		this->searchExtensionLine(data.point);
 
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawActionHandler));
 	}
@@ -102,6 +123,26 @@ void ShDisposableExtensionSnapAction::draw(QPainter *painter) {
 
 			painter->setPen(oldPen);
 		}
+
+		for (int i = 0; i < this->extensionBaseLine.baseLineEntities.count(); i++) {
+		
+			int dx, dy, dx2, dy2;
+
+			QPen oldPen = painter->pen();
+			QPen pen;
+			pen.setWidth(2);
+			pen.setColor(QColor(000, 204, 000));
+			painter->setPen(pen);
+
+			this->widget->convertEntityToDevice(this->extensionBaseLine.extensionStartPoints.at(i).x, 
+				this->extensionBaseLine.extensionStartPoints.at(i).y, dx, dy);
+			this->widget->convertEntityToDevice(this->extensionBaseLine.extensionFinalPoints.at(i).x, 
+				this->extensionBaseLine.extensionFinalPoints.at(i).y, dx2, dy2);
+
+			painter->drawLine(dx, dy, dx2, dy2);
+
+			painter->setPen(oldPen);
+		}
 	
 	}
 
@@ -114,90 +155,63 @@ void ShDisposableExtensionSnapAction::invalidate(ShDecoratorActionData &data) {
 }
 
 
+bool ShDisposableExtensionSnapAction::searchExtensionLine(const ShPoint3d &point) {
+
+	this->extensionBaseLine.clear();
+
+	if (this->extensionBaseDatas.count() == 0)
+		return false;
+
+	ShPoint3d perpendicular;
+	ShFootOfPerpendicularVisitor visitor(perpendicular.x, perpendicular.y, point);
+	ShEntity *entity;
+	double dis;
+
+	for (int i = 0; i < this->extensionBaseDatas.count(); i++) {
+	
+		for (int j = 0; j < this->extensionBaseDatas.at(i).baseEntities.count(); j++) {
+
+			entity = this->extensionBaseDatas.at(i).baseEntities.at(j);
+			entity->accept(&visitor);
+
+			dis = math::getDistance(perpendicular.x, perpendicular.y, point.x, point.y);
+
+			if (dis <= 8.0 / this->widget->getZoomRate() &&
+				dis > 2.0 / this->widget->getZoomRate()) {
+
+				this->extensionBaseLine.baseLineEntities.append(entity);
+				this->extensionBaseLine.extensionStartPoints.append(this->extensionBaseDatas.at(i).point);
+				this->extensionBaseLine.extensionFinalPoints.append(perpendicular);
+				
+			}
+		
+		}
+	}
+
+	if (this->extensionBaseLine.getCount() != 0)
+		return true;
+
+	return false;
+}
+
 void ShDisposableExtensionSnapAction::updateExtensionBaseData(const ShPoint3d &point) {
 
 	QLinkedList<ShEntity*> foundEntities;
 
-	//First. Search all entity that is located in point coordinate.
-	ShSearchEntityDuplicateStrategy strategy(foundEntities, 100, point.x, point.y, this->widget->getZoomRate());
-	this->widget->getEntityTable().search(strategy);
+	this->searchEntities(point, foundEntities);
 
 	if (foundEntities.count() == 0)
 		return;
 
 
-	//Second. Find the closestVertex(which must be VertexEnd or VertexStart) within foundEntities.
-	VertexType vertexType;
 	ShPoint3d vertexPoint;
-	ShNearestVertexFinder visitor(point.x, point.y, this->widget->getZoomRate(), vertexType, vertexPoint);
-
-	auto itr = foundEntities.begin();
-	for (itr; itr != foundEntities.end(); ++itr) {
-
-		(*itr)->accept(&visitor);
-
-		if (vertexType == VertexType::VertexEnd || vertexType == VertexType::VertexStart)
-			break;
-	}
-
-	if (vertexType != VertexType::VertexEnd && vertexType != VertexType::VertexStart)
+	if (this->findClosestVertexEndAndStart(point, foundEntities, vertexPoint) == false)
 		return;
 
+	if (this->checkAlreadyExistThenRemove(point, vertexPoint) == true)
+		return;
 
-	//Third. With Searched VertexType and VertexPoint, find all entity that has same vertex Coordinate to vertexPoint above found.
-	if (vertexType == VertexType::VertexEnd || vertexType == VertexType::VertexStart) {
-
-		for (int i = 0; i < this->extensionBaseDatas.size(); i++) {
-
-			//Already exist.
-			if (const_cast<ShExtensionBaseData&>(this->extensionBaseDatas.at(i)).point == vertexPoint) {
-
-				double zoomRate = this->widget->getZoomRate();
-				double tolerance = 2.0;
-				if (point.x >= vertexPoint.x - (tolerance / zoomRate) &&
-					point.x <= vertexPoint.x + (tolerance / zoomRate) &&
-					point.y >= vertexPoint.y - (tolerance / zoomRate) &&
-					point.y <= vertexPoint.y + (tolerance / zoomRate)) {
-
-					if (this->lastAddedPoint.added == true && this->lastAddedPoint.lastAddedPoint == vertexPoint)
-						return;
-
-					this->lastDeletePoint.lastDeletePoint = vertexPoint;
-					this->lastDeletePoint.deleted = true;
-					QTimer::singleShot(1000, this, &ShDisposableExtensionSnapAction::initializeLastDeletePoint);
-
-					this->extensionBaseDatas.takeAt(i);
-				}
-				return;
-			}
-		}
-
-		//Doesn't exist in the list. Howerver, if vertexPoint was deleted within 1sec, cancel below task.
-
-		if (this->lastDeletePoint.deleted == true && vertexPoint == this->lastDeletePoint.lastDeletePoint)
-			return;
-
-		bool mathched = false;
-		VertexType matchVertexType = (VertexType)(VertexType::VertexStart | VertexType::VertexEnd);
-		PointAndVertexTypeMathchedEntityFinder visitor(vertexPoint, vertexType, mathched);
-		ShExtensionBaseData data;
-		data.point = vertexPoint;
-		
-		itr = foundEntities.begin();
-		for (itr; itr != foundEntities.end(); ++itr) {
-		
-			(*itr)->accept(&visitor);
-			if (mathched == true)
-				data.baseEntities.append((*itr));
-		}
-
-		this->extensionBaseDatas.append(data);
-
-		this->lastAddedPoint.added = true;
-		this->lastAddedPoint.lastAddedPoint = vertexPoint;
-		QTimer::singleShot(1000, this, &ShDisposableExtensionSnapAction::initializeLastAddedPoint);
-		
-	}
+	this->addMathchedVertexEntity(foundEntities, point, vertexPoint);
 }
 
 void ShDisposableExtensionSnapAction::initializeLastDeletePoint() {
@@ -208,4 +222,95 @@ void ShDisposableExtensionSnapAction::initializeLastDeletePoint() {
 void ShDisposableExtensionSnapAction::initializeLastAddedPoint() {
 
 	this->lastAddedPoint.added = false;
+}
+
+
+void ShDisposableExtensionSnapAction::searchEntities(const ShPoint3d &point, QLinkedList<ShEntity*> &foundEntities) {
+
+	//First. Search all entity that is located in point coordinate.
+	ShSearchEntityDuplicateStrategy strategy(foundEntities, 100, point.x, point.y, this->widget->getZoomRate());
+	this->widget->getEntityTable().search(strategy);
+
+}
+
+bool ShDisposableExtensionSnapAction::findClosestVertexEndAndStart(const ShPoint3d &point, const QLinkedList<ShEntity*> &foundEntities, ShPoint3d &vertexPoint) {
+
+	//Second. Find the closestVertex(which must be VertexEnd or VertexStart) within foundEntities.
+
+	VertexType vertexType;
+	ShNearestVertexFinder visitor(point.x, point.y, this->widget->getZoomRate(), vertexType, vertexPoint);
+
+	auto itr = const_cast<QLinkedList<ShEntity*>&>(foundEntities).begin();
+	for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(foundEntities).end(); ++itr) {
+
+		(*itr)->accept(&visitor);
+
+		if (vertexType == VertexType::VertexEnd || vertexType == VertexType::VertexStart)
+			break;
+	}
+
+	if (vertexType != VertexType::VertexEnd && vertexType != VertexType::VertexStart)
+		return false;
+
+	return true;
+}
+
+bool ShDisposableExtensionSnapAction::checkAlreadyExistThenRemove(const ShPoint3d &point, const ShPoint3d &vertexPoint) {
+
+	for (int i = 0; i < this->extensionBaseDatas.size(); i++) {
+
+		//Already exist.
+		if (const_cast<ShExtensionBaseData&>(this->extensionBaseDatas.at(i)).point == vertexPoint) {
+
+			double zoomRate = this->widget->getZoomRate();
+			double tolerance = 2.0;
+			if (point.x >= vertexPoint.x - (tolerance / zoomRate) &&
+				point.x <= vertexPoint.x + (tolerance / zoomRate) &&
+				point.y >= vertexPoint.y - (tolerance / zoomRate) &&
+				point.y <= vertexPoint.y + (tolerance / zoomRate)) {
+
+				if (this->lastAddedPoint.added == true && this->lastAddedPoint.lastAddedPoint == vertexPoint)
+					return true;
+
+				this->lastDeletePoint.lastDeletePoint = vertexPoint;
+				this->lastDeletePoint.deleted = true;
+				QTimer::singleShot(1000, this, &ShDisposableExtensionSnapAction::initializeLastDeletePoint);
+
+				this->extensionBaseDatas.takeAt(i);
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
+#include <qdebug.h>
+void ShDisposableExtensionSnapAction::addMathchedVertexEntity(const QLinkedList<ShEntity*> &foundEntities, const ShPoint3d &point, const ShPoint3d &vertexPoint) {
+
+	if (this->lastDeletePoint.deleted == true && const_cast<ShPoint3d&>(vertexPoint) == this->lastDeletePoint.lastDeletePoint)
+		return;
+
+	bool matched = false;
+	VertexType matchVertexType = (VertexType)(VertexType::VertexStart | VertexType::VertexEnd);
+	PointAndVertexTypeMathchedEntityFinder visitor(vertexPoint, matchVertexType, matched);
+	ShExtensionBaseData data;
+	data.point = vertexPoint;
+	qDebug() << "foundSize" << foundEntities.count();
+
+	auto itr = const_cast<QLinkedList<ShEntity*>&>(foundEntities).begin();
+	for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(foundEntities).end(); ++itr) {
+
+		(*itr)->accept(&visitor);
+		
+		if (matched == true)
+			data.baseEntities.append((*itr));
+	}
+
+	qDebug() << "data " << data.baseEntities.count();
+	this->extensionBaseDatas.append(data);
+
+	this->lastAddedPoint.added = true;
+	this->lastAddedPoint.lastAddedPoint = vertexPoint;
+	QTimer::singleShot(1000, this, &ShDisposableExtensionSnapAction::initializeLastAddedPoint);
 }

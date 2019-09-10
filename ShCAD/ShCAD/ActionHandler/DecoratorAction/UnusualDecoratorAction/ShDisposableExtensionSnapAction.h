@@ -49,12 +49,32 @@ private:
 	~ShLastAddedPoint();
 };
 
+class ShExtensionBaseLine {
+
+	friend class ShDisposableExtensionSnapAction;
+
+private:
+	QList<ShEntity*> baseLineEntities;
+	QList<ShPoint3d> extensionStartPoints;
+	QList<ShPoint3d> extensionFinalPoints;
+
+private:
+
+	ShExtensionBaseLine();
+	~ShExtensionBaseLine();
+
+	void clear();
+	inline int getCount() const { return this->baseLineEntities.count(); }
+};
+
+
 class ShDisposableExtensionSnapAction : public ShDisposableSnapAction, public QObject {
 	
 private:
 	QList<ShExtensionBaseData> extensionBaseDatas;
 	ShLastDeletePoint lastDeletePoint;
 	ShLastAddedPoint lastAddedPoint;
+	ShExtensionBaseLine extensionBaseLine;
 
 public:
 	ShDisposableExtensionSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
@@ -68,10 +88,17 @@ public:
 
 protected:
 	void updateExtensionBaseData(const ShPoint3d &point);
+	bool searchExtensionLine(const ShPoint3d &point);
 
 	private slots:
 	void initializeLastDeletePoint();
 	void initializeLastAddedPoint();
+
+private:
+	void searchEntities(const ShPoint3d &point, QLinkedList<ShEntity*> &foundEntities);
+	bool findClosestVertexEndAndStart(const ShPoint3d &point, const QLinkedList<ShEntity*> &foundEntities, ShPoint3d &vertexPoint);
+	bool checkAlreadyExistThenRemove(const ShPoint3d &point, const ShPoint3d &vertexPoint);
+	void addMathchedVertexEntity(const QLinkedList<ShEntity*> &foundEntities, const ShPoint3d &point, const ShPoint3d &vertexPoint);
 };
 
 #endif //_SHDISPOSABLEEXTENSIONSNAPACTION_H

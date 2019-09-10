@@ -34,10 +34,10 @@ class PointAndVertexTypeMathchedEntityFinder : public ShVisitor {
 private:
 	ShPoint3d mustMatchPoint;
 	VertexType vertexType;
-	bool &mathched;
+	bool &matched;
 
 public:
-	PointAndVertexTypeMathchedEntityFinder(const ShPoint3d &mustMatchPoint, VertexType vertexType, bool &mathched);
+	PointAndVertexTypeMathchedEntityFinder(const ShPoint3d &mustMatchPoint, VertexType vertexType, bool &matched);
 	~PointAndVertexTypeMathchedEntityFinder();
 
 	virtual void visit(ShLine *line);

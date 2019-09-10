@@ -21,20 +21,13 @@ ShDisposableSnapAction::~ShDisposableSnapAction() {
 
 void ShDisposableSnapAction::keyPressEvent(ShActionData &data) {
 	
-
-	ShDecoratorAction::keyPressEvent(data);
-
 	if (data.keyEvent->key() == Qt::Key::Key_Return ||
 		data.keyEvent->key() == Qt::Key_Enter) {
 		this->widget->update(DrawType::DrawCaptureImage); //Erase drawn snap.
 		this->sendFailMessage();
-		this->finishDisposableSnap();
-		return;
 	}
 
-	if (data.keyEvent->key() == Qt::Key::Key_Escape) {
-		this->finishDisposableSnap();
-	}
+	ShDecoratorAction::keyPressEvent(data);
 }
 
 

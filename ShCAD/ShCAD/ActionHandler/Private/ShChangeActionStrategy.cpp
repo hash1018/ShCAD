@@ -10,6 +10,7 @@
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "ActionHandler\ModifyAction\ShModifyAction.h"
 #include "Manager\ShCommandLogManager.h"
+#include "ActionHandler\Private\ShDecorateActionStrategy.h"
 
 ShChangeActionStrategy::ShChangeActionStrategy()
 	:widget(nullptr) {
@@ -63,6 +64,12 @@ void ShChangeDefaultAfterCancelingCurrentStrategy::change() {
 
 	if (this->widget == nullptr)
 		Q_ASSERT("ShChangeDefaultAfterCancelingCurrentStrategy::change() >> widget is null ptr");
+
+	if (this->widget->getDraftData().getDisposableSnap() != ObjectSnap::ObjectSnapNothing) {
+
+		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNothing);
+		this->widget->changeAction(strategy);
+	}
 
 	DrawType drawType = DrawType::DrawCaptureImage;
 
@@ -329,6 +336,12 @@ void ShReturnToPreviousAfterCancelingTemporaryStrategy::change() {
 	if (this->widget == nullptr)
 		Q_ASSERT("ShReturnToPreviousAfterCancelingTemporaryStrategy::change() >> widget is null ptr");
 
+	if (this->widget->getDraftData().getDisposableSnap() != ObjectSnap::ObjectSnapNothing) {
+
+		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNothing);
+		this->widget->changeAction(strategy);
+	}
+
 	this->widget->update(DrawType::DrawCaptureImage);
 
 	shCommandLogManager->appendListEditTextWith(shGetLanValue_command("Command/<Cancel>"));
@@ -360,6 +373,12 @@ void ShChangeModifyAfterCancelingCurrentStrategy::change() {
 
 	if (this->widget == nullptr)
 		Q_ASSERT("ShChangeModifyAfterCancelingCurrentStrategy::change() >> widget is null ptr");
+
+	if (this->widget->getDraftData().getDisposableSnap() != ObjectSnap::ObjectSnapNothing) {
+
+		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNothing);
+		this->widget->changeAction(strategy);
+	}
 
 	if (this->widget->getActionHandlerProxy()->getType() != ActionType::ActionDefault) {
 	

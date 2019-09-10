@@ -183,10 +183,9 @@ void ShNearestVertexFinder::visit(ShArc *arc) {
 
 /////////////////////////////////////////////////////////////////////////////
 
-
-PointAndVertexTypeMathchedEntityFinder::PointAndVertexTypeMathchedEntityFinder(const ShPoint3d &mustMatchPoint, VertexType vertexType, bool &mathched)
-	:mustMatchPoint(mustMatchPoint), vertexType(vertexType), mathched(mathched) {
-
+PointAndVertexTypeMathchedEntityFinder::PointAndVertexTypeMathchedEntityFinder(const ShPoint3d &mustMatchPoint, VertexType vertexType, bool &matched)
+	:mustMatchPoint(mustMatchPoint), vertexType(vertexType), matched(matched) {
+	
 }
 
 PointAndVertexTypeMathchedEntityFinder::~PointAndVertexTypeMathchedEntityFinder() {
@@ -199,28 +198,29 @@ void PointAndVertexTypeMathchedEntityFinder::visit(ShLine *line) {
 
 		if (this->mustMatchPoint == line->getStart()) {
 
-			this->mathched = true;
+			this->matched = true;
 			return;
 		}
 	}
-	else if ((this->vertexType & VertexType::VertexEnd) == VertexType::VertexEnd) {
 
+	if ((this->vertexType & VertexType::VertexEnd) == VertexType::VertexEnd) {
+		
 		if (this->mustMatchPoint == line->getEnd()) {
-
-			this->mathched = true;
+		
+			this->matched = true;
 			return;
 		}
 	}
-	else if ((this->vertexType & VertexType::VertexMid) == VertexType::VertexMid) {
+	if ((this->vertexType & VertexType::VertexMid) == VertexType::VertexMid) {
 
 		if (this->mustMatchPoint == line->getMid()) {
 
-			this->mathched = true;
+			this->matched = true;
 			return;
 		}
 	}
 
-	this->mathched = false;
+	this->matched = false;
 }
 
 void PointAndVertexTypeMathchedEntityFinder::visit(ShCircle *circle) {
@@ -229,12 +229,12 @@ void PointAndVertexTypeMathchedEntityFinder::visit(ShCircle *circle) {
 
 		if (this->mustMatchPoint == circle->getCenter()) {
 
-			this->mathched = true;
+			this->matched = true;
 			return;
 		}
 	}
 
-	this->mathched = false;
+	this->matched = false;
 }
 
 void PointAndVertexTypeMathchedEntityFinder::visit(ShArc *arc) {
@@ -243,34 +243,34 @@ void PointAndVertexTypeMathchedEntityFinder::visit(ShArc *arc) {
 
 		if (this->mustMatchPoint == arc->getStart()) {
 
-			this->mathched = true;
+			this->matched = true;
 			return;
 		}
 	}
-	else if ((this->vertexType & VertexType::VertexEnd) == VertexType::VertexEnd) {
+	if ((this->vertexType & VertexType::VertexEnd) == VertexType::VertexEnd) {
 
 		if (this->mustMatchPoint == arc->getEnd()) {
 
-			this->mathched = true;
+			this->matched = true;
 			return;
 		}
 	}
-	else if ((this->vertexType & VertexType::VertexMid) == VertexType::VertexMid) {
+	if ((this->vertexType & VertexType::VertexMid) == VertexType::VertexMid) {
 
 		if (this->mustMatchPoint == arc->getMid()) {
 
-			this->mathched = true;
+			this->matched = true;
 			return;
 		}
 	}
-	else if ((this->vertexType & VertexType::VertexCenter) == VertexType::VertexCenter) {
+	if ((this->vertexType & VertexType::VertexCenter) == VertexType::VertexCenter) {
 
 		if (this->mustMatchPoint == arc->getCenter()) {
 
-			this->mathched = true;
+			this->matched = true;
 			return;
 		}
 	}
 
-	this->mathched = false;
+	this->matched = false;
 }
