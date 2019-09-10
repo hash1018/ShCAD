@@ -176,7 +176,7 @@ bool ShDisposableExtensionSnapAction::searchExtensionLine(const ShPoint3d &point
 
 			dis = math::getDistance(perpendicular.x, perpendicular.y, point.x, point.y);
 
-			if (dis <= 8.0 / this->widget->getZoomRate() &&
+			if (dis <= 10.0 / this->widget->getZoomRate() &&
 				dis > 2.0 / this->widget->getZoomRate()) {
 
 				this->extensionBaseLine.baseLineEntities.append(entity);
@@ -211,7 +211,7 @@ void ShDisposableExtensionSnapAction::updateExtensionBaseData(const ShPoint3d &p
 	if (this->checkAlreadyExistThenRemove(point, vertexPoint) == true)
 		return;
 
-	this->addMathchedVertexEntity(foundEntities, point, vertexPoint);
+	this->addMathchedVertexEntity(point, vertexPoint);
 }
 
 void ShDisposableExtensionSnapAction::initializeLastDeletePoint() {
@@ -286,7 +286,7 @@ bool ShDisposableExtensionSnapAction::checkAlreadyExistThenRemove(const ShPoint3
 }
 
 #include <qdebug.h>
-void ShDisposableExtensionSnapAction::addMathchedVertexEntity(const QLinkedList<ShEntity*> &foundEntities, const ShPoint3d &point, const ShPoint3d &vertexPoint) {
+void ShDisposableExtensionSnapAction::addMathchedVertexEntity(const ShPoint3d &point, const ShPoint3d &vertexPoint) {
 
 	if (this->lastDeletePoint.deleted == true && const_cast<ShPoint3d&>(vertexPoint) == this->lastDeletePoint.lastDeletePoint)
 		return;
@@ -296,18 +296,18 @@ void ShDisposableExtensionSnapAction::addMathchedVertexEntity(const QLinkedList<
 	PointAndVertexTypeMathchedEntityFinder visitor(vertexPoint, matchVertexType, matched);
 	ShExtensionBaseData data;
 	data.point = vertexPoint;
-	qDebug() << "foundSize" << foundEntities.count();
+	
 
-	auto itr = const_cast<QLinkedList<ShEntity*>&>(foundEntities).begin();
-	for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(foundEntities).end(); ++itr) {
+	auto itr = this->widget->getEntityTable().turnOnLayerBegin();
+	for (itr; itr != this->widget->getEntityTable().turnOnLayerEnd(); ++itr) {
 
 		(*itr)->accept(&visitor);
-		
+
 		if (matched == true)
 			data.baseEntities.append((*itr));
 	}
 
-	qDebug() << "data " << data.baseEntities.count();
+	
 	this->extensionBaseDatas.append(data);
 
 	this->lastAddedPoint.added = true;

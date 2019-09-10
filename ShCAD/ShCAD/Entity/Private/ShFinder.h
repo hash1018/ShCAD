@@ -14,10 +14,11 @@ private:
 	double x;
 	double y;
 	double zoomRate;
+	double tolerance;
 	ShEntity* *foundEntity;
 
 public:
-	ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity);
+	ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity, double tolerance = 6.0);
 	~ShFinder();
 
 	virtual void visit(ShLine *line);

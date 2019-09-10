@@ -5,8 +5,8 @@
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
 
-ShFinder::ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity)
-	:x(x), y(y), zoomRate(zoomRate), foundEntity(foundEntity) {
+ShFinder::ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity, double tolerance)
+	:x(x), y(y), zoomRate(zoomRate), foundEntity(foundEntity), tolerance(tolerance) {
 
 }
 
@@ -16,7 +16,7 @@ ShFinder::~ShFinder() {
 
 void ShFinder::visit(ShLine *line) {
 
-	double tolerance = 5.0 / this->zoomRate;
+	double tolerance = this->tolerance / this->zoomRate;
 
 	ShLineData data = line->getData();
 
@@ -26,7 +26,7 @@ void ShFinder::visit(ShLine *line) {
 
 void ShFinder::visit(ShCircle *circle) {
 
-	double tolerance = 5.0 / this->zoomRate;
+	double tolerance = this->tolerance / this->zoomRate;
 
 	ShCircleData data = circle->getData();
 
@@ -36,7 +36,7 @@ void ShFinder::visit(ShCircle *circle) {
 
 void ShFinder::visit(ShArc *arc) {
 
-	double tolerance = 5.0 / this->zoomRate;
+	double tolerance = this->tolerance / this->zoomRate;
 
 	ShArcData data = arc->getData();
 

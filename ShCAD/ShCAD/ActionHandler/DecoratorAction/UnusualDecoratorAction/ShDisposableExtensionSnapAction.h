@@ -98,7 +98,7 @@ private:
 	void searchEntities(const ShPoint3d &point, QLinkedList<ShEntity*> &foundEntities);
 	bool findClosestVertexEndAndStart(const ShPoint3d &point, const QLinkedList<ShEntity*> &foundEntities, ShPoint3d &vertexPoint);
 	bool checkAlreadyExistThenRemove(const ShPoint3d &point, const ShPoint3d &vertexPoint);
-	void addMathchedVertexEntity(const QLinkedList<ShEntity*> &foundEntities, const ShPoint3d &point, const ShPoint3d &vertexPoint);
+	void addMathchedVertexEntity(const ShPoint3d &point, const ShPoint3d &vertexPoint);
 };
 
 #endif //_SHDISPOSABLEEXTENSIONSNAPACTION_H

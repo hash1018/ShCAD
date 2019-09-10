@@ -13,9 +13,9 @@ protected:
 	double x;
 	double y;
 	double zoomRate;
-
+	double tolerance;
 public:
-	ShSearchEntityStrategy(double x, double y, double zoomRate);
+	ShSearchEntityStrategy(double x, double y, double zoomRate, double tolerance = 6.0);
 	virtual ~ShSearchEntityStrategy() = 0;
 
 	void setList(const QLinkedList<ShEntity*> &list);
@@ -31,7 +31,7 @@ protected:
 	ShEntity* *foundEntity;
 
 public:
-	ShSearchEntityUniqueStrategy(ShEntity* *foundEntity, double x, double y, double zoomRate);
+	ShSearchEntityUniqueStrategy(ShEntity* *foundEntity, double x, double y, double zoomRate, double tolerance = 6.0);
 	~ShSearchEntityUniqueStrategy();
 
 	virtual void search();
@@ -44,7 +44,7 @@ protected:
 	ShEntity* *foundEntity;
 
 public:
-	ShSearchEntityCompositeChildIncludedStrategy(ShEntity* *foundEntity, double x, double y, double zoomRate);
+	ShSearchEntityCompositeChildIncludedStrategy(ShEntity* *foundEntity, double x, double y, double zoomRate, double tolerance = 6.0);
 	~ShSearchEntityCompositeChildIncludedStrategy();
 
 	virtual void search();
@@ -58,7 +58,7 @@ protected:
 	int max;
 
 public:
-	ShSearchEntityDuplicateStrategy(QLinkedList<ShEntity*> &foundEntities, int max, double x, double y, double zoomRate);
+	ShSearchEntityDuplicateStrategy(QLinkedList<ShEntity*> &foundEntities, int max, double x, double y, double zoomRate, double tolerance = 6.0);
 	~ShSearchEntityDuplicateStrategy();
 
 	virtual void search();
