@@ -9,6 +9,7 @@
 
 class ShCADWidget;
 class ShDrawerSelectedEntity;
+class QPainter;
 
 class ShDrawerSelectedEntityFactory {
 
@@ -144,6 +145,26 @@ public:
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
 
+};
+
+class ShApparentExtensionDrawer : public ShDrawer {
+
+private:
+	QPainter *painter;
+	ShPoint3d start;
+	ShPoint3d end;
+
+public:
+	ShApparentExtensionDrawer(ShCADWidget *widget, QPainter *painter);
+	~ShApparentExtensionDrawer();
+
+	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
+
+public:
+	void setStart(const ShPoint3d &start) { this->start = start; }
+	void setEnd(const ShPoint3d &end) { this->end = end; }
 };
 
 #endif //_SHDRAWER_H

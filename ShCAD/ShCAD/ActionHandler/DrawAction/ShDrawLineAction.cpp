@@ -256,7 +256,7 @@ void ShSubDrawLineAction_Perpendicular::trigger(const ShPoint3d &point) {
 
 		ShPoint3d perpendicular;
 
-		ShFootOfPerpendicularVisitor visitor(perpendicular.x, perpendicular.y, point);
+		ShFootOfPerpendicularForLinePerpendicularVisitor visitor(perpendicular.x, perpendicular.y, point);
 		this->perpendicularBase->accept(&visitor);
 
 		if (math::compare(perpendicular.x, point.x) == 0 &&
@@ -291,7 +291,7 @@ void ShSubDrawLineAction_Perpendicular::invalidate(const ShPoint3d &point) {
 
 		ShPoint3d perpendicular;
 
-		ShFootOfPerpendicularVisitor visitor(perpendicular.x, perpendicular.y, point);
+		ShFootOfPerpendicularForLinePerpendicularVisitor visitor(perpendicular.x, perpendicular.y, point);
 		this->perpendicularBase->accept(&visitor);
 
 		prevLine->setStart(perpendicular);

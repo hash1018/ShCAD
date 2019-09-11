@@ -70,7 +70,7 @@ void ShFirstLinePerpendicularVisitor::visit(ShCircle *circle) {
 	double radius = circle->getRadius();
 
 	ShPoint3d point;
-	ShFootOfPerpendicularVisitor visitor(point.x, point.y, center);
+	ShFootOfPerpendicularForLinePerpendicularVisitor visitor(point.x, point.y, center);
 	this->firstLine->accept(&visitor);
 
 
@@ -86,7 +86,7 @@ void ShFirstLinePerpendicularVisitor::visit(ShArc *arc) {
 	ShPoint3d center = arc->getCenter();
 
 	ShPoint3d point;
-	ShFootOfPerpendicularVisitor visitor(point.x, point.y, center);
+	ShFootOfPerpendicularForLinePerpendicularVisitor visitor(point.x, point.y, center);
 	this->firstLine->accept(&visitor);
 
 
@@ -103,7 +103,7 @@ void ShFirstLinePerpendicularVisitor::visit(ShArc *arc) {
 		if (math::checkAngleLiesOnAngleBetween(math::addAngle(arc->getStartAngle(), 180),
 			math::addAngle(arc->getEndAngle(), 180), angle) == true) {
 
-			ShFootOfPerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, point);
+			ShFootOfPerpendicularForLinePerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, point);
 			arc->accept(&visitor);
 			this->isValid = true;
 		}
@@ -127,7 +127,7 @@ void ShFirstCirclePerpendicularVisitor::visit(ShLine *line) {
 
 	ShPoint3d center = this->firstCircle->getCenter();
 
-	ShFootOfPerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, center);
+	ShFootOfPerpendicularForLinePerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, center);
 	line->accept(&visitor);
 
 	this->isValid = true;
@@ -137,7 +137,7 @@ void ShFirstCirclePerpendicularVisitor::visit(ShCircle *circle) {
 
 	ShPoint3d center = this->firstCircle->getCenter();
 
-	ShFootOfPerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, center);
+	ShFootOfPerpendicularForLinePerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, center);
 	circle->accept(&visitor);
 
 	this->isValid = true;
@@ -154,7 +154,7 @@ void ShFirstCirclePerpendicularVisitor::visit(ShArc *arc) {
 	if (math::checkAngleLiesOnAngleBetween(arc->getStartAngle(),
 		arc->getEndAngle(), angle) == true) {
 
-		ShFootOfPerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, center);
+		ShFootOfPerpendicularForLinePerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, center);
 		arc->accept(&visitor);
 		this->isValid = true;
 	}
@@ -162,7 +162,7 @@ void ShFirstCirclePerpendicularVisitor::visit(ShArc *arc) {
 		if (math::checkAngleLiesOnAngleBetween(math::addAngle(arc->getStartAngle(), 180),
 			math::addAngle(arc->getEndAngle(), 180), angle) == true) {
 
-			ShFootOfPerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, center);
+			ShFootOfPerpendicularForLinePerpendicularVisitor visitor(this->perpendicular.x, this->perpendicular.y, center);
 			arc->accept(&visitor);
 			this->isValid = true;
 		}
@@ -189,7 +189,7 @@ void ShFirstArcPerpendicularVisitor::visit(ShLine *line) {
 	ShPoint3d center = this->firstArc->getCenter();
 
 	ShPoint3d point;
-	ShFootOfPerpendicularVisitor visitor(point.x, point.y, center);
+	ShFootOfPerpendicularForLinePerpendicularVisitor visitor(point.x, point.y, center);
 	line->accept(&visitor);
 
 	double angle = math::getAbsAngle(center.x, center.y, point.x, point.y);
@@ -219,7 +219,7 @@ void ShFirstArcPerpendicularVisitor::visit(ShCircle *circle) {
 	ShPoint3d center = this->firstArc->getCenter();
 
 	ShPoint3d point;
-	ShFootOfPerpendicularVisitor visitor(point.x, point.y, center);
+	ShFootOfPerpendicularForLinePerpendicularVisitor visitor(point.x, point.y, center);
 	circle->accept(&visitor);
 
 	double angle = math::getAbsAngle(center.x, center.y, point.x, point.y);
@@ -257,13 +257,13 @@ void ShFirstArcPerpendicularVisitor::visit(ShArc *arc) {
 	if (math::checkAngleLiesOnAngleBetween(arc->getStartAngle(),
 		arc->getEndAngle(), secondAngle) == true) {
 
-		ShFootOfPerpendicularVisitor visitor(point.x, point.y, firstCenter);
+		ShFootOfPerpendicularForLinePerpendicularVisitor visitor(point.x, point.y, firstCenter);
 		arc->accept(&visitor);
 	}
 	else if (math::checkAngleLiesOnAngleBetween(math::addAngle(arc->getStartAngle(), 180),
 		math::addAngle(arc->getEndAngle(), 180), secondAngle) == true) {
 
-		ShFootOfPerpendicularVisitor visitor(point.x, point.y, firstCenter);
+		ShFootOfPerpendicularForLinePerpendicularVisitor visitor(point.x, point.y, firstCenter);
 		arc->accept(&visitor);
 	}
 	else {

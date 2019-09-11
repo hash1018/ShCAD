@@ -6,7 +6,7 @@
 #include <qtimer.h>
 #include "Entity\Private\ShFootOfPerpendicularVisitor.h"
 #include "Base\ShMath.h"
-
+#include "Entity\Private\ShDrawer.h"
 
 ShExtensionBaseData::ShExtensionBaseData() {
 
@@ -124,24 +124,14 @@ void ShDisposableExtensionSnapAction::draw(QPainter *painter) {
 			painter->setPen(oldPen);
 		}
 
+		ShApparentExtensionDrawer visitor(this->widget, painter);
+
 		for (int i = 0; i < this->extensionBaseLine.baseLineEntities.count(); i++) {
 		
-			int dx, dy, dx2, dy2;
+			visitor.setStart(this->extensionBaseLine.extensionStartPoints.at(i));
+			visitor.setEnd(this->extensionBaseLine.extensionFinalPoints.at(i));
+			this->extensionBaseLine.baseLineEntities.at(i)->accept(&visitor);
 
-			QPen oldPen = painter->pen();
-			QPen pen;
-			pen.setWidth(2);
-			pen.setColor(QColor(000, 204, 000));
-			painter->setPen(pen);
-
-			this->widget->convertEntityToDevice(this->extensionBaseLine.extensionStartPoints.at(i).x, 
-				this->extensionBaseLine.extensionStartPoints.at(i).y, dx, dy);
-			this->widget->convertEntityToDevice(this->extensionBaseLine.extensionFinalPoints.at(i).x, 
-				this->extensionBaseLine.extensionFinalPoints.at(i).y, dx2, dy2);
-
-			painter->drawLine(dx, dy, dx2, dy2);
-
-			painter->setPen(oldPen);
 		}
 	
 	}

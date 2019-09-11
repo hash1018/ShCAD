@@ -5,6 +5,7 @@
 #include <qdebug.h>
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include <qpainter.h>
 
 
 ShDrawerSelectedEntityFactory::ShDrawerSelectedEntityFactory() {
@@ -565,4 +566,83 @@ void ShDrawerEraseBackGround::visit(ShArc *arc) {
 
 		f.drawArc(data.center, data.radius, data.startAngle, data.endAngle, GLColor(0, 0, 0));
 	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+ShApparentExtensionDrawer::ShApparentExtensionDrawer(ShCADWidget *widget, QPainter *painter)
+	:ShDrawer(widget), painter(painter) {
+
+}
+
+
+ShApparentExtensionDrawer::~ShApparentExtensionDrawer() {
+
+}
+
+void ShApparentExtensionDrawer::visit(ShLine *line) {
+
+	if (painter->isActive() == false)
+		painter->begin(this->widget);
+	
+	int dx, dy, dx2, dy2;
+
+	QPen oldPen = painter->pen();
+	QPen pen;
+	pen.setWidth(2);
+	pen.setStyle(Qt::PenStyle::DotLine);
+	pen.setColor(QColor(000, 204, 000));
+	painter->setPen(pen);
+
+	this->widget->convertEntityToDevice(this->start.x, this->start.y, dx, dy);
+	this->widget->convertEntityToDevice(this->end.x, this->end.y, dx2, dy2);
+
+	painter->drawLine(dx, dy, dx2, dy2);
+
+	painter->setPen(oldPen);
+}
+
+void ShApparentExtensionDrawer::visit(ShCircle *circle) {
+
+}
+
+void ShApparentExtensionDrawer::visit(ShArc *arc) {
+
+	if (painter->isActive() == false)
+		painter->begin(this->widget);
+
+	int centerX, centerY, radiusX, radiusY, radius;
+
+	this->widget->convertEntityToDevice(arc->getCenter().x, arc->getCenter().y, centerX, centerY);
+	this->widget->convertEntityToDevice(arc->getCenter().x + arc->getRadius(), arc->getCenter().y, radiusX, radiusY);
+
+	radius = math::toInt(math::getDistance(centerX, centerY, radiusX, radiusY));
+	
+	QRectF rect(centerX - radius, centerY - radius, radius * 2, radius * 2);
+	
+	double startAngle = math::getAbsAngle(arc->getCenter().x, arc->getCenter().y, this->start.x, this->start.y);
+	double endAngle = math::getAbsAngle(arc->getCenter().x, arc->getCenter().y, this->end.x, this->end.y);
+	double disAngle;
+
+	if (this->start == arc->getStart())
+		disAngle = math::getAngleDifference(endAngle, startAngle);
+	else
+		disAngle = math::getAngleDifference(startAngle, endAngle);
+
+	QPen oldPen = painter->pen();
+	QPen pen;
+	pen.setWidth(2);
+	pen.setStyle(Qt::PenStyle::DotLine);
+	pen.setColor(QColor(000, 204, 000));
+	painter->setPen(pen);
+
+	if (this->start == arc->getStart())
+		painter->drawArc(rect, math::toInt(endAngle * 16), math::toInt(disAngle * 16));
+	else
+		painter->drawArc(rect, math::toInt(startAngle * 16), math::toInt(disAngle * 16));
+
+	painter->setPen(oldPen);
+
 }

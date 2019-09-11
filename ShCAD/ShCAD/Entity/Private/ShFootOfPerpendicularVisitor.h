@@ -8,6 +8,23 @@
 
 class ShEntity;
 
+class ShFootOfPerpendicularForLinePerpendicularVisitor : public ShVisitor {
+
+private:
+	double &perpendicularX;
+	double &perpendicularY;
+	ShPoint3d point;
+
+public:
+	ShFootOfPerpendicularForLinePerpendicularVisitor(double &perpendicularX, double &perpendicularY, const ShPoint3d& point);
+	~ShFootOfPerpendicularForLinePerpendicularVisitor();
+
+	virtual void visit(ShLine *line);
+	virtual void visit(ShCircle *circle);
+	virtual void visit(ShArc *arc);
+
+};
+
 class ShFootOfPerpendicularVisitor : public ShVisitor {
 
 private:
