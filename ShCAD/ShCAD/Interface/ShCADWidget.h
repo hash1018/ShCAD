@@ -30,6 +30,7 @@ class ShNotifyEvent;
 class ShCADWidget : public QOpenGLWidget {
 	
 private:
+	//Bridge Pattern.
 	ShCADWidgetImp *widgetImp;
 	ShDrawBuffer drawBuffer;
 	QImage capturedImage;

@@ -6,10 +6,6 @@
 #include "Manager\ShChangeManager.h"
 #include "Event\ShCADWidgetEventFilter.h"
 
-
-
-
-
 ShCADWidget::ShCADWidget(QWidget *parent)
 	:QOpenGLWidget(parent), widgetImp(nullptr) {
 
@@ -41,7 +37,6 @@ void ShCADWidget::resizeGL(int width, int height) {
 	QOpenGLWidget::resizeGL(width, height);
 	this->update();
 	this->captureImage();
-
 }
 
 void ShCADWidget::paintGL() {
@@ -61,7 +56,6 @@ void ShCADWidget::mouseMoveEvent(QMouseEvent *event) {
 		this->setFocus();
 
 	this->widgetImp->mouseMoveEvent(event);
-
 }
 
 void ShCADWidget::mouseReleaseEvent(QMouseEvent *event) {
@@ -90,7 +84,6 @@ void ShCADWidget::focusInEvent(QFocusEvent *event) {
 	this->notify(&notifyEvent);
 
 	manager->setActivatedWidget(this);
-
 }
 
 

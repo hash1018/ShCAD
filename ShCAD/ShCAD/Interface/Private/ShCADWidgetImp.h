@@ -3,6 +3,8 @@
 #ifndef _SHCADWIDGETIMP_H
 #define _SHCADWIDGETIMP_H
 
+//Bridge Pattern.
+
 #include "Data\ShPoint.h"
 #include "Interface\Private\ShAxis.h"
 #include "Base\ShVariable.h"
