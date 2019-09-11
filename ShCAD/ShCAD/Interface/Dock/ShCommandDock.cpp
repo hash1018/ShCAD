@@ -211,9 +211,8 @@ void ShCommandDock::setEditText(const QString &text) {
 	this->container->edit->setText(this->getHeadTitle() + text);
 }
 
-
 QString ShCommandDock::getEditText() {
-
+	
 	QString text = this->container->edit->text();
 	QString headTitle = this->container->edit->headTitle;
 

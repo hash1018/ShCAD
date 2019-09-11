@@ -84,6 +84,10 @@ void ShDecorateDisposableSnapActionStrategy::change() {
 	if (this->widget == nullptr)
 		Q_ASSERT("ShDecorateDisposableSnapActionStrategy::change() >> widget is null ptr");
 
+	if (this->objectSnap == ObjectSnap::ObjectSnapNothing &&
+		this->widget->getDraftData().getDisposableSnap() == ObjectSnap::ObjectSnapNothing)
+		return;
+
 	if (this->objectSnap == ObjectSnap::ObjectSnapNothing) {
 		this->widget->getDraftData().setDisposableSnap(ObjectSnap::ObjectSnapNothing);
 

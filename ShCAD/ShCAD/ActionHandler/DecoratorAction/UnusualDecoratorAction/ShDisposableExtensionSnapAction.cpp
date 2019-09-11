@@ -182,6 +182,7 @@ bool ShDisposableExtensionSnapAction::searchExtensionLine(const ShPoint3d &point
 				this->extensionBaseLine.baseLineEntities.append(entity);
 				this->extensionBaseLine.extensionStartPoints.append(this->extensionBaseDatas.at(i).point);
 				this->extensionBaseLine.extensionFinalPoints.append(perpendicular);
+				break;
 				
 			}
 		

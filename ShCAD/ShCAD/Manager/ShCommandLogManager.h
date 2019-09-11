@@ -32,6 +32,7 @@ public:
 	
 public:
 	QString getEditText();
+	QString getHeadTitle();
 };
 
 #endif //_SHCOMMANDLOGMANAGER_H

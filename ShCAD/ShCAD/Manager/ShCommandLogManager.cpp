@@ -54,3 +54,8 @@ QString ShCommandLogManager::getEditText() {
 
 	return this->commandDock->getEditText();
 }
+
+QString ShCommandLogManager::getHeadTitle() {
+
+	return this->commandDock->getHeadTitle();
+}

@@ -77,7 +77,7 @@ ShEnterKey::~ShEnterKey() {
 }
 
 void ShEnterKey::pressed(ShCADWidget *widget, ShActionHandler *actionHandler) {
-
+	
 	actionHandler->interpret(shCommandLogManager->getEditText());
 }
 

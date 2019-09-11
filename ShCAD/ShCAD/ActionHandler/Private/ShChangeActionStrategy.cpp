@@ -65,12 +65,10 @@ void ShChangeDefaultAfterCancelingCurrentStrategy::change() {
 	if (this->widget == nullptr)
 		Q_ASSERT("ShChangeDefaultAfterCancelingCurrentStrategy::change() >> widget is null ptr");
 
-	if (this->widget->getDraftData().getDisposableSnap() != ObjectSnap::ObjectSnapNothing) {
-
-		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNothing);
-		this->widget->changeAction(strategy);
-	}
-
+	
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNothing);
+	this->widget->changeAction(strategy);
+	
 	DrawType drawType = DrawType::DrawCaptureImage;
 
 	this->widget->getRubberBand().clear();
@@ -336,11 +334,8 @@ void ShReturnToPreviousAfterCancelingTemporaryStrategy::change() {
 	if (this->widget == nullptr)
 		Q_ASSERT("ShReturnToPreviousAfterCancelingTemporaryStrategy::change() >> widget is null ptr");
 
-	if (this->widget->getDraftData().getDisposableSnap() != ObjectSnap::ObjectSnapNothing) {
-
-		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNothing);
-		this->widget->changeAction(strategy);
-	}
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNothing);
+	this->widget->changeAction(strategy);
 
 	this->widget->update(DrawType::DrawCaptureImage);
 
@@ -374,11 +369,8 @@ void ShChangeModifyAfterCancelingCurrentStrategy::change() {
 	if (this->widget == nullptr)
 		Q_ASSERT("ShChangeModifyAfterCancelingCurrentStrategy::change() >> widget is null ptr");
 
-	if (this->widget->getDraftData().getDisposableSnap() != ObjectSnap::ObjectSnapNothing) {
-
-		ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNothing);
-		this->widget->changeAction(strategy);
-	}
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNothing);
+	this->widget->changeAction(strategy);
 
 	if (this->widget->getActionHandlerProxy()->getType() != ActionType::ActionDefault) {
 	
