@@ -3,9 +3,13 @@
 #include "Interface\ShCADWidget.h"
 #include "Base\ShMath.h"
 #include <qdebug.h>
+#include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Leaf\ShRubberBand.h"
 #include <qpainter.h>
+#include "Data\ShScrollPosition.h"
+#include "Interface\Private\ShAxis.h"
 
 
 ShDrawerSelectedEntityFactory::ShDrawerSelectedEntityFactory() {

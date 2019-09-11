@@ -2,6 +2,7 @@
 #include "ShCADWidgetTransaction.h"
 #include "Interface\ShCADWidget.h"
 #include "Event\ShNotifyEvent.h"
+#include "Data\ShPropertyData.h"
 
 ShChangeColorTransaction::ShChangeColorTransaction(ShCADWidget *widget, const ShColor &prev, const ShColor &current)
 	:ShTransaction("Color control"), widget(widget), prev(prev), current(current) {

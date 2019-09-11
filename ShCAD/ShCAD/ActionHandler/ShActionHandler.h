@@ -11,6 +11,9 @@
 #include "Manager\ShLanguageManager.h"
 #include "Manager\ShCommandLogManager.h"
 #include "Private\ShActionTriggerFailureReason.h"
+#include "Entity\Composite\ShPreview.h"
+#include "Entity\Leaf\ShRubberBand.h"
+#include "Entity\Composite\ShEntityTable.h"
 
 //State Pattern.
 

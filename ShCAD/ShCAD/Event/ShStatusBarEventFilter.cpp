@@ -3,6 +3,7 @@
 #include "ShNotifyEvent.h"
 #include "Interface\StatusBar\ShStatusBar.h"
 #include "Interface\ShCADWidget.h"
+#include "Data\ShDraftData.h"
 
 ShStatusBarEventFilter::ShStatusBarEventFilter(ShStatusBar *statusBar, ShNotifyEvent *event)
 	:strategy(nullptr) {

@@ -7,6 +7,9 @@
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "Entity\Private\ShDrawer.h"
 #include "Entity\Composite\ShSelectedEntities.h"
+#include "Entity\Composite\ShEntityTable.h"
+#include "Interface\Private\ShAxis.h"
+#include "Entity\Composite\ShPreview.h"
 
 ShCADWidgetDrawStrategy::ShCADWidgetDrawStrategy(ShCADWidget *widget, QPainter *painter)
 	:widget(widget), painter(painter), strategy(nullptr) {

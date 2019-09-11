@@ -5,6 +5,7 @@
 #include "Entity\Private\ShMover.h"
 #include "Entity\Private\ShRotater.h"
 #include "Entity\Private\ShMirror.h"
+#include "Entity\Composite\ShEntityTable.h"
 
 ShAddEntityTransaction::ShAddEntityTransaction(ShCADWidget *widget, const QString &transactionName)
 	:ShTransaction("Group " + transactionName), widget(widget), mustDeleteEntity(false) {

@@ -4,48 +4,35 @@
 #define _SHCADWIDGET_H
 
 #include <qopenglwidget.h>
-#include "Data\ShPoint.h"
-#include "Interface\Private\ShAxis.h"
 #include "Base\ShVariable.h"
-#include "Data\ShScrollPosition.h"
+#include "Data\ShPoint.h"
 #include "Data\ShDrawBuffer.h"
-#include "Data\ShCommandLog.h"
-#include "Entity\Leaf\ShRubberBand.h"
-#include "Entity\Composite\ShPreview.h"
-#include "Entity\Composite\ShEntityTable.h"
-#include "Data\ShDraftData.h"
-#include "Data\ShPropertyData.h"
 
-class ShNotifyEvent;
-class ShActionHandler;
-class ShTemporaryAction;
-class ShActionHandlerProxy;
+class ShCADWidgetImp;
 class ShChangeActionStrategy;
+class ShActionHandlerProxy;
 class ShTransactionStack;
 class ShLayerTable;
 class ShLayer;
 class ShSelectedEntities;
+class ShScrollPosition;
+class ShPropertyData;
+class ShAxis;
+class ShDrawBuffer;
+class ShCommandLog;
+class ShRubberBand;
+class ShEntityTable;
+class ShPreview;
+class ShDraftData;
+class ShNotifyEvent;
+
 
 class ShCADWidget : public QOpenGLWidget {
 	
 private:
-	ShPoint3d coordinate;
-	double zoomRate;
-	ShAxis axis;
-	ShScrollPosition scroll;
+	ShCADWidgetImp *widgetImp;
 	ShDrawBuffer drawBuffer;
 	QImage capturedImage;
-	ShActionHandlerProxy *actionHandlerProxy;
-	ShTransactionStack *undoStack;
-	ShTransactionStack *redoStack;
-	ShCommandLog commandLog;
-	ShRubberBand rubberBand;
-	ShEntityTable *entityTable;
-	ShPreview preview;
-	ShDraftData draftData;
-	ShPropertyData propertyData;
-	ShLayerTable *layerTable;
-	ShSelectedEntities *selectedEntities;
 
 public:
 	ShCADWidget(QWidget *parent = nullptr);
@@ -78,32 +65,33 @@ protected:
 	virtual void wheelEvent(QWheelEvent *event);
 	virtual void focusInEvent(QFocusEvent *event);
 
+public:
+	void setCoordinate(const ShPoint3d &coordinate);
+	void setScrollPosition(const ShScrollPosition &scrollPosition);
+	void setZoomRate(const double &zoomRate);
+	void setPropertyData(const ShPropertyData &data);
 
 public:
-	void setCoordinate(const ShPoint3d &coordinate) { this->coordinate = coordinate; }
-	void setScrollPosition(const ShScrollPosition &scrollPosition) { this->scroll = scrollPosition; }
-	void setZoomRate(const double &zoomRate) { this->zoomRate = zoomRate; }
-	void setPropertyData(const ShPropertyData &data) { this->propertyData = data; }
-
-public:
-	inline const ShPoint3d& getCoordinate() const { return this->coordinate; }
-	inline const ShScrollPosition& getScrollPosition() const { return this->scroll; }
-	inline const double& getZoomRate() const { return this->zoomRate; }
-	inline ShAxis& getAxis() const { return const_cast<ShAxis&>(this->axis); }
 	inline ShDrawBuffer& getDrawBuffer() const { return const_cast<ShDrawBuffer&>(this->drawBuffer); }
 	inline const QImage& getCapturedImage() const { return this->capturedImage; }
-	inline ShActionHandlerProxy* getActionHandlerProxy() const { return this->actionHandlerProxy; }
-	inline ShTransactionStack* getRedoStack() const { return this->redoStack; }
-	inline ShTransactionStack* getUndoStack() const { return this->undoStack; }
-	inline ShCommandLog& getCommandLog() const { return const_cast<ShCommandLog&>(this->commandLog); }
-	inline ShRubberBand& getRubberBand() const { return const_cast<ShRubberBand&>(this->rubberBand); }
-	inline ShEntityTable& getEntityTable() const { return const_cast<ShEntityTable&>(*this->entityTable); }
-	inline ShPreview& getPreview() const { return const_cast<ShPreview&>(this->preview); }
-	inline ShDraftData& getDraftData() const { return const_cast<ShDraftData&>(this->draftData); }
-	inline const ShPropertyData& getPropertyData() const { return this->propertyData; }
-	inline ShLayerTable* getLayerTable() const { return this->layerTable; }
+
+public:
+	const ShPoint3d& getCoordinate() const;
+	const ShScrollPosition& getScrollPosition() const;
+	const double& getZoomRate() const;
+	ShAxis& getAxis() const;
+	ShActionHandlerProxy* getActionHandlerProxy() const;
+	ShTransactionStack* getRedoStack() const;
+	ShTransactionStack* getUndoStack() const;
+	ShCommandLog& getCommandLog() const;
+	ShRubberBand& getRubberBand() const;
+	ShEntityTable& getEntityTable() const;
+	ShPreview& getPreview() const;
+	ShDraftData& getDraftData();
+	const ShPropertyData& getPropertyData() const;
+	ShLayerTable* getLayerTable() const;
 	ShLayer* getCurrentLayer() const;
-	inline ShSelectedEntities* getSelectedEntities() const { return this->selectedEntities; }
+	ShSelectedEntities* getSelectedEntities() const;
 
 };
 

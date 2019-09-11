@@ -1,63 +1,29 @@
 
 #include "ShCADWidget.h"
-#include <QMouseEvent>
+#include "Interface\Private\ShCADWidgetImp.h"
 #include "Manager\ShCADWidgetManager.h"
-#include "Manager\ShChangeManager.h"
 #include "Event\ShNotifyEvent.h"
-#include <qdebug.h>
-#include "Private\ShCADWidgetDrawStrategy.h"
-#include <qpainter.h>
-#include "Base\ShMath.h"
-#include "ActionHandler\ShActionHandlerProxy.h"
+#include "Manager\ShChangeManager.h"
 #include "Event\ShCADWidgetEventFilter.h"
-#include "ActionHandler\Private\ShChangeActionStrategy.h"
-#include "UnRedo\ShTransactionStack.h"
-#include "Base\ShLayerTable.h"
-#include "Entity\Composite\ShSelectedEntities.h"
+
+
 
 
 
 ShCADWidget::ShCADWidget(QWidget *parent)
-	:QOpenGLWidget(parent),zoomRate(1.0){
+	:QOpenGLWidget(parent), widgetImp(nullptr) {
 
-	this->actionHandlerProxy = new ShActionHandlerProxy(this);
-	this->setCursor(this->actionHandlerProxy->getCursorShape());
+	this->widgetImp = new ShCADWidgetImp(this);
+	this->widgetImp->init();
 
+	this->setCursor(this->widgetImp->getCursorShape());
 	this->setFocusPolicy(Qt::FocusPolicy::WheelFocus);
-	
-	this->axis.setCenter(ShPoint3d(100, 500));
-
-	this->undoStack = new ShTransactionStack;
-	this->redoStack = new ShTransactionStack;
-
-	this->layerTable = new ShLayerTable;
-
-	this->entityTable = new ShEntityTable(this->layerTable);
-
-	this->selectedEntities = new ShSelectedEntities;
 }
 
 ShCADWidget::~ShCADWidget() {
 
-	if (this->actionHandlerProxy != nullptr)
-		delete this->actionHandlerProxy;
-
-	if (this->undoStack != nullptr)
-		delete this->undoStack;
-	
-	if (this->redoStack != nullptr)
-		delete this->redoStack;
-
-	if (this->layerTable != nullptr)
-		delete this->layerTable;
-
-	if (this->entityTable != nullptr)
-		delete this->entityTable;
-
-	if (this->selectedEntities != nullptr)
-		delete this->selectedEntities;
-
-	this->rubberBand.clear();
+	if (this->widgetImp != nullptr)
+		delete this->widgetImp;
 
 	ShCADWidgetManager::getInstance()->remove(this);
 }
@@ -80,28 +46,13 @@ void ShCADWidget::resizeGL(int width, int height) {
 
 void ShCADWidget::paintGL() {
 	
-	QPainter painter(this);
-
-	ShCADWidgetDrawStrategy strategy(this, &painter, this->drawBuffer.drawType);
-	strategy.draw();
-
+	this->widgetImp->paintGL();
 }
 
 
 void ShCADWidget::mousePressEvent(QMouseEvent *event) {
 
-	if (event->buttons() & Qt::MiddleButton) {
-		ShChangeTemporaryPanStrategy strategy(this->actionHandlerProxy->getCurrentAction());
-		this->changeAction(strategy);
-	}
-
-
-	if (event->buttons() & Qt::LeftButton)
-		this->actionHandlerProxy->mouseLeftPressEvent(event);
-	else if (event->buttons() & Qt::MiddleButton)
-		this->actionHandlerProxy->mouseMidPressEvent(event);
-	else if (event->buttons() & Qt::RightButton)
-		this->actionHandlerProxy->mouseRightPressEvent(event);
+	this->widgetImp->mousePressEvent(event);
 }
 
 void ShCADWidget::mouseMoveEvent(QMouseEvent *event) {
@@ -109,67 +60,26 @@ void ShCADWidget::mouseMoveEvent(QMouseEvent *event) {
 	if (this->hasFocus() == false)
 		this->setFocus();
 
-	this->convertDeviceToEntity(event->x(), event->y(), this->coordinate.x, this->coordinate.y);
-	ShMousePositionChangedEvent notifyEvent(this->coordinate);
-	this->notify(&notifyEvent);
-
-	this->actionHandlerProxy->mouseMoveEvent(event);
+	this->widgetImp->mouseMoveEvent(event);
 
 }
 
 void ShCADWidget::mouseReleaseEvent(QMouseEvent *event) {
 
-	this->actionHandlerProxy->mouseReleaseEvent(event);
+	this->widgetImp->mouseReleaseEvent(event);
 }
 
 void ShCADWidget::keyPressEvent(QKeyEvent *event) {
 	
-	this->actionHandlerProxy->keyPressEvent(event);
+	this->widgetImp->keyPressEvent(event);
 }
 
 void ShCADWidget::wheelEvent(QWheelEvent *event) {
 
-	this->convertDeviceToEntity(event->x(), event->y(), this->coordinate.x, this->coordinate.y);
-
-	if (event->delta() > 0) {
-
-		if (this->zoomRate < 15 && this->zoomRate >= 1)
-			this->zoomRate++;
-		else if (this->zoomRate < 1)
-			this->zoomRate += 0.2;
-		else
-			return;
-	}
-	else {
-		if (this->zoomRate > 2)
-			this->zoomRate--;
-		else if (this->zoomRate <= 2 && this->zoomRate > 1)
-			this->zoomRate -= 0.5;
-		else if (this->zoomRate <= 1 && math::compare(this->zoomRate, 0.2) == 1)
-			this->zoomRate -= 0.2;
-		else if ((math::compare(this->zoomRate, 0.2) == 0 || math::compare(this->zoomRate, 0.2) == -1) &&
-			math::compare(this->zoomRate, 0.05) == 1)
-			this->zoomRate -= 0.01;
-		else
-			return;
-	}
-
-
-	this->scroll.vertical = (-1 * (this->zoomRate*this->coordinate.y) -
-		event->y() + (this->axis.getCenter().y*this->zoomRate));
-	this->scroll.horizontal = (this->zoomRate*this->coordinate.x -
-		event->x() + (this->axis.getCenter().x*this->zoomRate));
-
-	this->update();
-	this->captureImage();
-
-	ShZoomRateChangedEvent notifyEvent(this->zoomRate);
-	this->notify(&notifyEvent);
+	this->widgetImp->wheelEvent(event);
 }
 
 void ShCADWidget::focusInEvent(QFocusEvent *event) {
-
-	qDebug() << "ShCADWidget::focusInEvent ";
 
 	ShCADWidgetManager *manager = ShCADWidgetManager::getInstance();
 
@@ -212,23 +122,17 @@ void ShCADWidget::update(DrawType drawType) {
 
 void ShCADWidget::changeAction(ShChangeActionStrategy &strategy) {
 
-	strategy.widget = this;
-	strategy.change();
+	this->widgetImp->changeAction(strategy);
 }
 
 void ShCADWidget::convertDeviceToEntity(const int &x, const int &y, double &ex, double &ey) {
 
-	ex = (x + this->scroll.horizontal - (this->axis.getCenter().x*this->zoomRate))*1.000 / this->zoomRate;
-	ey = (-1 * (y + this->scroll.vertical - (this->axis.getCenter().y)*this->zoomRate))*1.000 / this->zoomRate;
+	this->widgetImp->convertDeviceToEntity(x, y, ex, ey);
 }
 
 void ShCADWidget::convertEntityToDevice(const double &x, const double &y, int &dx, int &dy) {
 
-	double tempX = ((x*this->zoomRate) - this->scroll.horizontal + (this->axis.getCenter().x*this->zoomRate));
-	double tempY = (-1 * ((y*this->zoomRate) + this->scroll.vertical - (this->axis.getCenter().y*this->zoomRate)));
-
-	dx = math::toInt(tempX);
-	dy = math::toInt(tempY);
+	this->widgetImp->convertEntityToDevice(x, y, dx, dy);
 }
 
 void ShCADWidget::captureImage() {
@@ -238,33 +142,114 @@ void ShCADWidget::captureImage() {
 
 void ShCADWidget::shiftViewport(const ShPoint3d &coordinate, int dx, int dy) {
 
-	this->coordinate = coordinate;
-
-	this->scroll.vertical = (-1 * (this->zoomRate*this->coordinate.y) - dy +
-		(this->axis.getCenter().y*this->zoomRate));
-	this->scroll.horizontal = (this->zoomRate*this->coordinate.x - dx +
-		(this->axis.getCenter().x*this->zoomRate));
-
-	this->update(DrawType::DrawAll);
-	this->captureImage();
-
-	QPoint pos = this->mapFromGlobal(QCursor::pos());
-	this->convertDeviceToEntity(pos.x(), pos.y(), this->coordinate.x, this->coordinate.y);
-
-	ShMousePositionChangedEvent notifyEvent(this->coordinate);
-	this->notify(&notifyEvent);
+	this->widgetImp->shiftViewport(coordinate, dx, dy);
 }
 
 ShPoint3d ShCADWidget::getMousePoint() {
 
 	ShPoint3d mouse;
 	QPoint pos = this->mapFromGlobal(QCursor::pos());
-	this->convertDeviceToEntity(pos.x(), pos.y(), mouse.x, mouse.y);
+	this->widgetImp->convertDeviceToEntity(pos.x(), pos.y(), mouse.x, mouse.y);
 
 	return mouse;
 }
 
+void ShCADWidget::setCoordinate(const ShPoint3d &coordinate) {
+
+	this->widgetImp->setCoordinate(coordinate);
+}
+
+void ShCADWidget::setScrollPosition(const ShScrollPosition &scrollPosition) {
+
+	this->widgetImp->setScrollPosition(scrollPosition);
+}
+
+void ShCADWidget::setZoomRate(const double &zoomRate) {
+
+	this->widgetImp->setZoomRate(zoomRate);
+}
+
+void ShCADWidget::setPropertyData(const ShPropertyData &data) {
+
+	this->widgetImp->setPropertyData(data);
+}
+
 ShLayer* ShCADWidget::getCurrentLayer() const {
 
-	return this->layerTable->getCurrentLayer();
+	return this->widgetImp->getCurrentLayer();
+}
+
+const ShPoint3d& ShCADWidget::getCoordinate() const {
+
+	return this->widgetImp->getCoordinate();
+}
+
+const ShScrollPosition& ShCADWidget::getScrollPosition() const {
+
+	return this->widgetImp->getScrollPosition();
+}
+
+const double& ShCADWidget::getZoomRate() const {
+
+	return this->widgetImp->getZoomRate();
+}
+
+ShAxis& ShCADWidget::getAxis() const {
+
+	return this->widgetImp->getAxis();
+}
+
+ShActionHandlerProxy* ShCADWidget::getActionHandlerProxy() const {
+
+	return this->widgetImp->getActionHandlerProxy();
+}
+
+ShTransactionStack* ShCADWidget::getRedoStack() const {
+
+	return this->widgetImp->getRedoStack();
+}
+
+ShTransactionStack* ShCADWidget::getUndoStack() const {
+
+	return this->widgetImp->getUndoStack();
+}
+
+ShCommandLog& ShCADWidget::getCommandLog() const {
+
+	return this->widgetImp->getCommandLog();
+}
+
+ShRubberBand& ShCADWidget::getRubberBand() const {
+
+	return this->widgetImp->getRubberBand();
+}
+
+ShEntityTable& ShCADWidget::getEntityTable() const {
+
+	return this->widgetImp->getEntityTable();
+}
+
+ShPreview& ShCADWidget::getPreview() const {
+
+	return this->widgetImp->getPreview();
+}
+
+ShDraftData& ShCADWidget::getDraftData() {
+
+	return this->widgetImp->getDraftData();
+}
+
+const ShPropertyData& ShCADWidget::getPropertyData() const {
+
+	return this->widgetImp->getPropertyData();
+}
+
+ShLayerTable* ShCADWidget::getLayerTable() const {
+
+	return this->widgetImp->getLayerTable();
+}
+
+ShSelectedEntities* ShCADWidget::getSelectedEntities() const {
+
+	return this->widgetImp->getSelectedEntities();
 }

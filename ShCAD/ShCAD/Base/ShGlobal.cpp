@@ -8,6 +8,7 @@
 #include "Manager\ShLanguageManager.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Manager\ShCommandLogManager.h"
+#include "Entity\Composite\ShEntityTable.h"
 
 ShGlobal::ShGlobal() {
 

@@ -183,11 +183,11 @@
     <ClCompile Include="Command\ShAvailableCommands.cpp" />
     <ClCompile Include="Command\ShCommand.cpp" />
     <ClCompile Include="Command\ShCommandFlyWeight.cpp" />
+    <ClCompile Include="Data\ShCommandLog.cpp" />
     <ClCompile Include="Data\ShDraftData.cpp" />
     <ClCompile Include="Data\ShAvailableDraft.cpp" />
     <ClCompile Include="Data\ShColor.cpp" />
     <ClCompile Include="Data\ShColorList.cpp" />
-    <ClCompile Include="Data\ShCommandLog.cpp" />
     <ClCompile Include="Data\ShDrawBuffer.cpp" />
     <ClCompile Include="Data\ShLineStyle.cpp" />
     <ClCompile Include="Data\ShLineStyleList.cpp" />
@@ -347,6 +347,7 @@
     <ClCompile Include="Interface\Private\ShAxis.cpp" />
     <ClCompile Include="Interface\Private\ShCADWidgetDrawStrategy.cpp" />
     <ClCompile Include="Interface\Private\ShCADWidgetDrawStrategyFactory.cpp" />
+    <ClCompile Include="Interface\Private\ShCADWidgetImp.cpp" />
     <ClCompile Include="Interface\Private\ShRibbonButtonStragety.cpp" />
     <ClCompile Include="Interface\Ribbon\Button\ShRibbonButton.cpp" />
     <ClCompile Include="Interface\Ribbon\ShHomeTab.cpp" />
@@ -497,11 +498,11 @@
     <ClInclude Include="Command\ShCommandFlyWeight.h" />
     <ClInclude Include="Command\ShCommandType.h" />
     <ClInclude Include="Command\ShCustomCommand.h" />
+    <ClInclude Include="Data\ShCommandLog.h" />
     <ClInclude Include="Data\ShDraftData.h" />
     <ClInclude Include="Data\ShAvailableDraft.h" />
     <ClInclude Include="Data\ShColor.h" />
     <ClInclude Include="Data\ShColorList.h" />
-    <ClInclude Include="Data\ShCommandLog.h" />
     <ClInclude Include="Data\ShDrawBuffer.h" />
     <ClInclude Include="Data\ShLineStyle.h" />
     <ClInclude Include="Data\ShLineStyleList.h" />
@@ -594,6 +595,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
     </CustomBuild>
+    <ClInclude Include="Interface\Private\ShCADWidgetImp.h" />
     <ClInclude Include="Interface\ToolBar\ShQuickAccessToolBar.h" />
     <ClInclude Include="Manager\ShCommandLogManager.h" />
     <ClInclude Include="UnRedo\ShLayerTransaction.h" />

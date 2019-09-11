@@ -7,6 +7,7 @@
 #include "Entity\Private\ShFootOfPerpendicularVisitor.h"
 #include "Base\ShMath.h"
 #include "Entity\Private\ShDrawer.h"
+#include "Entity\Composite\ShEntityTable.h"
 
 ShExtensionBaseData::ShExtensionBaseData() {
 
@@ -276,7 +277,7 @@ bool ShDisposableExtensionSnapAction::checkAlreadyExistThenRemove(const ShPoint3
 	return false;
 }
 
-#include <qdebug.h>
+
 void ShDisposableExtensionSnapAction::addMathchedVertexEntity(const ShPoint3d &point, const ShPoint3d &vertexPoint) {
 
 	if (this->lastDeletePoint.deleted == true && const_cast<ShPoint3d&>(vertexPoint) == this->lastDeletePoint.lastDeletePoint)

@@ -6,6 +6,7 @@
 #include "ActionHandler\ShActionHandlerProxy.h"
 #include "ObjectSnap\ShObjectSnapCommandFactory.h"
 #include "ActionHandler\Private\ShDecoratorActionFactory.h"
+#include "Data\ShDraftData.h"
 
 
 ShDecorateActionStrategy::ShDecorateActionStrategy() {

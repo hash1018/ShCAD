@@ -7,6 +7,7 @@
 #include <qpainter.h>
 #include "Entity\Private\ShFootOfPerpendicularVisitor.h"
 #include "Entity\Private\ShClosestIntersectionPointFinder.h"
+#include "Entity\Composite\ShEntityTable.h"
 
 
 ShDisposableSnapAction::ShDisposableSnapAction(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child)

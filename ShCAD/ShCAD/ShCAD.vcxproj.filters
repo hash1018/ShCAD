@@ -328,9 +328,6 @@
     <ClCompile Include="Data\ShDrawBuffer.cpp">
       <Filter>Data</Filter>
     </ClCompile>
-    <ClCompile Include="Data\ShCommandLog.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
     <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp">
       <Filter>ActionHandler\DrawAction</Filter>
     </ClCompile>
@@ -610,6 +607,12 @@
     <ClCompile Include="Entity\Private\ShVertexFinder.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Data\ShCommandLog.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Private\ShCADWidgetImp.cpp">
+      <Filter>Interface\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -792,9 +795,6 @@
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClInclude>
     <ClInclude Include="Data\ShDrawBuffer.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\ShCommandLog.h">
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h">
@@ -1042,6 +1042,12 @@
     </ClInclude>
     <ClInclude Include="Entity\Private\ShVertexFinder.h">
       <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Private\ShCADWidgetImp.h">
+      <Filter>Interface\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShCommandLog.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

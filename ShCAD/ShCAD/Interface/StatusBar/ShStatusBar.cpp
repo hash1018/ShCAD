@@ -7,6 +7,7 @@
 #include "Manager\ShCADWidgetManager.h"
 #include "Interface\ShCADWidget.h"
 #include "ActionHandler\Private\ShDecorateActionStrategy.h"
+#include "Data\ShDraftData.h"
 
 ShStatusBar::ShStatusBar(QWidget *parent)
 	:QStatusBar(parent),zoomRate(1) {

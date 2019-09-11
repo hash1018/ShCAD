@@ -4,6 +4,7 @@
 #define _SHDISPOSABLESNAPACTION_H
 
 #include "ShDecoratorAction.h"
+class ShEntity;
 
 class ShDisposableSnapAction : public ShDecoratorAction {
 

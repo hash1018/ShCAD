@@ -5,6 +5,8 @@
 #include "ActionHandler\ShActionHandler.h"
 
 class ShAddEntityTransaction;
+class ShEntity;
+
 class ShDrawAction : public ShActionHandler {
 
 protected:

@@ -3,6 +3,7 @@
 #include "Interface\Dock\ShCommandDock.h"
 #include "ShNotifyEvent.h"
 #include "Interface\ShCADWidget.h"
+#include "Data\ShCommandLog.h"
 
 ShCommandDockEventFilter::ShCommandDockEventFilter(ShCommandDock *commandDock, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -73,7 +74,7 @@ void ShCommandDockActivatedWidgetChangedEventFilterStrategy::update() {
 
 	ShCADWidget *newWidget = event->getNewWidget();
 	ShCADWidget *previousWidget = event->getPreviousWidget();
-
+	
 	if (previousWidget != nullptr) {
 		previousWidget->getCommandLog().headTitle = this->commandDock->getHeadTitle();
 		previousWidget->getCommandLog().edit = this->commandDock->getEditText();

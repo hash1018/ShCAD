@@ -3,6 +3,7 @@
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
 #include "Base\ShCursorShape.h"
+#include "Entity\Composite\ShEntityTable.h"
 
 ShDrawAction::ShDrawAction(ShCADWidget *widget)
 	:ShActionHandler(widget), addTransaction(nullptr) {

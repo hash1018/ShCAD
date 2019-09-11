@@ -27,6 +27,7 @@
 #include "qpainter.h"
 #include "Interface\ShCADWidget.h"
 #include "Base\ShMath.h"
+#include "Data\ShScrollPosition.h"
 
 ShAxis::ShAxis()
 	:center(0, 0, 0) {

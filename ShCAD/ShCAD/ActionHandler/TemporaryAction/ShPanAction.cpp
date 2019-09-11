@@ -4,6 +4,7 @@
 #include "UnRedo\ShPanTransaction.h"
 #include "Base\ShGlobal.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "Data\ShScrollPosition.h"
 
 ShPanAction::ShPanAction(ShCADWidget *widget)
 	:ShTemporaryAction(widget) {

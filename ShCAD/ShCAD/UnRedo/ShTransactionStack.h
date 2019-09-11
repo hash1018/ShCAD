@@ -9,7 +9,7 @@ class ShTransaction;
 // Command Pattern.
 
 class ShTransactionStack {
-	friend class ShCADWidget;
+	friend class ShCADWidgetImp;
 private:
 	QStack<ShTransaction*> stack;
 

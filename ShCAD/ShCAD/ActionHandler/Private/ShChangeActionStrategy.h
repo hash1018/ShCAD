@@ -10,7 +10,7 @@ class ShTemporaryAction;
 class ShPanAction;
 
 class ShChangeActionStrategy {
-	friend class ShCADWidget;
+	friend class ShCADWidgetImp;
 
 protected:
 	ShCADWidget *widget;
