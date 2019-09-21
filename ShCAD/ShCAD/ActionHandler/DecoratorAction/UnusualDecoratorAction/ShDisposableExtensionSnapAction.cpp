@@ -8,21 +8,42 @@
 #include "Base\ShMath.h"
 #include "Entity\Private\ShDrawer.h"
 #include "Entity\Composite\ShEntityTable.h"
+#include "Entity\Private\ShClosestIntersectionPointFinder.h"
 
-ShExtensionBaseData::ShExtensionBaseData() {
-
-}
-
-ShExtensionBaseData::~ShExtensionBaseData() {
+ShExtensionStartPoint::ShExtensionStartPoint() {
 
 }
 
-ShExtensionBaseData& ShExtensionBaseData::operator=(const ShExtensionBaseData &other) {
+ShExtensionStartPoint::~ShExtensionStartPoint() {
+
+}
+
+ShExtensionStartPoint& ShExtensionStartPoint::operator=(const ShExtensionStartPoint &other) {
 
 	this->baseEntities = other.baseEntities;
 	this->point = other.point;
 
 	return *this;
+}
+
+void ShExtensionStartPoint::draw(QPainter *painter, ShCADWidget *widget) {
+
+	if (painter->isActive() == false)
+		painter->begin(widget);
+
+	int dx, dy;
+	widget->convertEntityToDevice(this->point.x, this->point.y, dx, dy);
+
+	QPen oldPen = painter->pen();
+	QPen pen;
+	pen.setWidth(2);
+	pen.setColor(QColor(000, 204, 000));
+	painter->setPen(pen);
+
+	painter->drawLine(dx - 4, dy, dx + 4, dy);
+	painter->drawLine(dx, dy - 4, dx, dy + 4);
+
+	painter->setPen(oldPen);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -50,19 +71,53 @@ ShLastAddedPoint::~ShLastAddedPoint() {
 
 //////////////////////////////////////////////////////////////////////
 
-ShExtensionBaseLine::ShExtensionBaseLine() {
+ShEnabledExtensionPoints::ShEnabledExtensionPoints() {
 
 }
 
-ShExtensionBaseLine::~ShExtensionBaseLine() {
+ShEnabledExtensionPoints::~ShEnabledExtensionPoints() {
 
 }
 
-void ShExtensionBaseLine::clear() {
+void ShEnabledExtensionPoints::clear() {
 
 	this->baseLineEntities.clear();
 	this->extensionFinalPoints.clear();
 	this->extensionStartPoints.clear();
+}
+
+void ShEnabledExtensionPoints::draw(QPainter *painter, ShCADWidget *widget) {
+
+	if (painter->isActive() == false)
+		painter->begin(widget);
+
+	ShApparentExtensionDrawer visitor(widget, painter);
+
+	for (int i = 0; i < this->baseLineEntities.count(); i++) {
+
+		visitor.setStart(this->extensionStartPoints.at(i));
+		visitor.setEnd(this->extensionFinalPoints.at(i));
+		this->baseLineEntities.at(i)->accept(&visitor);
+
+	}
+}
+
+void ShEnabledExtensionPoints::updateFinalSnap(const ShPoint3d &point, ShPoint3d &snap) {
+
+	if (this->getCount() == 0)
+		return;
+
+	if (this->getCount() == 1)
+		snap = *this->extensionFinalPoints.begin();
+	else if (this->getCount() >= 2) {
+
+		bool valid;
+		auto itr = this->baseLineEntities.begin();
+		ShClosestIntersectionPointFinder visitor(point, *itr, snap, valid);
+		++itr;
+		(*itr)->accept(&visitor);
+
+	}
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -79,6 +134,27 @@ ShDisposableExtensionSnapAction::~ShDisposableExtensionSnapAction() {
 
 void ShDisposableExtensionSnapAction::mouseLeftPressEvent(ShActionData &data) {
 
+	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
+
+	if (draft.getAvailableSnap() == true) {
+
+		this->updateExtensionStartPoints(data.point);
+		
+		if (this->updateEnabledExtensionPoints(data.point) == false) {
+		
+			this->sendFailMessage();
+			this->finishDisposableSnap();
+			return;
+		}
+
+		data.point = this->snap;
+		dynamic_cast<ShDecoratorActionData&>(data).orthAccepted = false;
+
+	}
+
+	ShDisposableSnapAction::mouseLeftPressEvent(data);
+
+	this->finishDisposableSnap();
 }
 
 void ShDisposableExtensionSnapAction::mouseMoveEvent(ShActionData &data) {
@@ -88,8 +164,8 @@ void ShDisposableExtensionSnapAction::mouseMoveEvent(ShActionData &data) {
 	if (draft.getAvailableSnap() == true) {
 
 
-		this->updateExtensionBaseData(data.point);
-		this->searchExtensionLine(data.point);
+		this->updateExtensionStartPoints(data.point);
+		this->updateEnabledExtensionPoints(data.point);
 
 		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawActionHandler));
 	}
@@ -100,57 +176,57 @@ void ShDisposableExtensionSnapAction::mouseMoveEvent(ShActionData &data) {
 
 void ShDisposableExtensionSnapAction::draw(QPainter *painter) {
 
-	if (this->extensionBaseDatas.count() > 0) {
+	for (int i = 0; i < this->extensionStartPoints.count(); i++)
+		const_cast<ShExtensionStartPoint&>(this->extensionStartPoints.at(i)).draw(painter, this->widget);
+
+	if (this->valid == true) {
+
+		this->enabledExtensionPoints.draw(painter, this->widget);
 
 		if (painter->isActive() == false)
-			painter->begin(this->widget);
+			painter->begin(widget);
 
-		ShPoint3d point;
-		for (int i = 0; i < this->extensionBaseDatas.count(); i++) {
-		
-			point = this->extensionBaseDatas.at(i).point;
+		int dx, dy;
+		widget->convertEntityToDevice(this->snap.x, this->snap.y, dx, dy);
 
-			int dx, dy;
-			this->widget->convertEntityToDevice(point.x, point.y, dx, dy);
+		QPen oldPen = painter->pen();
+		QPen pen;
+		pen.setWidth(2);
+		pen.setColor(QColor(255, 255, 255));
+		painter->setPen(pen);
 
-			QPen oldPen = painter->pen();
-			QPen pen;
-			pen.setWidth(2);
-			pen.setColor(QColor(000, 204, 000));
-			painter->setPen(pen);
+		painter->drawLine(dx - 6, dy - 6, dx + 6, dy + 6);
+		painter->drawLine(dx - 6, dy + 6, dx + 6, dy - 6);
 
-			painter->drawLine(dx - 4, dy, dx + 4, dy);
-			painter->drawLine(dx, dy - 4, dx, dy + 4);
-
-			painter->setPen(oldPen);
-		}
-
-		ShApparentExtensionDrawer visitor(this->widget, painter);
-
-		for (int i = 0; i < this->extensionBaseLine.baseLineEntities.count(); i++) {
-		
-			visitor.setStart(this->extensionBaseLine.extensionStartPoints.at(i));
-			visitor.setEnd(this->extensionBaseLine.extensionFinalPoints.at(i));
-			this->extensionBaseLine.baseLineEntities.at(i)->accept(&visitor);
-
-		}
-	
+		painter->setPen(oldPen);
 	}
-
 
 	ShDecoratorAction::draw(painter);
 }
 
 void ShDisposableExtensionSnapAction::invalidate(ShDecoratorActionData &data) {
 
+	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
+
+	if (draft.getAvailableSnap() == true) {
+
+		this->updateExtensionStartPoints(data.point);
+		this->updateEnabledExtensionPoints(data.point);
+
+		this->widget->update((DrawType)(DrawType::DrawCaptureImage | DrawType::DrawActionHandler));
+	}
+
+
+	ShDisposableSnapAction::invalidate(data);
 }
 
 
-bool ShDisposableExtensionSnapAction::searchExtensionLine(const ShPoint3d &point) {
+bool ShDisposableExtensionSnapAction::updateEnabledExtensionPoints(const ShPoint3d &point) {
 
-	this->extensionBaseLine.clear();
+	this->valid = false;
+	this->enabledExtensionPoints.clear();
 
-	if (this->extensionBaseDatas.count() == 0)
+	if (this->extensionStartPoints.count() == 0)
 		return false;
 
 	ShPoint3d perpendicular;
@@ -158,21 +234,22 @@ bool ShDisposableExtensionSnapAction::searchExtensionLine(const ShPoint3d &point
 	ShEntity *entity;
 	double dis;
 
-	for (int i = 0; i < this->extensionBaseDatas.count(); i++) {
+	for (int i = 0; i < this->extensionStartPoints.count(); i++) {
 	
-		for (int j = 0; j < this->extensionBaseDatas.at(i).baseEntities.count(); j++) {
+		for (int j = 0; j < this->extensionStartPoints.at(i).baseEntities.count(); j++) {
 
-			entity = this->extensionBaseDatas.at(i).baseEntities.at(j);
+			entity = this->extensionStartPoints.at(i).baseEntities.at(j);
 			entity->accept(&visitor);
 
 			dis = math::getDistance(perpendicular.x, perpendicular.y, point.x, point.y);
 
-			if (dis <= 10.0 / this->widget->getZoomRate() &&
+			if (dis <= 15.0 / this->widget->getZoomRate() &&
 				dis > 2.0 / this->widget->getZoomRate()) {
 
-				this->extensionBaseLine.baseLineEntities.append(entity);
-				this->extensionBaseLine.extensionStartPoints.append(this->extensionBaseDatas.at(i).point);
-				this->extensionBaseLine.extensionFinalPoints.append(perpendicular);
+				this->enabledExtensionPoints.baseLineEntities.append(entity);
+				this->enabledExtensionPoints.extensionStartPoints.append(this->extensionStartPoints.at(i).point);
+				this->enabledExtensionPoints.extensionFinalPoints.append(perpendicular);
+				this->valid = true;
 				break;
 				
 			}
@@ -180,13 +257,12 @@ bool ShDisposableExtensionSnapAction::searchExtensionLine(const ShPoint3d &point
 		}
 	}
 
-	if (this->extensionBaseLine.getCount() != 0)
-		return true;
-
-	return false;
+	this->enabledExtensionPoints.updateFinalSnap(point, this->snap);
+	
+	return this->valid;
 }
 
-void ShDisposableExtensionSnapAction::updateExtensionBaseData(const ShPoint3d &point) {
+void ShDisposableExtensionSnapAction::updateExtensionStartPoints(const ShPoint3d &point) {
 
 	QLinkedList<ShEntity*> foundEntities;
 
@@ -249,10 +325,10 @@ bool ShDisposableExtensionSnapAction::findClosestVertexEndAndStart(const ShPoint
 
 bool ShDisposableExtensionSnapAction::checkAlreadyExistThenRemove(const ShPoint3d &point, const ShPoint3d &vertexPoint) {
 
-	for (int i = 0; i < this->extensionBaseDatas.size(); i++) {
+	for (int i = 0; i < this->extensionStartPoints.size(); i++) {
 
 		//Already exist.
-		if (const_cast<ShExtensionBaseData&>(this->extensionBaseDatas.at(i)).point == vertexPoint) {
+		if (const_cast<ShExtensionStartPoint&>(this->extensionStartPoints.at(i)).point == vertexPoint) {
 
 			double zoomRate = this->widget->getZoomRate();
 			double tolerance = 2.0;
@@ -268,7 +344,7 @@ bool ShDisposableExtensionSnapAction::checkAlreadyExistThenRemove(const ShPoint3
 				this->lastDeletePoint.deleted = true;
 				QTimer::singleShot(1000, this, &ShDisposableExtensionSnapAction::initializeLastDeletePoint);
 
-				this->extensionBaseDatas.takeAt(i);
+				this->extensionStartPoints.takeAt(i);
 			}
 			return true;
 		}
@@ -286,7 +362,7 @@ void ShDisposableExtensionSnapAction::addMathchedVertexEntity(const ShPoint3d &p
 	bool matched = false;
 	VertexType matchVertexType = (VertexType)(VertexType::VertexStart | VertexType::VertexEnd);
 	PointAndVertexTypeMathchedEntityFinder visitor(vertexPoint, matchVertexType, matched);
-	ShExtensionBaseData data;
+	ShExtensionStartPoint data;
 	data.point = vertexPoint;
 	
 
@@ -295,12 +371,18 @@ void ShDisposableExtensionSnapAction::addMathchedVertexEntity(const ShPoint3d &p
 
 		(*itr)->accept(&visitor);
 
-		if (matched == true)
+		if (matched == true) {
+
+			for (int i = 0; i < this->extensionStartPoints.count(); i++) {
+				if (this->extensionStartPoints.at(i).baseEntities.contains((*itr)) == true)
+					return;
+			}
+
 			data.baseEntities.append((*itr));
+		}
 	}
 
-	
-	this->extensionBaseDatas.append(data);
+	this->extensionStartPoints.append(data);
 
 	this->lastAddedPoint.added = true;
 	this->lastAddedPoint.lastAddedPoint = vertexPoint;
