@@ -2,6 +2,8 @@
 #ifndef _SHRUBBERBAND_H
 #define _SHRUBBERBAND_H
 
+//Proxy Pattern.
+
 #include "ShLine.h"
 
 class ShRubberBand : public ShLine {
