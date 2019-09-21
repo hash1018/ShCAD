@@ -57,7 +57,7 @@ class ShEnabledExtensionPoints {
 	friend class ShDisposableExtensionSnapAction;
 
 private:
-	QList<ShEntity*> baseLineEntities;
+	QList<ShEntity*> baseEntities;
 	QList<ShPoint3d> extensionStartPoints;
 	QList<ShPoint3d> extensionFinalPoints;
 
@@ -67,7 +67,7 @@ private:
 	~ShEnabledExtensionPoints();
 
 	void clear();
-	inline int getCount() const { return this->baseLineEntities.count(); }
+	inline int getCount() const { return this->baseEntities.count(); }
 	void updateFinalSnap(const ShPoint3d &point, ShPoint3d &snap);
 
 private:

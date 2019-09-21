@@ -81,7 +81,7 @@ ShEnabledExtensionPoints::~ShEnabledExtensionPoints() {
 
 void ShEnabledExtensionPoints::clear() {
 
-	this->baseLineEntities.clear();
+	this->baseEntities.clear();
 	this->extensionFinalPoints.clear();
 	this->extensionStartPoints.clear();
 }
@@ -93,11 +93,11 @@ void ShEnabledExtensionPoints::draw(QPainter *painter, ShCADWidget *widget) {
 
 	ShApparentExtensionDrawer visitor(widget, painter);
 
-	for (int i = 0; i < this->baseLineEntities.count(); i++) {
+	for (int i = 0; i < this->baseEntities.count(); i++) {
 
 		visitor.setStart(this->extensionStartPoints.at(i));
 		visitor.setEnd(this->extensionFinalPoints.at(i));
-		this->baseLineEntities.at(i)->accept(&visitor);
+		this->baseEntities.at(i)->accept(&visitor);
 
 	}
 }
@@ -112,7 +112,7 @@ void ShEnabledExtensionPoints::updateFinalSnap(const ShPoint3d &point, ShPoint3d
 	else if (this->getCount() >= 2) {
 
 		bool valid;
-		auto itr = this->baseLineEntities.begin();
+		auto itr = this->baseEntities.begin();
 		ShClosestIntersectionPointFinder visitor(point, *itr, snap, valid);
 		++itr;
 		(*itr)->accept(&visitor);
@@ -246,7 +246,7 @@ bool ShDisposableExtensionSnapAction::updateEnabledExtensionPoints(const ShPoint
 			if (dis <= 15.0 / this->widget->getZoomRate() &&
 				dis > 2.0 / this->widget->getZoomRate()) {
 
-				this->enabledExtensionPoints.baseLineEntities.append(entity);
+				this->enabledExtensionPoints.baseEntities.append(entity);
 				this->enabledExtensionPoints.extensionStartPoints.append(this->extensionStartPoints.at(i).point);
 				this->enabledExtensionPoints.extensionFinalPoints.append(perpendicular);
 				this->valid = true;
