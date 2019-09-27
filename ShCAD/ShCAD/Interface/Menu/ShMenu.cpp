@@ -483,3 +483,76 @@ void ShWindowMenu::tileActionClicked() {
 	ShRequestChangeViewMode request(ShRequestChangeViewMode::ViewMode::Tile);
 	this->request(&request);
 }
+
+
+/////////////////////////////////////////////////////////////////////
+
+ShDimMenu::ShDimMenu(const QString &title, ShChain *chain, QWidget *parent)
+	:ShAbstractMenu(title, chain, parent) {
+
+	this->dimLinearAcion = new QAction(shGetLanValue_ui("Draw/DimLinear"));
+	this->addAction(this->dimLinearAcion);
+
+	this->dimAlignedAction = new QAction(shGetLanValue_ui("Draw/DimAligned"));
+	this->addAction(this->dimAlignedAction);
+
+	this->dimAngularAction = new QAction(shGetLanValue_ui("Draw/DimAngular"));
+	this->addAction(this->dimAngularAction);
+
+	this->dimRadiusAction = new QAction(shGetLanValue_ui("Draw/DimRadius"));
+	this->addAction(this->dimRadiusAction);
+
+	this->dimDiameterAction = new QAction(shGetLanValue_ui("Draw/DimDiameter"));
+	this->addAction(this->dimDiameterAction);
+
+	this->dimArcLengthAction = new QAction(shGetLanValue_ui("Draw/DimArcLength"));
+	this->addAction(this->dimArcLengthAction);
+
+	connect(this->dimLinearAcion, &QAction::triggered, this, &ShDimMenu::dimLinearActionClicked);
+}
+
+ShDimMenu::~ShDimMenu() {
+
+}
+
+void ShDimMenu::dimLinearActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimLinear);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDimMenu::dimAlignedActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimAligned);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDimMenu::dimAngularActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimAngular);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDimMenu::dimRadiusActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimRadius);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDimMenu::dimDiameterActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimDiameter);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDimMenu::dimArcLengthActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimArcLength);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}

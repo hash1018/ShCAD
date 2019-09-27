@@ -11,6 +11,7 @@ class ShEditMenu;
 class ShDrawMenu;
 class ShModifyMenu;
 class ShWindowMenu;
+class ShDimMenu;
 
 class ShMenuBar : public QMenuBar, public ShChain {
 
@@ -29,6 +30,7 @@ private:
 	ShDrawMenu *drawMenu;
 	ShModifyMenu *modifyMenu;
 	ShWindowMenu *windowMenu;
+	ShDimMenu *dimMenu;
 
 };
 

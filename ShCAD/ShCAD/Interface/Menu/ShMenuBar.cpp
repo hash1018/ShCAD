@@ -13,6 +13,7 @@ ShMenuBar::ShMenuBar(ShChain *chain, QWidget *parent)
 	this->drawMenu = new ShDrawMenu(shGetLanValue_ui("Draw/Draw"), this, this);
 	this->modifyMenu = new ShModifyMenu(shGetLanValue_ui("Modify/Modify"), this, this);
 	this->windowMenu = new ShWindowMenu(shGetLanValue_ui("Window/Window"), this, this);
+	this->dimMenu = new ShDimMenu(shGetLanValue_ui("Draw/Dim"), this, this);
 
 }
 
@@ -27,7 +28,9 @@ void ShMenuBar::activateMenu() {
 	this->addMenu(this->editMenu);
 	this->addMenu(this->drawMenu);
 	this->addMenu(this->modifyMenu);
+	this->addMenu(this->dimMenu);
 	this->addMenu(this->windowMenu);
+	
 }
 
 void ShMenuBar::deactivateMenu() {

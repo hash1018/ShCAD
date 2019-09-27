@@ -155,4 +155,28 @@ public:
 
 };
 
+class ShDimMenu : public ShAbstractMenu {
+
+private:
+	QAction *dimLinearAcion;
+	QAction *dimAlignedAction;
+	QAction *dimAngularAction;
+	QAction *dimRadiusAction;
+	QAction *dimDiameterAction;
+	QAction *dimArcLengthAction;
+
+public:
+	ShDimMenu(const QString &title, ShChain *chain, QWidget *parent = nullptr);
+	~ShDimMenu();
+
+	private slots:
+	void dimLinearActionClicked();
+	void dimAlignedActionClicked();
+	void dimAngularActionClicked();
+	void dimRadiusActionClicked();
+	void dimDiameterActionClicked();
+	void dimArcLengthActionClicked();
+
+};
+
 #endif //_SHMENU_H

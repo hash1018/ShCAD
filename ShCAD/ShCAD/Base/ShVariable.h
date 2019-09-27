@@ -65,6 +65,12 @@ enum ActionType {
 	ActionModifyExtend,
 	ActionModifyTrim,
 
+	ActionDrawDimLinear,
+	ActionDrawDimAligned,
+	ActionDrawDimRadius,
+	ActionDrawDimDiameter,
+	ActionDrawDimAngular,
+	ActionDrawDimArcLength,
 
 	ActionPlotAreaSelect,
 };
