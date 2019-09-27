@@ -12,6 +12,7 @@
 #include "ActionHandler\ModifyAction\ShModifyExtendAction.h"
 #include "ActionHandler\ModifyAction\ShModifyTrimAction.h"
 #include "ActionHandler\ModifyAction\ShModifyStretchAction.h"
+#include "ActionHandler\DrawAction\DimAction\ShDimLinearAction.h"
 
 ShActionHandlerFactory::ShActionHandlerFactory() {
 
@@ -77,6 +78,12 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 		return new ShModifyTrimAction(widget);
 	else if (actionType == ActionType::ActionModifyStretch)
 		return new ShModifyStretchAction(widget);
+
+
+
+	else if (actionType == ActionType::ActionDrawDimLinear)
+		return new ShDimLinearAction(widget);
+
 
 	return new ShDefaultAction(widget);
 }

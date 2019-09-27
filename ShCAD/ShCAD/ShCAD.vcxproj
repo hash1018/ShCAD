@@ -143,6 +143,8 @@
     <ClCompile Include="ActionHandler\DecoratorAction\ShOrthogonalAction.cpp" />
     <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.cpp" />
     <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawArcAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp" />
@@ -456,6 +458,8 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </Command>
     </CustomBuild>
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawArcAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h" />

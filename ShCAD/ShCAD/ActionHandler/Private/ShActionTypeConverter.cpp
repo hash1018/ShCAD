@@ -77,6 +77,10 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 	case ActionType::ActionModifyStretch:
 		text = "_Stretch"; break;
 
+
+	case ActionType::ActionDrawDimLinear:
+		text = " _DimLinear"; break;
+
 	default:
 		text = ""; break;
 	}

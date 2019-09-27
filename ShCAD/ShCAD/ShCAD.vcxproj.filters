@@ -125,6 +125,9 @@
     <Filter Include="Entity\Composite\Dim">
       <UniqueIdentifier>{5b6059f3-38c2-4c6e-a39e-f01640ea6f81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActionHandler\DrawAction\DimAction">
+      <UniqueIdentifier>{7d04c4df-8b6d-4b68-b325-853554ecd954}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -622,6 +625,12 @@
     <ClCompile Include="Entity\Composite\Dim\ShDimLinear.cpp">
       <Filter>Entity\Composite\Dim</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimAction.cpp">
+      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.cpp">
+      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1063,6 +1072,12 @@
     </ClInclude>
     <ClInclude Include="Entity\Composite\Dim\ShDimLinear.h">
       <Filter>Entity\Composite\Dim</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimAction.h">
+      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.h">
+      <Filter>ActionHandler\DrawAction\DimAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
