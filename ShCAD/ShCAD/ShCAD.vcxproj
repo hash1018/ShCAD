@@ -209,6 +209,7 @@
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
     <ClCompile Include="Entity\Private\ShClosestIntersectionPointFinder.cpp" />
+    <ClCompile Include="Entity\Private\ShDimDrawer.cpp" />
     <ClCompile Include="Entity\Private\ShDrawer.cpp" />
     <ClCompile Include="Entity\Private\ShEntityData.cpp" />
     <ClCompile Include="Entity\Private\ShExtender.cpp" />
@@ -373,6 +374,7 @@
     <ClCompile Include="KeyHandler\ShKeyHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager\ShCommandLogManager.cpp" />
+    <ClCompile Include="Manager\ShDimStyleManager.cpp" />
     <ClCompile Include="Manager\ShLanguageManager.cpp" />
     <ClCompile Include="Manager\ShCADWidgetManager.cpp" />
     <ClCompile Include="Manager\ShChangeManager.cpp" />
@@ -528,6 +530,7 @@
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />
     <ClInclude Include="Entity\Private\ShClosestIntersectionPointFinder.h" />
+    <ClInclude Include="Entity\Private\ShDimDrawer.h" />
     <ClInclude Include="Entity\Private\ShDrawer.h" />
     <ClInclude Include="Entity\Private\ShEntityData.h" />
     <ClInclude Include="Entity\Private\ShExtender.h" />
@@ -606,6 +609,7 @@
     <ClInclude Include="Interface\Private\ShCADWidgetImp.h" />
     <ClInclude Include="Interface\ToolBar\ShQuickAccessToolBar.h" />
     <ClInclude Include="Manager\ShCommandLogManager.h" />
+    <ClInclude Include="Manager\ShDimStyleManager.h" />
     <ClInclude Include="UnRedo\ShLayerTransaction.h" />
     <ClInclude Include="Utility\ShColorConverter.h" />
     <ClInclude Include="Utility\ShLineStyleConverter.h" />

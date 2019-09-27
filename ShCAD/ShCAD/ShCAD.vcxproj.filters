@@ -631,6 +631,12 @@
     <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.cpp">
       <Filter>ActionHandler\DrawAction\DimAction</Filter>
     </ClCompile>
+    <ClCompile Include="Manager\ShDimStyleManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\ShDimDrawer.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1078,6 +1084,12 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.h">
       <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\ShDimStyleManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShDimDrawer.h">
+      <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

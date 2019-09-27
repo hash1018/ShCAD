@@ -45,6 +45,10 @@ public:
 
 protected:
 	virtual void trigger(const ShPoint3d &point);
+
+private:
+	void getDimLinearData(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &point, 
+		Direction &direction, ShDimLinearData &data);
 };
 
 #endif //_SHDIMLINEARACTION_H

@@ -65,6 +65,8 @@ public:
 	void drawFilledPolygon(GLPoint(*array), int length, const GLColor& color);
 	void drawCircle(const ShPoint3d& center, double radius, const GLColor& color, int segments = 360);
 	void drawArc(const ShPoint3d& center, double radius, double startAngle, double endAngle, const GLColor& color, int segments = 360);
+	void drawDot(const GLPoint &point, const GLColor &color);
+	void drawFilledTriangle(const GLPoint &p1, const GLPoint &p2, const GLPoint &p3, const GLColor &color);
 };
 
 ////////////////////////////////////////////////
@@ -92,6 +94,7 @@ public:
 	virtual void visit(ShRubberBand *rubberBand);
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
+	virtual void visit(ShDimLinear *dimLinear);
 
 
 };

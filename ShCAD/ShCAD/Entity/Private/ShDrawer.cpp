@@ -7,10 +7,11 @@
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
 #include "Entity\Leaf\ShRubberBand.h"
+#include "Entity\Composite\Dim\ShDimLinear.h"
 #include <qpainter.h>
 #include "Data\ShScrollPosition.h"
 #include "Interface\Private\ShAxis.h"
-
+#include "Entity\Private\ShDimDrawer.h"
 
 ShDrawerSelectedEntityFactory::ShDrawerSelectedEntityFactory() {
 
@@ -206,6 +207,26 @@ void ShDrawerFunctions::drawArc(const ShPoint3d& center, double radius, double s
 	glEnd();
 }
 
+void ShDrawerFunctions::drawDot(const GLPoint &point, const GLColor &color) {
+
+	glColor3f(color.red, color.green, color.blue);
+
+	glBegin(GL_POINTS);
+	glVertex2f(point.x, point.y);
+	glEnd();
+}
+
+void ShDrawerFunctions::drawFilledTriangle(const GLPoint &p1, const GLPoint &p2, const GLPoint &p3, const GLColor &color) {
+
+	glColor3f(color.red, color.green, color.blue);
+
+	glBegin(GL_POLYGON);
+	glVertex2f(p1.x, p1.y);
+	glVertex2f(p2.x, p2.y);
+	glVertex2f(p3.x, p3.y);
+	glEnd();
+}
+
 /////////////////////////////////////////////////////////
 
 ShDrawer::ShDrawer(ShCADWidget *widget)
@@ -311,6 +332,13 @@ void ShDrawerUnSelectedEntity::visit(ShArc *arc) {
 	}
 
 	glDisable(GL_LINE_STIPPLE);
+}
+
+void ShDrawerUnSelectedEntity::visit(ShDimLinear *dimLinear) {
+
+	ShDimDrawer visitor(this->widget);
+
+	dimLinear->accept(&visitor);
 }
 
 
