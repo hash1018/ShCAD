@@ -65,4 +65,26 @@ public:
 	ShArcData& operator=(const ShArcData &other);
 };
 
+class ShDimLinearData : public ShEntityData {
+
+public:
+	ShPoint3d first;
+	ShPoint3d first2;
+	ShPoint3d second;
+	ShPoint3d second2;
+	double angle;
+	double distance;
+	ShPoint3d distancePosition;
+
+public:
+	ShDimLinearData();
+	ShDimLinearData(const ShPoint3d &first, const ShPoint3d &first2, const ShPoint3d &second, const ShPoint3d &second2,
+		double angle, double distance, const ShPoint3d &distancePosition);
+	ShDimLinearData(const ShDimLinearData &other);
+	~ShDimLinearData();
+
+	ShDimLinearData& operator=(const ShDimLinearData &other);
+
+};
+
 #endif //_SHENTITYDATA_H

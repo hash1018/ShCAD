@@ -122,6 +122,9 @@
     <Filter Include="ActionHandler\DecoratorAction\UnusualDecoratorAction">
       <UniqueIdentifier>{979e18ca-1610-448f-a889-782ed7859d3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entity\Composite\Dim">
+      <UniqueIdentifier>{5b6059f3-38c2-4c6e-a39e-f01640ea6f81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -613,6 +616,12 @@
     <ClCompile Include="Interface\Private\ShCADWidgetImp.cpp">
       <Filter>Interface\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Composite\Dim\ShDim.cpp">
+      <Filter>Entity\Composite\Dim</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Composite\Dim\ShDimLinear.cpp">
+      <Filter>Entity\Composite\Dim</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1048,6 +1057,12 @@
     </ClInclude>
     <ClInclude Include="Data\ShCommandLog.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Composite\Dim\ShDim.h">
+      <Filter>Entity\Composite\Dim</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Composite\Dim\ShDimLinear.h">
+      <Filter>Entity\Composite\Dim</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

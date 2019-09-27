@@ -105,3 +105,39 @@ ShArcData& ShArcData::operator=(const ShArcData &other) {
 
 	return *this;
 }
+
+
+////////////////////////////////////////////////////////////////////////
+
+ShDimLinearData::ShDimLinearData() {
+
+}
+
+ShDimLinearData::ShDimLinearData(const ShPoint3d &first, const ShPoint3d &first2, const ShPoint3d &second, const ShPoint3d &second2,
+	double angle, double distance, const ShPoint3d &distancePosition)
+	:first(first), first2(first2), second(second), second2(second2), angle(angle), distance(distance), distancePosition(distancePosition) {
+
+}
+
+ShDimLinearData::ShDimLinearData(const ShDimLinearData &other)
+	: first(other.first), first2(other.first2), second(other.second), second2(other.second2), angle(other.angle),
+	distance(other.distance), distancePosition(other.distancePosition) {
+
+}
+
+ShDimLinearData::~ShDimLinearData() {
+
+}
+
+ShDimLinearData& ShDimLinearData::operator=(const ShDimLinearData &other) {
+
+	this->first = other.first;
+	this->first2 = other.first2;
+	this->second = other.second;
+	this->second2 = other.second2;
+	this->angle = other.angle;
+	this->distance = other.distance;
+	this->distancePosition = other.distancePosition;
+
+	return *this;
+}

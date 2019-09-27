@@ -8,6 +8,7 @@ class ShLine;
 class ShRubberBand;
 class ShCircle;
 class ShArc;
+class ShDimLinear;
 
 class ShVisitor {
 
@@ -19,6 +20,7 @@ public:
 	virtual void visit(ShRubberBand *rubberBand) {}
 	virtual void visit(ShCircle *circle) {}
 	virtual void visit(ShArc *arc) {}
+	virtual void visit(ShDimLinear *dimLinear) {}
 
 };
 

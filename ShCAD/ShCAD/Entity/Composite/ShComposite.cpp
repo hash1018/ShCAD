@@ -7,6 +7,11 @@ ShComposite::ShComposite() {
 
 }
 
+ShComposite::ShComposite(const ShPropertyData &propertyData, ShLayer *layer)
+	:ShEntity(propertyData, layer) {
+
+}
+
 ShComposite::ShComposite(const ShComposite &other)
 	:ShEntity(other) {
 

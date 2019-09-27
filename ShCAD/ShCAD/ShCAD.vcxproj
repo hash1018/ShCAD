@@ -195,6 +195,8 @@
     <ClCompile Include="Data\ShPoint.cpp" />
     <ClCompile Include="Data\ShPropertyData.cpp" />
     <ClCompile Include="Data\ShScrollPosition.cpp" />
+    <ClCompile Include="Entity\Composite\Dim\ShDim.cpp" />
+    <ClCompile Include="Entity\Composite\Dim\ShDimLinear.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
     <ClCompile Include="Entity\Composite\ShEntityTable.cpp" />
     <ClCompile Include="Entity\Composite\ShPreview.cpp" />
@@ -510,6 +512,8 @@
     <ClInclude Include="Data\ShPoint.h" />
     <ClInclude Include="Data\ShPropertyData.h" />
     <ClInclude Include="Data\ShScrollPosition.h" />
+    <ClInclude Include="Entity\Composite\Dim\ShDim.h" />
+    <ClInclude Include="Entity\Composite\Dim\ShDimLinear.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />
     <ClInclude Include="Entity\Composite\ShEntityTable.h" />
     <ClInclude Include="Entity\Composite\ShPreview.h" />
