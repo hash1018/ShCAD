@@ -6,8 +6,8 @@
 #include <qpainter.h>
 #include "Interface\ShCADWidget.h"
 
-ShDimDrawer::ShDimDrawer(ShCADWidget *widget)
-	:ShDrawer(widget) {
+ShDimDrawer::ShDimDrawer(ShCADWidget *widget, QPainter *painter)
+	:ShDrawer(widget, painter) {
 
 }
 
@@ -55,8 +55,8 @@ void ShDimDrawer::visit(ShDimLinear *dimLinear) {
 
 	this->drawArrow(data.first2, data.second2, color);
 
-	QPainter painter;
-	this->drawText(&painter, data.distancePosition, data.angle - 90, QString::number(data.distance, 'f', 4), propertyData.getColor());
+	
+	this->drawText(this->painter, data.distancePosition, data.angle - 90, QString::number(data.distance, 'f', 4), propertyData.getColor());
 }
 
 

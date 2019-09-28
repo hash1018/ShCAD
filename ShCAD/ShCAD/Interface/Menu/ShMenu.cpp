@@ -490,22 +490,22 @@ void ShWindowMenu::tileActionClicked() {
 ShDimMenu::ShDimMenu(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractMenu(title, chain, parent) {
 
-	this->dimLinearAcion = new QAction(shGetLanValue_ui("Dim/Linear"));
+	this->dimLinearAcion = new QAction(ShIcon(":/Image/Dimension/DimLinear.png"), shGetLanValue_ui("Dim/Linear"), this);
 	this->addAction(this->dimLinearAcion);
 
-	this->dimAlignedAction = new QAction(shGetLanValue_ui("Dim/Aligned"));
+	this->dimAlignedAction = new QAction(ShIcon(":/Image/Dimension/DimAligned.png"), shGetLanValue_ui("Dim/Aligned"), this);
 	this->addAction(this->dimAlignedAction);
 
-	this->dimAngularAction = new QAction(shGetLanValue_ui("Dim/Angular"));
+	this->dimAngularAction = new QAction(ShIcon(":/Image/Dimension/DimAngular.png"), shGetLanValue_ui("Dim/Angular"), this);
 	this->addAction(this->dimAngularAction);
 
-	this->dimRadiusAction = new QAction(shGetLanValue_ui("Dim/Radius"));
+	this->dimRadiusAction = new QAction(ShIcon(":/Image/Dimension/DimRadius.png"), shGetLanValue_ui("Dim/Radius"), this);
 	this->addAction(this->dimRadiusAction);
 
-	this->dimDiameterAction = new QAction(shGetLanValue_ui("Dim/Diameter"));
+	this->dimDiameterAction = new QAction(ShIcon(":/Image/Dimension/DimDiameter.png"), shGetLanValue_ui("Dim/Diameter"), this);
 	this->addAction(this->dimDiameterAction);
 
-	this->dimArcLengthAction = new QAction(shGetLanValue_ui("Dim/ArcLength"));
+	this->dimArcLengthAction = new QAction(ShIcon(":/Image/Dimension/DimArcLength.png"), shGetLanValue_ui("Dim/ArcLength"), this);
 	this->addAction(this->dimArcLengthAction);
 
 	connect(this->dimLinearAcion, &QAction::triggered, this, &ShDimMenu::dimLinearActionClicked);

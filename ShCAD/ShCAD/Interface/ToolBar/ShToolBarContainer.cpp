@@ -11,6 +11,7 @@
 #include "ShQuickAccessToolBar.h"
 #include "Manager\ShLanguageManager.h"
 #include <qsettings.h>
+#include "ShDimensionToolBar.h"
 
 
 ShToolBarContainer::ShToolBarContainer(ShCAD *parent, ShChain *chain)
@@ -58,6 +59,8 @@ void ShToolBarContainer::createToolBars() {
 	this->objectSnapToolBar = new ShObjectSnapToolBar(shGetLanValue_ui("ObjectSnap/ObjectSnap"), this->parent, this->parent);
 	this->list.append(this->objectSnapToolBar);
 
+	this->dimensionToolBar = new ShDimensionToolBar(shGetLanValue_ui("Dim/Dim"), this->parent, this->parent);
+	this->list.append(this->dimensionToolBar);
 
 }
 
@@ -96,6 +99,7 @@ void ShToolBarContainer::readSettings() {
 	this->modifyToolBar->setMenuActionChecked(settings.value("isModifyShown").toBool());
 	this->layerToolBar->setMenuActionChecked(settings.value("isLayerShown").toBool());
 	this->objectSnapToolBar->setMenuActionChecked(settings.value("isObjectSnapShown").toBool());
+	this->dimensionToolBar->setMenuActionChecked(settings.value("isDimensionShown").toBool());
 	
 	settings.endGroup();
 }
@@ -112,6 +116,7 @@ void ShToolBarContainer::writeSettings() {
 	settings.setValue("isModifyShown", this->modifyToolBar->isMenuActionChecked());
 	settings.setValue("isLayerShown", this->layerToolBar->isMenuActionChecked());
 	settings.setValue("isObjectSnapShown", this->objectSnapToolBar->isMenuActionChecked());
+	settings.setValue("isDimensionShown", this->dimensionToolBar->isMenuActionChecked());
 
 	settings.endGroup();
 }

@@ -12,7 +12,7 @@ class ShColor;
 class ShDimDrawer : public ShDrawer {
 
 public:
-	ShDimDrawer(ShCADWidget *widget);
+	ShDimDrawer(ShCADWidget *widget, QPainter *painter);
 	~ShDimDrawer();
 
 	virtual void visit(ShDimLinear *dimLinear);

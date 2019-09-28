@@ -362,6 +362,7 @@
     <ClCompile Include="Interface\ShCADWidget.cpp" />
     <ClCompile Include="Interface\StatusBar\ShStatusBar.cpp" />
     <ClCompile Include="Interface\ToolBar\ShAbstractToolBar.cpp" />
+    <ClCompile Include="Interface\ToolBar\ShDimensionToolBar.cpp" />
     <ClCompile Include="Interface\ToolBar\ShDrawToolBar.cpp" />
     <ClCompile Include="Interface\ToolBar\ShLayerToolBar.cpp" />
     <ClCompile Include="Interface\ToolBar\ShModifyToolBar.cpp" />
@@ -607,6 +608,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
     </CustomBuild>
     <ClInclude Include="Interface\Private\ShCADWidgetImp.h" />
+    <ClInclude Include="Interface\ToolBar\ShDimensionToolBar.h" />
     <ClInclude Include="Interface\ToolBar\ShQuickAccessToolBar.h" />
     <ClInclude Include="Manager\ShCommandLogManager.h" />
     <ClInclude Include="Manager\ShDimStyleManager.h" />

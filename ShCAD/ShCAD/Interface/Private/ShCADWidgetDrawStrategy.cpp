@@ -49,8 +49,8 @@ ShDrawAllStrategy::~ShDrawAllStrategy() {
 
 void ShDrawAllStrategy::draw() {
 
-	ShDrawerUnSelectedEntity unselected(this->widget);
-	ShDrawerSelectedEntity *selected = ShDrawerSelectedEntityFactory::create(this->widget, 
+	ShDrawerUnSelectedEntity unselected(this->widget, this->painter);
+	ShDrawerSelectedEntity *selected = ShDrawerSelectedEntityFactory::create(this->widget, this->painter,
 		this->widget->getActionHandlerProxy()->getTypeIgonoringTemp());
 
 	QLinkedList<ShEntity*>::iterator itr;
@@ -119,7 +119,7 @@ ShDrawPreviewEntitiesStrategy::	~ShDrawPreviewEntitiesStrategy() {
 
 void ShDrawPreviewEntitiesStrategy::draw() {
 
-	ShDrawerUnSelectedEntity drawer(this->widget);
+	ShDrawerUnSelectedEntity drawer(this->widget, this->painter);
 	drawer.visit(&(this->widget->getRubberBand()));
 
 	QLinkedList<ShEntity*>::iterator itr;
@@ -150,7 +150,7 @@ ShDrawAddedEntitiesStrategy::~ShDrawAddedEntitiesStrategy() {
 
 void ShDrawAddedEntitiesStrategy::draw() {
 
-	ShDrawerUnSelectedEntity drawer(this->widget);
+	ShDrawerUnSelectedEntity drawer(this->widget, this->painter);
 
 	QLinkedList<ShEntity*>::iterator itr;
 
@@ -183,9 +183,9 @@ ShDrawSelectedEntitiesStrategy::~ShDrawSelectedEntitiesStrategy() {
 
 void ShDrawSelectedEntitiesStrategy::draw() {
 
-	ShDrawerEraseBackGround drawer(this->widget);
+	ShDrawerEraseBackGround drawer(this->widget, this->painter);
 
-	ShDrawerSelectedEntity *selected = ShDrawerSelectedEntityFactory::create(this->widget, 
+	ShDrawerSelectedEntity *selected = ShDrawerSelectedEntityFactory::create(this->widget, this->painter,
 		this->widget->getActionHandlerProxy()->getTypeIgonoringTemp());
 
 	QLinkedList<ShEntity*>::iterator itr;
@@ -223,8 +223,8 @@ ShDrawJustTurnOnLayerStrategy::~ShDrawJustTurnOnLayerStrategy() {
 
 void ShDrawJustTurnOnLayerStrategy::draw() {
 
-	ShDrawerUnSelectedEntity unSelected(this->widget);
-	ShDrawerSelectedEntity *selected = ShDrawerSelectedEntityFactory::create(this->widget, 
+	ShDrawerUnSelectedEntity unSelected(this->widget, this->painter);
+	ShDrawerSelectedEntity *selected = ShDrawerSelectedEntityFactory::create(this->widget, this->painter,
 		this->widget->getActionHandlerProxy()->getTypeIgonoringTemp());
 	
 	QLinkedList<ShEntity*>::iterator itr;

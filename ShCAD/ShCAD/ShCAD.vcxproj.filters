@@ -637,6 +637,9 @@
     <ClCompile Include="Entity\Private\ShDimDrawer.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\ToolBar\ShDimensionToolBar.cpp">
+      <Filter>Interface\ToolBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1090,6 +1093,9 @@
     </ClInclude>
     <ClInclude Include="Entity\Private\ShDimDrawer.h">
       <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ToolBar\ShDimensionToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

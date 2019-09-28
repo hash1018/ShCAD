@@ -17,7 +17,7 @@ public:
 	ShDrawerSelectedEntityFactory();
 	~ShDrawerSelectedEntityFactory();
 
-	static ShDrawerSelectedEntity* create(ShCADWidget *widget, ActionType actionType);
+	static ShDrawerSelectedEntity* create(ShCADWidget *widget, QPainter *painter, ActionType actionType);
 
 };
 
@@ -75,9 +75,10 @@ class ShDrawer : public ShVisitor {
 
 protected:
 	ShCADWidget *widget;
+	QPainter *painter;
 
 public:
-	ShDrawer(ShCADWidget *widget);
+	ShDrawer(ShCADWidget *widget, QPainter *painter);
 	virtual ~ShDrawer() = 0;
 
 };
@@ -87,7 +88,7 @@ public:
 class ShDrawerUnSelectedEntity : public ShDrawer {
 
 public:
-	ShDrawerUnSelectedEntity(ShCADWidget *widget);
+	ShDrawerUnSelectedEntity(ShCADWidget *widget, QPainter *painter);
 	~ShDrawerUnSelectedEntity();
 
 	virtual void visit(ShLine *line);
@@ -104,7 +105,7 @@ public:
 class ShDrawerSelectedEntity : public ShDrawer {
 
 public:
-	ShDrawerSelectedEntity(ShCADWidget *widget);
+	ShDrawerSelectedEntity(ShCADWidget *widget, QPainter *painter);
 	virtual ~ShDrawerSelectedEntity() = 0;
 
 };
@@ -114,7 +115,7 @@ public:
 class ShDrawerSelectedEntityVertex : public ShDrawerSelectedEntity {
 
 public:
-	ShDrawerSelectedEntityVertex(ShCADWidget *widget);
+	ShDrawerSelectedEntityVertex(ShCADWidget *widget, QPainter *painter);
 	~ShDrawerSelectedEntityVertex();
 
 	virtual void visit(ShLine *line);
@@ -128,7 +129,7 @@ public:
 class ShDrawerSelectedEntityNoVertex : public ShDrawerSelectedEntity {
 
 public:
-	ShDrawerSelectedEntityNoVertex(ShCADWidget *widget);
+	ShDrawerSelectedEntityNoVertex(ShCADWidget *widget, QPainter *painter);
 	~ShDrawerSelectedEntityNoVertex();
 
 	virtual void visit(ShLine *line);
@@ -141,7 +142,7 @@ public:
 class ShDrawerEraseBackGround : public ShDrawer {
 
 public:
-	ShDrawerEraseBackGround(ShCADWidget *widget);
+	ShDrawerEraseBackGround(ShCADWidget *widget, QPainter *painter);
 	~ShDrawerEraseBackGround();
 
 	virtual void visit(ShLine *line);
@@ -153,7 +154,6 @@ public:
 class ShApparentExtensionDrawer : public ShDrawer {
 
 private:
-	QPainter *painter;
 	ShPoint3d start;
 	ShPoint3d end;
 

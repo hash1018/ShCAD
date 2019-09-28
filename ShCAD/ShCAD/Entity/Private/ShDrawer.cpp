@@ -21,7 +21,7 @@ ShDrawerSelectedEntityFactory::~ShDrawerSelectedEntityFactory() {
 
 }
 
-ShDrawerSelectedEntity* ShDrawerSelectedEntityFactory::create(ShCADWidget *widget,ActionType actionType) {
+ShDrawerSelectedEntity* ShDrawerSelectedEntityFactory::create(ShCADWidget *widget, QPainter *painter, ActionType actionType) {
 	qDebug() << "create" << actionType;
 
 	if (actionType == ActionType::ActionModifyMove ||
@@ -34,10 +34,10 @@ ShDrawerSelectedEntity* ShDrawerSelectedEntityFactory::create(ShCADWidget *widge
 		actionType == ActionType::ActionModifyErase ||
 		actionType == ActionType::ActionModifyScale) {
 
-		return new ShDrawerSelectedEntityNoVertex(widget);
+		return new ShDrawerSelectedEntityNoVertex(widget, painter);
 	}
 
-	return new ShDrawerSelectedEntityVertex(widget);
+	return new ShDrawerSelectedEntityVertex(widget, painter);
 }
 
 
@@ -229,8 +229,8 @@ void ShDrawerFunctions::drawFilledTriangle(const GLPoint &p1, const GLPoint &p2,
 
 /////////////////////////////////////////////////////////
 
-ShDrawer::ShDrawer(ShCADWidget *widget)
-	:widget(widget) {
+ShDrawer::ShDrawer(ShCADWidget *widget, QPainter *painter)
+	:widget(widget), painter(painter) {
 
 }
 
@@ -240,8 +240,8 @@ ShDrawer::~ShDrawer() {
 
 /////////////////////////////////////////////////////////
 
-ShDrawerUnSelectedEntity::ShDrawerUnSelectedEntity(ShCADWidget *widget)
-	:ShDrawer(widget) {
+ShDrawerUnSelectedEntity::ShDrawerUnSelectedEntity(ShCADWidget *widget, QPainter *painter)
+	:ShDrawer(widget, painter) {
 
 }
 
@@ -336,7 +336,7 @@ void ShDrawerUnSelectedEntity::visit(ShArc *arc) {
 
 void ShDrawerUnSelectedEntity::visit(ShDimLinear *dimLinear) {
 
-	ShDimDrawer visitor(this->widget);
+	ShDimDrawer visitor(this->widget, this->painter);
 
 	dimLinear->accept(&visitor);
 }
@@ -344,8 +344,8 @@ void ShDrawerUnSelectedEntity::visit(ShDimLinear *dimLinear) {
 
 ///////////////////////////////////////////////////////////////
 
-ShDrawerSelectedEntity::ShDrawerSelectedEntity(ShCADWidget *widget)
-	:ShDrawer(widget) {
+ShDrawerSelectedEntity::ShDrawerSelectedEntity(ShCADWidget *widget, QPainter *painter)
+	:ShDrawer(widget, painter) {
 
 }
 
@@ -354,8 +354,8 @@ ShDrawerSelectedEntity::~ShDrawerSelectedEntity() {
 }
 ///////////////////////////////////////////////////////////////
 
-ShDrawerSelectedEntityVertex::ShDrawerSelectedEntityVertex(ShCADWidget *widget)
-	:ShDrawerSelectedEntity(widget) {
+ShDrawerSelectedEntityVertex::ShDrawerSelectedEntityVertex(ShCADWidget *widget, QPainter *painter)
+	:ShDrawerSelectedEntity(widget, painter) {
 
 }
 
@@ -488,8 +488,8 @@ void ShDrawerSelectedEntityVertex::visit(ShArc *arc) {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-ShDrawerSelectedEntityNoVertex::ShDrawerSelectedEntityNoVertex(ShCADWidget *widget)
-	:ShDrawerSelectedEntity(widget) {
+ShDrawerSelectedEntityNoVertex::ShDrawerSelectedEntityNoVertex(ShCADWidget *widget, QPainter *painter)
+	:ShDrawerSelectedEntity(widget, painter) {
 
 }
 
@@ -553,8 +553,8 @@ void ShDrawerSelectedEntityNoVertex::visit(ShArc *arc) {
 
 //////////////////////////////////////////////////////////////////////
 
-ShDrawerEraseBackGround::ShDrawerEraseBackGround(ShCADWidget *widget)
-	:ShDrawer(widget) {
+ShDrawerEraseBackGround::ShDrawerEraseBackGround(ShCADWidget *widget, QPainter *painter)
+	:ShDrawer(widget, painter) {
 
 }
 
@@ -605,7 +605,7 @@ void ShDrawerEraseBackGround::visit(ShArc *arc) {
 
 
 ShApparentExtensionDrawer::ShApparentExtensionDrawer(ShCADWidget *widget, QPainter *painter)
-	:ShDrawer(widget), painter(painter) {
+	:ShDrawer(widget, painter) {
 
 }
 

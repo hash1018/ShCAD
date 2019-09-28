@@ -48,5 +48,11 @@
         <file>Image/Snap/Temporary track point.png</file>
         <file>Image/Undo.png</file>
         <file>Image/Redo.png</file>
+        <file>Image/Dimension/DimLinear.png</file>
+        <file>Image/Dimension/DimAligned.png</file>
+        <file>Image/Dimension/DimAngular.png</file>
+        <file>Image/Dimension/DimRadius.png</file>
+        <file>Image/Dimension/DimDiameter.png</file>
+        <file>Image/Dimension/DimArcLength.png</file>
     </qresource>
 </RCC>

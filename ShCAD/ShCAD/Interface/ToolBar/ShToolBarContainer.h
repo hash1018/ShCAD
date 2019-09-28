@@ -16,6 +16,8 @@ class ShLayerToolBar;
 class ShObjectSnapToolBar;
 class ShAbstractToolBar;
 class ShQuickAccessToolBar;
+class ShDimensionToolBar;
+
 class ShToolBarContainer : public ShChain {
 
 private:
@@ -32,6 +34,7 @@ private:
 	ShModifyToolBar *modifyToolBar;
 	ShLayerToolBar *layerToolBar;
 	ShObjectSnapToolBar *objectSnapToolBar;
+	ShDimensionToolBar *dimensionToolBar;
 
 public:
 	ShToolBarContainer(ShCAD *parent, ShChain *chain);
