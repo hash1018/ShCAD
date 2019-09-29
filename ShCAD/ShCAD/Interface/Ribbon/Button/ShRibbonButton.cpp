@@ -284,6 +284,9 @@ ShRibbonDimensionButton::ShRibbonDimensionButton(QWidget *parent)
 		this, SLOT(dimAlignedActionClicked()));
 	menu->addAction(ShRibbonDimAngularButtonStrategy::getIcon_(), shGetLanValue_ui("Dim/Angular"),
 		this, SLOT(dimAngularActionClicked()));
+
+	menu->addSeparator();
+
 	menu->addAction(ShRibbonDimArcLengthButtonStrategy::getIcon_(), shGetLanValue_ui("Dim/ArcLength"),
 		this, SLOT(dimArcLengthActionClicked()));
 	menu->addAction(ShRibbonDimRadiusButtonStrategy::getIcon_(), shGetLanValue_ui("Dim/Radius"),
