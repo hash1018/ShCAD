@@ -226,4 +226,85 @@ public:
 	static ShIcon getIcon_();
 };
 
+class ShRibbonDimLinearButtonStrategy : public ShRibbonButtonStrategy {
+
+public:
+	ShRibbonDimLinearButtonStrategy();
+	~ShRibbonDimLinearButtonStrategy();
+
+	virtual void execute();
+	virtual ShIcon getIcon();
+	virtual QString getToolTip();
+	static ShIcon getIcon_();
+
+};
+
+class ShRibbonDimAlignedButtonStrategy : public ShRibbonButtonStrategy {
+
+public:
+	ShRibbonDimAlignedButtonStrategy();
+	~ShRibbonDimAlignedButtonStrategy();
+
+	virtual void execute();
+	virtual ShIcon getIcon();
+	virtual QString getToolTip();
+	static ShIcon getIcon_();
+
+};
+
+class ShRibbonDimRadiusButtonStrategy : public ShRibbonButtonStrategy {
+
+public:
+	ShRibbonDimRadiusButtonStrategy();
+	~ShRibbonDimRadiusButtonStrategy();
+
+	virtual void execute();
+	virtual ShIcon getIcon();
+	virtual QString getToolTip();
+	static ShIcon getIcon_();
+
+};
+
+class ShRibbonDimDiameterButtonStrategy : public ShRibbonButtonStrategy {
+
+public:
+	ShRibbonDimDiameterButtonStrategy();
+	~ShRibbonDimDiameterButtonStrategy();
+
+	virtual void execute();
+	virtual ShIcon getIcon();
+	virtual QString getToolTip();
+	static ShIcon getIcon_();
+
+};
+
+
+class ShRibbonDimAngularButtonStrategy : public ShRibbonButtonStrategy {
+
+public:
+	ShRibbonDimAngularButtonStrategy();
+	~ShRibbonDimAngularButtonStrategy();
+
+	virtual void execute();
+	virtual ShIcon getIcon();
+	virtual QString getToolTip();
+	static ShIcon getIcon_();
+
+};
+
+
+class ShRibbonDimArcLengthButtonStrategy : public ShRibbonButtonStrategy {
+
+public:
+	ShRibbonDimArcLengthButtonStrategy();
+	~ShRibbonDimArcLengthButtonStrategy();
+
+	virtual void execute();
+	virtual ShIcon getIcon();
+	virtual QString getToolTip();
+	static ShIcon getIcon_();
+
+};
+
+
 #endif //_RIBBONBUTTONSTRATEGY_H

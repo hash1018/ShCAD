@@ -21,6 +21,8 @@ class ShLineStyle;
 class ShLineStyleComboBox;
 class ShLayerComboBox;
 class ShLayer;
+class ShAnnotatePanel;
+class ShRibbonDimensionButton;
 
 class ShHomeTab : public ShRibbonTab {
 
@@ -30,6 +32,7 @@ private:
 	ShModifyPanel *modifyPanel;
 	ShPropertyPanel *propertyPanel;
 	ShLayerPanel *layerPanel;
+	ShAnnotatePanel *annotatePanel;
 
 public:
 	ShHomeTab(ShChain *chain, const QString &title, QWidget *parent = nullptr);
@@ -101,6 +104,24 @@ protected:
 
 ////////////////////////////////////////////////////////////////////
 
+class ShAnnotatePanel : public ShPanelInRibbonTab {
+	Q_OBJECT
+
+private:
+	ShRibbonDimensionButton *dimensionButton;
+
+public:
+	ShAnnotatePanel(ShChain *chain, QWidget *parent, const QString &title, int width);
+	~ShAnnotatePanel();
+
+protected:
+	void resizeEvent(QResizeEvent *event);
+
+
+};
+
+
+////////////////////////////////////////////////////////////////////
 
 class ShPropertyPanel : public ShPanelInRibbonTab {
 	Q_OBJECT

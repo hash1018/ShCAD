@@ -6,8 +6,26 @@
 #include "Interface\Item\ShButton.h"
 
 class ShRibbonButtonStrategy;
-class ShAbstractRibbonButton : public ShButtonWithMenuPopupWithText {
+class ShAbstractRibbonButtonWithText : public ShButtonWithMenuPopupWithText {
 	Q_OBJECT
+protected:
+	ShRibbonButtonStrategy *strategy;
+
+public:
+	ShAbstractRibbonButtonWithText(QWidget *parent = nullptr);
+	virtual ~ShAbstractRibbonButtonWithText() = 0;
+
+protected:
+	void changeStrategy(ShRibbonButtonStrategy *strategy);
+
+	private slots:
+	void buttonClicked();
+
+};
+
+class ShAbstractRibbonButton : public ShButtonWithMenuPopup {
+	Q_OBJECT
+
 protected:
 	ShRibbonButtonStrategy *strategy;
 
@@ -20,11 +38,10 @@ protected:
 
 	private slots:
 	void buttonClicked();
-
 };
 
 
-class ShRibbonCircleButton : public ShAbstractRibbonButton {
+class ShRibbonCircleButton : public ShAbstractRibbonButtonWithText {
 	Q_OBJECT
 
 public:
@@ -40,7 +57,7 @@ public:
 
 };
 
-class ShRibbonArcButton : public ShAbstractRibbonButton {
+class ShRibbonArcButton : public ShAbstractRibbonButtonWithText {
 
 	Q_OBJECT
 
@@ -65,7 +82,7 @@ public:
 
 };
 
-class ShRibbonPolyLineButton : public ShAbstractRibbonButton {
+class ShRibbonPolyLineButton : public ShAbstractRibbonButtonWithText {
 
 	Q_OBJECT
 
@@ -80,5 +97,24 @@ public:
 
 };
 
+
+class ShRibbonDimensionButton : public ShAbstractRibbonButton {
+	Q_OBJECT
+
+public:
+	ShRibbonDimensionButton(QWidget *parent = nullptr);
+	~ShRibbonDimensionButton();
+
+
+	private slots :
+	void dimLinearActionClicked();
+	void dimAlignedActionClicked();
+	void dimAngularActionClicked();
+	void dimArcLengthActionClicked();
+	void dimRadiusActionClicked();
+	void dimDiameterActionClicked();
+
+
+};
 
 #endif //_SHRIBBONBUTTON_H

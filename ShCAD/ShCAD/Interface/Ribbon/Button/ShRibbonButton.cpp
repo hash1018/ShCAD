@@ -4,28 +4,28 @@
 #include "Interface\Private\ShRibbonButtonStrategy.h"
 #include "Manager\ShLanguageManager.h"
 
-ShAbstractRibbonButton::ShAbstractRibbonButton(QWidget *parent)
-	:ShButtonWithMenuPopupWithText(parent), strategy(0) {
+ShAbstractRibbonButtonWithText::ShAbstractRibbonButtonWithText(QWidget *parent)
+	:ShButtonWithMenuPopupWithText(parent), strategy(nullptr) {
 
-	connect(this, &ShButtonWithMenuPopupWithText::pressed, this, &ShAbstractRibbonButton::buttonClicked);
+	connect(this, &ShButtonWithMenuPopupWithText::pressed, this, &ShAbstractRibbonButtonWithText::buttonClicked);
 }
 
-ShAbstractRibbonButton::~ShAbstractRibbonButton() {
+ShAbstractRibbonButtonWithText::~ShAbstractRibbonButtonWithText() {
 
-	if (this->strategy != 0)
+	if (this->strategy != nullptr)
 		delete this->strategy;
 }
 
-void ShAbstractRibbonButton::buttonClicked() {
+void ShAbstractRibbonButtonWithText::buttonClicked() {
 
-	if (this->strategy != 0)
+	if (this->strategy != nullptr)
 		this->strategy->execute();
 
 }
 
-void ShAbstractRibbonButton::changeStrategy(ShRibbonButtonStrategy *strategy) {
+void ShAbstractRibbonButtonWithText::changeStrategy(ShRibbonButtonStrategy *strategy) {
 
-	if (this->strategy != 0)
+	if (this->strategy != nullptr)
 		delete this->strategy;
 
 	this->strategy = strategy;
@@ -36,8 +36,38 @@ void ShAbstractRibbonButton::changeStrategy(ShRibbonButtonStrategy *strategy) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
+ShAbstractRibbonButton::ShAbstractRibbonButton(QWidget *parent)
+	:ShButtonWithMenuPopup(parent), strategy(nullptr) {
+
+	connect(this, &ShButtonWithMenuPopup::pressed, this, &ShAbstractRibbonButton::buttonClicked);
+}
+
+ShAbstractRibbonButton::~ShAbstractRibbonButton() {
+
+	if (this->strategy != nullptr)
+		delete this->strategy;
+}
+
+void ShAbstractRibbonButton::changeStrategy(ShRibbonButtonStrategy *strategy) {
+
+	if (this->strategy != 0)
+		delete this->strategy;
+
+	this->strategy = strategy;
+	this->setIcon(this->strategy->getIcon());
+	this->setToolTip(this->strategy->getToolTip());
+}
+
+void ShAbstractRibbonButton::buttonClicked() {
+
+	if (this->strategy != 0)
+		this->strategy->execute();
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+
 ShRibbonCircleButton::ShRibbonCircleButton(QWidget *parent)
-	:ShAbstractRibbonButton(parent) {
+	:ShAbstractRibbonButtonWithText(parent) {
 
 	this->setTextDirection(South);
 	this->setText(shGetLanValue_ui("Draw/Circle"));
@@ -87,7 +117,7 @@ void ShRibbonCircleButton::threePointActionClicked() {
 //////////////////////////////////////////////////////////////////////////////////////
 
 ShRibbonArcButton::ShRibbonArcButton(QWidget *parent)
-	:ShAbstractRibbonButton(parent) {
+	:ShAbstractRibbonButtonWithText(parent) {
 
 	this->setTextDirection(South);
 	this->setText(shGetLanValue_ui("Draw/Arc"));
@@ -195,7 +225,7 @@ void ShRibbonArcButton::centerStartLengthActionClicked() {
 /////////////////////////////////////////////////////////////////////////////
 
 ShRibbonPolyLineButton::ShRibbonPolyLineButton(QWidget *parent)
-	:ShAbstractRibbonButton(parent) {
+	:ShAbstractRibbonButtonWithText(parent) {
 
 	this->setTextDirection(South);
 	this->setText(shGetLanValue_ui("Draw/PolyLine"));
@@ -234,5 +264,73 @@ void ShRibbonPolyLineButton::rectangleActionClicked() {
 
 void ShRibbonPolyLineButton::polygonActionClicked() {
 	this->changeStrategy(new ShRibbonPolygonButtonStrategy);
+	this->strategy->execute();
+}
+
+
+////////////////////////////////////////////////////////////////////////
+
+ShRibbonDimensionButton::ShRibbonDimensionButton(QWidget *parent)
+	:ShAbstractRibbonButton(parent) {
+
+	this->strategy = new ShRibbonDimLinearButtonStrategy;
+	this->setIcon(this->strategy->getIcon());
+	this->setToolTip(this->strategy->getToolTip());
+
+	QMenu *menu = new QMenu(this->popupButton);
+	menu->addAction(ShRibbonDimLinearButtonStrategy::getIcon_(), shGetLanValue_ui("Dim/Linear"),
+		this, SLOT(dimLinearActionClicked()));
+	menu->addAction(ShRibbonDimAlignedButtonStrategy::getIcon_(), shGetLanValue_ui("Dim/Aligned"),
+		this, SLOT(dimAlignedActionClicked()));
+	menu->addAction(ShRibbonDimAngularButtonStrategy::getIcon_(), shGetLanValue_ui("Dim/Angular"),
+		this, SLOT(dimAngularActionClicked()));
+	menu->addAction(ShRibbonDimArcLengthButtonStrategy::getIcon_(), shGetLanValue_ui("Dim/ArcLength"),
+		this, SLOT(dimArcLengthActionClicked()));
+	menu->addAction(ShRibbonDimRadiusButtonStrategy::getIcon_(), shGetLanValue_ui("Dim/Radius"),
+		this, SLOT(dimRadiusActionClicked()));
+	menu->addAction(ShRibbonDimDiameterButtonStrategy::getIcon_(), shGetLanValue_ui("Dim/Diameter"),
+		this, SLOT(dimDiameterActionClicked()));
+
+	this->popupButton->setMenu(menu);
+	
+}
+
+ShRibbonDimensionButton::~ShRibbonDimensionButton() {
+
+}
+
+void ShRibbonDimensionButton::dimLinearActionClicked() {
+
+	this->changeStrategy(new ShRibbonDimLinearButtonStrategy);
+	this->strategy->execute();
+}
+
+void ShRibbonDimensionButton::dimAlignedActionClicked() {
+
+	this->changeStrategy(new ShRibbonDimAlignedButtonStrategy);
+	this->strategy->execute();
+}
+
+void ShRibbonDimensionButton::dimAngularActionClicked() {
+
+	this->changeStrategy(new ShRibbonDimAngularButtonStrategy);
+	this->strategy->execute();
+}
+
+void ShRibbonDimensionButton::dimArcLengthActionClicked() {
+
+	this->changeStrategy(new ShRibbonDimArcLengthButtonStrategy);
+	this->strategy->execute();
+}
+
+void ShRibbonDimensionButton::dimRadiusActionClicked() {
+
+	this->changeStrategy(new ShRibbonDimRadiusButtonStrategy);
+	this->strategy->execute();
+}
+
+void ShRibbonDimensionButton::dimDiameterActionClicked() {
+
+	this->changeStrategy(new ShRibbonDimDiameterButtonStrategy);
 	this->strategy->execute();
 }

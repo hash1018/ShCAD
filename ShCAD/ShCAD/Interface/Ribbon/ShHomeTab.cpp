@@ -21,6 +21,9 @@ ShHomeTab::ShHomeTab(ShChain *chain, const QString &title, QWidget *parent)
 	this->modifyPanel = new ShModifyPanel(this, this, shGetLanValue_ui("Home/Modify"), 250);
 	this->addPanel(this->modifyPanel);
 
+	this->annotatePanel = new ShAnnotatePanel(this, this, shGetLanValue_ui("Home/Annotate"), 150);
+	this->addPanel(this->annotatePanel);
+
 	this->propertyPanel = new ShPropertyPanel(this, this, shGetLanValue_ui("Home/Property"), 250);
 	this->addPanel(this->propertyPanel);
 
@@ -224,6 +227,29 @@ void ShModifyPanel::trimButtonClicked() {
 	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyTrim);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ShAnnotatePanel::ShAnnotatePanel(ShChain *chain, QWidget *parent, const QString &title, int width)
+	:ShPanelInRibbonTab(chain, parent, title, width) {
+
+	this->dimensionButton = new ShRibbonDimensionButton(this->layoutWidget);
+	
+}
+
+ShAnnotatePanel::~ShAnnotatePanel() {
+
+}
+
+void ShAnnotatePanel::resizeEvent(QResizeEvent *event) {
+
+	ShPanelInRibbonTab::resizeEvent(event);
+
+	int width = this->layoutWidget->width() / 4;
+	int height = this->layoutWidget->height() / 3;
+
+	this->dimensionButton->setGeometry(width * 3 - 5, 0, width + 5, height);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -603,3 +603,191 @@ QString ShRibbonPolyLineButtonStrategy::getToolTip() {
 
 	return QString("PolyLine \nCreates a polyline");
 }
+
+
+//////////////////////////////////////////////////////////////////////
+
+ShRibbonDimLinearButtonStrategy::ShRibbonDimLinearButtonStrategy() {
+
+
+}
+
+ShRibbonDimLinearButtonStrategy::~ShRibbonDimLinearButtonStrategy() {
+
+}
+
+void ShRibbonDimLinearButtonStrategy::execute() {
+
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimLinear);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
+}
+
+ShIcon ShRibbonDimLinearButtonStrategy::getIcon() {
+
+	return ShIcon(":/Image/Dimension/DimLinear.png");
+}
+
+QString ShRibbonDimLinearButtonStrategy::getToolTip() {
+
+	return QString("DimLinear \nCreates a dimLinear");
+}
+
+ShIcon ShRibbonDimLinearButtonStrategy::getIcon_() {
+
+	return ShIcon(":/Image/Dimension/DimLinear.png");
+}
+
+//////////////////////////////////////////////////////////////////////
+
+ShRibbonDimAlignedButtonStrategy::ShRibbonDimAlignedButtonStrategy() {
+
+
+}
+
+ShRibbonDimAlignedButtonStrategy::~ShRibbonDimAlignedButtonStrategy() {
+
+}
+
+void ShRibbonDimAlignedButtonStrategy::execute() {
+
+}
+
+ShIcon ShRibbonDimAlignedButtonStrategy::getIcon() {
+
+	return ShIcon(":/Image/Dimension/DimAligned.png");
+}
+
+QString ShRibbonDimAlignedButtonStrategy::getToolTip() {
+
+	return QString("DimAligned \nCreates a dimAligned");
+}
+
+ShIcon ShRibbonDimAlignedButtonStrategy::getIcon_() {
+
+	return ShIcon(":/Image/Dimension/DimAligned.png");
+}
+
+//////////////////////////////////////////////////////////////////////
+
+ShRibbonDimRadiusButtonStrategy::ShRibbonDimRadiusButtonStrategy() {
+
+
+}
+
+ShRibbonDimRadiusButtonStrategy::~ShRibbonDimRadiusButtonStrategy() {
+
+}
+
+void ShRibbonDimRadiusButtonStrategy::execute() {
+
+}
+
+ShIcon ShRibbonDimRadiusButtonStrategy::getIcon() {
+
+	return ShIcon(":/Image/Dimension/DimRadius.png");
+}
+
+QString ShRibbonDimRadiusButtonStrategy::getToolTip() {
+
+	return QString("DimRadius \nCreates a dimRadius");
+}
+
+ShIcon ShRibbonDimRadiusButtonStrategy::getIcon_() {
+
+	return ShIcon(":/Image/Dimension/DimRadius.png");
+}
+
+//////////////////////////////////////////////////////////////////////
+
+ShRibbonDimDiameterButtonStrategy::ShRibbonDimDiameterButtonStrategy() {
+
+
+}
+
+ShRibbonDimDiameterButtonStrategy::~ShRibbonDimDiameterButtonStrategy() {
+
+}
+
+void ShRibbonDimDiameterButtonStrategy::execute() {
+
+}
+
+ShIcon ShRibbonDimDiameterButtonStrategy::getIcon() {
+
+	return ShIcon(":/Image/Dimension/DimDiameter.png");
+}
+
+QString ShRibbonDimDiameterButtonStrategy::getToolTip() {
+
+	return QString("DimDiameter \nCreates a dimDiameter");
+}
+
+ShIcon ShRibbonDimDiameterButtonStrategy::getIcon_() {
+
+	return ShIcon(":/Image/Dimension/DimDiameter.png");
+}
+
+
+//////////////////////////////////////////////////////////////////////
+
+ShRibbonDimAngularButtonStrategy::ShRibbonDimAngularButtonStrategy() {
+
+
+}
+
+ShRibbonDimAngularButtonStrategy::~ShRibbonDimAngularButtonStrategy() {
+
+}
+
+void ShRibbonDimAngularButtonStrategy::execute() {
+
+}
+
+ShIcon ShRibbonDimAngularButtonStrategy::getIcon() {
+
+	return ShIcon(":/Image/Dimension/DimAngular.png");
+}
+
+QString ShRibbonDimAngularButtonStrategy::getToolTip() {
+
+	return QString("DimAngular \nCreates a dimAngular");
+}
+
+ShIcon ShRibbonDimAngularButtonStrategy::getIcon_() {
+
+	return ShIcon(":/Image/Dimension/DimAngular.png");
+}
+
+
+//////////////////////////////////////////////////////////////////////
+
+ShRibbonDimArcLengthButtonStrategy::ShRibbonDimArcLengthButtonStrategy() {
+
+
+}
+
+ShRibbonDimArcLengthButtonStrategy::~ShRibbonDimArcLengthButtonStrategy() {
+
+}
+
+void ShRibbonDimArcLengthButtonStrategy::execute() {
+
+}
+
+ShIcon ShRibbonDimArcLengthButtonStrategy::getIcon() {
+
+	return ShIcon(":/Image/Dimension/DimArcLength.png");
+}
+
+QString ShRibbonDimArcLengthButtonStrategy::getToolTip() {
+
+	return QString("DimArcLength \nCreates dimArcLength");
+}
+
+ShIcon ShRibbonDimArcLengthButtonStrategy::getIcon_() {
+
+	return ShIcon(":/Image/Dimension/DimArcLength.png");
+}
