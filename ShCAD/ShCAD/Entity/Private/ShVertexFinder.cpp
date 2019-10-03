@@ -4,6 +4,8 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Leaf\ShPoint.h"
+#include "Entity\Leaf\ShDot.h"
 
 
 ShNearestVertexFinder::ShNearestVertexFinder(double x, double y, double zoomRate, VertexType &vertexType, ShPoint3d &vertexPoint, double tolerance)
@@ -180,6 +182,39 @@ void ShNearestVertexFinder::visit(ShArc *arc) {
 		this->vertexType = VertexType::VertexNothing;
 }
 
+void ShNearestVertexFinder::visit(ShPoint *point) {
+
+	ShPoint3d position = point->getPosition();
+
+	if (this->x >= position.x - (this->tolerance / this->zoomRate) &&
+		this->x <= position.x + (this->tolerance / this->zoomRate) &&
+		this->y >= position.y - (this->tolerance / this->zoomRate) &&
+		this->y <= position.y + (this->tolerance / this->zoomRate)) {
+
+		this->vertexType = VertexType::VertexCenter;
+		this->vertexPoint = position;
+		return;
+	}
+
+	this->vertexType = VertexType::VertexNothing;
+}
+
+void ShNearestVertexFinder::visit(ShDot *dot) {
+
+	ShPoint3d position = dot->getPosition();
+
+	if (this->x >= position.x - (this->tolerance / this->zoomRate) &&
+		this->x <= position.x + (this->tolerance / this->zoomRate) &&
+		this->y >= position.y - (this->tolerance / this->zoomRate) &&
+		this->y <= position.y + (this->tolerance / this->zoomRate)) {
+
+		this->vertexType = VertexType::VertexCenter;
+		this->vertexPoint = position;
+		return;
+	}
+
+	this->vertexType = VertexType::VertexNothing;
+}
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -266,6 +301,34 @@ void PointAndVertexTypeMathchedEntityFinder::visit(ShArc *arc) {
 	if ((this->vertexType & VertexType::VertexCenter) == VertexType::VertexCenter) {
 
 		if (this->mustMatchPoint == arc->getCenter()) {
+
+			this->matched = true;
+			return;
+		}
+	}
+
+	this->matched = false;
+}
+
+void PointAndVertexTypeMathchedEntityFinder::visit(ShPoint *point) {
+
+	if ((this->vertexType & VertexType::VertexCenter) == VertexType::VertexCenter) {
+
+		if (this->mustMatchPoint == point->getPosition()) {
+
+			this->matched = true;
+			return;
+		}
+	}
+
+	this->matched = false;
+}
+
+void PointAndVertexTypeMathchedEntityFinder::visit(ShDot *dot) {
+
+	if ((this->vertexType & VertexType::VertexCenter) == VertexType::VertexCenter) {
+
+		if (this->mustMatchPoint == dot->getPosition()) {
 
 			this->matched = true;
 			return;

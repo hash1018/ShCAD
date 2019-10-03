@@ -30,6 +30,8 @@ QString ShObjectSnapCommandFactory::create(ObjectSnap objectSnap) {
 		str = "_appint of ";
 	else if (objectSnap == ObjectSnap::ObjectSnapExtension)
 		str = "_ext of ";
+	else if (objectSnap == ObjectSnap::ObjectSnapNode)
+		str = "_nod of ";
 
 	return str;
 }

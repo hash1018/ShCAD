@@ -67,6 +67,8 @@ public:
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
+	virtual void visit(ShPoint *point);
+	virtual void visit(ShDot *dot);
 
 public:
 	void setOriginal(ShEntity *original) { this->original = original; }
@@ -90,6 +92,8 @@ public:
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
+	virtual void visit(ShPoint *point);
+	virtual void visit(ShDot *dot);
 
 };
 
@@ -107,6 +111,8 @@ public:
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
+	virtual void visit(ShPoint *point);
+	virtual void visit(ShDot *dot);
 
 };
 
@@ -126,6 +132,8 @@ public:
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
+	virtual void visit(ShPoint *point);
+	virtual void visit(ShDot *dot);
 
 };
 

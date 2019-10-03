@@ -5,6 +5,8 @@
 #include "ShFootOfPerpendicularVisitor.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Leaf\ShPoint.h"
+#include "Entity\Leaf\ShDot.h"
 
 ShSnapPointFinder::ShSnapPointFinder(ObjectSnap objectSnap, double x, double y, double &snapX, double &snapY, bool &isValid)
 	:objectSnap(objectSnap), x(x), y(y), snapX(snapX), snapY(snapY), isValid(isValid), mode(Mode::Normal) {
@@ -240,6 +242,32 @@ void ShSnapPointFinder::visit(ShArc *arc) {
 		ShFootOfPerpendicularVisitor visitor(this->snapX, this->snapY, ShPoint3d(x, y));
 		arc->accept(&visitor);
 
+		this->isValid = true;
+		return;
+	}
+
+	this->isValid = false;
+}
+
+void ShSnapPointFinder::visit(ShPoint *point) {
+
+	if (this->objectSnap == ObjectSnap::ObjectSnapNode) {
+	
+		this->snapX = point->getPosition().x;
+		this->snapY = point->getPosition().y;
+		this->isValid = true;
+		return;
+	}
+
+	this->isValid = false;
+}
+
+void ShSnapPointFinder::visit(ShDot *dot) {
+
+	if (this->objectSnap == ObjectSnap::ObjectSnapNode) {
+
+		this->snapX = dot->getPosition().x;
+		this->snapY = dot->getPosition().y;
 		this->isValid = true;
 		return;
 	}

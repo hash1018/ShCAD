@@ -48,6 +48,9 @@ ShObjectSnapToolBar::ShObjectSnapToolBar(const QString &title, ShChain *chain, Q
 	action = this->addAction(ShIcon(":/Image/Snap/Perpendicular.png"), "Perpendicular");
 	connect(action, &QAction::triggered, this, &ShObjectSnapToolBar::perpendicularClicked);
 
+	action = this->addAction(ShIcon(":/Image/Snap/Node.png"), "Node");
+	connect(action, &QAction::triggered, this, &ShObjectSnapToolBar::nodeClicked);
+
 }
 
 ShObjectSnapToolBar::~ShObjectSnapToolBar() {
@@ -119,6 +122,13 @@ void ShObjectSnapToolBar::tangentPointClicked() {
 void ShObjectSnapToolBar::perpendicularClicked() {
 
 	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapPerpendicular);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShObjectSnapToolBar::nodeClicked() {
+
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNode);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

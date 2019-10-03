@@ -114,6 +114,7 @@ enum ObjectSnap {
 	ObjectSnapQuadrant = 0x00000040,
 	ObjectSnapTangent = 0x00000080,
 	ObjectSnapPerpendicular = 0x00000100,
+	ObjectSnapNode=0x00000200,
 
 };
 

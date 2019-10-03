@@ -798,3 +798,106 @@ bool ShDisposableSnapAction_Perpendicular::search(const ShPoint3d &point, double
 
 ///////////////////////////////////////////////////////////////////
 
+ShDisposableSnapAction_Node::ShDisposableSnapAction_Node(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child)
+	:ShDisposableSnapAction(widget, actionHandler, child) {
+
+}
+
+ShDisposableSnapAction_Node::~ShDisposableSnapAction_Node() {
+
+}
+
+void ShDisposableSnapAction_Node::mouseLeftPressEvent(ShActionData &data) {
+
+	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
+
+	if (draft.getAvailableSnap() == true) {
+
+		if (this->search(data.point) == false) {
+
+			this->sendFailMessage();
+			this->finishDisposableSnap();
+			return;
+		}
+
+		data.point = this->snap;
+		dynamic_cast<ShDecoratorActionData&>(data).orthAccepted = false;
+
+	}
+
+	ShDisposableSnapAction::mouseLeftPressEvent(data);
+
+	this->finishDisposableSnap();
+}
+
+void ShDisposableSnapAction_Node::mouseMoveEvent(ShActionData &data) {
+
+	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
+
+	if (draft.getAvailableSnap() == true) {
+		if (this->search(data.point) == true)
+			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
+		else
+			this->widget->update((DrawType)DrawType::DrawCaptureImage);
+	}
+
+	ShDisposableSnapAction::mouseMoveEvent(data);
+}
+
+void ShDisposableSnapAction_Node::draw(QPainter *painter) {
+
+	if (this->valid == true) {
+
+		if (painter->isActive() == false)
+			painter->begin(this->widget);
+
+		int dx, dy;
+		this->widget->convertEntityToDevice(this->snap.x, this->snap.y, dx, dy);
+
+		QPen oldPen = painter->pen();
+		QPen pen;
+		pen.setWidth(2);
+		pen.setColor(QColor(000, 204, 000));
+		painter->setPen(pen);
+
+		painter->drawLine(dx - 6, dy - 6, dx + 6, dy + 6);
+		painter->drawLine(dx - 6, dy + 6, dx + 6, dy - 6);
+		painter->drawEllipse(dx - 4, dy - 4, 8, 8);
+
+
+		painter->setPen(oldPen);
+	}
+
+	ShDecoratorAction::draw(painter);
+}
+
+void ShDisposableSnapAction_Node::invalidate(ShDecoratorActionData &data) {
+
+	ShAvailableDraft draft = this->actionHandler->getAvailableDraft();
+
+	if (draft.getAvailableSnap() == true) {
+		if (this->search(data.point) == true)
+			this->widget->update((DrawType)(DrawType::DrawActionHandler | DrawType::DrawCaptureImage));
+		else
+			this->widget->update((DrawType)DrawType::DrawCaptureImage);
+	}
+
+	ShDisposableSnapAction::invalidate(data);
+}
+
+bool ShDisposableSnapAction_Node::search(const ShPoint3d &point) {
+
+	this->valid = false;
+	ShEntity *entity = nullptr;
+
+	ShSearchEntityCompositeChildIncludedStrategy strategy(&entity, point.x, point.y, this->widget->getZoomRate());
+	this->widget->getEntityTable().search(strategy);
+
+	if (entity == nullptr)
+		return false;
+
+	ShSnapPointFinder finder(ObjectSnap::ObjectSnapNode, point.x, point.y, this->snap.x, this->snap.y, this->valid);
+	entity->accept(&finder);
+
+	return this->valid;
+}

@@ -24,6 +24,7 @@ public:
 	void quadrantPointClicked();
 	void tangentPointClicked();
 	void perpendicularClicked();
+	void nodeClicked();
 
 };
 

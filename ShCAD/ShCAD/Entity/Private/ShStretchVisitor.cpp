@@ -4,6 +4,8 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Leaf\ShPoint.h"
+#include "Entity\Leaf\ShDot.h"
 
 
 ShStretchData::ShStretchData() {
@@ -180,6 +182,55 @@ void ShStretchVisitor::visit(ShArc *arc) {
 	arc->setData(data);
 }
 
+void ShStretchVisitor::visit(ShPoint *point) {
+
+	if (this->original == nullptr || !dynamic_cast<ShPoint*>(this->original))
+		return;
+
+	if (!dynamic_cast<ShStretchLeafData*>(this->stretchData))
+		return;
+
+	ShStretchLeafData *stretchData = dynamic_cast<ShStretchLeafData*>(this->stretchData);
+
+	ShPoint *original = dynamic_cast<ShPoint*>(this->original);
+	ShPoint3d position = original->getPosition();
+
+	double disX = this->current.x - this->base.x;
+	double disY = this->current.y - this->base.y;
+
+	if (stretchData->stretchPoint == StretchPoint::StretchMove) {
+
+		position.x += disX;
+		position.y += disY;
+	}
+
+	point->setPosition(position);
+}
+
+void ShStretchVisitor::visit(ShDot *dot) {
+
+	if (this->original == nullptr || !dynamic_cast<ShDot*>(this->original))
+		return;
+
+	if (!dynamic_cast<ShStretchLeafData*>(this->stretchData))
+		return;
+
+	ShStretchLeafData *stretchData = dynamic_cast<ShStretchLeafData*>(this->stretchData);
+
+	ShDot *original = dynamic_cast<ShDot*>(this->original);
+	ShPoint3d position = original->getPosition();
+
+	double disX = this->current.x - this->base.x;
+	double disY = this->current.y - this->base.y;
+
+	if (stretchData->stretchPoint == StretchPoint::StretchMove) {
+
+		position.x += disX;
+		position.y += disY;
+	}
+
+	dot->setPosition(position);
+}
 
 ///////////////////////////////////////////////////
 
@@ -290,6 +341,24 @@ void ShPossibleEntityToStretchFinder::visit(ShArc *arc) {
 	}
 }
 
+void ShPossibleEntityToStretchFinder::visit(ShPoint *point) {
+
+	if (this->point.isEqual(point->getPosition()) == true) {
+
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+		this->possible = true;
+	}
+}
+
+void ShPossibleEntityToStretchFinder::visit(ShDot *dot) {
+
+	if (this->point.isEqual(dot->getPosition()) == true) {
+
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+		this->possible = true;
+	}
+}
+
 
 ////////////////////////////////////////////////////////////////
 
@@ -318,6 +387,15 @@ void ShStretchDataForMoveCreator::visit(ShArc *arc) {
 	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
 }
 
+void ShStretchDataForMoveCreator::visit(ShPoint *point) {
+
+	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+}
+
+void ShStretchDataForMoveCreator::visit(ShDot *dot) {
+
+	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+}
 
 ///////////////////////////////////////////////////////////////////
 
@@ -379,6 +457,30 @@ void ShStretchPointRectFinder::visit(ShArc *arc) {
 
 	if (insideCount == 2)
 		stretchPoint = StretchPoint::StretchMove;
+
+	*this->stretchData = new ShStretchLeafData(stretchPoint);
+}
+
+void ShStretchPointRectFinder::visit(ShPoint *point) {
+
+	StretchPoint stretchPoint = StretchPoint::StretchNothing;
+
+	if (math::checkPointLiesInsideRect(point->getPosition(), this->topLeft, this->bottomRight, 0) == true) {
+		
+		stretchPoint = StretchPoint::StretchMove;
+	}
+
+	*this->stretchData = new ShStretchLeafData(stretchPoint);
+}
+
+void ShStretchPointRectFinder::visit(ShDot *dot) {
+
+	StretchPoint stretchPoint = StretchPoint::StretchNothing;
+
+	if (math::checkPointLiesInsideRect(dot->getPosition(), this->topLeft, this->bottomRight, 0) == true) {
+
+		stretchPoint = StretchPoint::StretchMove;
+	}
 
 	*this->stretchData = new ShStretchLeafData(stretchPoint);
 }

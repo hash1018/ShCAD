@@ -159,5 +159,22 @@ private:
 	bool search(const ShPoint3d &point, double perpendicularX, double perpendicularY);
 };
 
+//////////////////////////////////////////////////////////////////
+
+class ShDisposableSnapAction_Node : public ShDisposableSnapAction {
+
+public:
+	ShDisposableSnapAction_Node(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
+	~ShDisposableSnapAction_Node();
+
+	virtual void mouseLeftPressEvent(ShActionData &data);
+	virtual void mouseMoveEvent(ShActionData &data);
+
+	virtual void draw(QPainter *painter);
+	virtual void invalidate(ShDecoratorActionData &data);
+
+protected:
+	virtual bool search(const ShPoint3d &point);
+};
 
 #endif //_SHDISPOSABLESNAPACTION_H

@@ -55,5 +55,6 @@
         <file>Image/Dimension/DimDiameter.png</file>
         <file>Image/Dimension/DimArcLength.png</file>
         <file>Image/Draw/Point.png</file>
+        <file>Image/Snap/Node.png</file>
     </qresource>
 </RCC>
