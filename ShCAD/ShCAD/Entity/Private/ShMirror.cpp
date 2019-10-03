@@ -4,6 +4,8 @@
 #include "Base\ShMath.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Leaf\ShPoint.h"
+#include "Entity\Leaf\ShDot.h"
 
 ShMirror::ShMirror(const ShPoint3d &center, double angle)
 	:center(center), angle(angle), original(nullptr) {
@@ -35,7 +37,7 @@ void ShMirror::visit(ShLine *line) {
 
 void ShMirror::visit(ShCircle *circle) {
 
-	if (this->original == 0 || !dynamic_cast<ShCircle*>(this->original))
+	if (this->original == nullptr || !dynamic_cast<ShCircle*>(this->original))
 		return;
 
 	ShCircle *original = dynamic_cast<ShCircle*>(this->original);
@@ -51,7 +53,7 @@ void ShMirror::visit(ShCircle *circle) {
 
 void ShMirror::visit(ShArc *arc) {
 
-	if (this->original == 0 || !dynamic_cast<ShArc*>(this->original))
+	if (this->original == nullptr || !dynamic_cast<ShArc*>(this->original))
 		return;
 
 	ShArc *original = dynamic_cast<ShArc*>(this->original);
@@ -73,4 +75,34 @@ void ShMirror::visit(ShArc *arc) {
 	data.endAngle = math::getAbsAngle(data.center.x, data.center.y, start.x, start.y);
 
 	arc->setData(data);
+}
+
+void ShMirror::visit(ShPoint *point) {
+
+	if (this->original == nullptr || !dynamic_cast<ShPoint*>(this->original))
+		return;
+
+	ShPoint *original = dynamic_cast<ShPoint*>(this->original);
+	ShPoint3d position = original->getPosition();
+
+	double angle = math::getAbsAngle(this->center.x, this->center.y, position.x, position.y);
+
+	math::rotate((this->angle - angle) * 2, this->center.x, this->center.y, position.x, position.y, position.x, position.y);
+
+	point->setPosition(position);
+}
+
+void ShMirror::visit(ShDot *dot) {
+
+	if (this->original == nullptr || !dynamic_cast<ShDot*>(this->original))
+		return;
+
+	ShDot *original = dynamic_cast<ShDot*>(this->original);
+	ShPoint3d position = original->getPosition();
+
+	double angle = math::getAbsAngle(this->center.x, this->center.y, position.x, position.y);
+
+	math::rotate((this->angle - angle) * 2, this->center.x, this->center.y, position.x, position.y, position.x, position.y);
+
+	dot->setPosition(position);
 }

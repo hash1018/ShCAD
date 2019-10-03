@@ -540,10 +540,10 @@ void ShDrawerSelectedEntityVertex::visit(ShPoint *point) {
 
 
 	ShDrawerFunctions f(this->widget);
-
+	
 	GLPoint topLeft, bottomRight;
-	f.convertDeviceToOpenGL(point->getPosition().x - 3, point->getPosition().y - 3, topLeft.x, topLeft.y);
-	f.convertDeviceToOpenGL(point->getPosition().x + 3, point->getPosition().y + 3, bottomRight.x, bottomRight.y);
+	f.convertEntityToOpenGL(point->getPosition().x - 3, point->getPosition().y - 3, topLeft.x, topLeft.y);
+	f.convertEntityToOpenGL(point->getPosition().x + 3, point->getPosition().y + 3, bottomRight.x, bottomRight.y);
 	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
 }
 
@@ -552,8 +552,8 @@ void ShDrawerSelectedEntityVertex::visit(ShDot *dot) {
 	ShDrawerFunctions f(this->widget);
 
 	GLPoint topLeft, bottomRight;
-	f.convertDeviceToOpenGL(dot->getPosition().x - 3, dot->getPosition().y - 3, topLeft.x, topLeft.y);
-	f.convertDeviceToOpenGL(dot->getPosition().x + 3, dot->getPosition().y + 3, bottomRight.x, bottomRight.y);
+	f.convertEntityToOpenGL(dot->getPosition().x - 3, dot->getPosition().y - 3, topLeft.x, topLeft.y);
+	f.convertEntityToOpenGL(dot->getPosition().x + 3, dot->getPosition().y + 3, bottomRight.x, bottomRight.y);
 	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
 }
 
@@ -635,7 +635,6 @@ void ShDrawerSelectedEntityNoVertex::visit(ShPoint *point) {
 	ShDrawerSelectedEntityNoVertex visitor(this->widget, this->painter);
 
 	for (int i = 0; i < list.size(); i++) {
-		list.at(i)->setPropertyData(point->getPropertyData());
 		list.at(i)->accept(&visitor);
 	}
 
@@ -720,7 +719,6 @@ void ShDrawerEraseBackGround::visit(ShPoint *point) {
 	ShDrawerEraseBackGround visitor(this->widget, this->painter);
 
 	for (int i = 0; i < list.size(); i++) {
-		list.at(i)->setPropertyData(point->getPropertyData());
 		list.at(i)->accept(&visitor);
 	}
 

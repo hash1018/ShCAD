@@ -4,6 +4,8 @@
 #include "Base\ShMath.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Leaf\ShPoint.h"
+#include "Entity\Leaf\ShDot.h"
 
 ShRotater::ShRotater(const ShPoint3d &center, double angle)
 	:center(center), angle(angle) {
@@ -43,4 +45,22 @@ void ShRotater::visit(ShArc *arc) {
 	data.endAngle = math::addAngle(data.endAngle, this->angle);
 
 	arc->setData(data);
+}
+
+void ShRotater::visit(ShPoint *point) {
+
+	ShPoint3d position = point->getPosition();
+
+	math::rotate(this->angle, this->center.x, this->center.y, position.x, position.y, position.x, position.y);
+
+	point->setPosition(position);
+}
+
+void ShRotater::visit(ShDot *dot) {
+
+	ShPoint3d position = dot->getPosition();
+
+	math::rotate(this->angle, this->center.x, this->center.y, position.x, position.y, position.x, position.y);
+
+	dot->setPosition(position);
 }

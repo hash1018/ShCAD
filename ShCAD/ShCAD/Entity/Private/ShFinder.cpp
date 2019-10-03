@@ -4,6 +4,9 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Leaf\ShPoint.h"
+#include "Entity\Leaf\ShDot.h"
+#include "Base\ShPointStyle.h"
 
 ShFinder::ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity, double tolerance)
 	:x(x), y(y), zoomRate(zoomRate), foundEntity(foundEntity), tolerance(tolerance) {
@@ -46,10 +49,37 @@ void ShFinder::visit(ShArc *arc) {
 
 void ShFinder::visit(ShPoint *point) {
 
+	QList<ShEntity*> list;
+	ShPointStyle::getComponentDependsOnStyle(list, point);
+
+	ShEntity *foundEntity = nullptr;
+	ShFinder visitor(this->x, this->y, this->zoomRate, &foundEntity, this->tolerance);
+
+	for (int i = 0; i < list.size(); i++) {
+		
+		list.at(i)->accept(&visitor);
+
+		if (foundEntity != nullptr) {
+			*this->foundEntity = point;
+			break;
+		}
+	}
+
+
+	while (list.isEmpty() == false)
+		delete list.takeFirst();
+}
+
+void ShFinder::visit(ShDot *dot) {
+
 	double tolerance = this->tolerance / this->zoomRate;
 
-	
+	double dis = math::getDistance(this->x, this->y, dot->getPosition().x, dot->getPosition().y);
 
+	if (dis < tolerance) {
+	
+		*this->foundEntity = dot;
+	}
 }
 
 //////////////////////////////////////////
@@ -202,8 +232,52 @@ void ShRectFinder::visit(ShArc *arc) {
 
 void ShRectFinder::visit(ShPoint *point) {
 
+	QList<ShEntity*> list;
+	ShPointStyle::getComponentDependsOnStyle(list, point);
 
+	ShEntity *foundEntity = nullptr;
+	int count = 0;
+	ShRectFinder visitor(this->topLeft, this->bottomRight, &foundEntity, this->findMethod);
+
+
+	if (this->findMethod == FindMethod::AllPartLiesInsideRect) {
+
+		for (int i = 0; i < list.size(); i++) {
+
+			list.at(i)->accept(&visitor);
+
+			if (foundEntity != nullptr) {
+				count++;
+				foundEntity = nullptr;
+				
+			}
+		}
+
+		if (count == list.size())
+			*this->foundEntity = point;
+	}
+	else {
+
+		for (int i = 0; i < list.size(); i++) {
+
+			list.at(i)->accept(&visitor);
+
+			if (foundEntity != nullptr) {
+				*this->foundEntity = point;
+				break;
+			}
+		}
+	}
+
+	while (list.isEmpty() == false)
+		delete list.takeFirst();
 }
 
+void ShRectFinder::visit(ShDot *dot) {
+
+	if (math::checkPointLiesInsideRect(dot->getPosition(), this->topLeft, this->bottomRight, 0) == true)
+		*this->foundEntity = dot;
+
+}
 
 /////////////////////////////////////////////////////////////////
