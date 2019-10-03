@@ -207,46 +207,10 @@ void ShButton::leaveEvent(QEvent *event) {
 
 void ShButton::paintEvent(QPaintEvent *event) {
 
-	//if (this->text == QString(""))
 	QPushButton::paintEvent(event);
 
-	/*
-	else {
-	
-		QPainter painter(this);
-		
-		QRect iconRect, textRect;
-
-		int iconWidth, iconHeight;
-
-		if (this->direction == TextDirection::East) {
-			iconWidth = this->height() - 6;
-			iconHeight = this->height() - 6;
-			iconRect = QRect(3, 3, iconWidth, iconHeight);
-			textRect = QRect(this->height(), this->height() / 4 , this->width() - this->height() - 3, this->height()*3 /4 );
-		}
-		else if (this->direction == TextDirection::West) {
-			iconWidth = this->height() - 6;
-			iconHeight = this->height() - 6;
-			iconRect = QRect(this->width() - 3 - iconWidth, 3, iconWidth, iconHeight);
-			textRect = QRect(3, this->height() / 4 , this->width() - this->height() - 3, this->height()*3 / 4);
-		}
-		else if (this->direction == TextDirection::South) {
-			
-		}
-		else if (this->direction == TextDirection::North) {
-		
-		}
-
-		painter.drawPixmap(iconRect, this->icon().pixmap(iconRect.width(), iconRect.height()));
-
-		QFont font("Arial", -1, -1);
-		painter.setFont(font);
-		painter.drawText(textRect, this->text);
-		
-	}
-	*/
-
+	if (this->isEnabled() == false)
+		return;
 
 	if (this->hoverStayed == true) {
 

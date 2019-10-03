@@ -246,3 +246,8 @@ ShSelectedEntities* ShCADWidget::getSelectedEntities() const {
 
 	return this->widgetImp->getSelectedEntities();
 }
+
+ActionType ShCADWidget::getCurrentActionType() const {
+
+	return this->widgetImp->getCurrentActionType();
+}

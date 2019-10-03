@@ -194,3 +194,7 @@ QCursor ShCADWidgetImp::getCursorShape() const {
 	return this->actionHandlerProxy->getCursorShape();
 }
 
+ActionType ShCADWidgetImp::getCurrentActionType() const {
+
+	return this->actionHandlerProxy->getType();
+}

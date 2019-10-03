@@ -9,6 +9,7 @@
 #include "Data\ShLineStyleList.h"
 #include "Interface\Item\ShLayerComboBox.h"
 #include "Base\ShLayerTable.h"
+#include "Interface\Item\ShButton.h"
 
 
 ShPropertyPanelEventFilter::ShPropertyPanelEventFilter(ShPropertyPanel *propertyPanel, ShNotifyEvent *event)
@@ -24,6 +25,8 @@ ShPropertyPanelEventFilter::ShPropertyPanelEventFilter(ShPropertyPanel *property
 		this->strategy = new ShPropertyPanelCurrentLayerChangedEventFilterStrategy(propertyPanel, event);
 	else if (event->getType() == ShNotifyEvent::LayerDataChanged)
 		this->strategy = new ShPropertyPanelLayerDataChangedEventFilterStrategy(propertyPanel, event);
+	else if (event->getType() == ShNotifyEvent::ActionChanged)
+		this->strategy = new ShPropertyPanelActionChangedEventFilterStrategy(propertyPanel, event);
 
 }
 
@@ -121,6 +124,10 @@ void ShPropertyPanelActivatedWidgetChangedEventFilterStrategy::update() {
 	ShCurrentLineStyleChangedEvent event3(widget->getPropertyData().getLineStyle());
 	ShPropertyPanelCurrentLineStyleChangedEventFilterStrategy strategy3(this->propertyPanel, &event3);
 	strategy3.update();
+
+	ShActionChangedEvent event4(widget->getCurrentActionType());
+	ShPropertyPanelActionChangedEventFilterStrategy strategy4(this->propertyPanel, &event4);
+	strategy4.update();
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -216,6 +223,36 @@ void ShPropertyPanelLayerDataChangedEventFilterStrategy::update() {
 
 }
 
+/////////////////////////////////////////////////////////////////////////////
+
+ShPropertyPanelActionChangedEventFilterStrategy::ShPropertyPanelActionChangedEventFilterStrategy(ShPropertyPanel *propertyPanel, ShNotifyEvent *event)
+	:ShPropertyPanelEventFilterStrategy(propertyPanel, event) {
+
+}
+
+ShPropertyPanelActionChangedEventFilterStrategy::~ShPropertyPanelActionChangedEventFilterStrategy() {
+
+}
+
+void ShPropertyPanelActionChangedEventFilterStrategy::update() {
+
+	ShActionChangedEvent *event = dynamic_cast<ShActionChangedEvent*>(this->event);
+
+	if (event->getNewType() == ActionType::ActionDefault) {
+	
+		this->propertyPanel->getColorCombo()->setDisabled(false);
+		this->propertyPanel->getLineStyleCombo()->setDisabled(false);
+		this->propertyPanel->getColorButton()->setDisabled(false);
+	}
+	else {
+	
+		this->propertyPanel->getColorCombo()->setDisabled(true);
+		this->propertyPanel->getLineStyleCombo()->setDisabled(true);
+		this->propertyPanel->getColorButton()->setDisabled(true);
+	}
+
+}
+
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
@@ -233,7 +270,8 @@ ShLayerPanelEventFilter::ShLayerPanelEventFilter(ShLayerPanel *layerPanel, ShNot
 		this->strategy = new ShLayerPanelLayerCreatedEventFilterStrategy(layerPanel, event);
 	else if (event->getType() == ShNotifyEvent::LayerDeleted)
 		this->strategy = new ShLayerPanelLayerDeletedEventFilterStrategy(layerPanel, event);
-	
+	else if (event->getType() == ShNotifyEvent::ActionChanged)
+		this->strategy = new ShLayerPanelActionChangedEventFilterStrategy(layerPanel, event);
 
 }
 
@@ -279,6 +317,10 @@ void ShLayerPanelActivatedWidgetChangedEventFilterStrategy::update() {
 	this->layerPanel->getLayerCombo()->setLayerTable(event->getNewWidget()->getLayerTable());
 	this->layerPanel->getLayerCombo()->updateLayerCombo();
 	this->layerPanel->getLayerCombo()->setLayerComboCurrentIndex(event->getNewWidget()->getLayerTable()->getCurrentLayerIndex());
+
+	ShActionChangedEvent event2(event->getNewWidget()->getCurrentActionType());
+	ShLayerPanelActionChangedEventFilterStrategy strategy2(this->layerPanel, &event2);
+	strategy2.update();
 }
 
 //////////////////////////////////////////////////////////
@@ -343,4 +385,26 @@ ShLayerPanelLayerDeletedEventFilterStrategy::~ShLayerPanelLayerDeletedEventFilte
 void ShLayerPanelLayerDeletedEventFilterStrategy::update() {
 
 	this->layerPanel->getLayerCombo()->updateLayerCombo();
+}
+
+//////////////////////////////////////////////////////////////////
+
+ShLayerPanelActionChangedEventFilterStrategy::ShLayerPanelActionChangedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event)
+	:ShLayerPanelEventFilterStrategy(layerPanel, event) {
+
+}
+
+ShLayerPanelActionChangedEventFilterStrategy::~ShLayerPanelActionChangedEventFilterStrategy() {
+
+}
+
+void ShLayerPanelActionChangedEventFilterStrategy::update() {
+
+	ShActionChangedEvent *event = dynamic_cast<ShActionChangedEvent*>(this->event);
+
+	if (event->getNewType() == ActionType::ActionDefault) 
+		this->layerPanel->getLayerCombo()->setDisabled(false);
+	else 
+		this->layerPanel->getLayerCombo()->setDisabled(true);
+	
 }

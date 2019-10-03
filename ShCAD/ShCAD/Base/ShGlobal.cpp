@@ -20,6 +20,9 @@ ShGlobal::~ShGlobal() {
 
 void ShGlobal::undo(ShCADWidget *widget) {
 
+	if (widget->getCurrentActionType() != ActionType::ActionDefault)
+		return;
+
 	if (widget->getSelectedEntities()->getSize() > 0) {
 		widget->getSelectedEntities()->unSelectAll();
 		widget->update(DrawType::DrawAll);
@@ -50,6 +53,9 @@ void ShGlobal::undo(ShCADWidget *widget) {
 }
 
 void ShGlobal::redo(ShCADWidget *widget) {
+
+	if (widget->getCurrentActionType() != ActionType::ActionDefault)
+		return;
 
 	if (widget->getSelectedEntities()->getSize() > 0) {
 		widget->getSelectedEntities()->unSelectAll();

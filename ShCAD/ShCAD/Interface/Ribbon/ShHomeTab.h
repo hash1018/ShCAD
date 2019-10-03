@@ -139,6 +139,7 @@ public:
 
 	inline ShColorComboBox* getColorCombo() const { return this->colorCombo; }
 	inline ShLineStyleComboBox* getLineStyleCombo() const { return this->lineStyleCombo; }
+	inline ShButton* getColorButton() const { return this->colorButton; }
 
 protected:
 	void resizeEvent(QResizeEvent* event);

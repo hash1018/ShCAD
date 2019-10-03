@@ -27,6 +27,8 @@ ShPropertyToolBarEventFilter::ShPropertyToolBarEventFilter(ShPropertyToolBar *pr
 		this->strategy = new ShPropertyToolBarCurrentLayerChangedEventFilterStrategy(propertyToolBar, event);
 	else if (event->getType() == ShNotifyEvent::LayerDataChanged)
 		this->strategy = new ShPropertyToolBarLayerDataChangedEventFilterStrategy(propertyToolBar, event);
+	else if (event->getType() == ShNotifyEvent::ActionChanged)
+		this->strategy = new ShPropertyToolBarActionChangedEventFilterStrategy(propertyToolBar, event);
 
 }
 
@@ -122,6 +124,12 @@ void ShPropertyToolBarActivatedWidgetChangedEventFilterStrategy::update() {
 	ShCurrentLineStyleChangedEvent event3(widget->getPropertyData().getLineStyle());
 	ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy strategy3(this->propertyToolBar, &event3);
 	strategy3.update();
+
+
+
+	ShActionChangedEvent event4(widget->getCurrentActionType());
+	ShPropertyToolBarActionChangedEventFilterStrategy strategy4(this->propertyToolBar, &event4);
+	strategy4.update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -216,6 +224,33 @@ void ShPropertyToolBarLayerDataChangedEventFilterStrategy::update() {
 		this->propertyToolBar->getLineStyleCombo()->setLineStyleComboCurrentIndex(this->propertyToolBar->getLineStyleCombo()->getLineStyleComboIndex());
 	}
 
+}
+
+////////////////////////////////////////////////////////////////////////
+
+ShPropertyToolBarActionChangedEventFilterStrategy::ShPropertyToolBarActionChangedEventFilterStrategy(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event)
+	:ShPropertyToolBarEventFilterStrategy(propertyToolBar, event) {
+
+}
+
+ShPropertyToolBarActionChangedEventFilterStrategy::~ShPropertyToolBarActionChangedEventFilterStrategy() {
+
+}
+
+void ShPropertyToolBarActionChangedEventFilterStrategy::update() {
+
+	ShActionChangedEvent *event = dynamic_cast<ShActionChangedEvent*>(this->event);
+
+	if (event->getNewType() == ActionType::ActionDefault) {
+	
+		this->propertyToolBar->getColorCombo()->setDisabled(false);
+		this->propertyToolBar->getLineStyleCombo()->setDisabled(false);
+	}
+	else {
+	
+		this->propertyToolBar->getColorCombo()->setDisabled(true);
+		this->propertyToolBar->getLineStyleCombo()->setDisabled(true);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -327,6 +362,8 @@ ShLayerToolBarEventFilter::ShLayerToolBarEventFilter(ShLayerToolBar *layerToolBa
 		this->strategy = new ShLayerToolBarLayerCreatedEventFilterStrategy(layerToolBar, event);
 	else if (event->getType() == ShNotifyEvent::LayerDeleted)
 		this->strategy = new ShLayerToolBarLayerDeletedEventFilterStrategy(layerToolBar, event);
+	else if (event->getType() == ShNotifyEvent::ActionChanged)
+		this->strategy = new ShLayerToolBarActionChangedEventFilterStrategy(layerToolBar, event);
 
 
 }
@@ -373,6 +410,10 @@ void ShLayerToolBarActivatedWidgetChangedEventFilterStrategy::update() {
 	this->layerToolBar->getLayerCombo()->setLayerTable(event->getNewWidget()->getLayerTable());
 	this->layerToolBar->getLayerCombo()->updateLayerCombo();
 	this->layerToolBar->getLayerCombo()->setLayerComboCurrentIndex(event->getNewWidget()->getLayerTable()->getCurrentLayerIndex());
+
+	ShActionChangedEvent event2(event->getNewWidget()->getCurrentActionType());
+	ShLayerToolBarActionChangedEventFilterStrategy strategy2(this->layerToolBar, &event2);
+	strategy2.update();
 }
 
 //////////////////////////////////////////////////////////
@@ -438,4 +479,25 @@ ShLayerToolBarLayerDeletedEventFilterStrategy::~ShLayerToolBarLayerDeletedEventF
 void ShLayerToolBarLayerDeletedEventFilterStrategy::update() {
 
 	this->layerToolBar->getLayerCombo()->updateLayerCombo();
+}
+
+//////////////////////////////////////////////////////////////////
+
+ShLayerToolBarActionChangedEventFilterStrategy::ShLayerToolBarActionChangedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event)
+	:ShLayerToolBarEventFilterStrategy(layerToolBar, event) {
+
+}
+
+ShLayerToolBarActionChangedEventFilterStrategy::~ShLayerToolBarActionChangedEventFilterStrategy() {
+
+}
+
+void ShLayerToolBarActionChangedEventFilterStrategy::update() {
+
+	ShActionChangedEvent *event = dynamic_cast<ShActionChangedEvent*>(this->event);
+
+	if (event->getNewType() == ActionType::ActionDefault)
+		this->layerToolBar->getLayerCombo()->setDisabled(false);
+	else
+		this->layerToolBar->getLayerCombo()->setDisabled(true);
 }

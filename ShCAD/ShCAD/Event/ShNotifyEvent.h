@@ -4,6 +4,7 @@
 
 #include "Data\ShPoint.h"
 #include <qstring.h>
+#include "Base\ShVariable.h"
 
 class QKeyEvent;
 class ShCADWidget;
@@ -28,6 +29,7 @@ public:
 		LayerDataChanged,
 		LayerCreated,
 		LayerDeleted,
+		ActionChanged,
 	};
 
 	ShNotifyEvent(Type type);
@@ -229,4 +231,19 @@ private:
 
 };
 
+//////////////////////////////////////////////////////////////////////////////////
+
+class ShActionChangedEvent : public ShNotifyEvent {
+
+public:
+	ShActionChangedEvent(ActionType newType);
+	~ShActionChangedEvent();
+
+	inline ActionType getNewType() const { return this->newType; }
+	
+
+private:
+	ActionType newType;
+	
+};
 #endif //_SHNOTIFYEVENT_H

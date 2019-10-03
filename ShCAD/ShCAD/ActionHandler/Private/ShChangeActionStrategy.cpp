@@ -11,6 +11,7 @@
 #include "ActionHandler\ModifyAction\ShModifyAction.h"
 #include "Manager\ShCommandLogManager.h"
 #include "ActionHandler\Private\ShDecorateActionStrategy.h"
+#include "Event\ShNotifyEvent.h"
 
 ShChangeActionStrategy::ShChangeActionStrategy()
 	:widget(nullptr) {
@@ -101,6 +102,9 @@ void ShChangeDefaultAfterCancelingCurrentStrategy::change() {
 		this->widget->setCursor(newAction->getCursorShape());
 		
 		shCommandLogManager->replaceHeadTitle(newAction->getHeadTitle());
+
+		ShActionChangedEvent event(newAction->getType());
+		this->widget->notify(&event);
 	}
 	
 }
@@ -159,6 +163,8 @@ void ShChangeActionFromDefaultStrategy::change() {
 
 	shCommandLogManager->replaceHeadTitle(newAction->getHeadTitle());
 
+	ShActionChangedEvent event(newAction->getType());
+	this->widget->notify(&event);
 }
 
 
@@ -203,6 +209,9 @@ void ShChangeDefaultAfterFinishingCurrentStrategy::change() {
 	
 	shCommandLogManager->appendListEditTextWith("");
 	shCommandLogManager->replaceHeadTitle(newAction->getHeadTitle());
+
+	ShActionChangedEvent event(newAction->getType());
+	this->widget->notify(&event);
 }
 
 ///////////////////////////////////////////////////////////////
@@ -229,6 +238,9 @@ void ShChangeTemporaryStrategy::change() {
 	
 	shCommandLogManager->replaceHeadTitle(this->temporaryAction->getHeadTitle());
 
+	ShActionChangedEvent event(this->temporaryAction->getType());
+	this->widget->notify(&event);
+
 }
 
 /////////////////////////////////////////////////////////////////
@@ -254,6 +266,9 @@ void ShChangeTemporaryPanStrategy::change() {
 
 	this->widget->getActionHandlerProxy()->setCurrentAction(panAction);
 	this->widget->setCursor(panAction->getCursorShape());
+
+	ShActionChangedEvent event(panAction->getType());
+	this->widget->notify(&event);
 }
 
 
@@ -284,6 +299,8 @@ void ShReturnToPreviousFromPanStrategy::change() {
 	this->widget->getActionHandlerProxy()->setCurrentAction(previous);
 	this->widget->setCursor(previous->getCursorShape());
 	
+	ShActionChangedEvent event(previous->getType());
+	this->widget->notify(&event);
 }
 
 
@@ -316,6 +333,9 @@ void ShReturnToPreviousFromTemporaryStrategy::change() {
 	this->widget->setCursor(previous->getCursorShape());
 
 	shCommandLogManager->replaceHeadTitle(previous->getHeadTitle());
+
+	ShActionChangedEvent event(previous->getType());
+	this->widget->notify(&event);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -350,6 +370,9 @@ void ShReturnToPreviousAfterCancelingTemporaryStrategy::change() {
 	this->widget->setCursor(previous->getCursorShape());
 	
 	shCommandLogManager->replaceHeadTitle(previous->getHeadTitle());
+
+	ShActionChangedEvent event(previous->getType());
+	this->widget->notify(&event);
 }
 
 
@@ -410,6 +433,9 @@ void ShChangeModifyAfterCancelingCurrentStrategy::change() {
 
 			this->widget->update(DrawType::DrawAll);
 			this->widget->captureImage();
+
+			ShActionChangedEvent event(newAction->getType());
+			this->widget->notify(&event);
 		}
 	}
 

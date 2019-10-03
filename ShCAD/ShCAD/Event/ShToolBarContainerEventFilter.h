@@ -99,6 +99,18 @@ public:
 
 };
 
+//////////////////////////////////////////////////////////
+
+class ShPropertyToolBarActionChangedEventFilterStrategy : public ShPropertyToolBarEventFilterStrategy {
+
+public:
+	ShPropertyToolBarActionChangedEventFilterStrategy(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event);
+	~ShPropertyToolBarActionChangedEventFilterStrategy();
+
+	void update();
+
+};
+
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -238,6 +250,18 @@ class ShLayerToolBarLayerDeletedEventFilterStrategy : public ShLayerToolBarEvent
 public:
 	ShLayerToolBarLayerDeletedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
 	~ShLayerToolBarLayerDeletedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
+////////////////////////////////////////////////
+
+class ShLayerToolBarActionChangedEventFilterStrategy : public ShLayerToolBarEventFilterStrategy {
+
+public:
+	ShLayerToolBarActionChangedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
+	~ShLayerToolBarActionChangedEventFilterStrategy();
 
 	virtual void update();
 

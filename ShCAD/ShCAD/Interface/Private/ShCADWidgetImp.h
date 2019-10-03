@@ -96,6 +96,7 @@ private:
 	ShLayer* getCurrentLayer() const;
 	inline ShSelectedEntities* getSelectedEntities() const { return this->selectedEntities; }
 	QCursor getCursorShape() const;
+	ActionType getCurrentActionType() const;
 };
 
 #endif //_SHCADWIDGETIMP_H

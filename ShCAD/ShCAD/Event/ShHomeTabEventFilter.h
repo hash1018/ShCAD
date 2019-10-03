@@ -97,6 +97,19 @@ public:
 };
 
 
+///////////////////////////////////////////////////////////
+
+class ShPropertyPanelActionChangedEventFilterStrategy : public ShPropertyPanelEventFilterStrategy {
+
+public:
+	ShPropertyPanelActionChangedEventFilterStrategy(ShPropertyPanel *propertyPanel, ShNotifyEvent *event);
+	~ShPropertyPanelActionChangedEventFilterStrategy();
+
+	void update();
+
+};
+
+
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -186,4 +199,17 @@ public:
 	virtual void update();
 
 };
+
+///////////////////////////////////////////////
+
+class ShLayerPanelActionChangedEventFilterStrategy : public ShLayerPanelEventFilterStrategy {
+
+public:
+	ShLayerPanelActionChangedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event);
+	~ShLayerPanelActionChangedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHHOMETABEVENTFILTER_H

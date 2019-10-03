@@ -153,3 +153,14 @@ ShLayerDeletedEvent::ShLayerDeletedEvent(ShLayer *deletedLayer)
 ShLayerDeletedEvent::~ShLayerDeletedEvent() {
 
 }
+
+//////////////////////////////////////////////////////////////////////////
+
+ShActionChangedEvent::ShActionChangedEvent(ActionType newType)
+	:ShNotifyEvent(Type::ActionChanged), newType(newType) {
+
+}
+
+ShActionChangedEvent::~ShActionChangedEvent() {
+
+}

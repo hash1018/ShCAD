@@ -93,6 +93,7 @@ public:
 	ShLayerTable* getLayerTable() const;
 	ShLayer* getCurrentLayer() const;
 	ShSelectedEntities* getSelectedEntities() const;
+	ActionType getCurrentActionType() const;
 
 };
 
