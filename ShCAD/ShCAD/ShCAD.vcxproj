@@ -178,6 +178,7 @@
     <ClCompile Include="Base\ShLayer.cpp" />
     <ClCompile Include="Base\ShLayerTable.cpp" />
     <ClCompile Include="Base\ShMath.cpp" />
+    <ClCompile Include="Base\ShPointStyle.cpp" />
     <ClCompile Include="Chain of Responsibility\ShCADRequestFactory.cpp" />
     <ClCompile Include="Chain of Responsibility\ShCADRequestStrategy.cpp" />
     <ClCompile Include="Chain of Responsibility\ShChain.cpp" />
@@ -498,6 +499,7 @@
     <ClInclude Include="Base\ShLayer.h" />
     <ClInclude Include="Base\ShLayerTable.h" />
     <ClInclude Include="Base\ShMath.h" />
+    <ClInclude Include="Base\ShPointStyle.h" />
     <ClInclude Include="Base\ShVariable.h" />
     <ClInclude Include="Chain of Responsibility\ShCADRequestFactory.h" />
     <ClInclude Include="Chain of Responsibility\ShCADRequestStrategy.h" />

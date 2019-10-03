@@ -643,6 +643,9 @@
     <ClCompile Include="Entity\Leaf\ShPoint.cpp">
       <Filter>Entity\Leaf</Filter>
     </ClCompile>
+    <ClCompile Include="Base\ShPointStyle.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1102,6 +1105,9 @@
     </ClInclude>
     <ClInclude Include="Data\ShPoint3d.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShPointStyle.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

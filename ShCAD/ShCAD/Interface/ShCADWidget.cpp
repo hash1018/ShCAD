@@ -251,3 +251,8 @@ ActionType ShCADWidget::getCurrentActionType() const {
 
 	return this->widgetImp->getCurrentActionType();
 }
+
+ShPointStyle& ShCADWidget::getPointStyle() const {
+
+	return this->widgetImp->getPointStyle();
+}

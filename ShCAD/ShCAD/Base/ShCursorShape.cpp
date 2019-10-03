@@ -69,6 +69,5 @@ QCursor ShCursorShape::getCursor(CursorType type) {
 		cursor = QCursor(pix);
 	}
 
-
 	return cursor;
 }

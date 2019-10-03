@@ -25,6 +25,7 @@ class ShEntityTable;
 class ShPreview;
 class ShDraftData;
 class ShNotifyEvent;
+class ShPointStyle;
 
 
 class ShCADWidget : public QOpenGLWidget {
@@ -94,6 +95,7 @@ public:
 	ShLayer* getCurrentLayer() const;
 	ShSelectedEntities* getSelectedEntities() const;
 	ActionType getCurrentActionType() const;
+	ShPointStyle& getPointStyle() const;
 
 };
 

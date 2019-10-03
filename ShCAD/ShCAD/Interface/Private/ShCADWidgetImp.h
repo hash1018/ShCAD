@@ -16,6 +16,7 @@
 #include "Data\ShDraftData.h"
 #include "Data\ShPropertyData.h"
 #include <qcursor.h>
+#include "Base\ShPointStyle.h"
 
 class QMouseEvent;
 class QKeyEvent;
@@ -48,6 +49,7 @@ private:
 	ShPropertyData propertyData;
 	ShLayerTable *layerTable;
 	ShSelectedEntities *selectedEntities;
+	ShPointStyle pointStyle;
 
 private:
 	ShCADWidgetImp(ShCADWidget *widget);
@@ -97,6 +99,7 @@ private:
 	inline ShSelectedEntities* getSelectedEntities() const { return this->selectedEntities; }
 	QCursor getCursorShape() const;
 	ActionType getCurrentActionType() const;
+	inline ShPointStyle& getPointStyle() const { return const_cast<ShPointStyle&>(this->pointStyle); }
 };
 
 #endif //_SHCADWIDGETIMP_H
