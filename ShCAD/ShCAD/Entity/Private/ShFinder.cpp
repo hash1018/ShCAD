@@ -44,6 +44,14 @@ void ShFinder::visit(ShArc *arc) {
 		*this->foundEntity = arc;
 }
 
+void ShFinder::visit(ShPoint *point) {
+
+	double tolerance = this->tolerance / this->zoomRate;
+
+	
+
+}
+
 //////////////////////////////////////////
 
 ShRectFinder::ShRectFinder(const ShPoint3d &topLeft, const ShPoint3d &bottomRight, ShEntity* *foundEntity, FindMethod findMethod)
@@ -190,6 +198,11 @@ void ShRectFinder::visit(ShArc *arc) {
 			return;
 		}
 	}
+}
+
+void ShRectFinder::visit(ShPoint *point) {
+
+
 }
 
 

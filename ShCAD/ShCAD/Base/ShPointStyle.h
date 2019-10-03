@@ -2,6 +2,11 @@
 #ifndef _SHPOINTSTYLE_H
 #define _SHPOINTSTYLE_H
 
+#include "qlist.h"
+class ShEntity;
+class ShPoint3d;
+class ShPoint;
+
 class ShPointStyle {
 
 public:
@@ -48,6 +53,11 @@ public:
 	inline double getPointSize() const { return this->pointSize; }
 	inline SizeType getSizeType() const { return this->sizeType; }
 
+
+	//***after using this, must delete all entity in components list. ***
+	static void getComponentDependsOnStyle(QList<ShEntity*> &components, const ShPoint3d &position, PointShape shape, double pointSize, SizeType sizeType);
+	//***after using this, must delete all entity in components list. ***
+	static void getComponentDependsOnStyle(QList<ShEntity*> &components, ShPoint *point);
 };
 
 

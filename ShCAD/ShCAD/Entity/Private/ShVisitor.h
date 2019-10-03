@@ -10,6 +10,7 @@ class ShCircle;
 class ShArc;
 class ShDimLinear;
 class ShPoint;
+class ShDot;
 
 class ShVisitor {
 
@@ -22,7 +23,9 @@ public:
 	virtual void visit(ShCircle *circle) {}
 	virtual void visit(ShArc *arc) {}
 	virtual void visit(ShPoint *point) {}
+	virtual void visit(ShDot *dot) {}
 	virtual void visit(ShDimLinear *dimLinear) {}
+
 
 };
 

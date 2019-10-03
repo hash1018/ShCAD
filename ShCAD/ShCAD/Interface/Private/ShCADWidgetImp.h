@@ -77,7 +77,7 @@ private:
 	void setCoordinate(const ShPoint3d &coordinate) { this->coordinate = coordinate; }
 	void setScrollPosition(const ShScrollPosition &scrollPosition) { this->scroll = scrollPosition; }
 	void setZoomRate(const double &zoomRate) { this->zoomRate = zoomRate; }
-	void setPropertyData(const ShPropertyData &data) { this->propertyData = propertyData; }
+	void setPropertyData(const ShPropertyData &data) { this->propertyData = data; }
 
 private:
 	inline const ShPoint3d& getCoordinate() const { return this->coordinate; }

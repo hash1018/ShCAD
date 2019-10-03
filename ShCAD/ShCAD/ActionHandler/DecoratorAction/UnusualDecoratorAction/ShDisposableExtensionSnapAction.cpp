@@ -143,6 +143,7 @@ void ShDisposableExtensionSnapAction::mouseLeftPressEvent(ShActionData &data) {
 		if (this->updateEnabledExtensionPoints(data.point) == false) {
 		
 			this->sendFailMessage();
+			this->eraseStartPoints();
 			this->finishDisposableSnap();
 			return;
 		}
@@ -387,4 +388,11 @@ void ShDisposableExtensionSnapAction::addMathchedVertexEntity(const ShPoint3d &p
 	this->lastAddedPoint.added = true;
 	this->lastAddedPoint.lastAddedPoint = vertexPoint;
 	QTimer::singleShot(1000, this, &ShDisposableExtensionSnapAction::initializeLastAddedPoint);
+}
+
+void ShDisposableExtensionSnapAction::eraseStartPoints() {
+
+	//temp;
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
 }

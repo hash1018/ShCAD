@@ -207,6 +207,7 @@
     <ClCompile Include="Entity\Composite\ShSelectedEntities.cpp" />
     <ClCompile Include="Entity\Leaf\ShArc.cpp" />
     <ClCompile Include="Entity\Leaf\ShCircle.cpp" />
+    <ClCompile Include="Entity\Leaf\ShDot.cpp" />
     <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
     <ClCompile Include="Entity\Leaf\ShPoint.cpp" />
@@ -532,6 +533,7 @@
     <ClInclude Include="Entity\Composite\ShSelectedEntities.h" />
     <ClInclude Include="Entity\Leaf\ShArc.h" />
     <ClInclude Include="Entity\Leaf\ShCircle.h" />
+    <ClInclude Include="Entity\Leaf\ShDot.h" />
     <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />
     <ClInclude Include="Entity\Leaf\ShPoint.h" />

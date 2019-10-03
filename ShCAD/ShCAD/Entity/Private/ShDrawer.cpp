@@ -8,11 +8,13 @@
 #include "Entity\Leaf\ShArc.h"
 #include "Entity\Leaf\ShRubberBand.h"
 #include "Entity\Leaf\ShPoint.h"
+#include "Entity\Leaf\ShDot.h"
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include <qpainter.h>
 #include "Data\ShScrollPosition.h"
 #include "Interface\Private\ShAxis.h"
 #include "Entity\Private\ShDimDrawer.h"
+#include "Base\ShPointStyle.h"
 
 ShDrawerSelectedEntityFactory::ShDrawerSelectedEntityFactory() {
 
@@ -337,22 +339,40 @@ void ShDrawerUnSelectedEntity::visit(ShArc *arc) {
 
 void ShDrawerUnSelectedEntity::visit(ShPoint *point) {
 
+	QList<ShEntity*> list;
+	ShPointStyle::getComponentDependsOnStyle(list, point);
+
+	ShDrawerUnSelectedEntity visitor(this->widget, this->painter);
+
+	for (int i = 0; i < list.size(); i++) {
+		list.at(i)->setPropertyData(point->getPropertyData());
+		list.at(i)->accept(&visitor);
+	}
+
+	
+	while (list.isEmpty() == false)
+		delete list.takeFirst();
+}
+
+void ShDrawerUnSelectedEntity::visit(ShDot *dot) {
+
 	ShDrawerFunctions f(this->widget);
 
-	ShPropertyData propertyData = point->getPropertyData();
-
+	ShPropertyData propertyData = dot->getPropertyData();
+	
 	GLColor color(propertyData.getColor().getRed() / 255., propertyData.getColor().getGreen() / 255.,
 		propertyData.getColor().getBlue() / 255.);
 
 	GLPoint glPoint;
 
-	f.convertEntityToOpenGL(point->getPosition().x, point->getPosition().y, glPoint.x, glPoint.y);
+	f.convertEntityToOpenGL(dot->getPosition().x, dot->getPosition().y, glPoint.x, glPoint.y);
 	f.drawDot(glPoint, color);
+
 }
 
 void ShDrawerUnSelectedEntity::visit(ShDimLinear *dimLinear) {
 
-	ShDimDrawer visitor(this->widget, this->painter);
+	ShDrawerUnSelectedDim visitor(this->widget, this->painter);
 
 	dimLinear->accept(&visitor);
 }
@@ -502,6 +522,46 @@ void ShDrawerSelectedEntityVertex::visit(ShArc *arc) {
 
 }
 
+void ShDrawerSelectedEntityVertex::visit(ShPoint *point) {
+
+	QList<ShEntity*> list;
+	ShPointStyle::getComponentDependsOnStyle(list, point);
+
+	ShDrawerSelectedEntityNoVertex visitor(this->widget, this->painter);
+
+	for (int i = 0; i < list.size(); i++) {
+		list.at(i)->setPropertyData(point->getPropertyData());
+		list.at(i)->accept(&visitor);
+	}
+
+
+	while (list.isEmpty() == false)
+		delete list.takeFirst();
+
+
+	ShDrawerFunctions f(this->widget);
+
+	GLPoint topLeft, bottomRight;
+	f.convertDeviceToOpenGL(point->getPosition().x - 3, point->getPosition().y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(point->getPosition().x + 3, point->getPosition().y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+}
+
+void ShDrawerSelectedEntityVertex::visit(ShDot *dot) {
+
+	ShDrawerFunctions f(this->widget);
+
+	GLPoint topLeft, bottomRight;
+	f.convertDeviceToOpenGL(dot->getPosition().x - 3, dot->getPosition().y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(dot->getPosition().x + 3, dot->getPosition().y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+}
+
+void ShDrawerSelectedEntityVertex::visit(ShDimLinear *dimLinear) {
+
+
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 ShDrawerSelectedEntityNoVertex::ShDrawerSelectedEntityNoVertex(ShCADWidget *widget, QPainter *painter)
@@ -567,6 +627,42 @@ void ShDrawerSelectedEntityNoVertex::visit(ShArc *arc) {
 	glDisable(GL_LINE_STIPPLE);
 }
 
+void ShDrawerSelectedEntityNoVertex::visit(ShPoint *point) {
+	
+	QList<ShEntity*> list;
+	ShPointStyle::getComponentDependsOnStyle(list, point);
+
+	ShDrawerSelectedEntityNoVertex visitor(this->widget, this->painter);
+
+	for (int i = 0; i < list.size(); i++) {
+		list.at(i)->setPropertyData(point->getPropertyData());
+		list.at(i)->accept(&visitor);
+	}
+
+
+	while (list.isEmpty() == false)
+		delete list.takeFirst();
+}
+
+void ShDrawerSelectedEntityNoVertex::visit(ShDot *dot) {
+
+	ShDrawerFunctions f(this->widget);
+
+	GLPoint point;
+	f.convertEntityToOpenGL(dot->getPosition().x, dot->getPosition().y, point.x, point.y);
+
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+	f.drawDot(point, GLColor(153.f / 255, 153.f / 155, 1.f));
+	glDisable(GL_LINE_STIPPLE);
+
+}
+
+void ShDrawerSelectedEntityNoVertex::visit(ShDimLinear *dimLinear) {
+
+
+}
+
 //////////////////////////////////////////////////////////////////////
 
 ShDrawerEraseBackGround::ShDrawerEraseBackGround(ShCADWidget *widget, QPainter *painter)
@@ -614,6 +710,38 @@ void ShDrawerEraseBackGround::visit(ShArc *arc) {
 
 		f.drawArc(data.center, data.radius, data.startAngle, data.endAngle, GLColor(0, 0, 0));
 	}
+}
+
+void ShDrawerEraseBackGround::visit(ShPoint *point) {
+
+	QList<ShEntity*> list;
+	ShPointStyle::getComponentDependsOnStyle(list, point);
+
+	ShDrawerEraseBackGround visitor(this->widget, this->painter);
+
+	for (int i = 0; i < list.size(); i++) {
+		list.at(i)->setPropertyData(point->getPropertyData());
+		list.at(i)->accept(&visitor);
+	}
+
+
+	while (list.isEmpty() == false)
+		delete list.takeFirst();
+}
+
+void ShDrawerEraseBackGround::visit(ShDot *dot) {
+
+	ShDrawerFunctions f(this->widget);
+
+	GLPoint point;
+	f.convertEntityToOpenGL(dot->getPosition().x, dot->getPosition().y, point.x, point.y);
+
+	f.drawDot(point, GLColor(0, 0, 0));
+}
+
+void ShDrawerEraseBackGround::visit(ShDimLinear *dimLinear) {
+
+
 }
 
 

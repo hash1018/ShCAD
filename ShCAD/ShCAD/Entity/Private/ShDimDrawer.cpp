@@ -6,16 +6,16 @@
 #include <qpainter.h>
 #include "Interface\ShCADWidget.h"
 
-ShDimDrawer::ShDimDrawer(ShCADWidget *widget, QPainter *painter)
+ShDrawerUnSelectedDim::ShDrawerUnSelectedDim(ShCADWidget *widget, QPainter *painter)
 	:ShDrawer(widget, painter) {
 
 }
 
-ShDimDrawer::~ShDimDrawer() {
+ShDrawerUnSelectedDim::~ShDrawerUnSelectedDim() {
 
 }
 
-void ShDimDrawer::visit(ShDimLinear *dimLinear) {
+void ShDrawerUnSelectedDim::visit(ShDimLinear *dimLinear) {
 
 	double intervalFromBase = ShDimStyleManager::getInstance()->getIntervalFromBase();
 
@@ -60,7 +60,7 @@ void ShDimDrawer::visit(ShDimLinear *dimLinear) {
 }
 
 
-void ShDimDrawer::drawArrow(const ShPoint3d &start, const ShPoint3d &end, const GLColor &color) {
+void ShDrawerUnSelectedDim::drawArrow(const ShPoint3d &start, const ShPoint3d &end, const GLColor &color) {
 
 
 	ShDrawerFunctions f(this->widget);
@@ -122,7 +122,7 @@ void ShDimDrawer::drawArrow(const ShPoint3d &start, const ShPoint3d &end, const 
 	}
 }
 
-void ShDimDrawer::drawText(QPainter *painter, const ShPoint3d &point, double angle, const QString &text, const ShColor &color) {
+void ShDrawerUnSelectedDim::drawText(QPainter *painter, const ShPoint3d &point, double angle, const QString &text, const ShColor &color) {
 
 	if (painter->isActive() == false)
 		painter->begin(this->widget);

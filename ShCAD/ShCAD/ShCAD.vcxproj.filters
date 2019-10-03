@@ -649,6 +649,9 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawPointAction.cpp">
       <Filter>ActionHandler\DrawAction</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Leaf\ShDot.cpp">
+      <Filter>Entity\Leaf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1114,6 +1117,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\DrawAction\ShDrawPointAction.h">
       <Filter>ActionHandler\DrawAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Leaf\ShDot.h">
+      <Filter>Entity\Leaf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

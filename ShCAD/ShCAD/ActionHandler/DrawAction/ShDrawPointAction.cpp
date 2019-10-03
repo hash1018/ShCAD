@@ -68,7 +68,7 @@ void ShDrawPointAction::invalidate(ShPoint3d &point) {
 
 void ShDrawPointAction::trigger(const ShPoint3d &point) {
 
-	ShPoint *newPoint = new ShPoint(point, this->widget->getPropertyData(), this->widget->getCurrentLayer());
+	ShPoint *newPoint = new ShPoint(point, this->widget->getPropertyData(), this->widget->getCurrentLayer(), &this->widget->getPointStyle());
 
 	this->addEntity(newPoint, "Point");
 

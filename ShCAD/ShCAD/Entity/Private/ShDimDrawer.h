@@ -9,17 +9,20 @@ class QPainter;
 class QString;
 class ShColor;
 
-class ShDimDrawer : public ShDrawer {
+class ShDrawerUnSelectedDim : public ShDrawer {
 
-public:
-	ShDimDrawer(ShCADWidget *widget, QPainter *painter);
-	~ShDimDrawer();
+	friend class ShDrawerUnSelectedEntity;
+
+private:
+	ShDrawerUnSelectedDim(ShCADWidget *widget, QPainter *painter);
+	~ShDrawerUnSelectedDim();
 
 	virtual void visit(ShDimLinear *dimLinear);
 
-private:
+protected:
 	void drawArrow(const ShPoint3d &start, const ShPoint3d &end, const GLColor &color);
 	void drawText(QPainter *painter, const ShPoint3d &point, double angle, const QString &text, const ShColor &color);
 };
+
 
 #endif //_SHDIMDRAWER_H
