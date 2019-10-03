@@ -428,14 +428,14 @@ void ShChangeModifyAfterCancelingCurrentStrategy::change() {
 			if (!dynamic_cast<ShModifyAction*>(newAction))
 				Q_ASSERT("ShChangeModifyAfterCancelingCurrentStrategy::change() >> newAction is not modifyAction");
 
+			ShActionChangedEvent event(newAction->getType());
+			this->widget->notify(&event);
+
 
 			dynamic_cast<ShModifyAction*>(newAction)->finishSelectingEntities();
 
 			this->widget->update(DrawType::DrawAll);
 			this->widget->captureImage();
-
-			ShActionChangedEvent event(newAction->getType());
-			this->widget->notify(&event);
 		}
 	}
 
