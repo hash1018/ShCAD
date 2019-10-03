@@ -3,7 +3,7 @@
 #define _SHROTATER_H
 
 #include "ShVisitor.h"
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 
 class ShRotater : public ShVisitor {
 

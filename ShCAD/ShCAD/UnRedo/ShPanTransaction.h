@@ -4,7 +4,7 @@
 #define _SHPANTRANSACTION_H
 
 #include "ShTransaction.h"
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 
 class ShCADWidget;
 

@@ -2,7 +2,7 @@
 #ifndef _SHAVAILABLEDRAFT_H
 #define _SHAVAILABLEDRAFT_H
 
-#include "ShPoint.h"
+#include "ShPoint3d.h"
 
 
 class ShAvailableDraft {

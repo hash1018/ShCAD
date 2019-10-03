@@ -4,7 +4,7 @@
 #define _SHFOOTOFPERPENDICULARVISITOR_H
 
 #include "ShVisitor.h"
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 
 class ShEntity;
 

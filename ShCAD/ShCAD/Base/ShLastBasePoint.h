@@ -2,7 +2,7 @@
 #ifndef _SHLASTBASEPOINT_H
 #define _SHLASTBASEPOINT_H
 
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 
 #define shLastBasePoint ShLastBasePoint::getInstance()
 

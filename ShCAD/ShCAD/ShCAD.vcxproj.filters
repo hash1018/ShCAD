@@ -172,9 +172,6 @@
     <ClCompile Include="Manager\ShCADWidgetManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Data\ShPoint.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\Ribbon\ShRibbon.cpp">
       <Filter>Interface\Ribbon</Filter>
     </ClCompile>
@@ -640,6 +637,12 @@
     <ClCompile Include="Interface\ToolBar\ShDimensionToolBar.cpp">
       <Filter>Interface\ToolBar</Filter>
     </ClCompile>
+    <ClCompile Include="Data\ShPoint3d.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Leaf\ShPoint.cpp">
+      <Filter>Entity\Leaf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -688,9 +691,6 @@
   <ItemGroup>
     <ClInclude Include="Interface\Dock\ShCommandDock.h">
       <Filter>Interface\Dock</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\ShPoint.h">
-      <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="Interface\Item\ShIcon.h">
       <Filter>Interface\Item</Filter>
@@ -1096,6 +1096,12 @@
     </ClInclude>
     <ClInclude Include="Interface\ToolBar\ShDimensionToolBar.h">
       <Filter>Interface\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Leaf\ShPoint.h">
+      <Filter>Entity\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ShPoint3d.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

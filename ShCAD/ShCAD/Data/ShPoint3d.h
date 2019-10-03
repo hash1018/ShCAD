@@ -1,6 +1,6 @@
 
-#ifndef _SHPOINT_H
-#define _SHPOINT_H
+#ifndef _SHPOINT3D_H
+#define _SHPOINT3D_H
 
 class ShPoint3d {
 
@@ -22,4 +22,4 @@ public:
 
 };
 
-#endif //_SHPOINT_H
+#endif //_SHPOINT3D_H

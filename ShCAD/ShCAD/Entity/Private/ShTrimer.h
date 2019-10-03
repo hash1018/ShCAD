@@ -4,7 +4,7 @@
 
 #include "ShVisitor.h"
 #include <qlinkedlist.h>
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 
 class ShEntity;
 

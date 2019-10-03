@@ -26,7 +26,7 @@
 #ifndef _SHAXIS_H
 #define _SHAXIS_H
 
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 
 class QPainter;
 class ShCADWidget;

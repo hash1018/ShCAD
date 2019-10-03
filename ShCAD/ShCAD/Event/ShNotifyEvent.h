@@ -2,7 +2,7 @@
 #ifndef _SHNOTIFYEVENT_H
 #define _SHNOTIFYEVENT_H
 
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 #include <qstring.h>
 #include "Base\ShVariable.h"
 

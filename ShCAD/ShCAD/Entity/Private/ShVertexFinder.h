@@ -5,7 +5,7 @@
 
 #include "ShVisitor.h"
 #include "Base\ShVariable.h"
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 
 class ShNearestVertexFinder : public ShVisitor {
 

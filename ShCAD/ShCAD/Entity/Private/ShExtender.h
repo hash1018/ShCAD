@@ -4,7 +4,7 @@
 #define _SHEXTENDER_H
 
 #include "ShVisitor.h"
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 #include <qlinkedlist.h>
 
 class ShEntity;

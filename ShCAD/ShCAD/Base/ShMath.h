@@ -3,7 +3,7 @@
 #ifndef _MATH_H
 #define _MATH_H
 
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 
 namespace math {
 

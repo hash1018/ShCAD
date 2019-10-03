@@ -5,7 +5,7 @@
 
 //Bridge Pattern.
 
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 #include "Interface\Private\ShAxis.h"
 #include "Base\ShVariable.h"
 #include "Data\ShScrollPosition.h"

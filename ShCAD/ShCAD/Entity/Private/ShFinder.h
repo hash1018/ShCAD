@@ -3,7 +3,7 @@
 #define _SHFINDER_H
 
 #include "ShVisitor.h"
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 #include "Base\ShVariable.h"
 
 class ShEntity;

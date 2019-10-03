@@ -4,7 +4,7 @@
 #define _SHSTATUSBAR_H
 
 #include <qstatusbar.h>
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 
 class QLabel;
 class QAction;

@@ -194,7 +194,7 @@
     <ClCompile Include="Data\ShLineStyle.cpp" />
     <ClCompile Include="Data\ShLineStyleList.cpp" />
     <ClCompile Include="Data\ShObjectSnapData.cpp" />
-    <ClCompile Include="Data\ShPoint.cpp" />
+    <ClCompile Include="Data\ShPoint3d.cpp" />
     <ClCompile Include="Data\ShPropertyData.cpp" />
     <ClCompile Include="Data\ShScrollPosition.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDim.cpp" />
@@ -207,6 +207,7 @@
     <ClCompile Include="Entity\Leaf\ShCircle.cpp" />
     <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
+    <ClCompile Include="Entity\Leaf\ShPoint.cpp" />
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp" />
     <ClCompile Include="Entity\Private\ShClosestIntersectionPointFinder.cpp" />
     <ClCompile Include="Entity\Private\ShDimDrawer.cpp" />
@@ -516,7 +517,7 @@
     <ClInclude Include="Data\ShLineStyle.h" />
     <ClInclude Include="Data\ShLineStyleList.h" />
     <ClInclude Include="Data\ShObjectSnapData.h" />
-    <ClInclude Include="Data\ShPoint.h" />
+    <ClInclude Include="Data\ShPoint3d.h" />
     <ClInclude Include="Data\ShPropertyData.h" />
     <ClInclude Include="Data\ShScrollPosition.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDim.h" />
@@ -529,6 +530,7 @@
     <ClInclude Include="Entity\Leaf\ShCircle.h" />
     <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />
+    <ClInclude Include="Entity\Leaf\ShPoint.h" />
     <ClInclude Include="Entity\Leaf\ShRubberBand.h" />
     <ClInclude Include="Entity\Private\ShClosestIntersectionPointFinder.h" />
     <ClInclude Include="Entity\Private\ShDimDrawer.h" />

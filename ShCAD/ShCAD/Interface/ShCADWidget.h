@@ -5,7 +5,7 @@
 
 #include <qopenglwidget.h>
 #include "Base\ShVariable.h"
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 #include "Data\ShDrawBuffer.h"
 
 class ShCADWidgetImp;

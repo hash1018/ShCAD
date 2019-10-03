@@ -1,5 +1,5 @@
 
-#include "ShPoint.h"
+#include "ShPoint3d.h"
 #include "Base\ShMath.h"
 
 ShPoint3d::ShPoint3d()

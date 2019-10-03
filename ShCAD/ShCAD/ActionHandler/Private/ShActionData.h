@@ -2,7 +2,7 @@
 #ifndef _SHACTIONDATA_H
 #define _SHACTIONDATA_H
 
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 
 class QMouseEvent;
 class QKeyEvent;

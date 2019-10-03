@@ -4,7 +4,7 @@
 
 #include "ShVisitor.h"
 #include <qopenglfunctions.h>
-#include "Data\ShPoint.h"
+#include "Data\ShPoint3d.h"
 #include "Base\ShVariable.h"
 
 class ShCADWidget;
