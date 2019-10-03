@@ -17,6 +17,7 @@ private:
 	void polyLineActionClicked();
 	void circleActionClicked();
 	void arcActionClicked();
+	void pointActionClicked();
 };
 
 #endif //_SHDRAWTOOLBAR_H

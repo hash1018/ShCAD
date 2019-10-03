@@ -646,6 +646,9 @@
     <ClCompile Include="Base\ShPointStyle.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawPointAction.cpp">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1108,6 +1111,9 @@
     </ClInclude>
     <ClInclude Include="Base\ShPointStyle.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawPointAction.h">
+      <Filter>ActionHandler\DrawAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

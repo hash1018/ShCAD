@@ -53,7 +53,7 @@ enum ActionType {
 	ActionDrawPolygon,
 	ActionDrawPolyLine,
 
-
+	ActionDrawPoint,
 
 	ActionModifyMove,
 	ActionModifyCopy,

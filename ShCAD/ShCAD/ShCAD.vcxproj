@@ -149,6 +149,7 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawArcAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawPointAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyEraseAction.cpp" />
@@ -469,6 +470,7 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawArcAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawPointAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyEraseAction.h" />

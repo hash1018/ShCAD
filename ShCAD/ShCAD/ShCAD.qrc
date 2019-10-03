@@ -54,5 +54,6 @@
         <file>Image/Dimension/DimRadius.png</file>
         <file>Image/Dimension/DimDiameter.png</file>
         <file>Image/Dimension/DimArcLength.png</file>
+        <file>Image/Draw/Point.png</file>
     </qresource>
 </RCC>

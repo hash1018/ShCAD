@@ -27,6 +27,9 @@ ShDrawToolBar::ShDrawToolBar(const QString &title, ShChain *chain, QWidget *pare
 	action->setToolTip("Arc \nCreates an arc using three points");
 	connect(action, &QAction::triggered, this, &ShDrawToolBar::arcActionClicked);
 
+	action = this->addAction(ShIcon(":/Image/Draw/Point.png"), "Point");
+	connect(action, &QAction::triggered, this, &ShDrawToolBar::pointActionClicked);
+
 }
 
 ShDrawToolBar::~ShDrawToolBar() {
@@ -57,6 +60,13 @@ void ShDrawToolBar::circleActionClicked() {
 void ShDrawToolBar::arcActionClicked() {
 
 	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawArcThreePoint);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawToolBar::pointActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawPoint);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

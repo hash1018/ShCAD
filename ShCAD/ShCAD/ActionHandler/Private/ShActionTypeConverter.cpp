@@ -81,6 +81,10 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 	case ActionType::ActionDrawDimLinear:
 		text = " _DimLinear"; break;
 
+
+	case ActionType::ActionDrawPoint:
+		text = " _Point"; break;
+
 	default:
 		text = ""; break;
 	}

@@ -7,6 +7,7 @@
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
 #include "Entity\Leaf\ShRubberBand.h"
+#include "Entity\Leaf\ShPoint.h"
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include <qpainter.h>
 #include "Data\ShScrollPosition.h"
@@ -332,6 +333,21 @@ void ShDrawerUnSelectedEntity::visit(ShArc *arc) {
 	}
 
 	glDisable(GL_LINE_STIPPLE);
+}
+
+void ShDrawerUnSelectedEntity::visit(ShPoint *point) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShPropertyData propertyData = point->getPropertyData();
+
+	GLColor color(propertyData.getColor().getRed() / 255., propertyData.getColor().getGreen() / 255.,
+		propertyData.getColor().getBlue() / 255.);
+
+	GLPoint glPoint;
+
+	f.convertEntityToOpenGL(point->getPosition().x, point->getPosition().y, glPoint.x, glPoint.y);
+	f.drawDot(glPoint, color);
 }
 
 void ShDrawerUnSelectedEntity::visit(ShDimLinear *dimLinear) {
