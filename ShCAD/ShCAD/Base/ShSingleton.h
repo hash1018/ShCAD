@@ -2,7 +2,7 @@
 #ifndef _SHSINGLETON_H
 #define _SHSINGLETON_H
 
-#define DeclarSingleton(className)\
+#define DeclareSingleton(className)\
 \
 private:\
 	className(); \

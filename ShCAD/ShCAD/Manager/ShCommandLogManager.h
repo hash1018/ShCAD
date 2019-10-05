@@ -10,7 +10,7 @@
 class ShCommandDock;
 class ShCommandLogManager {
 
-	DeclarSingleton(ShCommandLogManager)
+	DeclareSingleton(ShCommandLogManager)
 
 private:
 	ShCommandDock *commandDock;

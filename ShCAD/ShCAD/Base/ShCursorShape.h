@@ -3,8 +3,11 @@
 #define _SHCURSORSHAPE_H
 
 #include <qcursor.h>
+#include "Base\ShSingleton.h"
 
 class ShCursorShape {
+
+	DeclareSingleton(ShCursorShape)
 
 public:
 	enum CursorType {
@@ -14,15 +17,7 @@ public:
 		Selecting,
 	};
 
-private:
-	ShCursorShape();
-	~ShCursorShape();
-
-	static ShCursorShape instance;
-
 public:
-	static ShCursorShape* getInstance();
-
 	static QCursor getCursor(CursorType type);
 };
 

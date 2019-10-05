@@ -6,7 +6,6 @@
 #include "Manager\ShCommandLogManager.h"
 #include "Command\ShAvailableCommands.h"
 #include "Base\ShCursorShape.h"
-#include "Base\ShLastBasePoint.h"
 
 ShActionHandler::ShActionHandler(ShCADWidget *widget)
 	:widget(widget), keyHandler(nullptr), availableCommands(nullptr) {
@@ -86,7 +85,7 @@ void ShActionHandler::interpret(const QString &command) {
 
 ShPoint3d ShActionHandler::getLastBasePoint() {
 
-	return shLastBasePoint->getPoint();
+	return this->widget->getLastBasePoint();
 }
 
 ShPoint3d ShActionHandler::getCurrentAboutToPickPoint() {
@@ -153,5 +152,5 @@ void ShActionHandler::actionFinished() {
 
 void ShActionHandler::setLastBasePoint(const ShPoint3d &point) {
 
-	shLastBasePoint->setPoint(point);
+	this->widget->setLastBasePoint(point);
 }

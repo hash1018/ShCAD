@@ -17,6 +17,7 @@
 #include "Data\ShPropertyData.h"
 #include <qcursor.h>
 #include "Base\ShPointStyle.h"
+#include "Base\ShLastBasePoint.h"
 
 class QMouseEvent;
 class QKeyEvent;
@@ -50,6 +51,7 @@ private:
 	ShLayerTable *layerTable;
 	ShSelectedEntities *selectedEntities;
 	ShPointStyle pointStyle;
+	ShLastBasePoint lastBasePoint;
 
 private:
 	ShCADWidgetImp(ShCADWidget *widget);
@@ -78,6 +80,7 @@ private:
 	void setScrollPosition(const ShScrollPosition &scrollPosition) { this->scroll = scrollPosition; }
 	void setZoomRate(const double &zoomRate) { this->zoomRate = zoomRate; }
 	void setPropertyData(const ShPropertyData &data) { this->propertyData = data; }
+	void setLastBasePoint(const ShPoint3d &point) { this->lastBasePoint.setPoint(point); }
 
 private:
 	inline const ShPoint3d& getCoordinate() const { return this->coordinate; }
@@ -100,6 +103,7 @@ private:
 	QCursor getCursorShape() const;
 	ActionType getCurrentActionType() const;
 	inline ShPointStyle& getPointStyle() const { return const_cast<ShPointStyle&>(this->pointStyle); }
+	inline const ShPoint3d& getLastBasePoint() const { return this->lastBasePoint.getPoint(); }
 };
 
 #endif //_SHCADWIDGETIMP_H

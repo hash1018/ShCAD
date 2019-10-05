@@ -3,19 +3,12 @@
 #include <qpixmap.h>
 #include <qpainter.h>
 
-ShCursorShape ShCursorShape::instance;
-
 ShCursorShape::ShCursorShape() {
 
 }
 
 ShCursorShape::~ShCursorShape() {
 
-}
-
-ShCursorShape* ShCursorShape::getInstance() {
-
-	return &(ShCursorShape::instance);
 }
 
 QCursor ShCursorShape::getCursor(CursorType type) {

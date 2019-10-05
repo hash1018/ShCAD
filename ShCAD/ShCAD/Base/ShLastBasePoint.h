@@ -4,24 +4,17 @@
 
 #include "Data\ShPoint3d.h"
 
-#define shLastBasePoint ShLastBasePoint::getInstance()
-
 class ShLastBasePoint {
 
 private:
 	ShPoint3d point;
 
-private:
+public:
 	ShLastBasePoint();
 	~ShLastBasePoint();
 
-	static ShLastBasePoint instance;
-
 public:
-	static ShLastBasePoint* getInstance();
-
 	void setPoint(const ShPoint3d &point) { this->point = point; }
-	
 	inline const ShPoint3d& getPoint() const { return this->point; }
 
 };

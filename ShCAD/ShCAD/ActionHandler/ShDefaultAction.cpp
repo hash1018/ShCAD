@@ -13,7 +13,6 @@
 #include "Base\ShMath.h"
 #include "Entity\Private\ShStretchVisitor.h"
 #include "TemporaryAction\ShTemporaryStretchAction.h"
-#include "Base\ShLastBasePoint.h"
 
 
 ShDefaultAction::ShDefaultAction(ShCADWidget *widget)
@@ -211,7 +210,7 @@ void ShSubDefaultAction_MouseIsInShapeVertex::mouseLeftPressEvent(ShActionData &
 		}
 	}
 
-	shLastBasePoint->setPoint(this->vertexPoint);
+	this->setLastBasePoint(this->vertexPoint);
 
 	ShChangeTemporaryStrategy strategy(new ShTemporaryStretchAction(this->widget, this->vertexPoint,
 		possibleStretchEntities, stretchDatas), this->defaultAction);

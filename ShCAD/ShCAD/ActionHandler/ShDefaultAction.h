@@ -8,6 +8,8 @@
 class ShSubDefaultAction;
 class ShDefaultAction : public ShActionHandler {
 
+	friend class ShSubDefaultAction;
+
 private:
 	ShSubDefaultAction *subDefaultAction;
 
@@ -43,6 +45,8 @@ public:
 	virtual void mouseLeftPressEvent(ShActionData &data) = 0;
 	virtual void mouseMoveEvent(ShActionData &data) = 0;
 
+protected:
+	void setLastBasePoint(const ShPoint3d &point) { this->defaultAction->setLastBasePoint(point); }
 };
 
 class ShSubDefaultAction_Default : public ShSubDefaultAction {

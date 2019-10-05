@@ -8,7 +8,7 @@
 class ShCADWidget;
 class ShCADWidgetManager {
 
-	DeclarSingleton(ShCADWidgetManager)
+	DeclareSingleton(ShCADWidgetManager)
 
 private:
 	QList<ShCADWidget*> list;

@@ -3,24 +3,17 @@
 #define _SHDRAFTSETTING_H
 
 #include "Data\ShObjectSnapData.h"
+#include "Base\ShSingleton.h"
 
 class ShDraftSetting {
+
+	DeclareSingleton(ShDraftSetting)
 
 private:
 	ShObjectSnapData objectSnapData;
 
-
-private:
-	ShDraftSetting();
-	~ShDraftSetting();
-
-	static ShDraftSetting instance;
-
 public:
-	static ShDraftSetting* getInstance();
-
 	ShObjectSnapData* getObjectSnapData() { return &(this->objectSnapData); }
-
 
 };
 

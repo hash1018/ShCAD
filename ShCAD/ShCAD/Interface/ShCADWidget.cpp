@@ -167,6 +167,11 @@ void ShCADWidget::setPropertyData(const ShPropertyData &data) {
 	this->widgetImp->setPropertyData(data);
 }
 
+void ShCADWidget::setLastBasePoint(const ShPoint3d &point) {
+
+	this->widgetImp->setLastBasePoint(point);
+}
+
 ShLayer* ShCADWidget::getCurrentLayer() const {
 
 	return this->widgetImp->getCurrentLayer();
@@ -255,4 +260,9 @@ ActionType ShCADWidget::getCurrentActionType() const {
 ShPointStyle& ShCADWidget::getPointStyle() const {
 
 	return this->widgetImp->getPointStyle();
+}
+
+const ShPoint3d& ShCADWidget::getLastBasePoint() const {
+
+	return this->widgetImp->getLastBasePoint();
 }

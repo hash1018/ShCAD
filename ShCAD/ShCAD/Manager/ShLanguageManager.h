@@ -12,7 +12,7 @@ class QSettings;
 
 class ShLanguageManager {
 
-	DeclarSingleton(ShLanguageManager)
+	DeclareSingleton(ShLanguageManager)
 
 public:
 	enum Language {

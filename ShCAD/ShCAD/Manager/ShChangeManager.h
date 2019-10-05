@@ -13,7 +13,7 @@ class ShObserver;
 
 class ShChangeManager {
 
-	DeclarSingleton(ShChangeManager)
+	DeclareSingleton(ShChangeManager)
 
 public:
 	void registerObserver(ShObserver *observer);

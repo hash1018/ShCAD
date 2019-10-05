@@ -72,6 +72,7 @@ public:
 	void setScrollPosition(const ShScrollPosition &scrollPosition);
 	void setZoomRate(const double &zoomRate);
 	void setPropertyData(const ShPropertyData &data);
+	void setLastBasePoint(const ShPoint3d &point);
 
 public:
 	inline ShDrawBuffer& getDrawBuffer() const { return const_cast<ShDrawBuffer&>(this->drawBuffer); }
@@ -96,6 +97,7 @@ public:
 	ShSelectedEntities* getSelectedEntities() const;
 	ActionType getCurrentActionType() const;
 	ShPointStyle& getPointStyle() const;
+	const ShPoint3d& getLastBasePoint() const;
 
 };
 
