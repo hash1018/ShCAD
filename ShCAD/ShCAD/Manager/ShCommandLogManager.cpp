@@ -2,8 +2,6 @@
 #include "ShCommandLogManager.h"
 #include "Interface\Dock\ShCommandDock.h"
 
-ShCommandLogManager ShCommandLogManager::instance;
-
 ShCommandLogManager::ShCommandLogManager() {
 
 }
@@ -11,12 +9,6 @@ ShCommandLogManager::ShCommandLogManager() {
 ShCommandLogManager::~ShCommandLogManager() {
 
 }
-
-ShCommandLogManager* ShCommandLogManager::getInstance() {
-
-	return &(ShCommandLogManager::instance);
-}
-
 
 void ShCommandLogManager::appendHeadTitle(const QString &headTitle) {
 

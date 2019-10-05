@@ -503,6 +503,7 @@
     <ClInclude Include="Base\ShLayerTable.h" />
     <ClInclude Include="Base\ShMath.h" />
     <ClInclude Include="Base\ShPointStyle.h" />
+    <ClInclude Include="Base\ShSingleton.h" />
     <ClInclude Include="Base\ShVariable.h" />
     <ClInclude Include="Chain of Responsibility\ShCADRequestFactory.h" />
     <ClInclude Include="Chain of Responsibility\ShCADRequestStrategy.h" />
@@ -560,6 +561,7 @@
     <ClInclude Include="Event\ShCommandDockEventFilter.h" />
     <ClInclude Include="Event\ShHomeTabEventFilter.h" />
     <ClInclude Include="Event\ShNotifyEvent.h" />
+    <ClInclude Include="Event\ShObserver.h" />
     <ClInclude Include="Event\ShStatusBarEventFilter.h" />
     <CustomBuild Include="Interface\Item\ShLineStyleComboBox.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

@@ -4,6 +4,7 @@
 #define _SHHOMETAB_H
 
 #include "ShRibbon.h"
+#include "Event\ShObserver.h"
 
 class ShNotifyEvent;
 class ShDrawPanel;

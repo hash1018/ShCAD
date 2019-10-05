@@ -1,11 +1,6 @@
 
 #include "ShChangeManager.h"
-#include "Interface/StatusBar/ShStatusBar.h"
-#include "Interface/Dock/ShCommandDock.h"
-#include "Interface\Ribbon\ShRibbonMenu.h"
-#include "Interface\ToolBar\ShToolBarContainer.h"
-
-ShChangeManager ShChangeManager::instance;
+#include "Event\ShObserver.h"
 
 ShChangeManager::ShChangeManager() {
 
@@ -15,34 +10,13 @@ ShChangeManager::~ShChangeManager() {
 
 }
 
-ShChangeManager* ShChangeManager::getInstance() {
+void ShChangeManager::registerObserver(ShObserver *observer) {
 
-	return &(ShChangeManager::instance);
-}
-
-void ShChangeManager::registerObserver(ShStatusBar *statusBar) {
-
-	this->statusBar = statusBar;
-}
-
-void ShChangeManager::registerObserver(ShCommandDock *commandDock) {
-
-	this->commandDock = commandDock;
-}
-
-void ShChangeManager::registerObserver(ShRibbonMenu *ribbonMenu) {
-
-	this->ribbonMenu = ribbonMenu;
-}
-void ShChangeManager::registerObserver(ShToolBarContainer *toolBarContainer) {
-
-	this->toolBarContainer = toolBarContainer;
+	this->observers.append(observer);
 }
 
 void ShChangeManager::notify(ShCADWidget *widget, ShNotifyEvent *event) {
 
-	this->statusBar->update(event);
-	this->commandDock->update(event);
-	this->ribbonMenu->update(event);
-	this->toolBarContainer->update(event);
+	for (int i = 0; i < this->observers.size(); i++)
+		this->observers.at(i)->update(event);
 }

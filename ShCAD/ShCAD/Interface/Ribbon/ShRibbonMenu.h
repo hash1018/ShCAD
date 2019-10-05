@@ -4,6 +4,7 @@
 
 #include "ShRibbon.h"
 #include "Chain of Responsibility\ShChain.h"
+#include "Event\ShObserver.h"
 
 class ShNotifyEvent;
 class ShHomeTab;
@@ -12,7 +13,7 @@ class ShAnnotateTab;
 class ShParametricTab;
 class ShViewTab;
 class ShManageTab;
-class ShRibbonMenu : public ShRibbon {
+class ShRibbonMenu : public ShRibbon , public ShObserver {
 
 private:
 	ShHomeTab *homeTab;
@@ -35,7 +36,7 @@ public:
 	void activate();
 	void deactivate();
 
-	void update(ShNotifyEvent *event);
+	virtual void update(ShNotifyEvent *event);
 
 	void readSettings();
 	void writeSettings();

@@ -7,6 +7,7 @@
 #include <qtextedit.h>
 #include <qlineedit.h>
 #include "ShAbstractDock.h"
+#include "Event\ShObserver.h"
 
 class ShNotifyEvent;
 
@@ -54,7 +55,7 @@ protected:
 
 
 
-class ShCommandDock : public ShAbstractDock {
+class ShCommandDock : public ShAbstractDock , public ShObserver {
 
 private:
 	ShCommandContainer *container;
@@ -68,7 +69,7 @@ public:
 
 	void activate();
 	void deactivate();
-	void update(ShNotifyEvent *event);
+	virtual void update(ShNotifyEvent *event);
 
 	void setCalledKeyPressedEventByNotify(bool on);
 	void keyPressEvent(QKeyEvent *event);

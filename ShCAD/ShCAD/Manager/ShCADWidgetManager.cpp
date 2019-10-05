@@ -3,8 +3,6 @@
 #include "Interface\ShCADWidget.h"
 #include <qdebug.h>
 
-ShCADWidgetManager ShCADWidgetManager::instance;
-
 ShCADWidgetManager::ShCADWidgetManager() {
 
 	this->nameIndex = 0;
@@ -14,11 +12,6 @@ ShCADWidgetManager::ShCADWidgetManager() {
 ShCADWidgetManager::~ShCADWidgetManager() {
 
 
-}
-
-ShCADWidgetManager* ShCADWidgetManager::getInstance() {
-
-	return &instance;
 }
 
 ShCADWidget* ShCADWidgetManager::getActivatedWidget() {

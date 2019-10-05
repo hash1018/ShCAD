@@ -5,13 +5,14 @@
 
 #include <qstatusbar.h>
 #include "Data\ShPoint3d.h"
+#include "Event\ShObserver.h"
 
 class QLabel;
 class QAction;
 class ShStateButton;
 class ShNotifyEvent;
 
-class ShStatusBar : public QStatusBar {
+class ShStatusBar : public QStatusBar , public ShObserver {
 	Q_OBJECT
 
 private:
@@ -26,7 +27,7 @@ public:
 	ShStatusBar(QWidget *parent = nullptr);
 	~ShStatusBar();
 
-	void update(ShNotifyEvent *event);
+	virtual void update(ShNotifyEvent *event);
 
 	void setPoint(const ShPoint3d &point) { this->point = point; }
 	void setZoomRate(const double &zoomRate) { this->zoomRate = zoomRate; }

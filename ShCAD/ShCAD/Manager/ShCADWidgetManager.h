@@ -2,13 +2,13 @@
 #ifndef _SHCADWIDGETMANAGER_H
 #define _SHCADWIDGETMANAGER_H
 
-
-//Singleton Pattern
-
+#include "Base\ShSingleton.h"
 #include <qlist.h>
 
 class ShCADWidget;
 class ShCADWidgetManager {
+
+	DeclarSingleton(ShCADWidgetManager)
 
 private:
 	QList<ShCADWidget*> list;
@@ -17,14 +17,7 @@ private:
 private:
 	ShCADWidget *activatedWidget;
 
-private:
-	ShCADWidgetManager();
-	~ShCADWidgetManager();
-
-	static ShCADWidgetManager instance;
-
 public:
-	static ShCADWidgetManager* getInstance();
 	ShCADWidget* getActivatedWidget();
 
 	void add(ShCADWidget *widget);

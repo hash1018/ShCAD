@@ -2,6 +2,7 @@
 #ifndef _SHLANGUAGEMANAGER_H
 #define _SHLANGUAGEMANAGER_H
 
+#include "Base\ShSingleton.h"
 #include <qstring.h>
 class QSettings;
 
@@ -10,6 +11,8 @@ class QSettings;
 #define shGetLanValue_command(key)(ShLanguageManager::getInstance()->getValue(ShLanguageManager::Command,key))
 
 class ShLanguageManager {
+
+	DeclarSingleton(ShLanguageManager)
 
 public:
 	enum Language {
@@ -27,14 +30,7 @@ private:
 	QSettings *settings;
 	Type type;
 
-private:
-	ShLanguageManager();
-	~ShLanguageManager();
-	static ShLanguageManager instance;
-
 public:
-	static ShLanguageManager* getInstance();
-
 	bool setLanguage(Language language);
 	QString getValue(const Type &type, const QString &key);
 	

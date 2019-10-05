@@ -1121,5 +1121,11 @@
     <ClInclude Include="Entity\Leaf\ShDot.h">
       <Filter>Entity\Leaf</Filter>
     </ClInclude>
+    <ClInclude Include="Event\ShObserver.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShSingleton.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

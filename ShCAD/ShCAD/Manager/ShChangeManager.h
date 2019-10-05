@@ -4,39 +4,24 @@
 
 // Mediator Pattern, Singleton Pattern, Observer Pattern.
 
+#include "Base\ShSingleton.h"
+#include <qlist.h>
+
 class ShNotifyEvent;
 class ShCADWidget;
-class ShStatusBar;
-class ShCommandDock;
-class ShRibbonMenu;
-class ShToolBarContainer;
+class ShObserver;
 
 class ShChangeManager {
 
-private:
-	ShChangeManager();
-	~ShChangeManager();
-
-	static ShChangeManager instance;
+	DeclarSingleton(ShChangeManager)
 
 public:
-	static ShChangeManager* getInstance();
-
-public:
-	void registerObserver(ShStatusBar *statusBar);
-	void registerObserver(ShCommandDock *commandDock);
-	void registerObserver(ShRibbonMenu *ribbonMenu);
-	void registerObserver(ShToolBarContainer *toolBarContainer);
-
-
+	void registerObserver(ShObserver *observer);
 	void notify(ShCADWidget *widget, ShNotifyEvent *event);
 	
 
 private:
-	ShStatusBar *statusBar;
-	ShCommandDock *commandDock;
-	ShRibbonMenu *ribbonMenu;
-	ShToolBarContainer *toolBarContainer;
+	QList<ShObserver*> observers;
 };
 
 #endif //_SHCHANGEMANAGER_H

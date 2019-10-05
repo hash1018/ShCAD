@@ -3,22 +3,17 @@
 #define _SHCOMMANDLOGMANAGER_H
 
 #include <qstring.h>
+#include "Base\ShSingleton.h"
 
 #define shCommandLogManager ShCommandLogManager::getInstance()
 
 class ShCommandDock;
 class ShCommandLogManager {
 
+	DeclarSingleton(ShCommandLogManager)
+
 private:
-	static ShCommandLogManager instance;
 	ShCommandDock *commandDock;
-
-private:
-	ShCommandLogManager();
-	~ShCommandLogManager();
-
-public:
-	static ShCommandLogManager* getInstance();
 
 public:
 	void registerInterface(ShCommandDock *commandDock) { this->commandDock = commandDock; }

@@ -5,6 +5,7 @@
 
 #include <qlist.h>
 #include "Chain of Responsibility\ShChain.h"
+#include "Event\ShObserver.h"
 
 class ShNotifyEvent;
 class ShCAD;
@@ -18,7 +19,7 @@ class ShAbstractToolBar;
 class ShQuickAccessToolBar;
 class ShDimensionToolBar;
 
-class ShToolBarContainer : public ShChain {
+class ShToolBarContainer : public ShChain , public ShObserver {
 
 private:
 	ShCAD *parent;
@@ -43,7 +44,7 @@ public:
 	void activate();
 	void deactivate();
 
-	void update(ShNotifyEvent *event);
+	virtual void update(ShNotifyEvent *event);
 
 	inline QMenu* getToolBarMenu() const { return this->toolBarMenu; }
 

@@ -3,11 +3,9 @@
 #include <qfile.h>
 #include <qsettings.h>
 #include <qdir.h>
-ShLanguageManager ShLanguageManager::instance;
 
 ShLanguageManager::ShLanguageManager()
 	:type(Interface), settings(nullptr),language(English) {
-
 
 }
 
@@ -15,11 +13,6 @@ ShLanguageManager::~ShLanguageManager() {
 
 	if (this->settings != nullptr)
 		delete this->settings;
-}
-
-ShLanguageManager* ShLanguageManager::getInstance() {
-
-	return &(ShLanguageManager::instance);
 }
 
 bool ShLanguageManager::setLanguage(Language language) {
