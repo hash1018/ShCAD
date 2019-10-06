@@ -6,6 +6,9 @@
 #include "Manager\ShLanguageManager.h"
 #include "Chain of Responsibility\ShRequest.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "Interface\Dialog\ShPlotDialog.h"
+#include "Manager\ShPlotManager.h"
+#include "Interface\Dialog\ShPlotPreviewDialog.h"
 
 ShAbstractMenu::ShAbstractMenu(const QString &title, ShChain *chain, QWidget *parent)
 	:QMenu(title, parent), ShChain(chain) {
@@ -56,6 +59,8 @@ ShFileMenu::ShFileMenu(const QString &title, ShChain *chain, QWidget *parent)
 
 
 	connect(this->newAction, &QAction::triggered, this, &ShFileMenu::newActionClicked);
+	connect(this->plotAction, &QAction::triggered, this, &ShFileMenu::plotActionClicked);
+	connect(this->previewAction, &QAction::triggered, this, &ShFileMenu::previewActionClicked);
 }
 
 ShFileMenu::~ShFileMenu() {
@@ -66,6 +71,21 @@ void ShFileMenu::newActionClicked() {
 	
 	ShRequestCreateNewCADWidget request;
 	this->request(&request);
+}
+
+void ShFileMenu::plotActionClicked() {
+
+	ShPlotDialog *dialog = new ShPlotDialog(this);
+	dialog->exec();
+}
+
+void ShFileMenu::previewActionClicked() {
+
+	if (ShPlotManager::getInstance()->isSavedInfo() == false)
+		return;
+
+	ShPlotPreviewDialog dialog(this);
+	dialog.exec();
 }
 
 /////////////////////////////////////////////////////////////////////////

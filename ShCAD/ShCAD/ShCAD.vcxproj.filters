@@ -652,6 +652,24 @@
     <ClCompile Include="Entity\Leaf\ShDot.cpp">
       <Filter>Entity\Leaf</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\Dialog\ShPlotDialog.cpp">
+      <Filter>Interface\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\ShPlotManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Dialog\ShPlotPreviewDialog.cpp">
+      <Filter>Interface\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\ShPloter.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShPlotDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShPlotDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -695,6 +713,9 @@
     </CustomBuild>
     <CustomBuild Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.h">
       <Filter>ActionHandler\DecoratorAction\UnusualDecoratorAction</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Dialog\ShPlotDialog.h">
+      <Filter>Interface\Dialog</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -1126,6 +1147,15 @@
     </ClInclude>
     <ClInclude Include="Base\ShSingleton.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\ShPlotManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Dialog\ShPlotPreviewDialog.h">
+      <Filter>Interface\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShPloter.h">
+      <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

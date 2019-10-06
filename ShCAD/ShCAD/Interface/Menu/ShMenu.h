@@ -39,6 +39,8 @@ public:
 
 	private slots:
 	void newActionClicked();
+	void plotActionClicked();
+	void previewActionClicked();
 };
 
 class ShEditMenu : public ShAbstractMenu {

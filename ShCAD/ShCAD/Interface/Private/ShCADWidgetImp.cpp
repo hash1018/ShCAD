@@ -11,6 +11,7 @@
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Event\ShNotifyEvent.h"
 #include "Base\ShMath.h"
+#include "Entity\Private\ShPloter.h"
 
 ShCADWidgetImp::ShCADWidgetImp(ShCADWidget *widget)
 	:widget(widget), zoomRate(1.0), actionHandlerProxy(nullptr), undoStack(nullptr),
@@ -182,6 +183,15 @@ void ShCADWidgetImp::shiftViewport(const ShPoint3d &coordinate, int dx, int dy) 
 	this->widget->notify(&notifyEvent);
 }
 
+void ShCADWidgetImp::plot(QPainter *painter, double scale) {
+
+	ShPloter visitor(this->widget, painter, scale);
+
+	auto itr = this->entityTable->turnOnLayerBegin();
+
+	for (itr; itr != this->entityTable->turnOnLayerEnd(); ++itr)
+		(*itr)->accept(&visitor);
+}
 
 ShLayer* ShCADWidgetImp::getCurrentLayer() const {
 

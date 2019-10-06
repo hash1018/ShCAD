@@ -147,6 +147,11 @@ ShPoint3d ShCADWidget::getMousePoint() {
 	return mouse;
 }
 
+void ShCADWidget::plot(QPainter *painter, double scale) {
+
+	this->widgetImp->plot(painter, scale);
+}
+
 void ShCADWidget::setCoordinate(const ShPoint3d &coordinate) {
 
 	this->widgetImp->setCoordinate(coordinate);

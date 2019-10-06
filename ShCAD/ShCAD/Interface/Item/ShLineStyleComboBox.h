@@ -16,7 +16,7 @@ private:
 	int lineStyleComboIndex;
 
 public:
-	ShLineStyleComboBox(QWidget *parent = 0);
+	ShLineStyleComboBox(QWidget *parent = nullptr);
 	~ShLineStyleComboBox();
 
 	void setBlockLineStyle(const ShLineStyle &blockLineStyle);

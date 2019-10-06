@@ -54,6 +54,7 @@ public:
 	void shiftViewport(const ShPoint3d &coordinate, int dx, int dy);
 
 	ShPoint3d getMousePoint();
+	void plot(QPainter *painter, double scale);
 
 protected:
 	virtual void initializeGL();

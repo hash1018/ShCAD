@@ -66,6 +66,8 @@ private:
 
 	void shiftViewport(const ShPoint3d &coordinate, int dx, int dy);
 
+	void plot(QPainter *painter, double scale);
+
 private:
 	void paintGL();
 	void mousePressEvent(QMouseEvent *event);
