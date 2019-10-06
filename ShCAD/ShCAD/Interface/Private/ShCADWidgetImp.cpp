@@ -208,3 +208,8 @@ ActionType ShCADWidgetImp::getCurrentActionType() const {
 
 	return this->actionHandlerProxy->getType();
 }
+
+ShActionHandler* ShCADWidgetImp::getCurrentAction() const {
+
+	return this->actionHandlerProxy->getCurrentAction();
+}

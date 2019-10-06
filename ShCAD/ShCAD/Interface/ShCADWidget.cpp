@@ -271,3 +271,8 @@ const ShPoint3d& ShCADWidget::getLastBasePoint() const {
 
 	return this->widgetImp->getLastBasePoint();
 }
+
+ShActionHandler* ShCADWidget::getCurrentAction() const {
+
+	return this->widgetImp->getCurrentAction();
+}

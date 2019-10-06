@@ -27,6 +27,7 @@ class ShTransactionStack;
 class ShActionHandlerProxy;
 class ShSelectedEntities;
 class ShChangeActionStrategy;
+class ShActionHandler;
 
 class ShCADWidgetImp {
 
@@ -106,6 +107,7 @@ private:
 	ActionType getCurrentActionType() const;
 	inline ShPointStyle& getPointStyle() const { return const_cast<ShPointStyle&>(this->pointStyle); }
 	inline const ShPoint3d& getLastBasePoint() const { return this->lastBasePoint.getPoint(); }
+	ShActionHandler* getCurrentAction() const;
 };
 
 #endif //_SHCADWIDGETIMP_H

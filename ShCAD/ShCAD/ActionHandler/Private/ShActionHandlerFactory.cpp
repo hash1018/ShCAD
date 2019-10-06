@@ -14,6 +14,7 @@
 #include "ActionHandler\ModifyAction\ShModifyStretchAction.h"
 #include "ActionHandler\DrawAction\DimAction\ShDimLinearAction.h"
 #include "ActionHandler\DrawAction\ShDrawPointAction.h"
+#include "ActionHandler\ShSelectPlotAreaAction.h"
 
 ShActionHandlerFactory::ShActionHandlerFactory() {
 
@@ -88,6 +89,10 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 
 	else if (actionType == ActionType::ActionDrawPoint)
 		return new ShDrawPointAction(widget);
+
+
+	else if (actionType == ActionType::ActionSelectPlotArea)
+		return new ShSelectPlotAreaAction(widget);
 
 	return new ShDefaultAction(widget);
 }

@@ -85,6 +85,9 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 	case ActionType::ActionDrawPoint:
 		text = " _Point"; break;
 
+	case ActionType::ActionSelectPlotArea:
+		text = " _Plot"; break;
+
 	default:
 		text = ""; break;
 	}

@@ -72,7 +72,7 @@ enum ActionType {
 	ActionDrawDimAngular,
 	ActionDrawDimArcLength,
 
-	ActionPlotAreaSelect,
+	ActionSelectPlotArea,
 };
 
 

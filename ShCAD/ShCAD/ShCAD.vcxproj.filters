@@ -670,6 +670,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ShPlotDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\ShSelectPlotAreaAction.cpp">
+      <Filter>ActionHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1156,6 +1159,9 @@
     </ClInclude>
     <ClInclude Include="Entity\Private\ShPloter.h">
       <Filter>Entity\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ShSelectPlotAreaAction.h">
+      <Filter>ActionHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

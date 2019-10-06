@@ -15,6 +15,8 @@
 #include "Interface\ShCADWidget.h"
 #include "Manager\ShCADWidgetManager.h"
 #include "ShPlotPreviewDialog.h"
+#include "ActionHandler\Private\ShChangeActionStrategy.h"
+#include "ActionHandler\ShSelectPlotAreaAction.h"
 
 ShPlotDialog::ShPlotDialog(QWidget *parent)
 	:QDialog(parent), windowPrevX(0), windowPrevY(0), windowCurrentX(0), windowCurrentY(0) {
@@ -301,25 +303,20 @@ void ShPlotDialog::whatToPlotIndexChanged(int index) {
 
 }
 
-/*/
-#include "Strategy Pattern\ShChangeCurrentActionStrategy.h"
-#include "ActionHandler\ShActionHandlerManager.h"
-#include "ActionHandler\ShPlotAreaSelectAction.h"
-*/
+
 void ShPlotDialog::windowButtonClicked() {
 
-	/*
-	ShGraphicView *view = ShWidgetManager::GetInstance()->GetActivatedWidget();
+	ShCADWidget *widget = ShCADWidgetManager::getInstance()->getActivatedWidget();
 
-	ShChangeCurrentActionCancelCurrent strategy(ActionType::ActionPlotAreaSelect);
-	view->ChangeCurrentAction(strategy);
-	ShActionHandler *action = const_cast<ShActionHandler*>(view->actionHandlerManager->GetCurrentAction());
+	if (widget == nullptr)
+		return;
 
-	ShPlotAreaSelectAction *plotAreaSelectAction = dynamic_cast<ShPlotAreaSelectAction*>(action);
-	plotAreaSelectAction->SetPlotDialog(this);
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionSelectPlotArea);
+	widget->changeAction(strategy);
+
+	ShSelectPlotAreaAction *action = dynamic_cast<ShSelectPlotAreaAction*>(widget->getCurrentAction());
+	action->setPlotDialog(this);
 	this->setVisible(false);
-	*/
-
 }
 
 
