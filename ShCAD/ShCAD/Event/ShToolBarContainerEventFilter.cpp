@@ -455,6 +455,8 @@ ShLayerToolBarEventFilter::ShLayerToolBarEventFilter(ShLayerToolBar *layerToolBa
 		this->strategy = new ShLayerToolBarLayerDeletedEventFilterStrategy(layerToolBar, event);
 	else if (event->getType() == ShNotifyEvent::ActionChanged)
 		this->strategy = new ShLayerToolBarActionChangedEventFilterStrategy(layerToolBar, event);
+	else if (event->getType() == ShNotifyEvent::SelectedEntityCountChanged)
+		this->strategy = new ShLayerToolBarSelectedEntityCountChangedEventFilterStrategy(layerToolBar, event);
 
 
 }
@@ -505,6 +507,11 @@ void ShLayerToolBarActivatedWidgetChangedEventFilterStrategy::update() {
 	ShActionChangedEvent event2(event->getNewWidget()->getCurrentActionType());
 	ShLayerToolBarActionChangedEventFilterStrategy strategy2(this->layerToolBar, &event2);
 	strategy2.update();
+	
+	ShSelectedEntityCountChangedEvent event3(event->getNewWidget(), event->getNewWidget()->getSelectedEntities()->getSelectedList());
+	ShLayerToolBarSelectedEntityCountChangedEventFilterStrategy strategy3(this->layerToolBar, &event3);
+	strategy3.update();
+
 }
 
 //////////////////////////////////////////////////////////
@@ -591,4 +598,48 @@ void ShLayerToolBarActionChangedEventFilterStrategy::update() {
 		this->layerToolBar->getLayerCombo()->setDisabled(false);
 	else
 		this->layerToolBar->getLayerCombo()->setDisabled(true);
+}
+
+
+/////////////////////////////////////////////////////////////////////
+
+ShLayerToolBarSelectedEntityCountChangedEventFilterStrategy::ShLayerToolBarSelectedEntityCountChangedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event)
+	:ShLayerToolBarEventFilterStrategy(layerToolBar, event) {
+
+}
+
+ShLayerToolBarSelectedEntityCountChangedEventFilterStrategy::~ShLayerToolBarSelectedEntityCountChangedEventFilterStrategy() {
+
+}
+
+void ShLayerToolBarSelectedEntityCountChangedEventFilterStrategy::update() {
+
+	ShSelectedEntityCountChangedEvent *event = dynamic_cast<ShSelectedEntityCountChangedEvent*>(this->event);
+
+	ShLayer *layer;
+	ShLayer temp("none", ShPropertyData());
+
+	if (event->getWidget()->getSelectedEntities()->getSize() == 0) {
+	
+		layer = event->getWidget()->getCurrentLayer();
+	}
+	else {
+	
+		auto itr = const_cast<QLinkedList<ShEntity*>&>(event->getList()).begin();
+		layer = (*itr)->getLayer();
+		++itr;
+
+		for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(event->getList()).end(); ++itr) {
+
+			if ((*itr)->getLayer() != layer) {
+				layer = &temp;
+				break;
+			}
+		}
+
+	}
+
+	ShCurrentLayerChangedEvent event2(layer);
+	ShLayerToolBarCurrentLayerChangedEventFilterStrategy strategy2(this->layerToolBar, &event2);
+	strategy2.update();
 }

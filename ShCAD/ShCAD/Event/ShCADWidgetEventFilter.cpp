@@ -8,6 +8,8 @@
 #include "Base\ShLayer.h"
 #include "Base\ShLayerTable.h"
 #include "UnRedo\ShLayerTransaction.h"
+#include "Entity\Composite\ShSelectedEntities.h"
+#include "UnRedo\ShEntityTransaction.h"
 
 ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -87,16 +89,38 @@ void ShCADWidgetCurrentColorChangedEventFilterStrategy::update() {
 
 	ShCurrentColorChangedEvent *event = dynamic_cast<ShCurrentColorChangedEvent*>(this->event);
 
-	ShPropertyData prev = this->widget->getPropertyData();
-	ShPropertyData current = prev;
-	current.setColor(event->getColor());
-	this->widget->setPropertyData(current);
+	if (this->widget->getSelectedEntities()->getSize() == 0) {
+
+		ShPropertyData prev = this->widget->getPropertyData();
+		ShPropertyData current = prev;
+		current.setColor(event->getColor());
+		this->widget->setPropertyData(current);
+
+		ShChangeColorTransaction *transaction = new ShChangeColorTransaction(this->widget, prev.getColor(), event->getColor());
+		ShGlobal::pushNewTransaction(this->widget, transaction);
+	}
+	else {
+	
+		auto itr = this->widget->getSelectedEntities()->begin();
+		ShPropertyData prev, current;
+
+		ShChangeEntityPropertyDataTransaction *transaction = new ShChangeEntityPropertyDataTransaction(this->widget);
+
+		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
+		
+			prev = (*itr)->getPropertyData();
+			current = prev;
+			current.setColor(event->getColor());
+			(*itr)->setPropertyData(current);
+
+			transaction->add((*itr), prev, current);
+		}
+
+		ShGlobal::pushNewTransaction(this->widget, transaction);
+	}
 
 	ShCurrentColorChangedEvent notifyEvent(event->getColor());
 	this->widget->notify(&notifyEvent);
-
-	ShChangeColorTransaction *transaction = new ShChangeColorTransaction(this->widget, prev.getColor(), event->getColor());
-	ShGlobal::pushNewTransaction(this->widget, transaction);
 	
 }
 
@@ -115,17 +139,37 @@ void ShCADWidgetCurrentLineStyleChangedEventFilterStrategy::update() {
 
 	ShCurrentLineStyleChangedEvent *event = dynamic_cast<ShCurrentLineStyleChangedEvent*>(this->event);
 
-	ShPropertyData prev = this->widget->getPropertyData();
-	ShPropertyData current = prev;
-	current.setLineStyle(event->getLineStyle());
-	this->widget->setPropertyData(current);
+	if (this->widget->getSelectedEntities()->getSize() == 0) {
+		ShPropertyData prev = this->widget->getPropertyData();
+		ShPropertyData current = prev;
+		current.setLineStyle(event->getLineStyle());
+		this->widget->setPropertyData(current);
+
+		ShChangeLineStyleTransaction *transaction = new ShChangeLineStyleTransaction(this->widget, prev.getLineStyle(), event->getLineStyle());
+		ShGlobal::pushNewTransaction(this->widget, transaction);
+	}
+	else {
+
+		auto itr = this->widget->getSelectedEntities()->begin();
+		ShPropertyData prev, current;
+
+		ShChangeEntityPropertyDataTransaction *transaction = new ShChangeEntityPropertyDataTransaction(this->widget);
+
+		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
+
+			prev = (*itr)->getPropertyData();
+			current = prev;
+			current.setLineStyle(event->getLineStyle());
+			(*itr)->setPropertyData(current);
+
+			transaction->add((*itr), prev, current);
+		}
+
+		ShGlobal::pushNewTransaction(this->widget, transaction);
+	}
 
 	ShCurrentLineStyleChangedEvent notifyEvent(event->getLineStyle());
 	this->widget->notify(&notifyEvent);
-
-	ShChangeLineStyleTransaction *transaction = new ShChangeLineStyleTransaction(this->widget, prev.getLineStyle(), event->getLineStyle());
-	ShGlobal::pushNewTransaction(this->widget, transaction);
-
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -290,6 +334,8 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::changeLayerTurn() {
 
 	if (event->getTurn() == true) {
 		
+		this->widget->getSelectedEntities()->unSelectAll();
+
 		event->getLayer()->turnOnOff(true);
 
 		this->widget->getLayerTable()->updateTurnOnLayerList();
@@ -300,6 +346,8 @@ void ShCADWidgetLayerDataChangedEventFilterStrategy::changeLayerTurn() {
 	}
 	else {
 	
+		this->widget->getSelectedEntities()->unSelectAll();
+
 		event->getLayer()->turnOnOff(false);
 		this->widget->getLayerTable()->updateTurnOnLayerList();
 

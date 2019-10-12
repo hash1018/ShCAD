@@ -279,4 +279,16 @@ public:
 
 };
 
+////////////////////////////////////////////////
+
+class ShLayerToolBarSelectedEntityCountChangedEventFilterStrategy : public ShLayerToolBarEventFilterStrategy {
+
+public:
+	ShLayerToolBarSelectedEntityCountChangedEventFilterStrategy(ShLayerToolBar *layerToolBar, ShNotifyEvent *event);
+	~ShLayerToolBarSelectedEntityCountChangedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHTOOLBARCONTAINEREVENTFILTER_H

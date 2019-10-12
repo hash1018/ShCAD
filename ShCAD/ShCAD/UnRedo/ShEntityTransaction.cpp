@@ -380,3 +380,53 @@ void ShStretchEntityTransaction::undo() {
 	this->widget->update(DrawType::DrawAll);
 	this->widget->captureImage();
 }
+
+
+///////////////////////////////////////////////////////////////////////
+
+
+ShChangeEntityPropertyDataTransaction::ShChangeEntityPropertyDataTransaction(ShCADWidget *widget)
+	:ShTransaction("Change Property"), widget(widget) {
+
+}
+
+ShChangeEntityPropertyDataTransaction::~ShChangeEntityPropertyDataTransaction() {
+
+}
+
+void ShChangeEntityPropertyDataTransaction::redo() {
+
+	auto itr = this->entities.begin();
+	auto itrCurrent = this->current.begin();
+
+	for (itr; itr != this->entities.end(); ++itr) {
+	
+		(*itr)->setPropertyData((*itrCurrent));
+		++itrCurrent;
+	}
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShChangeEntityPropertyDataTransaction::undo() {
+
+	auto itr = this->entities.begin();
+	auto itrPrev = this->prev.begin();
+
+	for (itr; itr != this->entities.end(); ++itr) {
+
+		(*itr)->setPropertyData((*itrPrev));
+		++itrPrev;
+	}
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShChangeEntityPropertyDataTransaction::add(ShEntity *entity, const ShPropertyData &prev, const ShPropertyData &current) {
+
+	this->entities.append(entity);
+	this->prev.append(prev);
+	this->current.append(current);
+}

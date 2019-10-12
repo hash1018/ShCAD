@@ -224,4 +224,16 @@ public:
 
 };
 
+////////////////////////////////////////////////
+
+class ShLayerPanelSelectedEntityCountChangedEventFilterStrategy : public ShLayerPanelEventFilterStrategy {
+
+public:
+	ShLayerPanelSelectedEntityCountChangedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event);
+	~ShLayerPanelSelectedEntityCountChangedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHHOMETABEVENTFILTER_H

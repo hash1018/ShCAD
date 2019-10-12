@@ -360,6 +360,8 @@ ShLayerPanelEventFilter::ShLayerPanelEventFilter(ShLayerPanel *layerPanel, ShNot
 		this->strategy = new ShLayerPanelLayerDeletedEventFilterStrategy(layerPanel, event);
 	else if (event->getType() == ShNotifyEvent::ActionChanged)
 		this->strategy = new ShLayerPanelActionChangedEventFilterStrategy(layerPanel, event);
+	else if (event->getType() == ShNotifyEvent::SelectedEntityCountChanged)
+		this->strategy = new ShLayerPanelSelectedEntityCountChangedEventFilterStrategy(layerPanel, event);
 
 }
 
@@ -409,6 +411,10 @@ void ShLayerPanelActivatedWidgetChangedEventFilterStrategy::update() {
 	ShActionChangedEvent event2(event->getNewWidget()->getCurrentActionType());
 	ShLayerPanelActionChangedEventFilterStrategy strategy2(this->layerPanel, &event2);
 	strategy2.update();
+
+	ShSelectedEntityCountChangedEvent event3(event->getNewWidget(), event->getNewWidget()->getSelectedEntities()->getSelectedList());
+	ShLayerPanelSelectedEntityCountChangedEventFilterStrategy strategy3(this->layerPanel, &event3);
+	strategy3.update();
 }
 
 //////////////////////////////////////////////////////////
@@ -495,4 +501,48 @@ void ShLayerPanelActionChangedEventFilterStrategy::update() {
 	else 
 		this->layerPanel->getLayerCombo()->setDisabled(true);
 	
+}
+
+
+////////////////////////////////////////////////////////////////////
+
+ShLayerPanelSelectedEntityCountChangedEventFilterStrategy::ShLayerPanelSelectedEntityCountChangedEventFilterStrategy(ShLayerPanel *layerPanel, ShNotifyEvent *event)
+	:ShLayerPanelEventFilterStrategy(layerPanel, event) {
+
+}
+
+ShLayerPanelSelectedEntityCountChangedEventFilterStrategy::~ShLayerPanelSelectedEntityCountChangedEventFilterStrategy() {
+
+}
+
+void ShLayerPanelSelectedEntityCountChangedEventFilterStrategy::update() {
+
+	ShSelectedEntityCountChangedEvent *event = dynamic_cast<ShSelectedEntityCountChangedEvent*>(this->event);
+
+	ShLayer *layer;
+	ShLayer temp("none", ShPropertyData());
+
+	if (event->getWidget()->getSelectedEntities()->getSize() == 0) {
+
+		layer = event->getWidget()->getCurrentLayer();
+	}
+	else {
+
+		auto itr = const_cast<QLinkedList<ShEntity*>&>(event->getList()).begin();
+		layer = (*itr)->getLayer();
+		++itr;
+
+		for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(event->getList()).end(); ++itr) {
+
+			if ((*itr)->getLayer() != layer) {
+				layer = &temp;
+				break;
+			}
+		}
+
+	}
+
+	ShCurrentLayerChangedEvent event2(layer);
+	ShLayerPanelCurrentLayerChangedEventFilterStrategy strategy2(this->layerPanel, &event2);
+	strategy2.update();
 }

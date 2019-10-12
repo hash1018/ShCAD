@@ -5,6 +5,7 @@
 #include "ShTransaction.h"
 #include <qlinkedlist.h>
 #include "Data\ShPoint3d.h"
+#include "Data\ShPropertyData.h"
 
 class ShCADWidget;
 class ShEntity;
@@ -165,6 +166,24 @@ public:
 	virtual void redo();
 	virtual void undo();
 
+};
+
+class ShChangeEntityPropertyDataTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShEntity*> entities;
+	QLinkedList<ShPropertyData> prev;
+	QLinkedList<ShPropertyData> current;
+
+public:
+	ShChangeEntityPropertyDataTransaction(ShCADWidget *widget);
+	~ShChangeEntityPropertyDataTransaction();
+
+	virtual void redo();
+	virtual void undo();
+
+	void add(ShEntity *entity, const ShPropertyData &prev, const ShPropertyData &current);
 };
 
 #endif //_SHENTITYTRANSACTION_H
