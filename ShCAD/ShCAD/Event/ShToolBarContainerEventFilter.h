@@ -111,6 +111,18 @@ public:
 
 };
 
+///////////////////////////////////////////////////////////
+
+class ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy : public ShPropertyToolBarEventFilterStrategy {
+
+public:
+	ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event);
+	~ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy();
+
+	void update();
+
+};
+
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////

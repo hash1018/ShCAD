@@ -1,5 +1,7 @@
 
 #include "ShSelectedEntities.h"
+#include "Interface\ShCADWidget.h"
+#include "Event\ShNotifyEvent.h"
 
 ShSelectedEntities::ShSelectedEntities() {
 
@@ -21,6 +23,8 @@ bool ShSelectedEntities::add(ShEntity *entity) {
 	this->justSelectedList.clear();
 	this->justSelectedList.append(entity);
 
+	this->selectedEntityCountChanged();
+
 	return true;
 }
 
@@ -40,6 +44,8 @@ bool ShSelectedEntities::add(const QLinkedList<ShEntity*> &list) {
 		}
 
 	}
+
+	this->selectedEntityCountChanged();
 	return true;
 }
 
@@ -59,6 +65,8 @@ bool ShSelectedEntities::remove(ShEntity *entity) {
 
 	this->justSelectedList.clear();
 
+	this->selectedEntityCountChanged();
+
 	return true;
 }
 
@@ -77,6 +85,8 @@ bool ShSelectedEntities::remove(const QLinkedList<ShEntity*> &list) {
 		}
 	}
 
+	this->selectedEntityCountChanged();
+
 	return true;
 }
 
@@ -90,6 +100,8 @@ void ShSelectedEntities::unSelectAll() {
 		(*itr)->unSelect();
 
 	this->list.clear();
+
+	this->selectedEntityCountChanged();
 }
 
 ShSelectedEntities* ShSelectedEntities::clone() {
@@ -100,4 +112,10 @@ ShSelectedEntities* ShSelectedEntities::clone() {
 void ShSelectedEntities::accept(ShVisitor *visitor) {
 
 
+}
+
+void ShSelectedEntities::selectedEntityCountChanged() {
+
+	ShSelectedEntityCountChangedEvent event(this->widget, this->list);
+	this->widget->notify(&event);
 }

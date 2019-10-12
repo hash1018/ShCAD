@@ -5,12 +5,14 @@
 #include "Data\ShPoint3d.h"
 #include <qstring.h>
 #include "Base\ShVariable.h"
+#include <qlinkedlist.h>
 
 class QKeyEvent;
 class ShCADWidget;
 class ShColor;
 class ShLineStyle;
 class ShLayer;
+class ShEntity;
 
 
 class ShNotifyEvent {
@@ -30,6 +32,7 @@ public:
 		LayerCreated,
 		LayerDeleted,
 		ActionChanged,
+		SelectedEntityCountChanged,
 	};
 
 	ShNotifyEvent(Type type);
@@ -246,4 +249,22 @@ private:
 	ActionType newType;
 	
 };
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+class ShSelectedEntityCountChangedEvent : public ShNotifyEvent {
+
+public:
+	ShSelectedEntityCountChangedEvent(ShCADWidget *widget ,const QLinkedList<ShEntity*> &selectedList);
+	~ShSelectedEntityCountChangedEvent();
+
+	inline const ShCADWidget* getWidget() const { return this->widget; }
+	inline const QLinkedList<ShEntity*>& getList() const { return this->selectedList; }
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShEntity*> selectedList;
+
+};
+
 #endif //_SHNOTIFYEVENT_H

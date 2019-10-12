@@ -6,6 +6,7 @@ class ShLineStyle {
 
 public:
 	enum Type {
+		Invalid,
 		Normal,
 		ByLayer,
 		ByBlock,

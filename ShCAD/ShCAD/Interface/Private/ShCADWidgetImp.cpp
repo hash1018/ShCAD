@@ -56,6 +56,7 @@ void ShCADWidgetImp::init() {
 	this->entityTable = new ShEntityTable(this->layerTable);
 
 	this->selectedEntities = new ShSelectedEntities;
+	this->selectedEntities->registerCADWidget(this->widget);
 }
 
 void ShCADWidgetImp::changeAction(ShChangeActionStrategy &strategy) {

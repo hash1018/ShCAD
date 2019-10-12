@@ -164,3 +164,16 @@ ShActionChangedEvent::ShActionChangedEvent(ActionType newType)
 ShActionChangedEvent::~ShActionChangedEvent() {
 
 }
+
+//////////////////////////////////////////////////////////////////////////
+
+
+ShSelectedEntityCountChangedEvent::ShSelectedEntityCountChangedEvent(ShCADWidget *widget, const QLinkedList<ShEntity*> &selectedList)
+	:ShNotifyEvent(Type::SelectedEntityCountChanged), widget(widget), selectedList(selectedList) {
+
+}
+
+ShSelectedEntityCountChangedEvent::~ShSelectedEntityCountChangedEvent() {
+
+}
+

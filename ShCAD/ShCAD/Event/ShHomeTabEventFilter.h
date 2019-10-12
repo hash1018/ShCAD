@@ -109,6 +109,18 @@ public:
 
 };
 
+////////////////////////////////////////////////////////////
+
+class ShPropertyPanelSelectedEntityCountChangedEventFilterStrategy : public ShPropertyPanelEventFilterStrategy {
+
+public:
+	ShPropertyPanelSelectedEntityCountChangedEventFilterStrategy(ShPropertyPanel *propertyPanel, ShNotifyEvent *event);
+	~ShPropertyPanelSelectedEntityCountChangedEventFilterStrategy();
+
+	void update();
+
+};
+
 
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////

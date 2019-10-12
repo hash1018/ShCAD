@@ -6,6 +6,7 @@ class ShColor {
 
 public:
 	enum Type {
+		Invalid,
 		Normal,
 		ByBlock,
 		ByLayer,
@@ -30,6 +31,7 @@ public:
 	void setRed(unsigned char red) { this->r = red; }
 	void setGreen(unsigned char green) { this->g = green; }
 	void setBlue(unsigned char blue) { this->b = blue; }
+	void setType(Type type) { this->type = type; }
 
 	inline unsigned char getRed() const { return this->r; }
 	inline unsigned char getGreen() const { return this->g; }

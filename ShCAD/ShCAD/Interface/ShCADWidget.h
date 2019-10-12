@@ -42,7 +42,7 @@ public:
 	~ShCADWidget();
 
 	void notify(ShNotifyEvent *event);
-	void update(ShNotifyEvent *event);
+	virtual void update(ShNotifyEvent *event);
 	
 	void update(DrawType drawType = DrawType::DrawAll);
 

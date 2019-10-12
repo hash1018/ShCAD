@@ -10,6 +10,8 @@
 #include "Interface\Item\ShLayerComboBox.h"
 #include "Base\ShLayerTable.h"
 #include "Interface\Item\ShButton.h"
+#include "Entity\ShEntity.h"
+#include "Entity\Composite\ShSelectedEntities.h"
 
 
 ShPropertyPanelEventFilter::ShPropertyPanelEventFilter(ShPropertyPanel *propertyPanel, ShNotifyEvent *event)
@@ -27,6 +29,8 @@ ShPropertyPanelEventFilter::ShPropertyPanelEventFilter(ShPropertyPanel *property
 		this->strategy = new ShPropertyPanelLayerDataChangedEventFilterStrategy(propertyPanel, event);
 	else if (event->getType() == ShNotifyEvent::ActionChanged)
 		this->strategy = new ShPropertyPanelActionChangedEventFilterStrategy(propertyPanel, event);
+	else if (event->getType() == ShNotifyEvent::SelectedEntityCountChanged)
+		this->strategy = new ShPropertyPanelSelectedEntityCountChangedEventFilterStrategy(propertyPanel, event);
 
 }
 
@@ -71,7 +75,11 @@ void ShPropertyPanelCurrentColorChangedEventFilterStrategy::update() {
 	ShColor color = dynamic_cast<ShCurrentColorChangedEvent*>(this->event)->getColor();
 	int index = 0;
 
-	if (color.getType() == ShColor::Type::ByBlock) {
+	if (color.getType() == ShColor::Type::Invalid) {
+	
+		index = -1;
+	}
+	else if (color.getType() == ShColor::Type::ByBlock) {
 		this->propertyPanel->getColorCombo()->setBlockColor(color);
 		index = 0;
 	}
@@ -109,7 +117,6 @@ void ShPropertyPanelActivatedWidgetChangedEventFilterStrategy::update() {
 
 	ShColorComboBox *colorCombo = this->propertyPanel->getColorCombo();
 
-	//colorCombo->setBlockColor()
 	colorCombo->setLayerColor(widget->getLayerTable()->getCurrentLayer()->getPropertyData().getColor());
 
 	ShCurrentColorChangedEvent event2(widget->getPropertyData().getColor());
@@ -128,6 +135,10 @@ void ShPropertyPanelActivatedWidgetChangedEventFilterStrategy::update() {
 	ShActionChangedEvent event4(widget->getCurrentActionType());
 	ShPropertyPanelActionChangedEventFilterStrategy strategy4(this->propertyPanel, &event4);
 	strategy4.update();
+
+	ShSelectedEntityCountChangedEvent event5(widget, widget->getSelectedEntities()->getSelectedList());
+	ShPropertyPanelSelectedEntityCountChangedEventFilterStrategy strategy5(this->propertyPanel, &event5);
+	strategy5.update();
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -146,7 +157,11 @@ void ShPropertyPanelCurrentLineStyleChangedEventFilterStrategy::update() {
 	ShLineStyle lineStyle = dynamic_cast<ShCurrentLineStyleChangedEvent*>(this->event)->getLineStyle();
 	int index = 0;
 
-	if (lineStyle.getType() == ShLineStyle::Type::ByBlock) {
+	if (lineStyle.getType() == ShLineStyle::Type::Invalid) {
+	
+		index = -1;
+	}
+	else if (lineStyle.getType() == ShLineStyle::Type::ByBlock) {
 		this->propertyPanel->getLineStyleCombo()->setBlockLineStyle(lineStyle);
 		index = 0;
 	}
@@ -251,6 +266,79 @@ void ShPropertyPanelActionChangedEventFilterStrategy::update() {
 		this->propertyPanel->getColorButton()->setDisabled(true);
 	}
 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+ShPropertyPanelSelectedEntityCountChangedEventFilterStrategy::ShPropertyPanelSelectedEntityCountChangedEventFilterStrategy(ShPropertyPanel *propertyPanel, ShNotifyEvent *event)
+	:ShPropertyPanelEventFilterStrategy(propertyPanel, event) {
+
+}
+
+ShPropertyPanelSelectedEntityCountChangedEventFilterStrategy::~ShPropertyPanelSelectedEntityCountChangedEventFilterStrategy() {
+
+}
+
+void ShPropertyPanelSelectedEntityCountChangedEventFilterStrategy::update() {
+
+	ShSelectedEntityCountChangedEvent *event = dynamic_cast<ShSelectedEntityCountChangedEvent*>(this->event);
+
+	////////////////
+	ShColor color;
+
+	if (event->getList().size() == 0) {
+
+		color = event->getWidget()->getPropertyData().getColor();
+	}
+	else {
+
+
+		auto itr = const_cast<QLinkedList<ShEntity*>&>(event->getList()).begin();
+		color = (*itr)->getPropertyData().getColor();
+		++itr;
+
+		for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(event->getList()).end(); ++itr) {
+
+			if ((*itr)->getPropertyData().getColor() != color) {
+				color.setType(ShColor::Type::Invalid);
+				break;
+			}
+		}
+	}
+
+	ShCurrentColorChangedEvent event2(color);
+
+	ShPropertyPanelCurrentColorChangedEventFilterStrategy strategy2(this->propertyPanel, &event2);
+	strategy2.update();
+
+	/////////////////
+
+	ShLineStyle lineStyle;
+
+	if (event->getList().size() == 0) {
+
+		lineStyle = event->getWidget()->getPropertyData().getLineStyle();
+	}
+	else {
+
+
+		auto itr = const_cast<QLinkedList<ShEntity*>&>(event->getList()).begin();
+		lineStyle = (*itr)->getPropertyData().getLineStyle();
+		++itr;
+
+		for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(event->getList()).end(); ++itr) {
+
+			if ((*itr)->getPropertyData().getLineStyle() != lineStyle) {
+				lineStyle.setType(ShLineStyle::Type::Invalid);
+				break;
+			}
+		}
+	}
+
+	ShCurrentLineStyleChangedEvent event3(lineStyle);
+
+	ShPropertyPanelCurrentLineStyleChangedEventFilterStrategy strategy3(this->propertyPanel, &event3);
+	strategy3.update();
 }
 
 ///////////////////////////////////////////////////////////////

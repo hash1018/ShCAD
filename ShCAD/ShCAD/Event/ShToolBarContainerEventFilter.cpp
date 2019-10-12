@@ -13,6 +13,8 @@
 #include "Interface\Item\ShLayerComboBox.h"
 #include "Interface\ToolBar\ShLayerToolBar.h"
 #include "Base\ShLayerTable.h"
+#include "Entity\ShEntity.h"
+#include "Entity\Composite\ShSelectedEntities.h"
 
 ShPropertyToolBarEventFilter::ShPropertyToolBarEventFilter(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -29,6 +31,8 @@ ShPropertyToolBarEventFilter::ShPropertyToolBarEventFilter(ShPropertyToolBar *pr
 		this->strategy = new ShPropertyToolBarLayerDataChangedEventFilterStrategy(propertyToolBar, event);
 	else if (event->getType() == ShNotifyEvent::ActionChanged)
 		this->strategy = new ShPropertyToolBarActionChangedEventFilterStrategy(propertyToolBar, event);
+	else if (event->getType() == ShNotifyEvent::SelectedEntityCountChanged)
+		this->strategy = new ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy(propertyToolBar, event);
 
 }
 
@@ -73,7 +77,12 @@ void ShPropertyToolBarCurrentColorChangedEventFilterStrategy::update() {
 	ShColor color = dynamic_cast<ShCurrentColorChangedEvent*>(this->event)->getColor();
 	int index = 0;
 
-	if (color.getType() == ShColor::Type::ByBlock) {
+	if (color.getType() == ShColor::Type::Invalid) {
+	
+		index = -1;
+	}
+
+	else if (color.getType() == ShColor::Type::ByBlock) {
 		this->propertyToolBar->getColorCombo()->setBlockColor(color);
 		index = 0;
 	}
@@ -125,11 +134,14 @@ void ShPropertyToolBarActivatedWidgetChangedEventFilterStrategy::update() {
 	ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy strategy3(this->propertyToolBar, &event3);
 	strategy3.update();
 
-
-
 	ShActionChangedEvent event4(widget->getCurrentActionType());
 	ShPropertyToolBarActionChangedEventFilterStrategy strategy4(this->propertyToolBar, &event4);
 	strategy4.update();
+
+
+	ShSelectedEntityCountChangedEvent event5(widget, widget->getSelectedEntities()->getSelectedList());
+	ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy strategy5(this->propertyToolBar, &event5);
+	strategy5.update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -149,7 +161,12 @@ void ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy::update() {
 	ShLineStyle lineStyle = dynamic_cast<ShCurrentLineStyleChangedEvent*>(this->event)->getLineStyle();
 	int index = 0;
 
-	if (lineStyle.getType() == ShLineStyle::Type::ByBlock) {
+	if (lineStyle.getType() == ShLineStyle::Type::Invalid) {
+	
+		index = -1;
+	}
+
+	else if (lineStyle.getType() == ShLineStyle::Type::ByBlock) {
 		this->propertyToolBar->getLineStyleCombo()->setBlockLineStyle(lineStyle);
 		index = 0;
 	}
@@ -251,6 +268,80 @@ void ShPropertyToolBarActionChangedEventFilterStrategy::update() {
 		this->propertyToolBar->getColorCombo()->setDisabled(true);
 		this->propertyToolBar->getLineStyleCombo()->setDisabled(true);
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////
+
+ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy::ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy(ShPropertyToolBar *propertyToolBar, ShNotifyEvent *event)
+	:ShPropertyToolBarEventFilterStrategy(propertyToolBar, event) {
+
+}
+
+ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy::~ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy() {
+
+}
+
+void ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy::update() {
+
+	ShSelectedEntityCountChangedEvent *event = dynamic_cast<ShSelectedEntityCountChangedEvent*>(this->event);
+
+	////////////////
+	ShColor color;
+
+	if (event->getList().size() == 0) {
+	
+		color = event->getWidget()->getPropertyData().getColor();
+	}
+	else {
+	
+		
+		auto itr = const_cast<QLinkedList<ShEntity*>&>(event->getList()).begin();
+		color = (*itr)->getPropertyData().getColor();
+		++itr;
+
+		for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(event->getList()).end(); ++itr) {
+		
+			if ((*itr)->getPropertyData().getColor() != color) {
+				color.setType(ShColor::Type::Invalid);
+				break;
+			}
+		}
+	}
+	
+	ShCurrentColorChangedEvent event2(color);
+
+	ShPropertyToolBarCurrentColorChangedEventFilterStrategy strategy2(this->propertyToolBar, &event2);
+	strategy2.update();
+
+	/////////////////
+
+	ShLineStyle lineStyle;
+
+	if (event->getList().size() == 0) {
+
+		lineStyle = event->getWidget()->getPropertyData().getLineStyle();
+	}
+	else {
+
+
+		auto itr = const_cast<QLinkedList<ShEntity*>&>(event->getList()).begin();
+		lineStyle = (*itr)->getPropertyData().getLineStyle();
+		++itr;
+
+		for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(event->getList()).end(); ++itr) {
+
+			if ((*itr)->getPropertyData().getLineStyle() != lineStyle) {
+				lineStyle.setType(ShLineStyle::Type::Invalid);
+				break;
+			}
+		}
+	}
+
+	ShCurrentLineStyleChangedEvent event3(lineStyle);
+
+	ShPropertyToolBarCurrentLineStyleChangedEventFilterStrategy strategy3(this->propertyToolBar, &event3);
+	strategy3.update();
+
 }
 
 /////////////////////////////////////////////////////////////////////////
