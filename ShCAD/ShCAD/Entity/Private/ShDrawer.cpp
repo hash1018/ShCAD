@@ -13,7 +13,6 @@
 #include <qpainter.h>
 #include "Data\ShScrollPosition.h"
 #include "Interface\Private\ShAxis.h"
-#include "Entity\Private\ShDimDrawer.h"
 #include "Base\ShPointStyle.h"
 
 ShDrawerSelectedEntityFactory::ShDrawerSelectedEntityFactory() {
@@ -372,9 +371,13 @@ void ShDrawerUnSelectedEntity::visit(ShDot *dot) {
 
 void ShDrawerUnSelectedEntity::visit(ShDimLinear *dimLinear) {
 
-	ShDrawerUnSelectedDim visitor(this->widget, this->painter);
+	ShDrawerUnSelectedEntity visitor(this->widget, this->painter);
 
-	dimLinear->accept(&visitor);
+	auto itr = dimLinear->begin();
+
+	for (itr; itr != dimLinear->end(); ++itr)
+		(*itr)->accept(&visitor);
+
 }
 
 

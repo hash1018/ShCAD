@@ -68,18 +68,16 @@ public:
 class ShDimLinearData : public ShEntityData {
 
 public:
-	ShPoint3d first;
-	ShPoint3d first2;
-	ShPoint3d second;
-	ShPoint3d second2;
-	double angle;
-	double distance;
-	ShPoint3d distancePosition;
+	ShPoint3d firstOrigin;
+	ShPoint3d secondOrigin;
+	ShPoint3d firstDim;
+	ShPoint3d secondDim;
+	ShPoint3d text;
 
 public:
 	ShDimLinearData();
-	ShDimLinearData(const ShPoint3d &first, const ShPoint3d &first2, const ShPoint3d &second, const ShPoint3d &second2,
-		double angle, double distance, const ShPoint3d &distancePosition);
+	ShDimLinearData(const ShPoint3d &firstOrigin, const ShPoint3d &secondOrigin, const ShPoint3d &firstDim, const ShPoint3d &secondDim,
+		const ShPoint3d &text);
 	ShDimLinearData(const ShDimLinearData &other);
 	~ShDimLinearData();
 

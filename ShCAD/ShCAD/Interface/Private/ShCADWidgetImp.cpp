@@ -12,10 +12,11 @@
 #include "Event\ShNotifyEvent.h"
 #include "Base\ShMath.h"
 #include "Entity\Private\ShPloter.h"
+#include "Base\ShDimensionStyleTable.h"
 
 ShCADWidgetImp::ShCADWidgetImp(ShCADWidget *widget)
 	:widget(widget), zoomRate(1.0), actionHandlerProxy(nullptr), undoStack(nullptr),
-	redoStack(nullptr), layerTable(nullptr), entityTable(nullptr), selectedEntities(nullptr) {
+	redoStack(nullptr), layerTable(nullptr), entityTable(nullptr), selectedEntities(nullptr), dimensionStyleTable(nullptr) {
 
 
 }
@@ -40,6 +41,9 @@ ShCADWidgetImp::~ShCADWidgetImp() {
 	if (this->selectedEntities != nullptr)
 		delete this->selectedEntities;
 
+	if (this->dimensionStyleTable != nullptr)
+		delete this->dimensionStyleTable;
+
 	this->rubberBand.clear();
 }
 
@@ -57,6 +61,8 @@ void ShCADWidgetImp::init() {
 
 	this->selectedEntities = new ShSelectedEntities;
 	this->selectedEntities->registerCADWidget(this->widget);
+
+	this->dimensionStyleTable = new ShDimensionStyleTable;
 }
 
 void ShCADWidgetImp::changeAction(ShChangeActionStrategy &strategy) {
@@ -213,4 +219,9 @@ ActionType ShCADWidgetImp::getCurrentActionType() const {
 ShActionHandler* ShCADWidgetImp::getCurrentAction() const {
 
 	return this->actionHandlerProxy->getCurrentAction();
+}
+
+ShDimensionStyle* ShCADWidgetImp::getCurrentDimensionStyle() const {
+
+	return this->dimensionStyleTable->getCurrentStyle();
 }

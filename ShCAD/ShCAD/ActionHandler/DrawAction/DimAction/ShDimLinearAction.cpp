@@ -127,7 +127,8 @@ void ShDimLinearAction::trigger(const ShPoint3d &point) {
 		ShDimLinearData data;
 		this->getDimLinearData(this->first, this->second, point, this->direction, data);
 
-		this->widget->getPreview().add(new ShDimLinear(data, this->widget->getPropertyData(), this->widget->getCurrentLayer()));
+		this->widget->getPreview().add(new ShDimLinear(data, this->widget->getPropertyData(), this->widget->getCurrentLayer(),
+			this->widget->getCurrentDimensionStyle()));
 
 		this->setLastBasePoint(point);
 		this->triggerSucceeded();
@@ -151,17 +152,17 @@ void ShDimLinearAction::trigger(const ShPoint3d &point) {
 void ShDimLinearAction::getDimLinearData(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &point,
 	Direction &direction, ShDimLinearData &data) {
 
-	data.first = first;
-	data.second = second;
-	data.first2 = first;
-	data.second2 = second;
+	data.firstOrigin = first;
+	data.secondOrigin = second;
+	data.firstDim = first;
+	data.secondDim = second;
 
 	if (direction == Nothing) {
 
 		direction = Horizontal;
 
-		data.first2.y = point.y;
-		data.second2.y = point.y;
+		data.firstDim.y = point.y;
+		data.secondDim.y = point.y;
 	}
 	else if (direction == Horizontal) {
 
@@ -170,13 +171,13 @@ void ShDimLinearAction::getDimLinearData(const ShPoint3d &first, const ShPoint3d
 
 			direction = Vertical;
 
-			data.first2.x = point.x;
-			data.second2.x = point.x;
+			data.firstDim.x = point.x;
+			data.secondDim.x = point.x;
 		}
 		else {
 
-			data.first2.y = point.y;
-			data.second2.y = point.y;
+			data.firstDim.y = point.y;
+			data.secondDim.y = point.y;
 		}
 	}
 	else if (direction == Vertical) {
@@ -186,20 +187,19 @@ void ShDimLinearAction::getDimLinearData(const ShPoint3d &first, const ShPoint3d
 
 			direction = Horizontal;
 
-			data.first2.y = point.y;
-			data.second2.y = point.y;
+			data.firstDim.y = point.y;
+			data.secondDim.y = point.y;
 		}
 		else {
 
-			data.first2.x = point.x;
-			data.second2.x = point.x;
+			data.firstDim.x = point.x;
+			data.secondDim.x = point.x;
 		}
 	}
 
-	data.distance = math::getDistance(data.first2.x, data.first2.y, data.second2.x, data.second2.y);
-	data.angle = math::getAbsAngle(data.first.x, data.first.y, data.first2.x, data.first2.y);
-
-	double angle = math::getAbsAngle(data.first2.x, data.first2.y, data.second2.x, data.second2.y);
-	math::rotate(angle, data.first2.x, data.first2.y, data.first2.x + data.distance / 2.0, data.first2.y,
-		data.distancePosition.x, data.distancePosition.y);
+	
+	double distance = math::getDistance(data.firstDim.x, data.firstDim.y, data.secondDim.x, data.secondDim.y);
+	double angle = math::getAbsAngle(data.firstDim.x, data.firstDim.y, data.secondDim.x, data.secondDim.y);
+	math::rotate(angle, data.firstDim.x, data.firstDim.y, data.firstDim.x + distance / 2.0, data.firstDim.y,
+		data.text.x, data.text.y);
 }

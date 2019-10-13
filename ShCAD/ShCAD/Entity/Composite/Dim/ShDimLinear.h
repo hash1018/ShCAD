@@ -9,12 +9,10 @@ class ShLine;
 class ShDimLinear : public ShDim {
 
 protected:
-	double angle;
-	double distance;
-	ShPoint3d distancePosition;
+	ShDimLinearData data;
 
 public:
-	ShDimLinear(const ShDimLinearData &data, const ShPropertyData &propertyData, ShLayer *layer);
+	ShDimLinear(const ShDimLinearData &data, const ShPropertyData &propertyData, ShLayer *layer, ShDimensionStyle *dimensionStyle);
 	ShDimLinear(const ShDimLinear &other);
 	~ShDimLinear();
 	ShDimLinear& operator=(const ShDimLinear &other);
@@ -22,17 +20,13 @@ public:
 	virtual ShDimLinear* clone();
 	virtual void accept(ShVisitor *visitor);
 
-	void updateDistance();
-	void updateAngle();
+	void updateChild();
 
 public:
 	void setData(const ShDimLinearData &data);
-	ShDimLinearData getData();
+	const ShDimLinearData& getData() { return this->data; }
 
-private:
-	const ShLine* getFirstLine();
-	const ShLine* getSecondLine();
-	const ShLine* getThirdLine();
+	double getDistance();
 };
 
 #endif //_SHDIMLINEAR_H

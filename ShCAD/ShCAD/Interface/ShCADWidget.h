@@ -27,6 +27,8 @@ class ShDraftData;
 class ShNotifyEvent;
 class ShPointStyle;
 class ShActionHandler;
+class ShDimensionStyleTable;
+class ShDimensionStyle;
 
 
 class ShCADWidget : public QOpenGLWidget {
@@ -101,6 +103,8 @@ public:
 	ShPointStyle& getPointStyle() const;
 	const ShPoint3d& getLastBasePoint() const;
 	ShActionHandler* getCurrentAction() const;
+	ShDimensionStyleTable* getDimensionStyleTable() const;
+	ShDimensionStyle* getCurrentDimensionStyle() const;
 
 };
 

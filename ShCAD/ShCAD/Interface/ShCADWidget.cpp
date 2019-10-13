@@ -276,3 +276,13 @@ ShActionHandler* ShCADWidget::getCurrentAction() const {
 
 	return this->widgetImp->getCurrentAction();
 }
+
+ShDimensionStyleTable* ShCADWidget::getDimensionStyleTable() const {
+
+	return this->widgetImp->getDimensionStyleTable();
+}
+
+ShDimensionStyle* ShCADWidget::getCurrentDimensionStyle() const {
+
+	return this->widgetImp->getCurrentDimensionStyle();
+}

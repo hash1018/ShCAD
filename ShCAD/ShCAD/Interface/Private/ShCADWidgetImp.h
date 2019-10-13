@@ -28,6 +28,9 @@ class ShActionHandlerProxy;
 class ShSelectedEntities;
 class ShChangeActionStrategy;
 class ShActionHandler;
+class ShDimensionStyleTable;
+class ShDimensionStyle;
+
 
 class ShCADWidgetImp {
 
@@ -53,6 +56,7 @@ private:
 	ShSelectedEntities *selectedEntities;
 	ShPointStyle pointStyle;
 	ShLastBasePoint lastBasePoint;
+	ShDimensionStyleTable *dimensionStyleTable;
 
 private:
 	ShCADWidgetImp(ShCADWidget *widget);
@@ -108,6 +112,8 @@ private:
 	inline ShPointStyle& getPointStyle() const { return const_cast<ShPointStyle&>(this->pointStyle); }
 	inline const ShPoint3d& getLastBasePoint() const { return this->lastBasePoint.getPoint(); }
 	ShActionHandler* getCurrentAction() const;
+	inline ShDimensionStyleTable* getDimensionStyleTable() const { return this->dimensionStyleTable; }
+	ShDimensionStyle* getCurrentDimensionStyle() const;
 };
 
 #endif //_SHCADWIDGETIMP_H

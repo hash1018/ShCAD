@@ -628,12 +628,6 @@
     <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.cpp">
       <Filter>ActionHandler\DrawAction\DimAction</Filter>
     </ClCompile>
-    <ClCompile Include="Manager\ShDimStyleManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Private\ShDimDrawer.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\ToolBar\ShDimensionToolBar.cpp">
       <Filter>Interface\ToolBar</Filter>
     </ClCompile>
@@ -672,6 +666,12 @@
     </ClCompile>
     <ClCompile Include="ActionHandler\ShSelectPlotAreaAction.cpp">
       <Filter>ActionHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ShDimensionStyle.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ShDimensionStyleTable.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1121,12 +1121,6 @@
     <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.h">
       <Filter>ActionHandler\DrawAction\DimAction</Filter>
     </ClInclude>
-    <ClInclude Include="Manager\ShDimStyleManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Private\ShDimDrawer.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\ToolBar\ShDimensionToolBar.h">
       <Filter>Interface\ToolBar</Filter>
     </ClInclude>
@@ -1162,6 +1156,12 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\ShSelectPlotAreaAction.h">
       <Filter>ActionHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShDimensionStyle.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShDimensionStyleTable.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
