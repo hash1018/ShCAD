@@ -7,6 +7,7 @@
 #include "Entity\Leaf\ShPoint.h"
 #include "Entity\Leaf\ShDot.h"
 #include "Base\ShPointStyle.h"
+#include "Entity\Composite\Dim\ShDimLinear.h"
 
 ShFinder::ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity, double tolerance)
 	:x(x), y(y), zoomRate(zoomRate), foundEntity(foundEntity), tolerance(tolerance) {
@@ -79,6 +80,23 @@ void ShFinder::visit(ShDot *dot) {
 	if (dis < tolerance) {
 	
 		*this->foundEntity = dot;
+	}
+}
+
+void ShFinder::visit(ShDimLinear *dimLinear) {
+
+	ShEntity *foundEntity = nullptr;
+	ShFinder visitor(this->x, this->y, this->zoomRate, &foundEntity, this->tolerance);
+
+	auto itr = dimLinear->begin();
+	for (itr; itr != dimLinear->end(); ++itr) {
+	
+		(*itr)->accept(&visitor);
+
+		if (foundEntity != nullptr) {
+			*this->foundEntity = dimLinear;
+			break;
+		}
 	}
 }
 
@@ -278,6 +296,43 @@ void ShRectFinder::visit(ShDot *dot) {
 	if (math::checkPointLiesInsideRect(dot->getPosition(), this->topLeft, this->bottomRight, 0) == true)
 		*this->foundEntity = dot;
 
+}
+
+void ShRectFinder::visit(ShDimLinear *dimLinear) {
+
+	ShEntity *foundEntity = nullptr;
+	int count = 0;
+	ShRectFinder visitor(this->topLeft, this->bottomRight, &foundEntity, this->findMethod);
+	auto itr = dimLinear->begin();
+
+	if (this->findMethod == FindMethod::AllPartLiesInsideRect) {
+	
+		for (itr; itr != dimLinear->end(); ++itr) {
+		
+			(*itr)->accept(&visitor);
+
+			if (foundEntity != nullptr) {
+				count++;
+				foundEntity = nullptr;
+			}
+		}
+
+		if (count == dimLinear->getSize()) 
+			*this->foundEntity = dimLinear;
+		
+	}
+	else {
+	
+		for (itr; itr != dimLinear->end(); ++itr) {
+		
+			(*itr)->accept(&visitor);
+
+			if (foundEntity != nullptr) {
+				*this->foundEntity = dimLinear;
+				return;
+			}
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////

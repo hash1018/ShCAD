@@ -100,6 +100,11 @@ enum VertexType {
 	VertexRight= 0x0000040,
 	VertexTop= 0x0000080,
 	VertexBottom= 0x0000100,
+	VertexFirstOrigin=0x0000200,
+	VertexSecondOrigin=0x0000400,
+	VertexFirstDim=0x0000800,
+	VertexSecondDim=0x0001000,
+	VertexText=0x0002000,
 
 };
 

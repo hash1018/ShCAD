@@ -26,6 +26,7 @@ public:
 	virtual void visit(ShArc *arc);
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
+	virtual void visit(ShDimLinear *dimLinear);
 
 };
 
@@ -54,6 +55,7 @@ public:
 	virtual void visit(ShArc *arc);
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
+	virtual void visit(ShDimLinear *dimLinear);
 
 };
 

@@ -27,10 +27,16 @@ public:
 	virtual void visit(ShArc *arc);
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
+	virtual void visit(ShDimLinear *dimLinear);
 
 
 private:
 	void getColor(ShEntity *entity, QColor &color);
+	void plotLine(int startX, int startY, int endX, int endY, QColor &color);
+	void plotText(QPainter *painter, int dx, int dy, double angle, double distance, double textHeight, const QColor &color, double scale);
+	void plotCircle(int centerX, int centerY, int radius, const QColor &color);
+	void plotArc(int centerX, int centerY, int radius, double startAngle, double endAngle, const QColor &color);
+	void plotFilledTriangle(int x, int y, int x2, int y2, int x3, int y3, const QColor &color);
 };
 
 #endif //_SHPLOTER_H

@@ -11,4 +11,6 @@ ShDimensionStyleTable::ShDimensionStyleTable() {
 
 ShDimensionStyleTable::~ShDimensionStyleTable() {
 
+	for (int i = 0; i < this->styles.size(); i++)
+		delete this->styles.at(i);
 }

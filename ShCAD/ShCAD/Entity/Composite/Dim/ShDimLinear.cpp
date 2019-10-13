@@ -76,3 +76,15 @@ double ShDimLinear::getDistance() {
 
 	return math::getDistance(this->data.firstDim.x, this->data.firstDim.y, this->data.secondDim.x, this->data.secondDim.y);
 }
+
+void ShDimLinear::getFirstArrowPoints(ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) {
+
+	this->dimensionStyle->getDimensionArrowStyle().
+		getFirstLineArrowPoints(this->data.firstDim, this->data.secondDim, vertex, vertex2, vertex3);
+}
+
+void ShDimLinear::getSecondArrowPoints(ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) {
+
+	this->dimensionStyle->getDimensionArrowStyle().
+		getSecondLineArrowPoints(this->data.firstDim, this->data.secondDim, vertex, vertex2, vertex3);
+}

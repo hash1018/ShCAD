@@ -9,6 +9,10 @@ class ShLine;
 class ShLayer;
 class ShPoint3d;
 class ShPropertyData;
+class ShDrawerFunctions;
+struct GLColor;
+class QPainter;
+class QColor;
 
 class ShDimensionExtensionLineStyle {
 
@@ -38,8 +42,8 @@ public:
 	inline bool getSupressExtensionLine2() const { return this->suppressExtensionLine2; }
 
 public:
-	ShLine* createExtensionLine(const ShPoint3d &origin, const ShPoint3d &dim, const ShPropertyData &propertyData, ShLayer *layer);
-	ShLine* createExtensionLine2(const ShPoint3d &origin, const ShPoint3d &dim, const ShPropertyData &propertyData, ShLayer *layer);
+	ShLine* createExtensionLine(const ShPoint3d &origin, const ShPoint3d &dim, const ShPropertyData &propertyData, ShLayer *layer) const;
+	ShLine* createExtensionLine2(const ShPoint3d &origin, const ShPoint3d &dim, const ShPropertyData &propertyData, ShLayer *layer) const;
 };
 
 ////////////////////////////////////////////////
@@ -76,6 +80,8 @@ public:
 
 	ShDimensionArrowStyle& operator=(const ShDimensionArrowStyle &other);
 
+	void drawLineArrow(ShDrawerFunctions &drawerFunctions, const ShPoint3d &start, const ShPoint3d &end, const GLColor &color) const;
+
 public:
 	void setFirstArrowheads(Arrowheads first) { this->first = first; }
 	void setSecondArrowheads(Arrowheads second) { this->second = second; }
@@ -85,22 +91,33 @@ public:
 	inline Arrowheads getFirstArrowheads() const { return this->first; }
 	inline Arrowheads getSecondArrowheads() const { return this->second; }
 	inline double getArrowSize() const { return this->arrowSize; }
+	void getFirstLineArrowPoints(const ShPoint3d &start, const ShPoint3d &end, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const;
+	void getSecondLineArrowPoints(const ShPoint3d &start, const ShPoint3d &end, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const;
 };
 
 ///////////////////////////////////////////////////
 
 class ShDimensionTextStyle {
 
+public:
+	enum TextAlignment {
+		Horizontal,
+		AlignedWithDimensionLine,
+	};
+
 private:
 	double textHeight;
+	TextAlignment textAlignment;
 
 public:
 	ShDimensionTextStyle();
-	ShDimensionTextStyle(double textHeight);
+	ShDimensionTextStyle(double textHeight, TextAlignment textAlignment);
 	ShDimensionTextStyle(const ShDimensionTextStyle &other);
 	~ShDimensionTextStyle();
 
 	ShDimensionTextStyle& operator=(const ShDimensionTextStyle &other);
+
+	void drawDimensionDistanceText(QPainter *painter, int dx, int dy, double angle, double distance, const QColor &color, double zoomRate) const;
 
 public:
 	void setTextHeight(double textHeight) { this->textHeight = textHeight; }

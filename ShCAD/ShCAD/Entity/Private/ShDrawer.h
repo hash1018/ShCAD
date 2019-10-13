@@ -67,6 +67,7 @@ public:
 	void drawArc(const ShPoint3d& center, double radius, double startAngle, double endAngle, const GLColor& color, int segments = 360);
 	void drawDot(const GLPoint &point, const GLColor &color);
 	void drawFilledTriangle(const GLPoint &p1, const GLPoint &p2, const GLPoint &p3, const GLColor &color);
+	void drawTriangle(const GLPoint &p1, const GLPoint &p2, const GLPoint &p3, const GLColor &color);
 	
 };
 

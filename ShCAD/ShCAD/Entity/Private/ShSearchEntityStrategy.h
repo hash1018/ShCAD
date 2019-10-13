@@ -55,14 +55,28 @@ class ShSearchEntityDuplicateStrategy : public ShSearchEntityStrategy {
 
 protected:
 	QLinkedList<ShEntity*> &foundEntities;
-	int max;
+	const int max;
 
 public:
-	ShSearchEntityDuplicateStrategy(QLinkedList<ShEntity*> &foundEntities, int max, double x, double y, double zoomRate, double tolerance = 6.0);
+	ShSearchEntityDuplicateStrategy(QLinkedList<ShEntity*> &foundEntities, const int max, double x, double y, double zoomRate, double tolerance = 6.0);
 	~ShSearchEntityDuplicateStrategy();
 
 	virtual void search();
 
+};
+
+class ShSearchEntityDuplicateCompositeChildIncludedStrategy : public ShSearchEntityStrategy {
+
+protected:
+	QLinkedList<ShEntity*> &foundEntities;
+	const int max;
+
+public:
+	ShSearchEntityDuplicateCompositeChildIncludedStrategy(QLinkedList<ShEntity*> &foundEntities, const int max, double x, double y,
+		double zoomRate, double tolerance = 6.0);
+	~ShSearchEntityDuplicateCompositeChildIncludedStrategy();
+
+	virtual void search();
 };
 
 #endif //_SHSEARCHENTITYSTRATEGY_H

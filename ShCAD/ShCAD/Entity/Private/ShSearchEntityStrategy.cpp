@@ -86,7 +86,7 @@ void ShSearchEntityCompositeChildIncludedStrategy::search() {
 /////////////////////////////////////////////////////////////////////////
 
 
-ShSearchEntityDuplicateStrategy::ShSearchEntityDuplicateStrategy(QLinkedList<ShEntity*> &foundEntities, int max, double x, double y, double zoomRate, double tolerance)
+ShSearchEntityDuplicateStrategy::ShSearchEntityDuplicateStrategy(QLinkedList<ShEntity*> &foundEntities, const int max, double x, double y, double zoomRate, double tolerance)
 	:ShSearchEntityStrategy(x, y, zoomRate, tolerance), foundEntities(foundEntities), max(max) {
 
 }
@@ -121,5 +121,55 @@ void ShSearchEntityDuplicateStrategy::search() {
 
 		}
 
+	}
+}
+
+////////////////////////////////////////////////////////////////
+
+ShSearchEntityDuplicateCompositeChildIncludedStrategy::ShSearchEntityDuplicateCompositeChildIncludedStrategy(QLinkedList<ShEntity*> &foundEntities,
+	const int max, double x, double y, double zoomRate, double tolerance)
+	:ShSearchEntityStrategy(x, y, zoomRate, tolerance), foundEntities(foundEntities), max(max) {
+
+}
+
+ShSearchEntityDuplicateCompositeChildIncludedStrategy::~ShSearchEntityDuplicateCompositeChildIncludedStrategy() {
+
+}
+
+void ShSearchEntityDuplicateCompositeChildIncludedStrategy::search() {
+
+	if (this->max == 0)
+		return;
+
+	ShEntity *foundEntity = nullptr;
+
+	ShFinder finder(this->x, this->y, this->zoomRate, &foundEntity, this->tolerance);
+
+	int count = this->foundEntities.count();
+	auto itr = this->list.begin();
+
+	for (itr; itr != this->list.end(); ++itr) {
+
+		foundEntity = nullptr;
+		(*itr)->accept(&finder);
+
+		if (foundEntity != nullptr) {
+
+			if (dynamic_cast<ShComposite*>(foundEntity)) {
+			
+				ShSearchEntityDuplicateCompositeChildIncludedStrategy strategy(this->foundEntities, this->max, this->x, this->y,
+					this->zoomRate, this->tolerance);
+
+				dynamic_cast<ShComposite*>(foundEntity)->search(strategy);
+			}
+			else {
+				count++;
+				this->foundEntities.append(foundEntity);
+
+				if (count >= this->max)
+					return;
+
+			}
+		}
 	}
 }

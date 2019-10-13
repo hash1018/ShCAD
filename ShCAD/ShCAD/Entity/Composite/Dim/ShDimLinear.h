@@ -27,6 +27,8 @@ public:
 	const ShDimLinearData& getData() { return this->data; }
 
 	double getDistance();
+	void getFirstArrowPoints(ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3);
+	void getSecondArrowPoints(ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3);
 };
 
 #endif //_SHDIMLINEAR_H

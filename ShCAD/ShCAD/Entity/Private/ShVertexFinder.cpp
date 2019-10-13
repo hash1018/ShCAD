@@ -6,6 +6,7 @@
 #include "Entity\Leaf\ShArc.h"
 #include "Entity\Leaf\ShPoint.h"
 #include "Entity\Leaf\ShDot.h"
+#include "Entity\Composite\Dim\ShDimLinear.h"
 
 
 ShNearestVertexFinder::ShNearestVertexFinder(double x, double y, double zoomRate, VertexType &vertexType, ShPoint3d &vertexPoint, double tolerance)
@@ -216,6 +217,64 @@ void ShNearestVertexFinder::visit(ShDot *dot) {
 	this->vertexType = VertexType::VertexNothing;
 }
 
+void ShNearestVertexFinder::visit(ShDimLinear *dimLinear) {
+
+	ShDimLinearData data = dimLinear->getData();
+
+	if (this->x >= data.firstOrigin.x - (this->tolerance / this->zoomRate) &&
+		this->x <= data.firstOrigin.x + (this->tolerance / this->zoomRate) &&
+		this->y >= data.firstOrigin.y - (this->tolerance / this->zoomRate) &&
+		this->y <= data.firstOrigin.y + (this->tolerance / this->zoomRate)) {
+
+		this->vertexType = VertexType::VertexFirstOrigin;
+		this->vertexPoint = data.firstOrigin;
+		return;
+	}
+
+	if (this->x >= data.secondOrigin.x - (this->tolerance / this->zoomRate) &&
+		this->x <= data.secondOrigin.x + (this->tolerance / this->zoomRate) &&
+		this->y >= data.secondOrigin.y - (this->tolerance / this->zoomRate) &&
+		this->y <= data.secondOrigin.y + (this->tolerance / this->zoomRate)) {
+
+		this->vertexType = VertexType::VertexSecondOrigin;
+		this->vertexPoint = data.secondOrigin;
+		return;
+	}
+
+	if (this->x >= data.firstDim.x - (this->tolerance / this->zoomRate) &&
+		this->x <= data.firstDim.x + (this->tolerance / this->zoomRate) &&
+		this->y >= data.firstDim.y - (this->tolerance / this->zoomRate) &&
+		this->y <= data.firstDim.y + (this->tolerance / this->zoomRate)) {
+
+		this->vertexType = VertexType::VertexFirstDim;
+		this->vertexPoint = data.firstDim;
+		return;
+	}
+
+	if (this->x >= data.secondDim.x - (this->tolerance / this->zoomRate) &&
+		this->x <= data.secondDim.x + (this->tolerance / this->zoomRate) &&
+		this->y >= data.secondDim.y - (this->tolerance / this->zoomRate) &&
+		this->y <= data.secondDim.y + (this->tolerance / this->zoomRate)) {
+
+		this->vertexType = VertexType::VertexSecondDim;
+		this->vertexPoint = data.secondDim;
+		return;
+	}
+
+	if (this->x >= data.text.x - (this->tolerance / this->zoomRate) &&
+		this->x <= data.text.x + (this->tolerance / this->zoomRate) &&
+		this->y >= data.text.y - (this->tolerance / this->zoomRate) &&
+		this->y <= data.text.y + (this->tolerance / this->zoomRate)) {
+
+		this->vertexType = VertexType::VertexText;
+		this->vertexPoint = data.text;
+		return;
+	}
+
+	this->vertexType = VertexType::VertexNothing;
+
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 PointAndVertexTypeMathchedEntityFinder::PointAndVertexTypeMathchedEntityFinder(const ShPoint3d &mustMatchPoint, VertexType vertexType, bool &matched)
@@ -329,6 +388,54 @@ void PointAndVertexTypeMathchedEntityFinder::visit(ShDot *dot) {
 	if ((this->vertexType & VertexType::VertexCenter) == VertexType::VertexCenter) {
 
 		if (this->mustMatchPoint == dot->getPosition()) {
+
+			this->matched = true;
+			return;
+		}
+	}
+
+	this->matched = false;
+}
+
+void PointAndVertexTypeMathchedEntityFinder::visit(ShDimLinear *dimLinear) {
+
+	ShDimLinearData data = dimLinear->getData();
+
+	if ((this->vertexType & VertexType::VertexFirstOrigin) == VertexType::VertexFirstOrigin) {
+
+		if (this->mustMatchPoint == data.firstOrigin) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexSecondOrigin) == VertexType::VertexSecondOrigin) {
+
+		if (this->mustMatchPoint == data.secondOrigin) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexFirstDim) == VertexType::VertexFirstDim) {
+
+		if (this->mustMatchPoint == data.firstDim) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexSecondDim) == VertexType::VertexSecondDim) {
+
+		if (this->mustMatchPoint == data.secondDim) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexText) == VertexType::VertexText) {
+
+		if (this->mustMatchPoint == data.text) {
 
 			this->matched = true;
 			return;

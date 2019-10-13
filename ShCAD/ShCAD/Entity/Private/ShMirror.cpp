@@ -6,6 +6,7 @@
 #include "Entity\Leaf\ShArc.h"
 #include "Entity\Leaf\ShPoint.h"
 #include "Entity\Leaf\ShDot.h"
+#include "Entity\Composite\Dim\ShDimLinear.h"
 
 ShMirror::ShMirror(const ShPoint3d &center, double angle)
 	:center(center), angle(angle), original(nullptr) {
@@ -105,4 +106,27 @@ void ShMirror::visit(ShDot *dot) {
 	math::rotate((this->angle - angle) * 2, this->center.x, this->center.y, position.x, position.y, position.x, position.y);
 
 	dot->setPosition(position);
+}
+
+void ShMirror::visit(ShDimLinear *dimLinear) {
+
+	if (this->original == nullptr || !dynamic_cast<ShDimLinear*>(this->original))
+		return;
+
+	ShDimLinear *original = dynamic_cast<ShDimLinear*>(this->original);
+	ShDimLinearData data = original->getData();
+
+	double angleFirstOrigin = math::getAbsAngle(this->center.x, this->center.y, data.firstOrigin.x, data.firstOrigin.y);
+	double angleFirstDim = math::getAbsAngle(this->center.x, this->center.y, data.firstDim.x, data.firstDim.y);
+	double angleSecondOrigin = math::getAbsAngle(this->center.x, this->center.y, data.secondOrigin.x, data.secondOrigin.y);
+	double angleSecondDim = math::getAbsAngle(this->center.x, this->center.y, data.secondDim.x, data.secondDim.y);
+	double angleText = math::getAbsAngle(this->center.x, this->center.y, data.text.x, data.text.y);
+
+	math::rotate((this->angle - angleFirstOrigin) * 2, this->center.x, this->center.y, data.firstOrigin.x, data.firstOrigin.y, data.firstOrigin.x, data.firstOrigin.y);
+	math::rotate((this->angle - angleFirstDim) * 2, this->center.x, this->center.y, data.firstDim.x, data.firstDim.y, data.firstDim.x, data.firstDim.y);
+	math::rotate((this->angle - angleSecondOrigin) * 2, this->center.x, this->center.y, data.secondOrigin.x, data.secondOrigin.y, data.secondOrigin.x, data.secondOrigin.y);
+	math::rotate((this->angle - angleSecondDim) * 2, this->center.x, this->center.y, data.secondDim.x, data.secondDim.y, data.secondDim.x, data.secondDim.y);
+	math::rotate((this->angle - angleText) * 2, this->center.x, this->center.y, data.text.x, data.text.y, data.text.x, data.text.y);
+
+	dimLinear->setData(data);
 }

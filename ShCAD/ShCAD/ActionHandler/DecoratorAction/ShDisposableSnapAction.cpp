@@ -585,7 +585,7 @@ bool ShDisposableSnapAction__Intersection::search(const ShPoint3d &point) {
 	this->foundOnlyOne = false;
 
 	QLinkedList<ShEntity*> foundEntities;
-	ShSearchEntityDuplicateStrategy strategy(foundEntities, 2, point.x, point.y, this->widget->getZoomRate());
+	ShSearchEntityDuplicateCompositeChildIncludedStrategy strategy(foundEntities, 2, point.x, point.y, this->widget->getZoomRate());
 	this->widget->getEntityTable().search(strategy);
 
 	if (foundEntities.count() == 0)
