@@ -21,8 +21,8 @@ public:
 	void setColor(const ShColor &color) { this->color = color; }
 	void setLineStyle(const ShLineStyle &lineStyle) { this->lineStyle = lineStyle; }
 
-	inline ShColor getColor() const { return this->color; }
-	inline ShLineStyle getLineStyle() const { return this->lineStyle; }
+	inline const ShColor& getColor() const { return this->color; }
+	inline const ShLineStyle& getLineStyle() const { return this->lineStyle; }
 
 };
 

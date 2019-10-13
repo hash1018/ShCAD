@@ -6,6 +6,7 @@
 #include "Entity\Private\ShRotater.h"
 #include "Entity\Private\ShMirror.h"
 #include "Entity\Composite\ShEntityTable.h"
+#include "Base\ShLayer.h"
 
 ShAddEntityTransaction::ShAddEntityTransaction(ShCADWidget *widget, const QString &transactionName)
 	:ShTransaction("Group " + transactionName), widget(widget), mustDeleteEntity(false) {
@@ -425,6 +426,75 @@ void ShChangeEntityPropertyDataTransaction::undo() {
 }
 
 void ShChangeEntityPropertyDataTransaction::add(ShEntity *entity, const ShPropertyData &prev, const ShPropertyData &current) {
+
+	this->entities.append(entity);
+	this->prev.append(prev);
+	this->current.append(current);
+}
+
+
+////////////////////////////////////////////////////////////////////////
+
+ShChangeEntityLayerTransaction::ShChangeEntityLayerTransaction(ShCADWidget *widget)
+	:ShTransaction("Change Layer"), widget(widget) {
+
+}
+
+ShChangeEntityLayerTransaction::~ShChangeEntityLayerTransaction() {
+
+}
+
+void ShChangeEntityLayerTransaction::redo() {
+
+	auto itr = this->entities.begin();
+	auto itrCurrent = this->current.begin();
+
+	ShPropertyData propertyData;
+
+	for (itr; itr != this->entities.end(); ++itr) {
+	
+		(*itr)->setLayer((*itrCurrent));
+		propertyData = (*itr)->getPropertyData();
+
+		if (propertyData.getColor().getType() == ShColor::Type::ByLayer)
+			propertyData.setColor((*itrCurrent)->getPropertyData().getColor());
+		if (propertyData.getLineStyle().getType() == ShLineStyle::Type::ByLayer)
+			propertyData.setLineStyle((*itrCurrent)->getPropertyData().getLineStyle());
+
+		(*itr)->setPropertyData(propertyData);
+		++itrCurrent;
+	}
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShChangeEntityLayerTransaction::undo() {
+
+	auto itr = this->entities.begin();
+	auto itrPrev = this->prev.begin();
+
+	ShPropertyData propertyData;
+
+	for (itr; itr != this->entities.end(); ++itr) {
+
+		(*itr)->setLayer((*itrPrev));
+		propertyData = (*itr)->getPropertyData();
+
+		if (propertyData.getColor().getType() == ShColor::Type::ByLayer)
+			propertyData.setColor((*itrPrev)->getPropertyData().getColor());
+		if (propertyData.getLineStyle().getType() == ShLineStyle::Type::ByLayer)
+			propertyData.setLineStyle((*itrPrev)->getPropertyData().getLineStyle());
+
+		(*itr)->setPropertyData(propertyData);
+		++itrPrev;
+	}
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShChangeEntityLayerTransaction::add(ShEntity *entity, ShLayer *prev, ShLayer *current) {
 
 	this->entities.append(entity);
 	this->prev.append(prev);

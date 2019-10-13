@@ -187,27 +187,59 @@ void ShCADWidgetCurrentLayerChangedEventFilterStrategy::update() {
 
 	ShCurrentLayerChangedEvent *event = dynamic_cast<ShCurrentLayerChangedEvent*>(this->event);
 
-	ShLayer *prev = this->widget->getLayerTable()->getCurrentLayer();
+	if (this->widget->getSelectedEntities()->getSize() == 0) {
 
-	if (prev == event->getCurrentLayer())
-		return;
+		ShLayer *prev = this->widget->getLayerTable()->getCurrentLayer();
 
-	this->widget->getLayerTable()->setCurrentLayer(event->getCurrentLayer());
+		if (prev == event->getCurrentLayer())
+			return;
 
-	ShPropertyData propertyData = this->widget->getPropertyData();
+		this->widget->getLayerTable()->setCurrentLayer(event->getCurrentLayer());
 
-	if (propertyData.getColor().getType() == ShColor::Type::ByLayer)
-		propertyData.setColor(event->getCurrentLayer()->getPropertyData().getColor());
+		ShPropertyData propertyData = this->widget->getPropertyData();
+
+		if (propertyData.getColor().getType() == ShColor::Type::ByLayer)
+			propertyData.setColor(event->getCurrentLayer()->getPropertyData().getColor());
+
+		if (propertyData.getLineStyle().getType() == ShLineStyle::Type::ByLayer)
+			propertyData.setLineStyle(event->getCurrentLayer()->getPropertyData().getLineStyle());
+
+		this->widget->setPropertyData(propertyData);
+
+		this->widget->notify(this->event);
+
+
+		ShGlobal::pushNewTransaction(this->widget, new ShChangeCurrentLayerTransaction(this->widget, prev, event->getCurrentLayer()));
+	}
+	else {
 	
-	if (propertyData.getLineStyle().getType() == ShLineStyle::Type::ByLayer)
-		propertyData.setLineStyle(event->getCurrentLayer()->getPropertyData().getLineStyle());
+		auto itr = this->widget->getSelectedEntities()->begin();
+		ShLayer *prev;
+		ShPropertyData propertyData;
 
-	this->widget->setPropertyData(propertyData);
+		ShChangeEntityLayerTransaction *transaction = new ShChangeEntityLayerTransaction(this->widget);
 
-	this->widget->notify(this->event);
-	
+		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
+		
+			prev = (*itr)->getLayer();
+			(*itr)->setLayer(event->getCurrentLayer());
+			
+			propertyData = (*itr)->getPropertyData();
 
-	ShGlobal::pushNewTransaction(this->widget, new ShChangeCurrentLayerTransaction(this->widget, prev, event->getCurrentLayer()));
+			if (propertyData.getColor().getType() == ShColor::Type::ByLayer)
+				propertyData.setColor(event->getCurrentLayer()->getPropertyData().getColor());
+			if (propertyData.getLineStyle().getType() == ShLineStyle::Type::ByLayer)
+				propertyData.setLineStyle(event->getCurrentLayer()->getPropertyData().getLineStyle());
+
+			(*itr)->setPropertyData(propertyData);
+
+
+			transaction->add((*itr), prev, event->getCurrentLayer());
+		}
+
+		ShGlobal::pushNewTransaction(this->widget, transaction);
+		this->widget->notify(this->event);
+	}
 
 }
 

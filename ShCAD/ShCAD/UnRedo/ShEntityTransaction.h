@@ -9,6 +9,8 @@
 
 class ShCADWidget;
 class ShEntity;
+class ShLayer;
+
 class ShAddEntityTransaction : public ShTransaction {
 
 private:
@@ -184,6 +186,25 @@ public:
 	virtual void undo();
 
 	void add(ShEntity *entity, const ShPropertyData &prev, const ShPropertyData &current);
+};
+
+class ShChangeEntityLayerTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShEntity*> entities;
+	QLinkedList <ShLayer*> prev;
+	QLinkedList<ShLayer*> current;
+
+public:
+	ShChangeEntityLayerTransaction(ShCADWidget *widget);
+	~ShChangeEntityLayerTransaction();
+
+	virtual void redo();
+	virtual void undo();
+
+	void add(ShEntity *entity, ShLayer *prev, ShLayer *current);
+
 };
 
 #endif //_SHENTITYTRANSACTION_H

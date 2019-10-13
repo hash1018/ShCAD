@@ -34,6 +34,7 @@ public:
 	virtual void unSelect();
 
 	void setPropertyData(const ShPropertyData &propertyData) { this->propertyData = propertyData; }
+	void setLayer(ShLayer *layer) { this->layer = layer; }
 
 	inline const ShPropertyData& getPropertyData() const { return this->propertyData; }
 	inline bool isSelected() const { return this->selected; }

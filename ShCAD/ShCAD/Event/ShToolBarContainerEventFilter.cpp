@@ -301,7 +301,7 @@ void ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy::update() {
 
 		for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(event->getList()).end(); ++itr) {
 		
-			if ((*itr)->getPropertyData().getColor() != color) {
+			if (color != (*itr)->getPropertyData().getColor()) {
 				color.setType(ShColor::Type::Invalid);
 				break;
 			}
@@ -330,7 +330,7 @@ void ShPropertyToolBarSelectedEntityCountChangedEventFilterStrategy::update() {
 
 		for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(event->getList()).end(); ++itr) {
 
-			if ((*itr)->getPropertyData().getLineStyle() != lineStyle) {
+			if (lineStyle != (*itr)->getPropertyData().getLineStyle()) {
 				lineStyle.setType(ShLineStyle::Type::Invalid);
 				break;
 			}
