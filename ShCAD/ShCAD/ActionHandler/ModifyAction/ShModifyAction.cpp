@@ -140,3 +140,8 @@ void ShModifyAction::triggerSelectingEntities(QMouseEvent *event) {
 	}
 
 }
+
+void ShModifyAction::finishSelectingEntities() {
+
+	this->keyHandler->disAllowKey(KeyType::Control_A);
+}

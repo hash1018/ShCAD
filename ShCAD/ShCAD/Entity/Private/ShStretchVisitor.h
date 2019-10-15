@@ -19,6 +19,14 @@ enum StretchPoint {
 	StretchRight,
 	StretchTop,
 	StretchChild,
+	StretchFirstOrigin,
+	StretchSecondOrigin,
+	StretchFirstDim,
+	StretchSecondDim,
+	StretchCenter,
+	StretchBoundary,
+	StretchBoundary2,
+	StretchText,
 };
 
 ////////////////////////////////////////////////////
@@ -69,6 +77,7 @@ public:
 	virtual void visit(ShArc *arc);
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
+	virtual void visit(ShDimLinear *dimLinear);
 
 public:
 	void setOriginal(ShEntity *original) { this->original = original; }
@@ -94,7 +103,7 @@ public:
 	virtual void visit(ShArc *arc);
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
-
+	virtual void visit(ShDimLinear *dimLinear);
 };
 
 /////////////////////////////////////////////////////////
@@ -113,6 +122,7 @@ public:
 	virtual void visit(ShArc *arc);
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
+	virtual void visit(ShDimLinear *dimLinear);
 
 };
 
@@ -134,7 +144,10 @@ public:
 	virtual void visit(ShArc *arc);
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
+	virtual void visit(ShDimLinear *dimLinear);
 
+private:
+	bool checkPointLiesInsideRect(const ShPoint3d &point);
 };
 
 #endif //_SHSTRETCHVISITOR_H

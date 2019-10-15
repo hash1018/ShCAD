@@ -158,6 +158,7 @@ void ShModifyMirrorAction::finishSelectingEntities() {
 			addAvailableCommand(CommandType::DistanceFromBase).
 			build();
 
+		ShModifyAction::finishSelectingEntities();
 	}
 	else {
 

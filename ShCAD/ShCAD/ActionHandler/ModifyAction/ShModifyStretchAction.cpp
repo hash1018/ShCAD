@@ -9,12 +9,12 @@
 #include "Entity\Private\ShStretchVisitor.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
-
+#include "KeyHandler\ShKeyHandler.h"
 
 ShModifyStretchAction::ShModifyStretchAction(ShCADWidget *widget)
 	:ShModifyAction(widget) {
 
-
+	this->keyHandler->disAllowKey(KeyType::Control_A);
 }
 
 ShModifyStretchAction::~ShModifyStretchAction() {

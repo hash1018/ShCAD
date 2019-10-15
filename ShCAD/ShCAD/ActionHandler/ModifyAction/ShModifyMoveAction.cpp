@@ -156,6 +156,7 @@ void ShModifyMoveAction::finishSelectingEntities() {
 			addAvailableCommand(CommandType::DistanceFromBase).
 			build();
 
+		ShModifyAction::finishSelectingEntities();
 	}
 	else {
 	

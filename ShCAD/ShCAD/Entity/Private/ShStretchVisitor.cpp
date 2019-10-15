@@ -6,7 +6,7 @@
 #include "Entity\Leaf\ShArc.h"
 #include "Entity\Leaf\ShPoint.h"
 #include "Entity\Leaf\ShDot.h"
-
+#include "Entity\Composite\Dim\ShDimLinear.h"
 
 ShStretchData::ShStretchData() {
 
@@ -64,6 +64,7 @@ void ShStretchVisitor::visit(ShLine *line) {
 		data.end.y += disY;
 	}
 	else if (stretchData->stretchPoint == StretchPoint::StretchMove) {
+
 		data.start.x += disX;
 		data.start.y += disY;
 		data.end.x += disX;
@@ -232,6 +233,108 @@ void ShStretchVisitor::visit(ShDot *dot) {
 	dot->setPosition(position);
 }
 
+void ShStretchVisitor::visit(ShDimLinear *dimLinear) {
+
+	if (this->original == nullptr || !dynamic_cast<ShDimLinear*>(this->original))
+		return;
+
+	if (!dynamic_cast<ShStretchLeafData*>(this->stretchData))
+		return;
+
+	ShStretchLeafData *stretchData = dynamic_cast<ShStretchLeafData*>(this->stretchData);
+
+	ShDimLinear *original = dynamic_cast<ShDimLinear*>(this->original);
+	ShDimLinearData data = original->getData();
+
+	if (stretchData->stretchPoint == StretchPoint::StretchFirstOrigin) {
+	
+		double angle = math::getAbsAngle(data.firstOrigin.x, data.firstOrigin.y, data.firstDim.x, data.firstDim.y);
+		data.firstOrigin = this->current;
+
+		ShPoint3d rotate;
+		math::rotate(angle, data.firstOrigin.x, data.firstOrigin.y, data.firstOrigin.x + 10, data.firstOrigin.y, rotate.x, rotate.y);
+		math::checkLineLineIntersect(data.firstOrigin, rotate, data.firstDim, data.secondDim, data.firstDim);
+
+		dimLinear->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchFirstDim) {
+	
+		double dimDistance = math::getDistance(data.firstDim.x, data.firstDim.y, data.text.x, data.text.y);
+		double dimAngle = math::getAbsAngle(data.firstDim.x, data.firstDim.y, data.text.x, data.text.y);
+
+		double angle = math::getAbsAngle(data.firstDim.x, data.firstDim.y, data.secondDim.x, data.secondDim.y);
+		ShPoint3d rotate;
+
+		math::rotate(angle, this->current.x, this->current.y, this->current.x + 10, this->current.y, rotate.x, rotate.y);
+		math::checkLineLineIntersect(data.firstOrigin, data.firstDim, this->current, rotate, data.firstDim);
+
+		math::rotate(angle, data.firstDim.x, data.firstDim.y, data.firstDim.x + 10, data.firstDim.y, rotate.x, rotate.y);
+		math::checkLineLineIntersect(data.firstDim, rotate, data.secondOrigin, data.secondDim, data.secondDim);
+
+		math::rotate(dimAngle, data.firstDim.x, data.firstDim.y, data.firstDim.x + dimDistance, data.firstDim.y, data.text.x, data.text.y);
+
+		dimLinear->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchSecondOrigin) {
+	
+		double angle = math::getAbsAngle(data.secondOrigin.x, data.secondOrigin.y, data.secondDim.x, data.secondDim.y);
+		data.secondOrigin = this->current;
+
+		ShPoint3d rotate;
+		math::rotate(angle, data.secondOrigin.x, data.secondOrigin.y, data.secondOrigin.x + 10, data.secondOrigin.y, rotate.x, rotate.y);
+		math::checkLineLineIntersect(data.secondOrigin, rotate, data.secondDim, data.firstDim, data.secondDim);
+
+		dimLinear->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchSecondDim) {
+	
+		double dimDistance = math::getDistance(data.firstDim.x, data.firstDim.y, data.text.x, data.text.y);
+		double dimAngle = math::getAbsAngle(data.firstDim.x, data.firstDim.y, data.text.x, data.text.y);
+
+		double angle = math::getAbsAngle(data.secondDim.x, data.secondDim.y, data.firstDim.x, data.firstDim.y);
+		ShPoint3d rotate;
+
+		math::rotate(angle, this->current.x, this->current.y, this->current.x + 10, this->current.y, rotate.x, rotate.y);
+		math::checkLineLineIntersect(data.secondOrigin, data.secondDim, this->current, rotate, data.secondDim);
+
+		math::rotate(angle, data.secondDim.x, data.secondDim.y, data.secondDim.x + 10, data.secondDim.y, rotate.x, rotate.y);
+		math::checkLineLineIntersect(data.secondDim, rotate, data.firstOrigin, data.firstDim, data.firstDim);
+
+		math::rotate(dimAngle, data.firstDim.x, data.firstDim.y, data.firstDim.x + dimDistance, data.firstDim.y, data.text.x, data.text.y);
+
+		dimLinear->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchText) {
+	
+		data.text = this->current;
+		double angle = math::getAbsAngle(data.firstDim.x, data.firstDim.y, data.secondDim.x, data.secondDim.y);
+		ShPoint3d rotate;
+		math::rotate(angle, this->current.x, this->current.y, this->current.x + 10, this->current.y, rotate.x, rotate.y);
+		math::checkLineLineIntersect(this->current, rotate, data.firstOrigin, data.firstDim, data.firstDim);
+		math::checkLineLineIntersect(this->current, rotate, data.secondOrigin, data.secondDim, data.secondDim);
+
+		dimLinear->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchMove) {
+
+		double disX = this->current.x - this->base.x;
+		double disY = this->current.y - this->base.y;
+
+		data.firstOrigin.x += disX;
+		data.firstOrigin.y += disY;
+		data.firstDim.x += disX;
+		data.firstDim.y += disY;
+		data.secondOrigin.x += disX;
+		data.secondOrigin.y += disY;
+		data.secondDim.x += disX;
+		data.secondDim.y += disY;
+		data.text.x += disX;
+		data.text.y += disY;
+
+		dimLinear->setData(data);
+	}
+}
+
 ///////////////////////////////////////////////////
 
 ShPossibleEntityToStretchFinder::ShPossibleEntityToStretchFinder(const ShPoint3d &point, bool &possible, ShStretchData* *stretchData)
@@ -359,6 +462,32 @@ void ShPossibleEntityToStretchFinder::visit(ShDot *dot) {
 	}
 }
 
+void ShPossibleEntityToStretchFinder::visit(ShDimLinear *dimLinear) {
+
+	ShDimLinearData data = dimLinear->getData();
+
+	if (this->point.isEqual(data.firstOrigin) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchFirstOrigin);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(data.secondOrigin) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchSecondOrigin);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(data.firstDim) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchFirstDim);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(data.secondDim) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchSecondDim);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(data.text) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchText);
+		this->possible = true;
+	}
+}
+
 
 ////////////////////////////////////////////////////////////////
 
@@ -397,6 +526,11 @@ void ShStretchDataForMoveCreator::visit(ShDot *dot) {
 	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
 }
 
+void ShStretchDataForMoveCreator::visit(ShDimLinear *dimLinear) {
+
+	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+}
+
 ///////////////////////////////////////////////////////////////////
 
 
@@ -414,12 +548,12 @@ void ShStretchPointRectFinder::visit(ShLine *line) {
 	int insideCount = 0;
 	StretchPoint stretchPoint = StretchPoint::StretchNothing;
 
-	if (math::checkPointLiesInsideRect(line->getStart(), this->topLeft, this->bottomRight, 0) == true) {
+	if (this->checkPointLiesInsideRect(line->getStart()) == true) {
 		insideCount++;
 		stretchPoint = StretchPoint::StretchStart;
 	}
 
-	if (math::checkPointLiesInsideRect(line->getEnd(), this->topLeft, this->bottomRight, 0) == true) {
+	if (this->checkPointLiesInsideRect(line->getEnd()) == true) {
 		insideCount++;
 		stretchPoint = StretchPoint::StretchEnd;
 	}
@@ -434,7 +568,7 @@ void ShStretchPointRectFinder::visit(ShCircle *circle) {
 
 	StretchPoint stretchPoint = StretchPoint::StretchNothing;
 
-	if (math::checkPointLiesInsideRect(circle->getCenter(), this->topLeft, this->bottomRight, 0) == true)
+	if (this->checkPointLiesInsideRect(circle->getCenter()) == true)
 		stretchPoint = StretchPoint::StretchMove;
 
 	*this->stretchData = new ShStretchLeafData(stretchPoint);
@@ -445,12 +579,12 @@ void ShStretchPointRectFinder::visit(ShArc *arc) {
 	int insideCount = 0;
 	StretchPoint stretchPoint = StretchPoint::StretchNothing;
 
-	if (math::checkPointLiesInsideRect(arc->getStart(), this->topLeft, this->bottomRight, 0) == true) {
+	if (this->checkPointLiesInsideRect(arc->getStart()) == true) {
 		insideCount++;
 		stretchPoint = StretchPoint::StretchStart;
 	}
 
-	if (math::checkPointLiesInsideRect(arc->getEnd(), this->topLeft, this->bottomRight, 0) == true) {
+	if (this->checkPointLiesInsideRect(arc->getEnd()) == true) {
 		insideCount++;
 		stretchPoint = StretchPoint::StretchEnd;
 	}
@@ -465,8 +599,8 @@ void ShStretchPointRectFinder::visit(ShPoint *point) {
 
 	StretchPoint stretchPoint = StretchPoint::StretchNothing;
 
-	if (math::checkPointLiesInsideRect(point->getPosition(), this->topLeft, this->bottomRight, 0) == true) {
-		
+	if (this->checkPointLiesInsideRect(point->getPosition()) == true) {
+
 		stretchPoint = StretchPoint::StretchMove;
 	}
 
@@ -477,10 +611,49 @@ void ShStretchPointRectFinder::visit(ShDot *dot) {
 
 	StretchPoint stretchPoint = StretchPoint::StretchNothing;
 
-	if (math::checkPointLiesInsideRect(dot->getPosition(), this->topLeft, this->bottomRight, 0) == true) {
+	if (this->checkPointLiesInsideRect(dot->getPosition()) == true) {
 
 		stretchPoint = StretchPoint::StretchMove;
 	}
 
 	*this->stretchData = new ShStretchLeafData(stretchPoint);
+}
+
+void ShStretchPointRectFinder::visit(ShDimLinear *dimLinear) {
+
+	int insideCount = 0;
+	StretchPoint stretchPoint = StretchPoint::StretchNothing;
+	ShDimLinearData data = dimLinear->getData();
+
+	if (this->checkPointLiesInsideRect(data.firstOrigin) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchFirstOrigin;
+	}
+	if (this->checkPointLiesInsideRect(data.secondOrigin) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchSecondOrigin;
+	}
+	if (this->checkPointLiesInsideRect(data.firstDim) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchFirstDim;
+	}
+	if (this->checkPointLiesInsideRect(data.secondDim) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchSecondDim;
+	}
+	if (this->checkPointLiesInsideRect(data.text) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchText;
+	}
+
+	if (insideCount > 2)
+		stretchPoint = StretchPoint::StretchMove;
+
+	*this->stretchData = new ShStretchLeafData(stretchPoint);
+}
+
+
+bool ShStretchPointRectFinder::checkPointLiesInsideRect(const ShPoint3d &point) {
+
+	return math::checkPointLiesInsideRect(point, this->topLeft, this->bottomRight, 0);
 }

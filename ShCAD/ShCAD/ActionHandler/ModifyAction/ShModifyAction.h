@@ -26,7 +26,7 @@ public:
 	virtual QCursor getCursorShape();
 	virtual ShAvailableDraft getAvailableDraft();
 
-	virtual void finishSelectingEntities() = 0;
+	virtual void finishSelectingEntities();
 
 protected:
 	virtual void triggerSelectingEntities(QMouseEvent *event);

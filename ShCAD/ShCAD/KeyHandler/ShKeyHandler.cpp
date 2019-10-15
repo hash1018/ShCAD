@@ -89,3 +89,30 @@ void ShKeyHandler::keyPressEvent(QKeyEvent *event) {
 		this->widget->notify(&notifyEvent);
 	}
 }
+
+void ShKeyHandler::allowKey(KeyType keyType) {
+
+	if (keyType == KeyType::Custom)
+		return;
+
+	ShKeyFactory* factory = ShKeyFactory::getInstance();
+	ShKey *key = factory->get(keyType);
+
+	this->list.append(key);
+}
+
+void ShKeyHandler::allowCustom(ShAbstractCustomKey *key) {
+
+	this->list.append(key);
+}
+
+void ShKeyHandler::disAllowKey(KeyType keyType) {
+
+	if (keyType == KeyType::Custom)
+		return;
+
+	ShKeyFactory* factory = ShKeyFactory::getInstance();
+	ShKey *key = factory->get(keyType);
+
+	this->list.removeOne(key);
+}

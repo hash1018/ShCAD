@@ -48,7 +48,9 @@ public:
 	~ShKeyHandler();
 
 	void keyPressEvent(QKeyEvent *event);
-	
+	void allowKey(KeyType keyType);
+	void allowCustom(ShAbstractCustomKey *key);
+	void disAllowKey(KeyType keyType);
 
 };
 #endif //SHKEYHANDLER_H

@@ -73,6 +73,8 @@ void ShModifyTrimAction::finishSelectingEntities() {
 
 		this->widget->setCursor(this->getCursorShape());
 
+		ShModifyAction::finishSelectingEntities();
+
 	}
 	else {
 

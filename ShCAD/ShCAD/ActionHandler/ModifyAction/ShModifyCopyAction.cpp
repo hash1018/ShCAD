@@ -6,7 +6,6 @@
 #include "Base\ShGlobal.h"
 #include "Command\ShAvailableCommands.h"
 
-
 ShModifyCopyAction::ShModifyCopyAction(ShCADWidget *widget)
 	:ShModifyAction(widget), transaction(nullptr) {
 
@@ -163,6 +162,7 @@ void ShModifyCopyAction::finishSelectingEntities() {
 			addAvailableCommand(CommandType::DistanceFromBase).
 			build();
 
+		ShModifyAction::finishSelectingEntities();
 	}
 	else {
 
