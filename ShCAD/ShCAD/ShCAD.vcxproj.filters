@@ -673,6 +673,12 @@
     <ClCompile Include="Base\ShDimensionStyleTable.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Composite\Dim\ShDimAligned.cpp">
+      <Filter>Entity\Composite\Dim</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimAlignedAction.cpp">
+      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1162,6 +1168,12 @@
     </ClInclude>
     <ClInclude Include="Base\ShDimensionStyleTable.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Composite\Dim\ShDimAligned.h">
+      <Filter>Entity\Composite\Dim</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimAlignedAction.h">
+      <Filter>ActionHandler\DrawAction\DimAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

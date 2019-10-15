@@ -78,6 +78,7 @@ public:
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
 	virtual void visit(ShDimLinear *dimLinear);
+	virtual void visit(ShDimAligned *dimAligned);
 
 public:
 	void setOriginal(ShEntity *original) { this->original = original; }
@@ -104,6 +105,7 @@ public:
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
 	virtual void visit(ShDimLinear *dimLinear);
+	virtual void visit(ShDimAligned *dimAligned);
 };
 
 /////////////////////////////////////////////////////////
@@ -123,6 +125,7 @@ public:
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
 	virtual void visit(ShDimLinear *dimLinear);
+	virtual void visit(ShDimAligned *dimAligned);
 
 };
 
@@ -145,6 +148,7 @@ public:
 	virtual void visit(ShPoint *point);
 	virtual void visit(ShDot *dot);
 	virtual void visit(ShDimLinear *dimLinear);
+	virtual void visit(ShDimAligned *dimAligned);
 
 private:
 	bool checkPointLiesInsideRect(const ShPoint3d &point);

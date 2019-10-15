@@ -8,6 +8,7 @@
 #include "Entity\Leaf\ShDot.h"
 #include "Base\ShPointStyle.h"
 #include "Entity\Composite\Dim\ShDimLinear.h"
+#include "Entity\Composite\Dim\ShDimAligned.h"
 
 ShFinder::ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity, double tolerance)
 	:x(x), y(y), zoomRate(zoomRate), foundEntity(foundEntity), tolerance(tolerance) {
@@ -95,6 +96,23 @@ void ShFinder::visit(ShDimLinear *dimLinear) {
 
 		if (foundEntity != nullptr) {
 			*this->foundEntity = dimLinear;
+			break;
+		}
+	}
+}
+
+void ShFinder::visit(ShDimAligned *dimAligned) {
+
+	ShEntity *foundEntity = nullptr;
+	ShFinder visitor(this->x, this->y, this->zoomRate, &foundEntity, this->tolerance);
+
+	auto itr = dimAligned->begin();
+	for (itr; itr != dimAligned->end(); ++itr) {
+
+		(*itr)->accept(&visitor);
+
+		if (foundEntity != nullptr) {
+			*this->foundEntity = dimAligned;
 			break;
 		}
 	}
@@ -329,6 +347,43 @@ void ShRectFinder::visit(ShDimLinear *dimLinear) {
 
 			if (foundEntity != nullptr) {
 				*this->foundEntity = dimLinear;
+				return;
+			}
+		}
+	}
+}
+
+void ShRectFinder::visit(ShDimAligned *dimAligned) {
+
+	ShEntity *foundEntity = nullptr;
+	int count = 0;
+	ShRectFinder visitor(this->topLeft, this->bottomRight, &foundEntity, this->findMethod);
+	auto itr = dimAligned->begin();
+
+	if (this->findMethod == FindMethod::AllPartLiesInsideRect) {
+
+		for (itr; itr != dimAligned->end(); ++itr) {
+
+			(*itr)->accept(&visitor);
+
+			if (foundEntity != nullptr) {
+				count++;
+				foundEntity = nullptr;
+			}
+		}
+
+		if (count == dimAligned->getSize())
+			*this->foundEntity = dimAligned;
+
+	}
+	else {
+
+		for (itr; itr != dimAligned->end(); ++itr) {
+
+			(*itr)->accept(&visitor);
+
+			if (foundEntity != nullptr) {
+				*this->foundEntity = dimAligned;
 				return;
 			}
 		}

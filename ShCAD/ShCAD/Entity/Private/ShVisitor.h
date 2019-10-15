@@ -11,6 +11,7 @@ class ShArc;
 class ShDimLinear;
 class ShPoint;
 class ShDot;
+class ShDimAligned;
 
 class ShVisitor {
 
@@ -25,6 +26,7 @@ public:
 	virtual void visit(ShPoint *point) {}
 	virtual void visit(ShDot *dot) {}
 	virtual void visit(ShDimLinear *dimLinear) {}
+	virtual void visit(ShDimAligned *dimAligned) {}
 
 
 };

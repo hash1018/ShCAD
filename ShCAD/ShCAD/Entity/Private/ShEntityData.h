@@ -85,4 +85,23 @@ public:
 
 };
 
+class ShDimAlignedData : public ShEntityData {
+
+public:
+	ShPoint3d firstOrigin;
+	ShPoint3d secondOrigin;
+	ShPoint3d firstDim;
+	ShPoint3d secondDim;
+	ShPoint3d text;
+
+public:
+	ShDimAlignedData();
+	ShDimAlignedData(const ShPoint3d &firstOrigin, const ShPoint3d &secondOrigin, const ShPoint3d &firstDim, const ShPoint3d &secondDim,
+		const ShPoint3d &text);
+	ShDimAlignedData(const ShDimAlignedData &other);
+	~ShDimAlignedData();
+
+	ShDimAlignedData& operator=(const ShDimAlignedData &other);
+};
+
 #endif //_SHENTITYDATA_H

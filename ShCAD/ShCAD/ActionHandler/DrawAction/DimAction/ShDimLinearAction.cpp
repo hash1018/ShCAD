@@ -49,11 +49,11 @@ QString ShDimLinearAction::getHeadTitle() {
 	QString text;
 
 	if (this->status == Status::PickedNothing)
-		text = "DimLinear >> " + shGetLanValue_command("Command/Specify first point") + ": ";
+		text = "DimLinear >> " + shGetLanValue_command("Command/Specify first extension line origin") + ": ";
 	else if(this->status == Status::PickedFirst)
-		text = "DimLinear >> " + shGetLanValue_command("Command/Specify second point") + ": ";
+		text = "DimLinear >> " + shGetLanValue_command("Command/Specify second extension line origin") + ": ";
 	else if(this->status==Status::PickedSecond)
-		text = "DimLinear >> " + shGetLanValue_command("Command/Specify third point") + ": ";
+		text = "DimLinear >> " + shGetLanValue_command("Command/Specify dimension line location") + ": ";
 
 	return text;
 }

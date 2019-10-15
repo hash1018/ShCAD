@@ -653,6 +653,11 @@ ShRibbonDimAlignedButtonStrategy::~ShRibbonDimAlignedButtonStrategy() {
 
 void ShRibbonDimAlignedButtonStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimAligned);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonDimAlignedButtonStrategy::getIcon() {

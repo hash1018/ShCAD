@@ -7,6 +7,7 @@
 #include "Entity\Leaf\ShPoint.h"
 #include "Entity\Leaf\ShDot.h"
 #include "Entity\Composite\Dim\ShDimLinear.h"
+#include "Entity\Composite\Dim\ShDimAligned.h"
 
 
 ShNearestVertexFinder::ShNearestVertexFinder(double x, double y, double zoomRate, VertexType &vertexType, ShPoint3d &vertexPoint, double tolerance)
@@ -25,30 +26,20 @@ void ShNearestVertexFinder::visit(ShLine *line) {
 	ShPoint3d end = data.end;
 	ShPoint3d mid = line->getMid();
 
-	if (this->x >= start.x - (this->tolerance / this->zoomRate) &&
-		this->x <= start.x + (this->tolerance / this->zoomRate) &&
-		this->y >= start.y - (this->tolerance / this->zoomRate) &&
-		this->y <= start.y + (this->tolerance / this->zoomRate)) {
-
+	if (this->isNear(this->x, this->y, start, this->zoomRate, this->tolerance) == true) {
 		this->vertexType = VertexType::VertexStart;
 		this->vertexPoint = start;
 		return;
 	}
-
-	if (this->x >= end.x - (this->tolerance / this->zoomRate) &&
-		this->x <= end.x + (this->tolerance / this->zoomRate) &&
-		this->y >= end.y - (this->tolerance / this->zoomRate) &&
-		this->y <= end.y + (this->tolerance / this->zoomRate)) {
+	
+	if (this->isNear(this->x, this->y, end, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexEnd;
 		this->vertexPoint = end;
 		return;
 	}
 
-	if (this->x >= mid.x - (this->tolerance / this->zoomRate) &&
-		this->x <= mid.x + (this->tolerance / this->zoomRate) &&
-		this->y >= mid.y - (this->tolerance / this->zoomRate) &&
-		this->y <= mid.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, mid, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexMid;
 		this->vertexPoint = mid;
@@ -66,57 +57,42 @@ void ShNearestVertexFinder::visit(ShCircle *circle) {
 	ShPoint3d center = circle->getCenter();
 	double radius = circle->getRadius();
 
-	if (this->x >= center.x - (this->tolerance / this->zoomRate) &&
-		this->x <= center.x + (this->tolerance / this->zoomRate) &&
-		this->y >= center.y - (this->tolerance / this->zoomRate) &&
-		this->y <= center.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, center, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexCenter;
 		this->vertexPoint = center;
 		return;
 	}
 
-	if (this->x >= center.x + radius - (this->tolerance / this->zoomRate) &&
-		this->x <= center.x + radius + (this->tolerance / this->zoomRate) &&
-		this->y >= center.y - (this->tolerance / this->zoomRate) &&
-		this->y <= center.y + (this->tolerance / this->zoomRate)) {
+	ShPoint3d right(center.x + radius, center.y);
+	if (this->isNear(this->x, this->y, right, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexRight;
-		this->vertexPoint.x = center.x + radius;
-		this->vertexPoint.y = center.y;
+		this->vertexPoint = right;
 		return;
 	}
 
-	if (this->x >= center.x - (this->tolerance / this->zoomRate) &&
-		this->x <= center.x + (this->tolerance / this->zoomRate) &&
-		this->y >= center.y - radius - (this->tolerance / this->zoomRate) &&
-		this->y <= center.y - radius + (this->tolerance / this->zoomRate)) {
+	ShPoint3d bottom(center.x, center.y - radius);
+	if (this->isNear(this->x, this->y, bottom, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexBottom;
-		this->vertexPoint.x = center.x;
-		this->vertexPoint.y = center.y - radius;
+		this->vertexPoint = bottom;
 		return;
 	}
 
-	if (this->x >= center.x - radius - (this->tolerance / this->zoomRate) &&
-		this->x <= center.x - radius + (this->tolerance / this->zoomRate) &&
-		this->y >= center.y - (this->tolerance / this->zoomRate) &&
-		this->y <= center.y + (this->tolerance / this->zoomRate)) {
+	ShPoint3d left(center.x - radius, center.y);
+	if (this->isNear(this->x, this->y, left, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexLeft;
-		this->vertexPoint.x = center.x - radius;
-		this->vertexPoint.y = center.y;
+		this->vertexPoint = left;
 		return;
 	}
 
-	if (this->x >= center.x - (this->tolerance / this->zoomRate) &&
-		this->x <= center.x + (this->tolerance / this->zoomRate) &&
-		this->y >= center.y + radius - (this->tolerance / this->zoomRate) &&
-		this->y <= center.y + radius + (this->tolerance / this->zoomRate)) {
+	ShPoint3d top(center.x, center.y + radius);
+	if (this->isNear(this->x, this->y, top, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexTop;
-		this->vertexPoint.x = center.x;
-		this->vertexPoint.y = center.y + radius;
+		this->vertexPoint = top;
 		return;
 	}
 
@@ -130,10 +106,7 @@ void ShNearestVertexFinder::visit(ShArc *arc) {
 
 	ShPoint3d center = arc->getCenter();
 
-	if (this->x >= center.x - (this->tolerance / this->zoomRate) &&
-		this->x <= center.x + (this->tolerance / this->zoomRate) &&
-		this->y >= center.y - (this->tolerance / this->zoomRate) &&
-		this->y <= center.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, center, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexCenter;
 		this->vertexPoint = center;
@@ -142,10 +115,7 @@ void ShNearestVertexFinder::visit(ShArc *arc) {
 
 	ShPoint3d start = arc->getStart();
 
-	if (this->x >= start.x - (this->tolerance / this->zoomRate) &&
-		this->x <= start.x + (this->tolerance / this->zoomRate) &&
-		this->y >= start.y - (this->tolerance / this->zoomRate) &&
-		this->y <= start.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, start, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexStart;
 		this->vertexPoint = start;
@@ -154,10 +124,7 @@ void ShNearestVertexFinder::visit(ShArc *arc) {
 
 	ShPoint3d end = arc->getEnd();
 
-	if (this->x >= end.x - (this->tolerance / this->zoomRate) &&
-		this->x <= end.x + (this->tolerance / this->zoomRate) &&
-		this->y >= end.y - (this->tolerance / this->zoomRate) &&
-		this->y <= end.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, end, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexEnd;
 		this->vertexPoint = end;
@@ -166,10 +133,7 @@ void ShNearestVertexFinder::visit(ShArc *arc) {
 
 	ShPoint3d mid = arc->getMid();
 
-	if (this->x >= mid.x - (this->tolerance / this->zoomRate) &&
-		this->x <= mid.x + (this->tolerance / this->zoomRate) &&
-		this->y >= mid.y - (this->tolerance / this->zoomRate) &&
-		this->y <= mid.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, mid, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexMid;
 		this->vertexPoint = mid;
@@ -187,10 +151,7 @@ void ShNearestVertexFinder::visit(ShPoint *point) {
 
 	ShPoint3d position = point->getPosition();
 
-	if (this->x >= position.x - (this->tolerance / this->zoomRate) &&
-		this->x <= position.x + (this->tolerance / this->zoomRate) &&
-		this->y >= position.y - (this->tolerance / this->zoomRate) &&
-		this->y <= position.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, position, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexCenter;
 		this->vertexPoint = position;
@@ -204,10 +165,7 @@ void ShNearestVertexFinder::visit(ShDot *dot) {
 
 	ShPoint3d position = dot->getPosition();
 
-	if (this->x >= position.x - (this->tolerance / this->zoomRate) &&
-		this->x <= position.x + (this->tolerance / this->zoomRate) &&
-		this->y >= position.y - (this->tolerance / this->zoomRate) &&
-		this->y <= position.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, position, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexCenter;
 		this->vertexPoint = position;
@@ -221,50 +179,35 @@ void ShNearestVertexFinder::visit(ShDimLinear *dimLinear) {
 
 	ShDimLinearData data = dimLinear->getData();
 
-	if (this->x >= data.firstOrigin.x - (this->tolerance / this->zoomRate) &&
-		this->x <= data.firstOrigin.x + (this->tolerance / this->zoomRate) &&
-		this->y >= data.firstOrigin.y - (this->tolerance / this->zoomRate) &&
-		this->y <= data.firstOrigin.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, data.firstOrigin, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexFirstOrigin;
 		this->vertexPoint = data.firstOrigin;
 		return;
 	}
 
-	if (this->x >= data.secondOrigin.x - (this->tolerance / this->zoomRate) &&
-		this->x <= data.secondOrigin.x + (this->tolerance / this->zoomRate) &&
-		this->y >= data.secondOrigin.y - (this->tolerance / this->zoomRate) &&
-		this->y <= data.secondOrigin.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, data.secondOrigin, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexSecondOrigin;
 		this->vertexPoint = data.secondOrigin;
 		return;
 	}
 
-	if (this->x >= data.firstDim.x - (this->tolerance / this->zoomRate) &&
-		this->x <= data.firstDim.x + (this->tolerance / this->zoomRate) &&
-		this->y >= data.firstDim.y - (this->tolerance / this->zoomRate) &&
-		this->y <= data.firstDim.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, data.firstDim, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexFirstDim;
 		this->vertexPoint = data.firstDim;
 		return;
 	}
 
-	if (this->x >= data.secondDim.x - (this->tolerance / this->zoomRate) &&
-		this->x <= data.secondDim.x + (this->tolerance / this->zoomRate) &&
-		this->y >= data.secondDim.y - (this->tolerance / this->zoomRate) &&
-		this->y <= data.secondDim.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, data.secondDim, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexSecondDim;
 		this->vertexPoint = data.secondDim;
 		return;
 	}
 
-	if (this->x >= data.text.x - (this->tolerance / this->zoomRate) &&
-		this->x <= data.text.x + (this->tolerance / this->zoomRate) &&
-		this->y >= data.text.y - (this->tolerance / this->zoomRate) &&
-		this->y <= data.text.y + (this->tolerance / this->zoomRate)) {
+	if (this->isNear(this->x, this->y, data.text, this->zoomRate, this->tolerance) == true) {
 
 		this->vertexType = VertexType::VertexText;
 		this->vertexPoint = data.text;
@@ -273,6 +216,61 @@ void ShNearestVertexFinder::visit(ShDimLinear *dimLinear) {
 
 	this->vertexType = VertexType::VertexNothing;
 
+}
+
+void ShNearestVertexFinder::visit(ShDimAligned *dimAligned) {
+
+	ShDimAlignedData data = dimAligned->getData();
+
+	if (this->isNear(this->x, this->y, data.firstOrigin, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexFirstOrigin;
+		this->vertexPoint = data.firstOrigin;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.secondOrigin, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexSecondOrigin;
+		this->vertexPoint = data.secondOrigin;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.firstDim, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexFirstDim;
+		this->vertexPoint = data.firstDim;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.secondDim, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexSecondDim;
+		this->vertexPoint = data.secondDim;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.text, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexText;
+		this->vertexPoint = data.text;
+		return;
+	}
+
+	this->vertexType = VertexType::VertexNothing;
+}
+
+bool ShNearestVertexFinder::isNear(int x, int y, const ShPoint3d &point, double zoomRate, double tolerance) {
+
+	if (x >= point.x - (tolerance / zoomRate) &&
+		x <= point.x + (tolerance / zoomRate) &&
+		y >= point.y - (tolerance / zoomRate) &&
+		y <= point.y + (tolerance / zoomRate)) {
+
+		return true;
+	}
+
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -400,6 +398,54 @@ void PointAndVertexTypeMathchedEntityFinder::visit(ShDot *dot) {
 void PointAndVertexTypeMathchedEntityFinder::visit(ShDimLinear *dimLinear) {
 
 	ShDimLinearData data = dimLinear->getData();
+
+	if ((this->vertexType & VertexType::VertexFirstOrigin) == VertexType::VertexFirstOrigin) {
+
+		if (this->mustMatchPoint == data.firstOrigin) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexSecondOrigin) == VertexType::VertexSecondOrigin) {
+
+		if (this->mustMatchPoint == data.secondOrigin) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexFirstDim) == VertexType::VertexFirstDim) {
+
+		if (this->mustMatchPoint == data.firstDim) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexSecondDim) == VertexType::VertexSecondDim) {
+
+		if (this->mustMatchPoint == data.secondDim) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexText) == VertexType::VertexText) {
+
+		if (this->mustMatchPoint == data.text) {
+
+			this->matched = true;
+			return;
+		}
+	}
+
+	this->matched = false;
+}
+
+void PointAndVertexTypeMathchedEntityFinder::visit(ShDimAligned *dimAligned) {
+
+	ShDimAlignedData data = dimAligned->getData();
 
 	if ((this->vertexType & VertexType::VertexFirstOrigin) == VertexType::VertexFirstOrigin) {
 

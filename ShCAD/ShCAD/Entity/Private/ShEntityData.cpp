@@ -138,3 +138,35 @@ ShDimLinearData& ShDimLinearData::operator=(const ShDimLinearData &other) {
 
 	return *this;
 }
+
+//////////////////////////////////////////////////////////////////////////////
+
+ShDimAlignedData::ShDimAlignedData() {
+
+}
+
+ShDimAlignedData::ShDimAlignedData(const ShPoint3d &firstOrigin, const ShPoint3d &secondOrigin, const ShPoint3d &firstDim, const ShPoint3d &secondDim,
+	const ShPoint3d &text)
+	:firstOrigin(firstOrigin), secondOrigin(secondOrigin), firstDim(firstDim), secondDim(secondDim), text(text) {
+
+}
+
+ShDimAlignedData::ShDimAlignedData(const ShDimAlignedData &other)
+	: firstOrigin(other.firstOrigin), secondOrigin(other.secondOrigin), firstDim(other.firstDim), secondDim(other.secondDim), text(other.text) {
+
+}
+
+ShDimAlignedData::~ShDimAlignedData() {
+
+}
+
+ShDimAlignedData& ShDimAlignedData::operator=(const ShDimAlignedData &other) {
+
+	this->firstOrigin = other.firstOrigin;
+	this->secondOrigin = other.secondOrigin;
+	this->firstDim = other.firstDim;
+	this->secondDim = other.secondDim;
+	this->text = other.text;
+
+	return *this;
+}

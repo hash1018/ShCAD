@@ -11,6 +11,7 @@
 #include "Base\ShPointStyle.h"
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include "Base\ShDimensionStyle.h"
+#include "Entity\Composite\Dim\ShDimAligned.h"
 
 ShPloter::ShPloter(ShCADWidget *widget, QPainter *painter, double scale)
 	:widget(widget), painter(painter), scale(scale) {
@@ -148,6 +149,53 @@ void ShPloter::visit(ShDimLinear *dimLinear) {
 	double distance = dimLinear->getDistance();
 	this->plotText(this->painter, x, y, angle - 90, distance, dimLinear->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color, this->scale);
 	
+}
+
+void ShPloter::visit(ShDimAligned *dimAligned) {
+
+	ShPloter visitor(this->widget, this->painter, this->scale);
+
+	auto itr = dimAligned->begin();
+	for (itr; itr != dimAligned->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDimAlignedData data = dimAligned->getData();
+	QColor color;
+	this->getColor(dimAligned, color);
+
+	int x, y, x2, y2, x3, y3;
+	ShPoint3d vertex, vertex2, vertex3;
+
+	dimAligned->getFirstArrowPoints(vertex, vertex2, vertex3);
+	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
+	x = math::toInt((double)x*this->scale);
+	y = math::toInt((double)y*this->scale);
+	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
+	x2 = math::toInt((double)x2*this->scale);
+	y2 = math::toInt((double)y2*this->scale);
+	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
+	x3 = math::toInt((double)x3*this->scale);
+	y3 = math::toInt((double)y3*this->scale);
+	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
+
+
+	dimAligned->getSecondArrowPoints(vertex, vertex2, vertex3);
+	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
+	x = math::toInt((double)x*this->scale);
+	y = math::toInt((double)y*this->scale);
+	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
+	x2 = math::toInt((double)x2*this->scale);
+	y2 = math::toInt((double)y2*this->scale);
+	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
+	x3 = math::toInt((double)x3*this->scale);
+	y3 = math::toInt((double)y3*this->scale);
+	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
+
+
+	this->widget->convertEntityToDevice(data.text.x, data.text.y, x, y);
+	double angle = math::getAbsAngle(data.firstOrigin.x, data.firstOrigin.y, data.firstDim.x, data.firstDim.y);
+	double distance = dimAligned->getDistance();
+	this->plotText(this->painter, x, y, angle - 90, distance, dimAligned->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color, this->scale);
 }
 
 void ShPloter::getColor(ShEntity *entity, QColor &color) {
