@@ -81,6 +81,7 @@ public:
 	ShDimensionArrowStyle& operator=(const ShDimensionArrowStyle &other);
 
 	void drawLineArrow(ShDrawerFunctions &drawerFunctions, const ShPoint3d &start, const ShPoint3d &end, const GLColor &color) const;
+	void drawArrow(ShDrawerFunctions &drawerFunctions, const ShPoint3d &point, double angle, const GLColor &color) const;
 
 public:
 	void setFirstArrowheads(Arrowheads first) { this->first = first; }
@@ -118,12 +119,16 @@ public:
 	ShDimensionTextStyle& operator=(const ShDimensionTextStyle &other);
 
 	void drawDimensionDistanceText(QPainter *painter, int dx, int dy, double angle, double distance, const QColor &color, double zoomRate) const;
+	void drawDimensionRadiusText(QPainter *painter, int dx, int dy, double angle, double radius, const QColor &color, double zoomRate) const;
 
 public:
 	void setTextHeight(double textHeight) { this->textHeight = textHeight; }
 
 public:
 	inline double getTextHeight() const { return this->textHeight; }
+
+private:
+	void drawDimensionText(QPainter *painter, int dx, int dy, double angle, const QString &text, const QColor &color, double zoomRate) const;
 };
 
 ////////////////////////////////////////////////////

@@ -153,6 +153,29 @@ void ShDimensionArrowStyle::drawLineArrow(ShDrawerFunctions &drawerFunctions, co
 
 }
 
+void ShDimensionArrowStyle::drawArrow(ShDrawerFunctions &drawerFunctions, const ShPoint3d &point, double angle, const GLColor &color) const {
+
+	double arrowHeight = this->arrowSize;
+	double arrowBaseSize = this->arrowSize * 0.4;
+
+	ShPoint3d vertex1, vertex2, vertex3;
+
+	math::rotate(angle, point.x, point.y, point.x, point.y, vertex1.x, vertex1.y);
+	math::rotate(angle, point.x, point.y, point.x + arrowHeight, point.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
+	math::rotate(angle, point.x, point.y, point.x + arrowHeight, point.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
+
+	GLPoint p1, p2, p3;
+	drawerFunctions.convertEntityToOpenGL(vertex1.x, vertex1.y, p1.x, p1.y);
+	drawerFunctions.convertEntityToOpenGL(vertex2.x, vertex2.y, p2.x, p2.y);
+	drawerFunctions.convertEntityToOpenGL(vertex3.x, vertex3.y, p3.x, p3.y);
+
+	if (this->first == Arrowheads::ClosedFilled) 
+		drawerFunctions.drawFilledTriangle(p1, p2, p3, color);
+	else if (this->first == Arrowheads::ClosedBlank) 
+		drawerFunctions.drawTriangle(p1, p2, p3, color);
+	
+}
+
 
 void ShDimensionArrowStyle::getFirstLineArrowPoints(const ShPoint3d &start, const ShPoint3d &end, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const {
 
@@ -227,6 +250,16 @@ ShDimensionTextStyle& ShDimensionTextStyle::operator=(const ShDimensionTextStyle
 
 void ShDimensionTextStyle::drawDimensionDistanceText(QPainter *painter, int dx, int dy, double angle, double distance, const QColor &color, double zoomRate) const {
 
+	this->drawDimensionText(painter, dx, dy, angle, QString::number(distance, 'f', 4), color, zoomRate);
+}
+
+void ShDimensionTextStyle::drawDimensionRadiusText(QPainter *painter, int dx, int dy, double angle, double radius, const QColor &color, double zoomRate) const {
+
+	this->drawDimensionText(painter, dx, dy, angle, QString("R") + QString::number(radius, 'f', 4), color, zoomRate);
+}
+
+void ShDimensionTextStyle::drawDimensionText(QPainter *painter, int dx, int dy, double angle, const QString &text, const QColor &color, double zoomRate) const {
+
 	double textHeight = this->textHeight*zoomRate;
 	double width = textHeight * 10;
 	double height = textHeight * 2;
@@ -246,17 +279,17 @@ void ShDimensionTextStyle::drawDimensionDistanceText(QPainter *painter, int dx, 
 		math::rotate(angle, 0, 0, dx, dy, rotateX, rotateY);
 
 		painter->drawText(math::toInt(rotateX) - math::toInt(width / 2.0), math::toInt(rotateY) - math::toInt(height), width, height,
-			Qt::AlignCenter, QString::number(distance, 'f', 4));
+			Qt::AlignCenter, text);
 		painter->rotate(angle);
 	}
 	else if (this->textAlignment == TextAlignment::Horizontal) {
-	
-		
+
+
 	}
 
 	painter->setPen(pen);
 	painter->setFont(oldFont);
-	
+
 	painter->end();
 }
 

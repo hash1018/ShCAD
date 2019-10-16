@@ -11,6 +11,7 @@
 #include "Entity\Leaf\ShDot.h"
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
+#include "Entity\Composite\Dim\ShDimRadius.h"
 #include <qpainter.h>
 #include "Data\ShScrollPosition.h"
 #include "Interface\Private\ShAxis.h"
@@ -436,12 +437,41 @@ void ShDrawerUnSelectedEntity::visit(ShDimAligned *dimAligned) {
 	QColor qColor(propertyData.getColor().getRed(), propertyData.getColor().getGreen(), propertyData.getColor().getBlue());
 
 	if (this->painter->isActive() == false)
-		painter->begin(this->widget);
+		this->painter->begin(this->widget);
 
 	dimAligned->getDimensionStyle()->getDimensionTextStyle().drawDimensionDistanceText(this->painter,
 		dx, dy, angle - 90, distance, qColor, this->widget->getZoomRate());
 }
 
+void ShDrawerUnSelectedEntity::visit(ShDimRadius *dimRadius) {
+
+	ShDrawerUnSelectedEntity visitor(this->widget, this->painter);
+	
+	auto itr = dimRadius->begin();
+
+	for (itr; itr != dimRadius->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDrawerFunctions f(this->widget);
+	ShDimRadiusData data = dimRadius->getData();
+	ShPropertyData propertyData = dimRadius->getPropertyData();
+	GLColor color(propertyData.getColor().getRed() / 255., propertyData.getColor().getGreen() / 255.,
+		propertyData.getColor().getBlue() / 255.);
+
+	double angle = math::getAbsAngle(data.dim.x, data.dim.y, data.text.x, data.text.y);
+	dimRadius->getDimensionStyle()->getDimensionArrowStyle().drawArrow(f, data.dim, angle, color);
+
+	int dx, dy;
+	f.convertEntityToDevice(data.text.x, data.text.y, dx, dy);
+	angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	QColor qColor(propertyData.getColor().getRed(), propertyData.getColor().getGreen(), propertyData.getColor().getBlue());
+
+	if (this->painter->isActive() == false)
+		this->painter->begin(this->widget);
+
+	dimRadius->getDimensionStyle()->getDimensionTextStyle().drawDimensionRadiusText(this->painter,
+		dx, dy, angle, dimRadius->getRadius(), qColor, this->widget->getZoomRate());
+}
 
 ///////////////////////////////////////////////////////////////
 

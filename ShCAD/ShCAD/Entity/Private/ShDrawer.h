@@ -101,6 +101,7 @@ public:
 	virtual void visit(ShDot *dot);
 	virtual void visit(ShDimLinear *dimLinear);
 	virtual void visit(ShDimAligned *dimAligned);
+	virtual void visit(ShDimRadius *dimRadius);
 	
 
 
