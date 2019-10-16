@@ -4,6 +4,7 @@
 #include "Base\ShMath.h"
 #include "Entity\Leaf\ShDot.h"
 #include "Entity\Leaf\ShLine.h"
+#include "Base\ShDimensionStyle.h"
 
 ShDimRadius::ShDimRadius(const ShDimRadiusData &data, const ShPropertyData &propertyData, ShLayer *layer, ShDimensionStyle *dimensionStyle)
 	:ShDim(propertyData, layer, dimensionStyle), data(data) {
@@ -65,4 +66,10 @@ void ShDimRadius::setData(const ShDimRadiusData &data) {
 double ShDimRadius::getRadius() {
 
 	return math::getDistance(this->data.center.x, this->data.center.y, this->data.dim.x, this->data.dim.y);
+}
+
+void ShDimRadius::getArrowPoints(ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) {
+
+	double angle = math::getAbsAngle(data.dim.x, data.dim.y, data.text.x, data.text.y);
+	this->dimensionStyle->getDimensionArrowStyle().getArrowPoints(this->data.dim, angle, vertex, vertex2, vertex3);
 }

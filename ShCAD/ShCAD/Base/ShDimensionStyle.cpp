@@ -105,34 +105,11 @@ ShDimensionArrowStyle& ShDimensionArrowStyle::operator=(const ShDimensionArrowSt
 
 void ShDimensionArrowStyle::drawLineArrow(ShDrawerFunctions &drawerFunctions, const ShPoint3d &start, const ShPoint3d &end, const GLColor &color) const {
 
-	double distance = math::getDistance(start.x, start.y, end.x, end.y);
-	double angle = math::getAbsAngle(start.x, start.y, end.x, end.y);
-	double arrowHeight = this->arrowSize;
-	double arrowBaseSize = arrowSize*0.4;
-
 	ShPoint3d vertex1, vertex2, vertex3, vertex4, vertex5, vertex6;
 	GLPoint first1, first2, first3, second1, second2, second3;
 
-	if (arrowSize * 2 > distance) {
-
-		math::rotate(angle, start.x, start.y, start.x, start.y, vertex1.x, vertex1.y);
-		math::rotate(angle, start.x, start.y, start.x - arrowHeight, start.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
-		math::rotate(angle, start.x, start.y, start.x - arrowHeight, start.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
-
-		math::rotate(angle, end.x, end.y, end.x, end.y, vertex4.x, vertex4.y);
-		math::rotate(angle, end.x, end.y, end.x + arrowHeight, end.y + arrowBaseSize / 2.0, vertex5.x, vertex5.y);
-		math::rotate(angle, end.x, end.y, end.x + arrowHeight, end.y - arrowBaseSize / 2.0, vertex6.x, vertex6.y);
-	}
-	else {
-
-		math::rotate(angle, start.x, start.y, start.x, start.y, vertex1.x, vertex1.y);
-		math::rotate(angle, start.x, start.y, start.x + arrowHeight, start.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
-		math::rotate(angle, start.x, start.y, start.x + arrowHeight, start.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
-
-		math::rotate(angle, end.x, end.y, end.x, end.y, vertex4.x, vertex4.y);
-		math::rotate(angle, end.x, end.y, end.x - arrowHeight, end.y + arrowBaseSize / 2.0, vertex5.x, vertex5.y);
-		math::rotate(angle, end.x, end.y, end.x - arrowHeight, end.y - arrowBaseSize / 2.0, vertex6.x, vertex6.y);
-	}
+	this->getFirstLineArrowPoints(start, end, vertex1, vertex2, vertex3);
+	this->getSecondLineArrowPoints(start, end, vertex4, vertex5, vertex6);
 
 	drawerFunctions.convertEntityToOpenGL(vertex1.x, vertex1.y, first1.x, first1.y);
 	drawerFunctions.convertEntityToOpenGL(vertex2.x, vertex2.y, first2.x, first2.y);
@@ -155,14 +132,9 @@ void ShDimensionArrowStyle::drawLineArrow(ShDrawerFunctions &drawerFunctions, co
 
 void ShDimensionArrowStyle::drawArrow(ShDrawerFunctions &drawerFunctions, const ShPoint3d &point, double angle, const GLColor &color) const {
 
-	double arrowHeight = this->arrowSize;
-	double arrowBaseSize = this->arrowSize * 0.4;
-
 	ShPoint3d vertex1, vertex2, vertex3;
 
-	math::rotate(angle, point.x, point.y, point.x, point.y, vertex1.x, vertex1.y);
-	math::rotate(angle, point.x, point.y, point.x + arrowHeight, point.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
-	math::rotate(angle, point.x, point.y, point.x + arrowHeight, point.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
+	this->getArrowPoints(point, angle, vertex1, vertex2, vertex3);
 
 	GLPoint p1, p2, p3;
 	drawerFunctions.convertEntityToOpenGL(vertex1.x, vertex1.y, p1.x, p1.y);
@@ -217,6 +189,16 @@ void ShDimensionArrowStyle::getSecondLineArrowPoints(const ShPoint3d &start, con
 		math::rotate(angle, end.x, end.y, end.x - arrowHeight, end.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
 		math::rotate(angle, end.x, end.y, end.x - arrowHeight, end.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
 	}
+}
+
+void ShDimensionArrowStyle::getArrowPoints(const ShPoint3d &point, double angle, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const {
+
+	double arrowHeight = this->arrowSize;
+	double arrowBaseSize = this->arrowSize * 0.4;
+
+	math::rotate(angle, point.x, point.y, point.x, point.y, vertex.x, vertex.y);
+	math::rotate(angle, point.x, point.y, point.x + arrowHeight, point.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
+	math::rotate(angle, point.x, point.y, point.x + arrowHeight, point.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
 }
 
 /////////////////////////////////////////////////////////////////

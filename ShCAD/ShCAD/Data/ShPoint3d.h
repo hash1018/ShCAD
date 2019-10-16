@@ -19,6 +19,8 @@ public:
 	bool operator==(const ShPoint3d &other);
 	bool isEqual(const ShPoint3d &other, double epsilon = 0.0001);
 
+	void move(double dx, double dy, double dz = 0.0);
+
 
 };
 

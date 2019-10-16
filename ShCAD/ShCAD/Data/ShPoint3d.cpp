@@ -51,3 +51,10 @@ bool ShPoint3d::isEqual(const ShPoint3d &other, double epsilon) {
 
 	return true;
 }
+
+void ShPoint3d::move(double dx, double dy, double dz) {
+
+	this->x += dx;
+	this->y += dy;
+	this->z += dz;
+}

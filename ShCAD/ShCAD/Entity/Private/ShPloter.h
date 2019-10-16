@@ -9,6 +9,7 @@ class ShCADWidget;
 class QPainter;
 class ShEntity;
 class QColor;
+class QString;
 
 
 class ShPloter : public ShVisitor {
@@ -29,15 +30,19 @@ public:
 	virtual void visit(ShDot *dot);
 	virtual void visit(ShDimLinear *dimLinear);
 	virtual void visit(ShDimAligned *dimAligned);
+	virtual void visit(ShDimRadius *dimRadius);
 
 
 private:
 	void getColor(ShEntity *entity, QColor &color);
 	void plotLine(int startX, int startY, int endX, int endY, QColor &color);
-	void plotText(QPainter *painter, int dx, int dy, double angle, double distance, double textHeight, const QColor &color, double scale);
+	void plotText(QPainter *painter, int dx, int dy, double angle, const QString &text, double textHeight, const QColor &color);
 	void plotCircle(int centerX, int centerY, int radius, const QColor &color);
 	void plotArc(int centerX, int centerY, int radius, double startAngle, double endAngle, const QColor &color);
 	void plotFilledTriangle(int x, int y, int x2, int y2, int x3, int y3, const QColor &color);
+	void plotPoint(int x, int y, const QColor &color);
+
+	
 };
 
 #endif //_SHPLOTER_H

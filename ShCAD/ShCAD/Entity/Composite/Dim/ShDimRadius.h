@@ -25,6 +25,7 @@ public:
 	const ShDimRadiusData& getData() const { return this->data; }
 
 	double getRadius();
+	void getArrowPoints(ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3);
 };
 
 #endif //_SHDIMRADIUS_H

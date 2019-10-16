@@ -12,6 +12,7 @@
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include "Base\ShDimensionStyle.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
+#include "Entity\Composite\Dim\ShDimRadius.h"
 
 ShPloter::ShPloter(ShCADWidget *widget, QPainter *painter, double scale)
 	:widget(widget), painter(painter), scale(scale) {
@@ -45,10 +46,7 @@ void ShPloter::visit(ShCircle *circle) {
 		radiusX, radiusY);
 
 	int radius = math::getDistance(centerX, centerY, radiusX, radiusY);
-	radius = math::toInt((double)radius * this->scale);
-	centerX = math::toInt((double)centerX*this->scale);
-	centerY = math::toInt((double)centerY*this->scale);
-
+	
 	this->plotCircle(centerX, centerY, radius, color);
 }
 
@@ -63,12 +61,8 @@ void ShPloter::visit(ShArc *arc) {
 	this->widget->convertEntityToDevice(data.center.x, data.center.y, centerX, centerY);
 	this->widget->convertEntityToDevice(data.center.x + data.radius, data.center.y, radiusX, radiusY);
 
-
 	radius = math::getDistance(centerX, centerY, radiusX, radiusY);
-	radius = math::toInt((double)(radius)*this->scale);
-	centerX = math::toInt((double)(centerX)*this->scale);
-	centerY = math::toInt((double)(centerY)*this->scale);
-
+	
 	this->plotArc(centerX, centerY, radius, data.startAngle, data.endAngle, color);
 }
 
@@ -95,11 +89,7 @@ void ShPloter::visit(ShDot *dot) {
 	int x, y;
 	this->widget->convertEntityToDevice(dot->getPosition().x, dot->getPosition().y, x, y);
 
-	x = math::toInt((double)x*this->scale);
-	y = math::toInt((double)y*this->scale);
-
-	this->painter->setPen(color);
-	this->painter->drawPoint(x, y);
+	this->plotPoint(x, y, color);
 }
 
 
@@ -120,34 +110,25 @@ void ShPloter::visit(ShDimLinear *dimLinear) {
 
 	dimLinear->getFirstArrowPoints(vertex, vertex2, vertex3);
 	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
-	x = math::toInt((double)x*this->scale);
-	y = math::toInt((double)y*this->scale);
 	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
-	x2 = math::toInt((double)x2*this->scale);
-	y2 = math::toInt((double)y2*this->scale);
 	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
-	x3 = math::toInt((double)x3*this->scale);
-	y3 = math::toInt((double)y3*this->scale);
+
 	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
 
 
 	dimLinear->getSecondArrowPoints(vertex, vertex2, vertex3);
 	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
-	x = math::toInt((double)x*this->scale);
-	y = math::toInt((double)y*this->scale);
 	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
-	x2 = math::toInt((double)x2*this->scale);
-	y2 = math::toInt((double)y2*this->scale);
 	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
-	x3 = math::toInt((double)x3*this->scale);
-	y3 = math::toInt((double)y3*this->scale);
+	
 	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
 
 
 	this->widget->convertEntityToDevice(data.text.x, data.text.y, x, y);
 	double angle = math::getAbsAngle(data.firstOrigin.x, data.firstOrigin.y, data.firstDim.x, data.firstDim.y);
 	double distance = dimLinear->getDistance();
-	this->plotText(this->painter, x, y, angle - 90, distance, dimLinear->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color, this->scale);
+	this->plotText(this->painter, x, y, angle - 90, QString::number(distance, 'f', 4),
+		dimLinear->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color);
 	
 }
 
@@ -168,34 +149,54 @@ void ShPloter::visit(ShDimAligned *dimAligned) {
 
 	dimAligned->getFirstArrowPoints(vertex, vertex2, vertex3);
 	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
-	x = math::toInt((double)x*this->scale);
-	y = math::toInt((double)y*this->scale);
 	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
-	x2 = math::toInt((double)x2*this->scale);
-	y2 = math::toInt((double)y2*this->scale);
 	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
-	x3 = math::toInt((double)x3*this->scale);
-	y3 = math::toInt((double)y3*this->scale);
+	
 	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
 
 
 	dimAligned->getSecondArrowPoints(vertex, vertex2, vertex3);
 	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
-	x = math::toInt((double)x*this->scale);
-	y = math::toInt((double)y*this->scale);
 	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
-	x2 = math::toInt((double)x2*this->scale);
-	y2 = math::toInt((double)y2*this->scale);
 	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
-	x3 = math::toInt((double)x3*this->scale);
-	y3 = math::toInt((double)y3*this->scale);
+
 	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
 
 
 	this->widget->convertEntityToDevice(data.text.x, data.text.y, x, y);
 	double angle = math::getAbsAngle(data.firstOrigin.x, data.firstOrigin.y, data.firstDim.x, data.firstDim.y);
 	double distance = dimAligned->getDistance();
-	this->plotText(this->painter, x, y, angle - 90, distance, dimAligned->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color, this->scale);
+	this->plotText(this->painter, x, y, angle - 90, QString::number(distance, 'f', 4),
+		dimAligned->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color);
+}
+
+void ShPloter::visit(ShDimRadius *dimRadius) {
+
+	ShPloter visitor(this->widget, this->painter, this->scale);
+
+	auto itr = dimRadius->begin();
+	for (itr; itr != dimRadius->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDimRadiusData data = dimRadius->getData();
+	QColor color;
+	this->getColor(dimRadius, color);
+
+	int x, y, x2, y2, x3, y3;
+	ShPoint3d vertex, vertex2, vertex3;
+
+	dimRadius->getArrowPoints(vertex, vertex2, vertex3);
+
+	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
+	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
+	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
+
+	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
+
+	this->widget->convertEntityToDevice(data.text.x, data.text.y, x, y);
+	double angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	this->plotText(this->painter, x, y, angle, QString("R") + QString::number(dimRadius->getRadius(), 'f', 4),
+		dimRadius->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color);
 }
 
 void ShPloter::getColor(ShEntity *entity, QColor &color) {
@@ -222,7 +223,7 @@ void ShPloter::plotLine(int startX, int startY, int endX, int endY, QColor &colo
 	this->painter->drawLine(startX, startY, endX, endY);
 }
 
-void ShPloter::plotText(QPainter *painter, int dx, int dy, double angle, double distance, double textHeight, const QColor &color, double scale) {
+void ShPloter::plotText(QPainter *painter, int dx, int dy, double angle, const QString &text, double textHeight, const QColor &color) {
 
 	textHeight = textHeight*this->widget->getZoomRate();
 	double width = textHeight * 10;
@@ -232,25 +233,33 @@ void ShPloter::plotText(QPainter *painter, int dx, int dy, double angle, double 
 	painter->setPen(color);
 	QFont oldFont = painter->font();
 	QFont font = painter->font();
-	font.setPointSize(math::toInt(textHeight*scale));
+	font.setPointSize(math::toInt(textHeight*this->scale));
 	painter->setFont(font);
 
 	painter->rotate(-angle);
 	double rotateX, rotateY;
 	math::rotate(angle, 0, 0, dx, dy, rotateX, rotateY);
 
-	painter->drawText(math::toInt((rotateX - width / 2.0) *scale), math::toInt((rotateY - height)*scale), math::toInt(width*scale), math::toInt(height*scale),
-		Qt::AlignCenter, QString::number(distance, 'f', 4));
+	painter->drawText(math::toInt((rotateX - width / 2.0) *this->scale), math::toInt((rotateY - height)*this->scale),
+		math::toInt(width*this->scale), math::toInt(height*this->scale), Qt::AlignCenter, text);
 	painter->rotate(angle);
 }
 
 void ShPloter::plotCircle(int centerX, int centerY, int radius, const QColor &color) {
+
+	radius = math::toInt((double)radius * this->scale);
+	centerX = math::toInt((double)centerX*this->scale);
+	centerY = math::toInt((double)centerY*this->scale);
 
 	this->painter->setPen(color);
 	this->painter->drawEllipse(centerX - radius, centerY - radius, radius * 2, radius * 2);
 }
 
 void ShPloter::plotArc(int centerX, int centerY, int radius, double startAngle, double endAngle, const QColor &color) {
+
+	radius = math::toInt((double)(radius)*this->scale);
+	centerX = math::toInt((double)(centerX)*this->scale);
+	centerY = math::toInt((double)(centerY)*this->scale);
 
 	double angleDifference = math::getAngleDifference(startAngle, endAngle);
 
@@ -263,6 +272,13 @@ void ShPloter::plotArc(int centerX, int centerY, int radius, double startAngle, 
 
 void ShPloter::plotFilledTriangle(int x, int y, int x2, int y2, int x3, int y3, const QColor &color) {
 
+	x = math::toInt((double)x*this->scale);
+	y = math::toInt((double)y*this->scale);
+	x2 = math::toInt((double)x2*this->scale);
+	y2 = math::toInt((double)y2*this->scale);
+	x3 = math::toInt((double)x3*this->scale);
+	y3 = math::toInt((double)y3*this->scale);
+
 	QPainterPath path;
 	QPen oldPen = this->painter->pen();
 	this->painter->setPen(Qt::NoPen);
@@ -274,4 +290,13 @@ void ShPloter::plotFilledTriangle(int x, int y, int x2, int y2, int x3, int y3, 
 	this->painter->fillPath(path, QBrush(color));
 
 	this->painter->setPen(oldPen);
+}
+
+void ShPloter::plotPoint(int x, int y, const QColor &color) {
+
+	x = math::toInt((double)x*this->scale);
+	y = math::toInt((double)y*this->scale);
+
+	this->painter->setPen(color);
+	this->painter->drawPoint(x, y);
 }

@@ -94,6 +94,7 @@ public:
 	inline double getArrowSize() const { return this->arrowSize; }
 	void getFirstLineArrowPoints(const ShPoint3d &start, const ShPoint3d &end, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const;
 	void getSecondLineArrowPoints(const ShPoint3d &start, const ShPoint3d &end, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const;
+	void getArrowPoints(const ShPoint3d &point, double angle, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const;
 };
 
 ///////////////////////////////////////////////////

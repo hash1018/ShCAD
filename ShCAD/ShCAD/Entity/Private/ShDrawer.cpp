@@ -777,6 +777,54 @@ void ShDrawerSelectedEntityVertex::visit(ShDimAligned *dimAligned) {
 	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
 }
 
+void ShDrawerSelectedEntityVertex::visit(ShDimRadius *dimRadius) {
+
+	ShDrawerSelectedEntityNoVertex visitor(this->widget, this->painter);
+
+	auto itr = dimRadius->begin();
+	for (itr; itr != dimRadius->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDrawerFunctions f(this->widget);
+	ShDimRadiusData data = dimRadius->getData();
+
+	GLColor color(153.f / 255, 153.f / 155, 1.f);
+
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+	double angle = math::getAbsAngle(data.dim.x, data.dim.y, data.text.x, data.text.y);
+	dimRadius->getDimensionStyle()->getDimensionArrowStyle().drawArrow(f, data.dim, angle, color);
+	glDisable(GL_LINE_STIPPLE);
+
+	int dx, dy;
+	f.convertEntityToDevice(data.text.x, data.text.y, dx, dy);
+	angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	QColor qColor(153, 153, 155);
+
+	if (this->painter->isActive() == false)
+		this->painter->begin(this->widget);
+
+	dimRadius->getDimensionStyle()->getDimensionTextStyle().drawDimensionRadiusText(this->painter,
+		dx, dy, angle, dimRadius->getRadius(), qColor, this->widget->getZoomRate());
+
+	int x, y;
+	GLPoint topLeft, bottomRight;
+	f.convertEntityToDevice(data.center.x, data.center.y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertEntityToDevice(data.dim.x, data.dim.y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertEntityToDevice(data.text.x, data.text.y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 ShDrawerSelectedEntityNoVertex::ShDrawerSelectedEntityNoVertex(ShCADWidget *widget, QPainter *painter)
@@ -934,6 +982,37 @@ void ShDrawerSelectedEntityNoVertex::visit(ShDimAligned *dimAligned) {
 		dx, dy, angle - 90, distance, qColor, this->widget->getZoomRate());
 }
 
+void ShDrawerSelectedEntityNoVertex::visit(ShDimRadius *dimRadius) {
+
+	ShDrawerSelectedEntityNoVertex visitor(this->widget, this->painter);
+
+	auto itr = dimRadius->begin();
+	for (itr; itr != dimRadius->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDrawerFunctions f(this->widget);
+	ShDimRadiusData data = dimRadius->getData();
+
+	GLColor color(153.f / 255, 153.f / 155, 1.f);
+
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+	double angle = math::getAbsAngle(data.dim.x, data.dim.y, data.text.x, data.text.y);
+	dimRadius->getDimensionStyle()->getDimensionArrowStyle().drawArrow(f, data.dim, angle, color);
+	glDisable(GL_LINE_STIPPLE);
+
+	int dx, dy;
+	f.convertEntityToDevice(data.text.x, data.text.y, dx, dy);
+	angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	QColor qColor(153, 153, 155);
+
+	if (this->painter->isActive() == false)
+		this->painter->begin(this->widget);
+
+	dimRadius->getDimensionStyle()->getDimensionTextStyle().drawDimensionRadiusText(this->painter,
+		dx, dy, angle, dimRadius->getRadius(), qColor, this->widget->getZoomRate());
+}
+
 //////////////////////////////////////////////////////////////////////
 
 ShDrawerEraseBackGround::ShDrawerEraseBackGround(ShCADWidget *widget, QPainter *painter)
@@ -1071,6 +1150,36 @@ void ShDrawerEraseBackGround::visit(ShDimAligned *dimAligned) {
 		dx, dy, angle - 90, distance, qColor, this->widget->getZoomRate());
 }
 
+void ShDrawerEraseBackGround::visit(ShDimRadius *dimRadius) {
+
+	ShDrawerEraseBackGround visitor(this->widget, this->painter);
+
+	auto itr = dimRadius->begin();
+	for (itr; itr != dimRadius->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDrawerFunctions f(this->widget);
+	ShDimRadiusData data = dimRadius->getData();
+
+	GLColor color(0, 0, 0);
+
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+	double angle = math::getAbsAngle(data.dim.x, data.dim.y, data.text.x, data.text.y);
+	dimRadius->getDimensionStyle()->getDimensionArrowStyle().drawArrow(f, data.dim, angle, color);
+	glDisable(GL_LINE_STIPPLE);
+
+	int dx, dy;
+	f.convertEntityToDevice(data.text.x, data.text.y, dx, dy);
+	angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	QColor qColor(0, 0, 0);
+
+	if (this->painter->isActive() == false)
+		this->painter->begin(this->widget);
+
+	dimRadius->getDimensionStyle()->getDimensionTextStyle().drawDimensionRadiusText(this->painter,
+		dx, dy, angle, dimRadius->getRadius(), qColor, this->widget->getZoomRate());
+}
 //////////////////////////////////////////////////////////////////////////
 
 

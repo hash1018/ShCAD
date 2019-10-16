@@ -8,6 +8,7 @@
 #include "Entity\Leaf\ShDot.h"
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
+#include "Entity\Composite\Dim\ShDimRadius.h"
 
 
 ShNearestVertexFinder::ShNearestVertexFinder(double x, double y, double zoomRate, VertexType &vertexType, ShPoint3d &vertexPoint, double tolerance)
@@ -260,6 +261,32 @@ void ShNearestVertexFinder::visit(ShDimAligned *dimAligned) {
 	this->vertexType = VertexType::VertexNothing;
 }
 
+void ShNearestVertexFinder::visit(ShDimRadius *dimRadius) {
+
+	ShDimRadiusData data = dimRadius->getData();
+
+	if (this->isNear(this->x, this->y, data.center, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexCenter;
+		this->vertexPoint = data.center;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.dim, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexDim;
+		this->vertexPoint = data.dim;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.text, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexText;
+		this->vertexPoint = data.text;
+		return;
+	}
+}
+
 bool ShNearestVertexFinder::isNear(int x, int y, const ShPoint3d &point, double zoomRate, double tolerance) {
 
 	if (x >= point.x - (tolerance / zoomRate) &&
@@ -474,6 +501,38 @@ void PointAndVertexTypeMathchedEntityFinder::visit(ShDimAligned *dimAligned) {
 	if ((this->vertexType & VertexType::VertexSecondDim) == VertexType::VertexSecondDim) {
 
 		if (this->mustMatchPoint == data.secondDim) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexText) == VertexType::VertexText) {
+
+		if (this->mustMatchPoint == data.text) {
+
+			this->matched = true;
+			return;
+		}
+	}
+
+	this->matched = false;
+}
+
+void PointAndVertexTypeMathchedEntityFinder::visit(ShDimRadius *dimRadius) {
+
+	ShDimRadiusData data = dimRadius->getData();
+
+	if ((this->vertexType & VertexType::VertexCenter) == VertexType::VertexCenter) {
+
+		if (this->mustMatchPoint == data.center) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexDim) == VertexType::VertexDim) {
+
+		if (this->mustMatchPoint == data.dim) {
 
 			this->matched = true;
 			return;
