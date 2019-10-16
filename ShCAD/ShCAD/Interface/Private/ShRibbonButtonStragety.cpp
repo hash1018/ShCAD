@@ -688,6 +688,11 @@ ShRibbonDimRadiusButtonStrategy::~ShRibbonDimRadiusButtonStrategy() {
 
 void ShRibbonDimRadiusButtonStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimRadius);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonDimRadiusButtonStrategy::getIcon() {

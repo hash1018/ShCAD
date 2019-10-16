@@ -53,6 +53,9 @@ void ShDimensionToolBar::dimAngularActionClicked() {
 
 void ShDimensionToolBar::dimRadiusActionClicked() {
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimRadius);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShDimensionToolBar::dimDiameterActionClicked() {

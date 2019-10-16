@@ -16,6 +16,7 @@
 #include "ActionHandler\DrawAction\ShDrawPointAction.h"
 #include "ActionHandler\ShSelectPlotAreaAction.h"
 #include "ActionHandler\DrawAction\DrawDimAction\ShDrawDimAlignedAction.h"
+#include "ActionHandler\DrawAction\DrawDimAction\ShDrawDimRadiusAction.h"
 
 ShActionHandlerFactory::ShActionHandlerFactory() {
 
@@ -88,7 +89,8 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 		return new ShDrawDimLinearAction(widget);
 	else if (actionType == ActionType::ActionDrawDimAligned)
 		return new ShDrawDimAlignedAction(widget);
-
+	else if (actionType == ActionType::ActionDrawDimRadius)
+		return new ShDrawDimRadiusAction(widget);
 
 	else if (actionType == ActionType::ActionDrawPoint)
 		return new ShDrawPointAction(widget);

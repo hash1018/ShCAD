@@ -682,6 +682,9 @@
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.cpp">
       <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimRadiusAction.cpp">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1179,6 +1182,9 @@
       <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.h">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimRadiusAction.h">
       <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClInclude>
   </ItemGroup>
