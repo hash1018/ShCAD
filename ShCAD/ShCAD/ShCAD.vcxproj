@@ -143,9 +143,9 @@
     <ClCompile Include="ActionHandler\DecoratorAction\ShOrthogonalAction.cpp" />
     <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.cpp" />
     <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.cpp" />
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimAction.cpp" />
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimAlignedAction.cpp" />
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimLinearAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAlignedAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawArcAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp" />
@@ -481,9 +481,9 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </Command>
     </CustomBuild>
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimAction.h" />
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimAlignedAction.h" />
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimLinearAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAlignedAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawArcAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h" />

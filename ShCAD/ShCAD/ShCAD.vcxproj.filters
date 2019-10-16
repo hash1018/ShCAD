@@ -125,7 +125,7 @@
     <Filter Include="Entity\Composite\Dim">
       <UniqueIdentifier>{5b6059f3-38c2-4c6e-a39e-f01640ea6f81}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ActionHandler\DrawAction\DimAction">
+    <Filter Include="ActionHandler\DrawAction\DrawDimAction">
       <UniqueIdentifier>{7d04c4df-8b6d-4b68-b325-853554ecd954}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -673,14 +673,14 @@
     <ClCompile Include="Entity\Composite\Dim\ShDimRadius.cpp">
       <Filter>Entity\Composite\Dim</Filter>
     </ClCompile>
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimLinearAction.cpp">
-      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAction.cpp">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClCompile>
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimAlignedAction.cpp">
-      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAlignedAction.cpp">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClCompile>
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimAction.cpp">
-      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.cpp">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1172,14 +1172,14 @@
     <ClInclude Include="Entity\Composite\Dim\ShDimRadius.h">
       <Filter>Entity\Composite\Dim</Filter>
     </ClInclude>
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimLinearAction.h">
-      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAction.h">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClInclude>
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimAlignedAction.h">
-      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAlignedAction.h">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClInclude>
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimAction.h">
-      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.h">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

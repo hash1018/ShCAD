@@ -12,10 +12,10 @@
 #include "ActionHandler\ModifyAction\ShModifyExtendAction.h"
 #include "ActionHandler\ModifyAction\ShModifyTrimAction.h"
 #include "ActionHandler\ModifyAction\ShModifyStretchAction.h"
-#include "ActionHandler\DrawAction\DimAction\ShDrawDimLinearAction.h"
+#include "ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.h"
 #include "ActionHandler\DrawAction\ShDrawPointAction.h"
 #include "ActionHandler\ShSelectPlotAreaAction.h"
-#include "ActionHandler\DrawAction\DimAction\ShDrawDimAlignedAction.h"
+#include "ActionHandler\DrawAction\DrawDimAction\ShDrawDimAlignedAction.h"
 
 ShActionHandlerFactory::ShActionHandlerFactory() {
 
