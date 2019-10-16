@@ -1,13 +1,13 @@
 
 
-#include "ShDimLinearAction.h"
+#include "ShDrawDimLinearAction.h"
 #include "KeyHandler\ShKeyHandler.h"
 #include "Command\ShAvailableCommands.h"
 #include "Base\ShMath.h"
 #include "Entity\Composite\Dim\ShDimLinear.h"
 
-ShDimLinearAction::ShDimLinearAction(ShCADWidget *widget)
-	:ShDimAction(widget), status(Status::PickedNothing), direction(Direction::Nothing) {
+ShDrawDimLinearAction::ShDrawDimLinearAction(ShCADWidget *widget)
+	:ShDrawDimAction(widget), status(Status::PickedNothing), direction(Direction::Nothing) {
 
 	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
 		allowKey(KeyType::Enter).
@@ -25,26 +25,26 @@ ShDimLinearAction::ShDimLinearAction(ShCADWidget *widget)
 		build();
 }
 
-ShDimLinearAction::~ShDimLinearAction() {
+ShDrawDimLinearAction::~ShDrawDimLinearAction() {
 
 }
 
-void ShDimLinearAction::mouseLeftPressEvent(ShActionData &data) {
+void ShDrawDimLinearAction::mouseLeftPressEvent(ShActionData &data) {
 
 	this->trigger(data.point);
 }
 
-void ShDimLinearAction::mouseMoveEvent(ShActionData &data) {
+void ShDrawDimLinearAction::mouseMoveEvent(ShActionData &data) {
 
 	this->invalidate(data.point);
 }
 
-ActionType ShDimLinearAction::getType() {
+ActionType ShDrawDimLinearAction::getType() {
 
 	return ActionType::ActionDrawDimLinear;
 }
 
-QString ShDimLinearAction::getHeadTitle() {
+QString ShDrawDimLinearAction::getHeadTitle() {
 
 	QString text;
 
@@ -58,7 +58,7 @@ QString ShDimLinearAction::getHeadTitle() {
 	return text;
 }
 
-ShAvailableDraft ShDimLinearAction::getAvailableDraft() {
+ShAvailableDraft ShDrawDimLinearAction::getAvailableDraft() {
 
 	ShAvailableDraft draft;
 
@@ -85,7 +85,7 @@ ShAvailableDraft ShDimLinearAction::getAvailableDraft() {
 	return draft;
 }
 
-void ShDimLinearAction::invalidate(ShPoint3d &point) {
+void ShDrawDimLinearAction::invalidate(ShPoint3d &point) {
 
 	if (this->status == Status::PickedFirst) {
 	
@@ -105,7 +105,7 @@ void ShDimLinearAction::invalidate(ShPoint3d &point) {
 	}
 }
 
-void ShDimLinearAction::trigger(const ShPoint3d &point) {
+void ShDrawDimLinearAction::trigger(const ShPoint3d &point) {
 
 	if (this->status == Status::PickedNothing) {
 	
@@ -149,7 +149,7 @@ void ShDimLinearAction::trigger(const ShPoint3d &point) {
 }
 
 
-void ShDimLinearAction::getDimLinearData(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &point,
+void ShDrawDimLinearAction::getDimLinearData(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &point,
 	Direction &direction, ShDimLinearData &data) {
 
 	data.firstOrigin = first;

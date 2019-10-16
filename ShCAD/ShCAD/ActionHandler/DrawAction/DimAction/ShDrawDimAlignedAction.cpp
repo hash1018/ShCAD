@@ -1,13 +1,13 @@
 
 
-#include "ShDimAlignedAction.h"
+#include "ShDrawDimAlignedAction.h"
 #include "KeyHandler\ShKeyHandler.h"
 #include "Command\ShAvailableCommands.h"
 #include "Base\ShMath.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
 
-ShDimAlignedAction::ShDimAlignedAction(ShCADWidget *widget)
-	:ShDimAction(widget), status(Status::PickedNothing) {
+ShDrawDimAlignedAction::ShDrawDimAlignedAction(ShCADWidget *widget)
+	:ShDrawDimAction(widget), status(Status::PickedNothing) {
 
 	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
 		allowKey(KeyType::Enter).
@@ -25,26 +25,26 @@ ShDimAlignedAction::ShDimAlignedAction(ShCADWidget *widget)
 		build();
 }
 
-ShDimAlignedAction::~ShDimAlignedAction() {
+ShDrawDimAlignedAction::~ShDrawDimAlignedAction() {
 
 }
 
-void ShDimAlignedAction::mouseLeftPressEvent(ShActionData &data) {
+void ShDrawDimAlignedAction::mouseLeftPressEvent(ShActionData &data) {
 
 	this->trigger(data.point);
 }
 
-void ShDimAlignedAction::mouseMoveEvent(ShActionData &data) {
+void ShDrawDimAlignedAction::mouseMoveEvent(ShActionData &data) {
 
 	this->invalidate(data.point);
 }
 
-ActionType ShDimAlignedAction::getType() {
+ActionType ShDrawDimAlignedAction::getType() {
 
 	return ActionType::ActionDrawDimAligned;
 }
 
-QString ShDimAlignedAction::getHeadTitle() {
+QString ShDrawDimAlignedAction::getHeadTitle() {
 
 	QString text;
 
@@ -58,7 +58,7 @@ QString ShDimAlignedAction::getHeadTitle() {
 	return text;
 }
 
-ShAvailableDraft ShDimAlignedAction::getAvailableDraft() {
+ShAvailableDraft ShDrawDimAlignedAction::getAvailableDraft() {
 
 	ShAvailableDraft draft;
 
@@ -85,7 +85,7 @@ ShAvailableDraft ShDimAlignedAction::getAvailableDraft() {
 	return draft;
 }
 
-void ShDimAlignedAction::invalidate(ShPoint3d &point) {
+void ShDrawDimAlignedAction::invalidate(ShPoint3d &point) {
 
 	if (this->status == Status::PickedFirst) {
 
@@ -105,7 +105,7 @@ void ShDimAlignedAction::invalidate(ShPoint3d &point) {
 	}
 }
 
-void ShDimAlignedAction::trigger(const ShPoint3d &point) {
+void ShDrawDimAlignedAction::trigger(const ShPoint3d &point) {
 
 	if (this->status == Status::PickedNothing) {
 
@@ -149,7 +149,7 @@ void ShDimAlignedAction::trigger(const ShPoint3d &point) {
 }
 
 
-void ShDimAlignedAction::getDimAlignedData(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &point, ShDimAlignedData &data) {
+void ShDrawDimAlignedAction::getDimAlignedData(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &point, ShDimAlignedData &data) {
 
 	data.firstOrigin = first;
 	data.secondOrigin = second;

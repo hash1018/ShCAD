@@ -12,10 +12,10 @@
 #include "ActionHandler\ModifyAction\ShModifyExtendAction.h"
 #include "ActionHandler\ModifyAction\ShModifyTrimAction.h"
 #include "ActionHandler\ModifyAction\ShModifyStretchAction.h"
-#include "ActionHandler\DrawAction\DimAction\ShDimLinearAction.h"
+#include "ActionHandler\DrawAction\DimAction\ShDrawDimLinearAction.h"
 #include "ActionHandler\DrawAction\ShDrawPointAction.h"
 #include "ActionHandler\ShSelectPlotAreaAction.h"
-#include "ActionHandler\DrawAction\DimAction\ShDimAlignedAction.h"
+#include "ActionHandler\DrawAction\DimAction\ShDrawDimAlignedAction.h"
 
 ShActionHandlerFactory::ShActionHandlerFactory() {
 
@@ -85,9 +85,9 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 
 
 	else if (actionType == ActionType::ActionDrawDimLinear)
-		return new ShDimLinearAction(widget);
+		return new ShDrawDimLinearAction(widget);
 	else if (actionType == ActionType::ActionDrawDimAligned)
-		return new ShDimAlignedAction(widget);
+		return new ShDrawDimAlignedAction(widget);
 
 
 	else if (actionType == ActionType::ActionDrawPoint)

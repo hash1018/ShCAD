@@ -1,13 +1,14 @@
 
 
-#ifndef _SHDIMLINEARACTION_H
-#define _SHDIMLINEARACTION_H
 
-#include "ShDimAction.h"
+#ifndef _SHDRAWDIMALIGNEDACTION_H
+#define _SHDRAWDIMALIGNEDACTION_H
 
-class ShDimLinearData;
+#include "ShDrawDimAction.h"
 
-class ShDimLinearAction : public ShDimAction {
+class ShDimAlignedData;
+
+class ShDrawDimAlignedAction : public ShDrawDimAction {
 
 public:
 	enum Status {
@@ -17,22 +18,15 @@ public:
 		PickedSecond,
 	};
 
-	enum Direction {
-
-		Nothing,
-		Vertical,
-		Horizontal,
-	};
-
 private:
 	Status status;
 	ShPoint3d first;
 	ShPoint3d second;
-	Direction direction;
 	
+
 public:
-	ShDimLinearAction(ShCADWidget *widget);
-	~ShDimLinearAction();
+	ShDrawDimAlignedAction(ShCADWidget *widget);
+	~ShDrawDimAlignedAction();
 
 	virtual void mouseLeftPressEvent(ShActionData &data);
 	virtual void mouseMoveEvent(ShActionData &data);
@@ -47,8 +41,8 @@ protected:
 	virtual void trigger(const ShPoint3d &point);
 
 private:
-	void getDimLinearData(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &point, 
-		Direction &direction, ShDimLinearData &data);
+	void getDimAlignedData(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &point, ShDimAlignedData &data);
 };
 
-#endif //_SHDIMLINEARACTION_H
+#endif //_SHDRAWDIMALIGNEDACTION_H
+

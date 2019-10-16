@@ -20,7 +20,7 @@ public:
 	virtual ShDimLinear* clone();
 	virtual void accept(ShVisitor *visitor);
 
-	void updateChild();
+	virtual void updateChild();
 
 public:
 	void setData(const ShDimLinearData &data);

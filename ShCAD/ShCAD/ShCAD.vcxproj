@@ -143,9 +143,9 @@
     <ClCompile Include="ActionHandler\DecoratorAction\ShOrthogonalAction.cpp" />
     <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.cpp" />
     <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.cpp" />
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimAction.cpp" />
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimAlignedAction.cpp" />
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimAlignedAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimLinearAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawArcAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp" />
@@ -206,6 +206,7 @@
     <ClCompile Include="Entity\Composite\Dim\ShDim.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDimAligned.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDimLinear.cpp" />
+    <ClCompile Include="Entity\Composite\Dim\ShDimRadius.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
     <ClCompile Include="Entity\Composite\ShEntityTable.cpp" />
     <ClCompile Include="Entity\Composite\ShPreview.cpp" />
@@ -480,9 +481,9 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </Command>
     </CustomBuild>
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimAction.h" />
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimAlignedAction.h" />
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimAlignedAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimLinearAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawArcAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h" />
@@ -548,6 +549,7 @@
     <ClInclude Include="Entity\Composite\Dim\ShDim.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDimAligned.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDimLinear.h" />
+    <ClInclude Include="Entity\Composite\Dim\ShDimRadius.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />
     <ClInclude Include="Entity\Composite\ShEntityTable.h" />
     <ClInclude Include="Entity\Composite\ShPreview.h" />

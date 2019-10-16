@@ -170,3 +170,32 @@ ShDimAlignedData& ShDimAlignedData::operator=(const ShDimAlignedData &other) {
 
 	return *this;
 }
+
+////////////////////////////////////////////////////////////////
+
+ShDimRadiusData::ShDimRadiusData() {
+
+}
+
+ShDimRadiusData::ShDimRadiusData(const ShPoint3d &center, const ShPoint3d &dim, const ShPoint3d &text)
+	:center(center), dim(dim), text(text) {
+
+}
+
+ShDimRadiusData::ShDimRadiusData(const ShDimRadiusData &other)
+	: center(other.center), dim(other.dim), text(other.text) {
+
+}
+
+ShDimRadiusData::~ShDimRadiusData() {
+
+}
+
+ShDimRadiusData& ShDimRadiusData::operator=(const ShDimRadiusData &other) {
+
+	this->center = other.center;
+	this->dim = other.dim;
+	this->text = other.text;
+
+	return *this;
+}

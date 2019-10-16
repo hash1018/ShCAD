@@ -104,4 +104,20 @@ public:
 	ShDimAlignedData& operator=(const ShDimAlignedData &other);
 };
 
+class ShDimRadiusData : public ShEntityData {
+
+public:
+	ShPoint3d center;
+	ShPoint3d text;
+	ShPoint3d dim;
+
+public:
+	ShDimRadiusData();
+	ShDimRadiusData(const ShPoint3d &center, const ShPoint3d &dim, const ShPoint3d &text);
+	ShDimRadiusData(const ShDimRadiusData &other);
+	~ShDimRadiusData();
+
+	ShDimRadiusData& operator=(const ShDimRadiusData &other);
+};
+
 #endif //_SHENTITYDATA_H

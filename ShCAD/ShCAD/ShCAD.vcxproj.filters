@@ -622,12 +622,6 @@
     <ClCompile Include="Entity\Composite\Dim\ShDimLinear.cpp">
       <Filter>Entity\Composite\Dim</Filter>
     </ClCompile>
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimAction.cpp">
-      <Filter>ActionHandler\DrawAction\DimAction</Filter>
-    </ClCompile>
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.cpp">
-      <Filter>ActionHandler\DrawAction\DimAction</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\ToolBar\ShDimensionToolBar.cpp">
       <Filter>Interface\ToolBar</Filter>
     </ClCompile>
@@ -676,7 +670,16 @@
     <ClCompile Include="Entity\Composite\Dim\ShDimAligned.cpp">
       <Filter>Entity\Composite\Dim</Filter>
     </ClCompile>
-    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDimAlignedAction.cpp">
+    <ClCompile Include="Entity\Composite\Dim\ShDimRadius.cpp">
+      <Filter>Entity\Composite\Dim</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimLinearAction.cpp">
+      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimAlignedAction.cpp">
+      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\DimAction\ShDrawDimAction.cpp">
       <Filter>ActionHandler\DrawAction\DimAction</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1121,12 +1124,6 @@
     <ClInclude Include="Entity\Composite\Dim\ShDimLinear.h">
       <Filter>Entity\Composite\Dim</Filter>
     </ClInclude>
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimAction.h">
-      <Filter>ActionHandler\DrawAction\DimAction</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimLinearAction.h">
-      <Filter>ActionHandler\DrawAction\DimAction</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\ToolBar\ShDimensionToolBar.h">
       <Filter>Interface\ToolBar</Filter>
     </ClInclude>
@@ -1172,7 +1169,16 @@
     <ClInclude Include="Entity\Composite\Dim\ShDimAligned.h">
       <Filter>Entity\Composite\Dim</Filter>
     </ClInclude>
-    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDimAlignedAction.h">
+    <ClInclude Include="Entity\Composite\Dim\ShDimRadius.h">
+      <Filter>Entity\Composite\Dim</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimLinearAction.h">
+      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimAlignedAction.h">
+      <Filter>ActionHandler\DrawAction\DimAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\DimAction\ShDrawDimAction.h">
       <Filter>ActionHandler\DrawAction\DimAction</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,6 +18,8 @@ public:
 	virtual ~ShDim() = 0;
 	ShDim& operator=(const ShDim &other);
 
+	virtual void updateChild() = 0;
+
 public:
 	void setDimensionStyle(ShDimensionStyle *dimensionStyle) { this->dimensionStyle = dimensionStyle; }
 
