@@ -181,14 +181,19 @@ void ShSubDefaultAction_Default::mouseMoveEvent(ShActionData &data) {
 	}
 	else {
 	
-		int dx, dy;
-		ShPoint3d topLeft, bottomRight;
-		this->widget->convertEntityToDevice(0, 0, dx, dy);
-		this->widget->convertDeviceToEntity(dx - 3, dy - 3, topLeft.x, topLeft.y);
-		this->widget->convertDeviceToEntity(dx + 3, dy + 3, bottomRight.x, bottomRight.y);
+		int originX, originY;
+		ShPoint3d xAxisTopLeft, xAxisBottomRight, yAxisTopLeft, yAxisBottomRight;
+		this->widget->convertEntityToDevice(0, 0, originX, originY);
 
-		if (math::checkPointLiesInsideRect(mouse, topLeft, bottomRight, 1) == true) {
+		this->widget->convertDeviceToEntity(originX - 3, originY - 103, yAxisTopLeft.x, yAxisTopLeft.y);
+		this->widget->convertDeviceToEntity(originX + 3, originY + 3, yAxisBottomRight.x, yAxisBottomRight.y);
+		this->widget->convertDeviceToEntity(originX - 3, originY - 3, xAxisTopLeft.x, xAxisTopLeft.y);
+		this->widget->convertDeviceToEntity(originX + 103, originY + 3, xAxisBottomRight.x, xAxisBottomRight.y);
 		
+
+		if (math::checkPointLiesInsideRect(mouse, xAxisTopLeft, xAxisBottomRight, 1) == true ||
+			math::checkPointLiesInsideRect(mouse, yAxisTopLeft, yAxisBottomRight, 1) == true) {
+
 			ShSubDefaultAction_MouseIsInAxisOrigin *subAction =
 				new ShSubDefaultAction_MouseIsInAxisOrigin(this->defaultAction, this->widget);
 
@@ -292,13 +297,17 @@ void ShSubDefaultAction_MouseIsInAxisOrigin::mouseMoveEvent(ShActionData &data) 
 
 	ShPoint3d mouse = this->widget->getMousePoint();
 
-	int dx, dy;
-	ShPoint3d topLeft, bottomRight;
-	this->widget->convertEntityToDevice(0, 0, dx, dy);
-	this->widget->convertDeviceToEntity(dx - 3, dy - 3, topLeft.x, topLeft.y);
-	this->widget->convertDeviceToEntity(dx + 3, dy + 3, bottomRight.x, bottomRight.y);
+	int originX, originY;
+	ShPoint3d xAxisTopLeft, xAxisBottomRight, yAxisTopLeft, yAxisBottomRight;
+	this->widget->convertEntityToDevice(0, 0, originX, originY);
 
-	if (math::checkPointLiesInsideRect(mouse, topLeft, bottomRight, 1) == false) {
+	this->widget->convertDeviceToEntity(originX - 3, originY - 103, yAxisTopLeft.x, yAxisTopLeft.y);
+	this->widget->convertDeviceToEntity(originX + 3, originY + 3, yAxisBottomRight.x, yAxisBottomRight.y);
+	this->widget->convertDeviceToEntity(originX - 3, originY - 3, xAxisTopLeft.x, xAxisTopLeft.y);
+	this->widget->convertDeviceToEntity(originX + 103, originY + 3, xAxisBottomRight.x, xAxisBottomRight.y);
+
+	if (math::checkPointLiesInsideRect(data.point, xAxisTopLeft, xAxisBottomRight, 1) == false &&
+		math::checkPointLiesInsideRect(data.point, yAxisTopLeft, yAxisBottomRight, 1) == false) {
 		this->widget->update(DrawType::DrawCaptureImage);
 		this->defaultAction->changeSubAction(new ShSubDefaultAction_Default(this->defaultAction, this->widget));
 	}
@@ -310,6 +319,17 @@ void ShSubDefaultAction_MouseIsInAxisOrigin::drawAxisOrigin() {
 	this->widget->convertEntityToDevice(0, 0, dx, dy);
 
 	QPainter painter(this->widget);
-	painter.setBrush(QBrush(QColor(255, 000, 000)));
-	painter.drawEllipse(dx - 3, dy - 3, 6, 6);
+
+	this->widget->convertEntityToDevice(this->widget->getRubberBand().getEnd().x, this->widget->getRubberBand().getEnd().y, dx, dy);
+
+	painter.setPen(QColor(255, 255, 000));
+	painter.drawLine(dx, dy, dx + 100, dy);
+	painter.drawLine(dx, dy, dx, dy - 100);
+
+	painter.drawText(dx + 90, dy + 15, "X");
+	painter.drawText(dx - 15, dy - 90, "Y");
+	painter.drawText(dx - 15, dy + 15, "O");
+	painter.setPen(QColor(0, 0, 0));
+
+	painter.end();
 }

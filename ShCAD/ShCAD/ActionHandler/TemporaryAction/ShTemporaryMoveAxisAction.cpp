@@ -80,7 +80,7 @@ void ShTemporaryMoveAxisAction::draw(QPainter *painter) {
 
 QString ShTemporaryMoveAxisAction::getHeadTitle() {
 
-	return shGetLanValue_command("Command/Specify stretch point") + ": ";
+	return shGetLanValue_command("Command/Specify origin point") + ": ";
 }
 
 void ShTemporaryMoveAxisAction::invalidate(ShPoint3d &point) {
