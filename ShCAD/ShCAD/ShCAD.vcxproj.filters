@@ -685,6 +685,9 @@
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimRadiusAction.cpp">
       <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryMoveAxisAction.cpp">
+      <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1186,6 +1189,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimRadiusAction.h">
       <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryMoveAxisAction.h">
+      <Filter>ActionHandler\TemporaryAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

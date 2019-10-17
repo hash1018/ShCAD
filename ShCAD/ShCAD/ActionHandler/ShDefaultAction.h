@@ -76,4 +76,17 @@ private:
 	void drawVertex();
 };
 
+class ShSubDefaultAction_MouseIsInAxisOrigin : public ShSubDefaultAction {
+
+public:
+	ShSubDefaultAction_MouseIsInAxisOrigin(ShDefaultAction *defaultAction, ShCADWidget *widget);
+	~ShSubDefaultAction_MouseIsInAxisOrigin();
+
+	virtual void mouseLeftPressEvent(ShActionData &data);
+	virtual void mouseMoveEvent(ShActionData &data);
+
+private:
+	void drawAxisOrigin();
+
+};
 #endif //_SHDEFAULTACTION_H

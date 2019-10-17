@@ -73,6 +73,7 @@ enum ActionType {
 	ActionDrawDimArcLength,
 
 	ActionSelectPlotArea,
+	ActionMoveAxis,
 };
 
 

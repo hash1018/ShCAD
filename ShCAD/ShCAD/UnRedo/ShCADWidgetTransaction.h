@@ -5,6 +5,7 @@
 #include "ShTransaction.h"
 #include "Data\ShColor.h"
 #include "Data\ShLineStyle.h"
+#include "Data\ShPoint3d.h"
 
 class ShCADWidget;
 
@@ -42,6 +43,25 @@ public:
 
 protected:
 	~ShChangeLineStyleTransaction();
+};
+
+////////////////////////////////////////////////////////////
+
+class ShChangeAxisPositionTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	ShPoint3d prevCenter;
+	ShPoint3d currentCenter;
+
+public:
+	ShChangeAxisPositionTransaction(ShCADWidget *widget, const ShPoint3d &prevCenter, const ShPoint3d &currentCenter);
+
+	virtual void redo();
+	virtual void undo();
+
+protected:
+	~ShChangeAxisPositionTransaction();
 };
 
 #endif //_SHCADWIDGETTRANSACTION_H

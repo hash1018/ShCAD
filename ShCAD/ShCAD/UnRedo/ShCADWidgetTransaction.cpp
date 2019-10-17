@@ -3,6 +3,9 @@
 #include "Interface\ShCADWidget.h"
 #include "Event\ShNotifyEvent.h"
 #include "Data\ShPropertyData.h"
+#include "Entity\Private\ShMover.h"
+#include "Interface\Private\ShAxis.h"
+#include "Entity\Composite\ShEntityTable.h"
 
 ShChangeColorTransaction::ShChangeColorTransaction(ShCADWidget *widget, const ShColor &prev, const ShColor &current)
 	:ShTransaction("Color control"), widget(widget), prev(prev), current(current) {
@@ -66,4 +69,47 @@ void ShChangeLineStyleTransaction::undo() {
 
 	ShCurrentLineStyleChangedEvent notifyEvent(this->prev);
 	this->widget->notify(&notifyEvent);
+}
+
+////////////////////////////////////////////////////////////////////////
+
+ShChangeAxisPositionTransaction::ShChangeAxisPositionTransaction(ShCADWidget *widget, const ShPoint3d &prevCenter, const ShPoint3d &currentCenter)
+	:ShTransaction("Axis Control"), widget(widget), prevCenter(prevCenter), currentCenter(currentCenter) {
+
+}
+
+ShChangeAxisPositionTransaction::~ShChangeAxisPositionTransaction() {
+
+}
+
+void ShChangeAxisPositionTransaction::redo() {
+
+	this->widget->getAxis().setCenter(this->currentCenter);
+
+	ShMoverByAxis visitor(this->widget->getScrollPosition(), this->prevCenter, this->currentCenter, this->widget->getZoomRate());
+
+	auto itr = this->widget->getEntityTable().begin();
+
+	for (itr; itr != this->widget->getEntityTable().end(); ++itr)
+		(*itr)->accept(&visitor);
+
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShChangeAxisPositionTransaction::undo() {
+
+	this->widget->getAxis().setCenter(this->prevCenter);
+
+	ShMoverByAxis visitor(this->widget->getScrollPosition(), this->currentCenter, this->prevCenter, this->widget->getZoomRate());
+
+	auto itr = this->widget->getEntityTable().begin();
+
+	for (itr; itr != this->widget->getEntityTable().end(); ++itr)
+		(*itr)->accept(&visitor);
+
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
 }

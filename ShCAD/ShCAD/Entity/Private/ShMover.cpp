@@ -102,3 +102,108 @@ void ShMover::visit(ShDimRadius *dimRadius) {
 
 	dimRadius->setData(data);
 }
+
+////////////////////////////////////////////////////////////////
+
+ShMoverByAxis::ShMoverByAxis(const ShScrollPosition &scroll, const ShPoint3d &prevCenter, const ShPoint3d &currentCenter, double zoomRate)
+	:scroll(scroll), prevCenter(prevCenter), currentCenter(currentCenter), zoomRate(zoomRate) {
+
+}
+
+ShMoverByAxis::~ShMoverByAxis() {
+
+}
+
+void ShMoverByAxis::visit(ShLine *line) {
+
+	ShLineData data = line->getData();
+
+	this->convert(data.start, data.start);
+	this->convert(data.end, data.end);
+
+	line->setData(data);
+}
+
+void ShMoverByAxis::visit(ShCircle *circle) {
+
+	ShCircleData data = circle->getData();
+
+	this->convert(data.center, data.center);
+
+	circle->setData(data);
+}
+
+void ShMoverByAxis::visit(ShArc *arc) {
+
+	ShArcData data = arc->getData();
+
+	this->convert(data.center, data.center);
+
+	arc->setData(data);
+}
+
+void ShMoverByAxis::visit(ShPoint *point) {
+
+	ShPoint3d position = point->getPosition();
+
+	this->convert(position, position);
+
+	point->setPosition(position);
+}
+
+void ShMoverByAxis::visit(ShDot *dot) {
+
+	ShPoint3d position = dot->getPosition();
+
+	this->convert(position, position);
+
+	dot->setPosition(position);
+}
+
+void ShMoverByAxis::visit(ShDimLinear *dimLinear) {
+
+	ShDimLinearData data = dimLinear->getData();
+
+	this->convert(data.firstOrigin, data.firstOrigin);
+	this->convert(data.firstDim, data.firstDim);
+	this->convert(data.secondOrigin, data.secondOrigin);
+	this->convert(data.secondDim, data.secondDim);
+	this->convert(data.text, data.text);
+
+	dimLinear->setData(data);
+}
+
+void ShMoverByAxis::visit(ShDimAligned *dimAligned) {
+
+	ShDimAlignedData data = dimAligned->getData();
+
+	this->convert(data.firstOrigin, data.firstOrigin);
+	this->convert(data.firstDim, data.firstDim);
+	this->convert(data.secondOrigin, data.secondOrigin);
+	this->convert(data.secondDim, data.secondDim);
+	this->convert(data.text, data.text);
+
+	dimAligned->setData(data);
+}
+
+void ShMoverByAxis::visit(ShDimRadius *dimRadius) {
+
+	ShDimRadiusData data = dimRadius->getData();
+
+	this->convert(data.center, data.center);
+	this->convert(data.dim, data.dim);
+	this->convert(data.text, data.text);
+
+	dimRadius->setData(data);
+}
+
+void ShMoverByAxis::convert(const ShPoint3d &point, ShPoint3d &converted) {
+
+	ShPoint3d temp;
+
+	temp.x = (point.x*this->zoomRate) - this->scroll.horizontal + (this->prevCenter.x*this->zoomRate);
+	temp.y = -1 * ((point.y*this->zoomRate) + this->scroll.vertical - (this->prevCenter.y*this->zoomRate));
+
+	converted.x = (temp.x + this->scroll.horizontal - (this->currentCenter.x*this->zoomRate)) / this->zoomRate;
+	converted.y = (-1 * (temp.y + this->scroll.vertical - (this->currentCenter.y*this->zoomRate))) / this->zoomRate;
+}

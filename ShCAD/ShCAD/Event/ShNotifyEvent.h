@@ -33,6 +33,7 @@ public:
 		LayerDeleted,
 		ActionChanged,
 		SelectedEntityCountChanged,
+
 	};
 
 	ShNotifyEvent(Type type);
@@ -266,5 +267,9 @@ private:
 	QLinkedList<ShEntity*> selectedList;
 
 };
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
 
 #endif //_SHNOTIFYEVENT_H
