@@ -199,3 +199,33 @@ ShDimRadiusData& ShDimRadiusData::operator=(const ShDimRadiusData &other) {
 
 	return *this;
 }
+
+//////////////////////////////////////////////////////////////
+
+ShDimDiameterData::ShDimDiameterData() {
+
+}
+
+ShDimDiameterData::ShDimDiameterData(const ShPoint3d &center, const ShPoint3d &firstDim, const ShPoint3d &secondDim, const ShPoint3d &text)
+	:center(center), firstDim(firstDim), secondDim(secondDim), text(text) {
+
+}
+
+ShDimDiameterData::ShDimDiameterData(const ShDimDiameterData &other)
+	: center(other.center), firstDim(other.firstDim), secondDim(other.secondDim), text(other.text) {
+
+}
+
+ShDimDiameterData::~ShDimDiameterData() {
+
+}
+
+ShDimDiameterData& ShDimDiameterData::operator=(const ShDimDiameterData &other) {
+
+	this->center = other.center;
+	this->firstDim = other.firstDim;
+	this->secondDim = other.secondDim;
+	this->text = other.text;
+	
+	return *this;
+}

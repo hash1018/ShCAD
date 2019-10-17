@@ -120,4 +120,21 @@ public:
 	ShDimRadiusData& operator=(const ShDimRadiusData &other);
 };
 
+class ShDimDiameterData : public ShEntityData {
+
+public:
+	ShPoint3d center;
+	ShPoint3d text;
+	ShPoint3d firstDim;
+	ShPoint3d secondDim;
+
+public:
+	ShDimDiameterData();
+	ShDimDiameterData(const ShPoint3d &center, const ShPoint3d &firstDim, const ShPoint3d &secondDim, const ShPoint3d &text);
+	ShDimDiameterData(const ShDimDiameterData &other);
+	~ShDimDiameterData();
+
+	ShDimDiameterData& operator=(const ShDimDiameterData &other);
+};
+
 #endif //_SHENTITYDATA_H

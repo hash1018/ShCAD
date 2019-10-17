@@ -688,6 +688,9 @@
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryMoveAxisAction.cpp">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Composite\Dim\ShDimDiameter.cpp">
+      <Filter>Entity\Composite\Dim</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1192,6 +1195,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryMoveAxisAction.h">
       <Filter>ActionHandler\TemporaryAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Composite\Dim\ShDimDiameter.h">
+      <Filter>Entity\Composite\Dim</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

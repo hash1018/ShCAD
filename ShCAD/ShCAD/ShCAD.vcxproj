@@ -207,6 +207,7 @@
     <ClCompile Include="Data\ShScrollPosition.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDim.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDimAligned.cpp" />
+    <ClCompile Include="Entity\Composite\Dim\ShDimDiameter.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDimLinear.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDimRadius.cpp" />
     <ClCompile Include="Entity\Composite\ShComposite.cpp" />
@@ -552,6 +553,7 @@
     <ClInclude Include="Data\ShScrollPosition.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDim.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDimAligned.h" />
+    <ClInclude Include="Entity\Composite\Dim\ShDimDiameter.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDimLinear.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDimRadius.h" />
     <ClInclude Include="Entity\Composite\ShComposite.h" />
