@@ -9,6 +9,7 @@
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
 #include "Entity\Composite\Dim\ShDimRadius.h"
+#include "Entity\Composite\Dim\ShDimDiameter.h"
 
 ShStretchData::ShStretchData() {
 
@@ -483,6 +484,64 @@ void ShStretchVisitor::visit(ShDimRadius *dimRadius) {
 
 }
 
+void ShStretchVisitor::visit(ShDimDiameter *dimDiameter) {
+
+	if (this->original == nullptr || !dynamic_cast<ShDimDiameter*>(this->original))
+		return;
+
+	if (!dynamic_cast<ShStretchLeafData*>(this->stretchData))
+		return;
+
+	ShStretchLeafData *stretchData = dynamic_cast<ShStretchLeafData*>(this->stretchData);
+
+	ShDimDiameter *original = dynamic_cast<ShDimDiameter*>(this->original);
+	ShDimDiameterData data = original->getData();
+
+	if (stretchData->stretchPoint == StretchPoint::StretchFirstDim) {
+
+		double angle = math::getAbsAngle(data.center.x, data.center.y, this->current.x, this->current.y);
+		double radius = original->getRadius();
+		double distanceText = math::getDistance(data.center.x, data.center.y, data.text.x, data.text.y);
+		math::rotate(angle, data.center.x, data.center.y, data.center.x + radius, data.center.y, data.firstDim.x, data.firstDim.y);
+		math::rotate(angle + 180, data.center.x, data.center.y, data.center.x + radius, data.center.y, data.secondDim.x, data.secondDim.y);
+		math::rotate(angle, data.center.x, data.center.y, data.center.x + distanceText, data.center.y, data.text.x, data.text.y);
+
+		dimDiameter->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchSecondDim) {
+
+		data.secondDim = this->current;
+		double disCenterToText = math::getDistance(data.center.x, data.center.y, data.text.x, data.text.y);
+		double angle = math::getAbsAngle(data.center.x, data.center.y, data.secondDim.x, data.secondDim.y);
+		double radius = math::getDistance(data.center.x, data.center.y, data.secondDim.x, data.secondDim.y);
+		math::rotate(angle + 180, data.center.x, data.center.y, data.center.x + radius, data.center.y, data.firstDim.x, data.firstDim.y);
+		math::rotate(angle + 180, data.center.x, data.center.y, data.center.x + disCenterToText, data.center.y, data.text.x, data.text.y);
+
+		dimDiameter->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchText) {
+
+		data.text = this->current;
+		double angle = math::getAbsAngle(data.center.x, data.center.y, this->current.x, this->current.y);
+		math::rotate(angle, data.center.x, data.center.y, data.center.x + original->getRadius(), data.center.y, data.firstDim.x, data.firstDim.y);
+		math::rotate(angle + 180, data.center.x, data.center.y, data.center.x + original->getRadius(), data.center.y, data.secondDim.x, data.secondDim.y);
+
+		dimDiameter->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchMove) {
+
+		double disX = this->current.x - this->base.x;
+		double disY = this->current.y - this->base.y;
+
+		data.center.move(disX, disY);
+		data.firstDim.move(disX, disY);
+		data.secondDim.move(disX, disY);
+		data.text.move(disX, disY);
+
+		dimDiameter->setData(data);
+	}
+}
+
 ///////////////////////////////////////////////////
 
 ShPossibleEntityToStretchFinder::ShPossibleEntityToStretchFinder(const ShPoint3d &point, bool &possible, ShStretchData* *stretchData)
@@ -680,6 +739,24 @@ void ShPossibleEntityToStretchFinder::visit(ShDimRadius *dimRadius) {
 	}
 }
 
+void ShPossibleEntityToStretchFinder::visit(ShDimDiameter *dimDiameter) {
+
+	ShDimDiameterData data = dimDiameter->getData();
+
+	if (this->point.isEqual(data.firstDim) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchFirstDim);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(data.secondDim) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchSecondDim);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(data.text) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchText);
+		this->possible = true;
+	}
+}
+
 ////////////////////////////////////////////////////////////////
 
 
@@ -728,6 +805,11 @@ void ShStretchDataForMoveCreator::visit(ShDimAligned *dimAligned) {
 }
 
 void ShStretchDataForMoveCreator::visit(ShDimRadius *dimRadius) {
+
+	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+}
+
+void ShStretchDataForMoveCreator::visit(ShDimDiameter *dimDiameter) {
 
 	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
 }
@@ -899,6 +981,31 @@ void ShStretchPointRectFinder::visit(ShDimRadius *dimRadius) {
 	if (this->checkPointLiesInsideRect(data.dim) == true) {
 		insideCount++;
 		stretchPoint = StretchPoint::StretchDim;
+	}
+	if (this->checkPointLiesInsideRect(data.text) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchText;
+	}
+
+	if (insideCount > 1)
+		stretchPoint = StretchPoint::StretchMove;
+
+	*this->stretchData = new ShStretchLeafData(stretchPoint);
+}
+
+void ShStretchPointRectFinder::visit(ShDimDiameter *dimDiameter) {
+
+	int insideCount = 0;
+	StretchPoint stretchPoint = StretchPoint::StretchNothing;
+	ShDimDiameterData data = dimDiameter->getData();
+
+	if (this->checkPointLiesInsideRect(data.firstDim) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchFirstDim;
+	}
+	if (this->checkPointLiesInsideRect(data.secondDim) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchSecondDim;
 	}
 	if (this->checkPointLiesInsideRect(data.text) == true) {
 		insideCount++;

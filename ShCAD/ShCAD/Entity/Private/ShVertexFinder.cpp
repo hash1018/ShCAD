@@ -9,6 +9,7 @@
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
 #include "Entity\Composite\Dim\ShDimRadius.h"
+#include "Entity\Composite\Dim\ShDimDiameter.h"
 
 
 ShNearestVertexFinder::ShNearestVertexFinder(double x, double y, double zoomRate, VertexType &vertexType, ShPoint3d &vertexPoint, double tolerance)
@@ -287,6 +288,39 @@ void ShNearestVertexFinder::visit(ShDimRadius *dimRadius) {
 	}
 }
 
+void ShNearestVertexFinder::visit(ShDimDiameter *dimDiameter) {
+
+	ShDimDiameterData data = dimDiameter->getData();
+
+	if (this->isNear(this->x, this->y, data.center, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexCenter;
+		this->vertexPoint = data.center;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.firstDim, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexFirstDim;
+		this->vertexPoint = data.firstDim;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.secondDim, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexSecondDim;
+		this->vertexPoint = data.secondDim;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.text, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexText;
+		this->vertexPoint = data.text;
+		return;
+	}
+}
+
 bool ShNearestVertexFinder::isNear(int x, int y, const ShPoint3d &point, double zoomRate, double tolerance) {
 
 	if (x >= point.x - (tolerance / zoomRate) &&
@@ -533,6 +567,38 @@ void PointAndVertexTypeMathchedEntityFinder::visit(ShDimRadius *dimRadius) {
 	if ((this->vertexType & VertexType::VertexDim) == VertexType::VertexDim) {
 
 		if (this->mustMatchPoint == data.dim) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexText) == VertexType::VertexText) {
+
+		if (this->mustMatchPoint == data.text) {
+
+			this->matched = true;
+			return;
+		}
+	}
+
+	this->matched = false;
+}
+
+void PointAndVertexTypeMathchedEntityFinder::visit(ShDimDiameter *dimDiameter) {
+
+	ShDimDiameterData data = dimDiameter->getData();
+
+	if ((this->vertexType & VertexType::VertexFirstDim) == VertexType::VertexFirstDim) {
+
+		if (this->mustMatchPoint == data.firstDim) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexSecondDim) == VertexType::VertexSecondDim) {
+
+		if (this->mustMatchPoint == data.secondDim) {
 
 			this->matched = true;
 			return;

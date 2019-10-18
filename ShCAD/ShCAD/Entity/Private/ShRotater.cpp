@@ -9,6 +9,7 @@
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
 #include "Entity\Composite\Dim\ShDimRadius.h"
+#include "Entity\Composite\Dim\ShDimDiameter.h"
 
 ShRotater::ShRotater(const ShPoint3d &center, double angle)
 	:center(center), angle(angle) {
@@ -103,4 +104,16 @@ void ShRotater::visit(ShDimRadius *dimRadius) {
 	math::rotate(this->angle, this->center.x, this->center.y, data.text.x, data.text.y, data.text.x, data.text.y);
 
 	dimRadius->setData(data);
+}
+
+void ShRotater::visit(ShDimDiameter *dimDiameter) {
+
+	ShDimDiameterData data = dimDiameter->getData();
+
+	math::rotate(this->angle, this->center.x, this->center.y, data.center.x, data.center.y, data.center.x, data.center.y);
+	math::rotate(this->angle, this->center.x, this->center.y, data.firstDim.x, data.firstDim.y, data.firstDim.x, data.firstDim.y);
+	math::rotate(this->angle, this->center.x, this->center.y, data.secondDim.x, data.secondDim.y, data.secondDim.x, data.secondDim.y);
+	math::rotate(this->angle, this->center.x, this->center.y, data.text.x, data.text.y, data.text.x, data.text.y);
+
+	dimDiameter->setData(data);
 }

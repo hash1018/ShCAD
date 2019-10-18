@@ -13,6 +13,7 @@
 #include "Base\ShDimensionStyle.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
 #include "Entity\Composite\Dim\ShDimRadius.h"
+#include "Entity\Composite\Dim\ShDimDiameter.h"
 
 ShPloter::ShPloter(ShCADWidget *widget, QPainter *painter, double scale)
 	:widget(widget), painter(painter), scale(scale) {
@@ -197,6 +198,42 @@ void ShPloter::visit(ShDimRadius *dimRadius) {
 	double angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
 	this->plotText(this->painter, x, y, angle, QString("R") + QString::number(dimRadius->getRadius(), 'f', 4),
 		dimRadius->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color);
+}
+
+void ShPloter::visit(ShDimDiameter *dimDiameter) {
+
+	ShPloter visitor(this->widget, this->painter, this->scale);
+
+	auto itr = dimDiameter->begin();
+	for (itr; itr != dimDiameter->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDimDiameterData data = dimDiameter->getData();
+	QColor color;
+	this->getColor(dimDiameter, color);
+
+	int x, y, x2, y2, x3, y3;
+	ShPoint3d vertex, vertex2, vertex3;
+
+	dimDiameter->getFirstArrowPoints(vertex, vertex2, vertex3);
+	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
+	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
+	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
+	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
+
+	if (dimDiameter->isCenterToTextDistanceShorterThanRadius() == false) {
+	
+		dimDiameter->getSecondArrowPoints(vertex, vertex2, vertex3);
+		this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
+		this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
+		this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
+		this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
+	}
+
+	this->widget->convertEntityToDevice(data.text.x, data.text.y, x, y);
+	double angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	this->plotText(this->painter, x, y, angle, QString(QString::fromLocal8Bit("¤±")) + QString::number(dimDiameter->getDiameter(), 'f', 4),
+		dimDiameter->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color);
 }
 
 void ShPloter::getColor(ShEntity *entity, QColor &color) {

@@ -9,6 +9,7 @@
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
 #include "Entity\Composite\Dim\ShDimRadius.h"
+#include "Entity\Composite\Dim\ShDimDiameter.h"
 
 ShMirror::ShMirror(const ShPoint3d &center, double angle)
 	:center(center), angle(angle), original(nullptr) {
@@ -173,4 +174,25 @@ void ShMirror::visit(ShDimRadius *dimRadius) {
 	math::rotate((this->angle - angleText) * 2, this->center.x, this->center.y, data.text.x, data.text.y, data.text.x, data.text.y);
 
 	dimRadius->setData(data);
+}
+
+void ShMirror::visit(ShDimDiameter *dimDiameter) {
+
+	if (this->original == nullptr || !dynamic_cast<ShDimDiameter*>(this->original))
+		return;
+
+	ShDimDiameter *original = dynamic_cast<ShDimDiameter*>(this->original);
+	ShDimDiameterData data = original->getData();
+
+	double angleCenter = math::getAbsAngle(this->center.x, this->center.y, data.center.x, data.center.y);
+	double angleFirstDim = math::getAbsAngle(this->center.x, this->center.y, data.firstDim.x, data.firstDim.y);
+	double angleSecondDim = math::getAbsAngle(this->center.x, this->center.y, data.secondDim.x, data.secondDim.y);
+	double angleText = math::getAbsAngle(this->center.x, this->center.y, data.text.x, data.text.y);
+
+	math::rotate((this->angle - angleCenter) * 2, this->center.x, this->center.y, data.center.x, data.center.y, data.center.x, data.center.y);
+	math::rotate((this->angle - angleFirstDim) * 2, this->center.x, this->center.y, data.firstDim.x, data.firstDim.y, data.firstDim.x, data.firstDim.y);
+	math::rotate((this->angle - angleSecondDim) * 2, this->center.x, this->center.y, data.secondDim.x, data.secondDim.y, data.secondDim.x, data.secondDim.y);
+	math::rotate((this->angle - angleText) * 2, this->center.x, this->center.y, data.text.x, data.text.y, data.text.x, data.text.y);
+
+	dimDiameter->setData(data);
 }

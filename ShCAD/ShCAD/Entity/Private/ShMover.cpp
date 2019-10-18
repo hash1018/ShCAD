@@ -8,6 +8,7 @@
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
 #include "Entity\Composite\Dim\ShDimRadius.h"
+#include "Entity\Composite\Dim\ShDimDiameter.h"
 
 ShMover::ShMover(double disX, double disY)
 	:disX(disX), disY(disY) {
@@ -103,6 +104,18 @@ void ShMover::visit(ShDimRadius *dimRadius) {
 	dimRadius->setData(data);
 }
 
+void ShMover::visit(ShDimDiameter *dimDiameter) {
+
+	ShDimDiameterData data = dimDiameter->getData();
+
+	data.center.move(this->disX, this->disY);
+	data.firstDim.move(this->disX, this->disY);
+	data.secondDim.move(this->disX, this->disY);
+	data.text.move(this->disX, this->disY);
+
+	dimDiameter->setData(data);
+}
+
 ////////////////////////////////////////////////////////////////
 
 ShMoverByAxis::ShMoverByAxis(const ShScrollPosition &scroll, const ShPoint3d &prevCenter, const ShPoint3d &currentCenter, double zoomRate)
@@ -195,6 +208,18 @@ void ShMoverByAxis::visit(ShDimRadius *dimRadius) {
 	this->convert(data.text, data.text);
 
 	dimRadius->setData(data);
+}
+
+void ShMoverByAxis::visit(ShDimDiameter *dimDiameter) {
+
+	ShDimDiameterData data = dimDiameter->getData();
+
+	this->convert(data.center, data.center);
+	this->convert(data.firstDim, data.firstDim);
+	this->convert(data.secondDim, data.secondDim);
+	this->convert(data.text, data.text);
+
+	dimDiameter->setData(data);
 }
 
 void ShMoverByAxis::convert(const ShPoint3d &point, ShPoint3d &converted) {

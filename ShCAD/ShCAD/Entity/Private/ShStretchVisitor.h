@@ -24,8 +24,6 @@ enum StretchPoint {
 	StretchFirstDim,
 	StretchSecondDim,
 	StretchCenter,
-	StretchBoundary,
-	StretchBoundary2,
 	StretchText,
 	StretchDim,
 
@@ -82,6 +80,7 @@ public:
 	virtual void visit(ShDimLinear *dimLinear);
 	virtual void visit(ShDimAligned *dimAligned);
 	virtual void visit(ShDimRadius *dimRadius);
+	virtual void visit(ShDimDiameter *dimDiameter);
 
 public:
 	void setOriginal(ShEntity *original) { this->original = original; }
@@ -110,6 +109,7 @@ public:
 	virtual void visit(ShDimLinear *dimLinear);
 	virtual void visit(ShDimAligned *dimAligned);
 	virtual void visit(ShDimRadius *dimRadius);
+	virtual void visit(ShDimDiameter *dimDiameter);
 };
 
 /////////////////////////////////////////////////////////
@@ -131,6 +131,7 @@ public:
 	virtual void visit(ShDimLinear *dimLinear);
 	virtual void visit(ShDimAligned *dimAligned);
 	virtual void visit(ShDimRadius *dimRadius);
+	virtual void visit(ShDimDiameter *dimDiameter);
 
 };
 
@@ -155,6 +156,7 @@ public:
 	virtual void visit(ShDimLinear *dimLinear);
 	virtual void visit(ShDimAligned *dimAligned);
 	virtual void visit(ShDimRadius *dimRadius);
+	virtual void visit(ShDimDiameter *dimDiameter);
 
 private:
 	bool checkPointLiesInsideRect(const ShPoint3d &point);
