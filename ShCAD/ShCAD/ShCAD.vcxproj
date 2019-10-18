@@ -145,6 +145,7 @@
     <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAlignedAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimDiameterAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimRadiusAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawAction.cpp" />
@@ -486,6 +487,7 @@
     </CustomBuild>
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAlignedAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimDiameterAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimRadiusAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawAction.h" />

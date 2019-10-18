@@ -723,6 +723,11 @@ ShRibbonDimDiameterButtonStrategy::~ShRibbonDimDiameterButtonStrategy() {
 
 void ShRibbonDimDiameterButtonStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimDiameter);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonDimDiameterButtonStrategy::getIcon() {

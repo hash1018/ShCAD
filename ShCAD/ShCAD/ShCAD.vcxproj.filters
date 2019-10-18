@@ -691,6 +691,9 @@
     <ClCompile Include="Entity\Composite\Dim\ShDimDiameter.cpp">
       <Filter>Entity\Composite\Dim</Filter>
     </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimDiameterAction.cpp">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1198,6 +1201,9 @@
     </ClInclude>
     <ClInclude Include="Entity\Composite\Dim\ShDimDiameter.h">
       <Filter>Entity\Composite\Dim</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimDiameterAction.h">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

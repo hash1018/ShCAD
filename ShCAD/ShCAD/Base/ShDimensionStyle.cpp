@@ -240,6 +240,11 @@ void ShDimensionTextStyle::drawDimensionRadiusText(QPainter *painter, int dx, in
 	this->drawDimensionText(painter, dx, dy, angle, QString("R") + QString::number(radius, 'f', 4), color, zoomRate);
 }
 
+void ShDimensionTextStyle::drawDimensionDiameterText(QPainter *painter, int dx, int dy, double angle, double diameter, const QColor &color, double zoomRate) const {
+
+	this->drawDimensionText(painter, dx, dy, angle, QString(QString::fromLocal8Bit("¤±")) + QString::number(diameter, 'f', 4), color, zoomRate);
+}
+
 void ShDimensionTextStyle::drawDimensionText(QPainter *painter, int dx, int dy, double angle, const QString &text, const QColor &color, double zoomRate) const {
 
 	double textHeight = this->textHeight*zoomRate;

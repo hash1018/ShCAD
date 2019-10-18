@@ -10,6 +10,7 @@
 #include "Entity\Composite\Dim\ShDimLinear.h"
 #include "Entity\Composite\Dim\ShDimAligned.h"
 #include "Entity\Composite\Dim\ShDimRadius.h"
+#include "Entity\Composite\Dim\ShDimDiameter.h"
 
 ShFinder::ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity, double tolerance)
 	:x(x), y(y), zoomRate(zoomRate), foundEntity(foundEntity), tolerance(tolerance) {
@@ -131,6 +132,23 @@ void ShFinder::visit(ShDimRadius *dimRadius) {
 
 		if (foundEntity != nullptr) {
 			*this->foundEntity = dimRadius;
+			break;
+		}
+	}
+}
+
+void ShFinder::visit(ShDimDiameter *dimDiameter) {
+
+	ShEntity *foundEntity = nullptr;
+	ShFinder visitor(this->x, this->y, this->zoomRate, &foundEntity, this->tolerance);
+
+	auto itr = dimDiameter->begin();
+	for (itr; itr != dimDiameter->end(); ++itr) {
+
+		(*itr)->accept(&visitor);
+
+		if (foundEntity != nullptr) {
+			*this->foundEntity = dimDiameter;
 			break;
 		}
 	}
@@ -439,6 +457,43 @@ void ShRectFinder::visit(ShDimRadius *dimRadius) {
 
 			if (foundEntity != nullptr) {
 				*this->foundEntity = dimRadius;
+				return;
+			}
+		}
+	}
+}
+
+void ShRectFinder::visit(ShDimDiameter *dimDiameter) {
+
+	ShEntity *foundEntity = nullptr;
+	int count = 0;
+	ShRectFinder visitor(this->topLeft, this->bottomRight, &foundEntity, this->findMethod);
+	auto itr = dimDiameter->begin();
+
+	if (this->findMethod == FindMethod::AllPartLiesInsideRect) {
+
+		for (itr; itr != dimDiameter->end(); ++itr) {
+
+			(*itr)->accept(&visitor);
+
+			if (foundEntity != nullptr) {
+				count++;
+				foundEntity = nullptr;
+			}
+		}
+
+		if (count == dimDiameter->getSize())
+			*this->foundEntity = dimDiameter;
+
+	}
+	else {
+
+		for (itr; itr != dimDiameter->end(); ++itr) {
+
+			(*itr)->accept(&visitor);
+
+			if (foundEntity != nullptr) {
+				*this->foundEntity = dimDiameter;
 				return;
 			}
 		}
