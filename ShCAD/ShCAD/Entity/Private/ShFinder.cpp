@@ -12,6 +12,7 @@
 #include "Entity\Composite\Dim\ShDimRadius.h"
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
+#include "Entity\Composite\Dim\ShDimAngular.h"
 
 ShFinder::ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity, double tolerance)
 	:x(x), y(y), zoomRate(zoomRate), foundEntity(foundEntity), tolerance(tolerance) {
@@ -110,6 +111,11 @@ void ShFinder::visit(ShDimDiameter *dimDiameter) {
 void ShFinder::visit(ShDimArcLength *dimArcLength) {
 
 	this->visitDim(dimArcLength);
+}
+
+void ShFinder::visit(ShDimAngular *dimAngular) {
+
+	this->visitDim(dimAngular);
 }
 
 void ShFinder::visitDim(ShDim *dim) {
@@ -351,6 +357,11 @@ void ShRectFinder::visit(ShDimDiameter *dimDiameter) {
 void ShRectFinder::visit(ShDimArcLength *dimArcLength) {
 
 	this->visitDim(dimArcLength);
+}
+
+void ShRectFinder::visit(ShDimAngular *dimAngular) {
+
+	this->visitDim(dimAngular);
 }
 
 void ShRectFinder::visitDim(ShDim *dim) {

@@ -15,6 +15,7 @@
 #include "Entity\Composite\Dim\ShDimRadius.h"
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
+#include "Entity\Composite\Dim\ShDimAngular.h"
 
 ShPloter::ShPloter(ShCADWidget *widget, QPainter *painter, double scale)
 	:widget(widget), painter(painter), scale(scale) {
@@ -273,6 +274,41 @@ void ShPloter::visit(ShDimArcLength *dimArcLength) {
 
 }
 
+void ShPloter::visit(ShDimAngular *dimAngular) {
+
+	ShPloter visitor(this->widget, this->painter, this->scale);
+
+	auto itr = dimAngular->begin();
+	for (itr; itr != dimAngular->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDimAngularData data = dimAngular->getData();
+	QColor color;
+	this->getColor(dimAngular, color);
+
+	int x, y, x2, y2, x3, y3;
+	ShPoint3d vertex, vertex2, vertex3;
+
+	dimAngular->getFirstArrowPoints(vertex, vertex2, vertex3);
+	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
+	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
+	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
+	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
+
+
+	dimAngular->getSecondArrowPoints(vertex, vertex2, vertex3);
+	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
+	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
+	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
+	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
+
+
+	this->widget->convertEntityToDevice(data.text.x, data.text.y, x, y);
+	double angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	this->plotText(this->painter, x, y, angle - 90, QString::number(dimAngular->getAngle(), 'f', 4) + QString(QString::fromLocal8Bit("вк")),
+		dimAngular->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color);
+
+}
 void ShPloter::getColor(ShEntity *entity, QColor &color) {
 
 	ShPropertyData propertyData = entity->getPropertyData();

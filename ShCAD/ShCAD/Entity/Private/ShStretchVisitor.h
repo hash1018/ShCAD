@@ -83,6 +83,7 @@ public:
 	virtual void visit(ShDimRadius *dimRadius);
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
+	virtual void visit(ShDimAngular *dimAngular);
 
 public:
 	void setOriginal(ShEntity *original) { this->original = original; }
@@ -113,6 +114,7 @@ public:
 	virtual void visit(ShDimRadius *dimRadius);
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
+	virtual void visit(ShDimAngular *dimAngular);
 };
 
 /////////////////////////////////////////////////////////
@@ -136,6 +138,7 @@ public:
 	virtual void visit(ShDimRadius *dimRadius);
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
+	virtual void visit(ShDimAngular *dimAngular);
 
 };
 
@@ -162,6 +165,7 @@ public:
 	virtual void visit(ShDimRadius *dimRadius);
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
+	virtual void visit(ShDimAngular *dimAngular);
 
 private:
 	bool checkPointLiesInsideRect(const ShPoint3d &point);

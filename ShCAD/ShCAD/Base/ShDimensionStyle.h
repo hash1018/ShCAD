@@ -129,6 +129,7 @@ public:
 	void drawDimensionRadiusText(QPainter *painter, int dx, int dy, double angle, double radius, const QColor &color, double zoomRate) const;
 	void drawDimensionDiameterText(QPainter *painter, int dx, int dy, double angle, double diameter, const QColor &color, double zoomRate) const;
 	void drawDimensionArcLengthText(QPainter *painter, int dx, int dy, double angle, double arcLength, const QColor &color, double zoomRate) const;
+	void drawDimensionAngleText(QPainter *painter, int dx, int dy, double angle, double arcLength, const QColor &color, double zoomRate) const;
 
 public:
 	void setTextHeight(double textHeight) { this->textHeight = textHeight; }

@@ -32,6 +32,7 @@ public:
 	virtual void visit(ShDimRadius *dimRadius);
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
+	virtual void visit(ShDimAngular *dimAngular);
 
 private:
 	void visitDim(ShDim *dim);
@@ -68,6 +69,7 @@ public:
 	virtual void visit(ShDimRadius *dimRadius);
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
+	virtual void visit(ShDimAngular *dimAngular);
 
 private:
 	void visitDim(ShDim *dim);

@@ -49,6 +49,9 @@ void ShDimensionToolBar::dimAlignedActionClicked() {
 
 void ShDimensionToolBar::dimAngularActionClicked() {
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimAngular);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }
 
 void ShDimensionToolBar::dimRadiusActionClicked() {

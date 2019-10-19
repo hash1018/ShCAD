@@ -88,6 +88,8 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 		text = " _DimDiameter"; break;
 	case ActionType::ActionDrawDimArcLength:
 		text = " _DimArcLength"; break;
+	case ActionType::ActionDrawDimAngular:
+		text = " _DimAngular"; break;
 
 	case ActionType::ActionDrawPoint:
 		text = " _Point"; break;

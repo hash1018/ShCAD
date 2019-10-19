@@ -327,6 +327,11 @@ void ShDimensionTextStyle::drawDimensionArcLengthText(QPainter *painter, int dx,
 	this->drawDimensionText(painter, dx, dy, angle, QString(QString::fromLocal8Bit("б√")) + QString::number(arcLength, 'f', 4), color, zoomRate);
 }
 
+void ShDimensionTextStyle::drawDimensionAngleText(QPainter *painter, int dx, int dy, double angle, double arcLength, const QColor &color, double zoomRate) const {
+
+	this->drawDimensionText(painter, dx, dy, angle, QString::number(arcLength, 'f', 4) + QString::fromLocal8Bit("вк"), color, zoomRate);
+}
+
 void ShDimensionTextStyle::drawDimensionText(QPainter *painter, int dx, int dy, double angle, const QString &text, const QColor &color, double zoomRate) const {
 
 	double textHeight = this->textHeight*zoomRate;

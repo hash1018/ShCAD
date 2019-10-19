@@ -700,6 +700,12 @@
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimArcLengthAction.cpp">
       <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Composite\Dim\ShDimAngular.cpp">
+      <Filter>Entity\Composite\Dim</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAngularAction.cpp">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1215,6 +1221,12 @@
       <Filter>Entity\Composite\Dim</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimArcLengthAction.h">
+      <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Composite\Dim\ShDimAngular.h">
+      <Filter>Entity\Composite\Dim</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAngularAction.h">
       <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClInclude>
   </ItemGroup>

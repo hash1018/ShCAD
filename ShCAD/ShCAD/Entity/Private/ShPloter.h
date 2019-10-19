@@ -33,6 +33,7 @@ public:
 	virtual void visit(ShDimRadius *dimRadius);
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
+	virtual void visit(ShDimAngular *dimAngular);
 
 
 private:

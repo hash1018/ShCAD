@@ -11,6 +11,7 @@
 #include "Entity\Composite\Dim\ShDimRadius.h"
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
+#include "Entity\Composite\Dim\ShDimAngular.h"
 
 ShStretchData::ShStretchData() {
 
@@ -644,6 +645,128 @@ void ShStretchVisitor::visit(ShDimArcLength *dimArcLength) {
 	}
 }
 
+void ShStretchVisitor::visit(ShDimAngular *dimAngular) {
+
+	if (this->original == nullptr || !dynamic_cast<ShDimAngular*>(this->original))
+		return;
+
+	if (!dynamic_cast<ShStretchLeafData*>(this->stretchData))
+		return;
+
+	ShStretchLeafData *stretchData = dynamic_cast<ShStretchLeafData*>(this->stretchData);
+
+	ShDimAngular *original = dynamic_cast<ShDimAngular*>(this->original);
+	ShDimAngularData data = original->getData();
+
+	if (stretchData->stretchPoint == StretchPoint::StretchCenter) {
+	
+		data.center = this->current;
+		double arcRadius = math::getDistance(data.center.x, data.center.y, data.boundary.x, data.boundary.y);
+		double startAngle = math::getAbsAngle(data.center.x, data.center.y, data.start.x, data.start.y);
+		double endAngle = math::getAbsAngle(data.center.x, data.center.y, data.end.x, data.end.y);
+		double boundaryAngle = math::getAbsAngle(data.center.x, data.center.y, data.boundary.x, data.boundary.y);
+		
+		if (math::checkAngleLiesOnAngleBetween(startAngle, endAngle, boundaryAngle) == false) {
+
+			math::swap(data.start, data.end);
+			math::swap(startAngle, endAngle);
+		}
+
+		double angleDifference = math::getAngleDifference(startAngle, endAngle);
+
+		math::rotate(startAngle + (angleDifference / 2.0), data.center.x, data.center.y,
+			data.center.x + arcRadius, data.center.y, data.text.x, data.text.y);
+
+		dimAngular->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchBoundary) {
+
+		data.boundary = this->current;
+
+		double startAngle = original->getStartAngle();
+		double endAngle = original->getEndAngle();
+		double angle = math::getAbsAngle(data.center.x, data.center.y, data.boundary.x, data.boundary.y);
+
+		if (math::checkAngleLiesOnAngleBetween(startAngle, endAngle, angle) == false) {
+
+			math::swap(data.start, data.end);
+			math::swap(startAngle, endAngle);
+		}
+
+		double distance = math::getDistance(data.center.x, data.center.y, data.boundary.x, data.boundary.y);
+		double angleDifference = math::getAngleDifference(startAngle, endAngle);
+
+		math::rotate(startAngle + (angleDifference / 2.0), data.center.x, data.center.y, data.center.x + distance, data.center.y, data.text.x, data.text.y);
+
+		dimAngular->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchText) {
+
+		data.text = this->current;
+
+		double angleCenterToBoundary = math::getAbsAngle(data.center.x, data.center.y, data.boundary.x, data.boundary.y);
+		double disCenterToText = math::getDistance(data.center.x, data.center.y, data.text.x, data.text.y);
+		math::rotate(angleCenterToBoundary, data.center.x, data.center.y, data.center.x + disCenterToText, data.center.y, data.boundary.x, data.boundary.y);
+
+		dimAngular->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchStart) {
+
+		data.start = this->current;
+		double startAngle = math::getAbsAngle(data.center.x, data.center.y, data.start.x, data.start.y);
+		double endAngle = original->getEndAngle();
+		double angle = math::getAbsAngle(data.center.x, data.center.y, data.boundary.x, data.boundary.y);
+
+		if (math::checkAngleLiesOnAngleBetween(startAngle, endAngle, angle) == false) {
+
+			math::swap(data.start, data.end);
+			math::swap(startAngle, endAngle);
+		}
+
+		double angleDifference = math::getAngleDifference(startAngle, endAngle);
+
+		math::rotate(startAngle + (angleDifference / 2.0), data.center.x, data.center.y,
+			data.center.x + original->getArcRadius(), data.center.y, data.text.x, data.text.y);
+		math::rotate(startAngle + (angleDifference / 3.0), data.center.x, data.center.y,
+			data.center.x + original->getArcRadius(), data.center.y, data.boundary.x, data.boundary.y);
+		dimAngular->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchEnd) {
+
+		data.end = this->current;
+		double startAngle = original->getStartAngle();
+		double endAngle = math::getAbsAngle(data.center.x, data.center.y, data.end.x, data.end.y);
+		double angle = math::getAbsAngle(data.center.x, data.center.y, data.boundary.x, data.boundary.y);
+
+		if (math::checkAngleLiesOnAngleBetween(startAngle, endAngle, angle) == false) {
+
+			math::swap(data.start, data.end);
+			math::swap(startAngle, endAngle);
+		}
+
+		double angleDifference = math::getAngleDifference(startAngle, endAngle);
+
+		math::rotate(startAngle + (angleDifference / 2.0), data.center.x, data.center.y,
+			data.center.x + original->getArcRadius(), data.center.y, data.text.x, data.text.y);
+		math::rotate(startAngle + (angleDifference / 3.0), data.center.x, data.center.y,
+			data.center.x + original->getArcRadius(), data.center.y, data.boundary.x, data.boundary.y);
+		dimAngular->setData(data);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchMove) {
+
+		double disX = this->current.x - this->base.x;
+		double disY = this->current.y - this->base.y;
+
+		data.center.move(disX, disY);
+		data.start.move(disX, disY);
+		data.end.move(disX, disY);
+		data.text.move(disX, disY);
+		data.boundary.move(disX, disY);
+
+		dimAngular->setData(data);
+	}
+}
+
 ///////////////////////////////////////////////////
 
 ShPossibleEntityToStretchFinder::ShPossibleEntityToStretchFinder(const ShPoint3d &point, bool &possible, ShStretchData* *stretchData)
@@ -881,6 +1004,32 @@ void ShPossibleEntityToStretchFinder::visit(ShDimArcLength *dimArcLength) {
 	}
 }
 
+void ShPossibleEntityToStretchFinder::visit(ShDimAngular *dimAngular) {
+
+	ShDimAngularData data = dimAngular->getData();
+
+	if (this->point.isEqual(data.center) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchCenter);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(data.start) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchStart);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(data.end) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchEnd);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(data.text) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchText);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(data.boundary) == true) {
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchBoundary);
+		this->possible = true;
+	}
+}
+
 ////////////////////////////////////////////////////////////////
 
 
@@ -939,6 +1088,11 @@ void ShStretchDataForMoveCreator::visit(ShDimDiameter *dimDiameter) {
 }
 
 void ShStretchDataForMoveCreator::visit(ShDimArcLength *dimArcLength) {
+
+	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+}
+
+void ShStretchDataForMoveCreator::visit(ShDimAngular *dimAngular) {
 
 	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
 }
@@ -1153,6 +1307,39 @@ void ShStretchPointRectFinder::visit(ShDimArcLength *dimArcLength) {
 	StretchPoint stretchPoint = StretchPoint::StretchNothing;
 	ShDimArcLengthData data = dimArcLength->getData();
 
+	if (this->checkPointLiesInsideRect(data.start) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchStart;
+	}
+	if (this->checkPointLiesInsideRect(data.end) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchEnd;
+	}
+	if (this->checkPointLiesInsideRect(data.text) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchText;
+	}
+	if (this->checkPointLiesInsideRect(data.boundary) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchBoundary;
+	}
+
+	if (insideCount > 1)
+		stretchPoint = StretchPoint::StretchMove;
+
+	*this->stretchData = new ShStretchLeafData(stretchPoint);
+}
+
+void ShStretchPointRectFinder::visit(ShDimAngular *dimAngular) {
+
+	int insideCount = 0;
+	StretchPoint stretchPoint = StretchPoint::StretchNothing;
+	ShDimAngularData data = dimAngular->getData();
+
+	if (this->checkPointLiesInsideRect(data.center) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchCenter;
+	}
 	if (this->checkPointLiesInsideRect(data.start) == true) {
 		insideCount++;
 		stretchPoint = StretchPoint::StretchStart;

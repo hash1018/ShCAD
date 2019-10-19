@@ -10,6 +10,7 @@
 #include "Entity\Composite\Dim\ShDimRadius.h"
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
+#include "Entity\Composite\Dim\ShDimAngular.h"
 
 ShMover::ShMover(double disX, double disY)
 	:disX(disX), disY(disY) {
@@ -130,6 +131,18 @@ void ShMover::visit(ShDimArcLength *dimArcLength) {
 	dimArcLength->setData(data);
 }
 
+void ShMover::visit(ShDimAngular *dimAngular) {
+
+	ShDimAngularData data = dimAngular->getData();
+
+	data.center.move(this->disX, this->disY);
+	data.start.move(this->disX, this->disY);
+	data.end.move(this->disX, this->disY);
+	data.text.move(this->disX, this->disY);
+	data.boundary.move(this->disX, this->disY);
+
+	dimAngular->setData(data);
+}
 ////////////////////////////////////////////////////////////////
 
 ShMoverByAxis::ShMoverByAxis(const ShScrollPosition &scroll, const ShPoint3d &prevCenter, const ShPoint3d &currentCenter, double zoomRate)
@@ -247,6 +260,19 @@ void ShMoverByAxis::visit(ShDimArcLength *dimArcLength) {
 	this->convert(data.boundary, data.boundary);
 
 	dimArcLength->setData(data);
+}
+
+void ShMoverByAxis::visit(ShDimAngular *dimAngular) {
+
+	ShDimAngularData data = dimAngular->getData();
+
+	this->convert(data.center, data.center);
+	this->convert(data.start, data.start);
+	this->convert(data.end, data.end);
+	this->convert(data.text, data.text);
+	this->convert(data.boundary, data.boundary);
+
+	dimAngular->setData(data);
 }
 
 void ShMoverByAxis::convert(const ShPoint3d &point, ShPoint3d &converted) {

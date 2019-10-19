@@ -14,6 +14,7 @@
 #include "Entity\Composite\Dim\ShDimRadius.h"
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
+#include "Entity\Composite\Dim\ShDimAngular.h"
 #include <qpainter.h>
 #include "Data\ShScrollPosition.h"
 #include "Interface\Private\ShAxis.h"
@@ -540,6 +541,36 @@ void ShDrawerUnSelectedEntity::visit(ShDimArcLength *dimArcLength) {
 		dx, dy, angle - 90, dimArcLength->getArcLength(), qColor, this->widget->getZoomRate());
 }
 
+void ShDrawerUnSelectedEntity::visit(ShDimAngular *dimAngular) {
+
+	ShDrawerUnSelectedEntity visitor(this->widget, this->painter);
+
+	auto itr = dimAngular->begin();
+
+	for (itr; itr != dimAngular->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDrawerFunctions f(this->widget);
+	ShDimAngularData data = dimAngular->getData();
+	ShPropertyData propertyData = dimAngular->getPropertyData();
+	GLColor color(propertyData.getColor().getRed() / 255., propertyData.getColor().getGreen() / 255.,
+		propertyData.getColor().getBlue() / 255.);
+
+	dimAngular->getDimensionStyle()->getDimensionArrowStyle().drawArcArrow(f, data.center, dimAngular->getArcRadius(),
+		dimAngular->getArcStart(), dimAngular->getArcEnd(), color);
+
+	int dx, dy;
+	f.convertEntityToDevice(data.text.x, data.text.y, dx, dy);
+	double angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	QColor qColor(propertyData.getColor().getRed(), propertyData.getColor().getGreen(), propertyData.getColor().getBlue());
+
+	if (this->painter->isActive() == false)
+		this->painter->begin(this->widget);
+
+	dimAngular->getDimensionStyle()->getDimensionTextStyle().drawDimensionAngleText(this->painter,
+		dx, dy, angle - 90, dimAngular->getAngle(), qColor, this->widget->getZoomRate());
+}
+
 ///////////////////////////////////////////////////////////////
 
 ShDrawerSelectedEntity::ShDrawerSelectedEntity(ShCADWidget *widget, QPainter *painter)
@@ -843,6 +874,43 @@ void ShDrawerSelectedEntityVertex::visit(ShDimArcLength *dimArcLength) {
 	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
 }
 
+void ShDrawerSelectedEntityVertex::visit(ShDimAngular *dimAngular) {
+
+	ShDrawerSelectedEntityNoVertex visitor(this->widget, this->painter);
+	dimAngular->accept(&visitor);
+
+	ShDrawerFunctions f(this->widget);
+	ShDimAngularData data = dimAngular->getData();
+
+	int x, y;
+	GLPoint topLeft, bottomRight;
+
+	f.convertEntityToDevice(data.center.x, data.center.y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertEntityToDevice(data.start.x, data.start.y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertEntityToDevice(data.end.x, data.end.y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertEntityToDevice(data.boundary.x, data.boundary.y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+
+	f.convertEntityToDevice(data.text.x, data.text.y, x, y);
+	f.convertDeviceToOpenGL(x - 3, y - 3, topLeft.x, topLeft.y);
+	f.convertDeviceToOpenGL(x + 3, y + 3, bottomRight.x, bottomRight.y);
+	f.drawFilledRect(topLeft, bottomRight, GLColor(0.0, 153.0 / 255, 1.0));
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 ShDrawerSelectedEntityNoVertex::ShDrawerSelectedEntityNoVertex(ShCADWidget *widget, QPainter *painter)
@@ -1098,6 +1166,37 @@ void ShDrawerSelectedEntityNoVertex::visit(ShDimArcLength *dimArcLength) {
 		dx, dy, angle - 90, dimArcLength->getArcLength(), qColor, this->widget->getZoomRate());
 }
 
+void ShDrawerSelectedEntityNoVertex::visit(ShDimAngular *dimAngular) {
+
+	ShDrawerSelectedEntityNoVertex visitor(this->widget, this->painter);
+
+	auto itr = dimAngular->begin();
+	for (itr; itr != dimAngular->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDrawerFunctions f(this->widget);
+	ShDimAngularData data = dimAngular->getData();
+
+	GLColor color(153.f / 255, 153.f / 155, 1.f);
+
+	glLineStipple(1, 0xF1F1);
+	glEnable(GL_LINE_STIPPLE);
+	dimAngular->getDimensionStyle()->getDimensionArrowStyle().drawArcArrow(f, data.center, dimAngular->getArcRadius(),
+		dimAngular->getArcStart(), dimAngular->getArcEnd(), color);
+	glDisable(GL_LINE_STIPPLE);
+
+	int dx, dy;
+	f.convertEntityToDevice(data.text.x, data.text.y, dx, dy);
+	double angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	QColor qColor(153, 153, 155);
+
+	if (this->painter->isActive() == false)
+		this->painter->begin(this->widget);
+
+	dimAngular->getDimensionStyle()->getDimensionTextStyle().drawDimensionAngleText(this->painter,
+		dx, dy, angle - 90, dimAngular->getAngle(), qColor, this->widget->getZoomRate());
+}
+
 //////////////////////////////////////////////////////////////////////
 
 ShDrawerEraseBackGround::ShDrawerEraseBackGround(ShCADWidget *widget, QPainter *painter)
@@ -1318,6 +1417,33 @@ void ShDrawerEraseBackGround::visit(ShDimArcLength *dimArcLength) {
 		dx, dy, angle - 90, dimArcLength->getArcLength(), qColor, this->widget->getZoomRate());
 }
 
+void ShDrawerEraseBackGround::visit(ShDimAngular *dimAngular) {
+
+	ShDrawerEraseBackGround visitor(this->widget, this->painter);
+
+	auto itr = dimAngular->begin();
+	for (itr; itr != dimAngular->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDrawerFunctions f(this->widget);
+	ShDimAngularData data = dimAngular->getData();
+
+	GLColor color(0, 0, 0);
+
+	dimAngular->getDimensionStyle()->getDimensionArrowStyle().drawArcArrow(f, data.center, dimAngular->getArcRadius(),
+		dimAngular->getArcStart(), dimAngular->getArcEnd(), color);
+
+	int dx, dy;
+	f.convertEntityToDevice(data.text.x, data.text.y, dx, dy);
+	double angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	QColor qColor(0, 0, 0);
+
+	if (this->painter->isActive() == false)
+		this->painter->begin(this->widget);
+
+	dimAngular->getDimensionStyle()->getDimensionTextStyle().drawDimensionAngleText(this->painter,
+		dx, dy, angle - 90, dimAngular->getAngle(), qColor, this->widget->getZoomRate());
+}
 //////////////////////////////////////////////////////////////////////////
 
 

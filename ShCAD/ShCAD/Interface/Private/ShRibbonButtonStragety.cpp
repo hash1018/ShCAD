@@ -759,6 +759,11 @@ ShRibbonDimAngularButtonStrategy::~ShRibbonDimAngularButtonStrategy() {
 
 void ShRibbonDimAngularButtonStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimAngular);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonDimAngularButtonStrategy::getIcon() {

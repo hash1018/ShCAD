@@ -157,4 +157,23 @@ public:
 	
 };
 
+class ShDimAngularData : public ShEntityData {
+
+public:
+	ShPoint3d center;
+	ShPoint3d start;
+	ShPoint3d end;
+	ShPoint3d text;
+	ShPoint3d boundary;
+
+public:
+	ShDimAngularData();
+	ShDimAngularData(const ShPoint3d &center, const ShPoint3d &start, const ShPoint3d &end, const ShPoint3d &boundary, const ShPoint3d &text);
+	ShDimAngularData(const ShDimAngularData &other);
+	~ShDimAngularData();
+
+	ShDimAngularData& operator=(const ShDimAngularData &other);
+
+};
+
 #endif //_SHENTITYDATA_H

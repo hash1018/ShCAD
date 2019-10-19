@@ -145,6 +145,7 @@
     <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAlignedAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAngularAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimArcLengthAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimDiameterAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.cpp" />
@@ -209,6 +210,7 @@
     <ClCompile Include="Data\ShScrollPosition.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDim.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDimAligned.cpp" />
+    <ClCompile Include="Entity\Composite\Dim\ShDimAngular.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDimArcLength.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDimDiameter.cpp" />
     <ClCompile Include="Entity\Composite\Dim\ShDimLinear.cpp" />
@@ -489,6 +491,7 @@
     </CustomBuild>
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAlignedAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAngularAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimArcLengthAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimDiameterAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.h" />
@@ -558,6 +561,7 @@
     <ClInclude Include="Data\ShScrollPosition.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDim.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDimAligned.h" />
+    <ClInclude Include="Entity\Composite\Dim\ShDimAngular.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDimArcLength.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDimDiameter.h" />
     <ClInclude Include="Entity\Composite\Dim\ShDimLinear.h" />

@@ -15,6 +15,7 @@ class ShDimAligned;
 class ShDimRadius;
 class ShDimDiameter;
 class ShDimArcLength;
+class ShDimAngular;
 
 class ShVisitor {
 
@@ -33,6 +34,7 @@ public:
 	virtual void visit(ShDimRadius *dimRadius) {}
 	virtual void visit(ShDimDiameter *dimDiameter) {}
 	virtual void visit(ShDimArcLength *dimArcLength) {}
+	virtual void visit(ShDimAngular *dimAngular) {}
 
 
 };
