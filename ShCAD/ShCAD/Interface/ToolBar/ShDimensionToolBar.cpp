@@ -67,4 +67,7 @@ void ShDimensionToolBar::dimDiameterActionClicked() {
 
 void ShDimensionToolBar::dimArcLengthActionClicked() {
 
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimArcLength);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
 }

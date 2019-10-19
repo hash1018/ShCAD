@@ -116,6 +116,11 @@ void ShDrawDimDiameterAction::trigger(const ShPoint3d &point) {
 				this->widget->getPreview().add(new ShDimDiameter(data, this->widget->getPropertyData(), this->widget->getCurrentLayer(),
 					this->widget->getCurrentDimensionStyle()));
 
+				this->availableCommands->add(CommandType::AbsoluteCoordinate);
+				this->availableCommands->add(CommandType::RelativeCoordinate);
+				this->availableCommands->add(CommandType::PolarCoordinate);
+				this->availableCommands->add(CommandType::DistanceFromBase);
+
 				this->widget->setCursor(this->getCursorShape());
 				this->triggerSucceeded();
 			}
@@ -130,6 +135,11 @@ void ShDrawDimDiameterAction::trigger(const ShPoint3d &point) {
 				this->getDimDiameterData(this->center, this->radius, point, data);
 				this->widget->getPreview().add(new ShDimDiameter(data, this->widget->getPropertyData(), this->widget->getCurrentLayer(),
 					this->widget->getCurrentDimensionStyle()));
+
+				this->availableCommands->add(CommandType::AbsoluteCoordinate);
+				this->availableCommands->add(CommandType::RelativeCoordinate);
+				this->availableCommands->add(CommandType::PolarCoordinate);
+				this->availableCommands->add(CommandType::DistanceFromBase);
 
 				this->widget->setCursor(this->getCursorShape());
 				this->triggerSucceeded();

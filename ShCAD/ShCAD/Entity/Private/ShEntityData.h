@@ -137,4 +137,24 @@ public:
 	ShDimDiameterData& operator=(const ShDimDiameterData &other);
 };
 
+class ShDimArcLengthData : public ShEntityData {
+
+public:
+	ShPoint3d center;
+	double radius;
+	ShPoint3d start;
+	ShPoint3d end;
+	ShPoint3d text;
+	ShPoint3d boundary;
+
+public:
+	ShDimArcLengthData();
+	ShDimArcLengthData(const ShPoint3d &center, double radius, const ShPoint3d &start, const ShPoint3d &end, const ShPoint3d &boundary, const ShPoint3d &text);
+	ShDimArcLengthData(const ShDimArcLengthData &other);
+	~ShDimArcLengthData();
+
+	ShDimArcLengthData& operator=(const ShDimArcLengthData &other);
+	
+};
+
 #endif //_SHENTITYDATA_H

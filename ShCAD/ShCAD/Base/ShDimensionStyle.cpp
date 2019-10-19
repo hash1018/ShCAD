@@ -148,6 +148,33 @@ void ShDimensionArrowStyle::drawArrow(ShDrawerFunctions &drawerFunctions, const 
 	
 }
 
+void ShDimensionArrowStyle::drawArcArrow(ShDrawerFunctions &drawerFunctions, const ShPoint3d &center, double radius,
+	const ShPoint3d &start, const ShPoint3d &end, const GLColor &color) const {
+
+	ShPoint3d vertex1, vertex2, vertex3, vertex4, vertex5, vertex6;
+	GLPoint first1, first2, first3, second1, second2, second3;
+
+	this->getFirstArcArrowPoints(center, radius, start, end, vertex1, vertex2, vertex3);
+	this->getSecondArcArrowPoints(center, radius, start, end, vertex4, vertex5, vertex6);
+
+	drawerFunctions.convertEntityToOpenGL(vertex1.x, vertex1.y, first1.x, first1.y);
+	drawerFunctions.convertEntityToOpenGL(vertex2.x, vertex2.y, first2.x, first2.y);
+	drawerFunctions.convertEntityToOpenGL(vertex3.x, vertex3.y, first3.x, first3.y);
+	drawerFunctions.convertEntityToOpenGL(vertex4.x, vertex4.y, second1.x, second1.y);
+	drawerFunctions.convertEntityToOpenGL(vertex5.x, vertex5.y, second2.x, second2.y);
+	drawerFunctions.convertEntityToOpenGL(vertex6.x, vertex6.y, second3.x, second3.y);
+
+	if (this->first == Arrowheads::ClosedFilled) {
+		drawerFunctions.drawFilledTriangle(first1, first2, first3, color);
+		drawerFunctions.drawFilledTriangle(second1, second2, second3, color);
+	}
+
+	else if (this->first == Arrowheads::ClosedBlank) {
+		drawerFunctions.drawTriangle(first1, first2, first3, color);
+		drawerFunctions.drawTriangle(second1, second2, second3, color);
+	}
+}
+
 
 void ShDimensionArrowStyle::getFirstLineArrowPoints(const ShPoint3d &start, const ShPoint3d &end, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const {
 
@@ -156,7 +183,7 @@ void ShDimensionArrowStyle::getFirstLineArrowPoints(const ShPoint3d &start, cons
 	double arrowHeight = this->arrowSize;
 	double arrowBaseSize = arrowSize*0.4;
 
-	if (arrowSize * 2 > distance) {
+	if (this->arrowSize * 2 > distance) {
 
 		math::rotate(angle, start.x, start.y, start.x, start.y, vertex.x, vertex.y);
 		math::rotate(angle, start.x, start.y, start.x - arrowHeight, start.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
@@ -177,7 +204,7 @@ void ShDimensionArrowStyle::getSecondLineArrowPoints(const ShPoint3d &start, con
 	double arrowHeight = this->arrowSize;
 	double arrowBaseSize = arrowSize*0.4;
 
-	if (arrowSize * 2 > distance) {
+	if (this->arrowSize * 2 > distance) {
 
 		math::rotate(angle, end.x, end.y, end.x, end.y, vertex.x, vertex.y);
 		math::rotate(angle, end.x, end.y, end.x + arrowHeight, end.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
@@ -199,6 +226,56 @@ void ShDimensionArrowStyle::getArrowPoints(const ShPoint3d &point, double angle,
 	math::rotate(angle, point.x, point.y, point.x, point.y, vertex.x, vertex.y);
 	math::rotate(angle, point.x, point.y, point.x + arrowHeight, point.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
 	math::rotate(angle, point.x, point.y, point.x + arrowHeight, point.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
+}
+
+void ShDimensionArrowStyle::getFirstArcArrowPoints(const ShPoint3d &center, double radius, const ShPoint3d &start, const ShPoint3d &end,
+	ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const {
+
+	double startAngle = math::getAbsAngle(center.x, center.y, start.x, start.y);
+	double endAngle = math::getAbsAngle(center.x, center.y, end.x, end.y);
+	double angleDifference = math::getAngleDifference(startAngle, endAngle);
+
+	double arcLength = (2 * 3.1415926535897*radius)*(angleDifference / 360);
+	double arrowHeight = this->arrowSize;
+	double arrowBaseSize = this->arrowSize * 0.4;
+
+	if (this->arrowSize * 2 > arcLength) {
+	
+		math::rotate(startAngle + 90, start.x, start.y, start.x, start.y, vertex.x, vertex.y);
+		math::rotate(startAngle + 90, start.x, start.y, start.x - arrowHeight, start.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
+		math::rotate(startAngle + 90, start.x, start.y, start.x - arrowHeight, start.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
+	}
+	else {
+
+		math::rotate(startAngle + 90, start.x, start.y, start.x, start.y, vertex.x, vertex.y);
+		math::rotate(startAngle + 90, start.x, start.y, start.x + arrowHeight, start.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
+		math::rotate(startAngle + 90, start.x, start.y, start.x + arrowHeight, start.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
+	}
+}
+
+void ShDimensionArrowStyle::getSecondArcArrowPoints(const ShPoint3d &center, double radius, const ShPoint3d &start, const ShPoint3d &end,
+	ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const {
+
+	double startAngle = math::getAbsAngle(center.x, center.y, start.x, start.y);
+	double endAngle = math::getAbsAngle(center.x, center.y, end.x, end.y);
+	double angleDifference = math::getAngleDifference(startAngle, endAngle);
+
+	double arcLength = (2 * 3.1415926535897*radius)*(angleDifference / 360);
+	double arrowHeight = this->arrowSize;
+	double arrowBaseSize = this->arrowSize * 0.4;
+
+	if (this->arrowSize * 2 > arcLength) {
+	
+		math::rotate(endAngle + 90, end.x, end.y, end.x, end.y, vertex.x, vertex.y);
+		math::rotate(endAngle + 90, end.x, end.y, end.x + arrowHeight, end.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
+		math::rotate(endAngle + 90, end.x, end.y, end.x + arrowHeight, end.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
+	}
+	else {
+	
+		math::rotate(endAngle + 90, end.x, end.y, end.x, end.y, vertex.x, vertex.y);
+		math::rotate(endAngle + 90, end.x, end.y, end.x - arrowHeight, end.y + arrowBaseSize / 2.0, vertex2.x, vertex2.y);
+		math::rotate(endAngle + 90, end.x, end.y, end.x - arrowHeight, end.y - arrowBaseSize / 2.0, vertex3.x, vertex3.y);
+	}
 }
 
 /////////////////////////////////////////////////////////////////
@@ -243,6 +320,11 @@ void ShDimensionTextStyle::drawDimensionRadiusText(QPainter *painter, int dx, in
 void ShDimensionTextStyle::drawDimensionDiameterText(QPainter *painter, int dx, int dy, double angle, double diameter, const QColor &color, double zoomRate) const {
 
 	this->drawDimensionText(painter, dx, dy, angle, QString(QString::fromLocal8Bit("¤±")) + QString::number(diameter, 'f', 4), color, zoomRate);
+}
+
+void ShDimensionTextStyle::drawDimensionArcLengthText(QPainter *painter, int dx, int dy, double angle, double arcLength, const QColor &color, double zoomRate) const {
+
+	this->drawDimensionText(painter, dx, dy, angle, QString(QString::fromLocal8Bit("¡û")) + QString::number(arcLength, 'f', 4), color, zoomRate);
 }
 
 void ShDimensionTextStyle::drawDimensionText(QPainter *painter, int dx, int dy, double angle, const QString &text, const QColor &color, double zoomRate) const {

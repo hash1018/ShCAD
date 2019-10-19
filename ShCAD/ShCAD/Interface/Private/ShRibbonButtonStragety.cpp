@@ -790,6 +790,11 @@ ShRibbonDimArcLengthButtonStrategy::~ShRibbonDimArcLengthButtonStrategy() {
 
 void ShRibbonDimArcLengthButtonStrategy::execute() {
 
+	if (ShCADWidgetManager::getInstance()->getActivatedWidget() == nullptr)
+		return;
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimArcLength);
+	ShCADWidgetManager::getInstance()->getActivatedWidget()->changeAction(strategy);
 }
 
 ShIcon ShRibbonDimArcLengthButtonStrategy::getIcon() {

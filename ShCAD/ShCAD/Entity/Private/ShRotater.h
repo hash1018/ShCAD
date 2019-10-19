@@ -24,6 +24,7 @@ public:
 	virtual void visit(ShDimAligned *dimAligned);
 	virtual void visit(ShDimRadius *dimRadius);
 	virtual void visit(ShDimDiameter *dimDiameter);
+	virtual void visit(ShDimArcLength *dimArcLength);
 };
 
 #endif //_SHROTATER_H

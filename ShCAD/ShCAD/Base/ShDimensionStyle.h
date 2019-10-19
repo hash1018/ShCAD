@@ -82,6 +82,8 @@ public:
 
 	void drawLineArrow(ShDrawerFunctions &drawerFunctions, const ShPoint3d &start, const ShPoint3d &end, const GLColor &color) const;
 	void drawArrow(ShDrawerFunctions &drawerFunctions, const ShPoint3d &point, double angle, const GLColor &color) const;
+	void drawArcArrow(ShDrawerFunctions &drawerFunctions, const ShPoint3d &center, double radius,
+		const ShPoint3d &start, const ShPoint3d &end, const GLColor &color) const;
 
 public:
 	void setFirstArrowheads(Arrowheads first) { this->first = first; }
@@ -95,6 +97,10 @@ public:
 	void getFirstLineArrowPoints(const ShPoint3d &start, const ShPoint3d &end, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const;
 	void getSecondLineArrowPoints(const ShPoint3d &start, const ShPoint3d &end, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const;
 	void getArrowPoints(const ShPoint3d &point, double angle, ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const;
+	void getFirstArcArrowPoints(const ShPoint3d &center, double radius, const ShPoint3d &start, const ShPoint3d &end,
+		ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const;
+	void getSecondArcArrowPoints(const ShPoint3d &center, double radius, const ShPoint3d &start, const ShPoint3d &end,
+		ShPoint3d &vertex, ShPoint3d &vertex2, ShPoint3d &vertex3) const;
 };
 
 ///////////////////////////////////////////////////
@@ -122,6 +128,7 @@ public:
 	void drawDimensionDistanceText(QPainter *painter, int dx, int dy, double angle, double distance, const QColor &color, double zoomRate) const;
 	void drawDimensionRadiusText(QPainter *painter, int dx, int dy, double angle, double radius, const QColor &color, double zoomRate) const;
 	void drawDimensionDiameterText(QPainter *painter, int dx, int dy, double angle, double diameter, const QColor &color, double zoomRate) const;
+	void drawDimensionArcLengthText(QPainter *painter, int dx, int dy, double angle, double arcLength, const QColor &color, double zoomRate) const;
 
 public:
 	void setTextHeight(double textHeight) { this->textHeight = textHeight; }

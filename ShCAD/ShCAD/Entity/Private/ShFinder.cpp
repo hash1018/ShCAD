@@ -11,6 +11,7 @@
 #include "Entity\Composite\Dim\ShDimAligned.h"
 #include "Entity\Composite\Dim\ShDimRadius.h"
 #include "Entity\Composite\Dim\ShDimDiameter.h"
+#include "Entity\Composite\Dim\ShDimArcLength.h"
 
 ShFinder::ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity, double tolerance)
 	:x(x), y(y), zoomRate(zoomRate), foundEntity(foundEntity), tolerance(tolerance) {
@@ -88,71 +89,46 @@ void ShFinder::visit(ShDot *dot) {
 
 void ShFinder::visit(ShDimLinear *dimLinear) {
 
-	ShEntity *foundEntity = nullptr;
-	ShFinder visitor(this->x, this->y, this->zoomRate, &foundEntity, this->tolerance);
-
-	auto itr = dimLinear->begin();
-	for (itr; itr != dimLinear->end(); ++itr) {
-	
-		(*itr)->accept(&visitor);
-
-		if (foundEntity != nullptr) {
-			*this->foundEntity = dimLinear;
-			break;
-		}
-	}
+	this->visitDim(dimLinear);
 }
 
 void ShFinder::visit(ShDimAligned *dimAligned) {
 
-	ShEntity *foundEntity = nullptr;
-	ShFinder visitor(this->x, this->y, this->zoomRate, &foundEntity, this->tolerance);
-
-	auto itr = dimAligned->begin();
-	for (itr; itr != dimAligned->end(); ++itr) {
-
-		(*itr)->accept(&visitor);
-
-		if (foundEntity != nullptr) {
-			*this->foundEntity = dimAligned;
-			break;
-		}
-	}
+	this->visitDim(dimAligned);
 }
 
 void ShFinder::visit(ShDimRadius *dimRadius) {
 
-	ShEntity *foundEntity = nullptr;
-	ShFinder visitor(this->x, this->y, this->zoomRate, &foundEntity, this->tolerance);
-
-	auto itr = dimRadius->begin();
-	for (itr; itr != dimRadius->end(); ++itr) {
-
-		(*itr)->accept(&visitor);
-
-		if (foundEntity != nullptr) {
-			*this->foundEntity = dimRadius;
-			break;
-		}
-	}
+	this->visitDim(dimRadius);
 }
 
 void ShFinder::visit(ShDimDiameter *dimDiameter) {
 
+	this->visitDim(dimDiameter);
+}
+
+void ShFinder::visit(ShDimArcLength *dimArcLength) {
+
+	this->visitDim(dimArcLength);
+}
+
+void ShFinder::visitDim(ShDim *dim) {
+
 	ShEntity *foundEntity = nullptr;
 	ShFinder visitor(this->x, this->y, this->zoomRate, &foundEntity, this->tolerance);
 
-	auto itr = dimDiameter->begin();
-	for (itr; itr != dimDiameter->end(); ++itr) {
+	auto itr = dim->begin();
+	for (itr; itr != dim->end(); ++itr) {
 
 		(*itr)->accept(&visitor);
 
 		if (foundEntity != nullptr) {
-			*this->foundEntity = dimDiameter;
+			*this->foundEntity = dim;
 			break;
 		}
 	}
 }
+
 
 //////////////////////////////////////////
 
@@ -354,125 +330,39 @@ void ShRectFinder::visit(ShDot *dot) {
 
 void ShRectFinder::visit(ShDimLinear *dimLinear) {
 
-	ShEntity *foundEntity = nullptr;
-	int count = 0;
-	ShRectFinder visitor(this->topLeft, this->bottomRight, &foundEntity, this->findMethod);
-	auto itr = dimLinear->begin();
-
-	if (this->findMethod == FindMethod::AllPartLiesInsideRect) {
-	
-		for (itr; itr != dimLinear->end(); ++itr) {
-		
-			(*itr)->accept(&visitor);
-
-			if (foundEntity != nullptr) {
-				count++;
-				foundEntity = nullptr;
-			}
-		}
-
-		if (count == dimLinear->getSize()) 
-			*this->foundEntity = dimLinear;
-		
-	}
-	else {
-	
-		for (itr; itr != dimLinear->end(); ++itr) {
-		
-			(*itr)->accept(&visitor);
-
-			if (foundEntity != nullptr) {
-				*this->foundEntity = dimLinear;
-				return;
-			}
-		}
-	}
+	this->visitDim(dimLinear);
 }
 
 void ShRectFinder::visit(ShDimAligned *dimAligned) {
 
-	ShEntity *foundEntity = nullptr;
-	int count = 0;
-	ShRectFinder visitor(this->topLeft, this->bottomRight, &foundEntity, this->findMethod);
-	auto itr = dimAligned->begin();
-
-	if (this->findMethod == FindMethod::AllPartLiesInsideRect) {
-
-		for (itr; itr != dimAligned->end(); ++itr) {
-
-			(*itr)->accept(&visitor);
-
-			if (foundEntity != nullptr) {
-				count++;
-				foundEntity = nullptr;
-			}
-		}
-
-		if (count == dimAligned->getSize())
-			*this->foundEntity = dimAligned;
-
-	}
-	else {
-
-		for (itr; itr != dimAligned->end(); ++itr) {
-
-			(*itr)->accept(&visitor);
-
-			if (foundEntity != nullptr) {
-				*this->foundEntity = dimAligned;
-				return;
-			}
-		}
-	}
+	this->visitDim(dimAligned);
 }
 
 void ShRectFinder::visit(ShDimRadius *dimRadius) {
 
-	ShEntity *foundEntity = nullptr;
-	int count = 0;
-	ShRectFinder visitor(this->topLeft, this->bottomRight, &foundEntity, this->findMethod);
-	auto itr = dimRadius->begin();
-
-	if (this->findMethod == FindMethod::AllPartLiesInsideRect) {
-
-		for (itr; itr != dimRadius->end(); ++itr) {
-
-			(*itr)->accept(&visitor);
-
-			if (foundEntity != nullptr) {
-				count++;
-				foundEntity = nullptr;
-			}
-		}
-
-		if (count == dimRadius->getSize())
-			*this->foundEntity = dimRadius;
-
-	}
-	else {
-
-		for (itr; itr != dimRadius->end(); ++itr) {
-
-			(*itr)->accept(&visitor);
-
-			if (foundEntity != nullptr) {
-				*this->foundEntity = dimRadius;
-				return;
-			}
-		}
-	}
+	this->visitDim(dimRadius);
 }
 
 void ShRectFinder::visit(ShDimDiameter *dimDiameter) {
 
+	this->visitDim(dimDiameter);
+}
+
+void ShRectFinder::visit(ShDimArcLength *dimArcLength) {
+
+	this->visitDim(dimArcLength);
+}
+
+void ShRectFinder::visitDim(ShDim *dim) {
+
 	ShEntity *foundEntity = nullptr;
 	int count = 0;
 	ShRectFinder visitor(this->topLeft, this->bottomRight, &foundEntity, this->findMethod);
-	auto itr = dimDiameter->begin();
+	auto itr = dim->begin();
 
 	if (this->findMethod == FindMethod::AllPartLiesInsideRect) {
 
-		for (itr; itr != dimDiameter->end(); ++itr) {
+		for (itr; itr != dim->end(); ++itr) {
 
 			(*itr)->accept(&visitor);
 
@@ -482,18 +372,18 @@ void ShRectFinder::visit(ShDimDiameter *dimDiameter) {
 			}
 		}
 
-		if (count == dimDiameter->getSize())
-			*this->foundEntity = dimDiameter;
+		if (count == dim->getSize())
+			*this->foundEntity = dim;
 
 	}
 	else {
 
-		for (itr; itr != dimDiameter->end(); ++itr) {
+		for (itr; itr != dim->end(); ++itr) {
 
 			(*itr)->accept(&visitor);
 
 			if (foundEntity != nullptr) {
-				*this->foundEntity = dimDiameter;
+				*this->foundEntity = dim;
 				return;
 			}
 		}

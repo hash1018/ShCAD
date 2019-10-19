@@ -229,3 +229,35 @@ ShDimDiameterData& ShDimDiameterData::operator=(const ShDimDiameterData &other) 
 	
 	return *this;
 }
+
+/////////////////////////////////////////////////////////////////
+
+ShDimArcLengthData::ShDimArcLengthData() {
+
+}
+
+ShDimArcLengthData::ShDimArcLengthData(const ShPoint3d &center, double radius, const ShPoint3d &start, const ShPoint3d &end, const ShPoint3d &boundary, const ShPoint3d &text)
+	:center(center),radius(radius), start(start), end(end), boundary(boundary), text(text) {
+
+}
+
+ShDimArcLengthData::ShDimArcLengthData(const ShDimArcLengthData &other)
+	: center(other.center), radius(other.radius), start(other.start), end(other.end), boundary(other.boundary), text(other.text) {
+
+}
+
+ShDimArcLengthData::~ShDimArcLengthData() {
+
+}
+
+ShDimArcLengthData& ShDimArcLengthData::operator=(const ShDimArcLengthData &other) {
+
+	this->center = other.center;
+	this->radius = other.radius;
+	this->start = other.start;
+	this->end = other.end;
+	this->boundary = other.boundary;
+	this->text = other.text;
+	
+	return *this;
+}

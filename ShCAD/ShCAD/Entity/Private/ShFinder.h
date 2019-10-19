@@ -7,6 +7,7 @@
 #include "Base\ShVariable.h"
 
 class ShEntity;
+class ShDim;
 
 class ShFinder : public ShVisitor {
 
@@ -30,6 +31,10 @@ public:
 	virtual void visit(ShDimAligned *dimAligned);
 	virtual void visit(ShDimRadius *dimRadius);
 	virtual void visit(ShDimDiameter *dimDiameter);
+	virtual void visit(ShDimArcLength *dimArcLength);
+
+private:
+	void visitDim(ShDim *dim);
 
 };
 
@@ -62,6 +67,10 @@ public:
 	virtual void visit(ShDimAligned *dimAligned);
 	virtual void visit(ShDimRadius *dimRadius);
 	virtual void visit(ShDimDiameter *dimDiameter);
+	virtual void visit(ShDimArcLength *dimArcLength);
+
+private:
+	void visitDim(ShDim *dim);
 
 };
 

@@ -14,6 +14,7 @@
 #include "Entity\Composite\Dim\ShDimAligned.h"
 #include "Entity\Composite\Dim\ShDimRadius.h"
 #include "Entity\Composite\Dim\ShDimDiameter.h"
+#include "Entity\Composite\Dim\ShDimArcLength.h"
 
 ShPloter::ShPloter(ShCADWidget *widget, QPainter *painter, double scale)
 	:widget(widget), painter(painter), scale(scale) {
@@ -234,6 +235,42 @@ void ShPloter::visit(ShDimDiameter *dimDiameter) {
 	double angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
 	this->plotText(this->painter, x, y, angle, QString(QString::fromLocal8Bit("¤±")) + QString::number(dimDiameter->getDiameter(), 'f', 4),
 		dimDiameter->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color);
+}
+
+void ShPloter::visit(ShDimArcLength *dimArcLength) {
+
+	ShPloter visitor(this->widget, this->painter, this->scale);
+
+	auto itr = dimArcLength->begin();
+	for (itr; itr != dimArcLength->end(); ++itr)
+		(*itr)->accept(&visitor);
+
+	ShDimArcLengthData data = dimArcLength->getData();
+	QColor color;
+	this->getColor(dimArcLength, color);
+
+	int x, y, x2, y2, x3, y3;
+	ShPoint3d vertex, vertex2, vertex3;
+
+	dimArcLength->getFirstArrowPoints(vertex, vertex2, vertex3);
+	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
+	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
+	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
+	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
+	
+
+	dimArcLength->getSecondArrowPoints(vertex, vertex2, vertex3);
+	this->widget->convertEntityToDevice(vertex.x, vertex.y, x, y);
+	this->widget->convertEntityToDevice(vertex2.x, vertex2.y, x2, y2);
+	this->widget->convertEntityToDevice(vertex3.x, vertex3.y, x3, y3);
+	this->plotFilledTriangle(x, y, x2, y2, x3, y3, color);
+
+
+	this->widget->convertEntityToDevice(data.text.x, data.text.y, x, y);
+	double angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
+	this->plotText(this->painter, x, y, angle - 90, QString(QString::fromLocal8Bit("¡û")) + QString::number(dimArcLength->getArcLength(), 'f', 4),
+		dimArcLength->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color);
+
 }
 
 void ShPloter::getColor(ShEntity *entity, QColor &color) {

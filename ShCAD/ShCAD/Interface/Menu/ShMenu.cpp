@@ -532,6 +532,7 @@ ShDimMenu::ShDimMenu(const QString &title, ShChain *chain, QWidget *parent)
 	connect(this->dimAlignedAction, &QAction::triggered, this, &ShDimMenu::dimAlignedActionClicked);
 	connect(this->dimRadiusAction, &QAction::triggered, this, &ShDimMenu::dimRadiusActionClicked);
 	connect(this->dimDiameterAction, &QAction::triggered, this, &ShDimMenu::dimDiameterActionClicked);
+	connect(this->dimArcLengthAction, &QAction::triggered, this, &ShDimMenu::dimArcLengthActionClicked);
 }
 
 ShDimMenu::~ShDimMenu() {
