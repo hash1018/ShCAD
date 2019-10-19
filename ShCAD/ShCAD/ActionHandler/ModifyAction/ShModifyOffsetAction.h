@@ -3,8 +3,12 @@
 #define _SHMODIFYOFFSETACTION_H
 
 #include "ShModifyAction.h"
+#include "Command\ShCustomCommand.h"
 
 class ShModifyOffsetAction : public ShModifyAction {
+
+private:
+	ShOnlyNumberCommand<ShModifyOffsetAction> *command;
 
 public:
 	ShModifyOffsetAction(ShCADWidget *widget);
@@ -22,6 +26,9 @@ public:
 
 protected:
 	virtual void trigger(const ShPoint3d &point);
+
+private:
+	void inputNumber(void *number);
 };
 
 #endif //_SHMODIFYOFFSETACTION_H

@@ -37,7 +37,8 @@ QCursor ShModifyAction::getCursorShape() {
 	}
 
 	else if (this->status == Status::PickingBasePoint ||
-		this->status == Status::PickingSecondPoint) {
+		this->status == Status::PickingSecondPoint ||
+		this->status == Status::InputtingNumber) {
 
 		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Drawing);
 	}

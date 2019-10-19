@@ -12,6 +12,7 @@ public:
 		PickingBasePoint,
 		PickingSecondPoint,
 		SelectingEntityToModify,
+		InputtingNumber,
 	};
 
 protected:

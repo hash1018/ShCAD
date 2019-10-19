@@ -30,7 +30,7 @@ ShDrawerSelectedEntityFactory::~ShDrawerSelectedEntityFactory() {
 }
 
 ShDrawerSelectedEntity* ShDrawerSelectedEntityFactory::create(ShCADWidget *widget, QPainter *painter, ActionType actionType) {
-	qDebug() << "create" << actionType;
+	qDebug() << "ShDrawerSelectedEntityFactory::create" << actionType;
 
 	if (actionType == ActionType::ActionModifyMove ||
 		actionType == ActionType::ActionModifyCopy ||
@@ -40,7 +40,8 @@ ShDrawerSelectedEntity* ShDrawerSelectedEntityFactory::create(ShCADWidget *widge
 		actionType == ActionType::ActionModifyStretch ||
 		actionType == ActionType::ActionModifyTrim ||
 		actionType == ActionType::ActionModifyErase ||
-		actionType == ActionType::ActionModifyScale) {
+		actionType == ActionType::ActionModifyScale ||
+		actionType == ActionType::ActionModifyOffset) {
 
 		return new ShDrawerSelectedEntityNoVertex(widget, painter);
 	}
