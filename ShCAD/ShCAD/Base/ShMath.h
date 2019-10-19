@@ -45,6 +45,14 @@ namespace math {
 	double addAngle(double angle, double angle2);
 
 	void getEquationLine(const ShPoint3d& start, const ShPoint3d& end, double &slope, double &interceptY);
+
+	template <typename T>
+	void swap(T& first, T& second) {
+	
+		T temp = first;
+		first = second;
+		second = temp;
+	}
 }
 
 #endif //_MATH_H

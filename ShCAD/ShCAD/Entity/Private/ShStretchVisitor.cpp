@@ -566,13 +566,8 @@ void ShStretchVisitor::visit(ShDimArcLength *dimArcLength) {
 
 		if (math::checkAngleLiesOnAngleBetween(startAngle, endAngle, angle) == false) {
 		
-			ShPoint3d temp = data.start;
-			data.start = data.end;
-			data.end = temp;
-
-			double temp2 = startAngle;
-			startAngle = endAngle;
-			endAngle = temp2;
+			math::swap(data.start, data.end);
+			math::swap(startAngle, endAngle);
 		}
 
 		double distance = math::getDistance(data.center.x, data.center.y, data.boundary.x, data.boundary.y);
@@ -601,12 +596,8 @@ void ShStretchVisitor::visit(ShDimArcLength *dimArcLength) {
 
 		if (math::checkAngleLiesOnAngleBetween(startAngle, endAngle, angle) == false) {
 		
-			ShPoint3d temp = data.start;
-			data.start = data.end;
-			data.end = temp;
-			double temp2 = startAngle;
-			startAngle = endAngle;
-			endAngle = temp2;
+			math::swap(data.start, data.end);
+			math::swap(startAngle, endAngle);
 		}
 
 		double angleDifference = math::getAngleDifference(startAngle, endAngle);
@@ -626,12 +617,8 @@ void ShStretchVisitor::visit(ShDimArcLength *dimArcLength) {
 
 		if (math::checkAngleLiesOnAngleBetween(startAngle, endAngle, angle) == false) {
 
-			ShPoint3d temp = data.start;
-			data.start = data.end;
-			data.end = temp;
-			double temp2 = startAngle;
-			startAngle = endAngle;
-			endAngle = temp2;
+			math::swap(data.start, data.end);
+			math::swap(startAngle, endAngle);
 		}
 
 		double angleDifference = math::getAngleDifference(startAngle, endAngle);
