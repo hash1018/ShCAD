@@ -82,6 +82,8 @@ private:
 	ShButtonWithText *extendButton;
 	ShButtonWithText *trimButton;
 
+	ShButtonWithText *offsetButton;
+
 public:
 	ShModifyPanel(ShChain *chain, QWidget *parent, const QString &title, int width);
 	~ShModifyPanel();
@@ -99,6 +101,7 @@ protected:
 	void eraseButtonClicked();
 	void extendButtonClicked();
 	void trimButtonClicked();
+	void offsetButtonClicked();
 
 };
 

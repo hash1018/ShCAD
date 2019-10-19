@@ -12,8 +12,6 @@ class QPushButton;
 
 class ShDimensionToolBar : public ShAbstractToolBar {
 
-	Q_OBJECT
-
 private:
 	ShDimensionStyleComboBox *dimensionStyleComboBox;
 	QPushButton *modifyDimensionStyleButton;

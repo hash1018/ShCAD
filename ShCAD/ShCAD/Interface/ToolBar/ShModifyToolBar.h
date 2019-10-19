@@ -16,12 +16,14 @@ public:
 	void eraseActionClicked();
 	void copyActionClicked();
 	void mirrorActionClicked();
+	void offsetActionClicked();
 	void moveActionClicked();
 	void rotateActionClicked();
 	void scaleActionClicked();
 	void stretchActionClicked();
 	void extendActionClicked();
 	void trimActionClicked();
+	
 };
 
 #endif //_SHMODIFYTOOLBAR_H

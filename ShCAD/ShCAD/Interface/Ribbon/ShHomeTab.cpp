@@ -18,7 +18,7 @@ ShHomeTab::ShHomeTab(ShChain *chain, const QString &title, QWidget *parent)
 	this->drawPanel = new ShDrawPanel(this, this, shGetLanValue_ui("Home/Draw"), 250);
 	this->addPanel(this->drawPanel);
 
-	this->modifyPanel = new ShModifyPanel(this, this, shGetLanValue_ui("Home/Modify"), 250);
+	this->modifyPanel = new ShModifyPanel(this, this, shGetLanValue_ui("Home/Modify"), 320);
 	this->addPanel(this->modifyPanel);
 
 	this->annotatePanel = new ShAnnotatePanel(this, this, shGetLanValue_ui("Home/Annotate"), 150);
@@ -129,6 +129,10 @@ ShModifyPanel::ShModifyPanel(ShChain *chain, QWidget *parent, const QString &tit
 	this->trimButton->setIcon(ShIcon(":/Image/Modify/Trim.png"));
 	this->trimButton->setText(shGetLanValue_ui("Modify/Trim"));
 
+	this->offsetButton = new ShButtonWithText(this->layoutWidget);
+	this->offsetButton->setIcon(ShIcon(":/Image/Modify/Offset.png"));
+	this->offsetButton->setText(shGetLanValue_ui("Modify/Offset"));
+
 
 	connect(this->moveButton, &ShButtonWithText::pressed, this, &ShModifyPanel::moveButtonClicked);
 	connect(this->copyButton, &ShButtonWithText::pressed, this, &ShModifyPanel::copyButtonClicked);
@@ -139,6 +143,7 @@ ShModifyPanel::ShModifyPanel(ShChain *chain, QWidget *parent, const QString &tit
 	connect(this->eraseButton, &ShButtonWithText::pressed, this, &ShModifyPanel::eraseButtonClicked);
 	connect(this->extendButton, &ShButtonWithText::pressed, this, &ShModifyPanel::extendButtonClicked);
 	connect(this->trimButton, &ShButtonWithText::pressed, this, &ShModifyPanel::trimButtonClicked);
+	connect(this->offsetButton, &ShButtonWithText::pressed, this, &ShModifyPanel::offsetButtonClicked);
 }
 
 ShModifyPanel::~ShModifyPanel() {
@@ -150,8 +155,8 @@ void ShModifyPanel::resizeEvent(QResizeEvent *event) {
 
 	ShPanelInRibbonTab::resizeEvent(event);
 
-	//3row 3column
-	int width = this->layoutWidget->width() / 3;
+	//3row 4column
+	int width = this->layoutWidget->width() / 4;
 	int height = this->layoutWidget->height() / 3;
 
 	this->moveButton->setGeometry(0, 0, width, height);
@@ -165,6 +170,8 @@ void ShModifyPanel::resizeEvent(QResizeEvent *event) {
 	this->eraseButton->setGeometry(width * 2, 0, width, height);
 	this->extendButton->setGeometry(width * 2, height, width, height);
 	this->trimButton->setGeometry(width * 2, height * 2, width, height);
+
+	this->offsetButton->setGeometry(width * 3, 0, width, height);
 }
 
 
@@ -225,6 +232,13 @@ void ShModifyPanel::extendButtonClicked() {
 void ShModifyPanel::trimButtonClicked() {
 
 	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyTrim);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShModifyPanel::offsetButtonClicked() {
+
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyOffset);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

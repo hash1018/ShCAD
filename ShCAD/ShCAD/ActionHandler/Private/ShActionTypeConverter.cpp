@@ -76,6 +76,8 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 		text = "_Trim"; break;
 	case ActionType::ActionModifyStretch:
 		text = "_Stretch"; break;
+	case ActionType::ActionModifyOffset:
+		text = " _Offset"; break;
 
 
 	case ActionType::ActionDrawDimLinear:

@@ -12,6 +12,7 @@
 #include "ActionHandler\ModifyAction\ShModifyExtendAction.h"
 #include "ActionHandler\ModifyAction\ShModifyTrimAction.h"
 #include "ActionHandler\ModifyAction\ShModifyStretchAction.h"
+#include "ActionHandler\ModifyAction\ShModifyOffsetAction.h"
 #include "ActionHandler\DrawAction\DrawDimAction\ShDrawDimLinearAction.h"
 #include "ActionHandler\DrawAction\ShDrawPointAction.h"
 #include "ActionHandler\ShSelectPlotAreaAction.h"
@@ -20,6 +21,7 @@
 #include "ActionHandler\DrawAction\DrawDimAction\ShDrawDimDiameterAction.h"
 #include "ActionHandler\DrawAction\DrawDimAction\ShDrawDimArcLengthAction.h"
 #include "ActionHandler\DrawAction\DrawDimAction\ShDrawDimAngularAction.h"
+
 
 ShActionHandlerFactory::ShActionHandlerFactory() {
 
@@ -85,6 +87,8 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 		return new ShModifyTrimAction(widget);
 	else if (actionType == ActionType::ActionModifyStretch)
 		return new ShModifyStretchAction(widget);
+	else if (actionType == ActionType::ActionModifyOffset)
+		return new ShModifyOffsetAction(widget);
 
 
 

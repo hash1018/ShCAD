@@ -715,11 +715,8 @@
     <ClCompile Include="Interface\Item\ShDimensionStyleComboBox.cpp">
       <Filter>Interface\Item</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ShDimensionToolBar.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ShDimensionToolBar.cpp">
-      <Filter>Generated Files\Release</Filter>
+    <ClCompile Include="ActionHandler\ModifyAction\ShModifyOffsetAction.cpp">
+      <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1246,6 +1243,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAngularAction.h">
       <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\ModifyAction\ShModifyOffsetAction.h">
+      <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

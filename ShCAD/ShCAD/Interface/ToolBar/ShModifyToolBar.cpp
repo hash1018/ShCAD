@@ -22,6 +22,9 @@ ShModifyToolBar::ShModifyToolBar(const QString &title, ShChain *chain, QWidget *
 	action = this->addAction(ShIcon(":/Image/Modify/Mirror.png"), "Mirror");
 	connect(action, &QAction::triggered, this, &ShModifyToolBar::mirrorActionClicked);
 
+	action = this->addAction(ShIcon(":/Image/Modify/Offset.png"), "Offset");
+	connect(action, &QAction::triggered, this, &ShModifyToolBar::offsetActionClicked);
+
 	action = this->addAction(ShIcon(":/Image/Modify/Move.png"), "Move");
 	connect(action, &QAction::triggered, this, &ShModifyToolBar::moveActionClicked);
 
@@ -65,6 +68,13 @@ void ShModifyToolBar::copyActionClicked() {
 void ShModifyToolBar::mirrorActionClicked() {
 
 	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMirror);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShModifyToolBar::offsetActionClicked() {
+
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyOffset);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

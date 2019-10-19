@@ -64,6 +64,7 @@ enum ActionType {
 	ActionModifyErase,
 	ActionModifyExtend,
 	ActionModifyTrim,
+	ActionModifyOffset,
 
 	ActionDrawDimLinear,
 	ActionDrawDimAligned,

@@ -56,5 +56,6 @@
         <file>Image/Dimension/DimArcLength.png</file>
         <file>Image/Draw/Point.png</file>
         <file>Image/Snap/Node.png</file>
+        <file>Image/Modify/Offset.png</file>
     </qresource>
 </RCC>
