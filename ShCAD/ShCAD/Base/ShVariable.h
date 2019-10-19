@@ -107,6 +107,7 @@ enum VertexType {
 	VertexSecondDim=0x0001000,
 	VertexText=0x0002000,
 	VertexDim=0x0004000,
+	VertexBoundary=0x0008000,
 
 };
 

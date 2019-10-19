@@ -10,7 +10,7 @@
 #include "Entity\Composite\Dim\ShDimAligned.h"
 #include "Entity\Composite\Dim\ShDimRadius.h"
 #include "Entity\Composite\Dim\ShDimDiameter.h"
-
+#include "Entity\Composite\Dim\ShDimArcLength.h"
 
 ShNearestVertexFinder::ShNearestVertexFinder(double x, double y, double zoomRate, VertexType &vertexType, ShPoint3d &vertexPoint, double tolerance)
 	:x(x), y(y), zoomRate(zoomRate), vertexType(vertexType), vertexPoint(vertexPoint), tolerance(tolerance) {
@@ -321,6 +321,39 @@ void ShNearestVertexFinder::visit(ShDimDiameter *dimDiameter) {
 	}
 }
 
+void ShNearestVertexFinder::visit(ShDimArcLength *dimArcLength) {
+
+	ShDimArcLengthData data = dimArcLength->getData();
+
+	if (this->isNear(this->x, this->y, data.start, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexStart;
+		this->vertexPoint = data.start;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.end, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexEnd;
+		this->vertexPoint = data.end;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.boundary, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexBoundary;
+		this->vertexPoint = data.boundary;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, data.text, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexText;
+		this->vertexPoint = data.text;
+		return;
+	}
+}
+
 bool ShNearestVertexFinder::isNear(int x, int y, const ShPoint3d &point, double zoomRate, double tolerance) {
 
 	if (x >= point.x - (tolerance / zoomRate) &&
@@ -607,6 +640,46 @@ void PointAndVertexTypeMathchedEntityFinder::visit(ShDimDiameter *dimDiameter) {
 	if ((this->vertexType & VertexType::VertexText) == VertexType::VertexText) {
 
 		if (this->mustMatchPoint == data.text) {
+
+			this->matched = true;
+			return;
+		}
+	}
+
+	this->matched = false;
+}
+
+void PointAndVertexTypeMathchedEntityFinder::visit(ShDimArcLength *dimArcLength) {
+
+	ShDimArcLengthData data = dimArcLength->getData();
+
+	if ((this->vertexType & VertexType::VertexStart) == VertexType::VertexStart) {
+
+		if (this->mustMatchPoint == data.start) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexEnd) == VertexType::VertexEnd) {
+
+		if (this->mustMatchPoint == data.end) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexText) == VertexType::VertexText) {
+
+		if (this->mustMatchPoint == data.text) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexBoundary) == VertexType::VertexBoundary) {
+
+		if (this->mustMatchPoint == data.boundary) {
 
 			this->matched = true;
 			return;
