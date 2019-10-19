@@ -452,8 +452,11 @@ void ShChangeEntityLayerTransaction::redo() {
 	ShPropertyData propertyData;
 
 	for (itr; itr != this->entities.end(); ++itr) {
-	
+		
+		(*itr)->getLayer()->remove(*itr);
 		(*itr)->setLayer((*itrCurrent));
+		(*itrCurrent)->add((*itr));
+
 		propertyData = (*itr)->getPropertyData();
 
 		if (propertyData.getColor().getType() == ShColor::Type::ByLayer)
@@ -478,7 +481,10 @@ void ShChangeEntityLayerTransaction::undo() {
 
 	for (itr; itr != this->entities.end(); ++itr) {
 
+		(*itr)->getLayer()->remove(*itr);
 		(*itr)->setLayer((*itrPrev));
+		(*itrPrev)->add(*itr);
+
 		propertyData = (*itr)->getPropertyData();
 
 		if (propertyData.getColor().getType() == ShColor::Type::ByLayer)

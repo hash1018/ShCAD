@@ -222,7 +222,9 @@ void ShCADWidgetCurrentLayerChangedEventFilterStrategy::update() {
 		for (itr; itr != this->widget->getSelectedEntities()->end(); ++itr) {
 		
 			prev = (*itr)->getLayer();
+			prev->remove((*itr));
 			(*itr)->setLayer(event->getCurrentLayer());
+			event->getCurrentLayer()->add((*itr));
 			
 			propertyData = (*itr)->getPropertyData();
 
