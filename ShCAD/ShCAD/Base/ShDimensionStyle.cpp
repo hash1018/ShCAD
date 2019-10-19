@@ -4,6 +4,7 @@
 #include "Base\ShMath.h"
 #include "Entity\Private\ShDrawer.h"
 #include <qpainter.h>
+#include "Entity\Composite\Dim\ShDim.h"
 
 ShDimensionExtensionLineStyle::ShDimensionExtensionLineStyle()
 	:offsetFromOrigin(10.0), extendBeyondDimensionLine(5.0), suppressExtensionLine(false), suppressExtensionLine2(false) {
@@ -376,4 +377,22 @@ ShDimensionStyle::ShDimensionStyle(const QString &name)
 
 ShDimensionStyle::~ShDimensionStyle() {
 
+}
+
+void ShDimensionStyle::add(ShDim *dim) {
+
+	this->list.append(dim);
+}
+
+void ShDimensionStyle::remove(ShDim *dim) {
+
+	this->list.removeOne(dim);
+}
+
+void ShDimensionStyle::updateDimension() {
+
+	auto itr = this->begin();
+
+	for (itr; itr != this->end(); ++itr)
+		(*itr)->updateChild();
 }

@@ -3,6 +3,8 @@
 #include "Interface\Item\ShIcon.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Chain of Responsibility\ShRequest.h"
+#include "Interface\Item\ShDimensionStyleComboBox.h"
+#include <qpushbutton.h>
 
 ShDimensionToolBar::ShDimensionToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
@@ -27,9 +29,23 @@ ShDimensionToolBar::ShDimensionToolBar(const QString &title, ShChain *chain, QWi
 
 	action = this->addAction(ShIcon(":/Image/Dimension/DimAngular.png"), "DimAngular");
 	connect(action, &QAction::triggered, this, &ShDimensionToolBar::dimAngularActionClicked);
+
+	this->dimensionStyleComboBox = new ShDimensionStyleComboBox(this);
+	this->addWidget(this->dimensionStyleComboBox);
+	connect(this->dimensionStyleComboBox, &ShDimensionStyleComboBox::currentDimensionStyleChanged, this, &ShDimensionToolBar::currentDimensionStyleChanged);
+
+	this->modifyDimensionStyleButton = new QPushButton("modify", this);
+	this->addWidget(this->modifyDimensionStyleButton);
+	connect(this->modifyDimensionStyleButton, &QPushButton::pressed, this, &ShDimensionToolBar::modifyDimensionStyleButtonClicked);
+	
 }
 
 ShDimensionToolBar::~ShDimensionToolBar() {
+
+}
+
+void ShDimensionToolBar::update(ShNotifyEvent *event) {
+
 
 }
 
@@ -73,4 +89,13 @@ void ShDimensionToolBar::dimArcLengthActionClicked() {
 	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawDimArcLength);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
+}
+
+void ShDimensionToolBar::currentDimensionStyleChanged(ShDimensionStyle *dimensionStyle) {
+
+
+}
+
+void ShDimensionToolBar::modifyDimensionStyleButtonClicked() {
+
 }

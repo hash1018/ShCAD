@@ -3,6 +3,8 @@
 #include "Base\ShLayer.h"
 #include "Base\ShLayerTable.h"
 #include "Entity\Private\ShSearchEntityStrategy.h"
+#include "Entity\Composite\Dim\ShDim.h"
+#include "Base\ShDimensionStyle.h"
 
 ShEntityTable::ShEntityTable(ShLayerTable *layerTable)
 	:layerTable(layerTable) {
@@ -43,6 +45,12 @@ bool ShEntityTable::add(ShEntity *entity) {
 	this->justAddedEntityList.clear();
 
 	entity->getLayer()->add(entity);
+	
+	if (dynamic_cast<ShDim*>(entity)) {
+	
+		ShDim *dim = dynamic_cast<ShDim*>(entity);
+		const_cast<ShDimensionStyle*>(dim->getDimensionStyle())->add(dim);
+	}
 
 	if (entity->getLayer()->isTurnOn() == true) {
 
@@ -68,6 +76,12 @@ bool ShEntityTable::add(const QLinkedList<ShEntity*> &list) {
 	
 		(*itr)->getLayer()->add((*itr));
 
+		if (dynamic_cast<ShDim*>((*itr))) {
+
+			ShDim *dim = dynamic_cast<ShDim*>((*itr));
+			const_cast<ShDimensionStyle*>(dim->getDimensionStyle())->add(dim);
+		}
+
 		if ((*itr)->getLayer()->isTurnOn() == true) {
 
 			this->layerTable->turnOnList.append((*itr));
@@ -82,6 +96,12 @@ bool ShEntityTable::remove(ShEntity *entity) {
 
 	entity->getLayer()->remove(entity);
 
+	if (dynamic_cast<ShDim*>(entity)) {
+
+		ShDim *dim = dynamic_cast<ShDim*>(entity);
+		const_cast<ShDimensionStyle*>(dim->getDimensionStyle())->remove(dim);
+	}
+
 	if (entity->getLayer()->isTurnOn() == true)
 		this->layerTable->turnOnList.removeOne(entity);
 
@@ -91,6 +111,12 @@ bool ShEntityTable::remove(ShEntity *entity) {
 bool ShEntityTable::deleteEntity(ShEntity *entity) {
 
 	entity->getLayer()->remove(entity);
+
+	if (dynamic_cast<ShDim*>(entity)) {
+
+		ShDim *dim = dynamic_cast<ShDim*>(entity);
+		const_cast<ShDimensionStyle*>(dim->getDimensionStyle())->remove(dim);
+	}
 
 	if (entity->getLayer()->isTurnOn() == true)
 		this->layerTable->turnOnList.removeOne(entity);

@@ -4,6 +4,7 @@
 #define _SHDIMENSIONSTYLE_H
 
 #include <qstring.h>
+#include <qlinkedlist.h>
 
 class ShLine;
 class ShLayer;
@@ -13,6 +14,7 @@ class ShDrawerFunctions;
 struct GLColor;
 class QPainter;
 class QColor;
+class ShDim;
 
 class ShDimensionExtensionLineStyle {
 
@@ -147,6 +149,7 @@ class ShDimensionStyle {
 
 private:
 	QString name;
+	QLinkedList<ShDim*> list;
 	ShDimensionExtensionLineStyle dimensionExtensionLineStyle;
 	ShDimensionArrowStyle dimensionArrowStyle;
 	ShDimensionTextStyle dimensionTextStyle;
@@ -155,10 +158,10 @@ public:
 	ShDimensionStyle(const QString &name);
 	~ShDimensionStyle();
 
+	void add(ShDim *dim);
+	void remove(ShDim *dim);
+
 public:
-	void setDimensionExtensionLineStyle(const ShDimensionExtensionLineStyle &dimensionExtensionLineStyle) { this->dimensionExtensionLineStyle = dimensionExtensionLineStyle; }
-	void setDiemnsionArrowStyle(const ShDimensionArrowStyle &dimensionArrowStyle) { this->dimensionArrowStyle = dimensionArrowStyle; }
-	void setDimensionTextStyle(const ShDimensionTextStyle &dimensionTextStyle) { this->dimensionTextStyle = dimensionTextStyle; }
 	void setName(const QString &name) { this->name = name; }
 
 public:
@@ -166,6 +169,12 @@ public:
 	inline const ShDimensionArrowStyle& getDimensionArrowStyle() const { return this->dimensionArrowStyle; }
 	inline const ShDimensionTextStyle& getDimensionTextStyle() const { return this->dimensionTextStyle; }
 	inline const QString& getName() const { return this->name; }
+	inline int getSize() const { return this->list.size(); }
+	inline QLinkedList<ShDim*>::iterator begin() { return this->list.begin(); }
+	inline QLinkedList<ShDim*>::iterator end() { return this->list.end(); }
+
+private:
+	void updateDimension();
 };
 
 //////////////////////////////////////////////////////

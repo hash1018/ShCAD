@@ -706,6 +706,21 @@
     <ClCompile Include="ActionHandler\DrawAction\DrawDimAction\ShDrawDimAngularAction.cpp">
       <Filter>ActionHandler\DrawAction\DrawDimAction</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShDimensionStyleComboBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShDimensionStyleComboBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\Item\ShDimensionStyleComboBox.cpp">
+      <Filter>Interface\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ShDimensionToolBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ShDimensionToolBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -752,6 +767,12 @@
     </CustomBuild>
     <CustomBuild Include="Interface\Dialog\ShPlotDialog.h">
       <Filter>Interface\Dialog</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\Item\ShDimensionStyleComboBox.h">
+      <Filter>Interface\Item</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Interface\ToolBar\ShDimensionToolBar.h">
+      <Filter>Interface\ToolBar</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -1147,9 +1168,6 @@
     </ClInclude>
     <ClInclude Include="Entity\Composite\Dim\ShDimLinear.h">
       <Filter>Entity\Composite\Dim</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\ToolBar\ShDimensionToolBar.h">
-      <Filter>Interface\ToolBar</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Leaf\ShPoint.h">
       <Filter>Entity\Leaf</Filter>

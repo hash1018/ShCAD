@@ -21,7 +21,10 @@ public:
 
 public:
 	inline ShDimensionStyle* getCurrentStyle() const { return this->currentStyle; }
-	inline ShDimensionStyle* getDimensionStyle(int index) { this->styles.at(index); }
+	inline ShDimensionStyle* getDimensionStyle(int index) const { return this->styles.at(index); }
+	inline int getSize() const { return this->styles.size(); }
+	inline int getIndex(ShDimensionStyle *dimensionStyle) const { return this->styles.indexOf(dimensionStyle); }
+
 };
 
 #endif //_SHDIMENSIONSTYLETABLE_H
