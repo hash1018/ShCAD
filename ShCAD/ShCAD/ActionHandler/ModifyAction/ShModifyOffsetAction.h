@@ -6,6 +6,7 @@
 #include "Command\ShCustomCommand.h"
 
 class ShEntity;
+class ShAddEntityTransaction;
 
 class ShModifyOffsetAction : public ShModifyAction {
 
@@ -18,6 +19,7 @@ public:
 	};
 
 private:
+	ShAddEntityTransaction *transaction;
 	ShOnlyNumberCommand<ShModifyOffsetAction> *command;
 	Status status;
 	double offsetDistance;
@@ -45,6 +47,7 @@ protected:
 
 private:
 	void inputNumber(void *number);
+	void addEntity(ShEntity *entity);
 };
 
 #endif //_SHMODIFYOFFSETACTION_H

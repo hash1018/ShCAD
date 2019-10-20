@@ -10,10 +10,12 @@
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
 #include "Entity\Private\ShOffsetVisitor.h"
+#include "Base\ShGlobal.h"
+#include "UnRedo\ShEntityTransaction.h"
 
 
 ShModifyOffsetAction::ShModifyOffsetAction(ShCADWidget *widget)
-	:ShModifyAction(widget), status(Status::InputtingNumber) {
+	:ShModifyAction(widget), status(Status::InputtingNumber), transaction(nullptr) {
 
 	if (this->widget->getSelectedEntities()->getSize() != 0)
 		this->widget->getSelectedEntities()->unSelectAll();
@@ -214,8 +216,23 @@ void ShModifyOffsetAction::trigger(const ShPoint3d &point) {
 
 		this->widget->setCursor(this->getCursorShape());
 		this->triggerSucceeded();
+	}
+	else if (this->status == Status::PickingPointOnSideToOffset) {
+	
+		ShOffsetVisitor visitor(this->offsetDistance, point, this->entityToOffset);
+		(*this->widget->getPreview().begin())->accept(&visitor);
 
-		
+		this->addEntity((*this->widget->getPreview().begin())->clone());
+
+		this->widget->getPreview().clear();
+		this->widget->getSelectedEntities()->unSelectAll();
+
+		this->widget->update((DrawType)(DrawType::DrawAll));
+		this->widget->captureImage();
+
+		this->status = Status::SelectingEntityToModify;
+		this->widget->setCursor(this->getCursorShape());
+		this->triggerSucceeded();
 	}
 }
 
@@ -245,4 +262,16 @@ void ShModifyOffsetAction::inputNumber(void *number) {
 		this->widget->setCursor(this->getCursorShape());
 		this->triggerSucceeded();
 	}
+}
+
+void ShModifyOffsetAction::addEntity(ShEntity *entity) {
+
+	if (this->transaction == nullptr) {
+		this->transaction = new ShAddEntityTransaction(this->widget, "Offset");
+		ShGlobal::pushNewTransaction(this->widget, this->transaction);
+	}
+
+	this->widget->getEntityTable().add(entity);
+	this->transaction->add(entity);
+
 }
