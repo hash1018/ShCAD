@@ -251,7 +251,10 @@
     <ClCompile Include="Event\ShHomeTabEventFilter.cpp" />
     <ClCompile Include="Event\ShNotifyEvent.cpp" />
     <ClCompile Include="Event\ShStatusBarEventFilter.cpp" />
-    <ClCompile Include="Event\ShToolBarContainerEventFilter.cpp" />
+    <ClCompile Include="Event\ToolBarEventFilter\ShDimensionToolBarEventFilter.cpp" />
+    <ClCompile Include="Event\ToolBarEventFilter\ShLayerToolBarEventFilter.cpp" />
+    <ClCompile Include="Event\ToolBarEventFilter\ShPropertyToolBarEventFilter.cpp" />
+    <ClCompile Include="Event\ToolBarEventFilter\ShQuickAccessToolBarEventFilter.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_ShButton.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -686,6 +689,10 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
     </CustomBuild>
+    <ClInclude Include="Event\ToolBarEventFilter\ShDimensionToolBarEventFilter.h" />
+    <ClInclude Include="Event\ToolBarEventFilter\ShLayerToolBarEventFilter.h" />
+    <ClInclude Include="Event\ToolBarEventFilter\ShPropertyToolBarEventFilter.h" />
+    <ClInclude Include="Event\ToolBarEventFilter\ShQuickAccessToolBarEventFilter.h" />
     <ClInclude Include="Interface\Dialog\ShPlotPreviewDialog.h" />
     <CustomBuild Include="Interface\Item\ShDimensionStyleComboBox.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -756,7 +763,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_PRINTSUPPORT_LIB  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtPrintSupport" "-IC:\Program Files (x86)\Visual Leak Detector\include"</Command>
     </CustomBuild>
-    <ClInclude Include="Event\ShToolBarContainerEventFilter.h" />
     <ClInclude Include="Interface\Dock\ShAbstractDock.h" />
     <ClInclude Include="Interface\Dock\ShCommandDock.h" />
     <CustomBuild Include="Interface\Item\ShColorComboBox.h">

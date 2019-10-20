@@ -8,14 +8,12 @@
 
 class ShNotifyEvent;
 class ShDimensionStyleComboBox;
-class QPushButton;
 
 class ShDimensionToolBar : public ShAbstractToolBar {
 
 private:
 	ShDimensionStyleComboBox *dimensionStyleComboBox;
-	QPushButton *modifyDimensionStyleButton;
-
+	
 public:
 	ShDimensionToolBar(const QString &title, ShChain *chain, QWidget *parent = nullptr);
 	~ShDimensionToolBar();
@@ -37,7 +35,7 @@ private:
 	void dimArcLengthActionClicked();
 
 	void currentDimensionStyleChanged(ShDimensionStyle *dimensionStyle);
-	void modifyDimensionStyleButtonClicked();
+	void modifyDimensionStyleActionClicked();
 
 };
 

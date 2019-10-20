@@ -24,6 +24,7 @@ public:
 	inline ShDimensionStyle* getDimensionStyle(int index) const { return this->styles.at(index); }
 	inline int getSize() const { return this->styles.size(); }
 	inline int getIndex(ShDimensionStyle *dimensionStyle) const { return this->styles.indexOf(dimensionStyle); }
+	inline int getCurrentDimensionStyleIndex() const { return this->styles.indexOf(this->currentStyle); }
 
 };
 

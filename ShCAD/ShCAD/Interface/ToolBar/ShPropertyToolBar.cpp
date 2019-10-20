@@ -2,7 +2,7 @@
 
 #include "ShPropertyToolBar.h"
 #include "Interface\Item\ShColorComboBox.h"
-#include "Event\ShToolBarContainerEventFilter.h"
+#include "Event\ToolBarEventFilter\ShPropertyToolBarEventFilter.h"
 #include "Event\ShNotifyEvent.h"
 #include "Chain of Responsibility\ShRequest.h"
 #include "Interface\Item\ShLineStyleComboBox.h"

@@ -1,7 +1,7 @@
 
 #include "ShLayerToolBar.h"
 #include "Interface\Item\ShLayerComboBox.h"
-#include "Event\ShToolBarContainerEventFilter.h"
+#include "Event\ToolBarEventFilter\ShLayerToolBarEventFilter.h"
 #include "Event\ShNotifyEvent.h"
 #include "Chain of Responsibility\ShRequest.h"
 #include "Interface\Dialog\ShLayerDialog.h"

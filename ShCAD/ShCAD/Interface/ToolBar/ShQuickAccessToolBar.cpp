@@ -4,7 +4,7 @@
 #include "Manager\ShLanguageManager.h"
 #include "Chain of Responsibility\ShRequest.h"
 #include <qpushbutton.h>
-#include "Event\ShToolBarContainerEventFilter.h"
+#include "Event\ToolBarEventFilter\ShQuickAccessToolBarEventFilter.h"
 
 ShQuickAccessToolBar::ShQuickAccessToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {

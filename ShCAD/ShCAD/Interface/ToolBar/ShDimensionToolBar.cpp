@@ -5,6 +5,7 @@
 #include "Chain of Responsibility\ShRequest.h"
 #include "Interface\Item\ShDimensionStyleComboBox.h"
 #include <qpushbutton.h>
+#include "Event\ToolBarEventFilter\ShDimensionToolBarEventFilter.h"
 
 ShDimensionToolBar::ShDimensionToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
@@ -30,13 +31,14 @@ ShDimensionToolBar::ShDimensionToolBar(const QString &title, ShChain *chain, QWi
 	action = this->addAction(ShIcon(":/Image/Dimension/DimAngular.png"), "DimAngular");
 	connect(action, &QAction::triggered, this, &ShDimensionToolBar::dimAngularActionClicked);
 
+	this->addSeparator();
+
 	this->dimensionStyleComboBox = new ShDimensionStyleComboBox(this);
 	this->addWidget(this->dimensionStyleComboBox);
 	connect(this->dimensionStyleComboBox, &ShDimensionStyleComboBox::currentDimensionStyleChanged, this, &ShDimensionToolBar::currentDimensionStyleChanged);
 
-	this->modifyDimensionStyleButton = new QPushButton("modify", this);
-	this->addWidget(this->modifyDimensionStyleButton);
-	connect(this->modifyDimensionStyleButton, &QPushButton::pressed, this, &ShDimensionToolBar::modifyDimensionStyleButtonClicked);
+	action = this->addAction(ShIcon(":/Image/Dimension/DimStyleSetting.png"), "DimStyle");
+	connect(action, &QAction::triggered, this, &ShDimensionToolBar::modifyDimensionStyleActionClicked);
 	
 }
 
@@ -46,7 +48,8 @@ ShDimensionToolBar::~ShDimensionToolBar() {
 
 void ShDimensionToolBar::update(ShNotifyEvent *event) {
 
-
+	ShDimensionToolBarEventFilter filter(this, event);
+	filter.update();
 }
 
 void ShDimensionToolBar::dimLinearActionClicked() {
@@ -96,6 +99,6 @@ void ShDimensionToolBar::currentDimensionStyleChanged(ShDimensionStyle *dimensio
 
 }
 
-void ShDimensionToolBar::modifyDimensionStyleButtonClicked() {
+void ShDimensionToolBar::modifyDimensionStyleActionClicked() {
 
 }
