@@ -7,6 +7,15 @@
 class ShModifyEraseAction : public ShModifyAction {
 
 public:
+	enum Status {
+		SelectingEntities,
+
+	};
+
+private:
+	Status status;
+
+public:
 	ShModifyEraseAction(ShCADWidget *widget);
 	~ShModifyEraseAction();
 
@@ -15,6 +24,7 @@ public:
 
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
+	virtual QCursor getCursorShape();
 
 	virtual void finishSelectingEntities();
 

@@ -42,7 +42,14 @@ ActionType ShModifyOffsetAction::getType() {
 
 QString ShModifyOffsetAction::getHeadTitle() {
 
-	return QString();
+	QString text;
+
+	
+	text = "Offset >> " + shGetLanValue_command("Command/Specify offset distance") + ": ";
+	
+	
+
+	return text;
 }
 
 void ShModifyOffsetAction::finishSelectingEntities() {

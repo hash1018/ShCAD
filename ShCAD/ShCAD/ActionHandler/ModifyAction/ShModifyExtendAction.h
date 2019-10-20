@@ -8,8 +8,16 @@ class ShExtendEntityTransaction;
 
 class ShModifyExtendAction : public ShModifyAction {
 
+public:
+	enum Status {
+		SelectingEntities,
+		SelectingEntityToModify,
+
+	};
+
 private:
 	ShExtendEntityTransaction *transaction;
+	Status status;
 
 public:
 	ShModifyExtendAction(ShCADWidget *widget);
@@ -21,6 +29,7 @@ public:
 
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
+	virtual QCursor getCursorShape();
 
 
 	virtual void invalidate(ShPoint3d &point);

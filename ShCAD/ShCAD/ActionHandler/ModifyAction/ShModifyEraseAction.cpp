@@ -3,11 +3,20 @@
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
+#include "Base\ShCursorShape.h"
+#include "KeyHandler\ShKeyHandler.h"
 
 
 ShModifyEraseAction::ShModifyEraseAction(ShCADWidget *widget)
-	:ShModifyAction(widget) {
+	:ShModifyAction(widget), status(Status::SelectingEntities) {
 
+	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
+		allowKey(KeyType::Enter).
+		allowKey(KeyType::Return).
+		allowKey(KeyType::Control_A).
+		allowKey(KeyType::EscCancelCurrent).
+		allowInput().
+		build();
 }
 
 ShModifyEraseAction::~ShModifyEraseAction() {
@@ -47,11 +56,23 @@ QString ShModifyEraseAction::getHeadTitle() {
 	return text;
 }
 
+QCursor ShModifyEraseAction::getCursorShape() {
+
+	QCursor cursor;
+
+	if (this->status == Status::SelectingEntities) {
+
+		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Selecting);
+	}
+
+	return cursor;
+}
+
 void ShModifyEraseAction::finishSelectingEntities() {
 
 	if (this->widget->getSelectedEntities()->getSize() != 0) {
 
-		this->status = Status::PickingBasePoint;
+		//this->status = Status::PickingBasePoint;
 
 		QLinkedList<ShEntity*> list;
 		auto itr = this->widget->getSelectedEntities()->begin();

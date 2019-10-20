@@ -7,8 +7,15 @@
 
 class ShModifyOffsetAction : public ShModifyAction {
 
+public:
+	enum Status {
+		InputtingNumber,
+
+	};
+
 private:
 	ShOnlyNumberCommand<ShModifyOffsetAction> *command;
+	Status status;
 
 public:
 	ShModifyOffsetAction(ShCADWidget *widget);

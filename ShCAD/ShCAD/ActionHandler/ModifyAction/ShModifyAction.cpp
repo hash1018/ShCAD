@@ -1,74 +1,21 @@
 
 #include "ShModifyAction.h"
-#include "KeyHandler\ShKeyHandler.h"
 #include "Entity\Private\ShSearchEntityStrategy.h"
 #include <QMouseEvent>
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include <qpainter.h>
-#include "Base\ShCursorShape.h"
-
 
 ShModifyAction::ShModifyAction(ShCADWidget *widget)
-	:ShActionHandler(widget), status(Status::SelectingEntities) {
+	:ShActionHandler(widget) {
 
-	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
-		allowKey(KeyType::Enter).
-		allowKey(KeyType::Return).
-		allowKey(KeyType::Control_A).
-		allowKey(KeyType::EscCancelCurrent).
-		allowInput().
-		build();
+	
 }
 
 ShModifyAction::~ShModifyAction() {
 
 }
-
-QCursor ShModifyAction::getCursorShape() {
-
-	QCursor cursor;
-
-	if (this->status == Status::SelectingEntities ||
-		this->status == Status::SelectingEntityToModify) {
-		
-		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Selecting);
-	}
-
-	else if (this->status == Status::PickingBasePoint ||
-		this->status == Status::PickingSecondPoint ||
-		this->status == Status::InputtingNumber) {
-
-		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Drawing);
-	}
-	
-
-	return cursor;
-}
-
-ShAvailableDraft ShModifyAction::getAvailableDraft() {
-
-	ShAvailableDraft draft;
-
-	if (this->status == Status::PickingBasePoint) {
-
-		draft.setAvailableOrthogonal(true);
-		draft.setAvailableSnap(true);
-		draft.setOrthogonalBasePoint(this->widget->getMousePoint());
-		draft.setSnapBasePoint(this->widget->getMousePoint());
-	}
-	else if (this->status == Status::PickingSecondPoint) {
-
-		draft.setAvailableOrthogonal(true);
-		draft.setAvailableSnap(true);
-		draft.setOrthogonalBasePoint(this->widget->getRubberBand().getStart());
-		draft.setSnapBasePoint(this->widget->getRubberBand().getStart());
-	}
-
-	return draft;
-}
-
 
 void ShModifyAction::selectFoundEntity(ShEntity *foundEntity, Qt::KeyboardModifiers modifier) {
 
@@ -140,9 +87,4 @@ void ShModifyAction::triggerSelectingEntities(QMouseEvent *event) {
 		this->selectFoundEntity(entity, event->modifiers());
 	}
 
-}
-
-void ShModifyAction::finishSelectingEntities() {
-
-	this->keyHandler->disAllowKey(KeyType::Control_A);
 }

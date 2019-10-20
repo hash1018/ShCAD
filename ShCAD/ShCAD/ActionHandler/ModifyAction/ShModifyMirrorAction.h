@@ -7,6 +7,18 @@
 class ShModifyMirrorAction : public ShModifyAction {
 
 public:
+	enum Status {
+		SelectingEntities,
+		PickingBasePoint,
+		PickingSecondPoint,
+
+	};
+
+private:
+	Status status;
+	ShPoint3d base;
+
+public:
 	ShModifyMirrorAction(ShCADWidget *widget);
 	~ShModifyMirrorAction();
 
@@ -16,6 +28,8 @@ public:
 
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
+	virtual QCursor getCursorShape();
+	virtual ShAvailableDraft getAvailableDraft();
 
 
 	virtual void invalidate(ShPoint3d &point);

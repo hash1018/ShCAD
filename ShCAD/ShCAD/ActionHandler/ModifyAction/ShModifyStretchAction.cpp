@@ -10,11 +10,17 @@
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "KeyHandler\ShKeyHandler.h"
+#include "Base\ShCursorShape.h"
 
 ShModifyStretchAction::ShModifyStretchAction(ShCADWidget *widget)
-	:ShModifyAction(widget) {
+	:ShModifyAction(widget), status(Status::SelectingEntities) {
 
-	this->keyHandler->disAllowKey(KeyType::Control_A);
+	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
+		allowKey(KeyType::Enter).
+		allowKey(KeyType::Return).
+		allowKey(KeyType::EscCancelCurrent).
+		allowInput().
+		build();
 }
 
 ShModifyStretchAction::~ShModifyStretchAction() {
@@ -71,6 +77,47 @@ QString ShModifyStretchAction::getHeadTitle() {
 	}
 
 	return text;
+}
+
+QCursor ShModifyStretchAction::getCursorShape() {
+
+	QCursor cursor;
+
+	if (this->status == Status::SelectingEntities) {
+
+		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Selecting);
+	}
+
+	else if (this->status == Status::PickingBasePoint ||
+		this->status == Status::PickingSecondPoint) {
+
+		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Drawing);
+	}
+
+
+	return cursor;
+}
+
+ShAvailableDraft ShModifyStretchAction::getAvailableDraft() {
+
+	ShAvailableDraft draft;
+
+	if (this->status == Status::PickingBasePoint) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->widget->getMousePoint());
+		draft.setSnapBasePoint(this->widget->getMousePoint());
+	}
+	else if (this->status == Status::PickingSecondPoint) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->widget->getRubberBand().getStart());
+		draft.setSnapBasePoint(this->widget->getRubberBand().getStart());
+	}
+
+	return draft;
 }
 
 void ShModifyStretchAction::trigger(const ShPoint3d &point) {

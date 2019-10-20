@@ -9,8 +9,16 @@ class ShTrimEntityTransaction;
 
 class ShModifyTrimAction : public ShModifyAction {
 
+public:
+	enum Status {
+		SelectingEntities,
+		SelectingEntityToModify,
+
+	};
+
 private:
 	ShTrimEntityTransaction *transaction;
+	Status status;
 
 public:
 	ShModifyTrimAction(ShCADWidget *widget);
@@ -22,7 +30,7 @@ public:
 
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
-
+	virtual QCursor getCursorShape();
 
 	virtual void invalidate(ShPoint3d &point);
 

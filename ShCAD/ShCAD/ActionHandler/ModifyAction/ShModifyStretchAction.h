@@ -10,9 +10,19 @@ class ShStretchData;
 
 class ShModifyStretchAction : public ShModifyAction {
 
+public:
+	enum Status {
+		SelectingEntities,
+		PickingBasePoint,
+		PickingSecondPoint,
+
+	};
+
 private:
 	QLinkedList<ShEntity*> possibleStretchEntities;
 	QLinkedList<ShStretchData*> stretchDatas;
+	Status status;
+	ShPoint3d base;
 
 public:
 	ShModifyStretchAction(ShCADWidget *widget);
@@ -24,6 +34,8 @@ public:
 
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
+	virtual QCursor getCursorShape();
+	virtual ShAvailableDraft getAvailableDraft();
 
 
 	virtual void invalidate(ShPoint3d &point);

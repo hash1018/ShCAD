@@ -6,12 +6,20 @@
 #include "Entity\Private\ShRotater.h"
 #include "Base\ShMath.h"
 #include "Command\ShAvailableCommands.h"
+#include "KeyHandler\ShKeyHandler.h"
+#include "Base\ShCursorShape.h"
 
 
 ShModifyRotateAction::ShModifyRotateAction(ShCADWidget *widget)
-	:ShModifyAction(widget) {
+	:ShModifyAction(widget), status(Status::SelectingEntities) {
 
-
+	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
+		allowKey(KeyType::Enter).
+		allowKey(KeyType::Return).
+		allowKey(KeyType::Control_A).
+		allowKey(KeyType::EscCancelCurrent).
+		allowInput().
+		build();
 }
 
 ShModifyRotateAction::~ShModifyRotateAction() {
@@ -67,6 +75,47 @@ QString ShModifyRotateAction::getHeadTitle() {
 	}
 
 	return text;
+}
+
+QCursor ShModifyRotateAction::getCursorShape() {
+
+	QCursor cursor;
+
+	if (this->status == Status::SelectingEntities) {
+
+		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Selecting);
+	}
+
+	else if (this->status == Status::PickingBasePoint ||
+		this->status == Status::PickingSecondPoint) {
+
+		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Drawing);
+	}
+
+
+	return cursor;
+}
+
+ShAvailableDraft ShModifyRotateAction::getAvailableDraft() {
+
+	ShAvailableDraft draft;
+
+	if (this->status == Status::PickingBasePoint) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->widget->getMousePoint());
+		draft.setSnapBasePoint(this->widget->getMousePoint());
+	}
+	else if (this->status == Status::PickingSecondPoint) {
+
+		draft.setAvailableOrthogonal(true);
+		draft.setAvailableSnap(true);
+		draft.setOrthogonalBasePoint(this->widget->getRubberBand().getStart());
+		draft.setSnapBasePoint(this->widget->getRubberBand().getStart());
+	}
+
+	return draft;
 }
 
 void ShModifyRotateAction::trigger(const ShPoint3d &point) {
@@ -160,7 +209,7 @@ void ShModifyRotateAction::finishSelectingEntities() {
 			addAvailableCommand(CommandType::DistanceFromBase).
 			build();
 
-		ShModifyAction::finishSelectingEntities();
+		this->keyHandler->disAllowKey(KeyType::Control_A);
 	}
 	else {
 

@@ -6,8 +6,18 @@
 
 class ShModifyRotateAction : public ShModifyAction {
 
+public:
+	enum Status {
+		SelectingEntities,
+		PickingBasePoint,
+		PickingSecondPoint,
+
+	};
+
 private:
 	double prevAngle;
+	Status status;
+	ShPoint3d base;
 
 public:
 	ShModifyRotateAction(ShCADWidget *widget);
@@ -19,6 +29,8 @@ public:
 
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
+	virtual QCursor getCursorShape();
+	virtual ShAvailableDraft getAvailableDraft();
 
 
 	virtual void invalidate(ShPoint3d &point);

@@ -5,11 +5,20 @@
 #include "Entity\Private\ShTrimer.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
+#include "Base\ShCursorShape.h"
+#include "KeyHandler\ShKeyHandler.h"
 
 
 ShModifyTrimAction::ShModifyTrimAction(ShCADWidget *widget)
-	:ShModifyAction(widget), transaction(nullptr) {
+	:ShModifyAction(widget), transaction(nullptr), status(Status::SelectingEntities) {
 
+	this->keyHandler = ShKeyHandler::ShBuilder(this->widget, this).
+		allowKey(KeyType::Enter).
+		allowKey(KeyType::Return).
+		allowKey(KeyType::Control_A).
+		allowKey(KeyType::EscCancelCurrent).
+		allowInput().
+		build();
 }
 
 ShModifyTrimAction::~ShModifyTrimAction() {
@@ -58,6 +67,19 @@ QString ShModifyTrimAction::getHeadTitle() {
 	return text;
 }
 
+QCursor ShModifyTrimAction::getCursorShape() {
+
+	QCursor cursor;
+
+	if (this->status == Status::SelectingEntities ||
+		this->status == Status::SelectingEntityToModify) {
+
+		cursor = ShCursorShape::getCursor(ShCursorShape::CursorType::Selecting);
+	}
+
+	return cursor;
+}
+
 void ShModifyTrimAction::invalidate(ShPoint3d &point) {
 
 }
@@ -73,7 +95,7 @@ void ShModifyTrimAction::finishSelectingEntities() {
 
 		this->widget->setCursor(this->getCursorShape());
 
-		ShModifyAction::finishSelectingEntities();
+		this->keyHandler->disAllowKey(KeyType::Control_A);
 
 	}
 	else {
