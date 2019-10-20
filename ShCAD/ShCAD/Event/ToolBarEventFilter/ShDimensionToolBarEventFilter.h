@@ -47,4 +47,17 @@ public:
 	virtual void update();
 };
 
+
+///////////////////////////////////////////////////
+
+class ShDimensionToolBarActionChangedEventFilterStrategy : public ShDimensionToolBarEventFilterStrategy {
+
+public:
+	ShDimensionToolBarActionChangedEventFilterStrategy(ShDimensionToolBar *dimensionToolBar, ShNotifyEvent *event);
+	~ShDimensionToolBarActionChangedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHDIMENSIONTOOLBAREVENTFILTER_H
