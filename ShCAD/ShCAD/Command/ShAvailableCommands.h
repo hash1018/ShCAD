@@ -46,6 +46,7 @@ public:
 	void interpret(const QString &command);
 
 	void remove(CommandType type);
+	void remove(ShAbstractCustomCommand *command);
 	void add(CommandType type);
 	void add(ShAbstractCustomCommand *command);
 

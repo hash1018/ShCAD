@@ -5,17 +5,24 @@
 #include "ShModifyAction.h"
 #include "Command\ShCustomCommand.h"
 
+class ShEntity;
+
 class ShModifyOffsetAction : public ShModifyAction {
 
 public:
 	enum Status {
 		InputtingNumber,
-
+		PickingSecondPoint,
+		SelectingEntityToModify,
+		PickingPointOnSideToOffset,
 	};
 
 private:
 	ShOnlyNumberCommand<ShModifyOffsetAction> *command;
 	Status status;
+	double offsetDistance;
+	ShPoint3d firstPickPoint;
+	ShEntity *entityToOffset;
 
 public:
 	ShModifyOffsetAction(ShCADWidget *widget);
@@ -26,6 +33,8 @@ public:
 
 	virtual ActionType getType();
 	virtual QString getHeadTitle();
+	virtual QCursor getCursorShape();
+	virtual ShAvailableDraft getAvailableDraft();
 
 	virtual void finishSelectingEntities();
 

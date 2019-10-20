@@ -236,6 +236,7 @@
     <ClCompile Include="Entity\Private\ShLineBothPerpendicularVisitor.cpp" />
     <ClCompile Include="Entity\Private\ShMirror.cpp" />
     <ClCompile Include="Entity\Private\ShMover.cpp" />
+    <ClCompile Include="Entity\Private\ShOffsetVisitor.cpp" />
     <ClCompile Include="Entity\Private\ShPloter.cpp" />
     <ClCompile Include="Entity\Private\ShRotater.cpp" />
     <ClCompile Include="Entity\Private\ShSearchEntityStrategy.cpp" />
@@ -597,6 +598,7 @@
     <ClInclude Include="Entity\Private\ShLineBothPerpendicularVisitor.h" />
     <ClInclude Include="Entity\Private\ShMirror.h" />
     <ClInclude Include="Entity\Private\ShMover.h" />
+    <ClInclude Include="Entity\Private\ShOffsetVisitor.h" />
     <ClInclude Include="Entity\Private\ShPloter.h" />
     <ClInclude Include="Entity\Private\ShRotater.h" />
     <ClInclude Include="Entity\Private\ShSearchEntityStrategy.h" />

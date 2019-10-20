@@ -718,6 +718,9 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyOffsetAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Private\ShOffsetVisitor.cpp">
+      <Filter>Entity\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1246,6 +1249,9 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyOffsetAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\ShOffsetVisitor.h">
+      <Filter>Entity\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

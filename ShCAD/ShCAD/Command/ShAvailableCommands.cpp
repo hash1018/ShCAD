@@ -95,6 +95,11 @@ void ShAvailableCommands::remove(CommandType type) {
 	}
 }
 
+void ShAvailableCommands::remove(ShAbstractCustomCommand *command) {
+
+	this->list.removeOne(command);
+}
+
 void ShAvailableCommands::add(CommandType type) {
 
 	if (type == CustomCommand)
