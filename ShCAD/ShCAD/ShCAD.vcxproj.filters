@@ -1274,5 +1274,14 @@
     <ClInclude Include="Event\ToolBarEventFilter\ShLayerToolBarEventFilter.h">
       <Filter>Event\ToolBarEventFilter</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ShCAD.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Icon.ico" />
   </ItemGroup>
 </Project>

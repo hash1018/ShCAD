@@ -234,7 +234,7 @@ void ShPloter::visit(ShDimDiameter *dimDiameter) {
 
 	this->widget->convertEntityToDevice(data.text.x, data.text.y, x, y);
 	double angle = math::getAbsAngle(data.center.x, data.center.y, data.text.x, data.text.y);
-	this->plotText(this->painter, x, y, angle, QString(QString::fromLocal8Bit("д▒")) + QString::number(dimDiameter->getDiameter(), 'f', 4),
+	this->plotText(this->painter, x, y, angle, QString(QString::fromLocal8Bit("ик")) + QString::number(dimDiameter->getDiameter(), 'f', 4),
 		dimDiameter->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color);
 }
 

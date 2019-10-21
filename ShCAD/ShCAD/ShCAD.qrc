@@ -58,5 +58,7 @@
         <file>Image/Snap/Node.png</file>
         <file>Image/Modify/Offset.png</file>
         <file>Image/Dimension/DimStyleSetting.png</file>
+        <file>Image/Splash.png</file>
+        <file>Image/ShCADIcon.png</file>
     </qresource>
 </RCC>

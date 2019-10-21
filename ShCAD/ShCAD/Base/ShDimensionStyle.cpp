@@ -320,7 +320,7 @@ void ShDimensionTextStyle::drawDimensionRadiusText(QPainter *painter, int dx, in
 
 void ShDimensionTextStyle::drawDimensionDiameterText(QPainter *painter, int dx, int dy, double angle, double diameter, const QColor &color, double zoomRate) const {
 
-	this->drawDimensionText(painter, dx, dy, angle, QString(QString::fromLocal8Bit("д▒")) + QString::number(diameter, 'f', 4), color, zoomRate);
+	this->drawDimensionText(painter, dx, dy, angle, QString(QString::fromLocal8Bit("ик")) + QString::number(diameter, 'f', 4), color, zoomRate);
 }
 
 void ShDimensionTextStyle::drawDimensionArcLengthText(QPainter *painter, int dx, int dy, double angle, double arcLength, const QColor &color, double zoomRate) const {

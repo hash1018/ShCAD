@@ -10,14 +10,16 @@ int main(int argc, char *argv[]) {
 	QApplication a(argc, argv);
 
 	ShStartupDialog dialog;
+	dialog.setWindowIcon(QIcon(":/Image/ShCADIcon.png"));
+	
 
 	if (dialog.exec() != QDialog::Accepted) {
 		
 		a.quit();
 	}
 	else {
-
-		QSplashScreen splash;
+		
+		QSplashScreen splash(QPixmap(":/Image/Splash.png"));
 		splash.show();
 		
 		ShCAD shCAD;
@@ -25,6 +27,7 @@ int main(int argc, char *argv[]) {
 
 		splash.finish(&shCAD);
 		
+		a.setWindowIcon(QIcon(":/Image/ShCADIcon.png"));
 		a.exec();
 	}
 	
