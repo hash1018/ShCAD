@@ -124,4 +124,16 @@ public:
 
 };
 
+
+/////////////////////////////////////////////////////////
+
+class ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy : public ShCADWidgetEventFilterStrategy {
+
+public:
+	ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event);
+	~ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy();
+
+	virtual void update();
+
+};
 #endif //_SHCADWIDGETEVENTFILTER_H

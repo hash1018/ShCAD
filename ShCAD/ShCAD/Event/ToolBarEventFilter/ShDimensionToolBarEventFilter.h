@@ -60,4 +60,16 @@ public:
 
 };
 
+////////////////////////////////////////////////////
+
+class ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy : public ShDimensionToolBarEventFilterStrategy {
+
+public:
+	ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy(ShDimensionToolBar *dimensionToolBar, ShNotifyEvent *event);
+	~ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHDIMENSIONTOOLBAREVENTFILTER_H

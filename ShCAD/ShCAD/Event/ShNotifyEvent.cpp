@@ -177,3 +177,14 @@ ShSelectedEntityCountChangedEvent::~ShSelectedEntityCountChangedEvent() {
 
 }
 
+
+///////////////////////////////////////////////////////////////////////////
+
+ShCurrentDimensionStyleChangedEvent::ShCurrentDimensionStyleChangedEvent(ShDimensionStyle *currentDimensionStyle)
+	:ShNotifyEvent(Type::CurrentDimensionStyleChanged), currentDimensionStyle(currentDimensionStyle) {
+
+}
+
+ShCurrentDimensionStyleChangedEvent::~ShCurrentDimensionStyleChangedEvent() {
+
+}

@@ -6,6 +6,7 @@
 #include "Interface\Item\ShDimensionStyleComboBox.h"
 #include <qpushbutton.h>
 #include "Event\ToolBarEventFilter\ShDimensionToolBarEventFilter.h"
+#include "Event\ShNotifyEvent.h"
 
 ShDimensionToolBar::ShDimensionToolBar(const QString &title, ShChain *chain, QWidget *parent)
 	:ShAbstractToolBar(title, chain, parent) {
@@ -96,7 +97,9 @@ void ShDimensionToolBar::dimArcLengthActionClicked() {
 
 void ShDimensionToolBar::currentDimensionStyleChanged(ShDimensionStyle *dimensionStyle) {
 
-
+	ShCurrentDimensionStyleChangedEvent event(dimensionStyle);
+	ShRequestSendNotifyEvent request(&event);
+	this->request(&request);
 }
 
 void ShDimensionToolBar::modifyDimensionStyleActionClicked() {

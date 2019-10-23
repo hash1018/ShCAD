@@ -13,7 +13,7 @@ class ShColor;
 class ShLineStyle;
 class ShLayer;
 class ShEntity;
-
+class ShDimensionStyle;
 
 class ShNotifyEvent {
 
@@ -33,6 +33,7 @@ public:
 		LayerDeleted,
 		ActionChanged,
 		SelectedEntityCountChanged,
+		CurrentDimensionStyleChanged,
 
 	};
 
@@ -271,5 +272,16 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
+class ShCurrentDimensionStyleChangedEvent : public ShNotifyEvent {
+
+public:
+	ShCurrentDimensionStyleChangedEvent(ShDimensionStyle *currentDimensionStyle);
+	~ShCurrentDimensionStyleChangedEvent();
+
+	inline ShDimensionStyle* getCurrentDimensionStyle() const { return this->currentDimensionStyle; }
+
+private:
+	ShDimensionStyle *currentDimensionStyle;
+};
 
 #endif //_SHNOTIFYEVENT_H

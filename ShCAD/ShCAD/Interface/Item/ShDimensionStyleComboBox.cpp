@@ -57,5 +57,6 @@ void ShDimensionStyleComboBox::dimensionStyleComboIndexChanged(int index) {
 	if (this->dimensionStyleComboSelChangedByUser == false)
 		return;
 
-
+	this->setDimensionStyleComboCurrentIndex(index);
+	emit currentDimensionStyleChanged(this->dimensionStyleTable->getDimensionStyle(index));
 }

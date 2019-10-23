@@ -423,6 +423,7 @@
     <ClCompile Include="Manager\ShPlotManager.cpp" />
     <ClCompile Include="ObjectSnap\ShObjectSnapCommandFactory.cpp" />
     <ClCompile Include="UnRedo\ShCADWidgetTransaction.cpp" />
+    <ClCompile Include="UnRedo\ShDimensionStyleTransaction.cpp" />
     <ClCompile Include="UnRedo\ShEntityTransaction.cpp" />
     <ClCompile Include="UnRedo\ShLayerTransaction.cpp" />
     <ClCompile Include="UnRedo\ShPanTransaction.cpp" />
@@ -743,6 +744,7 @@
     <ClInclude Include="Manager\ShCommandLogManager.h" />
     <ClInclude Include="Manager\ShPlotManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="UnRedo\ShDimensionStyleTransaction.h" />
     <ClInclude Include="UnRedo\ShLayerTransaction.h" />
     <ClInclude Include="Utility\ShColorConverter.h" />
     <ClInclude Include="Utility\ShLineStyleConverter.h" />

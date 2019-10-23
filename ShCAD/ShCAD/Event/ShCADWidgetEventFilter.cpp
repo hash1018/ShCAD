@@ -10,6 +10,9 @@
 #include "UnRedo\ShLayerTransaction.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "UnRedo\ShEntityTransaction.h"
+#include "Base\ShDimensionStyleTable.h"
+#include "UnRedo\ShDimensionStyleTransaction.h"
+
 
 ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -28,6 +31,8 @@ ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEven
 		this->strategy = new ShCADWidgetLayerCreatedEventFilterStrategy(widget, event);
 	else if (event->getType() == ShNotifyEvent::LayerDeleted)
 		this->strategy = new ShCADWidgetLayerDeletedEventFilterStrategy(widget, event);
+	else if (event->getType() == ShNotifyEvent::CurrentDimensionStyleChanged)
+		this->strategy = new ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy(widget, event);
 
 }
 
@@ -441,4 +446,39 @@ void ShCADWidgetLayerDeletedEventFilterStrategy::update() {
 
 	ShDeleteLayerTransaction *transaction = new ShDeleteLayerTransaction(this->widget, event->getDeletedLayer());
 	ShGlobal::pushNewTransaction(this->widget, transaction);
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy::ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy(ShCADWidget *widget, ShNotifyEvent *event)
+	:ShCADWidgetEventFilterStrategy(widget, event) {
+
+}
+
+ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy::~ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy() {
+
+}
+
+void ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy::update() {
+
+	ShCurrentDimensionStyleChangedEvent *event = dynamic_cast<ShCurrentDimensionStyleChangedEvent*>(this->event);
+
+	//later must find out dim count.
+	if (this->widget->getSelectedEntities()->getSize() == 0) {
+
+		ShDimensionStyle *prev = this->widget->getDimensionStyleTable()->getCurrentStyle();
+
+		if (prev == event->getCurrentDimensionStyle())
+			return;
+
+		this->widget->getDimensionStyleTable()->setCurrentStyle(event->getCurrentDimensionStyle());
+
+		this->widget->notify(this->event);
+
+
+		ShGlobal::pushNewTransaction(this->widget, new ShChangeCurrentDimensionStyleTransaction(this->widget,
+			prev, event->getCurrentDimensionStyle()));
+	}
+
 }

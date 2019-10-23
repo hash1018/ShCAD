@@ -13,6 +13,8 @@ ShDimensionToolBarEventFilter::ShDimensionToolBarEventFilter(ShDimensionToolBar 
 		this->strategy = new ShDimensionToolBarActivatedWidgetChangedEventFilterStrategy(dimensionToolBar, event);
 	else if (event->getType() == ShNotifyEvent::ActionChanged)
 		this->strategy = new ShDimensionToolBarActionChangedEventFilterStrategy(dimensionToolBar, event);
+	else if (event->getType() == ShNotifyEvent::CurrentDimensionStyleChanged)
+		this->strategy = new ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy(dimensionToolBar, event);
 
 }
 
@@ -87,4 +89,22 @@ void ShDimensionToolBarActionChangedEventFilterStrategy::update() {
 		this->dimensionToolBar->getDimensionStyleComboBox()->setDisabled(false);
 	else
 		this->dimensionToolBar->getDimensionStyleComboBox()->setDisabled(true);
+}
+
+
+////////////////////////////////////////////////
+
+ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy::ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy(ShDimensionToolBar *dimensionToolBar, ShNotifyEvent *event)
+	:ShDimensionToolBarEventFilterStrategy(dimensionToolBar, event) {
+
+}
+
+ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy::~ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy() {
+
+}
+
+void ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy::update() {
+
+	ShCurrentDimensionStyleChangedEvent *event = dynamic_cast<ShCurrentDimensionStyleChangedEvent*>(this->event);
+	this->dimensionToolBar->getDimensionStyleComboBox()->setDimensionStyleComboCurrentIndex(event->getCurrentDimensionStyle());
 }

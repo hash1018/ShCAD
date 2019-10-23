@@ -7,6 +7,10 @@ ShDimensionStyleTable::ShDimensionStyleTable() {
 	ShDimensionStyle *dimensionStyle = new ShDimensionStyle("Standard");
 	this->styles.append(dimensionStyle);
 	this->currentStyle = dimensionStyle;
+
+	dimensionStyle = new ShDimensionStyle("Sample1");
+	this->styles.append(dimensionStyle);
+	
 }
 
 ShDimensionStyleTable::~ShDimensionStyleTable() {

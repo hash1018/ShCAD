@@ -733,6 +733,9 @@
     <ClCompile Include="Event\ToolBarEventFilter\ShLayerToolBarEventFilter.cpp">
       <Filter>Event\ToolBarEventFilter</Filter>
     </ClCompile>
+    <ClCompile Include="UnRedo\ShDimensionStyleTransaction.cpp">
+      <Filter>UnRedo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1276,6 +1279,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnRedo\ShDimensionStyleTransaction.h">
+      <Filter>UnRedo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
