@@ -2,6 +2,7 @@
 #include "ShSelectedEntities.h"
 #include "Interface\ShCADWidget.h"
 #include "Event\ShNotifyEvent.h"
+#include "Entity\Composite\Dim\ShDim.h"
 
 ShSelectedEntities::ShSelectedEntities() {
 
@@ -23,6 +24,9 @@ bool ShSelectedEntities::add(ShEntity *entity) {
 	this->justSelectedList.clear();
 	this->justSelectedList.append(entity);
 
+	if (dynamic_cast<ShDim*>(entity))
+		this->dimSelectedList.append(dynamic_cast<ShDim*>(entity));
+
 	this->selectedEntityCountChanged();
 
 	return true;
@@ -37,10 +41,13 @@ bool ShSelectedEntities::add(const QLinkedList<ShEntity*> &list) {
 	for (itr; itr != const_cast<QLinkedList<ShEntity*>&>(list).end(); ++itr) {
 	
 		if ((*itr)->isSelected() == false) {
-		
+
 			(*itr)->select();
 			this->list.append((*itr));
 			this->justSelectedList.append(*itr);
+
+			if (dynamic_cast<ShDim*>((*itr)))
+				this->dimSelectedList.append(dynamic_cast<ShDim*>((*itr)));
 		}
 
 	}
@@ -65,6 +72,9 @@ bool ShSelectedEntities::remove(ShEntity *entity) {
 
 	this->justSelectedList.clear();
 
+	if (dynamic_cast<ShDim*>(entity))
+		this->dimSelectedList.removeOne(dynamic_cast<ShDim*>(entity));
+
 	this->selectedEntityCountChanged();
 
 	return true;
@@ -82,6 +92,9 @@ bool ShSelectedEntities::remove(const QLinkedList<ShEntity*> &list) {
 		
 			(*itr)->unSelect();
 			this->list.removeOne((*itr));
+
+			if (dynamic_cast<ShDim*>((*itr)))
+				this->dimSelectedList.removeOne(dynamic_cast<ShDim*>((*itr)));
 		}
 	}
 
@@ -100,6 +113,7 @@ void ShSelectedEntities::unSelectAll() {
 		(*itr)->unSelect();
 
 	this->list.clear();
+	this->dimSelectedList.clear();
 
 	this->selectedEntityCountChanged();
 }
@@ -119,3 +133,4 @@ void ShSelectedEntities::selectedEntityCountChanged() {
 	ShSelectedEntityCountChangedEvent event(this->widget, this->list);
 	this->widget->notify(&event);
 }
+

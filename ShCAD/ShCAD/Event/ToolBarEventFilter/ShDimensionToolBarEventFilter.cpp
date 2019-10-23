@@ -5,6 +5,8 @@
 #include "Interface\ToolBar\ShDimensionToolBar.h"
 #include "Interface\ShCADWidget.h"
 #include "Base\ShDimensionStyleTable.h"
+#include "Entity\Composite\ShSelectedEntities.h"
+#include "Entity\Composite\Dim\ShDim.h"
 
 ShDimensionToolBarEventFilter::ShDimensionToolBarEventFilter(ShDimensionToolBar *dimensionToolBar, ShNotifyEvent *event)
 	:strategy(nullptr) {
@@ -15,6 +17,8 @@ ShDimensionToolBarEventFilter::ShDimensionToolBarEventFilter(ShDimensionToolBar 
 		this->strategy = new ShDimensionToolBarActionChangedEventFilterStrategy(dimensionToolBar, event);
 	else if (event->getType() == ShNotifyEvent::CurrentDimensionStyleChanged)
 		this->strategy = new ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy(dimensionToolBar, event);
+	else if (event->getType() == ShNotifyEvent::SelectedEntityCountChanged)
+		this->strategy = new ShDimensionToolBarSelectedEntityCountChangedEventFilterStrategy(dimensionToolBar, event);
 
 }
 
@@ -67,6 +71,10 @@ void ShDimensionToolBarActivatedWidgetChangedEventFilterStrategy::update() {
 	ShActionChangedEvent event2(event->getNewWidget()->getCurrentActionType());
 	ShDimensionToolBarActionChangedEventFilterStrategy strategy2(this->dimensionToolBar, &event2);
 	strategy2.update();
+
+	ShSelectedEntityCountChangedEvent event3(event->getNewWidget(), event->getNewWidget()->getSelectedEntities()->getSelectedList());
+	ShDimensionToolBarSelectedEntityCountChangedEventFilterStrategy strategy3(this->dimensionToolBar, &event3);
+	strategy3.update();
 }
 
 
@@ -107,4 +115,46 @@ void ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy::update()
 
 	ShCurrentDimensionStyleChangedEvent *event = dynamic_cast<ShCurrentDimensionStyleChangedEvent*>(this->event);
 	this->dimensionToolBar->getDimensionStyleComboBox()->setDimensionStyleComboCurrentIndex(event->getCurrentDimensionStyle());
+}
+
+///////////////////////////////////////////////////
+
+ShDimensionToolBarSelectedEntityCountChangedEventFilterStrategy::ShDimensionToolBarSelectedEntityCountChangedEventFilterStrategy(ShDimensionToolBar *dimensionToolBar, ShNotifyEvent *event)
+	:ShDimensionToolBarEventFilterStrategy(dimensionToolBar, event) {
+
+}
+
+ShDimensionToolBarSelectedEntityCountChangedEventFilterStrategy::~ShDimensionToolBarSelectedEntityCountChangedEventFilterStrategy() {
+
+}
+
+void ShDimensionToolBarSelectedEntityCountChangedEventFilterStrategy::update() {
+
+	ShSelectedEntityCountChangedEvent *event = dynamic_cast<ShSelectedEntityCountChangedEvent*>(this->event);
+
+	ShDimensionStyle *dimensionStyle;
+	ShDimensionStyle temp("none");
+
+	if (event->getWidget()->getSelectedEntities()->getSelectedDimensionCount() == 0) {
+	
+		dimensionStyle = event->getWidget()->getCurrentDimensionStyle();
+	}
+	else {
+	
+		auto itr = event->getWidget()->getSelectedEntities()->getDimSelectedList().begin();
+		dimensionStyle = const_cast<ShDimensionStyle*>((*itr)->getDimensionStyle());
+		++itr;
+
+		for (itr; itr != event->getWidget()->getSelectedEntities()->getDimSelectedList().end(); ++itr) {
+		
+			if ((*itr)->getDimensionStyle() != dimensionStyle) {
+				dimensionStyle = &temp;
+				break;
+			}
+		}
+	}
+
+	ShCurrentDimensionStyleChangedEvent event2(dimensionStyle);
+	ShDimensionToolBarCurrentDimensionStyleChangedEventFilterStrategy strategy2(this->dimensionToolBar, &event2);
+	strategy2.update();
 }

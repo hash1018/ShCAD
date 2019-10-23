@@ -464,8 +464,7 @@ void ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy::update() {
 
 	ShCurrentDimensionStyleChangedEvent *event = dynamic_cast<ShCurrentDimensionStyleChangedEvent*>(this->event);
 
-	//later must find out dim count.
-	if (this->widget->getSelectedEntities()->getSize() == 0) {
+	if (this->widget->getSelectedEntities()->getSelectedDimensionCount() == 0) {
 
 		ShDimensionStyle *prev = this->widget->getDimensionStyleTable()->getCurrentStyle();
 

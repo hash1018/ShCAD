@@ -72,4 +72,16 @@ public:
 
 };
 
+////////////////////////////////////////////////////
+
+class ShDimensionToolBarSelectedEntityCountChangedEventFilterStrategy : public ShDimensionToolBarEventFilterStrategy {
+
+public:
+	ShDimensionToolBarSelectedEntityCountChangedEventFilterStrategy(ShDimensionToolBar *dimensionToolBar, ShNotifyEvent *event);
+	~ShDimensionToolBarSelectedEntityCountChangedEventFilterStrategy();
+
+	virtual void update();
+
+};
+
 #endif //_SHDIMENSIONTOOLBAREVENTFILTER_H
