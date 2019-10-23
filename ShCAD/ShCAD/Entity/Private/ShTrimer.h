@@ -53,6 +53,12 @@ private:
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
+	virtual void visit(ShDimLinear *dimLinear);
+	virtual void visit(ShDimAligned *dimAligned);
+	virtual void visit(ShDimRadius *dimRadius);
+	virtual void visit(ShDimDiameter *dimDiameter);
+	virtual void visit(ShDimArcLength *dimArcLength);
+	virtual void visit(ShDimAngular *dimAngular);
 
 private:
 	bool checkIntersectLiesOnStartEnd(const ShPoint3d &intersect, const ShPoint3d &start, const ShPoint3d &end);
@@ -82,6 +88,12 @@ private:
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
+	virtual void visit(ShDimLinear *dimLinear);
+	virtual void visit(ShDimAligned *dimAligned);
+	virtual void visit(ShDimRadius *dimRadius);
+	virtual void visit(ShDimDiameter *dimDiameter);
+	virtual void visit(ShDimArcLength *dimArcLength);
+	virtual void visit(ShDimAngular *dimAngular);
 
 private:
 	void appendTrimPointToList(const ShPoint3d &trimPoint);
@@ -109,6 +121,12 @@ private:
 	virtual void visit(ShLine *line);
 	virtual void visit(ShCircle *circle);
 	virtual void visit(ShArc *arc);
+	virtual void visit(ShDimLinear *dimLinear);
+	virtual void visit(ShDimAligned *dimAligned);
+	virtual void visit(ShDimRadius *dimRadius);
+	virtual void visit(ShDimDiameter *dimDiameter);
+	virtual void visit(ShDimArcLength *dimArcLength);
+	virtual void visit(ShDimAngular *dimAngular);
 
 private:
 	bool checkIntersectLiesOnStartEnd(const ShPoint3d &intersect, const ShPoint3d &start, const ShPoint3d &end);

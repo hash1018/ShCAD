@@ -5,6 +5,12 @@
 #include "Entity\Leaf\ShArc.h"
 #include "Base\ShMath.h"
 #include "ShFootOfPerpendicularVisitor.h"
+#include "Entity\Composite\Dim\ShDimLinear.h"
+#include "Entity\Composite\Dim\ShDimAligned.h"
+#include "Entity\Composite\Dim\ShDimRadius.h"
+#include "Entity\Composite\Dim\ShDimDiameter.h"
+#include "Entity\Composite\Dim\ShDimArcLength.h"
+#include "Entity\Composite\Dim\ShDimAngular.h"
 
 ShTrimer::ShTrimer(const QLinkedList<ShEntity*> &baseEntities, const ShPoint3d &clickPoint, QLinkedList<ShEntity*> &trimedEntities, bool &valid)
 	:baseEntities(baseEntities), clickPoint(clickPoint), trimedEntities(trimedEntities), valid(valid) {
@@ -378,6 +384,60 @@ void ShLineTrimPointFinder::visit(ShArc *arc) {
 	}
 }
 
+void ShLineTrimPointFinder::visit(ShDimLinear *dimLinear) {
+
+	ShLineTrimPointFinder visitor(this->lineToTrim, this->clickPoint, this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
+
+	auto itr = dimLinear->begin();
+	for (itr; itr != dimLinear->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShLineTrimPointFinder::visit(ShDimAligned *dimAligned) {
+
+	ShLineTrimPointFinder visitor(this->lineToTrim, this->clickPoint, this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
+
+	auto itr = dimAligned->begin();
+	for (itr; itr != dimAligned->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShLineTrimPointFinder::visit(ShDimRadius *dimRadius) {
+
+	ShLineTrimPointFinder visitor(this->lineToTrim, this->clickPoint, this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
+
+	auto itr = dimRadius->begin();
+	for (itr; itr != dimRadius->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShLineTrimPointFinder::visit(ShDimDiameter *dimDiameter) {
+
+	ShLineTrimPointFinder visitor(this->lineToTrim, this->clickPoint, this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
+
+	auto itr = dimDiameter->begin();
+	for (itr; itr != dimDiameter->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShLineTrimPointFinder::visit(ShDimArcLength *dimArcLength) {
+
+	ShLineTrimPointFinder visitor(this->lineToTrim, this->clickPoint, this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
+
+	auto itr = dimArcLength->begin();
+	for (itr; itr != dimArcLength->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShLineTrimPointFinder::visit(ShDimAngular *dimAngular) {
+
+	ShLineTrimPointFinder visitor(this->lineToTrim, this->clickPoint, this->betweenStartAndClickTrimPointList, this->betweenEndAndClickTrimPointList);
+
+	auto itr = dimAngular->begin();
+	for (itr; itr != dimAngular->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
 bool ShLineTrimPointFinder::checkIntersectLiesOnStartEnd(const ShPoint3d &intersect, const ShPoint3d &start, const ShPoint3d &end) {
 
 	if (math::compare(start.x, intersect.x) == 0 &&
@@ -520,6 +580,60 @@ void ShCircleTrimPointFinder::visit(ShArc *arc) {
 		this->appendTrimPointToList(intersect2);
 	else if (insideIntersect == true && insideIntersect2 == true)
 		this->appendTrimPointToList(intersect, intersect2);
+}
+
+void ShCircleTrimPointFinder::visit(ShDimLinear *dimLinear) {
+
+	ShCircleTrimPointFinder visitor(this->circleToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimLinear->begin();
+	for (itr; itr != dimLinear->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShCircleTrimPointFinder::visit(ShDimAligned *dimAligned) {
+
+	ShCircleTrimPointFinder visitor(this->circleToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimAligned->begin();
+	for (itr; itr != dimAligned->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShCircleTrimPointFinder::visit(ShDimRadius *dimRadius) {
+
+	ShCircleTrimPointFinder visitor(this->circleToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimRadius->begin();
+	for (itr; itr != dimRadius->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShCircleTrimPointFinder::visit(ShDimDiameter *dimDiameter) {
+
+	ShCircleTrimPointFinder visitor(this->circleToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimDiameter->begin();
+	for (itr; itr != dimDiameter->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShCircleTrimPointFinder::visit(ShDimArcLength *dimArcLength) {
+
+	ShCircleTrimPointFinder visitor(this->circleToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimArcLength->begin();
+	for (itr; itr != dimArcLength->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShCircleTrimPointFinder::visit(ShDimAngular *dimAngular) {
+
+	ShCircleTrimPointFinder visitor(this->circleToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimAngular->begin();
+	for (itr; itr != dimAngular->end(); ++itr)
+		(*itr)->accept(&visitor);
 }
 
 void ShCircleTrimPointFinder::appendTrimPointToList(const ShPoint3d &trimPoint) {
@@ -769,6 +883,60 @@ void ShArcTrimPointFinder::visit(ShArc *arc) {
 			}
 		}
 	}
+}
+
+void ShArcTrimPointFinder::visit(ShDimLinear *dimLinear) {
+
+	ShArcTrimPointFinder visitor(this->arcToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimLinear->begin();
+	for (itr; itr != dimLinear->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShArcTrimPointFinder::visit(ShDimAligned *dimAligned) {
+
+	ShArcTrimPointFinder visitor(this->arcToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimAligned->begin();
+	for (itr; itr != dimAligned->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShArcTrimPointFinder::visit(ShDimRadius *dimRadius) {
+
+	ShArcTrimPointFinder visitor(this->arcToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimRadius->begin();
+	for (itr; itr != dimRadius->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShArcTrimPointFinder::visit(ShDimDiameter *dimDiameter) {
+
+	ShArcTrimPointFinder visitor(this->arcToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimDiameter->begin();
+	for (itr; itr != dimDiameter->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShArcTrimPointFinder::visit(ShDimArcLength *dimArcLength) {
+
+	ShArcTrimPointFinder visitor(this->arcToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimArcLength->begin();
+	for (itr; itr != dimArcLength->end(); ++itr)
+		(*itr)->accept(&visitor);
+}
+
+void ShArcTrimPointFinder::visit(ShDimAngular *dimAngular) {
+
+	ShArcTrimPointFinder visitor(this->arcToTrim, this->clickPoint, this->clockWiseTrimPointList, this->antiClockWiseTrimPointList);
+
+	auto itr = dimAngular->begin();
+	for (itr; itr != dimAngular->end(); ++itr)
+		(*itr)->accept(&visitor);
 }
 
 bool ShArcTrimPointFinder::checkIntersectLiesOnStartEnd(const ShPoint3d &intersect, const ShPoint3d &start, const ShPoint3d &end) {
