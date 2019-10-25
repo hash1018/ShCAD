@@ -114,6 +114,7 @@ private:
 	QAction *eraseAction;
 	QAction *copyAction;
 	QAction *mirrorAction;
+	QAction *offsetAction;
 	QAction *moveAction;
 	QAction *rotateAction;
 	QAction *scaleAction;
@@ -129,6 +130,7 @@ public:
 	void moveActionClicked();
 	void copyActionClicked();
 	void mirrorActionClicked();
+	void offsetActionClicked();
 	void rotateActionClicked();
 	void eraseActionClicked();
 	void extendActionClicked();

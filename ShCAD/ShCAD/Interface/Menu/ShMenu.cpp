@@ -359,6 +359,9 @@ ShModifyMenu::ShModifyMenu(const QString &title, ShChain *chain, QWidget *parent
 	this->mirrorAction = new QAction(ShIcon(":/Image/Modify/Mirror.png"), shGetLanValue_ui("Modify/Mirror"), this);
 	this->addAction(this->mirrorAction);
 
+	this->offsetAction = new QAction(ShIcon(":/Image/Modify/Offset.png"), shGetLanValue_ui("Modify/Offset"), this);
+	this->addAction(this->offsetAction);
+
 	this->addSeparator();
 
 	this->moveAction = new QAction(ShIcon(":/Image/Modify/Move.png"), shGetLanValue_ui("Modify/Move"), this);
@@ -384,6 +387,7 @@ ShModifyMenu::ShModifyMenu(const QString &title, ShChain *chain, QWidget *parent
 	connect(this->moveAction, &QAction::triggered, this, &ShModifyMenu::moveActionClicked);
 	connect(this->copyAction, &QAction::triggered, this, &ShModifyMenu::copyActionClicked);
 	connect(this->mirrorAction, &QAction::triggered, this, &ShModifyMenu::mirrorActionClicked);
+	connect(this->offsetAction, &QAction::triggered, this, &ShModifyMenu::offsetActionClicked);
 	connect(this->rotateAction, &QAction::triggered, this, &ShModifyMenu::rotateActionClicked);
 	connect(this->eraseAction, &QAction::triggered, this, &ShModifyMenu::eraseActionClicked);
 	connect(this->extendAction, &QAction::triggered, this, &ShModifyMenu::extendActionClicked);
@@ -413,6 +417,13 @@ void ShModifyMenu::copyActionClicked() {
 void ShModifyMenu::mirrorActionClicked() {
 
 	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyMirror);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShModifyMenu::offsetActionClicked() {
+
+	ShChangeModifyAfterCancelingCurrentStrategy strategy(ActionType::ActionModifyOffset);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }
