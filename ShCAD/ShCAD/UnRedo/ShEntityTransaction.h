@@ -10,6 +10,8 @@
 class ShCADWidget;
 class ShEntity;
 class ShLayer;
+class ShDimensionStyle;
+class ShDim;
 
 class ShAddEntityTransaction : public ShTransaction {
 
@@ -193,7 +195,7 @@ class ShChangeEntityLayerTransaction : public ShTransaction {
 private:
 	ShCADWidget *widget;
 	QLinkedList<ShEntity*> entities;
-	QLinkedList <ShLayer*> prev;
+	QLinkedList<ShLayer*> prev;
 	QLinkedList<ShLayer*> current;
 
 public:
@@ -205,6 +207,24 @@ public:
 
 	void add(ShEntity *entity, ShLayer *prev, ShLayer *current);
 
+};
+
+class ShChangeDimDimensionStyleTransaction : public ShTransaction {
+
+private:
+	ShCADWidget *widget;
+	QLinkedList<ShDim*> dims;
+	QLinkedList<ShDimensionStyle*> prev;
+	QLinkedList<ShDimensionStyle*> current;
+
+public:
+	ShChangeDimDimensionStyleTransaction(ShCADWidget *widget);
+	~ShChangeDimDimensionStyleTransaction();
+
+	virtual void redo();
+	virtual void undo();
+
+	void add(ShDim *dim, ShDimensionStyle *prev, ShDimensionStyle *current);
 };
 
 #endif //_SHENTITYTRANSACTION_H

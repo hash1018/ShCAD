@@ -12,6 +12,8 @@
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShDimensionStyleTable.h"
 #include "UnRedo\ShDimensionStyleTransaction.h"
+#include "Entity\Composite\Dim\ShDim.h"
+#include "Base\ShDimensionStyle.h"
 
 
 ShCADWidgetEventFilter::ShCADWidgetEventFilter(ShCADWidget *widget, ShNotifyEvent *event)
@@ -479,5 +481,30 @@ void ShCADWidgetCurrentDimensionStyleChangedEventFilterStrategy::update() {
 		ShGlobal::pushNewTransaction(this->widget, new ShChangeCurrentDimensionStyleTransaction(this->widget,
 			prev, event->getCurrentDimensionStyle()));
 	}
+	else {
 
+		auto itr = this->widget->getSelectedEntities()->getDimSelectedList().begin();
+
+		ShDimensionStyle *prev;
+
+		ShChangeDimDimensionStyleTransaction *transaction = new ShChangeDimDimensionStyleTransaction(this->widget);
+
+		for (itr; itr != this->widget->getSelectedEntities()->getDimSelectedList().end(); ++itr) {
+
+			prev = const_cast<ShDimensionStyle*>((*itr)->getDimensionStyle());
+			prev->remove((*itr));
+			(*itr)->setDimensionStyle(event->getCurrentDimensionStyle());
+			event->getCurrentDimensionStyle()->add((*itr));
+
+			(*itr)->updateChild();
+
+			transaction->add((*itr), prev, event->getCurrentDimensionStyle());
+		}
+
+		ShGlobal::pushNewTransaction(this->widget, transaction);
+		this->widget->notify(this->event);
+
+		this->widget->update(DrawType::DrawAll);
+		this->widget->captureImage();
+	}
 }

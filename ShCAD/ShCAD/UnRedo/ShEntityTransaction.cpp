@@ -7,6 +7,8 @@
 #include "Entity\Private\ShMirror.h"
 #include "Entity\Composite\ShEntityTable.h"
 #include "Base\ShLayer.h"
+#include "Entity\Composite\Dim\ShDim.h"
+#include "Base\ShDimensionStyle.h"
 
 ShAddEntityTransaction::ShAddEntityTransaction(ShCADWidget *widget, const QString &transactionName)
 	:ShTransaction("Group " + transactionName), widget(widget), mustDeleteEntity(false) {
@@ -503,6 +505,65 @@ void ShChangeEntityLayerTransaction::undo() {
 void ShChangeEntityLayerTransaction::add(ShEntity *entity, ShLayer *prev, ShLayer *current) {
 
 	this->entities.append(entity);
+	this->prev.append(prev);
+	this->current.append(current);
+}
+
+
+////////////////////////////////////////////////////////////////
+
+ShChangeDimDimensionStyleTransaction::ShChangeDimDimensionStyleTransaction(ShCADWidget *widget)
+	:ShTransaction("Change DimensionStyle"), widget(widget) {
+
+}
+
+ShChangeDimDimensionStyleTransaction::~ShChangeDimDimensionStyleTransaction() {
+
+}
+
+void ShChangeDimDimensionStyleTransaction::redo() {
+
+	auto itr = this->dims.begin();
+	auto itrCurrent = this->current.begin();
+
+	for (itr; itr != this->dims.end(); ++itr) {
+	
+		const_cast<ShDimensionStyle*>((*itr)->getDimensionStyle())->remove(*itr);
+		(*itr)->setDimensionStyle(*itrCurrent);
+		(*itrCurrent)->add(*itr);
+
+		(*itr)->updateChild();
+
+		++itrCurrent;
+	}
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShChangeDimDimensionStyleTransaction::undo() {
+
+	auto itr = this->dims.begin();
+	auto itrPrev = this->prev.begin();
+
+	for (itr; itr != this->dims.end(); ++itr) {
+
+		const_cast<ShDimensionStyle*>((*itr)->getDimensionStyle())->remove(*itr);
+		(*itr)->setDimensionStyle(*itrPrev);
+		(*itrPrev)->add(*itr);
+
+		(*itr)->updateChild();
+
+		++itrPrev;
+	}
+
+	this->widget->update(DrawType::DrawAll);
+	this->widget->captureImage();
+}
+
+void ShChangeDimDimensionStyleTransaction::add(ShDim *dim, ShDimensionStyle *prev, ShDimensionStyle *current) {
+
+	this->dims.append(dim);
 	this->prev.append(prev);
 	this->current.append(current);
 }
