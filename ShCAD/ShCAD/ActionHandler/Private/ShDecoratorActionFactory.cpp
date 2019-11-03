@@ -203,6 +203,9 @@ ShDecoratorAction* ShDisposableSnapActionFactory::createDisposableSnap(ShCADWidg
 		decoratorAction = new ShDisposableExtensionSnapAction(widget, actionHandler, child);
 	else if (objectSnap == ObjectSnapNode)
 		decoratorAction = new ShDisposableSnapAction_Node(widget, actionHandler, child);
+	else if (objectSnap == ObjectSnapNearest)
+		decoratorAction = new ShDisposableSnapAction_Nearest(widget, actionHandler, child);
+	
 
 	if (decoratorAction == nullptr)
 		Q_ASSERT("ShDisposableSnapActionFactory::createDisposableSnap() decoratorAction is nullptr.");

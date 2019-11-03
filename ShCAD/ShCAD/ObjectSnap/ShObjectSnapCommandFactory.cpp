@@ -32,6 +32,8 @@ QString ShObjectSnapCommandFactory::create(ObjectSnap objectSnap) {
 		str = "_ext of ";
 	else if (objectSnap == ObjectSnap::ObjectSnapNode)
 		str = "_nod of ";
+	else if (objectSnap == ObjectSnap::ObjectSnapNearest)
+		str = "_nea to ";
 
 	return str;
 }

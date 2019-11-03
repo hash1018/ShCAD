@@ -177,4 +177,22 @@ protected:
 	virtual bool search(const ShPoint3d &point);
 };
 
+////////////////////////////////////////////////////////////////////
+
+class ShDisposableSnapAction_Nearest : public ShDisposableSnapAction {
+
+public:
+	ShDisposableSnapAction_Nearest(ShCADWidget *widget, ShActionHandler *actionHandler, ShDecoratorAction *child = nullptr);
+	~ShDisposableSnapAction_Nearest();
+
+	virtual void mouseLeftPressEvent(ShActionData &data);
+	virtual void mouseMoveEvent(ShActionData &data);
+
+	virtual void draw(QPainter *painter);
+	virtual void invalidate(ShDecoratorActionData &data);
+
+protected:
+	virtual bool search(const ShPoint3d &point);
+};
+
 #endif //_SHDISPOSABLESNAPACTION_H

@@ -51,6 +51,11 @@ ShObjectSnapToolBar::ShObjectSnapToolBar(const QString &title, ShChain *chain, Q
 	action = this->addAction(ShIcon(":/Image/Snap/Node.png"), "Node");
 	connect(action, &QAction::triggered, this, &ShObjectSnapToolBar::nodeClicked);
 
+	this->addSeparator();
+
+	action = this->addAction(ShIcon(":/Image/Snap/Nearest.png"), "Nearest");
+	connect(action, &QAction::triggered, this, &ShObjectSnapToolBar::nearestClicked);
+
 }
 
 ShObjectSnapToolBar::~ShObjectSnapToolBar() {
@@ -129,6 +134,13 @@ void ShObjectSnapToolBar::perpendicularClicked() {
 void ShObjectSnapToolBar::nodeClicked() {
 
 	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNode);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShObjectSnapToolBar::nearestClicked() {
+
+	ShDecorateDisposableSnapActionStrategy strategy(ObjectSnap::ObjectSnapNearest);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }

@@ -25,7 +25,7 @@ public:
 	void tangentPointClicked();
 	void perpendicularClicked();
 	void nodeClicked();
-
+	void nearestClicked();
 };
 
 #endif //_SHOBJECTSNAPTOOLBAR_H
