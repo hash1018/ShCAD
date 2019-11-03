@@ -736,6 +736,12 @@
     <ClCompile Include="UnRedo\ShDimensionStyleTransaction.cpp">
       <Filter>UnRedo</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\Leaf\ShConstructionLine.cpp">
+      <Filter>Entity\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawXLineAction.cpp">
+      <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ShCAD.qrc">
@@ -1282,6 +1288,12 @@
     </ClInclude>
     <ClInclude Include="UnRedo\ShDimensionStyleTransaction.h">
       <Filter>UnRedo</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Leaf\ShConstructionLine.h">
+      <Filter>Entity\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawXLineAction.h">
+      <Filter>ActionHandler\DrawAction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

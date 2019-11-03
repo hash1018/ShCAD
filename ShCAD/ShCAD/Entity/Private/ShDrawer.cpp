@@ -4,6 +4,7 @@
 #include "Base\ShMath.h"
 #include <qdebug.h>
 #include "Entity\Leaf\ShLine.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
 #include "Entity\Leaf\ShRubberBand.h"
@@ -570,6 +571,44 @@ void ShDrawerUnSelectedEntity::visit(ShDimAngular *dimAngular) {
 
 	dimAngular->getDimensionStyle()->getDimensionTextStyle().drawDimensionAngleText(this->painter,
 		dx, dy, angle - 90, dimAngular->getAngle(), qColor, this->widget->getZoomRate());
+}
+
+void ShDrawerUnSelectedEntity::visit(ShConstructionLine *constructionLine) {
+
+	ShDrawerFunctions f(this->widget);
+
+	ShLineData data = constructionLine->getData();
+	ShPropertyData propertyData = constructionLine->getPropertyData();
+
+	ShPoint3d topLeft, bottomRight;
+	this->widget->convertDeviceToEntity(0, 0, topLeft.x, topLeft.y);
+	this->widget->convertDeviceToEntity(this->widget->width(), this->widget->height(), bottomRight.x, bottomRight.y);
+
+	double slope, interceptY;
+	math::getEquationLine(data.start, data.end, slope, interceptY);
+
+	double y = slope*topLeft.x + interceptY;
+	double y2 = slope*bottomRight.x + interceptY;
+
+	GLPoint start, end;
+
+	if (slope != 0) {
+		f.convertEntityToOpenGL(topLeft.x, y, start.x, start.y);
+		f.convertEntityToOpenGL(bottomRight.x, y2, end.x, end.y);
+	}
+	else {
+		f.convertEntityToOpenGL(data.start.x, topLeft.y, start.x, start.y);
+		f.convertEntityToOpenGL(data.end.x, bottomRight.y, end.x, end.y);
+	}
+
+	GLColor color(propertyData.getColor().getRed() / 255., propertyData.getColor().getGreen() / 255.,
+		propertyData.getColor().getBlue() / 255.);
+
+	glLineStipple(1, propertyData.getLineStyle().getPattern());
+	glEnable(GL_LINE_STIPPLE);
+	f.drawLine(start, end, color);
+	glDisable(GL_LINE_STIPPLE);
+
 }
 
 ///////////////////////////////////////////////////////////////

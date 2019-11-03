@@ -61,5 +61,6 @@
         <file>Image/Splash.png</file>
         <file>Image/ShCADIcon.png</file>
         <file>Image/Snap/Nearest.png</file>
+        <file>Image/Draw/ConstructionLine.png</file>
     </qresource>
 </RCC>

@@ -20,6 +20,8 @@ QString ShActionTypeConverter::convert(ActionType actionType) {
 		text = ""; break;
 	case ActionType::ActionDrawLine:
 		text = "_Line"; break;
+	case ActionType::ActionDrawContructionLine:
+		text = "_XLine"; break;
 	case ActionType::ActionDrawCircleCenterRadius:
 		text = "_Circle"; break;
 	case ActionType::ActionDrawCircleCenterDiameter:

@@ -105,6 +105,7 @@ public:
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
 	virtual void visit(ShDimAngular *dimAngular);
+	virtual void visit(ShConstructionLine *constructionLine);
 
 };
 

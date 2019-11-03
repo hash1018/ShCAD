@@ -14,6 +14,7 @@ private:
 
 	private slots :
 	void lineActionClicked();
+	void constructionLineActionClicked();
 	void polyLineActionClicked();
 	void circleActionClicked();
 	void arcActionClicked();

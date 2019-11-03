@@ -155,6 +155,7 @@
     <ClCompile Include="ActionHandler\DrawAction\ShDrawCircleAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawLineAction.cpp" />
     <ClCompile Include="ActionHandler\DrawAction\ShDrawPointAction.cpp" />
+    <ClCompile Include="ActionHandler\DrawAction\ShDrawXLineAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyCopyAction.cpp" />
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyEraseAction.cpp" />
@@ -222,6 +223,7 @@
     <ClCompile Include="Entity\Composite\ShSelectedEntities.cpp" />
     <ClCompile Include="Entity\Leaf\ShArc.cpp" />
     <ClCompile Include="Entity\Leaf\ShCircle.cpp" />
+    <ClCompile Include="Entity\Leaf\ShConstructionLine.cpp" />
     <ClCompile Include="Entity\Leaf\ShDot.cpp" />
     <ClCompile Include="Entity\Leaf\ShLeaf.cpp" />
     <ClCompile Include="Entity\Leaf\ShLine.cpp" />
@@ -516,6 +518,7 @@
     <ClInclude Include="ActionHandler\DrawAction\ShDrawCircleAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawLineAction.h" />
     <ClInclude Include="ActionHandler\DrawAction\ShDrawPointAction.h" />
+    <ClInclude Include="ActionHandler\DrawAction\ShDrawXLineAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyCopyAction.h" />
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyEraseAction.h" />
@@ -588,6 +591,7 @@
     <ClInclude Include="Entity\Composite\ShSelectedEntities.h" />
     <ClInclude Include="Entity\Leaf\ShArc.h" />
     <ClInclude Include="Entity\Leaf\ShCircle.h" />
+    <ClInclude Include="Entity\Leaf\ShConstructionLine.h" />
     <ClInclude Include="Entity\Leaf\ShDot.h" />
     <ClInclude Include="Entity\Leaf\ShLeaf.h" />
     <ClInclude Include="Entity\Leaf\ShLine.h" />

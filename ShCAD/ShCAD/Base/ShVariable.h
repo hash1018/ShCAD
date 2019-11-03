@@ -34,6 +34,7 @@ enum ActionType {
 	ActionTempDragSelect,
 	ActionTempStretch,
 	ActionDrawLine,
+	ActionDrawContructionLine,
 	ActionDrawCircleCenterRadius,
 	ActionDrawCircleCenterDiameter,
 	ActionDrawCircleTwoPoint,

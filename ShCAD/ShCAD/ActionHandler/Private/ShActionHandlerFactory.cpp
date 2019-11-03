@@ -2,6 +2,7 @@
 #include "ShActionHandlerFactory.h"
 #include "ActionHandler\ShDefaultAction.h"
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
+#include "ActionHandler\DrawAction\ShDrawXLineAction.h"
 #include "ActionHandler\DrawAction\ShDrawCircleAction.h"
 #include "ActionHandler\DrawAction\ShDrawArcAction.h"
 #include "ActionHandler\ModifyAction\ShModifyMoveAction.h"
@@ -37,6 +38,8 @@ ShActionHandler* ShActionHandlerFactory::create(ActionType actionType, ShCADWidg
 		return new ShDefaultAction(widget);
 	else if (actionType == ActionType::ActionDrawLine)
 		return new ShDrawLineAction(widget);
+	else if (actionType == ActionType::ActionDrawContructionLine)
+		return new ShDrawXLineAction(widget);
 	else if (actionType == ActionType::ActionDrawCircleCenterRadius)
 		return new ShDrawCircleAction(widget, ShDrawCircleAction::SubAction::CenterRadius);
 	else if (actionType == ActionType::ActionDrawCircleCenterDiameter)

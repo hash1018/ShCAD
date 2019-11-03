@@ -15,6 +15,9 @@ ShDrawToolBar::ShDrawToolBar(const QString &title, ShChain *chain, QWidget *pare
 	action->setToolTip("Line \nCreates straight line segments");
 	connect(action, &QAction::triggered, this, &ShDrawToolBar::lineActionClicked);
 
+	action = this->addAction(ShIcon(":/Image/Draw/ConstructionLine.png"), "ConstructionLine");
+	connect(action, &QAction::triggered, this, &ShDrawToolBar::constructionLineActionClicked);
+
 	action = this->addAction(ShIcon(":/Image/Draw//PolyLine/PolyLine.png"), "PolyLine");
 	action->setToolTip("PolyLine \nCreates a polyline");
 	connect(action, &QAction::triggered, this, &ShDrawToolBar::polyLineActionClicked);
@@ -41,6 +44,13 @@ ShDrawToolBar::~ShDrawToolBar() {
 void ShDrawToolBar::lineActionClicked() {
 
 	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawLine);
+	ShRequestChangeActionHandler request(&strategy);
+	this->request(&request);
+}
+
+void ShDrawToolBar::constructionLineActionClicked() {
+
+	ShChangeActionAfterCancelingCurrentStrategy strategy(ActionType::ActionDrawContructionLine);
 	ShRequestChangeActionHandler request(&strategy);
 	this->request(&request);
 }
