@@ -6,6 +6,7 @@
 #include <qopenglfunctions.h>
 #include "Data\ShPoint3d.h"
 #include "Base\ShVariable.h"
+#include <qlist.h>
 
 class ShCADWidget;
 class ShDrawerSelectedEntity;
@@ -83,7 +84,23 @@ public:
 	ShDrawer(ShCADWidget *widget, QPainter *painter);
 	virtual ~ShDrawer() = 0;
 
+
+protected:
+	void drawLine(ShLine *line, const GLColor &color, const GLushort &pattern);
+	void drawCircle(ShCircle *circle, const GLColor &color, const GLushort &pattern);
+	void drawArc(ShArc *arc, const GLColor &color, const GLushort &pattern);
+	void drawDot(ShDot *dot, const GLColor &color, const GLushort &pattern);
+	void drawConstructionLine(ShConstructionLine *constructionLine, const GLColor &color, const GLushort &pattern);
+	void drawDimLinearWithoutChild(ShDimLinear *dimLinear, const GLColor &color, const QColor &qColor, const GLushort &pattern);
+	void drawDimAlignedWithoutChild(ShDimAligned *dimAligned, const GLColor &color, const QColor &qColor, const GLushort &pattern);
+	void drawDimRadiusWithoutChild(ShDimRadius *dimRadius, const GLColor &color, const QColor &qColor, const GLushort &pattern);
+	void drawDimDiameterWithoutChild(ShDimDiameter *dimDiameter, const GLColor &color, const QColor &qColor, const GLushort &pattern);
+	void drawDimArcLengthWithoutChild(ShDimArcLength *dimArcLength, const GLColor &color, const QColor &qColor, const GLushort &pattern);
+	void drawDimAngularWithoutChild(ShDimAngular *dimAngular, const GLColor &color, const QColor &qColor, const GLushort &pattern);
+
 };
+
+//////////////////////////////////////////////////
 
 //////////////////////////////////////////////
 
@@ -138,7 +155,10 @@ public:
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
 	virtual void visit(ShDimAngular *dimAngular);
+	virtual void visit(ShConstructionLine *constructionLine);
 	
+private:
+	void drawVertex(const QList<ShPoint3d> points);
 };
 
 ///////////////////////////////////////////////
@@ -161,6 +181,7 @@ public:
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
 	virtual void visit(ShDimAngular *dimAngular);
+	virtual void visit(ShConstructionLine *constructionLine);
 
 };
 
@@ -183,12 +204,15 @@ public:
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
 	virtual void visit(ShDimAngular *dimAngular);
+	virtual void visit(ShConstructionLine *constructionLine);
 
 };
 
-class ShApparentExtensionDrawer : public ShDrawer {
+class ShApparentExtensionDrawer : public ShVisitor {
 
 private:
+	ShCADWidget *widget;
+	QPainter *painter;
 	ShPoint3d start;
 	ShPoint3d end;
 
