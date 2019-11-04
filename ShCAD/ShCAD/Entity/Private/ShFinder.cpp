@@ -375,6 +375,49 @@ void ShRectFinder::visit(ShDimAngular *dimAngular) {
 	this->visitDim(dimAngular);
 }
 
+void ShRectFinder::visit(ShConstructionLine *constructionLine) {
+
+	if (this->findMethod == FindMethod::OnePartLiesInsideRect) {
+
+		ShLineData data = constructionLine->getData();
+
+		//Rectangle has four line-segment.
+		ShPoint3d intersect;
+		if (math::checkLineLineIntersect(data.start, data.end, this->topLeft, ShPoint3d(this->topLeft.x, this->bottomRight.y),
+			intersect) == true) {
+
+			if (math::checkPointLiesOnLine(intersect, this->topLeft, ShPoint3d(this->topLeft.x, this->bottomRight.y), 1) == true) {
+				*this->foundEntity = constructionLine;
+				return;
+			}
+		}
+		if (math::checkLineLineIntersect(data.start, data.end, this->topLeft, ShPoint3d(this->bottomRight.x, this->topLeft.y),
+			intersect) == true) {
+
+			if (math::checkPointLiesOnLine(intersect, this->topLeft, ShPoint3d(this->bottomRight.x, this->topLeft.y), 1) == true) {
+				*this->foundEntity = constructionLine;
+				return;
+			}
+		}
+		if (math::checkLineLineIntersect(data.start, data.end, ShPoint3d(this->topLeft.x, this->bottomRight.y), this->bottomRight,
+			intersect) == true) {
+
+			if (math::checkPointLiesOnLine(intersect, ShPoint3d(this->topLeft.x, this->bottomRight.y), this->bottomRight, 1) == true) {
+				*this->foundEntity = constructionLine;
+				return;
+			}
+		}
+		if (math::checkLineLineIntersect(data.start, data.end, ShPoint3d(this->bottomRight.x, this->topLeft.y), this->bottomRight,
+			intersect) == true) {
+			
+			if (math::checkPointLiesOnLine(intersect, ShPoint3d(this->bottomRight.x, this->topLeft.y), this->bottomRight, 1) == true) {
+				*this->foundEntity = constructionLine;
+				return;
+			}
+		}
+	}
+}
+
 void ShRectFinder::visitDim(ShDim *dim) {
 
 	ShEntity *foundEntity = nullptr;

@@ -11,6 +11,7 @@
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
 #include "Entity\Composite\Dim\ShDimAngular.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 
 ShMover::ShMover(double disX, double disY)
 	:disX(disX), disY(disY) {
@@ -143,6 +144,19 @@ void ShMover::visit(ShDimAngular *dimAngular) {
 
 	dimAngular->setData(data);
 }
+
+void ShMover::visit(ShConstructionLine *constructionLine) {
+
+	ShPoint3d start = constructionLine->getStart();
+	ShPoint3d end = constructionLine->getEnd();
+
+	start.move(this->disX, this->disY);
+	end.move(this->disX, this->disY);
+
+	constructionLine->setStart(start);
+	constructionLine->setEnd(end);
+}
+
 ////////////////////////////////////////////////////////////////
 
 ShMoverByAxis::ShMoverByAxis(const ShScrollPosition &scroll, const ShPoint3d &prevCenter, const ShPoint3d &currentCenter, double zoomRate)
@@ -273,6 +287,16 @@ void ShMoverByAxis::visit(ShDimAngular *dimAngular) {
 	this->convert(data.boundary, data.boundary);
 
 	dimAngular->setData(data);
+}
+
+void ShMoverByAxis::visit(ShConstructionLine *constructionLine) {
+
+	ShLineData data = constructionLine->getData();
+
+	this->convert(data.start, data.start);
+	this->convert(data.end, data.end);
+
+	constructionLine->setData(data);
 }
 
 void ShMoverByAxis::convert(const ShPoint3d &point, ShPoint3d &converted) {

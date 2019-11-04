@@ -12,6 +12,7 @@
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
 #include "Entity\Composite\Dim\ShDimAngular.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 
 ShMirror::ShMirror(const ShPoint3d &center, double angle)
 	:center(center), angle(angle), original(nullptr) {
@@ -251,4 +252,23 @@ void ShMirror::visit(ShDimAngular *dimAngular) {
 	data.end = temp;
 
 	dimAngular->setData(data);
+}
+
+void ShMirror::visit(ShConstructionLine *constructionLine) {
+
+	if (this->original == nullptr || !dynamic_cast<ShConstructionLine*>(this->original))
+		return;
+
+	ShConstructionLine *original = dynamic_cast<ShConstructionLine*>(this->original);
+	ShLineData data = original->getData();
+
+	double angleStart = math::getAbsAngle(this->center.x, this->center.y, data.start.x, data.start.y);
+	double angleEnd = math::getAbsAngle(this->center.x, this->center.y, data.end.x, data.end.y);
+
+	math::rotate((this->angle - angleStart) * 2, this->center.x, this->center.y,
+		data.start.x, data.start.y, data.start.x, data.start.y);
+	math::rotate((this->angle - angleEnd) * 2, this->center.x, this->center.y,
+		data.end.x, data.end.y, data.end.x, data.end.y);
+
+	constructionLine->setData(data);
 }

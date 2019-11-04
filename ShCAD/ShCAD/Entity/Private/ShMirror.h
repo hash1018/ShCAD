@@ -29,6 +29,7 @@ public:
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
 	virtual void visit(ShDimAngular *dimAngular);
+	virtual void visit(ShConstructionLine *constructionLine);
 
 public:
 	void setOriginal(ShEntity *original) { this->original = original; }

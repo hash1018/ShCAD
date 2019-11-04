@@ -12,6 +12,7 @@
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
 #include "Entity\Composite\Dim\ShDimAngular.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 
 ShRotater::ShRotater(const ShPoint3d &center, double angle)
 	:center(center), angle(angle) {
@@ -144,4 +145,14 @@ void ShRotater::visit(ShDimAngular *dimAngular) {
 	math::rotate(this->angle, this->center.x, this->center.y, data.boundary.x, data.boundary.y, data.boundary.x, data.boundary.y);
 
 	dimAngular->setData(data);
+}
+
+void ShRotater::visit(ShConstructionLine *constructionLine) {
+
+	ShLineData data = constructionLine->getData();
+
+	math::rotate(this->angle, this->center.x, this->center.y, data.start.x, data.start.y, data.start.x, data.start.y);
+	math::rotate(this->angle, this->center.x, this->center.y, data.end.x, data.end.y, data.end.x, data.end.y);
+
+	constructionLine->setData(data);
 }
