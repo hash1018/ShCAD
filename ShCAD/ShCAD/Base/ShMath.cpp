@@ -50,7 +50,7 @@ bool math::isBetween(double v, double bound1, double bound2, double tolerance) {
 }
 
 
-bool math::checkPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, const ShPoint3d& end, double tolerance) {
+bool math::checkPointLiesOnLine(const ShPoint3d &point, const ShPoint3d &start, const ShPoint3d &end, double tolerance) {
 
 	if (isBetween(point.x, start.x, end.x, tolerance) == false || isBetween(point.y, start.y, end.y, tolerance) == false)
 		return false;
@@ -78,7 +78,30 @@ bool math::checkPointLiesOnLine(const ShPoint3d& point, const ShPoint3d& start, 
 
 }
 
-bool math::checkPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& topLeft, const ShPoint3d& bottomRight, double tolerance) {
+bool math::checkPointLiesOnInfiniteLine(const ShPoint3d &point, const ShPoint3d &first, const ShPoint3d &second, double tolerance) {
+
+	double slope, interceptY;
+	math::getEquationLine(first, second, slope, interceptY);
+
+	double distance;
+
+	if (slope != 0) {
+
+		double y = slope*point.x + interceptY;
+		distance = math::getDistance(point.x, point.y, point.x, y);
+	}
+	else {
+
+		distance = math::getDistance(point.x, point.y, point.x, first.y);
+	}
+
+	if (distance < tolerance)
+		return true;
+
+	return false;
+}
+
+bool math::checkPointLiesInsideRect(const ShPoint3d &point, const ShPoint3d &topLeft, const ShPoint3d &bottomRight, double tolerance) {
 
 	if (point.x >= topLeft.x - tolerance && point.x <= bottomRight.x + tolerance &&
 		point.y <= topLeft.y + tolerance && point.y >= bottomRight.y - tolerance)
@@ -87,7 +110,7 @@ bool math::checkPointLiesInsideRect(const ShPoint3d& point, const ShPoint3d& top
 	return false;
 }
 
-bool math::checkPointLiesInsideCircle(const ShPoint3d& point, const ShPoint3d& center, double radius) {
+bool math::checkPointLiesInsideCircle(const ShPoint3d &point, const ShPoint3d &center, double radius) {
 
 	double dis = getDistance(point.x, point.y, center.x, center.y);
 
@@ -97,7 +120,7 @@ bool math::checkPointLiesInsideCircle(const ShPoint3d& point, const ShPoint3d& c
 	return true;
 }
 
-bool math::checkPointLiesOnCircleBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double tolerance) {
+bool math::checkPointLiesOnCircleBoundary(const ShPoint3d &point, const ShPoint3d &center, double radius, double tolerance) {
 
 	double angle = getAbsAngle(center.x, center.y, point.x, point.y);
 
@@ -114,7 +137,7 @@ bool math::checkPointLiesOnCircleBoundary(const ShPoint3d& point, const ShPoint3
 	return false;
 }
 
-bool math::checkPointLiesOnArcBoundary(const ShPoint3d& point, const ShPoint3d& center, double radius, double startAngle, double endAngle, double tolerance) {
+bool math::checkPointLiesOnArcBoundary(const ShPoint3d &point, const ShPoint3d &center, double radius, double startAngle, double endAngle, double tolerance) {
 
 	double angle = getAbsAngle(center.x, center.y, point.x, point.y);
 
@@ -154,7 +177,7 @@ bool math::checkAngleLiesOnAngleBetween(double startAngle, double endAngle, doub
 }
 
 
-ShPoint3d math::getCenterWithTwoPointRadius(const ShPoint3d& first, const ShPoint3d& second, const double& radius) {
+ShPoint3d math::getCenterWithTwoPointRadius(const ShPoint3d &first, const ShPoint3d &second, const double& radius) {
 
 	double radsq = radius * radius;
 	double q = sqrt(((second.x - first.x) * (second.x - first.x)) + ((second.y - first.y) * (second.y - first.y)));
@@ -168,7 +191,7 @@ ShPoint3d math::getCenterWithTwoPointRadius(const ShPoint3d& first, const ShPoin
 	return center;
 }
 
-bool math::getCenterWithThreePoint(const ShPoint3d& first, const ShPoint3d& second, const ShPoint3d& third, ShPoint3d &center) {
+bool math::getCenterWithThreePoint(const ShPoint3d &first, const ShPoint3d &second, const ShPoint3d &third, ShPoint3d &center) {
 
 	double dy1, dy2, d, d2, yi;
 	double p1X = ((first.x + second.x) / 2);
@@ -263,8 +286,8 @@ double math::det(double a, double b, double c, double d) {
 	return a*d - b*c;
 }
 
-bool math::checkLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
-	ShPoint3d& intersect) {
+bool math::checkLineLineIntersect(const ShPoint3d &start1, const ShPoint3d &end1, const ShPoint3d &start2, const ShPoint3d &end2,
+	ShPoint3d &intersect) {
 
 	double detL1 = det(start1.x, start1.y, end1.x, end1.y);
 	double detL2 = det(start2.x, start2.y, end2.x, end2.y);
@@ -293,7 +316,7 @@ bool math::checkLineLineIntersect(const ShPoint3d& start1, const ShPoint3d& end1
 
 }
 
-bool math::checkTwoLineSegmentsIntersect(const ShPoint3d& start1, const ShPoint3d& end1, const ShPoint3d& start2, const ShPoint3d& end2,
+bool math::checkTwoLineSegmentsIntersect(const ShPoint3d &start1, const ShPoint3d &end1, const ShPoint3d &start2, const ShPoint3d &end2,
 	ShPoint3d &intersect) {
 
 	float s1_x, s1_y, s2_x, s2_y;
@@ -314,7 +337,7 @@ bool math::checkTwoLineSegmentsIntersect(const ShPoint3d& start1, const ShPoint3
 	return false; // No collision
 }
 
-bool math::checkCircleLineSegmentIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end) {
+bool math::checkCircleLineSegmentIntersect(const ShPoint3d &center, double radius, const ShPoint3d &start, const ShPoint3d &end) {
 
 	double a, b, c, d, u1, u2;
 	ShPoint3d v1, v2;
@@ -353,7 +376,7 @@ bool math::checkCircleLineSegmentIntersect(const ShPoint3d& center, double radiu
 }
 
 
-bool math::checkCircleLineIntersect(const ShPoint3d& center, double radius, const ShPoint3d& start, const ShPoint3d& end,
+bool math::checkCircleLineIntersect(const ShPoint3d &center, double radius, const ShPoint3d &start, const ShPoint3d &end,
 	ShPoint3d &intersect, ShPoint3d &intersect2) {
 
 	// compute the euclidean distance between A and B
@@ -401,8 +424,8 @@ bool math::checkCircleLineIntersect(const ShPoint3d& center, double radius, cons
 	return false;
 }
 
-bool math::checkArcLineSegmentIntersect(const ShPoint3d& center, double radius, double startAngle, double endAngle,
-	const ShPoint3d& start, const ShPoint3d& end) {
+bool math::checkArcLineSegmentIntersect(const ShPoint3d &center, double radius, double startAngle, double endAngle,
+	const ShPoint3d &start, const ShPoint3d &end) {
 
 	if (checkCircleLineSegmentIntersect(center, radius, start, end) == false)
 		return false;
@@ -426,8 +449,8 @@ bool math::checkArcLineSegmentIntersect(const ShPoint3d& center, double radius, 
 	return false;
 }
 
-bool math::checkTwoCirclesIntersect(const ShPoint3d& center, double radius, const ShPoint3d& center2, double radius2,
-	ShPoint3d &intersect, ShPoint3d& intersect2) {
+bool math::checkTwoCirclesIntersect(const ShPoint3d &center, double radius, const ShPoint3d &center2, double radius2,
+	ShPoint3d &intersect, ShPoint3d &intersect2) {
 
 	//(x-a)^2 + (y-b)^2=r1^2
 	//(x-c)^2 + (y-d)^2=r2^2
@@ -504,7 +527,7 @@ double math::addAngle(double angle, double angle2) {
 	return addedAngle;
 }
 
-void math::getEquationLine(const ShPoint3d& start, const ShPoint3d& end, double &slope, double &interceptY) {
+void math::getEquationLine(const ShPoint3d &start, const ShPoint3d &end, double &slope, double &interceptY) {
 
 	slope = 0.0;
 

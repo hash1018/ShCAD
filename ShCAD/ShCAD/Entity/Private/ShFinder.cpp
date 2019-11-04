@@ -13,6 +13,7 @@
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
 #include "Entity\Composite\Dim\ShDimAngular.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 
 ShFinder::ShFinder(double x, double y, double zoomRate, ShEntity* *foundEntity, double tolerance)
 	:x(x), y(y), zoomRate(zoomRate), foundEntity(foundEntity), tolerance(tolerance) {
@@ -116,6 +117,16 @@ void ShFinder::visit(ShDimArcLength *dimArcLength) {
 void ShFinder::visit(ShDimAngular *dimAngular) {
 
 	this->visitDim(dimAngular);
+}
+
+void ShFinder::visit(ShConstructionLine *constructionLine) {
+
+	double tolerance = this->tolerance / this->zoomRate;
+
+	ShLineData data = constructionLine->getData();
+
+	if (math::checkPointLiesOnInfiniteLine(ShPoint3d(this->x, this->y), data.start, data.end, tolerance) == true)
+		*this->foundEntity = constructionLine;
 }
 
 void ShFinder::visitDim(ShDim *dim) {
