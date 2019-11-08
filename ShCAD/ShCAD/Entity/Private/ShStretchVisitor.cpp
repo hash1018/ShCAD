@@ -12,6 +12,7 @@
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
 #include "Entity\Composite\Dim\ShDimAngular.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 
 ShStretchData::ShStretchData() {
 
@@ -767,6 +768,38 @@ void ShStretchVisitor::visit(ShDimAngular *dimAngular) {
 	}
 }
 
+void ShStretchVisitor::visit(ShConstructionLine *constructionLine) {
+
+	if (this->original == nullptr || !dynamic_cast<ShConstructionLine*>(this->original))
+		return;
+
+	if (!dynamic_cast<ShStretchLeafData*>(this->stretchData))
+		return;
+
+	ShStretchLeafData *stretchData = dynamic_cast<ShStretchLeafData*>(this->stretchData);
+
+	ShConstructionLine *original = dynamic_cast<ShConstructionLine*>(this->original);
+	ShLineData data = original->getData();
+
+	double disX = this->current.x - this->base.x;
+	double disY = this->current.y - this->base.y;
+
+	if (stretchData->stretchPoint == StretchPoint::StretchStart) {
+		data.start.move(disX, disY);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchEnd) {
+		data.end.move(disX, disY);
+	}
+	else if (stretchData->stretchPoint == StretchPoint::StretchMove) {
+
+		data.start.move(disX, disY);
+		data.end.move(disX, disY);
+	}
+
+
+	constructionLine->setData(data);
+}
+
 ///////////////////////////////////////////////////
 
 ShPossibleEntityToStretchFinder::ShPossibleEntityToStretchFinder(const ShPoint3d &point, bool &possible, ShStretchData* *stretchData)
@@ -1030,6 +1063,26 @@ void ShPossibleEntityToStretchFinder::visit(ShDimAngular *dimAngular) {
 	}
 }
 
+void ShPossibleEntityToStretchFinder::visit(ShConstructionLine *constructionLine) {
+
+	if (this->point.isEqual(constructionLine->getStart()) == true) {
+
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchStart);
+		this->possible = true;
+	}
+
+	else if (this->point.isEqual(constructionLine->getEnd()) == true) {
+
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchEnd);
+		this->possible = true;
+	}
+	else if (this->point.isEqual(constructionLine->getMid()) == true) {
+
+		*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+		this->possible = true;
+	}
+}
+
 ////////////////////////////////////////////////////////////////
 
 
@@ -1093,6 +1146,11 @@ void ShStretchDataForMoveCreator::visit(ShDimArcLength *dimArcLength) {
 }
 
 void ShStretchDataForMoveCreator::visit(ShDimAngular *dimAngular) {
+
+	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
+}
+
+void ShStretchDataForMoveCreator::visit(ShConstructionLine *constructionLine) {
 
 	*this->stretchData = new ShStretchLeafData(StretchPoint::StretchMove);
 }
@@ -1358,6 +1416,27 @@ void ShStretchPointRectFinder::visit(ShDimAngular *dimAngular) {
 	}
 
 	if (insideCount > 1)
+		stretchPoint = StretchPoint::StretchMove;
+
+	*this->stretchData = new ShStretchLeafData(stretchPoint);
+}
+
+void ShStretchPointRectFinder::visit(ShConstructionLine *constructionLine) {
+
+	int insideCount = 0;
+	StretchPoint stretchPoint = StretchPoint::StretchNothing;
+
+	if (this->checkPointLiesInsideRect(constructionLine->getStart()) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchStart;
+	}
+
+	if (this->checkPointLiesInsideRect(constructionLine->getEnd()) == true) {
+		insideCount++;
+		stretchPoint = StretchPoint::StretchEnd;
+	}
+
+	if (insideCount == 2)
 		stretchPoint = StretchPoint::StretchMove;
 
 	*this->stretchData = new ShStretchLeafData(stretchPoint);

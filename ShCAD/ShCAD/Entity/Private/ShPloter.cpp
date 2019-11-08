@@ -16,6 +16,7 @@
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
 #include "Entity\Composite\Dim\ShDimAngular.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 
 ShPloter::ShPloter(ShCADWidget *widget, QPainter *painter, double scale)
 	:widget(widget), painter(painter), scale(scale) {
@@ -309,6 +310,38 @@ void ShPloter::visit(ShDimAngular *dimAngular) {
 		dimAngular->getDimensionStyle()->getDimensionTextStyle().getTextHeight(), color);
 
 }
+
+void ShPloter::visit(ShConstructionLine *constructionLine) {
+
+	QColor color;
+	this->getColor(constructionLine, color);
+
+	ShLineData data = constructionLine->getData();
+
+	ShPoint3d topLeft, bottomRight;
+	this->widget->convertDeviceToEntity(0, 0, topLeft.x, topLeft.y);
+	this->widget->convertDeviceToEntity(this->widget->width(), this->widget->height(), bottomRight.x, bottomRight.y);
+
+	double slope, interceptY;
+	math::getEquationLine(data.start, data.end, slope, interceptY);
+
+	double y = slope*topLeft.x + interceptY;
+	double y2 = slope*bottomRight.x + interceptY;
+
+	int startX, startY, endX, endY;
+
+	if (slope != 0) {
+		this->widget->convertEntityToDevice(topLeft.x, y, startX, startY);
+		this->widget->convertEntityToDevice(bottomRight.x, y2, endX, endY);
+	}
+	else {
+		this->widget->convertEntityToDevice(data.start.x, topLeft.y, startX, startY);
+		this->widget->convertEntityToDevice(data.end.x, bottomRight.y, endX, endY);
+	}
+
+	this->plotLine(startX, startY, endX, endY, color);
+}
+
 void ShPloter::getColor(ShEntity *entity, QColor &color) {
 
 	ShPropertyData propertyData = entity->getPropertyData();

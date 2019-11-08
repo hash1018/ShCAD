@@ -32,6 +32,7 @@ public:
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
 	virtual void visit(ShDimAngular *dimAngular);
+	virtual void visit(ShConstructionLine *constructionLine);
 
 private:
 	bool isNear(int x, int y, const ShPoint3d &point, double zoomRate, double tolerance);
@@ -62,6 +63,7 @@ public:
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
 	virtual void visit(ShDimAngular *dimAngular);
+	virtual void visit(ShConstructionLine *constructionLine);
 };
 
 

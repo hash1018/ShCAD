@@ -4,6 +4,7 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 
 ShFootOfPerpendicularForLinePerpendicularVisitor::ShFootOfPerpendicularForLinePerpendicularVisitor(double &perpendicularX, double &perpendicularY,
 	const ShPoint3d& point)
@@ -77,6 +78,29 @@ void ShFootOfPerpendicularForLinePerpendicularVisitor::visit(ShArc *arc) {
 	}
 }
 
+void ShFootOfPerpendicularForLinePerpendicularVisitor::visit(ShConstructionLine *constructionLine) {
+
+	ShLineData data = constructionLine->getData();
+
+	double angle = math::getAbsAngle(data.start.x, data.start.y, data.end.x, data.end.y);
+	double angleX, angleY;
+
+	double x = point.x;
+	double y = point.y;
+
+	math::rotate(angle + 90, x, y, x + 10, y, angleX, angleY);
+	ShPoint3d intersect;
+
+	if (math::checkLineLineIntersect(data.start, data.end, ShPoint3d(x, y),
+		ShPoint3d(angleX, angleY), intersect) == true) {
+
+		this->perpendicularX = intersect.x;
+		this->perpendicularY = intersect.y;
+
+		return;
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 ShFootOfPerpendicularVisitor::ShFootOfPerpendicularVisitor(double &perpendicularX, double &perpendicularY,
@@ -130,4 +154,27 @@ void ShFootOfPerpendicularVisitor::visit(ShArc *arc) {
 	double angle = math::getAbsAngle(data.center.x, data.center.y, this->point.x, this->point.y);
 	math::rotate(angle, data.center.x, data.center.y, data.center.x + data.radius, data.center.y,
 		this->perpendicularX, this->perpendicularY);
+}
+
+void ShFootOfPerpendicularVisitor::visit(ShConstructionLine *constructionLine) {
+
+	ShLineData data = constructionLine->getData();
+
+	double angle = math::getAbsAngle(data.start.x, data.start.y, data.end.x, data.end.y);
+	double angleX, angleY;
+
+	double x = point.x;
+	double y = point.y;
+
+	math::rotate(angle + 90, x, y, x + 10, y, angleX, angleY);
+	ShPoint3d intersect;
+
+	if (math::checkLineLineIntersect(data.start, data.end, ShPoint3d(x, y),
+		ShPoint3d(angleX, angleY), intersect) == true) {
+
+		this->perpendicularX = intersect.x;
+		this->perpendicularY = intersect.y;
+
+		return;
+	}
 }

@@ -98,6 +98,7 @@ private:
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
 	virtual void visit(ShDimAngular *dimAngular);
+	virtual void visit(ShConstructionLine *constructionLine);
 
 	bool checkPossibleToExtend(ShLine *lineToExtend, ShEntityPartToExtend entityPartToExtend, const ShPoint3d &extensionPoint);
 	bool checkPossibleToExtend(ShLine *lineToExtend, ShEntityPartToExtend entityPartToExtend,
@@ -128,6 +129,7 @@ private:
 	virtual void visit(ShDimDiameter *dimDiameter);
 	virtual void visit(ShDimArcLength *dimArcLength);
 	virtual void visit(ShDimAngular *dimAngular);
+	virtual void visit(ShConstructionLine *constructionLine);
 
 	bool checkPossibleToExtend(ShArc *arcToExtend, ShEntityPartToExtend entityPartToExtend, const ShPoint3d &extensionPoint);
 	bool checkPossibleToExtend(ShArc *arcToExtend, ShEntityPartToExtend entityPartToExtend,

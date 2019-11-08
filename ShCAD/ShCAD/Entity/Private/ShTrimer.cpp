@@ -11,6 +11,7 @@
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
 #include "Entity\Composite\Dim\ShDimAngular.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 
 ShTrimer::ShTrimer(const QLinkedList<ShEntity*> &baseEntities, const ShPoint3d &clickPoint, QLinkedList<ShEntity*> &trimedEntities, bool &valid)
 	:baseEntities(baseEntities), clickPoint(clickPoint), trimedEntities(trimedEntities), valid(valid) {
@@ -438,6 +439,23 @@ void ShLineTrimPointFinder::visit(ShDimAngular *dimAngular) {
 		(*itr)->accept(&visitor);
 }
 
+void ShLineTrimPointFinder::visit(ShConstructionLine *constructionLine) {
+
+	ShPoint3d intersect;
+
+	if (math::checkLineLineIntersect(this->lineToTrim->getStart(), this->lineToTrim->getEnd(),
+		constructionLine->getStart(), constructionLine->getEnd(), intersect) == false)
+		return;
+
+	if (math::checkPointLiesOnLine(intersect, this->lineToTrim->getStart(), this->lineToTrim->getEnd(), 0.001) == false)
+		return;
+
+	if (this->checkIntersectLiesOnStartEnd(intersect, this->lineToTrim->getStart(), this->lineToTrim->getEnd()) == true)
+		return;
+
+	this->appendTrimPointToList(intersect);
+}
+
 bool ShLineTrimPointFinder::checkIntersectLiesOnStartEnd(const ShPoint3d &intersect, const ShPoint3d &start, const ShPoint3d &end) {
 
 	if (math::compare(start.x, intersect.x) == 0 &&
@@ -634,6 +652,17 @@ void ShCircleTrimPointFinder::visit(ShDimAngular *dimAngular) {
 	auto itr = dimAngular->begin();
 	for (itr; itr != dimAngular->end(); ++itr)
 		(*itr)->accept(&visitor);
+}
+
+void ShCircleTrimPointFinder::visit(ShConstructionLine *constructionLine) {
+
+	ShPoint3d intersect, intersect2;
+
+	if (math::checkCircleLineIntersect(this->circleToTrim->getCenter(), this->circleToTrim->getRadius(),
+		constructionLine->getStart(), constructionLine->getEnd(), intersect, intersect2) == false)
+		return;
+
+	this->appendTrimPointToList(intersect, intersect2);
 }
 
 void ShCircleTrimPointFinder::appendTrimPointToList(const ShPoint3d &trimPoint) {
@@ -937,6 +966,56 @@ void ShArcTrimPointFinder::visit(ShDimAngular *dimAngular) {
 	auto itr = dimAngular->begin();
 	for (itr; itr != dimAngular->end(); ++itr)
 		(*itr)->accept(&visitor);
+}
+
+void ShArcTrimPointFinder::visit(ShConstructionLine *constructionLine) {
+
+	ShPoint3d intersect, intersect2;
+
+	if (math::checkCircleLineIntersect(this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+		constructionLine->getStart(), constructionLine->getEnd(), intersect, intersect2) == false)
+		return;
+
+	bool insideIntersect, insideIntersect2;
+
+	insideIntersect = math::checkPointLiesOnArcBoundary(intersect, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+		this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001);
+	insideIntersect2 = math::checkPointLiesOnArcBoundary(intersect2, this->arcToTrim->getCenter(), this->arcToTrim->getRadius(),
+		this->arcToTrim->getStartAngle(), this->arcToTrim->getEndAngle(), 0.001);
+
+	if (insideIntersect == false && insideIntersect2 == false)
+		return;
+
+	if (insideIntersect == true && insideIntersect2 == false) {
+
+		if (this->checkIntersectLiesOnStartEnd(intersect, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+			this->appendTrimPointToList(intersect);
+	}
+	else if (insideIntersect == false && insideIntersect2 == true) {
+
+		if (this->checkIntersectLiesOnStartEnd(intersect2, this->arcToTrim->getStart(), this->arcToTrim->getEnd()) == false)
+			this->appendTrimPointToList(intersect2);
+	}
+	else if (insideIntersect == true && insideIntersect2 == true) {
+
+		bool sameIntersect, sameIntersect2;
+		sameIntersect = this->checkIntersectLiesOnStartEnd(intersect, this->arcToTrim->getStart(), this->arcToTrim->getEnd());
+		sameIntersect2 = this->checkIntersectLiesOnStartEnd(intersect2, this->arcToTrim->getStart(), this->arcToTrim->getEnd());
+
+		if (sameIntersect == true && sameIntersect2 == true)
+			return;
+
+		if (sameIntersect == false && sameIntersect2 == true) {
+			this->appendTrimPointToList(intersect);
+		}
+		else if (sameIntersect == true && sameIntersect2 == false) {
+			this->appendTrimPointToList(intersect2);
+		}
+		else if (sameIntersect == false && sameIntersect2 == false) {
+			this->appendTrimPointToList(intersect, intersect2);
+		}
+	}
+
 }
 
 bool ShArcTrimPointFinder::checkIntersectLiesOnStartEnd(const ShPoint3d &intersect, const ShPoint3d &start, const ShPoint3d &end) {

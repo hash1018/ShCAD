@@ -12,6 +12,7 @@
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
 #include "Entity\Composite\Dim\ShDimAngular.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 
 ShNearestVertexFinder::ShNearestVertexFinder(double x, double y, double zoomRate, VertexType &vertexType, ShPoint3d &vertexPoint, double tolerance)
 	:x(x), y(y), zoomRate(zoomRate), vertexType(vertexType), vertexPoint(vertexPoint), tolerance(tolerance) {
@@ -395,6 +396,40 @@ void ShNearestVertexFinder::visit(ShDimAngular *dimAngular) {
 	}
 }
 
+void ShNearestVertexFinder::visit(ShConstructionLine *constructionLine) {
+
+	ShLineData data = constructionLine->getData();
+	ShPoint3d start = data.start;
+	ShPoint3d end = data.end;
+	ShPoint3d mid = constructionLine->getMid();
+
+	if (this->isNear(this->x, this->y, start, this->zoomRate, this->tolerance) == true) {
+		this->vertexType = VertexType::VertexStart;
+		this->vertexPoint = start;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, end, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexEnd;
+		this->vertexPoint = end;
+		return;
+	}
+
+	if (this->isNear(this->x, this->y, mid, this->zoomRate, this->tolerance) == true) {
+
+		this->vertexType = VertexType::VertexMid;
+		this->vertexPoint = mid;
+		return;
+	}
+
+	if (math::checkPointLiesOnInfiniteLine(ShPoint3d(this->x, this->y), start, end, this->tolerance) == true)
+		this->vertexType = VertexType::VertexOther;
+	else
+		this->vertexType = VertexType::VertexNothing;
+
+}
+
 bool ShNearestVertexFinder::isNear(int x, int y, const ShPoint3d &point, double zoomRate, double tolerance) {
 
 	if (x >= point.x - (tolerance / zoomRate) &&
@@ -770,6 +805,37 @@ void PointAndVertexTypeMathchedEntityFinder::visit(ShDimAngular *dimAngular) {
 	if ((this->vertexType & VertexType::VertexBoundary) == VertexType::VertexBoundary) {
 
 		if (this->mustMatchPoint == data.boundary) {
+
+			this->matched = true;
+			return;
+		}
+	}
+
+	this->matched = false;
+}
+
+void PointAndVertexTypeMathchedEntityFinder::visit(ShConstructionLine *constructionLine) {
+
+	if ((this->vertexType & VertexType::VertexStart) == VertexType::VertexStart) {
+
+		if (this->mustMatchPoint == constructionLine->getStart()) {
+
+			this->matched = true;
+			return;
+		}
+	}
+
+	if ((this->vertexType & VertexType::VertexEnd) == VertexType::VertexEnd) {
+
+		if (this->mustMatchPoint == constructionLine->getEnd()) {
+
+			this->matched = true;
+			return;
+		}
+	}
+	if ((this->vertexType & VertexType::VertexMid) == VertexType::VertexMid) {
+
+		if (this->mustMatchPoint == constructionLine->getMid()) {
 
 			this->matched = true;
 			return;

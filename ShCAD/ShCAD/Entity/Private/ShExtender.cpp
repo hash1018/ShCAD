@@ -10,6 +10,7 @@
 #include "Entity\Composite\Dim\ShDimDiameter.h"
 #include "Entity\Composite\Dim\ShDimArcLength.h"
 #include "Entity\Composite\Dim\ShDimAngular.h"
+#include "Entity\Leaf\ShConstructionLine.h"
 
 
 ShEntityPartToExtendFinder::ShEntityPartToExtendFinder(ShEntityPartToExtend &entityPartToExtend, ShPoint3d &pointToExtend, const ShPoint3d &clickPoint)
@@ -342,6 +343,22 @@ void ShLineExtensionPointFinder::visit(ShDimAngular *dimAngular) {
 		(*itr)->accept(&visitor);
 }
 
+void ShLineExtensionPointFinder::visit(ShConstructionLine *constructionLine) {
+
+	ShLineData lineToExtendData = this->lineToExtend->getData();
+	ShLineData baseLineData = constructionLine->getData();
+
+	ShPoint3d intersect;
+	if (math::checkLineLineIntersect(lineToExtendData.start, lineToExtendData.end,
+		baseLineData.start, baseLineData.end, intersect) == false)
+		return;
+
+	if (this->checkPossibleToExtend(this->lineToExtend, this->entityPartToExtend, intersect) == false)
+		return;
+
+	this->extensionPointList.append(intersect);
+}
+
 bool ShLineExtensionPointFinder::checkPossibleToExtend(ShLine *lineToExtend, ShEntityPartToExtend entityPartToExtend, const ShPoint3d &extensionPoint) {
 
 	ShLineData data = lineToExtend->getData();
@@ -626,6 +643,24 @@ void ShArcExtensionPointFinder::visit(ShDimAngular *dimAngular) {
 	auto itr = dimAngular->begin();
 	for (itr; itr != dimAngular->end(); ++itr)
 		(*itr)->accept(&visitor);
+}
+
+void ShArcExtensionPointFinder::visit(ShConstructionLine *constructionLine) {
+
+	ShArcData data = this->arcToExtend->getData();
+
+	ShPoint3d intersect, intersect2, finalExtension;
+	if (math::checkCircleLineIntersect(data.center, data.radius, constructionLine->getStart(), constructionLine->getEnd(),
+		intersect, intersect2) == false) {
+	
+		return;
+	}
+
+	if (this->checkPossibleToExtend(this->arcToExtend, this->entityPartToExtend, intersect, intersect2,
+		finalExtension) == true) {
+
+		this->extensionPointList.append(finalExtension);
+	}
 }
 
 bool ShArcExtensionPointFinder::checkPossibleToExtend(ShArc *arcToExtend, ShEntityPartToExtend entityPartToExtend, const ShPoint3d &extensionPoint) {
