@@ -13,10 +13,11 @@
 5. Build everything
 
 # Linux
-Currently, only a windows environment with visual studio is supported. This is because I do not have experience with cmake and liunx project. This project is fully platform-independent.
+Currently, only a windows environment with visual studio is supported. This is because I do not have experience with cmake and liunx project. This project is fully platform-independent. if you willing to help me out with configuring cmake, please get in touch.
 
 # Main Features
-* Draw Entity (line, circle, arc, etc)
+* Draw Entity (line, circle, arc, dimension, etc)
+* Measure Distance (linear, aligned, radius, diameter, angular, arc length, etc)
 * Modify Entity (move, copy, rotate, mirror, stretch, erase, extension, trim, offset, etc)
 * Print, Preview, etc
 * Undo, Redo
