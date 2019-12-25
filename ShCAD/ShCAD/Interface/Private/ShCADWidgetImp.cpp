@@ -11,7 +11,7 @@
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "Event\ShNotifyEvent.h"
 #include "Base\ShMath.h"
-#include "Entity\Private\ShPloter.h"
+#include "Entity\Private\Algorithm\ShPloter.h"
 #include "Base\ShDimensionStyleTable.h"
 
 ShCADWidgetImp::ShCADWidgetImp(ShCADWidget *widget)

@@ -3,7 +3,7 @@
 #include <qpainter.h>
 #include "KeyHandler\ShKeyHandler.h"
 #include "Command\ShAvailableCommands.h"
-#include "Entity\Private\ShStretchVisitor.h"
+#include "Entity\Private\Algorithm\ShStretchVisitor.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"

@@ -1,7 +1,7 @@
 
 #include "ShModifyCopyAction.h"
 #include "Entity\Composite\ShSelectedEntities.h"
-#include "Entity\Private\ShMover.h"
+#include "Entity\Private\Algorithm\ShMover.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
 #include "Command\ShAvailableCommands.h"

@@ -1,7 +1,7 @@
 
 
 #include "ShDot.h"
-#include "Entity\Private\ShVisitor.h"
+#include "Entity\Private\Algorithm\ShVisitor.h"
 
 ShDot::ShDot() {
 

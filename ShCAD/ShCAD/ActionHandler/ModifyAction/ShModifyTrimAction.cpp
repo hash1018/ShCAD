@@ -2,7 +2,7 @@
 #include "ShModifyTrimAction.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Entity\Private\ShSearchEntityStrategy.h"
-#include "Entity\Private\ShTrimer.h"
+#include "Entity\Private\Algorithm\ShTrimer.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
 #include "Base\ShCursorShape.h"

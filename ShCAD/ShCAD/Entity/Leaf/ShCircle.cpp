@@ -1,6 +1,6 @@
 
 #include "ShCircle.h"
-#include "Entity\Private\ShVisitor.h"
+#include "Entity\Private\Algorithm\ShVisitor.h"
 
 ShCircle::ShCircle() {
 

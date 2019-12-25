@@ -3,7 +3,7 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Base\ShMath.h"
 #include "Entity\Leaf\ShCircle.h"
-#include "Entity\Private\ShFootOfPerpendicularVisitor.h"
+#include "Entity\Private\Algorithm\ShFootOfPerpendicularVisitor.h"
 #include "Entity\Leaf\ShArc.h"
 
 ShLineBothPerpendicularVisitor::ShLineBothPerpendicularVisitor(ShEntity *secondPerpendicularBase, ShPoint3d &perpendicular, bool &isValid)

@@ -2,7 +2,7 @@
 #include "ShDimensionStyle.h"
 #include "Entity\Leaf\ShLine.h"
 #include "Base\ShMath.h"
-#include "Entity\Private\ShDrawer.h"
+#include "Entity\Private\Algorithm\ShDrawer.h"
 #include <qpainter.h>
 #include "Entity\Composite\Dim\ShDim.h"
 

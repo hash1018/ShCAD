@@ -6,7 +6,7 @@
 #include <qpainter.h>
 #include "Interface\Private\ShAxis.h"
 #include "Data\ShScrollPosition.h"
-#include "Entity\Private\ShMover.h"
+#include "Entity\Private\Algorithm\ShMover.h"
 #include "UnRedo\ShCADWidgetTransaction.h"
 #include "Base\ShGlobal.h"
 

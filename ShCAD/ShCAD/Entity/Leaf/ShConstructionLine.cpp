@@ -1,6 +1,6 @@
 
 #include "ShConstructionLine.h"
-#include "Entity\Private\ShVisitor.h"
+#include "Entity\Private\Algorithm\ShVisitor.h"
 
 ShConstructionLine::ShConstructionLine() {
 

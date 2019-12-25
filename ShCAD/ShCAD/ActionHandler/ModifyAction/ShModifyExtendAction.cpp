@@ -2,7 +2,7 @@
 #include "ShModifyExtendAction.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Entity\Private\ShSearchEntityStrategy.h"
-#include "Entity\Private\ShExtender.h"
+#include "Entity\Private\Algorithm\ShExtender.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
 #include "Base\ShCursorShape.h"

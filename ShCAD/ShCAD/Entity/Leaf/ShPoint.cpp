@@ -1,6 +1,6 @@
 
 #include "ShPoint.h"
-#include "Entity\Private\ShVisitor.h"
+#include "Entity\Private\Algorithm\ShVisitor.h"
 
 ShPoint::ShPoint()
 	:pointStyle(nullptr) {

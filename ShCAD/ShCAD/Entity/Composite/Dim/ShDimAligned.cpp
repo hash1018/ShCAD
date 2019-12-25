@@ -1,6 +1,6 @@
 
 #include "ShDimAligned.h"
-#include "Entity\Private\ShVisitor.h"
+#include "Entity\Private\Algorithm\ShVisitor.h"
 #include "Base\ShMath.h"
 #include "Base\ShDimensionStyle.h"
 #include "Entity\Leaf\ShDot.h"

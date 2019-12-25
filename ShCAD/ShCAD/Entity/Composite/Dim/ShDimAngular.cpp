@@ -1,6 +1,6 @@
 
 #include "ShDimAngular.h"
-#include "Entity\Private\ShVisitor.h"
+#include "Entity\Private\Algorithm\ShVisitor.h"
 #include "Entity\Leaf\ShDot.h"
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShArc.h"

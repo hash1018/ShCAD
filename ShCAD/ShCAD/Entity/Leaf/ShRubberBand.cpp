@@ -1,6 +1,6 @@
 
 #include "ShRubberBand.h"
-#include "Entity\Private\ShVisitor.h"
+#include "Entity\Private\Algorithm\ShVisitor.h"
 
 ShRubberBand::ShRubberBand()
 	:line(nullptr) {

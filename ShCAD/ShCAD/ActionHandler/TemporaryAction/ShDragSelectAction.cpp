@@ -4,8 +4,8 @@
 #include <QKeyEvent>
 #include "KeyHandler\ShKeyHandler.h"
 #include "Entity\Composite\ShSelectedEntities.h"
-#include "Entity\Private\ShFinder.h"
-#include "Entity\Private\ShStretchVisitor.h"
+#include "Entity\Private\Algorithm\ShFinder.h"
+#include "Entity\Private\Algorithm\ShStretchVisitor.h"
 #include "Base\ShCursorShape.h"
 
 

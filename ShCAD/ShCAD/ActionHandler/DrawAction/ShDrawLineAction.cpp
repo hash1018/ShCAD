@@ -4,7 +4,7 @@
 #include <QMouseEvent>
 #include "KeyHandler\ShKeyHandler.h"
 #include "KeyHandler\ShCustomKey.h"
-#include "Entity\Private\ShFootOfPerpendicularVisitor.h"
+#include "Entity\Private\Algorithm\ShFootOfPerpendicularVisitor.h"
 #include "Command\ShAvailableCommands.h"
 #include "Command\ShCustomCommand.h"
 #include "Base\ShMath.h"

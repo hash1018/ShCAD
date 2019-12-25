@@ -9,7 +9,7 @@
 #include "Entity\Leaf\ShLine.h"
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
-#include "Entity\Private\ShOffsetVisitor.h"
+#include "Entity\Private\Algorithm\ShOffsetVisitor.h"
 #include "Base\ShGlobal.h"
 #include "UnRedo\ShEntityTransaction.h"
 

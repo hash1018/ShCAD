@@ -4,7 +4,7 @@
 #include "Entity\Leaf\ShCircle.h"
 #include "Entity\Leaf\ShArc.h"
 #include "Base\ShMath.h"
-#include "Entity\Private\ShFootOfPerpendicularVisitor.h"
+#include "Entity\Private\Algorithm\ShFootOfPerpendicularVisitor.h"
 #include "Entity\Leaf\ShConstructionLine.h"
 
 ShOffsetVisitor::ShOffsetVisitor(double offsetDistance, const ShPoint3d &mouse, ShEntity *original)

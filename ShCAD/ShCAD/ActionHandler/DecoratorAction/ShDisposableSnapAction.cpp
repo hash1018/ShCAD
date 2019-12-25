@@ -3,10 +3,10 @@
 #include "ActionHandler\Private\ShDecorateActionStrategy.h"
 #include <QKeyEvent>
 #include "Entity\Private\ShSearchEntityStrategy.h"
-#include "Entity\Private\ShSnapPointFinder.h"
+#include "Entity\Private\Algorithm\ShSnapPointFinder.h"
 #include <qpainter.h>
-#include "Entity\Private\ShFootOfPerpendicularVisitor.h"
-#include "Entity\Private\ShClosestIntersectionPointFinder.h"
+#include "Entity\Private\Algorithm\ShFootOfPerpendicularVisitor.h"
+#include "Entity\Private\Algorithm\ShClosestIntersectionPointFinder.h"
 #include "Entity\Composite\ShEntityTable.h"
 
 

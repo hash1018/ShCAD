@@ -1,6 +1,6 @@
 
 #include "ShSearchEntityStrategy.h"
-#include "ShFinder.h"
+#include "Algorithm\ShFinder.h"
 #include "Entity\ShEntity.h"
 #include "Entity\Composite\ShComposite.h"
 

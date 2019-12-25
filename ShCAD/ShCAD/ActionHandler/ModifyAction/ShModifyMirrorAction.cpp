@@ -4,7 +4,7 @@
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
 #include "Base\ShMath.h"
-#include "Entity\Private\ShMirror.h"
+#include "Entity\Private\Algorithm\ShMirror.h"
 #include "Command\ShAvailableCommands.h"
 #include "KeyHandler\ShKeyHandler.h"
 #include "Base\ShCursorShape.h"

@@ -3,7 +3,7 @@
 #include "Interface\ShCADWidget.h"
 #include "Event\ShNotifyEvent.h"
 #include "Data\ShPropertyData.h"
-#include "Entity\Private\ShMover.h"
+#include "Entity\Private\Algorithm\ShMover.h"
 #include "Interface\Private\ShAxis.h"
 #include "Entity\Composite\ShEntityTable.h"
 

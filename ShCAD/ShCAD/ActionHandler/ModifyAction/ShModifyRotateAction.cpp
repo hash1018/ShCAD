@@ -3,7 +3,7 @@
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "UnRedo\ShEntityTransaction.h"
 #include "Base\ShGlobal.h"
-#include "Entity\Private\ShRotater.h"
+#include "Entity\Private\Algorithm\ShRotater.h"
 #include "Base\ShMath.h"
 #include "Command\ShAvailableCommands.h"
 #include "KeyHandler\ShKeyHandler.h"

@@ -1,14 +1,14 @@
 
 #include "ShDisposableExtensionSnapAction.h"
 #include "Entity\Private\ShSearchEntityStrategy.h"
-#include "Entity\Private\ShVertexFinder.h"
+#include "Entity\Private\Algorithm\ShVertexFinder.h"
 #include <qpainter.h>
 #include <qtimer.h>
-#include "Entity\Private\ShFootOfPerpendicularVisitor.h"
+#include "Entity\Private\Algorithm\ShFootOfPerpendicularVisitor.h"
 #include "Base\ShMath.h"
-#include "Entity\Private\ShDrawer.h"
+#include "Entity\Private\Algorithm\ShDrawer.h"
 #include "Entity\Composite\ShEntityTable.h"
-#include "Entity\Private\ShClosestIntersectionPointFinder.h"
+#include "Entity\Private\Algorithm\ShClosestIntersectionPointFinder.h"
 
 ShExtensionStartPoint::ShExtensionStartPoint() {
 

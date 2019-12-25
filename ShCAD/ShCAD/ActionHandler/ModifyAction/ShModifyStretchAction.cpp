@@ -6,7 +6,7 @@
 #include "Command\ShAvailableCommands.h"
 #include "Entity\Private\ShSearchEntityStrategy.h"
 #include <QMouseEvent>
-#include "Entity\Private\ShStretchVisitor.h"
+#include "Entity\Private\Algorithm\ShStretchVisitor.h"
 #include "ActionHandler\TemporaryAction\ShDragSelectAction.h"
 #include "ActionHandler\Private\ShChangeActionStrategy.h"
 #include "KeyHandler\ShKeyHandler.h"

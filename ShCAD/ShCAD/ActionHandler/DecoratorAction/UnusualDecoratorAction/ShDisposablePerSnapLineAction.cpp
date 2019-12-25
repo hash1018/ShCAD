@@ -1,10 +1,10 @@
 
 #include "ShDisposablePerSnapLineAction.h"
 #include "ActionHandler\DrawAction\ShDrawLineAction.h"
-#include "Entity\Private\ShLineBothPerpendicularVisitor.h"
+#include "Entity\Private\Algorithm\ShLineBothPerpendicularVisitor.h"
 #include <qpainter.h>
 #include "Entity\Private\ShSearchEntityStrategy.h"
-#include "Entity\Private\ShSnapPointFinder.h"
+#include "Entity\Private\Algorithm\ShSnapPointFinder.h"
 #include "Entity\Composite\ShEntityTable.h"
 
 ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing::ShDisposableSnapAction_Perpendicular_DrawLineActionPickNothing(ShCADWidget *widget, ShActionHandler *actionHandler,

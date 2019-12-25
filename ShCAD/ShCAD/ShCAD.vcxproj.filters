@@ -131,6 +131,9 @@
     <Filter Include="Event\ToolBarEventFilter">
       <UniqueIdentifier>{e7a22459-f920-43bd-a047-bc362b2e3bc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entity\Private\Algorithm">
+      <UniqueIdentifier>{8cdbcf12-43b7-4adb-8f0b-4a85ee197ae4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -259,9 +262,6 @@
     <ClCompile Include="Entity\Leaf\ShRubberBand.cpp">
       <Filter>Entity\Leaf</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\Private\ShVisitor.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\Private\ShRibbonButtonStragety.cpp">
       <Filter>Interface\Private</Filter>
     </ClCompile>
@@ -352,9 +352,6 @@
     <ClCompile Include="KeyHandler\ShKeyFlyWeight.cpp">
       <Filter>KeyHandler</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\Private\ShDrawer.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Entity\Composite\ShComposite.cpp">
       <Filter>Entity\Composite</Filter>
     </ClCompile>
@@ -368,9 +365,6 @@
       <Filter>UnRedo</Filter>
     </ClCompile>
     <ClCompile Include="Entity\Private\ShSearchEntityStrategy.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Private\ShFinder.cpp">
       <Filter>Entity\Private</Filter>
     </ClCompile>
     <ClCompile Include="Base\ShDraftSetting.cpp">
@@ -400,20 +394,11 @@
     <ClCompile Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.cpp">
       <Filter>ActionHandler\DecoratorAction</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\Private\ShSnapPointFinder.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectSnap\ShObjectSnapCommandFactory.cpp">
       <Filter>ObjectSnap</Filter>
     </ClCompile>
     <ClCompile Include="ActionHandler\Private\ShDecorateActionStrategy.cpp">
       <Filter>ActionHandler\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Private\ShFootOfPerpendicularVisitor.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Private\ShLineBothPerpendicularVisitor.cpp">
-      <Filter>Entity\Private</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_ShStartupDialog.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -523,9 +508,6 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMoveAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\Private\ShMover.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Entity\Composite\ShSelectedEntities.cpp">
       <Filter>Entity\Composite</Filter>
     </ClCompile>
@@ -535,14 +517,8 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyRotateAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\Private\ShRotater.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyMirrorAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Private\ShMirror.cpp">
-      <Filter>Entity\Private</Filter>
     </ClCompile>
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyEraseAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
@@ -574,26 +550,14 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyExtendAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\Private\ShExtender.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyTrimAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Private\ShTrimer.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Private\ShStretchVisitor.cpp">
-      <Filter>Entity\Private</Filter>
     </ClCompile>
     <ClCompile Include="ActionHandler\TemporaryAction\ShTemporaryStretchAction.cpp">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClCompile>
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyStretchAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Private\ShClosestIntersectionPointFinder.cpp">
-      <Filter>Entity\Private</Filter>
     </ClCompile>
     <ClCompile Include="Base\ShCursorShape.cpp">
       <Filter>Base</Filter>
@@ -606,9 +570,6 @@
     </ClCompile>
     <ClCompile Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposableExtensionSnapAction.cpp">
       <Filter>ActionHandler\DecoratorAction\UnusualDecoratorAction</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Private\ShVertexFinder.cpp">
-      <Filter>Entity\Private</Filter>
     </ClCompile>
     <ClCompile Include="Data\ShCommandLog.cpp">
       <Filter>Data</Filter>
@@ -648,9 +609,6 @@
     </ClCompile>
     <ClCompile Include="Interface\Dialog\ShPlotPreviewDialog.cpp">
       <Filter>Interface\Dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Private\ShPloter.cpp">
-      <Filter>Entity\Private</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_ShPlotDialog.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -718,9 +676,6 @@
     <ClCompile Include="ActionHandler\ModifyAction\ShModifyOffsetAction.cpp">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\Private\ShOffsetVisitor.cpp">
-      <Filter>Entity\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Event\ToolBarEventFilter\ShDimensionToolBarEventFilter.cpp">
       <Filter>Event\ToolBarEventFilter</Filter>
     </ClCompile>
@@ -741,6 +696,54 @@
     </ClCompile>
     <ClCompile Include="ActionHandler\DrawAction\ShDrawXLineAction.cpp">
       <Filter>ActionHandler\DrawAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShClosestIntersectionPointFinder.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShDrawer.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShExtender.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShFinder.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShFootOfPerpendicularVisitor.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShLineBothPerpendicularVisitor.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShMirror.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShMover.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShOffsetVisitor.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShPloter.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShRotater.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShSnapPointFinder.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShStretchVisitor.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShTrimer.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShVertexFinder.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Private\Algorithm\ShVisitor.cpp">
+      <Filter>Entity\Private\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -854,9 +857,6 @@
     <ClInclude Include="Entity\Leaf\ShRubberBand.h">
       <Filter>Entity\Leaf</Filter>
     </ClInclude>
-    <ClInclude Include="Entity\Private\ShVisitor.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\Private\ShRibbonButtonStrategy.h">
       <Filter>Interface\Private</Filter>
     </ClInclude>
@@ -956,9 +956,6 @@
     <ClInclude Include="KeyHandler\ShKeyType.h">
       <Filter>KeyHandler</Filter>
     </ClInclude>
-    <ClInclude Include="Entity\Private\ShDrawer.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
     <ClInclude Include="Entity\Composite\ShComposite.h">
       <Filter>Entity\Composite</Filter>
     </ClInclude>
@@ -972,9 +969,6 @@
       <Filter>UnRedo</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Private\ShSearchEntityStrategy.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Private\ShFinder.h">
       <Filter>Entity\Private</Filter>
     </ClInclude>
     <ClInclude Include="Base\ShDraftSetting.h">
@@ -1004,20 +998,11 @@
     <ClInclude Include="ActionHandler\DecoratorAction\ShDisposableSnapAction.h">
       <Filter>ActionHandler\DecoratorAction</Filter>
     </ClInclude>
-    <ClInclude Include="Entity\Private\ShSnapPointFinder.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectSnap\ShObjectSnapCommandFactory.h">
       <Filter>ObjectSnap</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\Private\ShDecorateActionStrategy.h">
       <Filter>ActionHandler\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Private\ShFootOfPerpendicularVisitor.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Private\ShLineBothPerpendicularVisitor.h">
-      <Filter>Entity\Private</Filter>
     </ClInclude>
     <ClInclude Include="Data\ShColor.h">
       <Filter>Data</Filter>
@@ -1082,9 +1067,6 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMoveAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
-    <ClInclude Include="Entity\Private\ShMover.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
     <ClInclude Include="Entity\Composite\ShSelectedEntities.h">
       <Filter>Entity\Composite</Filter>
     </ClInclude>
@@ -1094,14 +1076,8 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyRotateAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
-    <ClInclude Include="Entity\Private\ShRotater.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyMirrorAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Private\ShMirror.h">
-      <Filter>Entity\Private</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyEraseAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
@@ -1142,26 +1118,14 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyExtendAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
-    <ClInclude Include="Entity\Private\ShExtender.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyTrimAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Private\ShTrimer.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Private\ShStretchVisitor.h">
-      <Filter>Entity\Private</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\TemporaryAction\ShTemporaryStretchAction.h">
       <Filter>ActionHandler\TemporaryAction</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyStretchAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Private\ShClosestIntersectionPointFinder.h">
-      <Filter>Entity\Private</Filter>
     </ClInclude>
     <ClInclude Include="Base\ShCursorShape.h">
       <Filter>Base</Filter>
@@ -1171,9 +1135,6 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\DecoratorAction\UnusualDecoratorAction\ShDisposablePerSnapLineAction.h">
       <Filter>ActionHandler\DecoratorAction\UnusualDecoratorAction</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Private\ShVertexFinder.h">
-      <Filter>Entity\Private</Filter>
     </ClInclude>
     <ClInclude Include="Interface\Private\ShCADWidgetImp.h">
       <Filter>Interface\Private</Filter>
@@ -1213,9 +1174,6 @@
     </ClInclude>
     <ClInclude Include="Interface\Dialog\ShPlotPreviewDialog.h">
       <Filter>Interface\Dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Private\ShPloter.h">
-      <Filter>Entity\Private</Filter>
     </ClInclude>
     <ClInclude Include="ActionHandler\ShSelectPlotAreaAction.h">
       <Filter>ActionHandler</Filter>
@@ -1268,9 +1226,6 @@
     <ClInclude Include="ActionHandler\ModifyAction\ShModifyOffsetAction.h">
       <Filter>ActionHandler\ModifyAction</Filter>
     </ClInclude>
-    <ClInclude Include="Entity\Private\ShOffsetVisitor.h">
-      <Filter>Entity\Private</Filter>
-    </ClInclude>
     <ClInclude Include="Event\ToolBarEventFilter\ShDimensionToolBarEventFilter.h">
       <Filter>Event\ToolBarEventFilter</Filter>
     </ClInclude>
@@ -1294,6 +1249,54 @@
     </ClInclude>
     <ClInclude Include="ActionHandler\DrawAction\ShDrawXLineAction.h">
       <Filter>ActionHandler\DrawAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShClosestIntersectionPointFinder.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShDrawer.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShExtender.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShFinder.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShFootOfPerpendicularVisitor.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShLineBothPerpendicularVisitor.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShMirror.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShMover.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShOffsetVisitor.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShPloter.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShRotater.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShSnapPointFinder.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShStretchVisitor.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShTrimer.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShVertexFinder.h">
+      <Filter>Entity\Private\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Private\Algorithm\ShVisitor.h">
+      <Filter>Entity\Private\Algorithm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

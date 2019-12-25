@@ -5,7 +5,7 @@
 #include <qpainter.h>
 #include <qdebug.h>
 #include "ActionHandler\ShActionHandlerProxy.h"
-#include "Entity\Private\ShDrawer.h"
+#include "Entity\Private\Algorithm\ShDrawer.h"
 #include "Entity\Composite\ShSelectedEntities.h"
 #include "Entity\Composite\ShEntityTable.h"
 #include "Interface\Private\ShAxis.h"
