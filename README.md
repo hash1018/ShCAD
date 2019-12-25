@@ -23,6 +23,6 @@ Currently, only a windows environment with visual studio is supported. This is b
 * Undo, Redo
 
 # License
-* This program is based on the qt library which is licensed under LGPL (https://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License).
+* This program is based on the qt framework which is licensed under LGPL (https://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License).
 
 
