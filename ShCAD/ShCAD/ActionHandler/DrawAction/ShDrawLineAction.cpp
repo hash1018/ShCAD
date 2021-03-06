@@ -162,9 +162,9 @@ ShSubDrawLineAction_Default::ShSubDrawLineAction_Default(ShDrawLineAction *drawL
 }
 
 ShSubDrawLineAction_Default::~ShSubDrawLineAction_Default() {
+	//
 
 }
-
 void ShSubDrawLineAction_Default::mouseLeftPressEvent(ShActionData &data) {
 
 	this->trigger(data.point);
