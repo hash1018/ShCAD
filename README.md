@@ -1,4 +1,9 @@
 # ShCAD
+![image](https://user-images.githubusercontent.com/46293206/117391170-5c7b3e00-af2a-11eb-9d48-51aa8facfcec.png)
+
+
+
+
 * ShCAD is a 2D CAD program written C++ using Qt framework. This project is just for fun and hobby. I always consider quality and try to code with design patterns. Already applied more than 17 design patterns ( Composite, Visitor, State, Facotry method, Memento, Command, Prototype, Builder, Flyweight, Strategy, Chain of responsibility, Singleton, Mediator, Observer, Template method, Decorator, etc).
 
 * [Releases](https://github.com/hash1018/ShCAD/releases/tag/v0.1.1)
