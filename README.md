@@ -1,5 +1,6 @@
 # ShCAD
-![image](https://user-images.githubusercontent.com/46293206/117391170-5c7b3e00-af2a-11eb-9d48-51aa8facfcec.png)
+![KakaoTalk_20210509_120413147](https://user-images.githubusercontent.com/46293206/117559269-c88eab00-b0be-11eb-98c1-2639b71c2b17.jpg)
+
 
 
 
